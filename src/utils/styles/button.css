@@ -1,0 +1,203 @@
+.primary {
+  @apply bg-primary-interaction-default border-primary-interaction-default;
+  @apply hover:bg-primary-interaction-hover hover:border-primary-interaction-hover;
+  @apply active:bg-primary-interaction-pressed active:border-primary-interaction-pressed;
+
+  .progress {
+    @apply bg-primary-surface-highlight;
+  }
+}
+
+.info {
+  @apply bg-informative-interaction-default border-informative-interaction-default;
+  @apply hover:bg-informative-interaction-hover hover:border-informative-interaction-hover;
+  @apply active:bg-informative-interaction-pressed active:border-informative-interaction-pressed;
+
+  .progress {
+    @apply bg-informative-surface-highlight;
+  }
+}
+
+.success {
+  @apply bg-success-interaction-default border-success-interaction-default;
+  @apply hover:bg-success-interaction-hover hover:border-success-interaction-hover;
+  @apply active:bg-success-interaction-pressed active:border-success-interaction-pressed;
+
+  .progress {
+    @apply bg-success-surface-highlight;
+  }
+}
+
+.warning {
+  @apply bg-warning-interaction-default border-warning-interaction-default;
+  @apply hover:bg-warning-interaction-hover hover:border-warning-interaction-hover;
+  @apply active:bg-warning-interaction-pressed active:border-warning-interaction-pressed;
+
+  .progress {
+    @apply bg-warning-surface-highlight;
+  }
+}
+
+.danger {
+  @apply bg-danger-interaction-default border-danger-interaction-default;
+  @apply hover:bg-danger-interaction-hover hover:border-danger-interaction-hover;
+  @apply active:bg-danger-interaction-pressed active:border-danger-interaction-pressed;
+
+  .progress {
+    @apply bg-danger-surface-highlight;
+  }
+}
+
+.neutral {
+  @apply bg-neutral-interaction-default border-neutral-interaction-default;
+  @apply hover:bg-neutral-interaction-hover hover:border-neutral-interaction-hover;
+  @apply active:bg-neutral-interaction-pressed active:border-neutral-interaction-pressed;
+
+  .progress {
+    @apply bg-neutral-surface-highlight;
+  }
+}
+
+.b-button.disabled {
+  @apply pointer-events-none border-neutral-default bg-neutral-surface-disabled text-neutral-interaction-disabled text-neutral-interaction-disabled;
+
+  .progress {
+    @apply bg-neutral-surface-disabled;
+  }
+}
+
+.secondary {
+  @apply bg-transparent;
+}
+
+.secondary.primary {
+  @apply text-primary-interaction-default;
+  @apply hover:bg-primary-surface-hover hover:border-primary-hover hover:text-primary-interaction-hover;
+  @apply active:bg-primary-surface-pressed active:border-primary-pressed active:text-primary-interaction-pressed;
+}
+
+.secondary.info {
+  @apply text-informative-interaction-default;
+  @apply hover:bg-informative-surface-hover hover:border-informative-hover hover:text-informative-interaction-hover;
+  @apply active:bg-informative-surface-pressed active:border-informative-pressed active:text-informative-interaction-pressed;
+}
+
+.secondary.success {
+  @apply text-success-interaction-default;
+  @apply hover:bg-success-surface-hover hover:border-success-hover hover:text-success-interaction-hover;
+  @apply active:bg-success-surface-pressed active:border-success-pressed active:text-success-interaction-pressed;
+}
+
+.secondary.warning {
+  @apply text-warning-interaction-default;
+  @apply hover:bg-warning-surface-hover hover:border-warning-hover hover:text-warning-interaction-hover;
+  @apply active:bg-warning-surface-pressed active:border-warning-pressed active:text-warning-interaction-pressed;
+}
+
+.secondary.danger {
+  @apply text-danger-interaction-default;
+  @apply hover:bg-danger-surface-hover hover:border-danger-hover hover:text-danger-interaction-hover;
+  @apply active:bg-danger-surface-pressed active:border-danger-pressed active:text-danger-interaction-pressed;
+}
+
+.secondary.neutral {
+  @apply text-neutral-interaction-default;
+  @apply hover:bg-neutral-surface-hover hover:border-neutral-interaction-hover hover:text-neutral-interaction-hover;
+  @apply active:bg-neutral-surface-disabled active:border-neutral-interaction-pressed active:text-neutral-interaction-pressed;
+}
+
+.secondary.disabled {
+  @apply text-neutral-interaction-disabled bg-neutral-surface-disabled border-neutral-disabled;
+
+  .progress {
+    @apply bg-neutral-surface-disabled;
+  }
+}
+
+.reverse {
+  @apply bg-transparent
+}
+
+.reverse.primary {
+  @apply text-primary-interaction-default;
+  @apply hover:bg-primary-interaction-default hover:border-primary-interaction-default hover:text-neutral-foreground-negative;;
+  @apply active:bg-primary-interaction-pressed active:border-primary-interaction-pressed;
+}
+
+.reverse.info {
+  @apply text-informative-interaction-default;
+  @apply hover:bg-informative-interaction-default hover:border-informative-interaction-default hover:text-neutral-foreground-negative;;
+  @apply active:bg-informative-interaction-pressed active:border-informative-interaction-pressed;
+}
+
+.reverse.success {
+  @apply text-success-interaction-default;
+  @apply hover:bg-success-interaction-default hover:border-success-interaction-default hover:text-neutral-foreground-negative;;
+  @apply active:bg-success-interaction-pressed active:border-success-interaction-pressed;
+}
+
+.reverse.warning {
+  @apply text-warning-interaction-default;
+  @apply hover:bg-warning-interaction-default hover:border-warning-interaction-default hover:text-neutral-foreground-negative;;
+  @apply active:bg-warning-interaction-pressed active:border-warning-interaction-pressed;
+}
+
+.reverse.danger {
+  @apply text-danger-interaction-default;
+  @apply hover:bg-danger-interaction-default hover:border-danger-interaction-default hover:text-neutral-foreground-negative;;
+  @apply active:bg-danger-interaction-pressed active:border-danger-interaction-pressed;
+}
+
+.reverse.neutral {
+  @apply text-neutral-interaction-default;
+  @apply hover:bg-neutral-interaction-default hover:border-neutral-interaction-default hover:text-neutral-foreground-negative;;
+  @apply active:bg-neutral-interaction-pressed active:border-neutral-interaction-pressed;
+}
+
+.reverse.disabled {
+  @apply text-neutral-interaction-disabled bg-transparent border-neutral-disabled;
+}
+
+.plain {
+  @apply bg-transparent border-transparent active:border-transparent hover:border-transparent;
+}
+
+.plain.primary {
+  @apply text-neutral-interaction-default;
+  @apply hover:bg-primary-surface-hover hover:text-primary-interaction-hover;
+  @apply active:bg-primary-surface-pressed active:text-primary-interaction-pressed;
+}
+
+.plain.info {
+  @apply text-informative-interaction-default;
+  @apply hover:bg-informative-surface-hover hover:text-informative-interaction-hover;
+  @apply active:bg-informative-surface-pressed active:text-informative-interaction-pressed;
+}
+
+.plain.success {
+  @apply text-success-interaction-default;
+  @apply hover:bg-success-surface-hover hover:text-success-interaction-hover;
+  @apply active:bg-success-surface-pressed active:text-success-interaction-pressed;
+}
+
+.plain.warning {
+  @apply text-warning-interaction-default;
+  @apply hover:bg-warning-surface-hover hover:text-warning-interaction-hover;
+  @apply active:bg-warning-surface-pressed active:text-warning-interaction-pressed;
+}
+
+.plain.danger {
+  @apply text-danger-interaction-default;
+  @apply hover:bg-danger-surface-hover hover:text-danger-interaction-hover;
+  @apply active:bg-danger-surface-pressed active:text-danger-interaction-pressed;
+}
+
+.plain.neutral {
+  @apply text-neutral-interaction-default;
+  @apply hover:bg-neutral-surface-hover hover:text-neutral-interaction-hover;
+  @apply active:bg-neutral-surface-disabled active:text-neutral-interaction-pressed;
+}
+
+.plain.disabled {
+  @apply text-neutral-interaction-disabled;
+}

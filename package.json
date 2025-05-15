@@ -1,0 +1,110 @@
+{
+    "name": "@BRIUS/design-system",
+    "version": "2.1.19",
+    "description": "Brius Design System",
+    "engines": {
+        "node": ">=18.0.0 <=20.11.1"
+    },
+    "main": "./lib/design-system.umd.js",
+    "module": "./lib/design-system.es.js",
+    "types": "./lib/main.d.ts",
+    "scripts": {
+        "dev": "vite",
+        "prepare": "npm run build",
+        "prebuild": "node scripts/prebuild.cjs",
+        "build": "run-p type-check build-only",
+        "preview": "vite preview",
+        "build-only": "vite build",
+        "artifactregistry-login": "echo 'y' | npx google-artifactregistry-auth",
+        "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
+        "storybook": "storybook dev -p 6006",
+        "build-storybook": "storybook build",
+        "local-link": "./scripts/local-link.sh",
+        "local-link-windows": "./scripts/windows-elevate.bat"
+    },
+    "keywords": [],
+    "author": "BRIUS Media Company",
+    "license": "ISC",
+    "homepage": "https://gitlab.com/brius/libraries/sute#readme",
+    "peerDependencies": {
+        "vue": "^3.5.13"
+    },
+    "devDependencies": {
+        "@babel/types": "^7.22.5",
+        "@chromatic-com/storybook": "^1.7.0",
+        "@rollup/plugin-node-resolve": "^15.2.3",
+        "@storybook/addon-essentials": "^8.2.9",
+        "@storybook/addon-interactions": "^8.2.9",
+        "@storybook/addon-links": "^8.2.9",
+        "@storybook/blocks": "^8.2.9",
+        "@storybook/manager-api": "^8.2.9",
+        "@storybook/theming": "^8.2.9",
+        "@storybook/vue3": "^8.2.9",
+        "@storybook/vue3-vite": "^8.2.9",
+        "@tailwindcss/aspect-ratio": "^0.4.2",
+        "@tailwindcss/forms": "^0.5.3",
+        "@tailwindcss/typography": "^0.5.9",
+        "@tsconfig/node18": "^2.0.1",
+        "@types/node": "^20.3.1",
+        "@vitejs/plugin-vue": "^4.2.3",
+        "@vue/runtime-core": "^3.4.0",
+        "@vue/runtime-dom": "^3.4.0",
+        "@vue/tsconfig": "^0.4.0",
+        "autoprefixer": "^10.4.14",
+        "cssnano": "^6.0.1",
+        "npm-run-all": "^4.1.5",
+        "path": "^0.12.7",
+        "postcss": "^8.4.24",
+        "postcss-import": "^15.1.0",
+        "postcss-nesting": "^11.3.0",
+        "rollup-plugin-typescript2": "^0.34.1",
+        "storybook": "^8.2.9",
+        "tailwindcss": "^3.3.2",
+        "typescript": "~5.3.3",
+        "vite": "^4.3.9",
+        "vite-plugin-dts": "^2.3.0",
+        "vue": "^3.4.0",
+        "vue-tsc": "^2.0.21"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "files": [
+        "src",
+        "lib",
+        "env.d.ts",
+        "postcss.config.cjs",
+        "tailwind.config.cjs",
+        "tsconfig.app.json",
+        "tsconfig.json",
+        "tsconfig.node.json",
+        "vite.config.ts",
+        "scripts/prebuild.cjs"
+    ],
+    "imports": {
+        "#composables": "./src/composables/index.ts",
+        "#composables/*": "./src/composables/*.ts",
+        "#components/*": "./src/components/*/*.vue",
+        "#utils/*": "./src/utils/*.ts"
+    },
+    "exports": {
+        "./components/*": "./src/components/*/index.ts",
+        "./composables/*": "./src/composables/*.ts",
+        "./styles.css": "./lib/index.css",
+        ".": {
+            "types": "./lib/main.d.ts",
+            "import": "./lib/design-system.es.js",
+            "require": "./lib/design-system.umd.js"
+        }
+    },
+    "dependencies": {
+        "@mdi/font": "^7.3.67",
+        "@mdi/js": "^7.3.67",
+        "@storybook/addon-themes": "^8.4.2",
+        "@storybook/test": "^8.2.9",
+        "@vue/reactivity": "3.2.45",
+        "mdi-vue": "^3.0.13",
+        "normalize.css": "^8.0.1",
+        "npx": "^10.2.2"
+    }
+}

@@ -1,0 +1,13 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks';
+import * as BContentScreen from './BContentScreen.stories.ts';
+
+<Meta of={BContentScreen} />
+
+# BContentScreen
+
+<Canvas of={BContentScreen.Primary} layout="fullscreen" />
+<Controls />
+
+# Slots
+<Canvas of={BContentScreen.Slots} layout="fullscreen" />
+<Canvas of={BContentScreen.Slots2} layout="fullscreen" />
