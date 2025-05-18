@@ -1,11 +1,11 @@
 <script setup lang="ts">
 defineProps<{
-    class?: string;
+    className?: string;
 }>();
 </script>
 
 <template>
-    <div class="b-card" :class="class">
+    <div class="b-card" :class="className">
         <slot />
     </div>
 </template>

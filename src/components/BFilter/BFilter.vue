@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useOptionalModel } from "#composables";
+import { useOptionalModel } from "../../composables";
 import { type BContainerModelExtra } from "../../utils/components/BContainerModelExtra.types";
+import Container from '../../utils/components/Container.vue';
 import SelectContent from "../../utils/components/SelectContent.vue";
 import Option from "../../utils/components/Option.vue";
+import { useClickOutside } from '../../composables';
 
 type BMultiSelectModelExtra = {
   selected: number[];
@@ -22,6 +24,16 @@ const props = withDefaults(
     searchable?: boolean;
     disabled?: boolean;
     absolute?: boolean;
+    error?: boolean;
+    errorMessage?: string;
+    infoMessage?: string;
+    required?: boolean;
+    closeOnBlur?: boolean;
+    hideBottom?: boolean;
+    maxHeight?: string;
+    minWidth?: string;
+    secondary?: boolean;
+    hideArrow?: boolean;
   }>(),
   {
     modelValue: undefined,
@@ -34,12 +46,22 @@ const props = withDefaults(
     searchable: false,
     disabled: false,
     absolute: false,
+    error: false,
+    errorMessage: "",
+    infoMessage: "",
+    required: false,
+    closeOnBlur: true,
+    hideBottom: false,
+    maxHeight: "",
+    minWidth: "22em",
+    secondary: false,
+    hideArrow: false,
   }
 );
 
 const emit = defineEmits<{
   "update:modelValue": [value: any[], extra: BMultiSelectModelExtra];
-  "update:expanded": [value: boolean, extra: BContainerModelExtra];
+  "update:expandedModel": [value: boolean];
   apply: [];
 }>();
 
@@ -118,15 +140,22 @@ function apply() {
 </script>
 
 <template>
-  <BSelectContainer
-    v-model="expandedModel"
+  <Container
+    :modelValue="expandedModel"
     :labelValue="labelValue"
     class="b-filter"
     :disabled="disabled"
-    :absolute="absolute"
-    aria-multiselectable="true"
-    min-width="22em"
-    :dont-have-max-height="true"
+    :isError="error"
+    :errorMessage="errorMessage"
+    :infoMessage="infoMessage"
+    :required="required"
+    :closeOnBlur="true"
+    :hideBottom="false"
+    :maxHeight="maxHeight"
+    :minWidth="minWidth"
+    :secondary="secondary"
+    :hideArrow="hideArrow"
+    @update:modelValue="(value: boolean, extra: BContainerModelExtra) => $emit('update:expandedModel', value)"
   >
     <SelectContent
       v-model:expanded="expandedModel"
@@ -156,8 +185,8 @@ function apply() {
           // @ts-ignore
           modelValue[index][selectedKey]
         "
-        v-for="(item, index, key) in modelValue"
-        :key="item[labelKey]"
+        v-for="(item, index) in Object.entries(modelValue)"
+        :key="item[0]"
         class="
           flex flex-col
           gap-[.75em]
@@ -192,17 +221,17 @@ function apply() {
           @keyup.space="toggleSubList(index)"
         >
           <p class="text-neutral-interaction-default">
-            {{ Object.keys(modelValue)[key] }}
+            {{ item[0] }}
           </p>
           <div class="flex items-center gap-xs">
-            <slot v-if="getSelected(item)" name="status">
+            <slot v-if="getSelected(item[1])" name="status">
               <span
                 class="select-count font-normal"
                 :class="{
                   active: itemExpanded === index,
                 }"
               >
-                {{ getSelected(item) }}
+                {{ getSelected(item[1]) }}
               </span>
             </slot>
             <div
@@ -260,7 +289,7 @@ function apply() {
                 size="xl"
               />
               <input
-                v-model="itemsSearch[Object.keys(modelValue)[key]]"
+                v-model="itemsSearch[item[0]]"
                 type="search"
                 class="
                   h-full
@@ -281,8 +310,8 @@ function apply() {
             </div>
             <Option
               v-for="(subItem, subItemIndex) in searchItem(
-                item,
-                itemsSearch[Object.keys(modelValue)[key]]
+                item[1],
+                itemsSearch[item[0]]
               )"
               no-hover
               :disabled="subItem.disabled"
@@ -331,7 +360,7 @@ function apply() {
         </div>
       </slot>
     </template>
-  </BSelectContainer>
+  </Container>
 </template>
 <style scoped>
 .b-select {
