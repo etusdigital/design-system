@@ -266,11 +266,13 @@ function hidePopup() {
       <main>
         <Transition :name="!isBack ? 'slide-fade' : 'slide-fade-out'">
           <table v-if="show">
-            <tr class="[&>*]:p-xxs">
-              <th v-for="(weekDay, index) in weekDays" :key="index">
-                {{ weekDay }}
-              </th>
-            </tr>
+            <thead>
+              <tr class="[&>*]:p-xxs">
+                <th v-for="(weekDay, index) in weekDays" :key="index">
+                  {{ weekDay }}
+                </th>
+              </tr>
+            </thead>
             <tr
               v-for="(week, index) in item.weeks.filter(w => w.some((d: any) => d))"
               :key="index"
