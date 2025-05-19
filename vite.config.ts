@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import * as path from "path";
-import typescript2 from "rollup-plugin-typescript2";
+// import typescript2 from "rollup-plugin-typescript2"; // Comentado
 import dts from "vite-plugin-dts";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import tailwindcss from "@tailwindcss/vite";
@@ -20,12 +20,13 @@ export default defineConfig({
 		}),
 		dts({
 			insertTypesEntry: true,
-			skipDiagnostics: true,
 			cleanVueFileName: true,
+			tsconfigPath: './tsconfig.app.json',
 		}),
+		/* // Comentado
 		typescript2({
-			check: false,
-			include: ["src/**/*.ts"],
+			check: true,
+			include: ["src/** /*.ts"],
 			tsconfigOverride: {
 				compilerOptions: {
 					outDir: "lib",
@@ -37,6 +38,7 @@ export default defineConfig({
 			},
 			exclude: ["vite.config.ts"],
 		}),
+		*/
 		tailwindcss(),
 	],
 	build: {

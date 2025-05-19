@@ -1,7 +1,5 @@
-import BStepper from "./BStepper.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BStepper } from './BStepper';
+declare const _default: Plugin;
 export default _default;
-export { BStepper };
-//# sourceMappingURL=index.d.ts.map
+export { BStepper, };

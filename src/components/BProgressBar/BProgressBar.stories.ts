@@ -2,107 +2,134 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import BProgressBar from "./BProgressBar.vue";
 
 const meta = {
-  component: BProgressBar,
-  tags: ["autodocs"],
-  argTypes: {
-    modelValue: {
-      type: { summary: "number" },
-      table: {
-        defaultValue: { summary: 0 },
-      },
-      description:
-        "Thil will be the current step the user is on. If the steps is not defined, it will be the bar fill percentage in 0 to 1 scale.",
-    },
-    color: {
-      type: { summary: "text" },
-      description: "This property will be the color of the progress bar.",
-    },
-    icon: {
-      type: { summary: "text" },
-      description: "This property will be the icon shown after the loading percentage. It works only with the normal bar without animation.",
-    },
-    infoMessage: {
-      type: { summary: "text" },
-      description: "This property will be shown in a tooltip when the icon is hovered.",
-    },
-    type: {
-      type: { summary: "text" },
-      control: "select",
-      options: ["primary", "info", "success", "warning", "danger", "neutral"],
-      table: {
-        defaultValue: { summary: "primary" },
-      },
-    },
-    size: {
-      type: { summary: "text" },
-      control: "select",
-      options: ["small", "medium", "large"],
-      table: {
-        defaultValue: { summary: "medium" },
-      },
-    },
-    animationType: {
-      type: { summary: "text" },
-      control: "select",
-      options: ["indeterminate", "query", null],
-      table: {
-        defaultValue: { summary: "" },
-      },
-      description:
-        "This property will be the progress bar animation type.",
-    },
-    steps: {
-      type: { summary: "number" },
-      table: {
-        defaultValue: { summary: 0 },
-      },
-      description:
-        "This property will be the amount of steps used to calculate the loading percentage.",
-    },
-    displayPercentage: {
-      type: { summary: "text" },
-      control: "select",
-      options: ["center", "bar", null],
-      table: {
-        defaultValue: { summary: "" },
-      },
-      description: "Display the percentage, if the bar isn't divided."
-    },
-    neutralBackground: {
-      type: { summary: "boolean" },
-      table: {
-        defaultValue: { summary: false },
-      },
-      description: "If this property is true, the background will be neutral.",
-    },
-    'icon-slot': {
-      description: "This slot will replace the icon.",
-    }
-  },
+	component: BProgressBar,
+	tags: ["autodocs"],
+	argTypes: {
+		modelValue: {
+			description:
+				"Valor atual da barra de progresso (0 a 1, ou 0 a max se 'max' for definido).",
+			control: { type: "number", step: 0.01 },
+			table: {
+				type: { summary: "number" },
+				defaultValue: { summary: "0" },
+			},
+		},
+		color: {
+			description:
+				"Cor da barra de progresso (valor CSS de cor). Se não definido, usa a cor do 'type'.",
+			control: { type: "color" },
+			table: {
+				type: { summary: "string" },
+			},
+		},
+		icon: {
+			description: "Ícone exibido no final da barra (sem animação).",
+			control: { type: "text" },
+			table: {
+				type: { summary: "string" },
+			},
+		},
+		infoMessage: {
+			description: "Mensagem exibida no tooltip do ícone.",
+			control: { type: "text" },
+			table: {
+				type: { summary: "string" },
+			},
+		},
+		type: {
+			description: "Tipo/cor temática da barra de progresso.",
+			control: "select",
+			options: ["primary", "info", "success", "warning", "danger", "neutral"],
+			table: {
+				type: {
+					summary:
+						"'primary' | 'info' | 'success' | 'warning' | 'danger' | 'neutral'",
+				},
+				defaultValue: { summary: "primary" },
+			},
+		},
+		size: {
+			description: "Tamanho (altura) da barra de progresso.",
+			control: "select",
+			options: ["small", "medium", "large"],
+			table: {
+				type: { summary: "'small' | 'medium' | 'large'" },
+				defaultValue: { summary: "medium" },
+			},
+		},
+		animationType: {
+			description:
+				"Tipo de animação para a barra (quando o progresso não é determinado).",
+			control: "select",
+			options: ["indeterminate", "query", null],
+			table: {
+				type: { summary: "'indeterminate' | 'query' | undefined" },
+				defaultValue: { summary: "undefined" },
+			},
+		},
+		steps: {
+			description: "Número de passos discretos em vez de uma barra contínua.",
+			control: { type: "number" },
+			table: {
+				type: { summary: "number" },
+				defaultValue: { summary: "0" },
+			},
+		},
+		displayPercentage: {
+			description:
+				"Onde exibir o valor percentual (se não for animado ou em passos).",
+			control: "select",
+			options: ["center", "bar", null],
+			table: {
+				type: { summary: "'center' | 'bar' | undefined" },
+				defaultValue: { summary: "undefined" },
+			},
+		},
+		neutralBackground: {
+			description:
+				"Se verdadeiro, o fundo da barra será neutro em vez de um highlight do tema.",
+			control: { type: "boolean" },
+			table: {
+				type: { summary: "boolean" },
+				defaultValue: { summary: "false" },
+			},
+		},
+		"icon-slot": {
+			description: "Slot para substituir o ícone padrão.",
+			table: {
+				type: { summary: "VNode | string" },
+			},
+		},
+	},
 } satisfies Meta<typeof BProgressBar>;
 export default meta;
 
 type Story = StoryObj<typeof BProgressBar>;
 
-const defaultArgs = {
-  modelValue: 0.5,
-  size: "medium",
-  type: "primary",
-  color: "",
-  icon: "",
-  infoMessage: "",
-  steps: 0,
-  animationType: undefined,
-  displayPercentage: undefined,
-  neutralBackground: false,
+// Definir um tipo para as props do BProgressBar para defaultArgs
+type BProgressBarStoryArgs = Partial<
+	InstanceType<typeof BProgressBar>["$props"]
+>;
+
+const defaultArgs: BProgressBarStoryArgs = {
+	modelValue: 0.5,
+	size: "medium",
+	type: "primary",
+	color: "",
+	icon: "",
+	infoMessage: "",
+	steps: 0,
+	animationType: undefined,
+	displayPercentage: undefined,
+	neutralBackground: false,
 };
 
 const defaultRender = (args: any) => ({
-  components: { BProgressBar },
-  setup() {
-    return { args };
-  },
-  template: `
+	components: { BProgressBar },
+	setup() {
+		return { args };
+	},
+	template: `
     <BProgressBar
         v-model="args.modelValue"
         :icon="args.icon"
@@ -119,44 +146,44 @@ const defaultRender = (args: any) => ({
 });
 
 export const Primary: Story = {
-  render: defaultRender,
-  args: defaultArgs,
+	render: defaultRender,
+	args: defaultArgs,
 };
 
 export const Steps: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    steps: 5,
-    modelValue: 3,
-  },
+	render: defaultRender,
+	args: {
+		...defaultArgs,
+		steps: 5,
+		modelValue: 3,
+	},
 };
 
 export const NeutralBackground: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    neutralBackground: true,
-    modelValue: 0.5,
-  },
+	render: defaultRender,
+	args: {
+		...defaultArgs,
+		neutralBackground: true,
+		modelValue: 0.5,
+	},
 };
 
 export const Icon: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    icon: 'rocket_launch',
-    modelValue: 0.5,
-  },
+	render: defaultRender,
+	args: {
+		...defaultArgs,
+		icon: "rocket_launch",
+		modelValue: 0.5,
+	},
 };
 
 export const Slot: Story = {
-  render: (args: any) => ({
-    components: { BProgressBar },
-    setup() {
-      return { args };
-    },
-    template: `
+	render: (args: any) => ({
+		components: { BProgressBar },
+		setup() {
+			return { args };
+		},
+		template: `
       <BProgressBar
         v-model="args.modelValue"
         :icon="args.icon"
@@ -172,20 +199,20 @@ export const Slot: Story = {
       <template #icon-slot>Icon Slot </template>
     </BProgressBar>
     `,
-  }),
-  args: {
-    ...defaultArgs,
-    modelValue: 0.5,
-  },
+	}),
+	args: {
+		...defaultArgs,
+		modelValue: 0.5,
+	},
 };
 
 export const DisplayPercentage: Story = {
-  render: (args: any) => ({
-    components: { BProgressBar },
-    setup() {
-      return { args };
-    },
-    template: `
+	render: (args: any) => ({
+		components: { BProgressBar },
+		setup() {
+			return { args };
+		},
+		template: `
       <div class="flex flex-col gap-5">
           <div class="flex flex-col">
               <label>Center</label>
@@ -219,20 +246,20 @@ export const DisplayPercentage: Story = {
           </div>
       </div>
     `,
-  }),
-  args: {
-    ...defaultArgs,
-    modelValue: 0.5,
-  },
+	}),
+	args: {
+		...defaultArgs,
+		modelValue: 0.5,
+	},
 };
 
 export const Animation: Story = {
-  render: (args: any) => ({
-    components: { BProgressBar },
-    setup() {
-      return { args };
-    },
-    template: `
+	render: (args: any) => ({
+		components: { BProgressBar },
+		setup() {
+			return { args };
+		},
+		template: `
       <div class="flex flex-col gap-5">
           <div class="flex flex-col">
               <label>Indeterminate</label>
@@ -266,17 +293,17 @@ export const Animation: Story = {
           </div>
       </div>
     `,
-  }),
-  args: defaultArgs,
+	}),
+	args: defaultArgs,
 };
 
 export const Sizes: Story = {
-  render: (args: any) => ({
-    components: { BProgressBar },
-    setup() {
-      return { args };
-    },
-    template: `
+	render: (args: any) => ({
+		components: { BProgressBar },
+		setup() {
+			return { args };
+		},
+		template: `
       <div class="flex flex-col gap-5">
           <BProgressBar
               v-model="args.modelValue"
@@ -316,6 +343,6 @@ export const Sizes: Story = {
           />
       </div>
     `,
-  }),
-  args: defaultArgs,
+	}),
+	args: defaultArgs,
 };

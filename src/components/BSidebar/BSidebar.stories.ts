@@ -2,49 +2,58 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import BSidebar from "./BSidebar.vue";
 
 export default {
-  component: BSidebar,
-  tags: ["autodocs"],
-  argTypes: {
-    modelValue: {
-      type: { summary: "boolean" },
-      description: "Determine if the dialog is displayed or not.",
-    },
-    width: {
-      type: { summary: "text" },
-      table: {
-        defaultValue: { summary: "fit-content" },
-      },
-      description: "Determine the dialog width.",
-    },
-    noOutsideClose: {
-      type: { summary: "boolean" },
-      table: {
-        defaultValue: { summary: false },
-      },
-      description:
-        "Determine if the dialog will not close when the user click outside it.",
-    },
-    default: {
-      description: "This slot will be the dialog content.",
-    },
-  },
+	component: BSidebar,
+	tags: ["autodocs"],
+	argTypes: {
+		modelValue: {
+			description:
+				"Determine if the dialog is displayed or not. (Use with v-model)",
+			control: { type: "boolean" },
+			table: {
+				type: { summary: "boolean" },
+			},
+		},
+		width: {
+			description: "Determine the dialog width.",
+			control: { type: "text" },
+			table: {
+				type: { summary: "string" },
+				defaultValue: { summary: "fit-content" },
+			},
+		},
+		noOutsideClose: {
+			description:
+				"Determine if the dialog will not close when the user click outside it.",
+			control: { type: "boolean" },
+			table: {
+				type: { summary: "boolean | undefined" },
+				defaultValue: { summary: "false" },
+			},
+		},
+		default: {
+			description: "This slot will be the dialog content.",
+			table: { type: { summary: "slot" } },
+		},
+	},
 } satisfies Meta<typeof BSidebar>;
 
 type Story = StoryObj<typeof BSidebar>;
 
-const defaultArgs = {
-  modelValue: false,
-  width: "40%",
-  noOutsideClose: false,
+type BSidebarStoryArgs = Partial<InstanceType<typeof BSidebar>["$props"]>;
+
+const defaultArgs: BSidebarStoryArgs = {
+	modelValue: false,
+	width: "40%",
+	noOutsideClose: false,
 };
 
 export const Primary: Story = {
-  render: (args: any) => ({
-    components: { BSidebar },
-    setup() {
-      return { args };
-    },
-    template: `
+	render: (args: any) => ({
+		components: { BSidebar },
+		setup() {
+			return { args };
+		},
+		template: `
         <BButton  @click="args.modelValue = !args.modelValue">Show Sidebar</BButton>
         <BSidebar
              v-model="args.modelValue"
@@ -63,6 +72,6 @@ export const Primary: Story = {
             </div>
         </BSidebar>
         `,
-  }),
-  args: defaultArgs,
+	}),
+	args: defaultArgs,
 };

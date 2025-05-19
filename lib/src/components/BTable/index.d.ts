@@ -1,7 +1,5 @@
-import BTable from "./BTable.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BTable } from './BTable';
+declare const _default: Plugin;
 export default _default;
-export { BTable };
-//# sourceMappingURL=index.d.ts.map
+export { BTable, };

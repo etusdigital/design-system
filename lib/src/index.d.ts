@@ -1,8 +1,6 @@
-import "normalize.css";
-import "./assets/main.css";
-export * from "./composables";
+import { App } from '../vue/dist/vue.esm-bundler.js';
+export * from './composables';
 declare const _default: {
-    install(app: any): void;
+    install(app: App): void;
 };
 export default _default;
-//# sourceMappingURL=index.d.ts.map

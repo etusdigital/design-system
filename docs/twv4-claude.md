@@ -96,7 +96,7 @@ module.exports = {
 
 ### 4. Configuração de ferramentas de build
 
-#### Para Vite:
+#### Para Vite
 
 ```javascript
 // vite.config.js (v3)
@@ -123,7 +123,7 @@ export default defineConfig({
 });
 ```
 
-#### Para PostCSS:
+#### Para PostCSS
 
 ```javascript
 // postcss.config.js (v3)
@@ -442,7 +442,7 @@ test("homepage screenshot testing", async ({ page }) => {
 });
 ```
 
-#### Fluxo recomendado:
+#### Fluxo recomendado
 
 1. Capture screenshots da versão v3 antes da migração
 2. Execute a migração para v4

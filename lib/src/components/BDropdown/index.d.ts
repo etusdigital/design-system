@@ -1,7 +1,5 @@
-import BDropdown from "./BDropdown.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BDropdown } from './BDropdown';
+declare const _default: Plugin;
 export default _default;
-export { BDropdown };
-//# sourceMappingURL=index.d.ts.map
+export { BDropdown, };

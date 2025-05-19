@@ -24,19 +24,19 @@ A migração do Tailwind v3 para v4 traz diversas mudanças importantes, incluin
 
 - **Remoção de utilitários obsoletos:** Foram eliminadas classes utilitárias que já estavam deprecadas no v3. Por exemplo, utilitários de opacidade como `bg-opacity-*`, `text-opacity-*` etc. não existem mais – em vez deles deve-se usar a sintaxe de opacidade embutida nas cores (`bg-black/50`, `text-black/50`, etc.). Outros utilitários renomeados incluem:
 
-  - **Tamanhos de sombra, desfoque e radius:** Classes como `shadow-sm`, `shadow`, `blur-sm`, `rounded-sm`, etc., mudaram para uma escala que inclui o tamanho “xs”. Por exemplo, `shadow-sm` passou a ser `shadow-xs` e `shadow` (sem sufixo) agora é equivalente a `shadow-sm` do v3. O mesmo ocorreu com `blur`/`blur-sm` e bordas arredondadas (`rounded`/`rounded-sm` agora são `rounded-sm`/`rounded-xs`). _Obs:_ As classes antigas sem sufixo ainda funcionam por compatibilidade, mas geram valores diferentes – é recomendável atualizar para as novas para manter o mesmo visual.
-  - **Outline (contorno) e focus:** A classe `outline-none` do v3 não removia totalmente o contorno (ela mantinha um outline invisível por acessibilidade). No v4, ela foi renomeada para `outline-hidden`, e `outline-none` agora **remove** de fato o estilo de contorno. Portanto, substitua usos antigos de `outline-none` por `outline-hidden`. Exemplo:
+  - **Tamanhos de sombra, desfoque e radius:** Classes como `shadow-xs`, `shadow-sm`, `blur-xs`, `rounded-sm`, etc., mudaram para uma escala que inclui o tamanho “xs”. Por exemplo, `shadow-xs` passou a ser `shadow-2xs` e `shadow-sm` (sem sufixo) agora é equivalente a `shadow-xs` do v3. O mesmo ocorreu com `blur-sm`/`blur-xs` e bordas arredondadas (`rounded`/`rounded-sm` agora são `rounded-sm`/`rounded-xs`). _Obs:_ As classes antigas sem sufixo ainda funcionam por compatibilidade, mas geram valores diferentes – é recomendável atualizar para as novas para manter o mesmo visual.
+  - **Outline (contorno) e focus:** A classe `outline-hidden` do v3 não removia totalmente o contorno (ela mantinha um outline-solid invisível por acessibilidade). No v4, ela foi renomeada para `outline-hidden`, e `outline-hidden` agora **remove** de fato o estilo de contorno. Portanto, substitua usos antigos de `outline-hidden` por `outline-hidden`. Exemplo:
 
     ```html
     <!-- v3 -->
-    <button class="focus:outline-none">...</button>
+    <button class="focus:outline-hidden">...</button>
     <!-- v4 -->
     <button class="focus:outline-hidden">...</button>
     ```
 
-    Se realmente precisar remover o contorno (não recomendado em geral), use a nova `outline-none` consciente desse comportamento.
+    Se realmente precisar remover o contorno (não recomendado em geral), use a nova `outline-hidden` consciente desse comportamento.
 
-  - **Largura padrão do ring:** A classe de foco `ring` no v3 aplicava um outline de 3px; no v4 isso mudou para 1px por consistência com borders e outlines. Assim, se você usava `ring` isoladamente, deve alterá-la para `ring-3` para manter o mesmo efeito de 3px. Além disso, a cor padrão do ring mudou de `blue-500` para `currentColor` (a cor atual do elemento). **Dica:** Adicione explicitamente `ring-blue-500` nos elementos de foco se quiser manter o destaque azul antigo.
+  - **Largura padrão do ring:** A classe de foco `ring-3` no v3 aplicava um outline-solid de 3px; no v4 isso mudou para 1px por consistência com borders e outlines. Assim, se você usava `ring-3` isoladamente, deve alterá-la para `ring-3` para manter o mesmo efeito de 3px. Além disso, a cor padrão do ring-3 mudou de `blue-500` para `currentColor` (a cor atual do elemento). **Dica:** Adicione explicitamente `ring-blue-500` nos elementos de foco se quiser manter o destaque azul antigo.
   - **Prefixo de classes:** Caso seu projeto use um prefixo personalizado nas classes (configuração `prefix`), observe que no Tailwind v4 o prefixo aparece **antes de qualquer variante**. Por exemplo: `<div class="tw:flex tw:bg-red-500 tw:hover:bg-red-600">` em vez de aplicar prefixo no meio do nome. Essa mudança garante que as classes prefixed tenham sintaxe consistente (todas iniciam com `tw:` no exemplo).
 
 - **Alterações de comportamento padrão:**
@@ -102,7 +102,7 @@ A migração do Tailwind v3 para v4 traz diversas mudanças importantes, incluin
 
     Isso restabelece o funcionamento do `hover:` como no v3 (aplicando sempre, inclusive em touch quando há tap).
 
-  - **Outras mudanças:** Variantes compostas agora são aplicadas da esquerda para a direita (ordem invertida em relação ao v3) – poucos projetos usam variantes empilhadas complexas, mas se você tiver algo como `first:*:pt-0 last:*:pb-0`, deve inverter para `*:first:pt-0 *:last:pb-0` no v4. Além disso, o shorthand para CSS variables em valores arbitrários mudou: no v3 podia usar `bg-[--my-var]`, no v4 deve usar parênteses `bg-(--my-var)`.
+  - **Outras mudanças:** Variantes compostas agora são aplicadas da esquerda para a direita (ordem invertida em relação ao v3) – poucos projetos usam variantes empilhadas complexas, mas se você tiver algo como `*:first:pt-0 *:last:pb-0`, deve inverter para `first:*:pt-0 last:*:pb-0` no v4. Além disso, o shorthand para CSS variables em valores arbitrários mudou: no v3 podia usar `bg-(--my-var)`, no v4 deve usar parênteses `bg-(--my-var)`.
 
 - **Configuração e tema via CSS (CSS-first config):** Talvez a mudança **mais significativa** seja a forma de configurar o Tailwind. No v3, todas customizações (cores, breakpoints, plugins, etc.) eram feitas em um arquivo JavaScript (`tailwind.config.js`). Já no v4, a abordagem padrão é **declarar tudo no próprio CSS** usando novas diretivas:
 
@@ -529,12 +529,12 @@ Com o Tailwind atualizado e configurado, é hora de revisar os componentes do se
 
 - **Atualize classes utilitárias obsoletas ou renomeadas:** Faça uma busca global no código por classes que mudaram no v4:
 
-  - Substitua `shadow-sm` -> `shadow-xs`, `shadow` (padrão) -> `shadow-sm`.
-  - Substitua `blur-sm` -> `blur-xs`, `blur` -> `blur-sm`; `rounded-sm` -> `rounded-xs`, `rounded` -> `rounded-sm`.
+  - Substitua `shadow-xs` -> `shadow-2xs`, `shadow-sm` (padrão) -> `shadow-xs`.
+  - Substitua `blur-xs` -> `blur-xs`, `blur-sm` -> `blur-xs`; `rounded-sm` -> `rounded-xs`, `rounded` -> `rounded-sm`.
   - Se usava classes de opacidade como `bg-opacity-50`, troque para notação com slash, por ex: `bg-black/50` (note que isso requer que a cor seja definida, aqui black).
-  - `outline-none` antigo -> use `outline-hidden` (para preservar acessibilidade), e só use `outline-none` novo se quiser realmente remover o contorno (lembrando de talvez aplicar estilização focus visível de outra forma).
-  - Se por acaso encontrar `ring` sozinho (sem tamanho), troque para `ring-3` e acrescente a cor se precisar (ex: `focus:ring-3 focus:ring-blue-500`).
-  - Variantes combinadas invertidas: se você tinha algo como `lg:hover:text-red-500` (que é variant duplo), isso continua funcionando pois não é sensível à ordem. Mas se tinha `first:md:p-0` ou `md:first:p-0`, atente-se à inversão de ordem que mencionamos (agora seria `md:first:p-0` => precisa virar `first:md:p-0` porque as variantes leem esq->dir). Revisite esses casos, embora sejam raros.
+  - `outline-hidden` antigo -> use `outline-hidden` (para preservar acessibilidade), e só use `outline-hidden` novo se quiser realmente remover o contorno (lembrando de talvez aplicar estilização focus visível de outra forma).
+  - Se por acaso encontrar `ring-3` sozinho (sem tamanho), troque para `ring-3` e acrescente a cor se precisar (ex: `focus:ring-3 focus:ring-blue-500`).
+  - Variantes combinadas invertidas: se você tinha algo como `lg:hover:text-red-500` (que é variant duplo), isso continua funcionando pois não é sensível à ordem. Mas se tinha `md:first:p-0` ou `md:first:p-0`, atente-se à inversão de ordem que mencionamos (agora seria `md:first:p-0` => precisa virar `md:first:p-0` porque as variantes leem esq->dir). Revisite esses casos, embora sejam raros.
   - Remova qualquer referência a classes de plugin antigas que não carregaram. Por exemplo, se esquecer de adicionar `@plugin forms`, classes como `form-input` podem não existir mais – a solução é ou adicionar o plugin ou ajustar para usar classes utilitárias equivalentes manualmente.
 
 - **Verifique estilizações com `@apply` em componentes:** Muitos projetos Vue usam `<style scoped>` nos componentes e aplicam utilitários com `@apply` para criar classes CSS locais. No Tailwind v4, há uma pegadinha: arquivos CSS separados (como blocos de `<style>` em .vue ou CSS Modules) **não têm acesso automático às variáveis de tema e utilitários custom definidos no CSS global**. Ou seja, se num componente você tentar `@apply bg-brand-500` mas a variável `--color-brand-500` foi definida no arquivo global, pode não funcionar por padrão. Há duas soluções:
@@ -570,7 +570,7 @@ Com o Tailwind atualizado e configurado, é hora de revisar os componentes do se
 - **Componentes de formulário e estado de foco:** Preste atenção especial em componentes de formulário:
 
   - Inputs e selects: veja se o tamanho, borda e preenchimento permanecem conforme o esperado. O Tailwind v4 removeu algumas opiniões (como a cor da borda padrão), então se você tinha input sem classe de cor, ele pode estar herdando cor do texto pai agora. Recomenda-se definir explicitamente `border-gray-300` ou similar em inputs para consistência.
-  - Estados de foco: Com a mudança do ring, se você customizou foco de inputs/botões (ex.: usava `focus:ring` antes), agora lembrando de adicionar o tamanho/cor. Idem para `focus:outline-none` que mudou de semântica.
+  - Estados de foco: Com a mudança do ring, se você customizou foco de inputs/botões (ex.: usava `focus:ring-3` antes), agora lembrando de adicionar o tamanho/cor. Idem para `focus:outline-hidden` que mudou de semântica.
   - O plugin forms desabilita o outline nativo de alguns elementos e aplica ring nos focus. Veja se os campos continuam acessíveis (tente navegar com Tab e observar foco).
 
 - **Utilitários compostos (`@apply`) e duplicação de CSS:** Após migrar, fique atento ao tamanho do CSS gerado. O Tailwind v4 tende a gerar um CSS menor e mais otimizado (\~35% menor segundo anunciam). Porém, se você usou a diretiva `@config` para carregar um config JS e também definiu coisas em CSS, ou usou `@apply` sem `@reference` em múltiplos componentes, pode acabar com duplicações ou utilitários faltando. Uma boa prática:
@@ -605,8 +605,8 @@ Após realizar a atualização, é fundamental **testar a interface** para garan
   - Componentes de formulário: inputs, botões, toggles – inspecione estados de foco, placeholder (lembrando que a cor do placeholder mudou para semi-transparente), e disabled.
   - Componentes com variantes dark mode: se seu Storybook não possui um toggle de tema, uma ideia é adicionar temporariamente uma história ou um decorador global para aplicar classe `.dark` no fundo, e verificar manualmente. Alguns addons como _storybook-dark-mode_ podem facilitar isso. De qualquer forma, abra o console devtools e insira `document.documentElement.classList.add('dark')` enquanto visualiza uma story para simular (se você definiu `@custom-variant dark`). Assim verá se, por exemplo, aquele card que tinha `bg-white dark:bg-gray-800` está mudando de cor.
   - Layout e espaçamento geral: graças à mudança no `space-*` e default de border, valide se grids e listas com espaçamento continuam iguais. Se notar alguma diferença (ex: elementos com margin a mais ou a menos), ajuste usando `gap` ou classes utilitárias novas.
-  - Ícones ou elementos com `outline-none`: confirme se nada ficou com contorno inesperado em focus ou, ao contrário, sem indicação de focus.
-  - Shadow/radius: componentes com sombras e cantos arredondados pequenos podem ter mudado sutilmente (pelo rename das classes). Se notar sombras mais fortes ou raios diferentes, pode ser porque você não trocou `shadow-sm` -> `shadow-xs`, etc. Faça o ajuste e atualize a story.
+  - Ícones ou elementos com `outline-hidden`: confirme se nada ficou com contorno inesperado em focus ou, ao contrário, sem indicação de focus.
+  - Shadow/radius: componentes com sombras e cantos arredondados pequenos podem ter mudado sutilmente (pelo rename das classes). Se notar sombras mais fortes ou raios diferentes, pode ser porque você não trocou `shadow-xs` -> `shadow-2xs`, etc. Faça o ajuste e atualize a story.
 
 - **Testes manuais de interação:** Além do visual estático, interaja com os componentes:
 
@@ -622,7 +622,7 @@ Após realizar a atualização, é fundamental **testar a interface** para garan
 
 - **Desempenho e console:** Abra o console do navegador enquanto navega pelo Storybook atualizado. Veja se há warnings ou errors do Tailwind. Por exemplo, se aparecer algo como “Unknown utility” ou “@apply cannot be used with ...”, provavelmente ainda há algum ajuste pendente (pode ser plugin faltando ou sintaxe antiga em algum lugar). Corrija quaisquer mensagens relevantes. Observe também o tamanho do CSS carregado – deve ser semelhante ou menor que antes, nunca maior drasticamente (a não ser que tenha habilitado muito mais utilities).
 
-- **Documentação e comunicação:** Atualize a documentação do Storybook (MDX ou notas) para refletir mudanças. Por exemplo, se antes você documentava “Use `shadow-sm` para pequena sombra”, agora deve atualizar para `shadow-xs`. Ou se instruía adicionar classe `.dark` no HTML para tema escuro, confirme se continua válido e mencione a nova configuração. Isso garante que desenvolvedores do time estejam cientes das mudanças ao consultar o Storybook.
+- **Documentação e comunicação:** Atualize a documentação do Storybook (MDX ou notas) para refletir mudanças. Por exemplo, se antes você documentava “Use `shadow-xs` para pequena sombra”, agora deve atualizar para `shadow-2xs`. Ou se instruía adicionar classe `.dark` no HTML para tema escuro, confirme se continua válido e mencione a nova configuração. Isso garante que desenvolvedores do time estejam cientes das mudanças ao consultar o Storybook.
 
 Em essência, aproveite o Storybook como um ambiente seguro para validar o upgrade. **Qualquer discrepância visual encontrada deve ser endereçada imediatamente**, ajustando o código ou complementando a configuração do Tailwind v4. Envolva o time de design ou QA se possível, mostrando antes/depois de componentes sensíveis.
 

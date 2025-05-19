@@ -1,1 +1,3 @@
-//# sourceMappingURL=BContainerModelExtra.types.d.ts.map
+export type BContainerModelExtra = {
+    source: 'click' | 'blur-sm';
+};

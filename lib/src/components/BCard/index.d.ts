@@ -1,7 +1,5 @@
-import BCard from "./BCard.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BCard } from './BCard';
+declare const _default: Plugin;
 export default _default;
-export { BCard };
-//# sourceMappingURL=index.d.ts.map
+export { BCard, };

@@ -1,7 +1,5 @@
-import BMultiSelect from "./BMultiSelect.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BMultiSelect } from './BMultiSelect';
+declare const _default: Plugin;
 export default _default;
-export { BMultiSelect };
-//# sourceMappingURL=index.d.ts.map
+export { BMultiSelect, };

@@ -1,7 +1,5 @@
-import BSlider from "./BSlider.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BSlider } from './BSlider';
+declare const _default: Plugin;
 export default _default;
-export { BSlider };
-//# sourceMappingURL=index.d.ts.map
+export { BSlider, };

@@ -1,3 +1,3 @@
 export type BContainerModelExtra = {
-    source: 'click' | 'blur';
+    source: 'click' | 'blur-sm';
 };

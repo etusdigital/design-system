@@ -7,4 +7,3 @@ export type Item = {
     expanded?: boolean;
     items?: Item[];
 };
-//# sourceMappingURL=Item.d.ts.map

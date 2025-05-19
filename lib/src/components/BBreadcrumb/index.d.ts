@@ -1,7 +1,5 @@
-import BBreadcrumb from "./BBreadcrumb.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BBreadcrumb } from './BBreadcrumb';
+declare const _default: Plugin;
 export default _default;
-export { BBreadcrumb };
-//# sourceMappingURL=index.d.ts.map
+export { BBreadcrumb, };

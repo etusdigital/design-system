@@ -1,7 +1,5 @@
-import BTagSelect from "./BTagSelect.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BTagSelect } from './BTagSelect';
+declare const _default: Plugin;
 export default _default;
-export { BTagSelect };
-//# sourceMappingURL=index.d.ts.map
+export { BTagSelect, };
