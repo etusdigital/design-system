@@ -20,7 +20,7 @@
 
 	/* Seus estilos :root e .brius-theme podem vir aqui se forem considerados 'base' */
 	:root {
-		/* Variáveis globais que não são do Tailwind Theme */
+		--leading-base: 1.5; /* Variáveis globais que não são do Tailwind Theme */
 	}
 
 	.brius-theme {
@@ -68,6 +68,7 @@
 
 	body {
 		background-color: var(--color-neutral-background-default);
+		line-height: var(--leading-base);
 	}
 
 	* {
@@ -87,22 +88,22 @@
 
 	/* Estilos de heading e link (se aplicável à camada base) */
 	h1 {
-		@apply text-4xl font-bold leading-xl;
+		@apply text-4xl/6 font-bold;
 	}
 	h2 {
-		@apply text-2xl font-bold leading-lg;
+		@apply text-2xl/5 font-bold;
 	}
 	h3 {
-		@apply text-xl font-bold leading-sm;
+		@apply text-xl/4 font-bold;
 	}
 	h4 {
-		@apply text-base font-semibold leading-xs;
+		@apply text-base/4 font-semibold;
 	}
 	h5 {
-		@apply text-sm font-semibold leading-xs;
+		@apply text-sm/4 font-semibold;
 	}
 	h6 {
-		@apply text-xs font-semibold leading-xs;
+		@apply text-xs/4 font-semibold;
 	}
 
 	a {
@@ -128,13 +129,13 @@
 	[multiple]:focus,
 	textarea:focus,
 	select:focus {
-		outline: 0px solid transparent;
-		outline-offset: 0px;
-		--tw-ring-inset: 0;
-		--tw-ring-offset-width: 0px;
-		--tw-ring-offset-shadow: 0;
-		--tw-ring-shadow: 0;
-		box-shadow: none;
+		outline: 0px solid transparent !important;
+		outline-offset: 0px !important;
+		--tw-ring-inset: 0 !important;
+		--tw-ring-offset-width: 0px !important;
+		--tw-ring-offset-shadow: 0 !important;
+		--tw-ring-shadow: 0 !important;
+		box-shadow: none !important;
 	}
 }
 
@@ -264,10 +265,10 @@
 	--border-radius-full: 9999px;
 
 	/* Alias para rounded-base */
-	--rounded-base: 8px;
+	--rounded-base: var(--border-radius-base);
 
 	/* Alias para rounded-xxs */
-	--rounded-xxs: 2px;
+	--rounded-xxs: var(--border-radius-xxs);
 
 	/* Colors from :root moved here */
 	/* Neutral */
@@ -401,4 +402,64 @@
 
 	/* Adding default gray-200 for border compatibility */
 	--color-gray-200: #e5e7eb;
+}
+
+@layer components {
+	/* Component Styles for BInput */
+	.b-input-field-area {
+		@apply flex items-center gap-xs py-xs px-sm;
+		@apply bg-neutral-surface-default rounded-sm outline outline-neutral-border-default focus:outline-primary-border-default hover:outline-primary-border-hover;
+		min-height: fit-content; /* Revertendo para se ajustar ao conteúdo interno */
+		@apply transition-[outline-color] duration-100 delay-100;
+	}
+	.b-input-field-area.disabled {
+		@apply bg-neutral-surface-disabled outline-neutral-border-disabled; /* Disabled state */
+		/* A opacidade geral de 0.5 para o componente desabilitado deve ser tratada no BInput.vue se abranger mais que o field-area */
+	}
+	.b-input-field-area.error {
+		@apply outline-danger-border-default; /* Error state */
+	}
+
+	.b-input-text-content {
+		@apply p3 text-neutral-foreground-high;
+		font-family: var(--font-sans);
+		@apply flex-1 bg-transparent outline-0 p-0 border-none;
+		min-height: var(--spacing-xl);
+	}
+	.b-input-text-content::placeholder {
+		@apply text-neutral-interaction-default opacity-100; /* Estilo do placeholder */
+	}
+	.b-input-field-area.disabled .b-input-text-content,
+	.b-input-field-area.disabled .b-input-text-content::placeholder {
+		@apply text-neutral-foreground-disabled; /* Cor do texto e placeholder quando desabilitado */
+	}
+
+	.b-input-side-icon {
+		@apply text-neutral-interaction-default; /* Cor padrão do ícone */
+	}
+	.b-input-field-area.focus .b-input-side-icon {
+		@apply text-primary-foreground-high; /* Cor do ícone em foco */
+	}
+	.b-input-field-area.error .b-input-side-icon {
+		@apply text-danger-interaction-default; /* Cor do ícone em erro */
+	}
+	.b-input-field-area.disabled .b-input-side-icon {
+		@apply text-neutral-interaction-disabled; /* Cor do ícone desabilitado */
+	}
+
+	.b-input-message-error {
+		@apply text-xs font-medium text-danger-foreground-low mt-1.5; /* mt-1.5 para gap de 6px */
+		font-family: var(--font-sans); /* Garante Poppins */
+	}
+
+	.b-input-message-info {
+		@apply text-xs font-medium text-neutral-foreground-low mt-1.5; /* mt-1.5 para gap de 6px */
+		font-family: var(--font-sans); /* Garante Poppins */
+	}
+
+	/* Você pode adicionar aqui estilos para .b-input-max-length se necessário */
+	.b-input-max-length {
+		@apply text-xs font-medium text-neutral-foreground-low; /* Exemplo, igual ao info, mas pode ser diferente */
+		font-family: var(--font-sans);
+	}
 }

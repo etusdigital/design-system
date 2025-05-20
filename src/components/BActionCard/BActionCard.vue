@@ -73,9 +73,9 @@
 			name="drag_indicator"
 			@mousedown="start"
 			@touchstart="start" />
-		<BCard class="rounded-base *:px-xl">
+		<BCard class="rounded-lg *:px-xl">
 			<header
-				class="flex items-center gap-xs bg-primary-interaction-default text-neutral-foreground-negative rounded-base py-sm"
+				class="flex items-center gap-xs bg-primary-interaction-default text-neutral-foreground-negative rounded-lg py-sm"
 				:class="{ 'rounded-b-none': $slots.card }"
 				:style="{ background: color }">
 				<BIcon
