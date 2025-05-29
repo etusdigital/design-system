@@ -6,50 +6,50 @@ export default {
   tags: ["autodocs"],
   argTypes: {
     modelValue: {
-      type: { summary: "string" },
-			description: 'Will be the input current value.',
+      control: { type: "text" },
+      description: 'Will be the input current value.',
     },
     expanded: {
-      type: { summary: "boolean" },
+      control: { type: "boolean" },
       description: 'Will be the input current value.',
     },
     labelValue: {
-      type: { summary: "text" },
+      control: { type: "text" },
       description: "Will be the select label.",
     },
     items: {
-      type: { summary: "array" },
+      control: { type: "object" },
       description:
         'Array of values to be used as options.',
     },
     placeholder: {
-      type: { summary: "text" },
+      control: { type: "text" },
     },
     disabled: {
-      type: { summary: "boolean" },
+      control: { type: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     isError: {
-      type: { summary: "boolean" },
+      control: { type: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "Activate error mode.",
     },
     absolute: {
-      type: { summary: "boolean" },
+      control: { type: "boolean" },
       table: {
-        defaultValue: { summary: true },
+        defaultValue: { summary: "true" },
       },
     },
     errorMessage: {
-      type: { summary: "text" },
+      control: { type: "text" },
       description: "Will be the error message.",
     },
     infoMessage: {
-      type: { summary: "text" },
+      control: { type: "text" },
       description: "Will be the info message.",
     },
     item: {
@@ -100,6 +100,47 @@ export const Primary: Story = {
   args: defaultArgs,
 };
 
+export const Disabled: Story = {
+  render: (args: any) => ({
+    setup() {
+      return { args };
+    },
+    template: defaultHtml,
+  }),
+  args: {
+    ...defaultArgs,
+    disabled: true,
+    modelValue: "Option 2",
+  },
+};
+
+export const WithError: Story = {
+  render: (args: any) => ({
+    setup() {
+      return { args };
+    },
+    template: defaultHtml,
+  }),
+  args: {
+    ...defaultArgs,
+    isError: true,
+    errorMessage: "Please select a valid option",
+  },
+};
+
+export const WithValue: Story = {
+  render: (args: any) => ({
+    setup() {
+      return { args };
+    },
+    template: defaultHtml,
+  }),
+  args: {
+    ...defaultArgs,
+    modelValue: "Option 3",
+  },
+};
+
 export const CustomItem: Story = {
   render: (args: any) => ({
     setup() {
@@ -125,4 +166,51 @@ export const CustomItem: Story = {
     </BAutoComplete>`,
   }),
   args: defaultArgs,
+};
+
+export const DifferentWidths: Story = {
+  render: (args: any) => ({
+    setup() {
+      return { args };
+    },
+    template: `
+    <div class="flex flex-col gap-4">
+      <div>
+        <p class="text-sm text-gray-600 mb-2">Min Width: 240px (default)</p>
+        <BAutoComplete
+          v-model="args.modelValue" 
+          :label-value="args.labelValue"
+          :placeholder="args.placeholder"
+          :items="args.items"
+          :absolute="false"
+        />
+      </div>
+      <div>
+        <p class="text-sm text-gray-600 mb-2">Min Width: 320px</p>
+        <BAutoComplete
+          v-model="args.modelValue2" 
+          :label-value="args.labelValue"
+          :placeholder="args.placeholder"
+          :items="args.items"
+          :absolute="false"
+          min-width="320px"
+        />
+      </div>
+      <div>
+        <p class="text-sm text-gray-600 mb-2">Min Width: 400px</p>
+        <BAutoComplete
+          v-model="args.modelValue3" 
+          :label-value="args.labelValue"
+          :placeholder="args.placeholder"
+          :items="args.items"
+          :absolute="false"
+          min-width="400px"
+        />
+      </div>
+    </div>`,
+  }),
+  args: {
+    ...defaultArgs,
+    modelValue: "",
+  },
 };

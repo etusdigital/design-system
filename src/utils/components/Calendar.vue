@@ -306,7 +306,8 @@
 							? 'bg-primary-interaction-default'
 							: 'bg-primary-surface-highlight',
 					]"
-					class="flex items-center justify-center flex-1 cursor-pointer min-w-[30%] text-neutral-foreground-negative text-sm p-sm border-xxs rounded-base hover:bg-primary-interaction-hover"
+					class="flex items-center justify-center flex-1 cursor-pointer min-w-[30%] text-neutral-foreground-negative text-sm p-sm border-xxs hover:bg-primary-interaction-hover"
+style="border-radius: var(--rounded-base)"
 					@click="changeMonth(item.value)">
 					{{ item.label }}
 				</div>

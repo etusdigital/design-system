@@ -22,6 +22,38 @@
 	:root {
 		--leading-base: 1.5; /* Variáveis globais que não são do Tailwind Theme */
 	}
+	h1 {
+		font-size: var(--text-4xl--line-height);
+		font-weight: var(--font-weight-bold);
+	}
+	h2 {
+		font-size: var(--text-2xl--line-height);
+		font-weight: var(--font-weight-bold);
+	}
+	h3 {
+		font-size: var(--text-xl--line-height);
+		font-weight: var(--font-weight-bold);
+	}
+	h4 {
+		font-size: var(--text-base--line-height);
+		font-weight: var(--font-weight-semibold);
+	}
+	h5 {
+		font-size: var(--text-sm--line-height);
+		font-weight: var(--font-weight-semibold);
+	}
+	h6 {
+		font-size: var(--text-xs--line-height);
+		font-weight: var(--font-weight-semibold);
+	}
+
+	a {
+		color: var(--color-primary-interaction-default);
+		text-decoration-color: var(--color-primary-interaction-default);
+		&:hover {
+			text-decoration: underline;
+		}
+	}
 
 	.brius-theme {
 		--font-sans: "Inter", sans-serif;
@@ -77,39 +109,15 @@
 
 	/* Estilos de scrollbar (se aplicável à camada base) */
 	::-webkit-scrollbar {
-		@apply rounded-full w-xs h-xs;
+		border-radius: var(--rounded-full);
+		width: var(--spacing-xs);
+		height: var(--spacing-xs);
 		background-color: var(--color-neutral-surface-disabled);
 	}
 
 	::-webkit-scrollbar-thumb {
-		@apply rounded-full;
+		border-radius: var(--rounded-full);
 		background-color: var(--color-neutral-interaction-disabled);
-	}
-
-	/* Estilos de heading e link (se aplicável à camada base) */
-	h1 {
-		@apply text-4xl/6 font-bold;
-	}
-	h2 {
-		@apply text-2xl/5 font-bold;
-	}
-	h3 {
-		@apply text-xl/4 font-bold;
-	}
-	h4 {
-		@apply text-base/4 font-semibold;
-	}
-	h5 {
-		@apply text-sm/4 font-semibold;
-	}
-	h6 {
-		@apply text-xs/4 font-semibold;
-	}
-
-	a {
-		color: var(--color-primary-interaction-default);
-		text-decoration-color: var(--color-primary-interaction-default);
-		@apply hover:underline;
 	}
 
 	/* Reset de foco (se aplicável à camada base) */
