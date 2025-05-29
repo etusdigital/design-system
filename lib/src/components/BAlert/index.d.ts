@@ -1,7 +1,5 @@
-import BAlert from "./BAlert.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BAlert } from './BAlert';
+declare const _default: Plugin;
 export default _default;
-export { BAlert };
-//# sourceMappingURL=index.d.ts.map
+export { BAlert, };

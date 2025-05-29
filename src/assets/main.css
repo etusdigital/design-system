@@ -1,452 +1,465 @@
-@import url("https://fonts.googleapis.com/css?family=Inter&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@tailwind typography;
-
+/* Definição de camadas e estilos base */
 @layer base {
-  :root {
-    /**
-    * @tokens FontFamily
-    * @presenter FontFamily
-    */
-    /* Font Family */
-    --font-sans: "Poppins", sans-serif;
-    /**
-    * @tokens-end
-    */
+	/* Importação de fontes dentro da camada base */
+	@import url("https://fonts.googleapis.com/css?family=Inter&display=swap");
+	@import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
 
-    /**
-    * @tokens FontSize
-    * @presenter FontSize
-    /* Font Size */
-    --font-size-xxs: 10px;
-    --font-size-xs: 12px;
-    --font-size-sm: 14px;
-    --font-size-base: 16px;
-    --font-size-lg: 18px;
-    --font-size-xl: 20px;
-    --font-size-2xl: 24px;
-    --font-size-3xl: 30px;
-    --font-size-4xl: 32px;
-    --font-size-5xl: 48px;
-    --font-size-6xl: 60px;
-    --font-size-7xl: 72px;
-    --font-size-8xl: 96px;
-    --font-size-9xl: 128px;
-    /**
-    * @tokens-end
-    */
+	/* Definição de cor de borda padrão (como estava antes) */
+	*,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(
+			--color-gray-200,
+			/* Certifique-se que --color-gray-200 está em @theme */ currentcolor
+		);
+	}
 
-    /**
-    * @tokens FontWeight
-    * @presenter FontWeight
-    */
-    /* Font Weight */
-    --font-weight-thin: 100;
-    --font-weight-extra-light: 200;
-    --font-weight-light: 300;
-    --font-weight-normal: 400;
-    --font-weight-medium: 500;
-    --font-weight-semibold: 600;
-    --font-weight-bold: 700;
-    --font-weight-extra-bold: 800;
-    --font-weight-black: 900;
-    /**
-    * @tokens-end
-    */
+	/* Seus estilos :root e .brius-theme podem vir aqui se forem considerados 'base' */
+	:root {
+		--leading-base: 1.5; /* Variáveis globais que não são do Tailwind Theme */
+	}
 
-    /**
-    * @tokens LineHeight
-    * @presenter LineHeight
-    */
-    /* Line Height */
-    --line-height-none: 0px;
-    --line-height-xxs: 100%;
-    --line-height-xs: 105%;
-    --line-height-sm: 110%;
-    --line-height-base: 115%;
-    --line-height-lg: 120%;
-    --line-height-xl: 125%;
-    /**
-    * @tokens-end
-    */
+	.brius-theme {
+		--font-sans: "Inter", sans-serif;
+		/* ... outras sobrescritas do brius-theme ... */
+		/* Primary */
+		--color-primary-surface-default: #e7f0ff;
+		--color-primary-surface-highlight: #b8d0ff;
+		--color-primary-surface-hover: #d0e0ff;
+		--color-primary-surface-pressed: #90b1ff;
+		--color-primary-interaction-default: #004ed7;
+		--color-primary-interaction-hover: #003298; /* Usado em BCheckbox */
+		--color-primary-interaction-pressed: #001040;
+		--color-primary-interaction-selected: #002070;
+		--color-primary-foreground-disabled: #90b1ff;
+		--color-primary-foreground-low: #0041b8;
+		--color-primary-foreground-high: #003298;
+		--color-primary-border-default: #115be2;
+		--color-primary-border-hover: #0041b8;
+		--color-primary-border-selected: #003298;
+		--color-primary-border-pressed: #001040;
 
-    /**
-    * @tokens Spacing
-    * @presenter Spacing
-    */
-    /* Spacing */
-    --spacing-none: 0px;
-    --spacing-xxs: 4px;
-    --spacing-xs: 8px;
-    --spacing-sm: 12px;
-    --spacing-base: 16px;
-    --spacing-lg: 20px;
-    --spacing-xl: 24px;
-    --spacing-2xl: 32px;
-    --spacing-3xl: 48px;
-    --spacing-4xl: 56px;
-    --spacing-5xl: 64px;
-    --spacing-6xl: 80px;
-    --spacing-7xl: 96px;
-    --spacing-8xl: 112px;
-    --spacing-9xl: 128px;
-    --spacing-10xl: 144px;
-    --spacing-11xl: 160px;
-    --spacing-12xl: 176px;
-    --spacing-13xl: 192px;
-    --spacing-14xl: 208px;
-    --spacing-15xl: 224px;
-    --spacing-16xl: 240px;
-    --spacing-17xl: 256px;
-    --spacing-18xl: 288px;
-    --spacing-19xl: 320px;
-    --spacing-20xl: 336px;
-    /**
-    * @tokens-end
-    */
+		/* Informative */
+		--color-informative-surface-default: #f2eeff;
+		--color-informative-surface-highlight: #c7bbff;
+		--color-informative-surface-hover: #9072ff;
+		--color-informative-surface-pressed: #6149cc;
+		--color-informative-interaction-default: #523bbb;
+		--color-informative-interaction-hover: #362780;
+		--color-informative-interaction-pressed: #1f144c;
+		--color-informative-interaction-selected: #45329e;
+		--color-informative-foreground-disabled: #9072ff;
+		--color-informative-foreground-low: #362780;
+		--color-informative-foreground-high: #2b1d63;
+		--color-informative-border-default: #45329e;
+		--color-informative-border-hover: #362780;
+		--color-informative-border-selected: #2b1d63;
+		--color-informative-border-pressed: #1f144c;
+	}
 
-    /**
-    * @tokens Border
-    * @presenter Border
-    */
-    /* Border Width */
-    --border-width-none: 0px;
-    --border-width-xxs: 1px;
-    --border-width-xs: 2px;
-    --border-width-sm: 4px;
-    --border-width-base: 8px;
-    /**
-    * @tokens-end
-    */
+	html {
+		color: var(--color-neutral-foreground-high);
+		font-weight: var(--font-weight-normal);
+	}
 
-    /**
-    * @tokens BorderRadius
-    * @presenter BorderRadius
-    */
-    /* Border Radius */
-    --border-radius-none: 0px;
-    --border-radius-xxs: 2px;
-    --border-radius-xs: 4px;
-    --border-radius-sm: 6px;
-    --border-radius-base: 8px;
-    --border-radius-lg: 12px;
-    --border-radius-xl: 16px;
-    --border-radius-2xl: 24px;
-    --border-radius-full: 9999px;
-    /**
-    * @tokens-end
-    */
+	body {
+		background-color: var(--color-neutral-background-default);
+		line-height: var(--leading-base);
+	}
 
-    /**
-    * @tokens Colors
-    * @presenter Color
-    */
-    /* Colors */
-    /* Neutral */
+	* {
+		font-family: var(--font-sans); /* Aplicar a variável CSS diretamente */
+	}
 
-    /* Background */
-    --neutral-background-default: #fbfcfd;
-    --neutral-background-emphasis: #ffffff;
-    --neutral-background-negative: #1b1f22;
+	/* Estilos de scrollbar (se aplicável à camada base) */
+	::-webkit-scrollbar {
+		@apply rounded-full w-xs h-xs;
+		background-color: var(--color-neutral-surface-disabled);
+	}
 
-    /* Surface */
-    --neutral-surface-default: #ffffff;
-    --neutral-surface-highlight: #f4f6f7;
-    --neutral-surface-hover: #f4f6f7;
-    --neutral-surface-disabled: #e3e7ea;
+	::-webkit-scrollbar-thumb {
+		@apply rounded-full;
+		background-color: var(--color-neutral-interaction-disabled);
+	}
 
-    /* Interaction */
-    --neutral-interaction-default: #465058;
-    --neutral-interaction-hover: #3e464c;
-    --neutral-interaction-pressed: #1b1f22;
-    --neutral-interaction-disabled: #7a8d96;
+	/* Estilos de heading e link (se aplicável à camada base) */
+	h1 {
+		@apply text-4xl/6 font-bold;
+	}
+	h2 {
+		@apply text-2xl/5 font-bold;
+	}
+	h3 {
+		@apply text-xl/4 font-bold;
+	}
+	h4 {
+		@apply text-base/4 font-semibold;
+	}
+	h5 {
+		@apply text-sm/4 font-semibold;
+	}
+	h6 {
+		@apply text-xs/4 font-semibold;
+	}
 
-    /* Foreground */
-    --neutral-foreground-disabled: #7a8d96;
-    --neutral-foreground-low: #5f717b;
-    --neutral-foreground-high: #1b1f22;
-    --neutral-foreground-negative: #ffffff;
+	a {
+		color: var(--color-primary-interaction-default);
+		text-decoration-color: var(--color-primary-interaction-default);
+		@apply hover:underline;
+	}
 
-    /* Border */
-    --neutral-border-default: #e3e7ea;
-    --neutral-border-hover: #a6b4ba;
-    --neutral-border-pressed: #7a8d96;
-    --neutral-border-disabled: #cad2d7;
-    --neutral-border-selected: #cad2d7;
+	/* Reset de foco (se aplicável à camada base) */
+	[type="text"]:focus,
+	input:where(:not([type])):focus,
+	[type="email"]:focus,
+	[type="url"]:focus,
+	[type="password"]:focus,
+	[type="number"]:focus,
+	[type="date"]:focus,
+	[type="datetime-local"]:focus,
+	[type="month"]:focus,
+	[type="search"]:focus,
+	[type="tel"]:focus,
+	[type="time"]:focus,
+	[type="week"]:focus,
+	[multiple]:focus,
+	textarea:focus,
+	select:focus {
+		outline: 0px solid transparent !important;
+		outline-offset: 0px !important;
+		--tw-ring-inset: 0 !important;
+		--tw-ring-offset-width: 0px !important;
+		--tw-ring-offset-shadow: 0 !important;
+		--tw-ring-shadow: 0 !important;
+		box-shadow: none !important;
+	}
+}
 
-    /* Primary */
+/* Plugins do Tailwind */
+@plugin "@tailwindcss/aspect-ratio";
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
 
-    /* Surface */
-    --primary-surface-default: #effaf4;
-    --primary-surface-highlight: #b6e4cd;
-    --primary-surface-hover: #d9f2e4;
-    --primary-surface-pressed: #86cfae;
+/* Utilitários customizados */
+@utility p1 {
+	font-size: var(--font-size-2xl);
+	font-weight: var(--font-weight-normal);
+	line-height: var(--line-height-lg);
+}
+@utility p2 {
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-normal);
+	line-height: var(--line-height-lg);
+}
+@utility p3 {
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-normal);
+	line-height: var(--line-height-lg);
+}
+@utility p4 {
+	font-size: var(--font-size-xs);
+	font-weight: var(--font-weight-normal);
+	line-height: var(--line-height-lg);
+}
+@utility caption-c1 {
+	font-size: var(--font-size-xs);
+	font-weight: var(--font-weight-medium);
+}
+@utility caption-c2 {
+	font-size: var(--font-size-xxs);
+	font-weight: var(--font-weight-normal);
+}
 
-    /* Interaction */
-    --primary-interaction-default: #329771;
-    --primary-interaction-hover: #22795a;
-    --primary-interaction-pressed: #1b614a;
-    --primary-interaction-selected: #1b614a;
+/* Tema do Tailwind (Design Tokens) */
+@theme {
+	/* Spacing from :root moved here */
+	--spacing-none: 0px;
+	--spacing-xxs: 4px;
+	--spacing-xs: 8px;
+	--spacing-sm: 12px;
+	--spacing-base: 16px;
+	--spacing-lg: 20px;
+	--spacing-xl: 24px;
+	--spacing-2xl: 32px;
+	--spacing-3xl: 48px;
+	--spacing-4xl: 56px;
+	--spacing-5xl: 64px;
+	--spacing-6xl: 80px;
+	--spacing-7xl: 96px;
+	--spacing-8xl: 112px;
+	--spacing-9xl: 128px;
+	--spacing-10xl: 144px;
+	--spacing-11xl: 160px;
+	--spacing-12xl: 176px;
+	--spacing-13xl: 192px;
+	--spacing-14xl: 208px;
+	--spacing-15xl: 224px;
+	--spacing-16xl: 240px;
+	--spacing-17xl: 256px;
+	--spacing-18xl: 288px;
+	--spacing-19xl: 320px;
+	--spacing-20xl: 336px;
 
-    /* Foreground */
-    --primary-foreground-disabled: #86cfae;
-    --primary-foreground-low: #1b614a;
-    --primary-foreground-high: #184d3b;
+	/* Border Width from :root moved here */
+	--border-width-none: 0px;
+	--border-width-xxs: 1px;
+	--border-width-xs: 2px;
+	--border-width-sm: 4px;
+	--border-width-base: 8px;
 
-    /* Border */
-    --primary-border-default: #329771;
-    --primary-border-hover: #1b614a;
-    --primary-border-selected: #184d3b;
-    --primary-border-pressed: #144032;
+	/* Outline Width */
+	--outline-width-xxs: 1px;
 
-    /* Informative */
+	/* Font Family from :root moved here */
+	--font-sans: "Poppins", sans-serif;
 
-    /* Surface */
-    --informative-surface-default: #eefcfd;
-    --informative-surface-highlight: #afecf2;
-    --informative-surface-hover: #77dee9;
-    --informative-surface-pressed: #39c5d7;
+	/* Font Size from :root moved here */
+	--font-size-xxs: 10px;
+	--font-size-xs: 12px;
+	--font-size-sm: 14px;
+	--font-size-base: 16px;
+	--font-size-lg: 18px;
+	--font-size-xl: 20px;
+	--font-size-2xl: 24px;
+	--font-size-3xl: 30px;
+	--font-size-4xl: 32px;
+	--font-size-5xl: 48px;
+	--font-size-6xl: 60px;
+	--font-size-7xl: 72px;
+	--font-size-8xl: 96px;
+	--font-size-9xl: 128px;
 
-    /* Interaction */
-    --informative-interaction-default: #1b879f;
-    --informative-interaction-hover: #1b687b;
-    --informative-interaction-pressed: #20596a;
-    --informative-interaction-selected: #1f4b5a;
+	/* Font Weight from :root moved here */
+	--font-weight-thin: 100;
+	--font-weight-extra-light: 200;
+	--font-weight-light: 300;
+	--font-weight-normal: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 700;
+	--font-weight-extra-bold: 800;
+	--font-weight-black: 900;
 
-    /* Foreground */
-    --informative-foreground-disabled: #77dee9;
-    --informative-foreground-low: #1b687b;
-    --informative-foreground-high: #1f4b5a;
+	/* Line Height from :root moved here */
+	--line-height-none: 0px;
+	--line-height-xxs: 100%;
+	--line-height-xs: 105%;
+	--line-height-sm: 110%;
+	--line-height-base: 115%;
+	--line-height-lg: 120%;
+	--line-height-xl: 125%;
 
-    /* Border */
-    --informative-border-default: #1b687b;
-    --informative-border-hover: #20596a;
-    --informative-border-selected: #1f4b5a;
-    --informative-border-pressed: #20596a;
+	/* Border Radius from :root moved here */
+	--border-radius-none: 0px;
+	--border-radius-xxs: 2px;
+	--border-radius-xs: 4px;
+	--border-radius-sm: 6px;
+	--border-radius-base: 8px;
+	--border-radius-lg: 8px;
+	--border-radius-xl: 16px;
+	--border-radius-2xl: 24px;
+	--border-radius-full: 9999px;
 
-    /* Success */
+	/* Alias para rounded-base */
+	--rounded-base: var(--border-radius-base);
 
-    /* Surface */
-    --success-surface-default: #effef5;
-    --success-surface-highlight: #bff1d8;
-    --success-surface-hover: #bff1d8;
-    --success-surface-pressed: #8ce2b9;
+	/* Alias para rounded-xxs */
+	--rounded-xxs: var(--border-radius-xxs);
 
-    /* Interaction */
-    --success-interaction-default: #0a9e50;
-    --success-interaction-hover: #078541;
-    --success-interaction-pressed: #105732;
-    --success-interaction-selected: #03301a;
+	/* Colors from :root moved here */
+	/* Neutral */
+	--color-neutral-background-default: #fbfcfd;
+	--color-neutral-background-emphasis: #ffffff;
+	--color-neutral-background-negative: #1b1f22;
+	--color-neutral-surface-default: #ffffff;
+	--color-neutral-surface-highlight: #f4f6f7;
+	--color-neutral-surface-hover: #f4f6f7;
+	--color-neutral-surface-disabled: #e3e7ea;
+	--color-neutral-interaction-default: #465058;
+	--color-neutral-interaction-hover: #3e464c;
+	--color-neutral-interaction-pressed: #1b1f22;
+	--color-neutral-interaction-disabled: #7a8d96;
+	--color-neutral-foreground-disabled: #7a8d96;
+	--color-neutral-foreground-low: #5f717b;
+	--color-neutral-foreground-high: #1b1f22;
+	--color-neutral-foreground-negative: #ffffff;
+	--color-neutral-border-default: #e3e7ea;
+	--color-neutral-border-hover: #a6b4ba;
+	--color-neutral-border-pressed: #7a8d96;
+	--color-neutral-border-disabled: #cad2d7;
+	--color-neutral-border-selected: #cad2d7;
 
-    /* Foreground */
-    --success-foreground-disabled: #4fcc92;
-    --success-foreground-low: #078541;
-    --success-foreground-high: #056a33;
+	/* Alias para emphasis color */
+	--color-emphasis: #ffffff; /* Mapeado de --color-neutral-background-emphasis */
 
-    /* Border */
-    --success-border-default: #0fb75c;
-    --success-border-hover: #078541;
-    --success-border-selected: #056a33;
-    --success-border-pressed: #105732;
+	/* Alias para default color (para bg-default) */
+	--color-default: #ffffff; /* Mapeado de --color-neutral-surface-default */
 
-    /* Warning */
+	/* Alias para negative color */
+	--color-negative: #1b1f22; /* Mapeado de --color-neutral-background-negative */
 
-    /* Surface */
-    --warning-surface-default: #ffffea;
-    --warning-surface-highlight: #fff5cc;
-    --warning-surface-hover: #ffe999;
-    --warning-surface-pressed: #ffdd66;
+	/* Primary */
+	--color-primary-surface-default: #effaf4;
+	--color-primary-surface-highlight: #b6e4cd;
+	--color-primary-surface-hover: #d9f2e4; /* Default theme primary hover */
+	--color-primary-surface-pressed: #86cfae;
+	--color-primary-interaction-default: #329771;
+	--color-primary-interaction-hover: #22795a; /* Default theme primary interaction hover */
+	--color-primary-interaction-pressed: #1b614a;
+	--color-primary-interaction-selected: #1b614a;
+	--color-primary-foreground-disabled: #86cfae;
+	--color-primary-foreground-low: #1b614a;
+	--color-primary-foreground-high: #184d3b;
+	--color-primary-border-default: #329771;
+	--color-primary-border-hover: #1b614a; /* Default theme primary border hover */
+	--color-primary-border-selected: #184d3b;
+	--color-primary-border-pressed: #144032;
 
-    /* Interaction */
-    --warning-interaction-default: #dba700;
-    --warning-interaction-hover: #b78a00;
-    --warning-interaction-pressed: #936d00;
-    --warning-interaction-selected: #936d00;
+	/* Informative */
+	--color-informative-surface-default: #eefcfd;
+	--color-informative-surface-highlight: #afecf2;
+	--color-informative-surface-hover: #77dee9; /* Default theme informative hover */
+	--color-informative-surface-pressed: #39c5d7;
+	--color-informative-interaction-default: #1b879f;
+	--color-informative-interaction-hover: #1b687b; /* Default theme informative interaction hover */
+	--color-informative-interaction-pressed: #20596a;
+	--color-informative-interaction-selected: #1f4b5a;
+	--color-informative-foreground-disabled: #77dee9;
+	--color-informative-foreground-low: #1b687b;
+	--color-informative-foreground-high: #1f4b5a;
+	--color-informative-border-default: #1b687b;
+	--color-informative-border-hover: #20596a; /* Default theme informative border hover */
+	--color-informative-border-selected: #1f4b5a;
+	--color-informative-border-pressed: #20596a;
 
-    /* Foreground */
-    --warning-foreground-disabled: #ffd133;
-    --warning-foreground-low: #936d00;
-    --warning-foreground-high: #7c440b;
+	/* Success */
+	--color-success-surface-default: #effef5;
+	--color-success-surface-highlight: #bff1d8;
+	--color-success-surface-hover: #bff1d8;
+	--color-success-surface-pressed: #8ce2b9;
+	--color-success-interaction-default: #0a9e50;
+	--color-success-interaction-hover: #078541;
+	--color-success-interaction-pressed: #105732;
+	--color-success-interaction-selected: #03301a;
+	--color-success-foreground-disabled: #4fcc92;
+	--color-success-foreground-low: #078541;
+	--color-success-foreground-high: #056a33;
+	--color-success-border-default: #0fb75c;
+	--color-success-border-hover: #078541;
+	--color-success-border-selected: #056a33;
+	--color-success-border-pressed: #105732;
 
-    /* Border */
-    --warning-border-default: #ffc500;
-    --warning-border-hover: #b78a00;
-    --warning-border-selected: #936d00;
-    --warning-border-pressed: #7c440b;
+	/* Warning */
+	--color-warning-surface-default: #ffffea;
+	--color-warning-surface-highlight: #fff5cc;
+	--color-warning-surface-hover: #ffe999;
+	--color-warning-surface-pressed: #ffdd66;
+	--color-warning-interaction-default: #dba700;
+	--color-warning-interaction-hover: #b78a00;
+	--color-warning-interaction-pressed: #936d00;
+	--color-warning-interaction-selected: #936d00;
+	--color-warning-foreground-disabled: #ffd133;
+	--color-warning-foreground-low: #936d00;
+	--color-warning-foreground-high: #7c440b;
+	--color-warning-border-default: #ffc500;
+	--color-warning-border-hover: #b78a00;
+	--color-warning-border-selected: #936d00;
+	--color-warning-border-pressed: #7c440b;
 
-    /* Danger */
+	/* Danger */
+	--color-danger-surface-default: #fef2f2;
+	--color-danger-surface-highlight: #fab8b8;
+	--color-danger-surface-hover: #fde8e8;
+	--color-danger-surface-pressed: #f58a8a;
+	--color-danger-interaction-default: #f03232;
+	--color-danger-interaction-hover: #b22424;
+	--color-danger-interaction-pressed: #801c1c;
+	--color-danger-interaction-selected: #d12b2b;
+	--color-danger-foreground-disabled: #f25c5c;
+	--color-danger-foreground-low: #b22424;
+	--color-danger-foreground-high: #801c1c;
+	--color-danger-border-default: #f03232;
+	--color-danger-border-hover: #b22424;
+	--color-danger-border-selected: #931d1d;
+	--color-danger-border-pressed: #801c1c;
 
-    /* Surface */
-    --danger-surface-default: #fef2f2;
-    --danger-surface-highlight: #fab8b8;
-    --danger-surface-hover: #fde8e8;
-    --danger-surface-pressed: #f58a8a;
+	/* Letter Spacing from tailwind.config.cjs moved here */
+	--letter-spacing-tighter: -0.05em;
+	--letter-spacing-tight: -0.025em;
+	--letter-spacing-normal: 0em;
+	--letter-spacing-wide: 0.05em;
+	--letter-spacing-wider: 0.07em;
+	--letter-spacing-widest: 0.1em;
 
-    /* Interaction */
-    --danger-interaction-default: #f03232;
-    --danger-interaction-hover: #b22424;
-    --danger-interaction-pressed: #801c1c;
-    --danger-interaction-selected: #d12b2b;
+	/* Box Shadow from tailwind.config.cjs moved here */
+	--box-shadow-neutral-default: 0px 1px 3px 0px rgba(0, 0, 0, 0.1),
+		0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+	--box-shadow-neutral-selected: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 
-    /* Foreground */
-    --danger-foreground-disabled: #f25c5c;
-    --danger-foreground-low: #b22424;
-    --danger-foreground-high: #801c1c;
+	/* Adding default gray-200 for border compatibility */
+	--color-gray-200: #e5e7eb;
+}
 
-    /* Border */
-    --danger-border-default: #f03232;
-    --danger-border-hover: #b22424;
-    --danger-border-selected: #931d1d;
-    --danger-border-pressed: #801c1c;
-    /**
-    * @tokens-end
-    */
-  }
+@layer components {
+	/* Component Styles for BInput */
+	.b-input-field-area {
+		@apply flex items-center gap-xs py-xs px-sm;
+		@apply bg-neutral-surface-default rounded-sm outline outline-neutral-border-default focus:outline-primary-border-default hover:outline-primary-border-hover;
+		min-height: fit-content; /* Revertendo para se ajustar ao conteúdo interno */
+		@apply transition-[outline-color] duration-100 delay-100;
+	}
+	.b-input-field-area.disabled {
+		@apply bg-neutral-surface-disabled outline-neutral-border-disabled; /* Disabled state */
+		/* A opacidade geral de 0.5 para o componente desabilitado deve ser tratada no BInput.vue se abranger mais que o field-area */
+	}
+	.b-input-field-area.error {
+		@apply outline-danger-border-default; /* Error state */
+	}
 
-  .brius-theme {
-    /**
-    * @tokens BFontFamily
-    * @presenter FontFamily
-    */
-    /* Font Family */
-    --font-sans: "Inter", sans-serif;
-    /**
-    * @tokens-end
-    */
+	.b-input-text-content {
+		@apply p3 text-neutral-foreground-high;
+		font-family: var(--font-sans);
+		@apply flex-1 bg-transparent outline-0 p-0 border-none;
+		min-height: var(--spacing-xl);
+	}
+	.b-input-text-content::placeholder {
+		@apply text-neutral-interaction-default opacity-100; /* Estilo do placeholder */
+	}
+	.b-input-field-area.disabled .b-input-text-content,
+	.b-input-field-area.disabled .b-input-text-content::placeholder {
+		@apply text-neutral-foreground-disabled; /* Cor do texto e placeholder quando desabilitado */
+	}
 
-    /**
-    * @tokens BColors
-    * @presenter Color
-    */
-    /* Colors */
-    /* Primary */
+	.b-input-side-icon {
+		@apply text-neutral-interaction-default; /* Cor padrão do ícone */
+	}
+	.b-input-field-area.focus .b-input-side-icon {
+		@apply text-primary-foreground-high; /* Cor do ícone em foco */
+	}
+	.b-input-field-area.error .b-input-side-icon {
+		@apply text-danger-interaction-default; /* Cor do ícone em erro */
+	}
+	.b-input-field-area.disabled .b-input-side-icon {
+		@apply text-neutral-interaction-disabled; /* Cor do ícone desabilitado */
+	}
 
-    /* Surface */
-    --primary-surface-default: #e7f0ff;
-    --primary-surface-highlight: #b8d0ff;
-    --primary-surface-hover: #d0e0ff;
-    --primary-surface-pressed: #90b1ff;
+	.b-input-message-error {
+		@apply text-xs font-medium text-danger-foreground-low mt-1.5; /* mt-1.5 para gap de 6px */
+		font-family: var(--font-sans); /* Garante Poppins */
+	}
 
-    /* Interaction */
-    --primary-interaction-default: #004ed7;
-    --primary-interaction-hover: #003298;
-    --primary-interaction-pressed: #001040;
-    --primary-interaction-selected: #002070;
+	.b-input-message-info {
+		@apply text-xs font-medium text-neutral-foreground-low mt-1.5; /* mt-1.5 para gap de 6px */
+		font-family: var(--font-sans); /* Garante Poppins */
+	}
 
-    /* Foreground */
-    --primary-foreground-disabled: #90b1ff;
-    --primary-foreground-low: #0041b8;
-    --primary-foreground-high: #003298;
-
-    /* Border */
-    --primary-border-default: #115be2;
-    --primary-border-hover: #0041b8;
-    --primary-border-selected: #003298;
-    --primary-border-pressed: #001040;
-
-    /* Informative */
-
-    /* Surface */
-    --informative-surface-default: #f2eeff;
-    --informative-surface-highlight: #c7bbff;
-    --informative-surface-hover: #9072ff;
-    --informative-surface-pressed: #6149cc;
-
-    /* Interaction */
-    --informative-interaction-default: #523bbb;
-    --informative-interaction-hover: #362780;
-    --informative-interaction-pressed: #1f144c;
-    --informative-interaction-selected: #45329e;
-
-    /* Foreground */
-    --informative-foreground-disabled: #9072ff;
-    --informative-foreground-low: #362780;
-    --informative-foreground-high: #2b1d63;
-
-    /* Border */
-    --informative-border-default: #45329e;
-    --informative-border-hover: #362780;
-    --informative-border-selected: #2b1d63;
-    --informative-border-pressed: #1f144c;
-    /**
-    * @tokens-end
-    */
-  }
-
-  html {
-    @apply text-neutral-foreground-high font-normal;
-  }
-
-  body {
-    @apply bg-default;
-  }
-
-  * {
-    @apply font-sans;
-  }
-
-  ::-webkit-scrollbar {
-    @apply rounded-full w-xs h-xs bg-neutral-surface-disabled;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply rounded-full bg-neutral-interaction-disabled;
-  }
-
-  h1 {
-    @apply text-4xl font-bold leading-xl;
-  }
-
-  h2 {
-    @apply text-2xl font-bold leading-lg;
-  }
-
-  h3 {
-    @apply text-xl font-bold leading-sm;
-  }
-
-  h4 {
-    @apply text-base font-semibold leading-xs;
-  }
-
-  h5 {
-    @apply text-sm font-semibold leading-xs;
-  }
-
-  h6 {
-    @apply text-xs font-semibold leading-xs;
-  }
-
-  a {
-    @apply text-primary-interaction-default hover:underline hover:decoration-primary-interaction-default;
-  }
-
-  [type="text"]:focus,
-  input:where(:not([type])):focus,
-  [type="email"]:focus,
-  [type="url"]:focus,
-  [type="password"]:focus,
-  [type="number"]:focus,
-  [type="date"]:focus,
-  [type="datetime-local"]:focus,
-  [type="month"]:focus,
-  [type="search"]:focus,
-  [type="tel"]:focus,
-  [type="time"]:focus,
-  [type="week"]:focus,
-  [multiple]:focus,
-  textarea:focus,
-  select:focus {
-    outline: 0px solid transparent;
-    outline-offset: 0px;
-    --tw-ring-inset: 0;
-    --tw-ring-offset-width: 0px;
-    --tw-ring-offset-shadow: 0;
-    --tw-ring-shadow: 0;
-    box-shadow: none;
-  }
+	/* Você pode adicionar aqui estilos para .b-input-max-length se necessário */
+	.b-input-max-length {
+		@apply text-xs font-medium text-neutral-foreground-low; /* Exemplo, igual ao info, mas pode ser diferente */
+		font-family: var(--font-sans);
+	}
 }

@@ -1,2 +1,5 @@
-export declare function useOptionalModel(props: any, propKey: any, emit: any, defaultValue: any): (import("vue").WritableComputedRef<any, any> | ((value: any, extra: any) => void))[];
-//# sourceMappingURL=OptionalModel.d.ts.map
+import { WritableComputedRef } from '../../vue/dist/vue.esm-bundler.js';
+/** Make sure to set the prop default to undefined manually.
+ * Ex.: const props = withDefaults(defineProps<{ modelValue?: string }>(), { modelValue: undefined });
+ */
+export declare function useOptionalModel<T>(props: any, propKey: string, emit: any, defaultValue: T): [WritableComputedRef<T>, (value: T, extra?: any) => void];

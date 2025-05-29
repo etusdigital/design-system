@@ -1,7 +1,5 @@
-import BPagination from "./BPagination.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BPagination } from './BPagination';
+declare const _default: Plugin;
 export default _default;
-export { BPagination };
-//# sourceMappingURL=index.d.ts.map
+export { BPagination, };

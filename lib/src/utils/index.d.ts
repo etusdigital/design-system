@@ -1,77 +1,46 @@
-export declare function calculateDate(value: any): Date[];
-export declare function hexaToRgba(hexa: any): {
+export declare function calculateDate(value: string): Date[];
+export declare function hexaToRgba(hexa: string): any;
+export declare function hslaToRgba(h: number, s: number, l: number, a: number): any;
+export declare function hwbToRgba(h: number, w: number, b: number, a: number): {
     r: number;
     g: number;
     b: number;
     a: number;
 };
-export declare function hslaToRgba(h: any, s: any, l: any, a: any): {
-    r: number;
-    g: number;
-    b: number;
-    a: any;
-};
-export declare function hwbToRgba(h: any, w: any, b: any, a: any): {
-    r: number;
-    g: number;
-    b: number;
-    a: any;
-};
-export declare function hsvaToRgba(h: any, s: any, v: any, a: any): {
-    r: number;
-    g: number;
-    b: number;
-    a: any;
-};
-export declare function rgbaToHexa(r: any, g: any, b: any, a: any): string;
-export declare function rgbaToHsla(r: any, g: any, b: any, a: any): {
-    h: number;
-    s: string;
-    l: string;
-    a: any;
-};
-export declare function rgbaToHwb(r: any, g: any, b: any, a: any): {
+export declare function hsvaToRgba(h: number, s: number, v: number, a: number): any;
+export declare function rgbaToHexa(r: number, g: number, b: number, a: number): string;
+export declare function rgbaToHsla(r: number, g: number, b: number, a: number): any;
+export declare function rgbaToHwb(r: number, g: number, b: number, a: number): {
     h: number;
     w: string;
     b: string;
-    a: any;
+    a: number;
 } | {
     h: string;
     w: string;
     b: string;
-    a: any;
+    a: number;
 };
-export declare function rgbaToHsva(r: any, g: any, b: any, a: any): {
-    h: number;
-    s: string;
-    v: string;
-    a: any;
-};
+export declare function rgbaToHsva(r: number, g: number, b: number, a: number): any;
 export declare function isNilAndBlank(value: any): boolean;
 export declare function isNilAndEmpty(value: any): boolean;
 export declare function isObject(value: any): boolean;
-export declare function isRange(start: any, end: any, day: any, isSelected?: boolean): any;
-export declare function capitalizeFirstLetter(string: any): any;
-export declare function getArrayMonthDay(date: any): (string | Date)[][];
-export declare function getMonths(lang?: string): {
-    label: string;
-    value: number;
-}[];
-export declare function getPosition(event: any, div: any, parent: any, directions?: {
-    left: boolean;
-}, substract?: {}, max?: {}): {
+export declare function isRange(start: Date, end: Date, day: Date, isSelected?: boolean): any;
+export declare function capitalizeFirstLetter(string: string): string;
+export declare function getArrayMonthDay(date: Date): any[];
+export declare function getMonths(lang?: string): any[];
+export declare function getPosition(event: any, div: HTMLSpanElement, parent: Element, directions?: any, substract?: any, max?: any): {
     x: number;
     y: number;
 };
-export declare function applyMask(value: any, mask: any): any;
+export declare function applyMask(value: string, mask: "cpf" | "cnpj" | "cep" | "domain" | "url" | "email" | undefined): string;
 export declare function isValidEmail(value: any): boolean;
 export declare function isValidDomain(value: any): boolean;
 export declare function isValidUrl(value: any): boolean;
-export declare function blendColors(color: any, percentage?: number, bg?: number[]): string;
-export declare function checkPath(path: any): boolean;
+export declare function blendColors(color: string, percentage?: number, bg?: number[]): string;
+export declare function checkPath(path: string): boolean;
 export declare const dateOptions: {
     value: string;
     label: string;
     calculate: () => Date[];
 }[];
-//# sourceMappingURL=index.d.ts.map

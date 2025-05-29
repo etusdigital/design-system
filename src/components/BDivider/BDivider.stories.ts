@@ -2,48 +2,51 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import BDivider from "./BDivider.vue";
 
 export default {
-  component: BDivider,
-  tags: ["autodocs"],
-  argTypes: {
-    position: {
-      type: { summary: "text" },
-      control: "select",
-      options: ["left", "both", "right"],
-      table: {
-        defaultValue: { summary: "right" },
-      },
-    },
-  },
+	component: BDivider,
+	tags: ["autodocs"],
+	argTypes: {
+		position: {
+			description: "Posição da linha em relação ao conteúdo do slot.",
+			control: "select",
+			options: ["left", "both", "right"],
+			table: {
+				type: { summary: "'left' | 'both' | 'right'" },
+				defaultValue: { summary: "right" },
+			},
+		},
+	},
 } satisfies Meta<typeof BDivider>;
 
 type Story = StoryObj<typeof BDivider>;
 
-const defaultArgs = {
-  position: "right",
+type BDividerStoryArgs = Partial<InstanceType<typeof BDivider>["$props"]>;
+
+const defaultArgs: BDividerStoryArgs = {
+	position: "right",
 };
 
 export const Primary: Story = {
-  render: (args: any) => ({
-    setup() {
-      return { args };
-    },
-    template: `
+	render: (args: any) => ({
+		setup() {
+			return { args };
+		},
+		template: `
       <BDivider
           :position="args.position"
       >
         Divider
       </BDivider>
     `,
-  }),
-  args: defaultArgs,
+	}),
+	args: defaultArgs,
 };
 
 export const Positions: Story = {
-  render: (args: any) => ({
-    setup() {
-      return { args };
-    },
-    template: `
+	render: (args: any) => ({
+		setup() {
+			return { args };
+		},
+		template: `
       <BDivider
           position="left"
       >
@@ -60,6 +63,6 @@ export const Positions: Story = {
         Right
       </BDivider>
     `,
-  }),
-  args: defaultArgs,
+	}),
+	args: defaultArgs,
 };

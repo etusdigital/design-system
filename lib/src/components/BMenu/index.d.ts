@@ -1,7 +1,5 @@
-import BMenu from "./BMenu.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BMenu } from './BMenu';
+declare const _default: Plugin;
 export default _default;
-export { BMenu };
-//# sourceMappingURL=index.d.ts.map
+export { BMenu, };
