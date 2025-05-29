@@ -1,7 +1,5 @@
-import BTooltip from "./BTooltip.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BTooltip } from './BTooltip';
+declare const _default: Plugin;
 export default _default;
-export { BTooltip };
-//# sourceMappingURL=index.d.ts.map
+export { BTooltip, };

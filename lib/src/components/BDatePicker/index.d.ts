@@ -1,7 +1,5 @@
-import BDatePicker from "./BDatePicker.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BDatePicker } from './BDatePicker';
+declare const _default: Plugin;
 export default _default;
-export { BDatePicker };
-//# sourceMappingURL=index.d.ts.map
+export { BDatePicker, };

@@ -1,7 +1,5 @@
-import BTab from "./BTab.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BTab } from './BTab';
+declare const _default: Plugin;
 export default _default;
-export { BTab };
-//# sourceMappingURL=index.d.ts.map
+export { BTab, };

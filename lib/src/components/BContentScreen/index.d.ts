@@ -1,7 +1,5 @@
-import BContentScreen from "./BContentScreen.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BContentScreen } from './BContentScreen';
+declare const _default: Plugin;
 export default _default;
-export { BContentScreen };
-//# sourceMappingURL=index.d.ts.map
+export { BContentScreen, };

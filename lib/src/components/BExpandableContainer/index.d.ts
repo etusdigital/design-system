@@ -1,7 +1,5 @@
-import BExpandableContainer from "./BExpandableContainer.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BExpandableContainer } from './BExpandableContainer';
+declare const _default: Plugin;
 export default _default;
-export { BExpandableContainer };
-//# sourceMappingURL=index.d.ts.map
+export { BExpandableContainer, };

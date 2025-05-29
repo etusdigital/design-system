@@ -2,78 +2,88 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import BActionCard from "./BActionCard.vue";
 
 export default {
-  component: BActionCard,
-  tags: ["autodocs"],
-  argTypes: {
-    icon: {
-      type: { summary: "string" },
-      description: "This prop will be the card icon.",
-    },
-    color: {
-      type: { summary: "string" },
-      table: {
-        defaultValue: { summary: 'primary' },
-      },
-      description: "This prop will be the title background color.",
-    },
-    hideDrag: {
-      type: { summary: "boolean" },
-      table: {
-        defaultValue: { summary: false },
-      },
-      description: "If this prop is true, the drag icon  won't be shown.",
-    },
-    dragstart: {
-      description: "This function will be emitted when the user start to drag dragging icon.",
-    },
-    dragging: {
-      description: "This function will be emitted when the user is dragging dragging icon.",
-    },
-    dragend: {
-      description: "This function will be emitted when the user stop dragging dragging icon.",
-    },
-    delete: {
-      description: "This function will be emitted when the delete icon is clicked.",
-    },
-    default: {
-      description: "This slot will be the title.",
-    },
-    card: {
-      description: "This slot will be the card content.",
-    },
-  },
+	component: BActionCard,
+	tags: ["autodocs"],
+	argTypes: {
+		icon: {
+			description: "Ícone principal do card.",
+			control: { type: "text" },
+			table: {
+				type: { summary: "string" },
+			},
+		},
+		color: {
+			description:
+				"Cor de fundo do título (valor CSS de cor). Se vazio, usa a cor primária do tema.",
+			control: { type: "color" },
+			table: {
+				type: { summary: "string" },
+				defaultValue: { summary: "primary" },
+			},
+		},
+		hideDrag: {
+			description: "Oculta o ícone de arrastar.",
+			control: { type: "boolean" },
+			table: {
+				type: { summary: "boolean" },
+				defaultValue: { summary: "false" },
+			},
+		},
+		onDragstart: {
+			description: "Emitido quando o usuário começa a arrastar o card.",
+		},
+		onDragging: {
+			description: "Emitido enquanto o usuário está arrastando o card.",
+		},
+		onDragend: {
+			description: "Emitido quando o usuário solta o card após arrastar.",
+		},
+		onDelete: { description: "Emitido quando o ícone de deletar é clicado." },
+		default: {
+			description: "Slot para o conteúdo do título do card.",
+			table: {
+				type: { summary: "VNode | string" },
+			},
+		},
+		card: {
+			description: "Slot para o conteúdo principal do card.",
+			table: {
+				type: { summary: "VNode | string" },
+			},
+		},
+	},
 } satisfies Meta<typeof BActionCard>;
 
 type Story = StoryObj<typeof BActionCard>;
 
 const defaultArgs = {
-  icon: 'send',
-  color: '',
-  hideDrag: false
-}
+	icon: "send",
+	color: "",
+	hideDrag: false,
+};
 
 export const Primary: Story = {
-  render: (args: any) => ({
-    components: { BActionCard },
-    setup() {
-      return { args };
-    },
-    template: `
+	render: (args: any) => ({
+		components: { BActionCard },
+		setup() {
+			return { args };
+		},
+		template: `
         <BActionCard class="w-fit" :icon="args.icon" :color="args.color" :hide-drag="args.hideDrag">
           <p class="font-bold">Default</p>
         </BActionCard>
       `,
-  }),
-  args: defaultArgs,
+	}),
+	args: defaultArgs,
 };
 
 export const Card: Story = {
-  render: (args: any) => ({
-    components: { BActionCard },
-    setup() {
-      return { args };
-    },
-    template: `
+	render: (args: any) => ({
+		components: { BActionCard },
+		setup() {
+			return { args };
+		},
+		template: `
         <BActionCard class="w-fit" icon="mail" :color="args.color" :hide-drag="args.hideDrag">
           <div class="flex justify-between items-center text-white w-full">
             <div class="flex flex-col text-sm">
@@ -105,6 +115,6 @@ export const Card: Story = {
           </template>
         </BActionCard>
       `,
-  }),
-  args: defaultArgs,
+	}),
+	args: defaultArgs,
 };

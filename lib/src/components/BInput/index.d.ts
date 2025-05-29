@@ -1,7 +1,5 @@
-import BInput from "./BInput.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BInput } from './BInput';
+declare const _default: Plugin;
 export default _default;
-export { BInput };
-//# sourceMappingURL=index.d.ts.map
+export { BInput, };

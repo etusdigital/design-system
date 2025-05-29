@@ -1,7 +1,5 @@
-import BSideMenu from "./BSideMenu.vue";
-declare const _default: {
-    install(Vue: any): void;
-};
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BSideMenu } from './BSideMenu';
+declare const _default: Plugin;
 export default _default;
-export { BSideMenu };
-//# sourceMappingURL=index.d.ts.map
+export { BSideMenu, };

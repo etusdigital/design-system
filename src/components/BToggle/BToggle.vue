@@ -1,93 +1,100 @@
 <script setup lang="ts">
-import { useOptionalModel } from '#composables';
+	import { useOptionalModel } from "#composables";
 
-const props = withDefaults(defineProps<{
-    id?: string;
-    name?: string;
-    modelValue?: boolean;
-    rhs?: boolean;
-    disabled?: boolean;
-}>(), {
-    modelValue: undefined,
-    rhs: false,
-    disabled: false,
-});
+	const props = withDefaults(
+		defineProps<{
+			id?: string;
+			name?: string;
+			modelValue?: boolean;
+			rhs?: boolean;
+			disabled?: boolean;
+		}>(),
+		{
+			modelValue: undefined,
+			rhs: false,
+			disabled: false,
+		}
+	);
 
-const emit = defineEmits<{
-    'update:modelValue': [value: boolean],
-}>();
+	const emit = defineEmits<{
+		"update:modelValue": [value: boolean];
+	}>();
 
-const [model] = useOptionalModel<boolean>(props, 'modelValue', emit, false);
+	const [model] = useOptionalModel<boolean>(props, "modelValue", emit, false);
 
-function toggle() {
-    if (props.disabled) return;
-    model.value = !model.value;
-}
+	function toggle() {
+		if (props.disabled) return;
+		model.value = !model.value;
+	}
 </script>
 
 <template>
-    <div
-        :id="id"
-        :name="name || id"
-        role="switch"
-        :aria-checked="model"
-        :aria-disabled="disabled"
-        class="b-toggle"
-        :class="{ 'flex-row-reverse': rhs, disabled }"
-        @click="toggle"
-    >
-        <div
-            tabindex="0"
-            class="container"
-            :class="{ active: model }"
-            @keyup.space="toggle"
-        >
-            <div
-                class="inline-block rounded-full w-[.85em] h-[.85em] bg-current transition"
-                :class="[ model ? 'ml-[1em]' : 'ml-[.125em]' ]"
-            />
-        </div>
-        <template v-if="$slots.default">
-            <label v-if="name || id" :for="name || id" class="toggle-label cursor-[inherit]">
-                <slot />
-            </label>
-            <div v-else class="toggle-label">
-                <slot />
-            </div>
-        </template>
-    </div>
+	<div
+		:id="id"
+		:name="name || id"
+		role="switch"
+		:aria-checked="model"
+		:aria-disabled="disabled"
+		class="b-toggle"
+		:class="{ 'flex-row-reverse': rhs, disabled }"
+		@click="toggle">
+		<div
+			tabindex="0"
+			class="container"
+			:class="{ active: model }"
+			@keyup.space="toggle">
+			<div
+				class="inline-block rounded-full w-[.85em] h-[.85em] bg-current transition"
+				:class="[model ? 'ml-[1em]' : 'ml-[.125em]']" />
+		</div>
+		<template v-if="$slots.default">
+			<label
+				v-if="name || id"
+				:for="name || id"
+				class="toggle-label cursor-[inherit]">
+				<slot />
+			</label>
+			<div
+				v-else
+				class="toggle-label">
+				<slot />
+			</div>
+		</template>
+	</div>
 </template>
 
 <style scoped>
-.b-toggle {
-    @apply inline-flex text-base gap-xs items-center cursor-pointer;
-}
+	@reference "../../assets/main.css";
 
-.b-toggle.disabled {
-    @apply pointer-events-none;
+	.b-toggle {
+		@apply inline-flex text-base gap-xs items-center cursor-pointer;
+	}
 
-    .container {
-        @apply bg-neutral-surface-disabled;
-    }
+	.b-toggle.disabled {
+		@apply pointer-events-none;
 
-    .toggle-label {
-        @apply text-neutral-interaction-disabled;
-    }
-}
+		.container {
+			@apply bg-neutral-surface-disabled;
+		}
 
-.transition {
-    @apply transition-all duration-150 ease-out;
-}
+		.toggle-label {
+			@apply text-neutral-interaction-disabled;
+		}
+	}
 
-.container {
-    @apply inline-flex text-neutral-foreground-negative bg-neutral-interaction-default rounded-full h-[1.16em] w-[2em] items-center transition;
-}
+	.transition {
+		@apply transition-all duration-150 ease-out;
+	}
 
-.container.active {
-    @apply bg-primary-interaction-default;
-}
+	.container {
+		@apply inline-flex text-neutral-foreground-negative bg-neutral-interaction-default rounded-full h-[1.16em] w-[2em] items-center transition;
+	}
 
-.toggle-label {
-    @apply text-xs text-neutral-interaction-default;
-}
+	.container.active {
+		@apply bg-primary-interaction-default;
+	}
+
+	.toggle-label {
+		@apply text-xs text-neutral-interaction-default;
+	}
 </style>
