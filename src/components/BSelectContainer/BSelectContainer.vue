@@ -121,6 +121,7 @@
 			:min-width="minWidth"
 			:secondary="secondary"
 			:hide-arrow="hideArrow"
+			:no-padding="true"
 			@update:model-value="changeModel">
 			<slot />
 
@@ -140,19 +141,23 @@
 				<div
 					v-show="isExpanded"
 					ref="content"
-					class="content-wrapper">
+					class="content-wrapper"
+					:aria-hidden="!isExpanded"
+					:aria-expanded="isExpanded">
 					<div
 						class="content transition-translate"
 						:class="{
 							secondary,
 							expanded: isExpanded,
 							'has-max-height': !dontHaveMaxHeight,
+							error: isError,
 						}">
 						<slot name="content">
 							<ul
 								role="list"
 								class="items-list"
-								:class="[{ 'p-xxs *:p-xs': !dontHaveMaxHeight }]">
+								:class="[{ 'p-xxs [&>*]:p-xs': !dontHaveMaxHeight }]"
+								:aria-label="labelValue">
 								<slot name="items" />
 							</ul>
 						</slot>
@@ -202,12 +207,76 @@
 		@apply max-h-[12em];
 	}
 
+	/* Estado de erro */
+	.content.error {
+		@apply border-2 border-danger-border-default;
+	}
+
+	.content.error .items-list > *:hover {
+		@apply bg-danger-surface-hover;
+	}
+
+	.content.error .items-list > *:focus-visible {
+		@apply outline-danger-border-default;
+	}
+
 	.items-list {
 		@apply overflow-auto rounded-b-xs w-full;
+	}
+
+	/* Estados interativos para itens da lista */
+	.items-list > * {
+		@apply transition-colors duration-150 cursor-pointer;
+	}
+
+	.items-list > *:hover {
+		@apply bg-neutral-surface-hover;
+	}
+
+	.items-list > *:focus-visible {
+		@apply outline outline-2 outline-primary-interaction-default outline-offset-[-2px];
+	}
+
+	.items-list > *:active {
+		@apply bg-neutral-surface-disabled;
+	}
+
+	/* Item selecionado */
+	.items-list > *[aria-selected="true"],
+	.items-list > *.selected {
+		@apply bg-primary-surface-default text-primary-foreground-high font-medium;
+	}
+
+	/* Item desabilitado */
+	.items-list > *[aria-disabled="true"],
+	.items-list > *.disabled {
+		@apply opacity-50 cursor-not-allowed pointer-events-none;
+	}
+
+	/* Estados para modo secundário */
+	.content.secondary .items-list > *:hover {
+		@apply bg-primary-surface-hover text-neutral-foreground-negative;
+	}
+
+	.content.secondary .items-list > *:focus-visible {
+		@apply outline-neutral-foreground-negative;
+	}
+
+	.content.secondary .items-list > *:active {
+		@apply bg-primary-surface-pressed;
 	}
 
 	.actions {
 		@apply flex gap-xxs items-center justify-end p-xs w-full border-t-xxs;
 		border-top-color: var(--color-neutral-border-default);
+	}
+
+	/* Melhorias de acessibilidade */
+	@media (prefers-reduced-motion: reduce) {
+		.content-wrapper,
+		.content,
+		.items-list > * {
+			@apply transition-none;
+		}
 	}
 </style>

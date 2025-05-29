@@ -28,7 +28,10 @@
 <style scoped>
 	@reference "../../assets/main.css";
 	.option-container {
-		@apply p3 flex items-center gap-8 cursor-pointer select-none text-neutral-interaction-default rounded-sm
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
+		@apply flex items-center gap-8 cursor-pointer select-none text-neutral-interaction-default rounded-sm
     hover:text-primary-interaction-default hover:bg-primary-surface-default;
 
 		.b-icon {

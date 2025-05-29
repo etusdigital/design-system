@@ -1,405 +1,341 @@
 @reference "../../assets/main.css";
 
-@utility primary {
-	@apply bg-primary-interaction-default border-primary-interaction-default;
-	@apply hover:bg-primary-interaction-hover hover:border-primary-interaction-hover;
-	@apply active:bg-primary-interaction-pressed active:border-primary-interaction-pressed;
-	@apply focus:ring-2 focus:ring-primary-interaction-default focus:ring-offset-2 focus:outline-none;
+/* Base button styles */
+.btn {
+	/* Layout */
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--spacing-xs);
 
-	.progress {
-		background-color: var(--color-primary-surface-highlight);
-	}
+	/* Typography */
+	font-weight: var(--font-weight-semibold);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-xs);
+	letter-spacing: var(--letter-spacing-wider);
+	text-transform: capitalize;
+	user-select: none;
+
+	/* Styling */
+	border-radius: var(--border-radius-lg);
+	border-width: var(--border-width-xxs);
+	position: relative;
+
+	/* Transitions */
+	transition-property: color, background-color, border-color, outline-color,
+		text-decoration-color, fill, stroke, opacity, box-shadow, transform;
+	transition-duration: var(--transition-base);
+	transition-timing-function: ease-in-out;
+
+	/* Interactions */
+	cursor: pointer;
 }
 
-@utility info {
-	@apply bg-informative-interaction-default border-informative-interaction-default;
-	@apply hover:bg-informative-interaction-hover hover:border-informative-interaction-hover;
-	@apply active:bg-informative-interaction-pressed active:border-informative-interaction-pressed;
-	@apply focus:ring-2 focus:ring-informative-interaction-default focus:ring-offset-2 focus:outline-none;
-
-	.progress {
-		background-color: var(--color-informative-surface-highlight);
-	}
+/* Active state */
+.btn:active:not(:disabled) {
+	transform: scale(0.95);
 }
 
-@utility success {
-	@apply bg-success-interaction-default border-success-interaction-default;
-	@apply hover:bg-success-interaction-hover hover:border-success-interaction-hover;
-	@apply active:bg-success-interaction-pressed active:border-success-interaction-pressed;
-	@apply focus:ring-2 focus:ring-success-interaction-default focus:ring-offset-2 focus:outline-none;
-
-	.progress {
-		background-color: var(--color-success-surface-highlight);
-	}
+/* Ensure span inherits button text properties */
+.btn span {
+	font-size: inherit;
+	line-height: inherit;
 }
 
-@utility warning {
-	@apply bg-warning-interaction-default border-warning-interaction-default;
-	@apply hover:bg-warning-interaction-hover hover:border-warning-interaction-hover;
-	@apply active:bg-warning-interaction-pressed active:border-warning-interaction-pressed;
-	@apply focus:ring-2 focus:ring-warning-interaction-default focus:ring-offset-2 focus:outline-none;
-
-	.progress {
-		background-color: var(--color-warning-surface-highlight);
-	}
+/* Button content wrapper */
+.btn-content {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--spacing-xs);
+	font-size: inherit;
+	line-height: inherit;
 }
 
-@utility danger {
-	@apply bg-danger-interaction-default border-danger-interaction-default;
-	@apply hover:bg-danger-interaction-hover hover:border-danger-interaction-hover;
-	@apply active:bg-danger-interaction-pressed active:border-danger-interaction-pressed;
-	@apply focus:ring-2 focus:ring-danger-interaction-default focus:ring-offset-2 focus:outline-none;
-
-	.progress {
-		background-color: var(--color-danger-surface-highlight);
-	}
+/* Size variants using CSS custom properties */
+.btn-sm {
+	font-size: var(--font-size-sm);
+	line-height: var(--line-height-xs);
+	padding: var(--spacing-xs) var(--spacing-base);
 }
 
-@utility neutral {
-	@apply bg-neutral-interaction-default border-neutral-interaction-default;
-	@apply hover:bg-neutral-interaction-hover hover:border-neutral-interaction-hover;
-	@apply active:bg-neutral-interaction-pressed active:border-neutral-interaction-pressed;
-	@apply focus:ring-2 focus:ring-neutral-interaction-default focus:ring-offset-2 focus:outline-none;
-
-	.progress {
-		background-color: var(--color-neutral-surface-highlight);
-	}
+.btn-md {
+	font-size: var(--font-size-base);
+	line-height: var(--line-height-xs);
+	padding: var(--spacing-sm) var(--spacing-base);
 }
 
-@utility disabled {
+.btn-lg {
+	font-size: var(--font-size-lg);
+	line-height: var(--line-height-xs);
+	padding: var(--spacing-base) var(--spacing-xl);
+}
+
+/* Primary button - using CSS variables for theming */
+.btn-primary {
+	--btn-bg: var(--color-primary-interaction-default);
+	--btn-bg-hover: var(--color-primary-interaction-hover);
+	--btn-bg-active: var(--color-primary-interaction-pressed);
+	--btn-border: var(--color-primary-interaction-default);
+	--btn-border-hover: var(--color-primary-interaction-hover);
+	--btn-border-active: var(--color-primary-interaction-pressed);
+	--btn-text: var(--color-neutral-foreground-negative);
+	--btn-focus-ring: var(--color-primary-interaction-default);
+	--btn-progress-bg: var(--color-primary-surface-highlight);
+
+	background-color: var(--btn-bg);
+	border-color: var(--btn-border);
+	color: var(--btn-text);
+}
+
+.btn-primary:hover:not(:disabled) {
+	background-color: var(--btn-bg-hover);
+	border-color: var(--btn-border-hover);
+}
+
+.btn-primary:active:not(:disabled) {
+	background-color: var(--btn-bg-active);
+	border-color: var(--btn-border-active);
+}
+
+.btn-primary:focus-visible {
+	outline: 2px solid var(--btn-focus-ring);
+	outline-offset: 2px;
+}
+
+.btn-primary:disabled {
+	background-color: var(--color-neutral-surface-disabled);
+	border-color: var(--color-neutral-border-disabled);
+	color: var(--color-neutral-interaction-disabled);
 	pointer-events: none;
-	border-color: var(--color-neutral-border-default);
-	background-color: var(--color-neutral-surface-disabled);
-	color: var(--color-neutral-interaction-disabled);
-
-	.progress {
-		background-color: var(--color-neutral-surface-disabled);
-	}
 }
 
-@utility secondary {
+/* Secondary button - using CSS variables for theming */
+.btn-secondary {
 	background-color: transparent;
+	border-color: currentColor;
 }
 
-.secondary.primary {
-	color: var(--color-primary-interaction-default);
-}
-.secondary.primary:hover {
-	background-color: var(--color-primary-surface-hover);
-	border-color: var(--color-primary-border-hover);
-	color: var(--color-primary-interaction-hover);
-}
-.secondary.primary:active {
-	background-color: var(--color-primary-surface-pressed);
-	border-color: var(--color-primary-border-pressed);
-	color: var(--color-primary-interaction-pressed);
-}
-.secondary.primary:focus {
-	@apply focus:ring-2 focus:ring-primary-interaction-default focus:ring-offset-2 focus:outline-none;
+.btn-secondary:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
 }
 
-.secondary.info {
-	color: var(--color-informative-interaction-default);
-}
-.secondary.info:hover {
-	background-color: var(--color-informative-surface-hover);
-	border-color: var(--color-informative-border-hover);
-	color: var(--color-informative-interaction-hover);
-}
-.secondary.info:active {
-	background-color: var(--color-informative-surface-pressed);
-	border-color: var(--color-informative-border-pressed);
-	color: var(--color-informative-interaction-pressed);
-}
-.secondary.info:focus {
-	@apply focus:ring-2 focus:ring-informative-interaction-default focus:ring-offset-2 focus:outline-none;
+/* Color modifiers for buttons using data attributes or CSS variables */
+.btn-secondary.btn-primary-color,
+.btn-ghost.btn-primary-color {
+	--btn-color: var(--color-primary-interaction-default);
+	--btn-color-hover: var(--color-primary-interaction-hover);
+	--btn-color-active: var(--color-primary-interaction-pressed);
+	--btn-bg-hover: var(--color-primary-surface-hover);
+	--btn-bg-active: var(--color-primary-surface-pressed);
+	--btn-border-hover: var(--color-primary-border-hover);
+	--btn-border-active: var(--color-primary-border-pressed);
+	color: var(--btn-color);
 }
 
-.secondary.success {
-	color: var(--color-success-interaction-default);
-}
-.secondary.success:hover {
-	background-color: var(--color-success-surface-hover);
-	border-color: var(--color-success-border-hover);
-	color: var(--color-success-interaction-hover);
-}
-.secondary.success:active {
-	background-color: var(--color-success-surface-pressed);
-	border-color: var(--color-success-border-pressed);
-	color: var(--color-success-interaction-pressed);
-}
-.secondary.success:focus {
-	@apply focus:ring-2 focus:ring-success-interaction-default focus:ring-offset-2 focus:outline-none;
+.btn-secondary.btn-info-color,
+.btn-ghost.btn-info-color {
+	--btn-color: var(--color-informative-interaction-default);
+	--btn-color-hover: var(--color-informative-interaction-hover);
+	--btn-color-active: var(--color-informative-interaction-pressed);
+	--btn-bg-hover: var(--color-informative-surface-hover);
+	--btn-bg-active: var(--color-informative-surface-pressed);
+	--btn-border-hover: var(--color-informative-border-hover);
+	--btn-border-active: var(--color-informative-border-pressed);
+	color: var(--btn-color);
 }
 
-.secondary.warning {
-	color: var(--color-warning-interaction-default);
-}
-.secondary.warning:hover {
-	background-color: var(--color-warning-surface-hover);
-	border-color: var(--color-warning-border-hover);
-	color: var(--color-warning-interaction-hover);
-}
-.secondary.warning:active {
-	background-color: var(--color-warning-surface-pressed);
-	border-color: var(--color-warning-border-pressed);
-	color: var(--color-warning-interaction-pressed);
-}
-.secondary.warning:focus {
-	@apply focus:ring-2 focus:ring-warning-interaction-default focus:ring-offset-2 focus:outline-none;
+.btn-secondary.btn-success-color,
+.btn-ghost.btn-success-color {
+	--btn-color: var(--color-success-interaction-default);
+	--btn-color-hover: var(--color-success-interaction-hover);
+	--btn-color-active: var(--color-success-interaction-pressed);
+	--btn-bg-hover: var(--color-success-surface-hover);
+	--btn-bg-active: var(--color-success-surface-pressed);
+	--btn-border-hover: var(--color-success-border-hover);
+	--btn-border-active: var(--color-success-border-pressed);
+	color: var(--btn-color);
 }
 
-.secondary.danger {
-	color: var(--color-danger-interaction-default);
-}
-.secondary.danger:hover {
-	background-color: var(--color-danger-surface-hover);
-	border-color: var(--color-danger-border-hover);
-	color: var(--color-danger-interaction-hover);
-}
-.secondary.danger:active {
-	background-color: var(--color-danger-surface-pressed);
-	border-color: var(--color-danger-border-pressed);
-	color: var(--color-danger-interaction-pressed);
-}
-.secondary.danger:focus {
-	@apply focus:ring-2 focus:ring-danger-interaction-default focus:ring-offset-2 focus:outline-none;
+.btn-secondary.btn-warning-color,
+.btn-ghost.btn-warning-color {
+	--btn-color: var(--color-warning-interaction-default);
+	--btn-color-hover: var(--color-warning-interaction-hover);
+	--btn-color-active: var(--color-warning-interaction-pressed);
+	--btn-bg-hover: var(--color-warning-surface-hover);
+	--btn-bg-active: var(--color-warning-surface-pressed);
+	--btn-border-hover: var(--color-warning-border-hover);
+	--btn-border-active: var(--color-warning-border-pressed);
+	color: var(--btn-color);
 }
 
-.secondary.neutral {
-	color: var(--color-neutral-interaction-default);
-}
-.secondary.neutral:hover {
-	background-color: var(--color-neutral-surface-hover);
-	border-color: var(--color-neutral-border-hover);
-	color: var(--color-neutral-interaction-hover);
-}
-.secondary.neutral:active {
-	background-color: var(--color-neutral-surface-disabled);
-	border-color: var(--color-neutral-border-pressed);
-	color: var(--color-neutral-interaction-pressed);
-}
-.secondary.neutral:focus {
-	@apply focus:ring-2 focus:ring-neutral-interaction-default focus:ring-offset-2 focus:outline-none;
+.btn-secondary.btn-danger-color,
+.btn-ghost.btn-danger-color {
+	--btn-color: var(--color-danger-interaction-default);
+	--btn-color-hover: var(--color-danger-interaction-hover);
+	--btn-color-active: var(--color-danger-interaction-pressed);
+	--btn-bg-hover: var(--color-danger-surface-hover);
+	--btn-bg-active: var(--color-danger-surface-pressed);
+	--btn-border-hover: var(--color-danger-border-hover);
+	--btn-border-active: var(--color-danger-border-pressed);
+	color: var(--btn-color);
 }
 
-.secondary.disabled {
+.btn-secondary.btn-neutral-color,
+.btn-ghost.btn-neutral-color {
+	--btn-color: var(--color-neutral-interaction-default);
+	--btn-color-hover: var(--color-neutral-interaction-hover);
+	--btn-color-active: var(--color-neutral-interaction-pressed);
+	--btn-bg-hover: var(--color-neutral-surface-hover);
+	--btn-bg-active: var(--color-neutral-surface-disabled);
+	--btn-border-hover: var(--color-neutral-border-hover);
+	--btn-border-active: var(--color-neutral-border-pressed);
+	color: var(--btn-color);
+}
+
+/* Secondary button states */
+.btn-secondary:hover:not(:disabled) {
+	background-color: var(--btn-bg-hover);
+	color: var(--btn-color-hover);
+	border-color: var(--btn-border-hover);
+}
+
+.btn-secondary:active:not(:disabled) {
+	background-color: var(--btn-bg-active);
+	color: var(--btn-color-active);
+	border-color: var(--btn-border-active);
+}
+
+.btn-secondary:disabled {
 	color: var(--color-neutral-interaction-disabled);
 	background-color: var(--color-neutral-surface-disabled);
 	border-color: var(--color-neutral-border-disabled);
-
-	.progress {
-		background-color: var(--color-neutral-surface-disabled);
-	}
+	pointer-events: none;
 }
 
-@utility reverse {
+/* Ghost button (no border) */
+.btn-ghost {
 	background-color: transparent;
+	border-color: transparent;
 }
 
-.reverse.primary {
-	color: var(--color-primary-interaction-default);
-}
-.reverse.primary:hover {
-	background-color: var(--color-primary-interaction-default);
-	border-color: var(--color-primary-border-default);
-	color: var(--color-neutral-foreground-negative);
-}
-.reverse.primary:active {
-	background-color: var(--color-primary-interaction-pressed);
-	border-color: var(--color-primary-border-pressed);
-}
-.reverse.primary:focus {
-	@apply focus:ring-2 focus:ring-primary-interaction-default focus:ring-offset-2 focus:outline-none;
+.btn-ghost:hover:not(:disabled) {
+	background-color: var(--btn-bg-hover);
+	color: var(--btn-color-hover);
 }
 
-.reverse.info {
-	color: var(--color-informative-interaction-default);
-}
-.reverse.info:hover {
-	background-color: var(--color-informative-interaction-default);
-	border-color: var(--color-informative-border-default);
-	color: var(--color-neutral-foreground-negative);
-}
-.reverse.info:active {
-	background-color: var(--color-informative-interaction-pressed);
-	border-color: var(--color-informative-border-pressed);
-}
-.reverse.info:focus {
-	@apply focus:ring-2 focus:ring-informative-interaction-default focus:ring-offset-2 focus:outline-none;
+.btn-ghost:active:not(:disabled) {
+	background-color: var(--btn-bg-active);
+	color: var(--btn-color-active);
 }
 
-.reverse.success {
-	color: var(--color-success-interaction-default);
-}
-.reverse.success:hover {
-	background-color: var(--color-success-interaction-default);
-	border-color: var(--color-success-border-default);
-	color: var(--color-neutral-foreground-negative);
-}
-.reverse.success:active {
-	background-color: var(--color-success-interaction-pressed);
-	border-color: var(--color-success-border-pressed);
-}
-.reverse.success:focus {
-	@apply focus:ring-2 focus:ring-success-interaction-default focus:ring-offset-2 focus:outline-none;
+.btn-ghost:focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
 }
 
-.reverse.warning {
-	color: var(--color-warning-interaction-default);
-}
-.reverse.warning:hover {
-	background-color: var(--color-warning-interaction-default);
-	border-color: var(--color-warning-border-default);
-	color: var(--color-neutral-foreground-negative);
-}
-.reverse.warning:active {
-	background-color: var(--color-warning-interaction-pressed);
-	border-color: var(--color-warning-border-pressed);
-}
-.reverse.warning:focus {
-	@apply focus:ring-2 focus:ring-warning-interaction-default focus:ring-offset-2 focus:outline-none;
-}
-
-.reverse.danger {
-	color: var(--color-danger-interaction-default);
-}
-.reverse.danger:hover {
-	background-color: var(--color-danger-interaction-default);
-	border-color: var(--color-danger-border-default);
-	color: var(--color-neutral-foreground-negative);
-}
-.reverse.danger:active {
-	background-color: var(--color-danger-interaction-pressed);
-	border-color: var(--color-danger-border-pressed);
-}
-.reverse.danger:focus {
-	@apply focus:ring-2 focus:ring-danger-interaction-default focus:ring-offset-2 focus:outline-none;
-}
-
-.reverse.neutral {
-	color: var(--color-neutral-interaction-default);
-}
-.reverse.neutral:hover {
-	background-color: var(--color-neutral-interaction-default);
-	border-color: var(--color-neutral-border-default);
-	color: var(--color-neutral-foreground-negative);
-}
-.reverse.neutral:active {
-	background-color: var(--color-neutral-interaction-pressed);
-	border-color: var(--color-neutral-border-pressed);
-}
-.reverse.neutral:focus {
-	@apply focus:ring-2 focus:ring-neutral-interaction-default focus:ring-offset-2 focus:outline-none;
-}
-
-.reverse.disabled {
+.btn-ghost:disabled {
 	color: var(--color-neutral-interaction-disabled);
-	background-color: transparent;
-	border-color: var(--color-neutral-border-disabled);
+	pointer-events: none;
 }
 
-@utility plain {
-	background-color: transparent;
-	border-color: transparent;
-}
-.plain:active {
-	border-color: transparent;
-}
-.plain:hover {
-	border-color: transparent;
+/* Loading state */
+.btn-loading {
+	pointer-events: none;
 }
 
-.plain.primary {
-	color: var(--color-neutral-interaction-default);
-}
-.plain.primary:hover {
-	background-color: var(--color-primary-surface-hover);
-	color: var(--color-primary-interaction-hover);
-}
-.plain.primary:active {
-	background-color: var(--color-primary-surface-pressed);
-	color: var(--color-primary-interaction-pressed);
-}
-.plain.primary:focus {
-	@apply focus:ring-2 focus:ring-primary-interaction-default focus:ring-offset-2 focus:outline-none;
+.btn-loading .btn-content {
+	visibility: hidden;
 }
 
-.plain.info {
-	color: var(--color-informative-interaction-default);
-}
-.plain.info:hover {
-	background-color: var(--color-informative-surface-hover);
-	color: var(--color-informative-interaction-hover);
-}
-.plain.info:active {
-	background-color: var(--color-informative-surface-pressed);
-	color: var(--color-informative-interaction-pressed);
-}
-.plain.info:focus {
-	@apply focus:ring-2 focus:ring-informative-interaction-default focus:ring-offset-2 focus:outline-none;
+/* Progress bar for buttons */
+.btn-progress {
+	position: absolute;
+	overflow: hidden;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+	transition: width var(--transition-slow) ease-out;
+	opacity: 0.6;
+	background-color: var(--btn-progress-bg, rgba(255, 255, 255, 0.3));
 }
 
-.plain.success {
-	color: var(--color-success-interaction-default);
-}
-.plain.success:hover {
-	background-color: var(--color-success-surface-hover);
-	color: var(--color-success-interaction-hover);
-}
-.plain.success:active {
-	background-color: var(--color-success-surface-pressed);
-	color: var(--color-success-interaction-pressed);
-}
-.plain.success:focus {
-	@apply focus:ring-2 focus:ring-success-interaction-default focus:ring-offset-2 focus:outline-none;
+.btn-progress.rounded-r {
+	border-radius: var(--border-radius-sm);
 }
 
-.plain.warning {
-	color: var(--color-warning-interaction-default);
-}
-.plain.warning:hover {
-	background-color: var(--color-warning-surface-hover);
-	color: var(--color-warning-interaction-hover);
-}
-.plain.warning:active {
-	background-color: var(--color-warning-surface-pressed);
-	color: var(--color-warning-interaction-pressed);
-}
-.plain.warning:focus {
-	@apply focus:ring-2 focus:ring-warning-interaction-default focus:ring-offset-2 focus:outline-none;
+/* Spinner positioning */
+.btn .b-spinner {
+	position: absolute;
 }
 
-.plain.danger {
-	color: var(--color-danger-interaction-default);
-}
-.plain.danger:hover {
-	background-color: var(--color-danger-surface-hover);
-	color: var(--color-danger-interaction-hover);
-}
-.plain.danger:active {
-	background-color: var(--color-danger-surface-pressed);
-	color: var(--color-danger-interaction-pressed);
-}
-.plain.danger:focus {
-	@apply focus:ring-2 focus:ring-danger-interaction-default focus:ring-offset-2 focus:outline-none;
+/* Spinner sizes using CSS variables */
+.btn-sm .b-spinner {
+	font-size: var(--font-size-xs);
 }
 
-.plain.neutral {
-	color: var(--color-neutral-interaction-default);
-}
-.plain.neutral:hover {
-	background-color: var(--color-neutral-surface-hover);
-	color: var(--color-neutral-interaction-hover);
-}
-.plain.neutral:active {
-	background-color: var(--color-neutral-surface-disabled);
-	color: var(--color-neutral-interaction-pressed);
-}
-.plain.neutral:focus {
-	@apply focus:ring-2 focus:ring-neutral-interaction-default focus:ring-offset-2 focus:outline-none;
+.btn-md .b-spinner {
+	font-size: var(--font-size-sm);
 }
 
-.plain.disabled {
-	color: var(--color-neutral-interaction-disabled);
+.btn-lg .b-spinner {
+	font-size: var(--font-size-base);
+}
+
+/* Color variants for primary buttons - using CSS custom properties */
+.btn-primary.btn-info-color {
+	--btn-bg: var(--color-informative-interaction-default);
+	--btn-bg-hover: var(--color-informative-interaction-hover);
+	--btn-bg-active: var(--color-informative-interaction-pressed);
+	--btn-border: var(--color-informative-interaction-default);
+	--btn-border-hover: var(--color-informative-interaction-hover);
+	--btn-border-active: var(--color-informative-interaction-pressed);
+	--btn-focus-ring: var(--color-informative-interaction-default);
+	--btn-progress-bg: var(--color-informative-surface-highlight);
+}
+
+.btn-primary.btn-success-color {
+	--btn-bg: var(--color-success-interaction-default);
+	--btn-bg-hover: var(--color-success-interaction-hover);
+	--btn-bg-active: var(--color-success-interaction-pressed);
+	--btn-border: var(--color-success-interaction-default);
+	--btn-border-hover: var(--color-success-interaction-hover);
+	--btn-border-active: var(--color-success-interaction-pressed);
+	--btn-focus-ring: var(--color-success-interaction-default);
+	--btn-progress-bg: var(--color-success-surface-highlight);
+}
+
+.btn-primary.btn-warning-color {
+	--btn-bg: var(--color-warning-interaction-default);
+	--btn-bg-hover: var(--color-warning-interaction-hover);
+	--btn-bg-active: var(--color-warning-interaction-pressed);
+	--btn-border: var(--color-warning-interaction-default);
+	--btn-border-hover: var(--color-warning-interaction-hover);
+	--btn-border-active: var(--color-warning-interaction-pressed);
+	--btn-focus-ring: var(--color-warning-interaction-default);
+	--btn-progress-bg: var(--color-warning-surface-highlight);
+}
+
+.btn-primary.btn-danger-color {
+	--btn-bg: var(--color-danger-interaction-default);
+	--btn-bg-hover: var(--color-danger-interaction-hover);
+	--btn-bg-active: var(--color-danger-interaction-pressed);
+	--btn-border: var(--color-danger-interaction-default);
+	--btn-border-hover: var(--color-danger-interaction-hover);
+	--btn-border-active: var(--color-danger-interaction-pressed);
+	--btn-focus-ring: var(--color-danger-interaction-default);
+	--btn-progress-bg: var(--color-danger-surface-highlight);
+}
+
+.btn-primary.btn-neutral-color {
+	--btn-bg: var(--color-neutral-interaction-default);
+	--btn-bg-hover: var(--color-neutral-interaction-hover);
+	--btn-bg-active: var(--color-neutral-interaction-pressed);
+	--btn-border: var(--color-neutral-interaction-default);
+	--btn-border-hover: var(--color-neutral-interaction-hover);
+	--btn-border-active: var(--color-neutral-interaction-pressed);
+	--btn-focus-ring: var(--color-neutral-interaction-default);
+	--btn-progress-bg: var(--color-neutral-surface-highlight);
 }

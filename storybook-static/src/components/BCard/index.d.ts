@@ -1,0 +1,10 @@
+import { Plugin } from '../../../vue/dist/vue.esm-bundler.js';
+import { default as BCard } from './BCard';
+declare const _default: Plugin;
+export default _default;
+export { BCard };
+export { default as BCardHeader } from './BCardHeader';
+export { default as BCardTitle } from './BCardTitle';
+export { default as BCardSubtitle } from './BCardSubtitle';
+export { default as BCardContent } from './BCardContent';
+export { default as BCardFooter } from './BCardFooter';

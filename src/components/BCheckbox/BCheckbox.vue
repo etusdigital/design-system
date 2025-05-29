@@ -152,6 +152,9 @@
 	}
 
 	.checkbox-label {
-		@apply p3 text-neutral-interaction-default;
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
+		color: var(--color-neutral-interaction-default);
 	}
 </style>

@@ -180,10 +180,16 @@
 
 	.item {
 		@apply text-neutral-interaction-default cursor-pointer hover:text-primary-interaction-hover;
+		@apply m-0 leading-normal;
 	}
 
 	.item.active {
 		@apply pointer-events-none text-neutral-foreground-high;
+	}
+
+	.b-breadcrumb :deep(.b-icon) {
+		@apply flex items-center justify-center;
+		@apply relative top-[0.5px];
 	}
 
 	.more-options {

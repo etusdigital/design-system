@@ -1,0 +1,76 @@
+{
+	"mcpServers": {
+		"browser-tools": {
+			"command": "npx",
+			"args": ["-y", "@agentdeskai/browser-tools-mcp"],
+			"enabled": true
+		},
+		"Framelink Figma MCP": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"figma-developer-mcp",
+				"--figma-api-key=figd_p_N4F10i8GvEQmo93ixsADqwVB3D__5693xT5EFx",
+				"--stdio"
+			]
+		},
+		"perplexity-ask": {
+			"command": "npx",
+			"args": ["-y", "server-perplexity-ask"],
+			"env": {
+				"PERPLEXITY_API_KEY": "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"
+			}
+		},
+		"context7": {
+			"command": "npx",
+			"args": ["-y", "@upstash/context7-mcp"]
+		},
+		"mcp-server-firecrawl": {
+			"command": "npx",
+			"args": ["-y", "firecrawl-mcp"],
+			"env": {
+				"FIRECRAWL_API_KEY": "fc-f89e1f8428884754b1d01ca5f61841c5"
+			}
+		},
+		"memory": {
+			"command": "npx",
+			"args": ["-y", "@modelcontextprotocol/server-memory"]
+		},
+		"sequential-thinking": {
+			"command": "npx",
+			"args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+		},
+		"playwright": {
+			"command": "npx",
+			"args": ["-y", "@executeautomation/playwright-mcp-server"]
+		},
+		"mcp-mem0": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"supergateway",
+				"--sse",
+				"http://localhost:8765/mcp/cursor/sse/albertoandre"
+			]
+		},
+		"supabase": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"@supabase/mcp-server-supabase@latest",
+				"--access-token",
+				"sbp_e22f9ee4698df79245fe3cfb620f5799fa2338e3"
+			]
+		},
+		"taskmaster-ai": {
+			"command": "npx",
+			"args": ["-y", "--package=task-master-ai", "task-master-ai"],
+			"env": {
+				"ANTHROPIC_API_KEY": "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",
+				"PERPLEXITY_API_KEY": "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",
+				"OPENAI_API_KEY": "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",
+				"GOOGLE_API_KEY": "AIzaSyBv7T8mTDf1xMACcN9wNFhtbzytpZ6gaU4"
+			}
+		}
+	}
+}

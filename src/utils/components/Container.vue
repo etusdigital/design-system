@@ -179,8 +179,11 @@
 	}
 
 	.label-container {
-		@apply inline-flex items-center gap-xs border-xxs cursor-pointer px-sm py-xs select-none transition-[border,border-radius] p3
-    duration-0 delay-100 text-neutral-interaction-default bg-neutral-surface-default border-neutral-border-default focus:border-primary-border-default;
+		@apply inline-flex items-center gap-xs border-xxs cursor-pointer px-sm py-xs select-none transition-[border,border-radius];
+		@apply duration-0 delay-100 text-neutral-interaction-default bg-neutral-surface-default border-neutral-border-default focus:border-primary-border-default;
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
 		border-radius: var(--border-radius-xs);
 	}
 

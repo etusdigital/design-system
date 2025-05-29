@@ -57,7 +57,7 @@ export default defineComponent({
             <h2 class="font-bold text-lg text-neutral-foreground-high" v-if="title">{{ title }}</h2>
             <p class="text-sm text-neutral-foreground-low">{{ message }}</p>
             <div class="flex justify-end w-full gap-xs mt-sm">
-                <BButton variant="plain" @click="handleCancel">{{ cancelText }}</BButton>
+                <BButton variant="ghost" @click="handleCancel">{{ cancelText }}</BButton>
                 <BButton @click="handleConfirm">{{ acceptText }}</BButton>            
             </div>
         </div>

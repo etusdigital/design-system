@@ -1,3 +1,12 @@
+<script lang="ts">
+	export interface Tag {
+		id?: string | number;
+		label: string;
+		color?: "neutral" | "red";
+		removable?: boolean;
+	}
+</script>
+
 <script setup lang="ts">
 	import { ref, onBeforeMount, watch, computed } from "vue";
 	import {
@@ -7,6 +16,7 @@
 		isValidUrl,
 	} from "../../utils/index";
 	import BLabel from "../../utils/components/Label.vue";
+	import BIcon from "../BIcon/BIcon.vue";
 
 	type InputType =
 		| "text"
@@ -15,7 +25,8 @@
 		| "color"
 		| "password"
 		| "file"
-		| "email";
+		| "email"
+		| "tag";
 	type Mask = "cpf" | "cnpj" | "cep" | "domain" | "url";
 	type Size = "xs" | "sm" | "base" | "lg" | "xl" | "100";
 	type TextAlign = "start" | "center" | "end";
@@ -35,12 +46,16 @@
 			isTextArea?: boolean;
 			disabled?: boolean;
 			isError?: boolean;
+			isCompleted?: boolean;
 			required?: boolean;
 			placeholder?: string;
 			textAlign?: TextAlign;
 			tooltipMinWidth?: string;
 			icon?: string;
 			appendIcon?: boolean;
+			tags?: Tag[];
+			maxTags?: number;
+			tagPlaceholder?: string;
 		}>(),
 		{
 			modelValue: undefined,
@@ -56,19 +71,26 @@
 			isTextArea: false,
 			disabled: false,
 			isError: false,
+			isCompleted: false,
 			required: false,
 			placeholder: "",
 			textAlign: "start",
 			tooltipMinWidth: "none",
 			icon: "",
 			appendIcon: false,
+			tags: () => [],
+			maxTags: undefined,
+			tagPlaceholder: "Add tag...",
 		}
 	);
 
 	const emit = defineEmits<{
 		"update:modelValue": [value: any];
+		"update:tags": [value: Tag[]];
 		focus: [value: any];
 		blur: [value: any];
+		"add-tag": [value: string];
+		"remove-tag": [value: Tag];
 	}>();
 
 	let inputValue = ref();
@@ -78,19 +100,29 @@
 	let haveFile = ref(false);
 	let dragging = ref(false);
 	let fileName = ref("");
+	let tagInput = ref("");
 
 	const computedError = computed(() => props.isError || hasError.value);
 
 	const type = computed((): InputType => {
 		const currentType = props.type;
-		if (currentType === "color" || currentType === "email" || showPass.value)
+		if (
+			currentType === "color" ||
+			currentType === "email" ||
+			currentType === "tag" ||
+			showPass.value
+		)
 			return "text";
 		return currentType;
 	});
 
 	const computedMax = computed((): number | undefined => {
 		if (isTypeValid("color")) return 7;
-		if ((props.max || props.max === 0) && (!props.mask || props.isTextArea)) {
+		if (
+			(props.max || props.max === 0) &&
+			(!props.mask || props.isTextArea) &&
+			!isTypeValid("tag")
+		) {
 			return props.max;
 		}
 		return undefined;
@@ -106,20 +138,28 @@
 		if (isTypeValid("password")) {
 			if (showPass.value) return "visibility_off";
 			return "visibility";
-		} else if (props.appendIcon) return props.icon;
+		} else if (props.isCompleted) return "check_circle";
+		else if (props.appendIcon) return props.icon;
 		return "";
 	});
 
 	const inputContainerClasses = computed(() => {
-		return {
-			focus: isFocused.value,
-			error: computedError.value,
-			disabled: props.disabled,
-		};
+		const classes = ["b-input-field-area"];
+
+		if (isFocused.value) classes.push("focus");
+		if (computedError.value) classes.push("error");
+		if (props.disabled) classes.push("disabled");
+		if (props.isCompleted && !computedError.value) classes.push("completed");
+
+		return classes.join(" ");
 	});
 
 	const inputStyle = computed((): any => {
-		return { "text-align": props.textAlign };
+		return {
+			"text-align": props.textAlign,
+			outline: "none",
+			"box-shadow": "none",
+		};
 	});
 
 	onBeforeMount(setInputValue);
@@ -268,6 +308,41 @@
 
 		return valid;
 	}
+
+	// Tag input methods
+	function addTag(event?: KeyboardEvent) {
+		if (event && event.key !== "Enter") return;
+		if (!tagInput.value.trim()) return;
+		if (props.maxTags && props.tags.length >= props.maxTags) return;
+
+		const newTag: Tag = {
+			id: Date.now(),
+			label: tagInput.value.trim(),
+			color: "neutral",
+			removable: true,
+		};
+
+		emit("add-tag", tagInput.value.trim());
+		emit("update:tags", [...props.tags, newTag]);
+		tagInput.value = "";
+	}
+
+	function removeTag(tag: Tag) {
+		if (props.disabled || tag.removable === false) return;
+
+		const newTags = props.tags.filter(
+			(t) => t.id !== tag.id || (t.id === undefined && t.label !== tag.label)
+		);
+		emit("remove-tag", tag);
+		emit("update:tags", newTags);
+	}
+
+	function onTagInputBlur(event: FocusEvent) {
+		if (tagInput.value.trim()) {
+			addTag();
+		}
+		onBlur(event);
+	}
 </script>
 
 <template>
@@ -401,6 +476,43 @@
 		</div>
 
 		<div
+			v-else-if="isTypeValid('tag')"
+			:class="inputContainerClasses"
+			class="tag-input-container">
+			<!-- Existing tags -->
+			<div
+				v-for="(tag, index) in tags"
+				:key="tag.id || index"
+				class="tag-badge"
+				:class="[
+					`tag-${tag.color || 'neutral'}`,
+					{ 'tag-removable': tag.removable !== false },
+				]">
+				<span class="tag-label">{{ tag.label }}</span>
+				<button
+					v-if="tag.removable !== false"
+					type="button"
+					class="tag-remove"
+					:disabled="disabled"
+					@click.stop="removeTag(tag)">
+					<BIcon name="close" />
+				</button>
+			</div>
+
+			<!-- Tag input field -->
+			<input
+				v-if="!maxTags || tags.length < maxTags"
+				v-model="tagInput"
+				class="tag-input-field"
+				:style="{ outline: 'none', 'box-shadow': 'none' }"
+				:placeholder="tags.length === 0 ? placeholder : tagPlaceholder"
+				:disabled="disabled"
+				@keydown="addTag"
+				@focus="onFocus"
+				@blur="onTagInputBlur" />
+		</div>
+
+		<div
 			class="flex items-center h-fit"
 			v-else>
 			<div
@@ -474,7 +586,8 @@
 </template>
 
 <style scoped>
-	@reference "../../assets/main.css";
+	/* Import main styles to use component classes */
+	@import "../../assets/main.css";
 
 	/* Size classes controlam a largura do wrapper principal */
 	.size-xs {
@@ -494,6 +607,321 @@
 	}
 	.size-100 {
 		width: 100%;
+	}
+
+	/* Typography styles override for correct sizing */
+	input,
+	textarea {
+		font-size: var(--font-size-sm) !important; /* 14px */
+		line-height: var(--line-height-lg) !important; /* 120% */
+		font-weight: var(--font-weight-normal);
+		font-family: var(--font-sans);
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	/* Ensure message styles use correct font weights */
+	.b-input-message-info {
+		font-weight: var(--font-weight-medium) !important; /* 500 */
+	}
+
+	/* Textarea needs flexible height */
+	textarea.b-input-text-content {
+		min-height: 5rem;
+		padding: 0;
+		height: auto;
+	}
+
+	/* Allow flexible height for textarea container */
+	.b-input-field-area:has(textarea) {
+		height: auto;
+		min-height: 40px;
+	}
+
+	/* Fix height for standard inputs */
+	.b-input-field-area:not(:has(textarea)):not(.tag-input-container) {
+		height: 40px !important;
+	}
+
+	/* Additional hover state */
+	.b-input-field-area:hover:not(:focus-within):not(.disabled):not(.error) {
+		outline-color: var(--color-primary-border-hover);
+	}
+
+	/* Completed state */
+	.b-input-field-area.completed {
+		outline-color: var(--color-success-border-default);
+	}
+
+	.b-input-field-area.completed .b-input-side-icon {
+		color: var(--color-success-interaction-default);
+	}
+
+	/* Input container base styles */
+	.b-input-field-area {
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-xs);
+		color: var(--color-neutral-foreground-low);
+		background-color: var(--color-neutral-surface-default);
+		padding: var(--spacing-xs) var(--spacing-sm);
+		border-radius: var(--border-radius-sm);
+		outline: var(--outline-width-xxs) solid var(--color-neutral-border-default);
+		outline-offset: -1px;
+		transition: all var(--transition-base) ease-in-out;
+		height: 40px;
+		position: relative;
+	}
+
+	/* Focus state - alinhado com main.css */
+	.b-input-field-area:focus-within {
+		outline-color: var(--color-primary-border-default);
+	}
+
+	/* Error state */
+	.b-input-field-area.error {
+		outline-color: var(--color-danger-border-default);
+	}
+
+	/* Error state with focus */
+	.b-input-field-area.error:focus-within {
+		outline-color: var(--color-danger-border-default);
+		box-shadow: 0 0 0 4px var(--color-danger-surface-highlight);
+	}
+
+	/* Disabled state */
+	.b-input-field-area.disabled {
+		background-color: var(--color-neutral-surface-disabled);
+		outline-color: var(--color-neutral-border-disabled);
+	}
+
+	/* Text content styles */
+	.b-input-text-content {
+		flex: 1;
+		width: 100%;
+		height: 100%;
+		background-color: transparent;
+		border: none;
+		outline: none;
+		color: var(--color-neutral-foreground-high);
+		font-size: inherit;
+		line-height: inherit;
+		font-weight: inherit;
+		font-family: inherit;
+		resize: none;
+	}
+
+	/* Remove outline from input elements when focused */
+	.b-input-text-content:focus {
+		outline: none !important;
+		box-shadow: none !important;
+	}
+
+	/* Garantir que o input dentro do container não tenha OUTLINE nem BOX-SHADOW do @tailwindcss/forms */
+	.b-input-field-area input:focus,
+	.b-input-field-area textarea:focus,
+	.tag-input-field:focus {
+		outline: none !important;
+		box-shadow: none !important;
+	}
+
+	/* IMPORTANTE: Sobrescrever os estilos :focus e :focus-visible do main.css e @tailwindcss/forms */
+	.b-input-field-area [type="text"]:focus,
+	.b-input-field-area [type="text"]:focus-visible,
+	.b-input-field-area input:where(:not([type])):focus,
+	.b-input-field-area input:where(:not([type])):focus-visible,
+	.b-input-field-area [type="email"]:focus,
+	.b-input-field-area [type="email"]:focus-visible,
+	.b-input-field-area [type="url"]:focus,
+	.b-input-field-area [type="url"]:focus-visible,
+	.b-input-field-area [type="password"]:focus,
+	.b-input-field-area [type="password"]:focus-visible,
+	.b-input-field-area [type="number"]:focus,
+	.b-input-field-area [type="number"]:focus-visible,
+	.b-input-field-area [type="search"]:focus,
+	.b-input-field-area [type="search"]:focus-visible,
+	.b-input-field-area textarea:focus,
+	.b-input-field-area textarea:focus-visible,
+	.b-input-text-content:focus,
+	.b-input-text-content:focus-visible,
+	.tag-input-field:focus,
+	.tag-input-field:focus-visible {
+		outline: none !important;
+		outline-offset: 0 !important;
+		box-shadow: none !important;
+		--tw-ring-shadow: 0 0 #0000 !important;
+		--tw-ring-offset-shadow: 0 0 #0000 !important;
+		--tw-shadow: 0 0 #0000 !important;
+	}
+
+	/* Remover outline e box-shadow do Chrome/Edge em autofill */
+	input:-webkit-autofill,
+	input:-webkit-autofill:hover,
+	input:-webkit-autofill:focus,
+	input:-webkit-autofill:active {
+		outline: none !important;
+		-webkit-box-shadow: 0 0 0 30px white inset !important;
+		box-shadow: 0 0 0 30px white inset !important;
+	}
+
+	.b-input-text-content::placeholder {
+		color: var(--color-neutral-interaction-default);
+	}
+
+	.b-input-text-content:disabled {
+		cursor: not-allowed;
+		color: var(--color-neutral-foreground-disabled);
+	}
+
+	/* Icon styles */
+	.b-input-side-icon {
+		font-size: 1.25rem;
+		flex-shrink: 0;
+		color: var(--color-neutral-interaction-default);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.b-input-field-area.focus .b-input-side-icon {
+		color: var(--color-primary-foreground-high);
+	}
+
+	.b-input-field-area.error .b-input-side-icon {
+		color: var(--color-danger-interaction-default);
+	}
+
+	.b-input-field-area.disabled .b-input-side-icon {
+		color: var(--color-neutral-interaction-disabled);
+	}
+
+	/* Error and info messages */
+	.b-input-message-error {
+		color: var(--color-danger-foreground-low);
+		display: block;
+	}
+
+	.b-input-message-info {
+		color: var(--color-neutral-foreground-low);
+		display: block;
+	}
+
+	/* Tag input styles */
+	.tag-input-container {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-xs);
+		align-items: center;
+		min-height: 40px;
+		height: auto;
+		padding: var(--spacing-xs) var(--spacing-sm);
+	}
+
+	.tag-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--spacing-xxs);
+		padding: var(--spacing-2xxs) var(--spacing-xs);
+		border-radius: var(--border-radius-full);
+		border: var(--border-width-xxs) solid transparent;
+		font-size: var(--font-size-xs);
+		font-weight: var(--font-weight-semibold);
+		font-family: var(--font-sans);
+		line-height: 1.33; /* 16px / 12px */
+		transition: all var(--transition-fast) ease-in-out;
+		flex-shrink: 0;
+	}
+
+	/* Tag color variants */
+	.tag-neutral {
+		background-color: var(--color-neutral-surface-highlight);
+		color: var(--color-neutral-foreground-low);
+		border-color: transparent;
+	}
+
+	.tag-red {
+		background-color: var(--color-danger-surface-highlight);
+		color: var(--color-danger-foreground-low);
+		border-color: var(--color-danger-border-default);
+	}
+
+	.tag-label {
+		display: inline-block;
+		max-width: 150px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.tag-remove {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 16px;
+		height: 16px;
+		padding: 0;
+		border: none;
+		background: transparent;
+		cursor: pointer;
+		color: inherit;
+		transition: opacity var(--transition-fast) ease-in-out;
+	}
+
+	.tag-remove:hover:not(:disabled) {
+		opacity: 0.7;
+	}
+
+	.tag-remove:disabled {
+		cursor: not-allowed;
+		opacity: 0.5;
+	}
+
+	.tag-remove .b-icon {
+		font-size: 16px;
+	}
+
+	.tag-input-field {
+		flex: 1;
+		min-width: 100px;
+		background: transparent;
+		border: none;
+		outline: none;
+		font-size: var(--font-size-sm);
+		font-family: var(--font-sans);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
+		color: var(--color-neutral-foreground-high);
+	}
+
+	.tag-input-field::placeholder {
+		color: var(--color-neutral-interaction-default);
+	}
+
+	.tag-input-field:disabled {
+		cursor: not-allowed;
+		color: var(--color-neutral-foreground-disabled);
+	}
+
+	/* Disabled state for tag container */
+	.b-input-field-area.disabled .tag-badge {
+		opacity: 0.6;
+	}
+
+	/* Optional: Cursor line animation for focus state */
+	@keyframes blink {
+		0%,
+		50% {
+			opacity: 1;
+		}
+		51%,
+		100% {
+			opacity: 0;
+		}
+	}
+
+	/* Selected state with cursor line (optional enhancement) */
+	.b-input-field-area.focus .b-input-text-content {
+		position: relative;
 	}
 
 	/* Styles for input[type="color"] */

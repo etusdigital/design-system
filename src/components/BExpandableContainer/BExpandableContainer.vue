@@ -21,6 +21,7 @@
 			minWidthCard?: string;
 			secondary?: boolean;
 			hideArrow?: boolean;
+			noPadding?: boolean;
 		}>(),
 		{
 			modelValue: undefined,
@@ -37,6 +38,7 @@
 			minWidth: "unset",
 			secondary: false,
 			hideArrow: false,
+			noPadding: false,
 		}
 	);
 
@@ -115,7 +117,7 @@
 							ref="contentRef"
 							class="bg-neutral-surface-default shadow-neutral-selected border-xxs border-neutral-default rounded-xs"
 							:style="`max-height: ${maxHeight}px`">
-							<div class="p-sm">
+							<div :class="{ 'p-sm': !noPadding }">
 								<slot name="content" />
 							</div>
 						</div>

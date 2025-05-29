@@ -283,12 +283,18 @@
 	}
 
 	.input-default {
-		@apply p3 text-neutral-foreground-high outline-0 border-none flex-1 p-xxs focus:border-none focus:outline-0;
+		@apply text-neutral-foreground-high outline-0 border-none flex-1 p-xxs focus:border-none focus:outline-0;
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
 		border-radius: var(--rounded-base);
 	}
 
 	.error-default {
-		@apply text-danger-foreground-low p3;
+		@apply text-danger-foreground-low;
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
 	}
 
 	.tag-default {

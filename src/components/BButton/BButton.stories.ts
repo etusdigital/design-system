@@ -32,13 +32,12 @@ const meta = {
       type: { summary: "text" },
       control: "select",
       options: [
-        "default",
+        "primary",
         "secondary",
-        "plain",
-        "reverse",
+        "ghost",
       ],
       table: {
-        defaultValue: { summary: "default" },
+        defaultValue: { summary: "primary" },
       },
     },
     size: {
@@ -93,7 +92,7 @@ type Story = StoryObj<typeof BButton>;
 const defaultArgs = {
   type: "button",
   color: "primary",
-  variant: "default",
+  variant: "primary",
   size: 'medium',
   disabled: false,
   loading: false,
@@ -143,19 +142,11 @@ export const Secondary: Story = {
   },
 };
 
-export const Plain: Story = {
+export const Ghost: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
-    variant: "plain",
-  },
-};
-
-export const Reverse: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    variant: "reverse",
+    variant: "ghost",
   },
 };
 

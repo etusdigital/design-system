@@ -291,7 +291,10 @@
 	}
 
 	.search {
-		@apply text-neutral-interaction-default h-full w-full p-none m-none border-none shadow-none outline-hidden p3;
+		@apply text-neutral-interaction-default h-full w-full p-none m-none border-none shadow-none outline-hidden;
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
 	}
 
 	.tag {

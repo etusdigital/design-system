@@ -1,11 +1,11 @@
+/* Importação de fontes - DEVE vir ANTES do @import "tailwindcss" */
+@import url("https://fonts.googleapis.com/css?family=Inter&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
+
 @import "tailwindcss";
 
 /* Definição de camadas e estilos base */
 @layer base {
-	/* Importação de fontes dentro da camada base */
-	@import url("https://fonts.googleapis.com/css?family=Inter&display=swap");
-	@import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
-
 	/* Definição de cor de borda padrão (como estava antes) */
 	*,
 	::after,
@@ -21,6 +21,7 @@
 	/* Seus estilos :root e .brius-theme podem vir aqui se forem considerados 'base' */
 	:root {
 		--leading-base: 1.5; /* Variáveis globais que não são do Tailwind Theme */
+		--font-sans: "Poppins", sans-serif;
 	}
 
 	.brius-theme {
@@ -41,7 +42,7 @@
 		--color-primary-border-default: #115be2;
 		--color-primary-border-hover: #0041b8;
 		--color-primary-border-selected: #003298;
-		--color-primary-border-pressed: #001040;
+		--color-primary-border-pressed: #002070;
 
 		/* Informative */
 		--color-informative-surface-default: #f2eeff;
@@ -77,65 +78,99 @@
 
 	/* Estilos de scrollbar (se aplicável à camada base) */
 	::-webkit-scrollbar {
-		@apply rounded-full w-xs h-xs;
+		border-radius: var(--border-radius-full);
+		width: var(--spacing-xs);
+		height: var(--spacing-xs);
 		background-color: var(--color-neutral-surface-disabled);
 	}
 
 	::-webkit-scrollbar-thumb {
-		@apply rounded-full;
+		border-radius: var(--border-radius-full);
 		background-color: var(--color-neutral-interaction-disabled);
 	}
 
 	/* Estilos de heading e link (se aplicável à camada base) */
 	h1 {
-		@apply text-4xl/6 font-bold;
+		font-size: var(--font-size-4xl);
+		line-height: 1.5;
+		font-weight: var(--font-weight-bold);
 	}
 	h2 {
-		@apply text-2xl/5 font-bold;
+		font-size: var(--font-size-2xl);
+		line-height: 1.25;
+		font-weight: var(--font-weight-bold);
 	}
 	h3 {
-		@apply text-xl/4 font-bold;
+		font-size: var(--font-size-xl);
+		line-height: 1;
+		font-weight: var(--font-weight-bold);
 	}
 	h4 {
-		@apply text-base/4 font-semibold;
+		font-size: var(--font-size-base);
+		line-height: 1;
+		font-weight: var(--font-weight-semibold);
 	}
 	h5 {
-		@apply text-sm/4 font-semibold;
+		font-size: var(--font-size-sm);
+		line-height: 1;
+		font-weight: var(--font-weight-semibold);
 	}
 	h6 {
-		@apply text-xs/4 font-semibold;
+		font-size: var(--font-size-xs);
+		line-height: 1;
+		font-weight: var(--font-weight-semibold);
 	}
 
 	a {
 		color: var(--color-primary-interaction-default);
 		text-decoration-color: var(--color-primary-interaction-default);
-		@apply hover:underline;
+	}
+	a:hover {
+		text-decoration-line: underline;
 	}
 
-	/* Reset de foco (se aplicável à camada base) */
-	[type="text"]:focus,
-	input:where(:not([type])):focus,
-	[type="email"]:focus,
-	[type="url"]:focus,
-	[type="password"]:focus,
-	[type="number"]:focus,
-	[type="date"]:focus,
-	[type="datetime-local"]:focus,
-	[type="month"]:focus,
-	[type="search"]:focus,
-	[type="tel"]:focus,
-	[type="time"]:focus,
-	[type="week"]:focus,
-	[multiple]:focus,
-	textarea:focus,
-	select:focus {
-		outline: 0px solid transparent !important;
-		outline-offset: 0px !important;
-		--tw-ring-inset: 0 !important;
-		--tw-ring-offset-width: 0px !important;
-		--tw-ring-offset-shadow: 0 !important;
-		--tw-ring-shadow: 0 !important;
-		box-shadow: none !important;
+	/* Better focus styles - use focus-visible for keyboard navigation only */
+	[type="text"],
+	input:where(:not([type])),
+	[type="email"],
+	[type="url"],
+	[type="password"],
+	[type="number"],
+	[type="date"],
+	[type="datetime-local"],
+	[type="month"],
+	[type="search"],
+	[type="tel"],
+	[type="time"],
+	[type="week"],
+	[multiple],
+	textarea,
+	select {
+		/* Remove default browser focus styles */
+		outline: 2px solid transparent;
+		outline-offset: 2px;
+	}
+
+	/* Apply custom focus styles only for keyboard navigation */
+	[type="text"]:focus-visible,
+	input:where(:not([type])):focus-visible,
+	[type="email"]:focus-visible,
+	[type="url"]:focus-visible,
+	[type="password"]:focus-visible,
+	[type="number"]:focus-visible,
+	[type="date"]:focus-visible,
+	[type="datetime-local"]:focus-visible,
+	[type="month"]:focus-visible,
+	[type="search"]:focus-visible,
+	[type="tel"]:focus-visible,
+	[type="time"]:focus-visible,
+	[type="week"]:focus-visible,
+	[multiple]:focus-visible,
+	textarea:focus-visible,
+	select:focus-visible {
+		outline: var(--outline-width-xs) solid
+			var(--color-primary-interaction-default);
+		outline-offset: var(--outline-width-xs);
 	}
 }
 
@@ -144,44 +179,180 @@
 @plugin "@tailwindcss/typography";
 @plugin "@tailwindcss/forms";
 
-/* Utilitários customizados */
-@utility p1 {
-	font-size: var(--font-size-2xl);
-	font-weight: var(--font-weight-normal);
-	line-height: var(--line-height-lg);
+/* Custom border color utilities */
+@utility border-neutral-default {
+	border-color: var(--color-neutral-border-default);
 }
-@utility p2 {
-	font-size: var(--font-size-base);
-	font-weight: var(--font-weight-normal);
-	line-height: var(--line-height-lg);
+@utility border-neutral-hover {
+	border-color: var(--color-neutral-border-hover);
 }
-@utility p3 {
-	font-size: var(--font-size-sm);
-	font-weight: var(--font-weight-normal);
-	line-height: var(--line-height-lg);
+@utility border-neutral-pressed {
+	border-color: var(--color-neutral-border-pressed);
 }
-@utility p4 {
-	font-size: var(--font-size-xs);
-	font-weight: var(--font-weight-normal);
-	line-height: var(--line-height-lg);
+@utility border-neutral-disabled {
+	border-color: var(--color-neutral-border-disabled);
 }
-@utility caption-c1 {
-	font-size: var(--font-size-xs);
-	font-weight: var(--font-weight-medium);
+@utility border-neutral-selected {
+	border-color: var(--color-neutral-border-selected);
 }
-@utility caption-c2 {
-	font-size: var(--font-size-xxs);
-	font-weight: var(--font-weight-normal);
+
+@utility border-primary-default {
+	border-color: var(--color-primary-border-default);
+}
+@utility border-primary-hover {
+	border-color: var(--color-primary-border-hover);
+}
+@utility border-primary-selected {
+	border-color: var(--color-primary-border-selected);
+}
+@utility border-primary-pressed {
+	border-color: var(--color-primary-border-pressed);
+}
+
+@utility border-informative-default {
+	border-color: var(--color-informative-border-default);
+}
+@utility border-informative-hover {
+	border-color: var(--color-informative-border-hover);
+}
+@utility border-informative-selected {
+	border-color: var(--color-informative-border-selected);
+}
+@utility border-informative-pressed {
+	border-color: var(--color-informative-border-pressed);
+}
+
+@utility border-success-default {
+	border-color: var(--color-success-border-default);
+}
+@utility border-success-hover {
+	border-color: var(--color-success-border-hover);
+}
+@utility border-success-selected {
+	border-color: var(--color-success-border-selected);
+}
+@utility border-success-pressed {
+	border-color: var(--color-success-border-pressed);
+}
+
+@utility border-warning-default {
+	border-color: var(--color-warning-border-default);
+}
+@utility border-warning-hover {
+	border-color: var(--color-warning-border-hover);
+}
+@utility border-warning-selected {
+	border-color: var(--color-warning-border-selected);
+}
+@utility border-warning-pressed {
+	border-color: var(--color-warning-border-pressed);
+}
+
+@utility border-danger-default {
+	border-color: var(--color-danger-border-default);
+}
+@utility border-danger-hover {
+	border-color: var(--color-danger-border-hover);
+}
+@utility border-danger-selected {
+	border-color: var(--color-danger-border-selected);
+}
+@utility border-danger-pressed {
+	border-color: var(--color-danger-border-pressed);
+}
+
+/* Custom outline color utilities */
+@utility outline-neutral-default {
+	outline-color: var(--color-neutral-border-default);
+}
+@utility outline-neutral-hover {
+	outline-color: var(--color-neutral-border-hover);
+}
+@utility outline-neutral-pressed {
+	outline-color: var(--color-neutral-border-pressed);
+}
+@utility outline-neutral-disabled {
+	outline-color: var(--color-neutral-border-disabled);
+}
+@utility outline-neutral-selected {
+	outline-color: var(--color-neutral-border-selected);
+}
+
+@utility outline-primary-default {
+	outline-color: var(--color-primary-border-default);
+}
+@utility outline-primary-hover {
+	outline-color: var(--color-primary-border-hover);
+}
+@utility outline-primary-selected {
+	outline-color: var(--color-primary-border-selected);
+}
+@utility outline-primary-pressed {
+	outline-color: var(--color-primary-border-pressed);
+}
+
+@utility outline-informative-default {
+	outline-color: var(--color-informative-border-default);
+}
+@utility outline-informative-hover {
+	outline-color: var(--color-informative-border-hover);
+}
+@utility outline-informative-selected {
+	outline-color: var(--color-informative-border-selected);
+}
+@utility outline-informative-pressed {
+	outline-color: var(--color-informative-border-pressed);
+}
+
+@utility outline-success-default {
+	outline-color: var(--color-success-border-default);
+}
+@utility outline-success-hover {
+	outline-color: var(--color-success-border-hover);
+}
+@utility outline-success-selected {
+	outline-color: var(--color-success-border-selected);
+}
+@utility outline-success-pressed {
+	outline-color: var(--color-success-border-pressed);
+}
+
+@utility outline-warning-default {
+	outline-color: var(--color-warning-border-default);
+}
+@utility outline-warning-hover {
+	outline-color: var(--color-warning-border-hover);
+}
+@utility outline-warning-selected {
+	outline-color: var(--color-warning-border-selected);
+}
+@utility outline-warning-pressed {
+	outline-color: var(--color-warning-border-pressed);
+}
+
+@utility outline-danger-default {
+	outline-color: var(--color-danger-border-default);
+}
+@utility outline-danger-hover {
+	outline-color: var(--color-danger-border-hover);
+}
+@utility outline-danger-selected {
+	outline-color: var(--color-danger-border-selected);
+}
+@utility outline-danger-pressed {
+	outline-color: var(--color-danger-border-pressed);
 }
 
 /* Tema do Tailwind (Design Tokens) */
 @theme {
 	/* Spacing from :root moved here */
 	--spacing-none: 0px;
+	--spacing-2xxs: 2px;
 	--spacing-xxs: 4px;
 	--spacing-xs: 8px;
 	--spacing-sm: 12px;
 	--spacing-base: 16px;
+	--spacing-md: 18px;
 	--spacing-lg: 20px;
 	--spacing-xl: 24px;
 	--spacing-2xl: 32px;
@@ -212,16 +383,18 @@
 	--border-width-base: 8px;
 
 	/* Outline Width */
+	--outline-width-none: 0px;
 	--outline-width-xxs: 1px;
-
-	/* Font Family from :root moved here */
-	--font-sans: "Poppins", sans-serif;
+	--outline-width-xs: 2px;
+	--outline-width-sm: 4px;
+	--outline-width-base: 8px;
 
 	/* Font Size from :root moved here */
 	--font-size-xxs: 10px;
 	--font-size-xs: 12px;
 	--font-size-sm: 14px;
 	--font-size-base: 16px;
+	--font-size-md: 16px; /* Added for v3 compatibility */
 	--font-size-lg: 18px;
 	--font-size-xl: 20px;
 	--font-size-2xl: 24px;
@@ -305,19 +478,22 @@
 	/* Primary */
 	--color-primary-surface-default: #effaf4;
 	--color-primary-surface-highlight: #b6e4cd;
-	--color-primary-surface-hover: #d9f2e4; /* Default theme primary hover */
+	--color-primary-surface-hover: #d9f2e4;
 	--color-primary-surface-pressed: #86cfae;
 	--color-primary-interaction-default: #329771;
-	--color-primary-interaction-hover: #22795a; /* Default theme primary interaction hover */
+	--color-primary-interaction-hover: #22795a;
 	--color-primary-interaction-pressed: #1b614a;
 	--color-primary-interaction-selected: #1b614a;
 	--color-primary-foreground-disabled: #86cfae;
 	--color-primary-foreground-low: #1b614a;
 	--color-primary-foreground-high: #184d3b;
 	--color-primary-border-default: #329771;
-	--color-primary-border-hover: #1b614a; /* Default theme primary border hover */
+	--color-primary-border-hover: #1b614a;
 	--color-primary-border-selected: #184d3b;
 	--color-primary-border-pressed: #144032;
+
+	/* Secondary (for v3 compatibility) */
+	--color-secondary-interaction-default: #329771; /* Same as primary for now */
 
 	/* Informative */
 	--color-informative-surface-default: #eefcfd;
@@ -395,71 +571,152 @@
 	--letter-spacing-wider: 0.07em;
 	--letter-spacing-widest: 0.1em;
 
-	/* Box Shadow from tailwind.config.cjs moved here */
+	/* Custom box shadows for design system */
 	--box-shadow-neutral-default: 0px 1px 3px 0px rgba(0, 0, 0, 0.1),
 		0px 1px 2px 0px rgba(0, 0, 0, 0.06);
 	--box-shadow-neutral-selected: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 
 	/* Adding default gray-200 for border compatibility */
 	--color-gray-200: #e5e7eb;
+
+	/* Z-Index scale */
+	--z-index-dropdown: 50;
+	--z-index-sticky: 100;
+	--z-index-fixed: 200;
+	--z-index-modal-backdrop: 300;
+	--z-index-modal: 400;
+	--z-index-popover: 500;
+	--z-index-tooltip: 600;
+	--z-index-notification: 700;
+
+	/* Transition durations */
+	--transition-fast: 100ms;
+	--transition-base: 200ms;
+	--transition-slow: 300ms;
+	--transition-slower: 500ms;
+
+	/* Animation timing functions */
+	--ease-in-out-sine: cubic-bezier(0.37, 0, 0.63, 1);
+	--ease-in-out-quad: cubic-bezier(0.45, 0, 0.55, 1);
+	--ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+	--ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+	--ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
+	--ease-in-out-back: cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
 @layer components {
+	/* Typography component classes */
+	.p1 {
+		font-size: var(--font-size-2xl);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
+	}
+	.p2 {
+		font-size: var(--font-size-base);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
+	}
+	.p3 {
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
+	}
+	.p4 {
+		font-size: var(--font-size-xs);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
+	}
+	.caption-c1 {
+		font-size: var(--font-size-xs);
+		font-weight: var(--font-weight-medium);
+	}
+	.caption-c2 {
+		font-size: var(--font-size-xxs);
+		font-weight: var(--font-weight-normal);
+	}
+
 	/* Component Styles for BInput */
 	.b-input-field-area {
-		@apply flex items-center gap-xs py-xs px-sm;
-		@apply bg-neutral-surface-default rounded-sm outline outline-neutral-border-default focus:outline-primary-border-default hover:outline-primary-border-hover;
-		min-height: fit-content; /* Revertendo para se ajustar ao conteúdo interno */
-		@apply transition-[outline-color] duration-100 delay-100;
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-xs);
+		padding: var(--spacing-xs) var(--spacing-sm);
+		background-color: var(--color-neutral-surface-default);
+		border-radius: var(--border-radius-sm);
+		outline: var(--outline-width-xxs) solid var(--color-neutral-border-default);
+		outline-offset: -1px;
+		min-height: fit-content;
+		transition: outline-color var(--transition-fast);
+	}
+	.b-input-field-area:focus-within {
+		outline-color: var(--color-primary-border-default);
+	}
+	.b-input-field-area:hover:not(:focus-within):not(.disabled) {
+		outline-color: var(--color-primary-border-hover);
 	}
 	.b-input-field-area.disabled {
-		@apply bg-neutral-surface-disabled outline-neutral-border-disabled; /* Disabled state */
-		/* A opacidade geral de 0.5 para o componente desabilitado deve ser tratada no BInput.vue se abranger mais que o field-area */
+		background-color: var(--color-neutral-surface-disabled);
+		outline-color: var(--color-neutral-border-disabled);
 	}
 	.b-input-field-area.error {
-		@apply outline-danger-border-default; /* Error state */
+		outline-color: var(--color-danger-border-default);
 	}
 
 	.b-input-text-content {
-		@apply p3 text-neutral-foreground-high;
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
+		color: var(--color-neutral-foreground-high);
 		font-family: var(--font-sans);
-		@apply flex-1 bg-transparent outline-0 p-0 border-none;
+		flex: 1 1 0%;
+		background-color: transparent;
+		outline: none;
+		padding: 0;
+		border: none;
 		min-height: var(--spacing-xl);
 	}
 	.b-input-text-content::placeholder {
-		@apply text-neutral-interaction-default opacity-100; /* Estilo do placeholder */
+		color: var(--color-neutral-interaction-default);
+		opacity: 1;
 	}
 	.b-input-field-area.disabled .b-input-text-content,
 	.b-input-field-area.disabled .b-input-text-content::placeholder {
-		@apply text-neutral-foreground-disabled; /* Cor do texto e placeholder quando desabilitado */
+		color: var(--color-neutral-foreground-disabled);
 	}
 
 	.b-input-side-icon {
-		@apply text-neutral-interaction-default; /* Cor padrão do ícone */
+		color: var(--color-neutral-interaction-default);
 	}
 	.b-input-field-area.focus .b-input-side-icon {
-		@apply text-primary-foreground-high; /* Cor do ícone em foco */
+		color: var(--color-primary-foreground-high);
 	}
 	.b-input-field-area.error .b-input-side-icon {
-		@apply text-danger-interaction-default; /* Cor do ícone em erro */
+		color: var(--color-danger-interaction-default);
 	}
 	.b-input-field-area.disabled .b-input-side-icon {
-		@apply text-neutral-interaction-disabled; /* Cor do ícone desabilitado */
+		color: var(--color-neutral-interaction-disabled);
 	}
 
 	.b-input-message-error {
-		@apply text-xs font-medium text-danger-foreground-low mt-1.5; /* mt-1.5 para gap de 6px */
-		font-family: var(--font-sans); /* Garante Poppins */
+		font-size: var(--font-size-xs);
+		font-weight: var(--font-weight-medium);
+		color: var(--color-danger-foreground-low);
+		margin-top: 6px;
+		font-family: var(--font-sans);
 	}
 
 	.b-input-message-info {
-		@apply text-xs font-medium text-neutral-foreground-low mt-1.5; /* mt-1.5 para gap de 6px */
-		font-family: var(--font-sans); /* Garante Poppins */
+		font-size: var(--font-size-xs);
+		font-weight: var(--font-weight-medium);
+		color: var(--color-neutral-foreground-low);
+		margin-top: 6px;
+		font-family: var(--font-sans);
 	}
 
-	/* Você pode adicionar aqui estilos para .b-input-max-length se necessário */
 	.b-input-max-length {
-		@apply text-xs font-medium text-neutral-foreground-low; /* Exemplo, igual ao info, mas pode ser diferente */
+		font-size: var(--font-size-xs);
+		font-weight: var(--font-weight-medium);
+		color: var(--color-neutral-foreground-low);
 		font-family: var(--font-sans);
 	}
 }
