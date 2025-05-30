@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run lint)",
+      "Bash(npm run:*)",
+      "Bash(curl:*)",
+      "Bash(npx http-server:*)",
+      "Bash(pkill:*)",
+      "Bash(ls:*)",
+      "mcp__ide__getDiagnostics"
+    ]
+  },
+  "enableAllProjectMcpServers": false,
+  "enabledMcpjsonServers": [
+    "browser-tools",
+    "Framelink Figma MCP",
+    "perplexity-ask",
+    "context7",
+    "mcp-server-firecrawl",
+    "memory",
+    "sequential-thinking",
+    "playwright",
+    "mcp-mem0",
+    "supabase",
+    "taskmaster-ai"
+  ]
+}

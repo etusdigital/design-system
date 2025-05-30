@@ -32,26 +32,9 @@
 				"FIRECRAWL_API_KEY": "fc-f89e1f8428884754b1d01ca5f61841c5"
 			}
 		},
-		"memory": {
-			"command": "npx",
-			"args": ["-y", "@modelcontextprotocol/server-memory"]
-		},
-		"sequential-thinking": {
-			"command": "npx",
-			"args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
-		},
 		"playwright": {
 			"command": "npx",
 			"args": ["-y", "@executeautomation/playwright-mcp-server"]
-		},
-		"mcp-mem0": {
-			"command": "npx",
-			"args": [
-				"-y",
-				"supergateway",
-				"--sse",
-				"http://localhost:8765/mcp/cursor/sse/albertoandre"
-			]
 		},
 		"supabase": {
 			"command": "npx",
