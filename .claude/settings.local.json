@@ -7,20 +7,19 @@
       "Bash(npx http-server:*)",
       "Bash(pkill:*)",
       "Bash(ls:*)",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(find:*)",
+      "Bash(git add:*)"
     ]
   },
-  "enableAllProjectMcpServers": false,
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "browser-tools",
     "Framelink Figma MCP",
     "perplexity-ask",
     "context7",
     "mcp-server-firecrawl",
-    "memory",
-    "sequential-thinking",
     "playwright",
-    "mcp-mem0",
     "supabase",
     "taskmaster-ai"
   ]
