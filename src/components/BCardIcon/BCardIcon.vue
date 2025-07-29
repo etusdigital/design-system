@@ -55,7 +55,7 @@
 	}
 
 	.icon.round-icon {
-		@apply bg-transparent text-primary-interaction-default p-none;
+		@apply bg-transparent text-primary-interaction-default p-0;
 
 		.b-icon {
 			@apply text-3xl;

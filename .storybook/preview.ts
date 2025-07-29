@@ -1,5 +1,5 @@
-import { setup, Preview } from "@storybook/vue3";
-import { addons } from "@storybook/manager-api";
+import { setup, Preview } from "@storybook/vue3-vite";
+import { addons } from "storybook/manager-api";
 import { provide } from "vue";
 import Sute from "../src/index";
 import "../src/assets/main.css";
@@ -34,14 +34,78 @@ const preview: Preview = {
         color: /(background|color)$/i,
         date: /Date$/,
       },
+      expanded: true,
+      sort: 'alpha',
+    },
+    backgrounds: {
+      default: 'light',
+      values: [
+        { name: 'light', value: '#ffffff' },
+        { name: 'dark', value: '#1a1a1a' },
+        { name: 'neutral', value: '#f5f5f5' },
+      ],
+    },
+    viewport: {
+      viewports: {
+        mobile: {
+          name: 'Mobile',
+          styles: { width: '375px', height: '667px' }
+        },
+        tablet: {
+          name: 'Tablet', 
+          styles: { width: '768px', height: '1024px' }
+        },
+        desktop: {
+          name: 'Desktop',
+          styles: { width: '1440px', height: '900px' }
+        }
+      }
+    },
+    a11y: {
+      config: {
+        rules: [
+          {
+            id: 'color-contrast',
+            enabled: true,
+          },
+          {
+            id: 'focus-trap',
+            enabled: true,
+          },
+        ],
+      },
     },
     designToken: {
-      tabs: ['FontFamily', 'BFontFamily', 'FontSize', 'FontWeight', 'LineHeight', 'Spacing', 'Border', 'BorderRadius', 'Colors', 'BColors']
+      tabs: [
+        'Colors', 'BColors', 'Typography', 'Spacing', 
+        'BorderRadius', 'BoxShadow', 'FontFamily', 'FontSize', 'FontWeight', 'LineHeight'
+      ]
     },
     options: {
       storySort: {
-        method: "alphabetical",
-        order: ["documentation", "Primary"],
+        order: [
+          "Getting Started",
+          ["Introduction", "Installation", "Usage", "Migration Guide"],
+          "Design Tokens",
+          ["Colors", "Typography", "Spacing", "Shadows", "Breakpoints"],
+          "Foundation",
+          ["BIcon", "BSpinner", "BDivider"],
+          "Form Controls",
+          ["BInput", "BSelect", "BCheckbox", "BRadio", "BToggle", "BSlider", "BRangeSlider", "BColorPicker", "BDatePicker", "BAutoComplete", "BMultiSelect", "BTagInput", "BTagSelect"],
+          "Buttons & Actions", 
+          ["BButton", "BRoundButton", "BRadioButton"],
+          "Navigation",
+          ["BNavbar", "BBreadcrumb", "BMenu", "BSideMenu", "BTab", "BPagination"],
+          "Layout & Containers",
+          ["BCard", "BCardIcon", "BCollapse", "BDialog", "BDropdown", "BExpandableContainer", "BGroup", "BSidebar", "BContentScreen"],
+          "Data Display",
+          ["BTable", "BProgressBar", "BAvatar", "BTag", "BMetricCard", "BActionCard", "BProfile", "BHistory"],
+          "Feedback & Status",
+          ["BAlert", "BToast", "BTooltip", "BConfirm"],
+          "Advanced Components",
+          ["BCrop", "BDate", "BDateComparator", "BDateComparatorFilter", "BDateFilter", "BFilter", "BStepper", "BStepOption", "BSmartSelect", "BSelectContainer", "BRoundMenu"],
+          "*"
+        ],
       },
     },
   },

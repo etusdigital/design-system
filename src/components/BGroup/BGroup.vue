@@ -56,31 +56,31 @@
 	}
 
 	.b-group.hor :slotted(.b-radio) {
-		@apply ml-sm first:ml-none;
+		@apply ml-sm first:ml-0;
 	}
 	.b-group.vert :slotted(.b-radio) {
-		@apply mt-sm first:mt-none;
+		@apply mt-sm first:mt-0;
 	}
 
 	.b-group.hor :slotted(.b-radio-button) {
 		@apply border-r-0 first:rounded-l-sm last:rounded-r-sm last:border-r-xxs;
 	}
 	.b-group.vert :slotted(.b-radio-button) {
-		@apply border-b-none first:rounded-t-sm last:rounded-b-sm last:border-b-xxs;
+		@apply border-b-0 first:rounded-t-sm last:rounded-b-sm last:border-b-xxs;
 	}
 
 	.b-group.hor :slotted(.b-radio-button) {
-		@apply border-r-none first:rounded-l-sm last:rounded-r-sm last:border-r-xxs;
+		@apply border-r-0 first:rounded-l-sm last:rounded-r-sm last:border-r-xxs;
 	}
 	.b-group.vert :slotted(.b-radio-button) {
-		@apply border-b-none first:rounded-t-sm last:rounded-b-sm last:border-b-xxs;
+		@apply border-b-0 first:rounded-t-sm last:rounded-b-sm last:border-b-xxs;
 	}
 
 	.b-group.hor :slotted(.b-radio-div) {
-		@apply ml-xs first:ml-none;
+		@apply ml-xs first:ml-0;
 	}
 	.b-group.vert :slotted(.b-radio-div) {
-		@apply mt-xs first:mt-none;
+		@apply mt-xs first:mt-0;
 	}
 
 	.b-group.hor

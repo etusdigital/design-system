@@ -274,7 +274,7 @@
 						<tr
 							v-for="(week, index) in item.weeks.filter(w => w.some((d: any) => d))"
 							:key="index"
-							class="*:py-xxs *:px-none">
+							class="*:py-xxs *:px-0">
 							<td
 								v-for="(day, index) in week"
 								:key="index">

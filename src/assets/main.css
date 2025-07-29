@@ -55,10 +55,47 @@
 		}
 	}
 
+	/* ETUS Theme - explicit class for Storybook */
+	.etus-theme {
+		/* Same colors as :root - ETUS Green Theme */
+		--color-primary-surface-default: #effaf4;
+		--color-primary-surface-highlight: #b6e4cd;
+		--color-primary-surface-hover: #d9f2e4;
+		--color-primary-surface-pressed: #86cfae;
+		--color-primary-interaction-default: #329771;
+		--color-primary-interaction-hover: #22795a;
+		--color-primary-interaction-pressed: #1b614a;
+		--color-primary-interaction-selected: #1b614a;
+		--color-primary-foreground-disabled: #86cfae;
+		--color-primary-foreground-low: #1b614a;
+		--color-primary-foreground-high: #184d3b;
+		--color-primary-border-default: #329771;
+		--color-primary-border-hover: #1b614a;
+		--color-primary-border-selected: #184d3b;
+		--color-primary-border-pressed: #144032;
+
+		/* Informative colors - ETUS Teal */
+		--color-informative-surface-default: #eefcfd;
+		--color-informative-surface-highlight: #afecf2;
+		--color-informative-surface-hover: #77dee9;
+		--color-informative-surface-pressed: #39c5d7;
+		--color-informative-interaction-default: #1b879f;
+		--color-informative-interaction-hover: #1b687b;
+		--color-informative-interaction-pressed: #20596a;
+		--color-informative-interaction-selected: #1f4b5a;
+		--color-informative-foreground-disabled: #77dee9;
+		--color-informative-foreground-low: #1b687b;
+		--color-informative-foreground-high: #1f4b5a;
+		--color-informative-border-default: #1b687b;
+		--color-informative-border-hover: #20596a;
+		--color-informative-border-selected: #1f4b5a;
+		--color-informative-border-pressed: #20596a;
+	}
+
 	.brius-theme {
 		--font-sans: "Inter", sans-serif;
 		/* ... outras sobrescritas do brius-theme ... */
-		/* Primary */
+		/* Primary - Brius Blue */
 		--color-primary-surface-default: #e7f0ff;
 		--color-primary-surface-highlight: #b8d0ff;
 		--color-primary-surface-hover: #d0e0ff;
@@ -75,7 +112,7 @@
 		--color-primary-border-selected: #003298;
 		--color-primary-border-pressed: #001040;
 
-		/* Informative */
+		/* Informative - Brius Purple */
 		--color-informative-surface-default: #f2eeff;
 		--color-informative-surface-highlight: #c7bbff;
 		--color-informative-surface-hover: #9072ff;
@@ -182,11 +219,14 @@
 	font-weight: var(--font-weight-normal);
 }
 
-/* Tema do Tailwind (Design Tokens) */
+/* Theme configuration - keep minimal to preserve default Tailwind utilities */
 @theme {
-	/* Spacing from :root moved here */
-	--spacing-none: 0px;
+	/* Only essential custom extensions that don't exist in default theme */
 	--spacing-xxs: 4px;
+	--spacing-negative: -8px;
+	--font-size-xxs: 0.625rem;
+	
+	/* Custom design system values */
 	--spacing-xs: 8px;
 	--spacing-sm: 12px;
 	--spacing-base: 16px;
@@ -194,280 +234,234 @@
 	--spacing-xl: 24px;
 	--spacing-2xl: 32px;
 	--spacing-3xl: 48px;
-	--spacing-4xl: 56px;
-	--spacing-5xl: 64px;
-	--spacing-6xl: 80px;
-	--spacing-7xl: 96px;
-	--spacing-8xl: 112px;
-	--spacing-9xl: 128px;
-	--spacing-10xl: 144px;
-	--spacing-11xl: 160px;
-	--spacing-12xl: 176px;
-	--spacing-13xl: 192px;
-	--spacing-14xl: 208px;
-	--spacing-15xl: 224px;
-	--spacing-16xl: 240px;
-	--spacing-17xl: 256px;
+	--spacing-4xl: 64px;
+	--spacing-5xl: 80px;
+	--spacing-6xl: 96px;
+	--spacing-7xl: 112px;
+	--spacing-8xl: 128px;
+	--spacing-9xl: 144px;
+	--spacing-10xl: 160px;
+	--spacing-11xl: 176px;
+	--spacing-12xl: 192px;
+	--spacing-13xl: 208px;
+	--spacing-14xl: 224px;
+	--spacing-15xl: 240px;
+	--spacing-16xl: 256px;
+	--spacing-17xl: 272px;
 	--spacing-18xl: 288px;
-	--spacing-19xl: 320px;
-	--spacing-20xl: 336px;
-
-	/* Border Width from :root moved here */
-	--border-width-none: 0px;
-	--border-width-xxs: 1px;
-	--border-width-xs: 2px;
-	--border-width-sm: 4px;
-	--border-width-base: 8px;
-
-	/* Outline Width */
-	--outline-width-xxs: 1px;
-
-	/* Font Family from :root moved here */
-	--font-sans: "Poppins", sans-serif;
-
-	/* Font Size from :root moved here */
-	--font-size-xxs: 10px;
-	--font-size-xs: 12px;
-	--font-size-sm: 14px;
-	--font-size-base: 16px;
-	--font-size-lg: 18px;
-	--font-size-xl: 20px;
-	--font-size-2xl: 24px;
-	--font-size-3xl: 30px;
-	--font-size-4xl: 32px;
-	--font-size-5xl: 48px;
-	--font-size-6xl: 60px;
-	--font-size-7xl: 72px;
-	--font-size-8xl: 96px;
-	--font-size-9xl: 128px;
-
-	/* Font Weight from :root moved here */
-	--font-weight-thin: 100;
-	--font-weight-extra-light: 200;
-	--font-weight-light: 300;
+	--spacing-19xl: 304px;
+	--spacing-20xl: 320px;
+	
+	--font-size-sm: 0.875rem;
 	--font-weight-normal: 400;
 	--font-weight-medium: 500;
 	--font-weight-semibold: 600;
-	--font-weight-bold: 700;
-	--font-weight-extra-bold: 800;
-	--font-weight-black: 900;
-
-	/* Line Height from :root moved here */
-	--line-height-none: 0px;
-	--line-height-xxs: 100%;
-	--line-height-xs: 105%;
-	--line-height-sm: 110%;
-	--line-height-base: 115%;
-	--line-height-lg: 120%;
-	--line-height-xl: 125%;
-
-	/* Border Radius from :root moved here */
-	--border-radius-none: 0px;
-	--border-radius-xxs: 2px;
-	--border-radius-xs: 4px;
+	
+	--line-height-lg: 1.2;
+	--letter-spacing-wider: 0.07em;
+	
 	--border-radius-sm: 6px;
 	--border-radius-base: 8px;
-	--border-radius-lg: 8px;
-	--border-radius-xl: 16px;
-	--border-radius-2xl: 24px;
-	--border-radius-full: 9999px;
-
-	/* Alias para rounded-base */
-	--rounded-base: var(--border-radius-base);
-
-	/* Alias para rounded-xxs */
-	--rounded-xxs: var(--border-radius-xxs);
-
-	/* Colors from :root moved here */
-	/* Neutral */
-	--color-neutral-background-default: #fbfcfd;
-	--color-neutral-background-emphasis: #ffffff;
-	--color-neutral-background-negative: #1b1f22;
-	--color-neutral-surface-default: #ffffff;
-	--color-neutral-surface-highlight: #f4f6f7;
-	--color-neutral-surface-hover: #f4f6f7;
-	--color-neutral-surface-disabled: #e3e7ea;
-	--color-neutral-interaction-default: #465058;
-	--color-neutral-interaction-hover: #3e464c;
-	--color-neutral-interaction-pressed: #1b1f22;
-	--color-neutral-interaction-disabled: #7a8d96;
-	--color-neutral-foreground-disabled: #7a8d96;
-	--color-neutral-foreground-low: #5f717b;
-	--color-neutral-foreground-high: #1b1f22;
-	--color-neutral-foreground-negative: #ffffff;
-	--color-neutral-border-default: #e3e7ea;
-	--color-neutral-border-hover: #a6b4ba;
-	--color-neutral-border-pressed: #7a8d96;
-	--color-neutral-border-disabled: #cad2d7;
-	--color-neutral-border-selected: #cad2d7;
-
-	/* Alias para emphasis color */
-	--color-emphasis: #ffffff; /* Mapeado de --color-neutral-background-emphasis */
-
-	/* Alias para default color (para bg-default) */
-	--color-default: #ffffff; /* Mapeado de --color-neutral-surface-default */
-
-	/* Alias para negative color */
-	--color-negative: #1b1f22; /* Mapeado de --color-neutral-background-negative */
-
-	/* Primary */
+	
+	--border-width-xxs: 1px;
+	--border-width-xs: 2px;
+	
+	--font-sans: "Poppins", sans-serif;
+	
+	/* ETUS Theme Colors (Default) */
+	/* Primary colors - ETUS Green */
 	--color-primary-surface-default: #effaf4;
 	--color-primary-surface-highlight: #b6e4cd;
-	--color-primary-surface-hover: #d9f2e4; /* Default theme primary hover */
+	--color-primary-surface-hover: #d9f2e4;
 	--color-primary-surface-pressed: #86cfae;
 	--color-primary-interaction-default: #329771;
-	--color-primary-interaction-hover: #22795a; /* Default theme primary interaction hover */
+	--color-primary-interaction-hover: #22795a;
 	--color-primary-interaction-pressed: #1b614a;
 	--color-primary-interaction-selected: #1b614a;
 	--color-primary-foreground-disabled: #86cfae;
 	--color-primary-foreground-low: #1b614a;
 	--color-primary-foreground-high: #184d3b;
 	--color-primary-border-default: #329771;
-	--color-primary-border-hover: #1b614a; /* Default theme primary border hover */
+	--color-primary-border-hover: #1b614a;
 	--color-primary-border-selected: #184d3b;
 	--color-primary-border-pressed: #144032;
-
-	/* Informative */
+	
+	/* Informative colors - ETUS Teal */
 	--color-informative-surface-default: #eefcfd;
 	--color-informative-surface-highlight: #afecf2;
-	--color-informative-surface-hover: #77dee9; /* Default theme informative hover */
+	--color-informative-surface-hover: #77dee9;
 	--color-informative-surface-pressed: #39c5d7;
 	--color-informative-interaction-default: #1b879f;
-	--color-informative-interaction-hover: #1b687b; /* Default theme informative interaction hover */
+	--color-informative-interaction-hover: #1b687b;
 	--color-informative-interaction-pressed: #20596a;
 	--color-informative-interaction-selected: #1f4b5a;
 	--color-informative-foreground-disabled: #77dee9;
 	--color-informative-foreground-low: #1b687b;
 	--color-informative-foreground-high: #1f4b5a;
 	--color-informative-border-default: #1b687b;
-	--color-informative-border-hover: #20596a; /* Default theme informative border hover */
+	--color-informative-border-hover: #20596a;
 	--color-informative-border-selected: #1f4b5a;
 	--color-informative-border-pressed: #20596a;
-
-	/* Success */
-	--color-success-surface-default: #effef5;
-	--color-success-surface-highlight: #bff1d8;
-	--color-success-surface-hover: #bff1d8;
-	--color-success-surface-pressed: #8ce2b9;
-	--color-success-interaction-default: #0a9e50;
-	--color-success-interaction-hover: #078541;
-	--color-success-interaction-pressed: #105732;
-	--color-success-interaction-selected: #03301a;
-	--color-success-foreground-disabled: #4fcc92;
-	--color-success-foreground-low: #078541;
-	--color-success-foreground-high: #056a33;
-	--color-success-border-default: #0fb75c;
-	--color-success-border-hover: #078541;
-	--color-success-border-selected: #056a33;
-	--color-success-border-pressed: #105732;
-
-	/* Warning */
-	--color-warning-surface-default: #ffffea;
-	--color-warning-surface-highlight: #fff5cc;
-	--color-warning-surface-hover: #ffe999;
-	--color-warning-surface-pressed: #ffdd66;
-	--color-warning-interaction-default: #dba700;
-	--color-warning-interaction-hover: #b78a00;
-	--color-warning-interaction-pressed: #936d00;
-	--color-warning-interaction-selected: #936d00;
-	--color-warning-foreground-disabled: #ffd133;
-	--color-warning-foreground-low: #936d00;
-	--color-warning-foreground-high: #7c440b;
-	--color-warning-border-default: #ffc500;
-	--color-warning-border-hover: #b78a00;
-	--color-warning-border-selected: #936d00;
-	--color-warning-border-pressed: #7c440b;
-
-	/* Danger */
+	
+	/* Success colors */
+	--color-success-interaction-default: #22c55e;
+	--color-success-interaction-hover: #16a34a;
+	--color-success-interaction-pressed: #15803d;
+	--color-success-foreground-high: #15803d;
+	--color-success-foreground-low: #16a34a;
+	--color-success-foreground-disabled: #86efac;
+	--color-success-surface-default: #f0fdf4;
+	--color-success-surface-hover: #bbf7d0;
+	--color-success-surface-pressed: #86efac;
+	--color-success-surface-highlight: #dcfce7;
+	--color-success-border-default: #22c55e;
+	--color-success-border-hover: #16a34a;
+	--color-success-border-pressed: #15803d;
+	
+	/* Warning colors */
+	--color-warning-interaction-default: #f59e0b;
+	--color-warning-interaction-hover: #d97706;
+	--color-warning-interaction-pressed: #b45309;
+	--color-warning-foreground-high: #b45309;
+	--color-warning-foreground-low: #d97706;
+	--color-warning-foreground-disabled: #fdba74;
+	--color-warning-surface-default: #fffbeb;
+	--color-warning-surface-hover: #fed7aa;
+	--color-warning-surface-pressed: #fdba74;
+	--color-warning-surface-highlight: #fef3c7;
+	--color-warning-border-default: #f59e0b;
+	--color-warning-border-hover: #d97706;
+	--color-warning-border-pressed: #b45309;
+	
+	/* Danger colors */
+	--color-danger-interaction-default: #ef4444;
+	--color-danger-interaction-hover: #dc2626;
+	--color-danger-interaction-pressed: #b91c1c;
+	--color-danger-foreground-high: #b91c1c;
+	--color-danger-foreground-low: #dc2626;
+	--color-danger-foreground-disabled: #fca5a5;
 	--color-danger-surface-default: #fef2f2;
-	--color-danger-surface-highlight: #fab8b8;
-	--color-danger-surface-hover: #fde8e8;
-	--color-danger-surface-pressed: #f58a8a;
-	--color-danger-interaction-default: #f03232;
-	--color-danger-interaction-hover: #b22424;
-	--color-danger-interaction-pressed: #801c1c;
-	--color-danger-interaction-selected: #d12b2b;
-	--color-danger-foreground-disabled: #f25c5c;
-	--color-danger-foreground-low: #b22424;
-	--color-danger-foreground-high: #801c1c;
-	--color-danger-border-default: #f03232;
-	--color-danger-border-hover: #b22424;
-	--color-danger-border-selected: #931d1d;
-	--color-danger-border-pressed: #801c1c;
-
-	/* Letter Spacing from tailwind.config.cjs moved here */
-	--letter-spacing-tighter: -0.05em;
-	--letter-spacing-tight: -0.025em;
-	--letter-spacing-normal: 0em;
-	--letter-spacing-wide: 0.05em;
-	--letter-spacing-wider: 0.07em;
-	--letter-spacing-widest: 0.1em;
-
-	/* Box Shadow from tailwind.config.cjs moved here */
-	--box-shadow-neutral-default: 0px 1px 3px 0px rgba(0, 0, 0, 0.1),
-		0px 1px 2px 0px rgba(0, 0, 0, 0.06);
-	--box-shadow-neutral-selected: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
-
-	/* Adding default gray-200 for border compatibility */
-	--color-gray-200: #e5e7eb;
+	--color-danger-surface-hover: #fecaca;
+	--color-danger-surface-pressed: #fca5a5;
+	--color-danger-surface-highlight: #fee2e2;
+	--color-danger-border-default: #ef4444;
+	--color-danger-border-hover: #dc2626;
+	--color-danger-border-pressed: #b91c1c;
+	
+	/* Neutral colors */
+	--color-neutral-foreground-negative: #ffffff;
+	--color-neutral-foreground-high: #1a1a1a;
+	--color-neutral-foreground-low: #666666;
+	--color-neutral-foreground-disabled: #a3a3a3;
+	--color-neutral-interaction-default: #666666;
+	--color-neutral-interaction-hover: #525252;
+	--color-neutral-interaction-pressed: #404040;
+	--color-neutral-interaction-disabled: #d4d4d4;
+	--color-neutral-surface-default: #ffffff;
+	--color-neutral-surface-hover: #f5f5f5;
+	--color-neutral-surface-disabled: #f5f5f5;
+	--color-neutral-surface-highlight: #e5e5e5;
+	--color-neutral-border-default: #d4d4d4;
+	--color-neutral-border-hover: #a3a3a3;
+	--color-neutral-border-pressed: #737373;
+	--color-neutral-border-disabled: #e5e5e5;
+	
+	/* Additional mappings */
+	--color-default: #ffffff;
+	--color-emphasis: #f5f5f5;
+	--color-negative: #1a1a1a;
 }
 
 @layer components {
 	/* Component Styles for BInput */
 	.b-input-field-area {
-		@apply flex items-center gap-xs py-xs px-sm;
-		@apply bg-neutral-surface-default rounded-sm outline outline-neutral-border-default focus:outline-primary-border-default hover:outline-primary-border-hover;
-		min-height: fit-content; /* Revertendo para se ajustar ao conteúdo interno */
-		@apply transition-[outline-color] duration-100 delay-100;
+		display: flex;
+		align-items: center;
+		gap: var(--spacing-xs);
+		padding: var(--spacing-xs) var(--spacing-sm);
+		background-color: var(--color-neutral-surface-default);
+		border-radius: var(--border-radius-sm);
+		outline: 1px solid var(--color-neutral-border-default);
+		min-height: fit-content;
+		transition: outline-color 100ms 100ms;
+	}
+	
+	.b-input-field-area:focus {
+		outline-color: var(--color-primary-border-default);
+	}
+	
+	.b-input-field-area:hover {
+		outline-color: var(--color-primary-border-hover);
 	}
 	.b-input-field-area.disabled {
-		@apply bg-neutral-surface-disabled outline-neutral-border-disabled; /* Disabled state */
-		/* A opacidade geral de 0.5 para o componente desabilitado deve ser tratada no BInput.vue se abranger mais que o field-area */
+		background-color: var(--color-neutral-surface-disabled);
+		outline-color: var(--color-neutral-border-disabled);
 	}
+	
 	.b-input-field-area.error {
-		@apply outline-danger-border-default; /* Error state */
+		outline-color: var(--color-danger-border-default);
 	}
 
 	.b-input-text-content {
-		@apply p3 text-neutral-foreground-high;
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
+		color: var(--color-neutral-foreground-high);
 		font-family: var(--font-sans);
-		@apply flex-1 bg-transparent outline-0 p-0 border-none;
+		flex: 1;
+		background-color: transparent;
+		outline: 0;
+		padding: 0;
+		border: none;
 		min-height: var(--spacing-xl);
 	}
+	
 	.b-input-text-content::placeholder {
-		@apply text-neutral-interaction-default opacity-100; /* Estilo do placeholder */
+		color: var(--color-neutral-interaction-default);
+		opacity: 1;
 	}
+	
 	.b-input-field-area.disabled .b-input-text-content,
 	.b-input-field-area.disabled .b-input-text-content::placeholder {
-		@apply text-neutral-foreground-disabled; /* Cor do texto e placeholder quando desabilitado */
+		color: var(--color-neutral-foreground-disabled);
 	}
 
 	.b-input-side-icon {
-		@apply text-neutral-interaction-default; /* Cor padrão do ícone */
+		color: var(--color-neutral-interaction-default);
 	}
+	
 	.b-input-field-area.focus .b-input-side-icon {
-		@apply text-primary-foreground-high; /* Cor do ícone em foco */
+		color: var(--color-primary-foreground-high);
 	}
+	
 	.b-input-field-area.error .b-input-side-icon {
-		@apply text-danger-interaction-default; /* Cor do ícone em erro */
+		color: var(--color-danger-interaction-default);
 	}
+	
 	.b-input-field-area.disabled .b-input-side-icon {
-		@apply text-neutral-interaction-disabled; /* Cor do ícone desabilitado */
+		color: var(--color-neutral-interaction-disabled);
 	}
 
 	.b-input-message-error {
-		@apply text-xs font-medium text-danger-foreground-low mt-1.5; /* mt-1.5 para gap de 6px */
-		font-family: var(--font-sans); /* Garante Poppins */
+		font-size: 0.75rem;
+		font-weight: 500;
+		color: var(--color-danger-foreground-low);
+		margin-top: 0.375rem;
+		font-family: var(--font-sans);
 	}
 
 	.b-input-message-info {
-		@apply text-xs font-medium text-neutral-foreground-low mt-1.5; /* mt-1.5 para gap de 6px */
-		font-family: var(--font-sans); /* Garante Poppins */
+		font-size: 0.75rem;
+		font-weight: 500;
+		color: var(--color-neutral-foreground-low);
+		margin-top: 0.375rem;
+		font-family: var(--font-sans);
 	}
 
-	/* Você pode adicionar aqui estilos para .b-input-max-length se necessário */
 	.b-input-max-length {
-		@apply text-xs font-medium text-neutral-foreground-low; /* Exemplo, igual ao info, mas pode ser diferente */
+		font-size: 0.75rem;
+		font-weight: 500;
+		color: var(--color-neutral-foreground-low);
 		font-family: var(--font-sans);
 	}
 }

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import BAvatar from "./BAvatar.vue";
 import photo from "./photo.svg";
 

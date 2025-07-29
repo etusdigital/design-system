@@ -1,0 +1,95 @@
+import { Canvas, Meta, Controls, Story, Source } from '@storybook/blocks';
+import * as Stories from './ComponentName.stories.ts';
+
+<Meta of={Stories} />
+
+# ComponentName
+
+<div className="sb-section">
+  <div className="sb-section-item">
+    <h4 className="sb-section-item-heading">Component</h4>
+    <p className="sb-section-item-paragraph">Brief description of what this component does and when to use it.</p>
+  </div>
+</div>
+
+## Overview
+
+<Canvas of={Stories.Playground} />
+<Controls of={Stories.Playground} />
+
+## Examples
+
+### Basic Usage
+
+<Canvas of={Stories.Basic} />
+
+<Source 
+  language="vue"
+  code={`
+<ComponentName 
+  prop="value"
+>
+  Content
+</ComponentName>
+`} 
+/>
+
+### Variants
+
+<Canvas of={Stories.Variants} />
+
+### Sizes
+
+<Canvas of={Stories.Sizes} />
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `prop1` | `string` | `'default'` | Description of prop1 |
+| `prop2` | `boolean` | `false` | Description of prop2 |
+
+### Events
+
+| Event | Payload | Description |
+|-------|---------|-------------|
+| `@event1` | `string` | Emitted when... |
+| `@event2` | `object` | Emitted when... |
+
+### Slots
+
+| Slot | Props | Description |
+|------|-------|-------------|
+| `default` | - | Main content slot |
+| `header` | `{ title: string }` | Header content |
+
+## Design Guidelines
+
+### When to Use
+- Use when you need to...
+- Appropriate for scenarios where...
+
+### When Not to Use  
+- Avoid when...
+- Consider alternatives like...
+
+### Accessibility
+
+- **Keyboard Navigation**: Supports Tab, Enter, Space, Arrow keys
+- **Screen Readers**: Includes proper ARIA labels and descriptions
+- **Focus Management**: Visible focus indicators and logical tab order
+- **Color Contrast**: Meets WCAG AA standards
+
+### Best Practices
+
+- Always provide meaningful labels
+- Use semantic color variants appropriately
+- Consider loading states for async operations
+- Test with keyboard-only navigation
+
+## Related Components
+
+- [RelatedComponent1](/?path=/docs/category-relatedcomponent1--docs)
+- [RelatedComponent2](/?path=/docs/category-relatedcomponent2--docs)

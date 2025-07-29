@@ -146,7 +146,7 @@
 		@apply z-20 fixed flex items-center;
 
 		.tooltip-triangle {
-			@apply w-0 h-0 border-[9px] border-r-0 border-b-[9px] border-l-11 border-l-negative border-transparent relative;
+			@apply w-0 h-0 border-[9px] border-r-0 border-b-[9px] border-transparent relative;
 		}
 
 		.tooltip-content {

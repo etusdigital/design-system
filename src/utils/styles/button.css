@@ -1,72 +1,156 @@
-@reference "../../assets/main.css";
-
-@utility primary {
-	@apply bg-primary-interaction-default border-primary-interaction-default;
-	@apply hover:bg-primary-interaction-hover hover:border-primary-interaction-hover;
-	@apply active:bg-primary-interaction-pressed active:border-primary-interaction-pressed;
-	@apply focus:ring-2 focus:ring-primary-interaction-default focus:ring-offset-2 focus:outline-none;
+/* Base color styles for default variant */
+.primary {
+	background-color: var(--color-primary-interaction-default);
+	border-color: var(--color-primary-interaction-default);
+	color: var(--color-neutral-foreground-negative);
+	
+	&:hover {
+		background-color: var(--color-primary-interaction-hover);
+		border-color: var(--color-primary-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-primary-interaction-pressed);
+		border-color: var(--color-primary-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-primary-interaction-default), 0 0 0 4px rgba(0, 78, 215, 0.2);
+	}
 
 	.progress {
 		background-color: var(--color-primary-surface-highlight);
 	}
 }
 
-@utility info {
-	@apply bg-informative-interaction-default border-informative-interaction-default;
-	@apply hover:bg-informative-interaction-hover hover:border-informative-interaction-hover;
-	@apply active:bg-informative-interaction-pressed active:border-informative-interaction-pressed;
-	@apply focus:ring-2 focus:ring-informative-interaction-default focus:ring-offset-2 focus:outline-none;
+.info {
+	background-color: var(--color-informative-interaction-default);
+	border-color: var(--color-informative-interaction-default);
+	color: var(--color-neutral-foreground-negative);
+	
+	&:hover {
+		background-color: var(--color-informative-interaction-hover);
+		border-color: var(--color-informative-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-informative-interaction-pressed);
+		border-color: var(--color-informative-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-informative-interaction-default), 0 0 0 4px rgba(82, 59, 187, 0.2);
+	}
 
 	.progress {
 		background-color: var(--color-informative-surface-highlight);
 	}
 }
 
-@utility success {
-	@apply bg-success-interaction-default border-success-interaction-default;
-	@apply hover:bg-success-interaction-hover hover:border-success-interaction-hover;
-	@apply active:bg-success-interaction-pressed active:border-success-interaction-pressed;
-	@apply focus:ring-2 focus:ring-success-interaction-default focus:ring-offset-2 focus:outline-none;
+.success {
+	background-color: var(--color-success-interaction-default);
+	border-color: var(--color-success-interaction-default);
+	color: var(--color-neutral-foreground-negative);
+	
+	&:hover {
+		background-color: var(--color-success-interaction-hover);
+		border-color: var(--color-success-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-success-interaction-pressed);
+		border-color: var(--color-success-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-success-interaction-default), 0 0 0 4px rgba(34, 197, 94, 0.2);
+	}
 
 	.progress {
 		background-color: var(--color-success-surface-highlight);
 	}
 }
 
-@utility warning {
-	@apply bg-warning-interaction-default border-warning-interaction-default;
-	@apply hover:bg-warning-interaction-hover hover:border-warning-interaction-hover;
-	@apply active:bg-warning-interaction-pressed active:border-warning-interaction-pressed;
-	@apply focus:ring-2 focus:ring-warning-interaction-default focus:ring-offset-2 focus:outline-none;
+.warning {
+	background-color: var(--color-warning-interaction-default);
+	border-color: var(--color-warning-interaction-default);
+	color: var(--color-neutral-foreground-negative);
+	
+	&:hover {
+		background-color: var(--color-warning-interaction-hover);
+		border-color: var(--color-warning-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-warning-interaction-pressed);
+		border-color: var(--color-warning-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-warning-interaction-default), 0 0 0 4px rgba(245, 158, 11, 0.2);
+	}
 
 	.progress {
 		background-color: var(--color-warning-surface-highlight);
 	}
 }
 
-@utility danger {
-	@apply bg-danger-interaction-default border-danger-interaction-default;
-	@apply hover:bg-danger-interaction-hover hover:border-danger-interaction-hover;
-	@apply active:bg-danger-interaction-pressed active:border-danger-interaction-pressed;
-	@apply focus:ring-2 focus:ring-danger-interaction-default focus:ring-offset-2 focus:outline-none;
+.danger {
+	background-color: var(--color-danger-interaction-default);
+	border-color: var(--color-danger-interaction-default);
+	color: var(--color-neutral-foreground-negative);
+	
+	&:hover {
+		background-color: var(--color-danger-interaction-hover);
+		border-color: var(--color-danger-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-danger-interaction-pressed);
+		border-color: var(--color-danger-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-danger-interaction-default), 0 0 0 4px rgba(239, 68, 68, 0.2);
+	}
 
 	.progress {
 		background-color: var(--color-danger-surface-highlight);
 	}
 }
 
-@utility neutral {
-	@apply bg-neutral-interaction-default border-neutral-interaction-default;
-	@apply hover:bg-neutral-interaction-hover hover:border-neutral-interaction-hover;
-	@apply active:bg-neutral-interaction-pressed active:border-neutral-interaction-pressed;
-	@apply focus:ring-2 focus:ring-neutral-interaction-default focus:ring-offset-2 focus:outline-none;
+.neutral {
+	background-color: var(--color-neutral-interaction-default);
+	border-color: var(--color-neutral-interaction-default);
+	color: var(--color-neutral-foreground-negative);
+	
+	&:hover {
+		background-color: var(--color-neutral-interaction-hover);
+		border-color: var(--color-neutral-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-neutral-interaction-pressed);
+		border-color: var(--color-neutral-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-neutral-interaction-default), 0 0 0 4px rgba(102, 102, 102, 0.2);
+	}
 
 	.progress {
 		background-color: var(--color-neutral-surface-highlight);
 	}
 }
 
-@utility disabled {
+/* Disabled state */
+.disabled {
 	pointer-events: none;
 	border-color: var(--color-neutral-border-default);
 	background-color: var(--color-neutral-surface-disabled);
@@ -77,110 +161,135 @@
 	}
 }
 
-@utility secondary {
+/* Secondary variant styles */
+.secondary {
 	background-color: transparent;
 }
 
 .secondary.primary {
 	color: var(--color-primary-interaction-default);
-}
-.secondary.primary:hover {
-	background-color: var(--color-primary-surface-hover);
-	border-color: var(--color-primary-border-hover);
-	color: var(--color-primary-interaction-hover);
-}
-.secondary.primary:active {
-	background-color: var(--color-primary-surface-pressed);
-	border-color: var(--color-primary-border-pressed);
-	color: var(--color-primary-interaction-pressed);
-}
-.secondary.primary:focus {
-	@apply focus:ring-2 focus:ring-primary-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-primary-surface-hover);
+		border-color: var(--color-primary-border-hover);
+		color: var(--color-primary-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-primary-surface-pressed);
+		border-color: var(--color-primary-border-pressed);
+		color: var(--color-primary-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-primary-interaction-default), 0 0 0 4px rgba(0, 78, 215, 0.2);
+	}
 }
 
 .secondary.info {
 	color: var(--color-informative-interaction-default);
-}
-.secondary.info:hover {
-	background-color: var(--color-informative-surface-hover);
-	border-color: var(--color-informative-border-hover);
-	color: var(--color-informative-interaction-hover);
-}
-.secondary.info:active {
-	background-color: var(--color-informative-surface-pressed);
-	border-color: var(--color-informative-border-pressed);
-	color: var(--color-informative-interaction-pressed);
-}
-.secondary.info:focus {
-	@apply focus:ring-2 focus:ring-informative-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-informative-surface-hover);
+		border-color: var(--color-informative-border-hover);
+		color: var(--color-informative-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-informative-surface-pressed);
+		border-color: var(--color-informative-border-pressed);
+		color: var(--color-informative-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-informative-interaction-default), 0 0 0 4px rgba(82, 59, 187, 0.2);
+	}
 }
 
 .secondary.success {
 	color: var(--color-success-interaction-default);
-}
-.secondary.success:hover {
-	background-color: var(--color-success-surface-hover);
-	border-color: var(--color-success-border-hover);
-	color: var(--color-success-interaction-hover);
-}
-.secondary.success:active {
-	background-color: var(--color-success-surface-pressed);
-	border-color: var(--color-success-border-pressed);
-	color: var(--color-success-interaction-pressed);
-}
-.secondary.success:focus {
-	@apply focus:ring-2 focus:ring-success-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-success-surface-hover);
+		border-color: var(--color-success-border-hover);
+		color: var(--color-success-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-success-surface-pressed);
+		border-color: var(--color-success-border-pressed);
+		color: var(--color-success-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-success-interaction-default), 0 0 0 4px rgba(34, 197, 94, 0.2);
+	}
 }
 
 .secondary.warning {
 	color: var(--color-warning-interaction-default);
-}
-.secondary.warning:hover {
-	background-color: var(--color-warning-surface-hover);
-	border-color: var(--color-warning-border-hover);
-	color: var(--color-warning-interaction-hover);
-}
-.secondary.warning:active {
-	background-color: var(--color-warning-surface-pressed);
-	border-color: var(--color-warning-border-pressed);
-	color: var(--color-warning-interaction-pressed);
-}
-.secondary.warning:focus {
-	@apply focus:ring-2 focus:ring-warning-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-warning-surface-hover);
+		border-color: var(--color-warning-border-hover);
+		color: var(--color-warning-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-warning-surface-pressed);
+		border-color: var(--color-warning-border-pressed);
+		color: var(--color-warning-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-warning-interaction-default), 0 0 0 4px rgba(245, 158, 11, 0.2);
+	}
 }
 
 .secondary.danger {
 	color: var(--color-danger-interaction-default);
-}
-.secondary.danger:hover {
-	background-color: var(--color-danger-surface-hover);
-	border-color: var(--color-danger-border-hover);
-	color: var(--color-danger-interaction-hover);
-}
-.secondary.danger:active {
-	background-color: var(--color-danger-surface-pressed);
-	border-color: var(--color-danger-border-pressed);
-	color: var(--color-danger-interaction-pressed);
-}
-.secondary.danger:focus {
-	@apply focus:ring-2 focus:ring-danger-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-danger-surface-hover);
+		border-color: var(--color-danger-border-hover);
+		color: var(--color-danger-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-danger-surface-pressed);
+		border-color: var(--color-danger-border-pressed);
+		color: var(--color-danger-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-danger-interaction-default), 0 0 0 4px rgba(239, 68, 68, 0.2);
+	}
 }
 
 .secondary.neutral {
 	color: var(--color-neutral-interaction-default);
-}
-.secondary.neutral:hover {
-	background-color: var(--color-neutral-surface-hover);
-	border-color: var(--color-neutral-border-hover);
-	color: var(--color-neutral-interaction-hover);
-}
-.secondary.neutral:active {
-	background-color: var(--color-neutral-surface-disabled);
-	border-color: var(--color-neutral-border-pressed);
-	color: var(--color-neutral-interaction-pressed);
-}
-.secondary.neutral:focus {
-	@apply focus:ring-2 focus:ring-neutral-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-neutral-surface-hover);
+		border-color: var(--color-neutral-border-hover);
+		color: var(--color-neutral-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-neutral-surface-disabled);
+		border-color: var(--color-neutral-border-pressed);
+		color: var(--color-neutral-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-neutral-interaction-default), 0 0 0 4px rgba(102, 102, 102, 0.2);
+	}
 }
 
 .secondary.disabled {
@@ -193,104 +302,129 @@
 	}
 }
 
-@utility reverse {
+/* Reverse variant styles */
+.reverse {
 	background-color: transparent;
 }
 
 .reverse.primary {
 	color: var(--color-primary-interaction-default);
-}
-.reverse.primary:hover {
-	background-color: var(--color-primary-interaction-default);
-	border-color: var(--color-primary-border-default);
-	color: var(--color-neutral-foreground-negative);
-}
-.reverse.primary:active {
-	background-color: var(--color-primary-interaction-pressed);
-	border-color: var(--color-primary-border-pressed);
-}
-.reverse.primary:focus {
-	@apply focus:ring-2 focus:ring-primary-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-primary-interaction-default);
+		border-color: var(--color-primary-interaction-default);
+		color: var(--color-neutral-foreground-negative);
+	}
+	
+	&:active {
+		background-color: var(--color-primary-interaction-pressed);
+		border-color: var(--color-primary-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-primary-interaction-default), 0 0 0 4px rgba(0, 78, 215, 0.2);
+	}
 }
 
 .reverse.info {
 	color: var(--color-informative-interaction-default);
-}
-.reverse.info:hover {
-	background-color: var(--color-informative-interaction-default);
-	border-color: var(--color-informative-border-default);
-	color: var(--color-neutral-foreground-negative);
-}
-.reverse.info:active {
-	background-color: var(--color-informative-interaction-pressed);
-	border-color: var(--color-informative-border-pressed);
-}
-.reverse.info:focus {
-	@apply focus:ring-2 focus:ring-informative-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-informative-interaction-default);
+		border-color: var(--color-informative-interaction-default);
+		color: var(--color-neutral-foreground-negative);
+	}
+	
+	&:active {
+		background-color: var(--color-informative-interaction-pressed);
+		border-color: var(--color-informative-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-informative-interaction-default), 0 0 0 4px rgba(82, 59, 187, 0.2);
+	}
 }
 
 .reverse.success {
 	color: var(--color-success-interaction-default);
-}
-.reverse.success:hover {
-	background-color: var(--color-success-interaction-default);
-	border-color: var(--color-success-border-default);
-	color: var(--color-neutral-foreground-negative);
-}
-.reverse.success:active {
-	background-color: var(--color-success-interaction-pressed);
-	border-color: var(--color-success-border-pressed);
-}
-.reverse.success:focus {
-	@apply focus:ring-2 focus:ring-success-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-success-interaction-default);
+		border-color: var(--color-success-interaction-default);
+		color: var(--color-neutral-foreground-negative);
+	}
+	
+	&:active {
+		background-color: var(--color-success-interaction-pressed);
+		border-color: var(--color-success-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-success-interaction-default), 0 0 0 4px rgba(34, 197, 94, 0.2);
+	}
 }
 
 .reverse.warning {
 	color: var(--color-warning-interaction-default);
-}
-.reverse.warning:hover {
-	background-color: var(--color-warning-interaction-default);
-	border-color: var(--color-warning-border-default);
-	color: var(--color-neutral-foreground-negative);
-}
-.reverse.warning:active {
-	background-color: var(--color-warning-interaction-pressed);
-	border-color: var(--color-warning-border-pressed);
-}
-.reverse.warning:focus {
-	@apply focus:ring-2 focus:ring-warning-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-warning-interaction-default);
+		border-color: var(--color-warning-interaction-default);
+		color: var(--color-neutral-foreground-negative);
+	}
+	
+	&:active {
+		background-color: var(--color-warning-interaction-pressed);
+		border-color: var(--color-warning-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-warning-interaction-default), 0 0 0 4px rgba(245, 158, 11, 0.2);
+	}
 }
 
 .reverse.danger {
 	color: var(--color-danger-interaction-default);
-}
-.reverse.danger:hover {
-	background-color: var(--color-danger-interaction-default);
-	border-color: var(--color-danger-border-default);
-	color: var(--color-neutral-foreground-negative);
-}
-.reverse.danger:active {
-	background-color: var(--color-danger-interaction-pressed);
-	border-color: var(--color-danger-border-pressed);
-}
-.reverse.danger:focus {
-	@apply focus:ring-2 focus:ring-danger-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-danger-interaction-default);
+		border-color: var(--color-danger-interaction-default);
+		color: var(--color-neutral-foreground-negative);
+	}
+	
+	&:active {
+		background-color: var(--color-danger-interaction-pressed);
+		border-color: var(--color-danger-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-danger-interaction-default), 0 0 0 4px rgba(239, 68, 68, 0.2);
+	}
 }
 
 .reverse.neutral {
 	color: var(--color-neutral-interaction-default);
-}
-.reverse.neutral:hover {
-	background-color: var(--color-neutral-interaction-default);
-	border-color: var(--color-neutral-border-default);
-	color: var(--color-neutral-foreground-negative);
-}
-.reverse.neutral:active {
-	background-color: var(--color-neutral-interaction-pressed);
-	border-color: var(--color-neutral-border-pressed);
-}
-.reverse.neutral:focus {
-	@apply focus:ring-2 focus:ring-neutral-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-neutral-interaction-default);
+		border-color: var(--color-neutral-interaction-default);
+		color: var(--color-neutral-foreground-negative);
+	}
+	
+	&:active {
+		background-color: var(--color-neutral-interaction-pressed);
+		border-color: var(--color-neutral-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-neutral-interaction-default), 0 0 0 4px rgba(102, 102, 102, 0.2);
+	}
 }
 
 .reverse.disabled {
@@ -299,105 +433,132 @@
 	border-color: var(--color-neutral-border-disabled);
 }
 
-@utility plain {
+/* Plain variant styles */
+.plain {
 	background-color: transparent;
 	border-color: transparent;
 }
+
 .plain:active {
 	border-color: transparent;
 }
+
 .plain:hover {
 	border-color: transparent;
 }
 
 .plain.primary {
-	color: var(--color-neutral-interaction-default);
-}
-.plain.primary:hover {
-	background-color: var(--color-primary-surface-hover);
-	color: var(--color-primary-interaction-hover);
-}
-.plain.primary:active {
-	background-color: var(--color-primary-surface-pressed);
-	color: var(--color-primary-interaction-pressed);
-}
-.plain.primary:focus {
-	@apply focus:ring-2 focus:ring-primary-interaction-default focus:ring-offset-2 focus:outline-none;
+	color: var(--color-primary-interaction-default);
+	
+	&:hover {
+		background-color: var(--color-primary-surface-hover);
+		color: var(--color-primary-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-primary-surface-pressed);
+		color: var(--color-primary-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-primary-interaction-default), 0 0 0 4px rgba(0, 78, 215, 0.2);
+	}
 }
 
 .plain.info {
 	color: var(--color-informative-interaction-default);
-}
-.plain.info:hover {
-	background-color: var(--color-informative-surface-hover);
-	color: var(--color-informative-interaction-hover);
-}
-.plain.info:active {
-	background-color: var(--color-informative-surface-pressed);
-	color: var(--color-informative-interaction-pressed);
-}
-.plain.info:focus {
-	@apply focus:ring-2 focus:ring-informative-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-informative-surface-hover);
+		color: var(--color-informative-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-informative-surface-pressed);
+		color: var(--color-informative-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-informative-interaction-default), 0 0 0 4px rgba(82, 59, 187, 0.2);
+	}
 }
 
 .plain.success {
 	color: var(--color-success-interaction-default);
-}
-.plain.success:hover {
-	background-color: var(--color-success-surface-hover);
-	color: var(--color-success-interaction-hover);
-}
-.plain.success:active {
-	background-color: var(--color-success-surface-pressed);
-	color: var(--color-success-interaction-pressed);
-}
-.plain.success:focus {
-	@apply focus:ring-2 focus:ring-success-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-success-surface-hover);
+		color: var(--color-success-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-success-surface-pressed);
+		color: var(--color-success-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-success-interaction-default), 0 0 0 4px rgba(34, 197, 94, 0.2);
+	}
 }
 
 .plain.warning {
 	color: var(--color-warning-interaction-default);
-}
-.plain.warning:hover {
-	background-color: var(--color-warning-surface-hover);
-	color: var(--color-warning-interaction-hover);
-}
-.plain.warning:active {
-	background-color: var(--color-warning-surface-pressed);
-	color: var(--color-warning-interaction-pressed);
-}
-.plain.warning:focus {
-	@apply focus:ring-2 focus:ring-warning-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-warning-surface-hover);
+		color: var(--color-warning-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-warning-surface-pressed);
+		color: var(--color-warning-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-warning-interaction-default), 0 0 0 4px rgba(245, 158, 11, 0.2);
+	}
 }
 
 .plain.danger {
 	color: var(--color-danger-interaction-default);
-}
-.plain.danger:hover {
-	background-color: var(--color-danger-surface-hover);
-	color: var(--color-danger-interaction-hover);
-}
-.plain.danger:active {
-	background-color: var(--color-danger-surface-pressed);
-	color: var(--color-danger-interaction-pressed);
-}
-.plain.danger:focus {
-	@apply focus:ring-2 focus:ring-danger-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-danger-surface-hover);
+		color: var(--color-danger-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-danger-surface-pressed);
+		color: var(--color-danger-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-danger-interaction-default), 0 0 0 4px rgba(239, 68, 68, 0.2);
+	}
 }
 
 .plain.neutral {
 	color: var(--color-neutral-interaction-default);
-}
-.plain.neutral:hover {
-	background-color: var(--color-neutral-surface-hover);
-	color: var(--color-neutral-interaction-hover);
-}
-.plain.neutral:active {
-	background-color: var(--color-neutral-surface-disabled);
-	color: var(--color-neutral-interaction-pressed);
-}
-.plain.neutral:focus {
-	@apply focus:ring-2 focus:ring-neutral-interaction-default focus:ring-offset-2 focus:outline-none;
+	
+	&:hover {
+		background-color: var(--color-neutral-surface-hover);
+		color: var(--color-neutral-interaction-hover);
+	}
+	
+	&:active {
+		background-color: var(--color-neutral-surface-disabled);
+		color: var(--color-neutral-interaction-pressed);
+	}
+	
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-neutral-interaction-default), 0 0 0 4px rgba(102, 102, 102, 0.2);
+	}
 }
 
 .plain.disabled {

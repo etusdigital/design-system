@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt-tokens>
+  <intro>
+    <paragraph>Você é um Product Designer especialista em Design Systems. Sua tarefa é criar um PRD para uma categoria específica de tokens.</paragraph>
+    <paragraph>Placeholders utilizados neste prompt:
+      <list>
+        <item>`{{category}}`: Indica a categoria de tokens a ser abordada (ex: color, spacing).</item>
+        <item>`{{baseTokens}}`: Contém o JSON exportado do Figma com tokens primitivos/base.</item>
+        <item>`{{functionalTokens}}`: Contém o JSON exportado do Figma com tokens funcionais/semânticos.</item>
+        <item>`{{guia}}`: Espaço para inserir diretrizes de nomenclatura adicionais ou específicas.</item>
+      </list>
+    </paragraph>
+  </intro>
+
+  <section title="1) Categoria Focada">
+    <list>
+      <item>A categoria de tokens que você deve criar um PRD é: {{category}}</item>
+    </list>
+  </section>
+
+  <section title="2) Tokens Atuais (Apenas Referência)">
+    <list>
+      <item>Abaixo está meu JSON que o meu time de Design exportou do Figma, ele ainda não contém os tokens todas as categorias de tokens que eu preciso e não está formatado corretamente. Importante: não quero usá-lo como versão final, ele 
+      e uma das referências, mas não é a versão final. Use sempre os valores finais dos tokens que ele contém, mas não se sinta obrigado a usar a estrutura dele, principalmente de nomeclaturas.</item>
+      <json>
+        <base-tokens>
+          {{baseTokens}}
+        </base-tokens>
+        <functional-tokens>
+          {{functionalTokens}}
+        </functional-tokens>
+      </json>
+      <item>Esses tokens são só exemplo e ponto de partida.</item>
+      <item>Minha intenção é descartar (ou renomear) boa parte do que existe, pois quero adotar uma abordagem inspirada em grandes design systems (Material, Atlassian, etc.).</item>
+      <item>Por favor, não replique 1:1 esse JSON; crie algo novo, mas levando em conta o que já tenho (para saber se algo serve ou não).</item>
+    </list>
+  </section>
+
+  <section title="3) Objetivos">
+    <list>
+      <item>Inspirar-se no JSON acima, mas evoluir para uma nova nomenclatura e estrutura.</item>
+      <item>Fazer um PRD com seções curtas (entre ~800 e 1500 palavras) que explique:
+        <sublist>
+          <item>Por que essa categoria de tokens é importante.</item>
+          <item>Qual o problema com a abordagem atual (se houver).</item>
+          <item>Como essa categoria é feita em 5 maiores design systems públicos.</item>
+          <item>Listar os nomes e tipos de tokens propostos para esta categoria (e.g., `spacing.padding.small`, `color.text.disabled`).</item>
+          <item>Demonstrar a aplicação da Arquitetura D especificamente para a categoria {{category}}.</item>
+        </sublist>
+      </item>
+      <item>Não falar de governança, fluxos de aprovação, prefixos de componentes.</item>
+      <item>Sim falar de acessibilidade de forma sucinta (ex.: cores e contraste). Ao citar acessibilidade, forneça exemplos práticos relacionados à categoria `{{category}}` (ex: se for 'color', mencionar contraste mínimo WCAG; se for 'spacing', como afeta a leitura).</item>
+    </list>
+  </section>
+
+  <section title="4) Estrutura Desejada do PRD Simplificado">
+    <paragraph>Quero no máximo 6 seções (pode ser 5 ou 6) com algo como:</paragraph>
+    <list numbered="true">
+      <item>Introdução</item>
+      <item>Contexto e exemplos de como outros design systems fazem isso</item>
+      <item>Nova Proposta de Tokens (detalhando nomes, escalas, valores)</item>
+      <item>Modelos de apresentação de tokens para essa categoria para o time de desenvolvimento</item>
+      <item>Um template com a estrutura final da categoria de tokens usando dados fictícios mas seguindo a nomenclatura e estrutura final.</item>
+    </list>
+    <paragraph>Nota: A seção 'Contexto e exemplos...' deve conter o relatório detalhado da análise de referências descrito na subseção 'Referências' da Seção 6.</paragraph>
+  </section>
+
+  <section title="5) Guia de Nomenclatura">
+    <paragraph>Esta seção fornece diretrizes para nomenclatura de tokens baseadas na Arquitetura D (Dominial) que vamos usar no projeto.</paragraph>
+    
+    <subsection title="O que é a Arquitetura D (Dominial)">
+      <paragraph>A Arquitetura D, ou Dominial, é uma abordagem estruturada para organização de design tokens que:</paragraph>
+      <list>
+        <item>Agrupa tokens por <bold>domínios de responsabilidade</bold> específicos, separando claramente valores primitivos, usos semânticos e aplicações em componentes</item>
+        <item>Permite <bold>escalabilidade</bold> em sistemas multimarca, facilitando a adição de novas marcas ou temas</item>
+        <item>Evita <bold>duplicação</bold> de tokens através de um sistema de referências e herança entre camadas</item>
+        <item>Cria <bold>separação de responsabilidades</bold> clara entre valores brutos (cores, espaçamentos) e seus usos funcionais</item>
+        <item>Suporta <bold>múltiplos temas</bold> (claro/escuro) e <bold>múltiplas marcas</bold> simultaneamente, através de camadas de override</item>
+      </list>
+      <paragraph>A letra "D" refere-se a "Dominial" porque cada pasta/arquivo na estrutura representa um domínio específico de responsabilidade no sistema de design.</paragraph>
+    </subsection>
+    
+    <subsection title="Vantagens da Arquitetura D">
+      <list>
+        <item><bold>Manutenção simplificada</bold>: Mudar um valor em um único lugar reflete em todo o sistema</item>
+        <item><bold>Onboarding facilitado</bold>: Novos membros da equipe entendem rapidamente onde encontrar cada tipo de token</item>
+        <item><bold>Consistência</bold>: Promove uso consistente de tokens semânticos em toda a interface</item>
+        <item><bold>Adaptabilidade</bold>: Facilita a adaptação para diferentes marcas e temas sem duplicação de código</item>
+        <item><bold>Escalabilidade</bold>: Estrutura preparada para crescer com adição de novas marcas ou componentes</item>
+      </list>
+    </subsection>
+    
+    <subsection title="Arquitetura de Tokens">
+      <paragraph>Siga a estrutura da Arquitetura D para organizar os tokens:</paragraph>
+      <code>
+tokens/
+├─ core/         # Primitives: valores atômicos puros (cor, tipografia, espaço...)
+├─ semantic/     # Aliases semânticos (color.background, color.text, feedback etc.)
+├─ components/   # Tokens específicos de cada componente (button, card, etc.)
+├─ themes/       # Overrides de tema (light/dark, high-contrast, etc.)
+└─ brands/       # Overrides por marca (ETUS, Brius, Evolution, etc.)
+      </code>
+      <paragraph>Na Arquitetura D, cada token em uma camada superior referencia tokens em camadas inferiores. Por exemplo, um token em <code>semantic/</code> normalmente referencia um token em <code>core/</code> ou <code>brands/</code>, enquanto um token em <code>components/</code> normalmente referencia um token em <code>semantic/</code>.</paragraph>
+    </subsection>
+    
+    <subsection title="Guia de Nomenclatura">
+      <guia>
+        {{guia}}
+      </guia>
+    </subsection>
+
+  <section title="6) Critérios de Qualidade do Output">
+    <paragraph>O PRD gerado deve seguir estes critérios de qualidade:</paragraph>
+    
+    <subsection title="Formato e Estrutura">
+      <list>
+        <item>Estrutura clara com 5-6 seções bem delimitadas usando headings Markdown (# e ##)</item>
+        <item>Máximo de 5000 palavras (excluindo blocos de código). Priorize o detalhamento na análise de referências (Seção 6); as outras seções podem ser mais concisas se necessário para respeitar o limite.</item>
+        <item>Usar listas e sublistas para organizar informações complexas</item>
+        <item>Blocos de código com syntax highlighting apropriado (json, css, etc.)</item>
+      </list>
+    </subsection>
+
+    <subsection title="Referências">
+        <paragraph>Traga uma analise detalhada de como outros design systems fazem essa categoria de tokens seguindo os seguintes passos:</paragraph>
+        <steps>
+          <step>
+            <paragraph>Para a categoria de token selecionada, pesquise e analise os cinco maiores design systems públicos:</paragraph>
+            <list>
+              <item><bold>Material Design (Google)</bold>: Examine a estrutura, escala e implementação</item>
+              <item><bold>Atlassian Design System</bold>: Analise a nomenclatura e organização</item>
+              <item><bold>Polaris (Shopify)</bold>: Observe o sistema de escalas e referências</item>
+              <item><bold>Lightning Design System (Salesforce)</bold>: Estude o modelo de tokens semânticos</item>
+              <item><bold>Fluent Design System (Microsoft)</bold>: Avalie o sistema de herança de tokens</item>
+            </list>
+            <paragraph>Para cada design system, documente:</paragraph>
+            <list>
+              <item>Nomenclatura utilizada para a categoria específica de tokens</item>
+              <item>Estrutura hierárquica e organização em arquivos/pastas</item>
+              <item>Valores e escalas adotados para diferentes contextos</item>
+              <item>Implementação técnica (JSON, CSS, etc.) e ferramentas de build</item>
+            </list>
+          </step>
+          <step>
+            <paragraph>Compare cada referência estudada com seus tokens atuais:</paragraph>
+            <list>
+              <item>Analise a compatibilidade com a estrutura de pastas atual do projeto</item>
+              <item>Compare as convenções de nomenclatura com o JSON existente</item>
+              <item>Avalie se as escalas e valores se alinham às necessidades do projeto</item>
+              <item>Identifique lacunas no seu sistema atual versus os design systems de referência</item>
+              <item>Destaque oportunidades específicas de melhoria baseadas na análise</item>
+            </list>
+          </step>
+          <step>
+            <paragraph>Crie uma tabela comparativa avaliando cada sistema de referência:</paragraph>
+            <list>
+              <item><bold>Prós</bold>: Identifique pontos fortes como clareza, escalabilidade, adaptabilidade multimarca</item>
+              <item><bold>Contras</bold>: Documente limitações como complexidade excessiva, curva de aprendizado</item>
+              <item><bold>Compatibilidade Técnica</bold>: Avalie facilidade de integração com Tailwind e Vue</item>
+              <item><bold>Adequação à Arquitetura D</bold>: Verifique a compatibilidade com o modelo dominial</item>
+            </list>
+            <paragraph>Exemplo de cabeçalho para a tabela comparativa:</paragraph>
+            <code>
+| Design System | Prós | Contras | Compatibilidade Técnica | Adequação à Arquitetura D |
+|---------------|------|---------|-------------------------|---------------------------|
+| Material      | ...  | ...     | ...                     | ...                       |
+            </code>
+          </step>
+          <step>
+            <paragraph>Baseado na análise das etapas anteriores, planeje e crie o relatório da análise. Este relatório será o conteúdo principal da seção "Contexto e exemplos de como outros design systems fazem isso" do PRD final. Use o seguinte formato:</paragraph>
+            <code>
+                # Relatório de Criação de Tokens: {{category}}
+
+                ## 1. Análise de Referências
+
+                ### Material Design
+                - Estrutura: [estrutura detalhada]
+                - Nomenclatura: [padrões de nomenclatura]
+                - Exemplo: [trecho de exemplo]
+
+                [Continuar com análises dos demais design systems...]
+
+                ## 2. Análise Comparativa
+
+                | Design System | Compatibilidade | Observações |
+                |---------------|-----------------|-------------|
+                | Material      | Alta/Média/Baixa| [detalhes]  |
+                | Atlassian     | Alta/Média/Baixa| [detalhes]  |
+                [etc...]
+
+                ## 3. Prós e Contras
+
+                ### Material Design
+                - ✅ [lista de prós]
+                - ❌ [lista de contras]
+
+                [Continuar com análises dos demais design systems...]
+
+                ## 4. JSON Final Proposto
+
+                ```json
+                {
+                  // Estrutura final detalhada de tokens
+                  // baseada nas análises anteriores
+                }
+                ```
+            </code>
+          </step>
+        </steps>
+    </subsection>
+    
+    <subsection title="Conteúdo">
+      <list>
+        <item>Justificativa clara e técnica para cada decisão</item>
+        <item>Referências explícitas a design systems reconhecidos que utilizam Vue/Tailwind/etc.</item>
+        <item>Considerações de acessibilidade específicas para a categoria de token</item>
+        <item>Coerência entre a proposta textual e o os dados da fonte de referência dos JSONs</item>
+      </list>
+    </subsection>
+    
+    <subsection title="JSON Final">
+      <list>
+        <item>Seguir estritamente a Arquitetura D conforme documentada</item>
+        <item>Usar nomes claros, consistentes e descritivos para cada token</item>
+        <item>Incluir propriedade "type" em cada token para identificar sua natureza</item>
+        <item>Comentários explicativos (via propriedade "description", se aplicável)</item>
+      </list>
+      <paragraph>Exemplo de estrutura para um token individual no JSON final:</paragraph>
+      <code>
+```json
+{
+  "semantic.color.background.default": {
+    "type": "color",
+    "value": "{core.color.neutral.1000}",
+    "description": "Cor de fundo padrão para a maioria das superfícies."
+  }
+}
+```
+    </subsection>
+    
+  </section>
+</prompt-tokens> 

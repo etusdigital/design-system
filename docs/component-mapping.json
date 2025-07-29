@@ -1,0 +1,375 @@
+{
+  "core": {
+    "description": "Essential UI building blocks",
+    "components": [
+      {
+        "name": "Icon",
+        "status": "completed",
+        "dependencies": [],
+        "priority": "P0"
+      },
+      {
+        "name": "Spinner", 
+        "status": "completed",
+        "dependencies": [],
+        "priority": "P0"
+      },
+      {
+        "name": "Button",
+        "status": "completed", 
+        "dependencies": ["Spinner"],
+        "priority": "P0"
+      },
+      {
+        "name": "Tag",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "Badge",
+        "status": "pending", 
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "Avatar",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "Divider",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "Card",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "CardIcon", 
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "ActionCard",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "Tooltip",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "RoundButton",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      }
+    ]
+  },
+  "forms": {
+    "description": "Form controls and input components",
+    "components": [
+      {
+        "name": "Input",
+        "status": "completed",
+        "dependencies": ["Icon"],
+        "priority": "P0"
+      },
+      {
+        "name": "Select",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "MultiSelect",
+        "status": "pending", 
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "SmartSelect",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "AutoComplete",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "Checkbox",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "Radio",
+        "status": "pending",
+        "dependencies": ["Group"],
+        "priority": "P1"
+      },
+      {
+        "name": "RadioButton",
+        "status": "pending",
+        "dependencies": ["Group"],
+        "priority": "P1"
+      },
+      {
+        "name": "Toggle",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "Slider",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "RangeSlider",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "ColorPicker",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "TagInput", 
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "TagSelect",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "DatePicker",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "Date",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      }
+    ]
+  },
+  "display": {
+    "description": "Data display and visualization components",
+    "components": [
+      {
+        "name": "Table",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P0"
+      },
+      {
+        "name": "MetricCard",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "ProgressBar",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "History",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "StepOption",
+        "status": "pending", 
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "Stepper",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "Tab",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "Pagination",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      }
+    ]
+  },
+  "feedback": {
+    "description": "User feedback and notification components", 
+    "components": [
+      {
+        "name": "Alert",
+        "status": "pending",
+        "dependencies": ["Icon"],
+        "priority": "P0"
+      },
+      {
+        "name": "Toast",
+        "status": "pending",
+        "dependencies": ["Alert", "Icon"],
+        "priority": "P0"
+      },
+      {
+        "name": "Dialog",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P0"
+      },
+      {
+        "name": "Confirm",
+        "status": "pending",
+        "dependencies": ["Button", "Dialog"],
+        "priority": "P1"
+      },
+      {
+        "name": "DateFilter",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "DateComparator",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "DateComparatorFilter",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      }
+    ]
+  },
+  "layout": {
+    "description": "Layout and navigation components",
+    "components": [
+      {
+        "name": "Navbar",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P0"
+      },
+      {
+        "name": "Sidebar",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "SideMenu",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "Menu",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "RoundMenu",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "Breadcrumb",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "Dropdown",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P1"
+      },
+      {
+        "name": "Collapse",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "ExpandableContainer",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "Group",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P0"
+      },
+      {
+        "name": "ContentScreen",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "SelectContainer",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "Profile",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "Filter",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      },
+      {
+        "name": "Crop",
+        "status": "pending",
+        "dependencies": [],
+        "priority": "P2"
+      }
+    ]
+  }
+}

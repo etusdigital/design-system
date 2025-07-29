@@ -35,22 +35,21 @@
 		:id="id"
 		:name="name || id"
 		:type="type"
-		:disabled="disabled || isLoading"
+		:disabled="disabled"
 		class="b-button"
 		:class="[
-			{
-				disabled: disabled || isLoading,
-				'pointer-events-none': isLoading && !disabled,
-			},
+			{ disabled, 'pointer-events-none': isLoading },
 			variant,
 			size,
 			color,
 		]">
 		<div
-			v-if="isLoading && progress > 0"
+			v-if="isLoading"
 			class="progress"
-			:class="{ 'rounded-r-sm': progress == 1 }"
-			:style="{ width: progress * 100 + '%' }" />
+			:style="{ 
+				width: progress * 100 + '%', 
+				borderRadius: progress == 1 ? 'var(--border-radius-sm)' : 'var(--border-radius-sm) 0 0 var(--border-radius-sm)' 
+			}" />
 		<BSpinner v-if="isLoading" />
 		<template v-if="$slots.default">
 			<label
@@ -70,50 +69,71 @@
 	</button>
 </template>
 
-<style scoped src="@/utils/styles/button.css" />
+<style scoped src="../../utils/styles/button.css" />
 
 <style scoped>
-	@reference "../../assets/main.css";
+.b-button {
+	position: relative;
+	display: inline-flex;
+	cursor: pointer;
+	align-items: center;
+	justify-content: center;
+	text-transform: capitalize;
+	user-select: none;
+	border-radius: var(--border-radius-base);
+	border-width: var(--border-width-xs);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-semibold);
+	line-height: var(--line-height-lg);
+	letter-spacing: var(--letter-spacing-wider);
+}
 
-	.b-button {
-		@apply p3 font-semibold leading-xs rounded-lg relative inline-flex cursor-pointer items-center justify-center tracking-wider capitalize select-none active:scale-95 border-xs text-neutral-foreground-negative;
-	}
+.b-button:active {
+	transform: scale(0.95);
+}
 
-	.b-button.small {
-		@apply py-xs px-base;
+.b-button .b-spinner {
+	position: absolute;
+}
 
-		.b-spinner {
-			@apply text-xs;
-		}
-	}
-
-	.b-button.medium {
-		@apply py-sm px-base;
-		.b-spinner {
-			@apply text-sm;
-		}
-	}
-
-	.b-button.large {
-		@apply py-base px-xl;
-		.b-spinner {
-			@apply text-base;
-		}
-	}
+.b-button.small {
+	padding: var(--spacing-xs) var(--spacing-base);
 
 	.b-spinner {
-		@apply absolute;
+		font-size: 0.75rem; /* equivalent to text-xs */
 	}
+}
 
-	.progress {
-		@apply absolute overflow-hidden top-0 left-0 bottom-0 rounded-l-sm transition-[width] ease-out duration-300;
-	}
+.b-button.medium {
+	padding: var(--spacing-sm) var(--spacing-base);
 
-	.b-button.default .progress {
-		@apply bg-white opacity-60;
+	.b-spinner {
+		font-size: 0.875rem; /* equivalent to text-sm */
 	}
+}
 
-	.button-label {
-		@apply inline-flex items-center justify-center gap-x-xs;
+.b-button.large {
+	padding: var(--spacing-base) var(--spacing-xl);
+
+	.b-spinner {
+		font-size: 1rem; /* equivalent to text-base */
 	}
+}
+
+.button-label {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	column-gap: var(--spacing-xs);
+}
+
+.progress {
+	position: absolute;
+	overflow: hidden;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	transition: width 300ms ease-out;
+	border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+}
 </style>

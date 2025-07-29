@@ -291,11 +291,11 @@
 	}
 
 	.search {
-		@apply text-neutral-interaction-default h-full w-full p-none m-none border-none shadow-none outline-hidden p3;
+		@apply text-neutral-interaction-default h-full w-full p-0 m-0 border-none shadow-none outline-hidden p3;
 	}
 
 	.tag {
-		@apply py-none max-w-full;
+		@apply py-0 max-w-full;
 	}
 
 	.close-icon {

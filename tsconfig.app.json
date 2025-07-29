@@ -1,7 +1,7 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": ["src/**/*.ts", "src/**/*.vue", "src/components/index.mdx"],
-  "exclude": ["lib/**/*", "src/**/__tests__/*", "src/**/*.stories.ts"],
+  "exclude": ["lib/**/*", "src/**/__tests__/*", "src/**/*.stories.ts", "src/utils/*test-utils.ts"],
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "Node",

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import BButton from "./BButton.vue";
 
 const meta = {
@@ -6,16 +6,17 @@ const meta = {
   tags: ["autodocs"],
   argTypes: {
     type: {
-      type: { summary: "text" },
-      control: "select",
+      description: "HTML button type attribute",
+      control: { type: "select" },
       options: ["button", "reset", "submit"],
       table: {
+        type: { summary: "string" },
         defaultValue: { summary: "button" },
       },
     },
     color: {
-      type: { summary: "text" },
-      control: "select",
+      description: "Color variant of the button",
+      control: { type: "select" },
       options: [
         "primary",
         "info",
@@ -25,12 +26,13 @@ const meta = {
         "neutral",
       ],
       table: {
+        type: { summary: "string" },
         defaultValue: { summary: "primary" },
       },
     },
     variant: {
-      type: { summary: "text" },
-      control: "select",
+      description: "Visual style variant of the button",
+      control: { type: "select" },
       options: [
         "default",
         "secondary",
@@ -38,36 +40,38 @@ const meta = {
         "reverse",
       ],
       table: {
+        type: { summary: "string" },
         defaultValue: { summary: "default" },
       },
     },
     size: {
-      type: { summary: "text" },
-      control: "select",
+      description: "Size of the button",
+      control: { type: "select" },
       options: ["small", "medium", "large"],
       table: {
+        type: { summary: "string" },
         defaultValue: { summary: "medium" },
       },
     },
     disabled: {
-      type: { summary: "boolean" },
+      description: 'Disables the underlying button\'s HTML element and sets the CSS property "cursor-events" to "none".',
+      control: { type: "boolean" },
       table: {
+        type: { summary: "boolean" },
         defaultValue: { summary: false },
       },
-      description:
-        'Disables the underlying button\'s HTML element and sets the CSS property "cursor-events" to "none".',
     },
     loading: {
-      type: { summary: "boolean" },
+      description: "If true, shows a spinner instead of the default slot's contents and disables cursor events. If \"progress\" is anything other than 0, this is implicitly true, so there's no need to use both. Keep in mind that although the content is hidden, it is still rendered so that the button doesn't shrink.",
+      control: { type: "boolean" },
       table: {
+        type: { summary: "boolean" },
         category: "Loading state",
         defaultValue: { summary: false },
       },
-      description:
-        "If true, shows a spinner instead of the default slot's contents and disables cursor events. If \"progress\" is anything other than 0, this is implicitly true, so there's no need to use both. Keep in mind that although the content is hidden, it is still rendered so that the button doesn't shrink.",
     },
     progress: {
-      type: { summary: "number" },
+      description: "The current progress of the loading state.",
       control: {
         type: "range",
         min: 0,
@@ -75,10 +79,10 @@ const meta = {
         step: 0.0001,
       },
       table: {
+        type: { summary: "number" },
         category: "Loading state",
         defaultValue: { summary: 0 },
       },
-      description: "The current progress of the loading state.",
     },
     default: {
       description:

@@ -275,7 +275,7 @@
 	}
 
 	.fisrt-button {
-		@apply rounded-s-full ml-none;
+		@apply rounded-s-full ml-0;
 
 		&::after,
 		.after-triangle-cover {

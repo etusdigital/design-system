@@ -4,9 +4,8 @@ import { mergeConfig } from "vite";
 const config: StorybookConfig = {
   stories: ["../src/**/*.stories.@(js|jsx|ts|tsx)"],
   addons: [
+    "@storybook/addon-docs",
     "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
     "@chromatic-com/storybook"
   ],
   framework: {
@@ -15,8 +14,13 @@ const config: StorybookConfig = {
   },
   async viteFinal(config) {
     return mergeConfig(config, {
-      optimizeDeps: {
-        include: [],
+      build: {
+        rollupOptions: {
+          external: ['vue'],
+        },
+      },
+      define: {
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       },
     });
   },

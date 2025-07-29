@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
+import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import BSideMenu from "./BSideMenu.vue";
 
 // Definir localmente para clareza e evitar conflitos de resolução do linter
