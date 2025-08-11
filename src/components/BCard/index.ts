@@ -9,4 +9,25 @@ export default {
 
 export {
     BCard,
-}
+};
+
+// Export types for external use
+export type {
+    BCardProps,
+    BCardEmits,
+    BCardSlots,
+    BCardContext,
+    BCardRole,
+    BCardVariant,
+    BCardSize,
+    BCardLoadingState,
+    BCardGroupConfig,
+    BCardInteractionConfig,
+    BCardMediaConfig,
+    BCardSkipLinksConfig,
+    BCardAriaAttributes,
+    BCardNavigationKey,
+    BCardA11yHelpers,
+} from './BCard.types';
+
+export { CARD_NAVIGATION_KEYS } from './BCard.types';

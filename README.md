@@ -1,11 +1,9 @@
-# BRIUS Design System
+# ETUS Design System
 
 ## Summary
 
 - [Installation](#installation)
-    - [Google Cloud SDK](#google-cloud-sdk)
-    - [NPM install](#npm-install)
-    - [TLDR](#tldr)
+- [Local Development](#local-development)
 - [Usage](#usage)
     - [Importing](#importing)
     - [Using Components](#using-components)
@@ -14,31 +12,29 @@
 - [Projects](#projects)
 - [Design System: Tokens, Variables and Themes](#design-system-tokens-variables-and-themes)
 
-## Installation
+## Local Development
 
 Para usar o Design System localmente em outro projeto durante o desenvolvimento:
 
-1.  **Neste projeto (`@BRIUS/design-system`):**
+1.  **Neste projeto (`@ETUS/eds`):**
     *   Certifique-se de que as dependências estão instaladas: `npm install`
     *   Construa o projeto: `npm run build`
     *   Crie um link simbólico local para o pacote: `npm link`
 
 2.  **No seu projeto que consumirá o Design System:**
     *   Navegue até a pasta raiz do seu outro projeto.
-    *   Vincule o pacote do Design System: `npm link "@BRIUS/design-system"`
+    *   Vincule o pacote do Design System: `npm link "@ETUS/eds"`
     *   Agora você pode importar componentes como faria normalmente.
 
 Quando não precisar mais do link local, você pode desfazê-lo:
-*   No seu projeto consumidor: `npm unlink "@BRIUS/design-system"`
-*   Neste projeto (`@BRIUS/design-system`): `npm unlink` (para remover o link global)
+*   No seu projeto consumidor: `npm unlink "@ETUS/eds"`
+*   Neste projeto (`@ETUS/eds`): `npm unlink` (para remover o link global)
 
-### TLDR
+### Installation
 
-1. Install and authenticate with GCloud SDK (<https://cloud.google.com/sdk/docs/install>).
-1. Run `gcloud auth application-default login` (only run once on a machine's lifetime).
-1. Copy `.npmrc` on this repository to your project's root.
-1. Run `npx google-artifacregistry-auth`
-1. Run `npm install @BRIUS/design-system`
+```bash
+npm install @ETUS/eds
+```
 
 ## Usage
 
@@ -50,8 +46,8 @@ Since the library is exported as a Vue plugin, to use it, just import it and `ap
 import { createApp } from 'vue';
 import App from './App.vue';
 
-import DesignSystem from '@BRIUS/design-system';
-import '@BRIUS/design-system/styles.css';
+import DesignSystem from '@ETUS/eds';
+import '@ETUS/eds/styles.css';
 
 createApp(App)
     .use(DesignSystem)
@@ -60,7 +56,8 @@ createApp(App)
 
 ### Using components
 
-All components will be injected into the Vue instance, so there's no need to import separate components files to use them. You should be able to just use them in your code, like so:
+#### Global Usage (Legacy)
+All components will be injected into the Vue instance, so there's no need to import separate components files to use them:
 
 ```html
 <template>
@@ -73,6 +70,32 @@ All components will be injected into the Vue instance, so there's no need to imp
 // No need to import BButton.
 </script>
 ```
+
+#### Modular Usage (Recommended)
+For better tree-shaking and module organization, import components from specific modules:
+
+```html
+<template>
+    <div>
+        <Button>New Modular Button</Button>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { Button } from '@ETUS/eds/core';
+</script>
+```
+
+Available modules: `core`, `forms`, `data-display`, `feedback`, `navigation`, `overlay`, `layout`
+
+## Migration Status
+
+This library is currently undergoing migration from the legacy `B*` component structure to a modular architecture. Both import approaches are supported:
+
+- **Legacy**: `import { BButton } from '@ETUS/eds'` - Still works for backward compatibility
+- **New**: `import { Button } from '@ETUS/eds/core'` - Recommended for better tree-shaking
+
+For detailed migration information, see [Migration Workflow](docs/MIGRATION_WORKFLOW.md).
 
 ## Documentation
 TODO: We are working on hosting the documentation.

@@ -1,10 +1,11 @@
 import type { App, Plugin } from "vue";
-import * as internalComponents from "./components";
+import * as internalComponents from "./modules";
 import event from "./utils/event";
 import "normalize.css";
 import "./assets/main.css";
 
 export * from "./composables";
+export * from "./modules";
 
 interface OptionsConfirm {
 	title?: string;
@@ -26,7 +27,15 @@ interface OptionsToast {
 	action?: Function;
 }
 
-const componentsModule = internalComponents as Record<string, Plugin>;
+// Extract all components from modules (excluding module namespace objects)
+const componentsModule = Object.fromEntries(
+	Object.entries(internalComponents).filter(([key, value]) => 
+		// Only include actual Vue components/plugins, not module namespace objects
+		key !== 'Core' && key !== 'Forms' && key !== 'DataDisplay' && 
+		key !== 'Feedback' && key !== 'Navigation' && key !== 'Overlay' && 
+		key !== 'Layout' && value && typeof value === 'object'
+	)
+) as Record<string, Plugin>;
 
 export default {
 	install(app: App) {

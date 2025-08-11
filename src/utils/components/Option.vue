@@ -26,29 +26,5 @@
 </template>
 
 <style scoped>
-	@reference "../../assets/main.css";
-	.option-container {
-		@apply p3 flex items-center gap-8 cursor-pointer select-none text-neutral-interaction-default rounded-sm
-    hover:text-primary-interaction-default hover:bg-primary-surface-default;
-
-		.b-icon {
-			@apply text-base;
-		}
-	}
-
-	.option-container.selected {
-		@apply text-primary-interaction-selected bg-primary-surface-default;
-	}
-
-	.option-container.noHover {
-		@apply hover:text-neutral-interaction-default hover:bg-transparent;
-	}
-
-	.option-container.secondary {
-		@apply text-neutral-foreground-negative hover:bg-primary-interaction-hover;
-	}
-
-	.option-container.disabled {
-		@apply pointer-events-none text-neutral-interaction-disabled;
-	}
+	@import "../../assets/main.css";
 </style>

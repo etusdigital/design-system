@@ -9,4 +9,16 @@ export default {
 
 export {
     BRoundMenu,
-}
+};
+
+export type {
+    RadialNavigationItem,
+    RoundMenuItem,
+    RoundMenuTrigger,
+    RoundMenuProps,
+    RadialMenuKey,
+    ClockPosition,
+    MenuState,
+    AccessibilityOptions,
+    AnnouncementMessages,
+} from './BRoundMenu.types';

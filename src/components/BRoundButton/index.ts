@@ -9,4 +9,19 @@ export default {
 
 export {
     BRoundButton,
-}
+};
+
+// Export types for TypeScript users
+export type {
+    BRoundButtonProps,
+    BRoundButtonEmits,
+    BRoundButtonSlots,
+    BRoundButtonInstance,
+    AccessibilityFeatures,
+    KeyboardInteractionHandlers,
+    TouchTargetValidation,
+    ScreenReaderAnnouncements,
+    ARIAStateMapping,
+    FocusManagement,
+    IconLabeling,
+} from './BRoundButton.types';

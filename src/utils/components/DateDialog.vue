@@ -2,7 +2,7 @@
 	const props = withDefaults(
 		defineProps<{
 			show?: boolean;
-			items: any[];
+			items: unknown[];
 			vertical?: boolean;
 			width?: string;
 			maxHeight?: string;
@@ -43,7 +43,7 @@
 </template>
 
 <style scoped>
-	@reference "../../assets/main.css";
+	@import "../../assets/main.css";
 	.appear-enter-active {
 		@apply transition-all duration-500 ease-out;
 	}

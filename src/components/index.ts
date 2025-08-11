@@ -1,6 +1,7 @@
 export { default as BButton } from './BButton';
 export { default as BRoundButton } from './BRoundButton';
 export { default as BSpinner } from './BSpinner';
+export { default as BSwitch } from './BSwitch';
 export { default as BToggle } from './BToggle';
 export { default as BCheckbox } from './BCheckbox';
 export { default as BRadio } from './BRadio';
@@ -33,6 +34,7 @@ export { default as BDateComparatorFilter } from './BDateComparatorFilter';
 export { default as BExpandableContainer } from './BExpandableContainer';
 export { default as BColorPicker } from './BColorPicker';
 export { default as BSlider } from './BSlider';
+export { default as BSliderInput } from './BSliderInput';
 export { default as BRangeSlider } from './BRangeSlider';
 export { default as BProgressBar } from './BProgressBar';
 export { default as BTagInput } from './BTagInput';
@@ -55,3 +57,10 @@ export { default as BAvatar } from './BAvatar';
 export { default as BNavbar } from './BNavbar';
 export { default as BSidebar } from './BSidebar';
 export { default as BSideMenu } from './BSideMenu';
+export { default as BFileUpload } from './BFileUpload';
+
+// New form components (AA-647)
+export { default as BForm } from './BForm';
+export { default as BFormField } from './BFormField';
+export { default as BTextarea } from './BTextarea';
+export { default as BRating } from './BRating';

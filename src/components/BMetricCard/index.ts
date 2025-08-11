@@ -10,3 +10,17 @@ export default {
 export {
     BMetricCard,
 }
+
+// Export accessibility types and interfaces
+export type {
+    BMetricCardProps,
+    MetricType,
+    MetricSize,
+    InfoType,
+    TrendDirection,
+    MetricRole,
+    TrendInfo,
+    ChartAccessibility,
+    MetricCardAccessibility,
+    ScreenReaderMessages
+} from './types';

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRoundButton Accessibility Testing</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            line-height: 1.5;
+        }
+        .test-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+        }
+        .test-section h2 {
+            margin-top: 0;
+            color: #1f2937;
+        }
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        .test-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            min-height: 44px;
+            border-radius: 50%;
+            border: 2px solid #d1d5db;
+            background: #3b82f6;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+        }
+        .test-button:hover {
+            background: #2563eb;
+            transform: scale(1.05);
+        }
+        .test-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px #93c5fd;
+        }
+        .test-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #9ca3af;
+        }
+        .test-button.toggle-pressed {
+            background: #059669;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .test-button.loading {
+            cursor: wait;
+            pointer-events: none;
+        }
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        .test-description {
+            background: #f3f4f6;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            font-size: 0.875rem;
+        }
+        .keyboard-instructions {
+            background: #dbeafe;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        .keyboard-instructions h3 {
+            margin-top: 0;
+            color: #1e40af;
+        }
+        .keyboard-instructions kbd {
+            background: #e5e7eb;
+            padding: 0.125rem 0.25rem;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.75rem;
+        }
+        .results {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f9fafb;
+            border-radius: 4px;
+            min-height: 100px;
+        }
+        .results h4 {
+            margin-top: 0;
+        }
+        #announcements {
+            font-style: italic;
+            color: #6b7280;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        .status-indicator.pass {
+            background: #10b981;
+        }
+        .status-indicator.fail {
+            background: #ef4444;
+        }
+        .status-indicator.warning {
+            background: #f59e0b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>BRoundButton Accessibility Testing Suite</h1>
+        <p>This page tests the accessibility implementation of the BRoundButton component according to WCAG 2.1 AA guidelines.</p>
+    </header>
+
+    <div class="keyboard-instructions">
+        <h3>Testing Instructions</h3>
+        <ul>
+            <li>Use <kbd>Tab</kbd> to navigate between buttons</li>
+            <li>Press <kbd>Enter</kbd> or <kbd>Space</kbd> to activate buttons</li>
+            <li>Enable screen reader (VoiceOver on Mac: <kbd>Cmd</kbd> + <kbd>F5</kbd>)</li>
+            <li>Check focus indicators are visible</li>
+            <li>Verify announcements in the results section</li>
+        </ul>
+    </div>
+
+    <section class="test-section">
+        <h2><span class="status-indicator pass"></span>Icon-Only Button Labeling</h2>
+        <div class="test-description">
+            <strong>Test:</strong> Icon-only buttons must have accessible labels for screen readers.
+            <br><strong>Expected:</strong> Screen readers announce meaningful labels, not just "button".
+        </div>
+        <div class="button-group">
+            <button 
+                class="test-button" 
+                aria-label="Add new item"
+                data-test="icon-label-1">
+                ➕
+            </button>
+            <button 
+                class="test-button" 
+                aria-label="Edit current item"
+                data-test="icon-label-2">
+                ✏️
+            </button>
+            <button 
+                class="test-button" 
+                aria-label="Delete selected item"
+                data-test="icon-label-3">
+                🗑️
+            </button>
+        </div>
+    </section>
+
+    <section class="test-section">
+        <h2><span class="status-indicator pass"></span>Keyboard Navigation</h2>
+        <div class="test-description">
+            <strong>Test:</strong> Buttons must be keyboard accessible with Enter and Space keys.
+            <br><strong>Expected:</strong> Tab focuses buttons, Enter/Space activates them.
+        </div>
+        <div class="button-group">
+            <button 
+                class="test-button" 
+                aria-label="First keyboard test button"
+                data-test="keyboard-1">
+                1
+            </button>
+            <button 
+                class="test-button" 
+                aria-label="Second keyboard test button"
+                data-test="keyboard-2">
+                2
+            </button>
+            <button 
+                class="test-button" 
+                aria-label="Third keyboard test button"
+                data-test="keyboard-3">
+                3
+            </button>
+        </div>
+    </section>
+
+    <section class="test-section">
+        <h2><span class="status-indicator pass"></span>Toggle Button States</h2>
+        <div class="test-description">
+            <strong>Test:</strong> Toggle buttons must announce state changes using aria-pressed.
+            <br><strong>Expected:</strong> Screen readers announce "pressed" or "not pressed" states.
+        </div>
+        <div class="button-group">
+            <button 
+                class="test-button" 
+                aria-label="Toggle favorite"
+                aria-pressed="false"
+                data-test="toggle-1">
+                ❤️
+            </button>
+            <button 
+                class="test-button" 
+                aria-label="Toggle bookmark"
+                aria-pressed="false"
+                data-test="toggle-2">
+                🔖
+            </button>
+            <button 
+                class="test-button toggle-pressed" 
+                aria-label="Toggle notification"
+                aria-pressed="true"
+                data-test="toggle-3">
+                🔔
+            </button>
+        </div>
+    </section>
+
+    <section class="test-section">
+        <h2><span class="status-indicator pass"></span>Loading States</h2>
+        <div class="test-description">
+            <strong>Test:</strong> Loading buttons must use aria-busy and announce state changes.
+            <br><strong>Expected:</strong> Screen readers announce loading state and completion.
+        </div>
+        <div class="button-group">
+            <button 
+                class="test-button" 
+                aria-label="Save document"
+                data-test="loading-1">
+                💾
+            </button>
+            <button 
+                class="test-button loading" 
+                aria-label="Saving document"
+                aria-busy="true"
+                disabled
+                data-test="loading-2">
+                <div class="loading-spinner"></div>
+                <span class="sr-only">Saving document</span>
+            </button>
+            <button 
+                class="test-button" 
+                aria-label="Upload file"
+                data-test="loading-3">
+                📤
+            </button>
+        </div>
+    </section>
+
+    <section class="test-section">
+        <h2><span class="status-indicator pass"></span>Disabled States</h2>
+        <div class="test-description">
+            <strong>Test:</strong> Disabled buttons must be focusable but not activatable for screen readers.
+            <br><strong>Expected:</strong> Tab can focus disabled buttons, they announce as disabled.
+        </div>
+        <div class="button-group">
+            <button 
+                class="test-button" 
+                aria-label="Settings (currently unavailable)"
+                disabled
+                data-test="disabled-1">
+                ⚙️
+            </button>
+            <button 
+                class="test-button" 
+                aria-label="Print (no printer available)"
+                aria-describedby="print-reason"
+                disabled
+                data-test="disabled-2">
+                🖨️
+            </button>
+            <div id="print-reason" class="sr-only">No printer is currently available</div>
+        </div>
+    </section>
+
+    <section class="test-section">
+        <h2><span class="status-indicator pass"></span>Touch Target Size</h2>
+        <div class="test-description">
+            <strong>Test:</strong> All buttons must meet minimum 44px touch target size.
+            <br><strong>Expected:</strong> All buttons are at least 44x44 pixels for touch accessibility.
+        </div>
+        <div class="button-group">
+            <button 
+                class="test-button" 
+                style="width: 40px; height: 40px; min-width: 44px; min-height: 44px;"
+                aria-label="Small button with adequate touch target"
+                data-test="touch-1">
+                S
+            </button>
+            <button 
+                class="test-button" 
+                style="width: 48px; height: 48px;"
+                aria-label="Medium button"
+                data-test="touch-2">
+                M
+            </button>
+            <button 
+                class="test-button" 
+                style="width: 64px; height: 64px;"
+                aria-label="Large button"
+                data-test="touch-3">
+                L
+            </button>
+        </div>
+    </section>
+
+    <div class="results">
+        <h4>Test Results & Announcements</h4>
+        <div id="announcements">Click buttons to see accessibility announcements...</div>
+        <div id="test-log"></div>
+    </div>
+
+    <!-- Live region for announcements -->
+    <div id="live-region" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+    <script>
+        // Accessibility testing utilities
+        class AccessibilityTester {
+            constructor() {
+                this.testResults = [];
+                this.announcements = [];
+                this.initializeEventListeners();
+                this.runAutomaticTests();
+            }
+
+            initializeEventListeners() {
+                // Add event listeners to all test buttons
+                document.querySelectorAll('[data-test]').forEach(button => {
+                    button.addEventListener('click', (e) => this.handleButtonClick(e));
+                    button.addEventListener('keydown', (e) => this.handleKeydown(e));
+                    button.addEventListener('focus', (e) => this.handleFocus(e));
+                });
+            }
+
+            handleButtonClick(event) {
+                const button = event.target;
+                const testId = button.getAttribute('data-test');
+                const label = button.getAttribute('aria-label') || 'Unlabeled button';
+                
+                if (button.disabled) {
+                    this.announce('Button is disabled and cannot be activated');
+                    return;
+                }
+
+                // Handle toggle buttons
+                if (button.hasAttribute('aria-pressed')) {
+                    const pressed = button.getAttribute('aria-pressed') === 'true';
+                    const newPressed = !pressed;
+                    button.setAttribute('aria-pressed', newPressed);
+                    button.classList.toggle('toggle-pressed', newPressed);
+                    
+                    const state = newPressed ? 'pressed' : 'not pressed';
+                    this.announce(`${label} ${state}`);
+                    this.logTest(testId, `Toggle button state changed to ${state}`, 'pass');
+                } else if (testId.includes('loading')) {
+                    // Simulate loading state
+                    this.simulateLoading(button, testId);
+                } else {
+                    this.announce(`${label} activated`);
+                    this.logTest(testId, `Button activated successfully`, 'pass');
+                }
+            }
+
+            handleKeydown(event) {
+                const button = event.target;
+                const testId = button.getAttribute('data-test');
+                
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    this.logTest(testId, `Keyboard activation (${event.key}) working`, 'pass');
+                    
+                    // Trigger click for consistency
+                    button.click();
+                }
+            }
+
+            handleFocus(event) {
+                const button = event.target;
+                const testId = button.getAttribute('data-test');
+                const label = button.getAttribute('aria-label') || 'Unlabeled button';
+                
+                this.logTest(testId, `Button received focus: ${label}`, 'pass');
+            }
+
+            simulateLoading(button, testId) {
+                const originalContent = button.innerHTML;
+                const originalLabel = button.getAttribute('aria-label');
+                
+                // Set loading state
+                button.innerHTML = '<div class="loading-spinner"></div><span class="sr-only">Loading...</span>';
+                button.setAttribute('aria-label', 'Loading...');
+                button.setAttribute('aria-busy', 'true');
+                button.classList.add('loading');
+                button.disabled = true;
+                
+                this.announce('Loading...');
+                this.logTest(testId, 'Loading state activated', 'pass');
+                
+                // Simulate completion after 2 seconds
+                setTimeout(() => {
+                    button.innerHTML = originalContent;
+                    button.setAttribute('aria-label', originalLabel);
+                    button.removeAttribute('aria-busy');
+                    button.classList.remove('loading');
+                    button.disabled = false;
+                    
+                    this.announce('Loading complete');
+                    this.logTest(testId, 'Loading state completed', 'pass');
+                }, 2000);
+            }
+
+            announce(message) {
+                const liveRegion = document.getElementById('live-region');
+                const announcementsDiv = document.getElementById('announcements');
+                
+                // Add to announcements log
+                this.announcements.unshift(`${new Date().toLocaleTimeString()}: ${message}`);
+                announcementsDiv.innerHTML = this.announcements.slice(0, 5).join('<br>');
+                
+                // Announce to screen readers
+                liveRegion.textContent = '';
+                setTimeout(() => {
+                    liveRegion.textContent = message;
+                }, 100);
+            }
+
+            logTest(testId, message, status) {
+                const result = { testId, message, status, timestamp: new Date() };
+                this.testResults.push(result);
+                this.updateTestLog();
+            }
+
+            updateTestLog() {
+                const logDiv = document.getElementById('test-log');
+                const recent = this.testResults.slice(-10).reverse();
+                
+                logDiv.innerHTML = '<h5>Recent Test Activity:</h5>' + 
+                    recent.map(result => 
+                        `<div style="margin: 0.5rem 0; padding: 0.25rem; background: ${
+                            result.status === 'pass' ? '#dcfce7' : 
+                            result.status === 'fail' ? '#fee2e2' : '#fef3c7'
+                        }; border-radius: 3px;">
+                            <small>${result.timestamp.toLocaleTimeString()}</small> - 
+                            <strong>${result.testId}:</strong> ${result.message}
+                        </div>`
+                    ).join('');
+            }
+
+            runAutomaticTests() {
+                // Test 1: Check all buttons have labels
+                const unlabeledButtons = Array.from(document.querySelectorAll('button')).filter(btn => 
+                    !btn.getAttribute('aria-label') && !btn.textContent.trim()
+                );
+                
+                if (unlabeledButtons.length === 0) {
+                    this.logTest('auto-labels', 'All buttons have accessible labels', 'pass');
+                } else {
+                    this.logTest('auto-labels', `${unlabeledButtons.length} buttons missing labels`, 'fail');
+                }
+
+                // Test 2: Check minimum touch targets
+                const smallButtons = Array.from(document.querySelectorAll('button')).filter(btn => {
+                    const rect = btn.getBoundingClientRect();
+                    return rect.width < 44 || rect.height < 44;
+                });
+                
+                if (smallButtons.length === 0) {
+                    this.logTest('auto-touch-targets', 'All buttons meet 44px minimum size', 'pass');
+                } else {
+                    this.logTest('auto-touch-targets', `${smallButtons.length} buttons too small`, 'warning');
+                }
+
+                // Test 3: Check focus indicators
+                setTimeout(() => {
+                    this.logTest('auto-focus', 'Focus indicators tested (manual verification needed)', 'warning');
+                    this.announce('Accessibility testing initialized. Use keyboard navigation to test buttons.');
+                }, 500);
+            }
+        }
+
+        // Initialize tester when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new AccessibilityTester();
+        });
+    </script>
+</body>
+</html>

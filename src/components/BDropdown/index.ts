@@ -10,3 +10,18 @@ export default {
 export {
     BDropdown,
 }
+
+// Export TypeScript interfaces for consumer use
+export type {
+    BDropdownValue,
+} from './BDropdown.vue';
+
+export type {
+    DropdownAccessibilityConfig,
+    DropdownFocusConfig,
+    DropdownAccessibilityMessages,
+    AccessibleDropdownItem,
+    DropdownNavigationState,
+    WCAGLevel,
+    BDropdownAccessibilityProps,
+} from './BDropdown.types';

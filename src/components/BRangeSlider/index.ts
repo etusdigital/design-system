@@ -9,4 +9,19 @@ export default {
 
 export {
     BRangeSlider,
-}
+};
+
+// Export types for external use
+export type {
+    BRangeSliderProps,
+    BRangeSliderEmits,
+    SliderStep,
+    SliderFillColor,
+    RangeSliderValue,
+    RangeSliderAccessibilityConfig,
+} from './BRangeSlider.vue';
+
+// Export accessibility types from Slider component
+export type {
+    SliderAccessibilityConfig,
+} from '../../utils/components/Slider.vue';

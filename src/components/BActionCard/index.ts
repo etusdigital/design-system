@@ -9,4 +9,12 @@ export default {
 
 export {
     BActionCard,
-}
+};
+
+export type {
+    BActionCardAccessibilityProps,
+    BActionCardInteractionProps,
+    BActionCardEmits,
+    BActionCardSlots,
+    BActionCardProps,
+} from './BActionCard.types';

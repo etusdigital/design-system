@@ -10,3 +10,20 @@ export default {
 export {
     BFilter,
 }
+
+// Export TypeScript interfaces for consumer use
+export type {
+    BFilterItem,
+    BFilterModelValue,
+    BFilterModelExtra,
+} from './BFilter.vue';
+
+// Export comprehensive TypeScript interfaces
+export type {
+    BFilterProps,
+    BFilterEvents,
+    BFilterAccessibility,
+    BFilterMode,
+    BFilterLandmarkRole,
+    DEFAULT_FILTER_ACCESSIBILITY,
+} from './BFilter.types';

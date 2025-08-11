@@ -9,4 +9,14 @@ export default {
 
 export {
     BNavbar,
-}
+};
+
+// Export types for consumers
+export type {
+    NavbarProfile,
+    NavbarNavigationItem,
+    NavbarAccessibilityConfig,
+    NavbarProps,
+    NavbarEmits,
+    NotificationEventHandler,
+} from './BNavbar.vue';

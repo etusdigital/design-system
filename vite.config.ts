@@ -1,9 +1,7 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import * as path from "path";
-// import typescript2 from "rollup-plugin-typescript2"; // Comentado
 import dts from "vite-plugin-dts";
-import { nodeResolve } from "@rollup/plugin-node-resolve";
 import tailwindcss from "@tailwindcss/vite";
 
 // https://vitejs.dev/config/
@@ -23,22 +21,6 @@ export default defineConfig({
 			cleanVueFileName: true,
 			tsconfigPath: './tsconfig.app.json',
 		}),
-		/* // Comentado
-		typescript2({
-			check: true,
-			include: ["src/** /*.ts"],
-			tsconfigOverride: {
-				compilerOptions: {
-					outDir: "lib",
-					skipLibCheck: true,
-					sourceMap: true,
-					declaration: true,
-					declarationMap: true,
-				},
-			},
-			exclude: ["vite.config.ts"],
-		}),
-		*/
 		tailwindcss(),
 	],
 	build: {
@@ -53,6 +35,14 @@ export default defineConfig({
 		rollupOptions: {
 			input: {
 				main: path.resolve(__dirname, "src/index.ts"),
+				'modules/core/index': path.resolve(__dirname, "src/modules/core/index.ts"),
+				'modules/forms/index': path.resolve(__dirname, "src/modules/forms/index.ts"),
+				'modules/data-display/index': path.resolve(__dirname, "src/modules/data-display/index.ts"),
+				'modules/feedback/index': path.resolve(__dirname, "src/modules/feedback/index.ts"),
+				'modules/navigation/index': path.resolve(__dirname, "src/modules/navigation/index.ts"),
+				'modules/overlay/index': path.resolve(__dirname, "src/modules/overlay/index.ts"),
+				'modules/layout/index': path.resolve(__dirname, "src/modules/layout/index.ts"),
+				'composables/index': path.resolve(__dirname, "src/composables/index.ts"),
 			},
 			external: ["vue"],
 			output: {
@@ -61,11 +51,6 @@ export default defineConfig({
 					vue: "Vue",
 				},
 			},
-			plugins: [
-				nodeResolve({
-					extensions: [".ts", ".vue"],
-				}),
-			],
 		},
 	},
 	resolve: {

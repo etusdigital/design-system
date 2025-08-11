@@ -168,7 +168,7 @@
 </template>
 
 <style scoped>
-	@reference "../../assets/main.css";
+	@import "../../assets/main.css";
 
 	.b-container {
 		@apply relative;

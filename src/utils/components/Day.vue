@@ -3,7 +3,7 @@
 
 	const props = withDefaults(
 		defineProps<{
-			modelValue: any[] | any[][];
+			modelValue: Date[] | Date[][];
 			hovered?: Date;
 			day?: Date | undefined;
 			isCompare?: boolean;
@@ -12,12 +12,14 @@
 			index?: number;
 			size?: number;
 			position?: "start" | "middle" | "end";
+			focused?: boolean;
 		}>(),
 		{
 			isCompare: false,
 			index: 0,
 			size: 1,
 			position: "middle",
+			focused: false,
 		}
 	);
 
@@ -95,19 +97,20 @@
 		return false;
 	}
 
-	function getDates(index = 0) {
+	function getDates(index = 0): Date[] {
 		if (!props.modelValue) return [];
 
 		let dates = props.modelValue;
-		if (props.isCompare && props.size > 1) dates = props.modelValue[index];
+		if (props.isCompare && props.size > 1) dates = props.modelValue[index] as Date[];
 
-		return dates;
+		return dates as Date[];
 	}
 </script>
 
 <template>
-	<div
+	<button
 		v-if="day"
+		type="button"
 		class="day"
 		:class="[
 			{
@@ -119,14 +122,21 @@
 				'hovered-primary': getHovered(day),
 				'hovered-secondary': getHovered(day, 1),
 				'is-compare': isCompare || size > 1,
+				'keyboard-focused': focused,
 			},
 			getDifference(day),
 			getDifference(day, 1),
 			position,
 		]"
+		:aria-label="day.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })"
+		:aria-selected="isInRange(day, 0, true) || isInRange(day, 1, true)"
+		:aria-disabled="getDisabled(day)"
+		:disabled="getDisabled(day)"
+		tabindex="-1"
 		@mouseover="emit('update:hovered', day)"
 		@mouseleave="emit('update:hovered', null)"
-		@click="emit('select', day)">
+		@click="emit('select', day)"
+		@keydown.enter.space.prevent="emit('select', day)">
 		<div
 			v-if="
 				((hovered == day && getDates(0).length > 1) ||
@@ -149,16 +159,21 @@
 		<span class="relative z-1">
 			{{ day.getDate() }}
 		</span>
-	</div>
+	</button>
 </template>
 
 <style scoped>
-	@reference "../../assets/main.css";
+	@import "../../assets/main.css";
 
 	.day {
 		@apply flex items-center justify-center cursor-pointer p-xs text-sm font-semibold text-neutral-interaction-default
-  relative overflow-hidden hover:text-primary-interaction-hover hover:bg-primary-surface-hover;
+  relative overflow-hidden hover:text-primary-interaction-hover hover:bg-primary-surface-hover border-none bg-transparent;
 		border-radius: var(--border-radius-xs);
+	}
+
+	.day.keyboard-focused {
+		outline: 2px solid var(--primary-interaction-default);
+		outline-offset: 2px;
 	}
 
 	.day.disabled {

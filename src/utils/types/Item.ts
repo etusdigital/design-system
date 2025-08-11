@@ -6,4 +6,9 @@ export type Item = {
   bottom?: boolean;
   expanded?: boolean;
   items?: Item[];
+  // Accessibility properties
+  ariaDescription?: string;
+  shortcut?: string;
+  focusable?: boolean;
+  loading?: boolean;
 };

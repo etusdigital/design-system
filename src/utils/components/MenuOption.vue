@@ -35,7 +35,7 @@
 </template>
 
 <style scoped>
-	@reference "../../assets/main.css";
+	@import "../../assets/main.css";
 	.b-menu-option {
 		@apply flex items-center gap-xs p-sm;
 		border-radius: var(--rounded-base);

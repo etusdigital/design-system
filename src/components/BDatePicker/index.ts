@@ -9,4 +9,22 @@ export default {
 
 export {
     BDatePicker,
-}
+};
+
+export type {
+    BDatePickerProps,
+    BDatePickerEmits,
+    BDatePickerInputConfig,
+    BDatePickerCalendarConfig,
+    BDatePickerKeyboardConfig,
+    BDatePickerAnnouncementConfig,
+    BDatePickerAccessibilityConfig,
+    BDatePickerValidationConfig,
+    BDatePickerDisplayConfig,
+    BDatePickerSelectionEvent,
+    BDatePickerNavigationEvent,
+    BDatePickerKeyboardEvent,
+    BDatePickerFocusEvent,
+    BDatePickerValidationResult,
+    UseDatePickerAccessibilityReturn,
+} from './BDatePicker.types';

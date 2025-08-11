@@ -10,3 +10,10 @@ export default {
 export {
     BTable,
 }
+
+// Export TypeScript interfaces for consumer use
+export type {
+    BTableHeader,
+    BTableOptions,
+    BTableItem,
+} from './BTable.vue';

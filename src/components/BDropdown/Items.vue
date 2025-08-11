@@ -23,7 +23,7 @@
 </template>
 
 <style scoped>
-	@reference "../../assets/main.css";
+	@import "../../assets/main.css";
 	.custom-card {
 		box-shadow: var(--box-shadow-neutral-default);
 		border-top-left-radius: var(--rounded-base);

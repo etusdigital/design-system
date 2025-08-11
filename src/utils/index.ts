@@ -34,7 +34,51 @@ export function calculateDate(value: string): Date[] {
   return [firstDate, secondDate];
 }
 
-export function hexaToRgba(hexa: string): any {
+/**
+ * RGBA color interface
+ */
+export interface RgbaColor {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+  [key: string]: number;
+}
+
+/**
+ * HSLA color interface  
+ */
+export interface HslaColor {
+  h: number;
+  s: string;
+  l: string;
+  a: number;
+  [key: string]: number | string;
+}
+
+/**
+ * HWB color interface
+ */
+export interface HwbColor {
+  h: string;
+  w: string;
+  b: string;
+  a: number;
+  [key: string]: number | string;
+}
+
+/**
+ * HSVA color interface
+ */
+export interface HsvaColor {
+  h: number;
+  s: string;
+  v: string;
+  a: number;
+  [key: string]: number | string;
+}
+
+export function hexaToRgba(hexa: string): RgbaColor {
   const r = parseInt(hexa.slice(1, 3), 16);
   const g = parseInt(hexa.slice(3, 5), 16);
   const b = parseInt(hexa.slice(5, 7), 16);
@@ -48,7 +92,7 @@ export function hexaToRgba(hexa: string): any {
   };
 }
 
-export function hslaToRgba(h: number, s: number, l: number, a: number): any {
+export function hslaToRgba(h: number, s: number, l: number, a: number): RgbaColor {
   let t1, t2, r, g, b;
   h = h / 60;
   if (l <= 0.5) {
@@ -71,7 +115,7 @@ export function hslaToRgba(h: number, s: number, l: number, a: number): any {
   return { r: r, g: g, b: b, a: a };
 }
 
-export function hwbToRgba(h: number, w: number, b: number, a: number) {
+export function hwbToRgba(h: number, w: number, b: number, a: number): RgbaColor {
   let i,
     rgb,
     rgbArr = [],
@@ -93,7 +137,7 @@ export function hwbToRgba(h: number, w: number, b: number, a: number) {
   return { r: rgbArr[0], g: rgbArr[1], b: rgbArr[2], a: a };
 }
 
-export function hsvaToRgba(h: number, s: number, v: number, a: number): any {
+export function hsvaToRgba(h: number, s: number, v: number, a: number): RgbaColor {
   h = ((h % 360) + 360) % 360;
   s = Math.max(0, Math.min(s, 100)) / 100;
   v = Math.max(0, Math.min(v, 100)) / 100;
@@ -145,7 +189,7 @@ export function rgbaToHexa(r: number, g: number, b: number, a: number): string {
     .padStart(2, "0")}${b.toString(16).padStart(2, "0")}${alphaHex}`;
 }
 
-export function rgbaToHsla(r: number, g: number, b: number, a: number): any {
+export function rgbaToHsla(r: number, g: number, b: number, a: number): HslaColor {
   r /= 255;
   g /= 255;
   b /= 255;
@@ -184,12 +228,12 @@ export function rgbaToHsla(r: number, g: number, b: number, a: number): any {
   };
 }
 
-export function rgbaToHwb(r: number, g: number, b: number, a: number) {
+export function rgbaToHwb(r: number, g: number, b: number, a: number): HwbColor {
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
   if (max === min) {
     return {
-      h: 0,
+      h: "0",
       w: ((100 * min) / 255).toFixed(0) + "%",
       b: (100 - (100 * max) / 255).toFixed(0) + "%",
       a: a,
@@ -216,7 +260,7 @@ export function rgbaToHwb(r: number, g: number, b: number, a: number) {
   };
 }
 
-export function rgbaToHsva(r: number, g: number, b: number, a: number): any {
+export function rgbaToHsva(r: number, g: number, b: number, a: number): HsvaColor {
   let rabs,
     gabs,
     babs,
@@ -265,15 +309,30 @@ export function rgbaToHsva(r: number, g: number, b: number, a: number): any {
   };
 }
 
-export function isNilAndBlank(value: any) {
+/**
+ * Checks if a value is null, undefined, or empty string
+ * @param value - Value to check
+ * @returns Whether the value is nil or blank
+ */
+export function isNilAndBlank(value: unknown): boolean {
   return value === null || value === undefined || value === "";
 }
 
-export function isNilAndEmpty(value: any) {
-  return value === null || value === undefined || value.length == 0;
+/**
+ * Checks if a value is null, undefined, or has zero length
+ * @param value - Value to check (array or string)
+ * @returns Whether the value is nil or empty
+ */
+export function isNilAndEmpty(value: unknown[] | string | null | undefined): boolean {
+  return value === null || value === undefined || (typeof value === 'object' ? (value as unknown[]).length === 0 : (value as string).length === 0);
 }
 
-export function isObject(value: any): boolean {
+/**
+ * Type guard to check if a value is an object
+ * @param value - Value to check
+ * @returns Whether the value is an object (excludes null)
+ */
+export function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
 }
 
@@ -297,7 +356,17 @@ export function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export function getArrayMonthDay(date: Date): any[] {
+/**
+ * Calendar day type - can be a Date or empty string for padding
+ */
+export type CalendarDay = Date | string;
+
+/**
+ * Calendar week type - array of 7 days
+ */
+export type CalendarWeek = CalendarDay[];
+
+export function getArrayMonthDay(date: Date): CalendarWeek[] {
   const year = date.getFullYear();
   const month = date.getMonth();
   const firstDay = new Date(year, month, 1).getDay();
@@ -305,7 +374,7 @@ export function getArrayMonthDay(date: Date): any[] {
   const allWeeks = [];
   let day = 1;
   for (let i = 0; i < 6; i++) {
-    const week: any = [];
+    const week: CalendarDay[] = [];
     for (let j = 0; j < 7; j++) {
       if ((i === 0 && j < firstDay) || day > maxDays) {
         week.push("");
@@ -320,9 +389,17 @@ export function getArrayMonthDay(date: Date): any[] {
   return allWeeks;
 }
 
-export function getMonths(lang = "en-US") {
+/**
+ * Month option interface
+ */
+export interface MonthOption {
+  label: string;
+  value: number;
+}
+
+export function getMonths(lang = "en-US"): MonthOption[] {
   const date = new Date("2021-01-03T23:15:30");
-  const months: any[] = [];
+  const months: MonthOption[] = [];
   for (let i = 0; i < 12; i++) {
     const formattedDay = date.toLocaleDateString(lang, { month: "short" });
     months.push({
@@ -334,14 +411,54 @@ export function getMonths(lang = "en-US") {
   return months;
 }
 
+/**
+ * Event interface for position calculations
+ */
+export interface PositionEvent {
+  clientX: number;
+  clientY: number;
+}
+
+/**
+ * Direction configuration for position calculations
+ */
+export interface PositionDirections {
+  left?: boolean;
+  top?: boolean;
+}
+
+/**
+ * Subtract configuration for position calculations
+ */
+export interface PositionSubtract {
+  x?: number;
+  y?: number;
+}
+
+/**
+ * Maximum constraints for position calculations
+ */
+export interface PositionMax {
+  x?: number;
+  y?: number;
+}
+
+/**
+ * Position result interface
+ */
+export interface PositionResult {
+  x: number;
+  y: number;
+}
+
 export function getPosition(
-  event: any,
+  event: PositionEvent,
   div: HTMLSpanElement,
   parent: Element,
-  directions: any = { left: true },
-  substract: any = {},
-  max: any = {}
-) {
+  directions: PositionDirections = { left: true },
+  substract: PositionSubtract = {},
+  max: PositionMax = {}
+): PositionResult {
   const offsetX =
     event.clientX - div.clientWidth / 2 - parent.getBoundingClientRect().left;
   const maxX =
@@ -399,18 +516,18 @@ export function applyMask(
   return value;
 }
 
-export function isValidEmail(value: any): boolean {
-  return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
+export function isValidEmail(value: unknown): boolean {
+  return typeof value === 'string' && /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
 }
 
-export function isValidDomain(value: any): boolean {
-  return /(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/.test(
+export function isValidDomain(value: unknown): boolean {
+  return typeof value === 'string' && /(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/.test(
     value
   );
 }
 
-export function isValidUrl(value: any): boolean {
-  return /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(
+export function isValidUrl(value: unknown): boolean {
+  return typeof value === 'string' && /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(
     value
   );
 }
@@ -492,3 +609,70 @@ export const dateOptions = [
     },
   },
 ];
+
+/**
+ * Debounce utility function
+ * Creates a debounced version of a function that delays its execution
+ * until after the specified delay has passed since it was last invoked
+ */
+export function createDebounce<T extends (...args: any[]) => void>(
+  func: T,
+  delay: number
+): {
+  (this: ThisParameterType<T>, ...args: Parameters<T>): void;
+  cancel(): void;
+  flush(): void;
+} {
+  let timeoutId: number | null = null;
+  let lastArgs: Parameters<T> | null = null;
+  let lastThis: ThisParameterType<T>;
+
+  const debounced = function (this: ThisParameterType<T>, ...args: Parameters<T>) {
+    lastArgs = args;
+    lastThis = this;
+    
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId);
+    }
+    
+    timeoutId = window.setTimeout(() => {
+      timeoutId = null;
+      if (lastArgs !== null) {
+        func.apply(lastThis, lastArgs);
+        lastArgs = null;
+      }
+    }, delay);
+  };
+
+  debounced.cancel = () => {
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+      lastArgs = null;
+    }
+  };
+
+  debounced.flush = () => {
+    if (timeoutId !== null && lastArgs !== null) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+      func.apply(lastThis, lastArgs);
+      lastArgs = null;
+    }
+  };
+
+  return debounced;
+}
+
+/**
+ * Simple debounce function for immediate use
+ * @param func Function to debounce
+ * @param delay Delay in milliseconds
+ * @returns Debounced function
+ */
+export function debounce<T extends (...args: any[]) => void>(
+  func: T,
+  delay: number
+): T {
+  return createDebounce(func, delay) as T;
+}

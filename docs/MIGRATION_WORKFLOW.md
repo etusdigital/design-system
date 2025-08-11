@@ -1,398 +1,183 @@
-# Component Migration Workflow
+# Component Migration Guide (Modules Architecture)
 
-This document outlines the systematic approach for migrating components from the current monolithic structure to the new modular architecture.
+This guide describes how to migrate a component from `src/components/B*` to the modular architecture under `src/modules/[module]/*` while maintaining backward compatibility. Issues are managed in Linear, and the public package is published as `@ETUS/eds`.
 
-## Overview
+## 1) Module boundaries (rules)
 
-We're migrating 50+ components from `src/components/B*` to `src/modules/[module]/*` while maintaining 100% backward compatibility.
+- Modules: `core`, `forms`, `data-display`, `feedback`, `navigation`, `overlay`, `layout`.
+- Dependency graph: `utils → core → {forms, data-display, feedback, navigation, overlay, layout}`.
+- No lateral dependencies between feature modules. If a component in one module needs a primitive from another, promote the shared primitive into `core`.
+- Public imports must come from module roots only (e.g., `@ETUS/eds/forms`). No deep imports.
 
-## Quick Start
+Module scopes:
 
-### 1. Generate Issues (One-time setup)
+- `core`: primitives and shared foundations (Icon, Spinner, typography tokens; optionally Button if used across modules)
+- `forms`: inputs and controls (Input, Select, MultiSelect, Checkbox, Radio, Toggle/Switch, Slider, RangeSlider, Date/DatePicker/Filter, TagInput, FileUpload, SmartSelect, ColorPicker)
+- `data-display`: content presentation (Card, CardIcon, MetricCard, Table, Tag/Badge, Avatar, Rating)
+- `feedback`: system/user feedback (Alert, Toast, ProgressBar)
+- `navigation`: wayfinding (Navbar, Sidebar, SideMenu, Menu, Breadcrumb, Tabs, Pagination)
+- `overlay`: floating/sheeted UI (Dialog/Confirm, Tooltip, Dropdown/Popover)
+- `layout`: structure/placement (Group, Divider, Collapse/ExpandableContainer, ContentScreen)
+
+## 2) Migration steps (per component)
+
+1. Choose the module for the component based on the rules above.
+2. Create module folders and copy files:
+
+   - Create folder: `src/modules/<module>/<Component>/`
+   - Copy `src/components/B<Component>/B<Component>.vue` → `src/modules/<module>/<Component>/Component.vue`
+   - Copy related files (types, styles, tests/demos) into the new folder and rename to drop the `B` prefix where applicable
+   - Create `src/modules/<module>/<Component>/index.ts` that exports the component
+
+3. Remove the `B` prefix in file names and symbols (SFC name, exported names, stories).
+4. Update internal imports to their modular equivalents (e.g., `BIcon → Icon`, `BSpinner → Spinner`). Do not import across modules directly; use the target module entry or move shared code to `core`.
+5. Create/verify module exports:
+   - `src/modules/<module>/<Component>/index.ts` exports the component
+   - `src/modules/<module>/index.ts` re-exports from the component folder
+6. Add compatibility re-export:
+   - `src/components/B<Component>/index.ts` should re-export the module component to preserve back-compat.
+7. Add a visual demo (custom visual library, no Storybook):
+
+   - Add a small page/sandbox in your custom visual library that mounts the component with key states/variants
+   - Import from `@ETUS/eds/<module>` and validate interactions/accessibility
+
+8. Styles (TailwindCSS v4, CSS-first approach):
+   - Prefer Tailwind utility classes directly in templates; minimize custom CSS
+   - Keep component-local CSS in `<style>` using `@layer components` and design tokens (CSS variables)
+   - Ensure Tailwind v4 is imported once globally via `@import "tailwindcss";`
+   - Remove v3 directives (`@tailwind base`, `@tailwind components`, `@tailwind utilities`)
+9. SFC architecture (script first):
+   - Use `<script setup lang="ts">` placed before `<template>` and `<style>`
+   - Normalize composables/imports at the top; avoid global side effects
+10. Types and contracts:
+
+    - Keep prop names, emits, and slots unchanged to preserve API compatibility.
+
+11. Lint and type-check:
+
 ```bash
-# Generate all GitHub issues for component migration
-node scripts/generate-migration-issues.cjs > migration-commands.txt
-
-# Review the generated commands
-cat migration-commands.txt
-
-# Run the GitHub CLI commands to create issues
-# Copy and paste commands from migration-commands.txt
+npm run lint && npm run type-check
 ```
 
-### 2. Pick a Component to Migrate
-- Check the [GitHub Project Board](https://github.com/your-repo/projects) 
-- Pick an issue with status "Ready" (dependencies already migrated)
-- Assign yourself to the issue
+## 3) File structure (after)
 
-### 3. Use Migration Script
-```bash
-# Example: Migrating Tag to core module
-./scripts/migrate-component.sh Tag core
+```text
+src/
+├── components/                 # Backward compatibility shims
+│   └── BButton/
+│       └── index.ts            # re-exports modules/core/Button
+└── modules/
+    └── core/
+        ├── Button/
+        │   ├── Button.vue
+        │   ├── Button.stories.ts
+        │   └── index.ts
+        └── index.ts            # export * from './Button'
 ```
 
-### 4. Manual Steps (Required)
-The script provides a TODO checklist. You must manually:
+## 4) Validation checklist (must pass)
 
-1. **Remove 'B' prefix** in all copied files
-2. **Update imports** (BIcon → Icon, BSpinner → Spinner)
-3. **Update component names** in Vue files and stories
-4. **Add module export** in `src/modules/[module]/index.ts`
-5. **Add compatibility export** in `src/components/B[Component]/index.ts`
+- Build succeeds: `npm run build`
+- Old import works: `import { BComponent } from '@ETUS/eds'`
+- New import works: `import { Component } from '@ETUS/eds/<module>'`
+- Component renders correctly in the custom visual library (all key states/variants)
+- No API breaks (props/emits/slots remain compatible)
+- Tree-shaking behaves as expected when importing from a module entry
 
-### 5. Test & Validate
+## 5) PR checklist (copy into description)
+
+- [ ] Removed `B` prefix in files and exports
+- [ ] Updated internal imports to modular equivalents
+- [ ] Added module exports (`src/modules/<module>/index.ts`)
+- [ ] Added B\* compatibility re-export (`src/components/B<Component>/index.ts`)
+- [ ] Added/updated visual demo in the custom visual library
+- [ ] Lint + type-check passed
+- [ ] Verified old and new import paths in a local usage test
+- [ ] Tailwind v4 CSS-first migration applied (utilities in template; minimal CSS under `@layer components`)
+- [ ] SFC uses `<script setup lang="ts">` at the top
+- [ ] Quality pass against external references (see External quality references)
+
+## 6) Common pitfalls (quick fixes)
+
+- Do not deep import SFCs from other modules. Import only from module roots.
+- Path aliases like `#utils/*` are for `.ts` files; prefer relative paths for `.vue` files under utils/components.
+- If you see a missing subpath export error, ensure:
+  1. package.json exports include the module entry,
+  2. Vite build entries include the module,
+  3. `src/modules/<module>/index.ts` exists and re-exports,
+  4. run `npm run type-check`.
+
+## 7) Example commands
+
 ```bash
-# Build the project
+# Build the library
 npm run build
 
-# Test in Storybook
-npm run storybook
-
-# Verify both imports work:
-# Old: import { BTag } from '@BRIUS/design-system'  
-# New: import { Tag } from '@BRIUS/design-system/core'
+# Verify imports (in a consumer or local sandbox)
+# Old: import { BTag } from '@ETUS/eds'
+# New: import { Tag } from '@ETUS/eds/core'
 ```
 
-### 6. Create Pull Request
-```bash
-git checkout -b migrate/core/Tag
-git add .
-git commit -m "feat(migrate): move Tag to core module"
-git push origin migrate/core/Tag
-
-# Create PR with GitHub CLI
-gh pr create --title "Migrate Tag to core module" --body "Closes #123"
-```
-
-## Migration Priority
-
-### Phase 1: Core Module (P0 - P1) ✅ COMPLETED
-**Dependencies resolved first:**
-1. ✅ Icon (completed)
-2. ✅ Spinner (completed) 
-3. ✅ Button (completed)
-4. ✅ Tag (completed - no dependencies)
-5. ✅ Avatar (completed - no dependencies)
-6. ✅ Divider (completed - no dependencies)
-7. ✅ Card (completed - no dependencies)
-
-### Phase 2: Forms Module (P0 - P1)
-**Start with:**
-1. Input (depends on Icon ✅)
-2. Select, MultiSelect, Checkbox, Toggle (no dependencies)
-3. Radio, RadioButton (depend on Group - migrate Group first)
-
-### Phase 3: Display Module
-Table, MetricCard, ProgressBar, Tab, Pagination
-
-### Phase 4: Feedback Module ✅ COMPLETED
-1. ✅ Alert (completed - depends on Icon ✅)
-2. ✅ Toast (completed - depends on Alert ✅)  
-3. ✅ Dialog (completed - no dependencies)
-4. ✅ Confirm (completed - depends on Dialog ✅)
-
-### Phase 5: Layout Module
-Group first (dependency for Radio components), then Navbar, Sidebar, etc.
-
-## Component Dependencies
-
-Critical dependencies to resolve first:
-- **Icon** ✅ → Used by Alert ✅, Input ✅, Toast ✅
-- **Spinner** ✅ → Used by Button ✅
-- **Button** ✅ → Used by Confirm ✅, Toast ✅
-- **Alert** ✅ → Used by Toast ✅
-- **Dialog** ✅ → Used by Confirm ✅
-- **Group** → Used by Radio, RadioButton
-
-## File Structure After Migration
-
-```
-src/
-├── components/           # Original (backward compatibility)
-│   └── BButton/
-│       ├── BButton.vue   # Original component
-│       └── index.ts      # Re-exports Button from modules
-├── modules/              # New modular structure
-│   ├── core/
-│   │   ├── Button/
-│   │   │   ├── Button.vue
-│   │   │   ├── Button.stories.ts
-│   │   │   └── index.ts
-│   │   └── index.ts      # export * from './Button'
-│   ├── forms/
-│   ├── display/
-│   ├── feedback/
-│   └── layout/
-```
-
-## Validation Checklist
-
-For each migrated component, verify:
-
-- [ ] ✅ **Build succeeds** - `npm run build`
-- [ ] ✅ **Old import works** - `import { BComponent } from '@BRIUS/design-system'`
-- [ ] ✅ **New import works** - `import { Component } from '@BRIUS/design-system/module'`
-- [ ] ✅ **Storybook works** - Component stories display correctly
-- [ ] ✅ **No breaking changes** - Existing apps continue working
-- [ ] ✅ **Tree-shaking works** - Bundle size appropriate when importing individual components
-
-## Tools & Scripts
-
-### Migration Helper
-```bash
-./scripts/migrate-component.sh ComponentName module
-```
-Copies files and provides manual TODO checklist.
-
-### Issue Generation
-```bash
-node scripts/generate-migration-issues.cjs
-```
-Generates GitHub CLI commands for all remaining components.
-
-### Validation Test
-```bash
-# Test tree-shaking manually
-cd /tmp && mkdir test-import
-echo "import { ComponentName } from 'path/to/lib/module.es.js'" > test.js
-# Check bundle size
-```
-
-## Branch Naming Convention
-
-- `migrate/[module]/[Component]` - e.g., `migrate/core/Tag`
-- `migrate/[module]/batch-[description]` - for multiple related components
-
-## Commit Message Format
-
-```
-feat(migrate): move [Component] to [module] module
-
-- Remove B prefix from component name
-- Update internal imports (BIcon → Icon)
-- Add modular export in modules/[module]/index.ts
-- Maintain backward compatibility
-
-Closes #123
-```
-
-## Progress Tracking
-
-- **GitHub Project Board** - Visual kanban for all migration issues
-- **GitHub Milestones** - Track completion of each module
-- **component-mapping.json** - Source of truth for component status
-
-Current Status:
-- ✅ Core: 7/12 completed (Icon, Spinner, Button, Tag, Avatar, Divider, Card) - P1 COMPLETE 🎉
-- ✅ Forms: 4/16 completed (Input ✅, Select ✅, MultiSelect ✅, Checkbox ✅) - STRENGTHENING 💪  
-- ⏳ Display: 0/8 started
-- ✅ Feedback: 4/4 completed (Alert, Toast, Dialog, Confirm) - MODULE COMPLETE 🎉
-- ⏳ Layout: 0/15 started
-
-**Overall Progress: 15/21 P0-P1 components migrated (71.4%)**
-
-## Recent Achievements & Optimizations
-
-### ✅ Modular Architecture Implemented
-- **Core module P1 components complete**: Icon, Spinner, Button, Tag, Avatar, Divider, Card all migrated
-- **Feedback module fully functional**: Alert, Toast, Dialog, Confirm migrated with tree-shakable imports
-- **Import optimization**: Added `#utils` direct import for tree-shaking
-- **Package.json enhancements**: Added utils export and improved path aliases
-- **Vite build optimization**: Added utils build entry for separate bundle
-
-### ✅ Utils Reorganization
-Reorganized utils for maximum tree-shaking efficiency:
-```
-src/utils/
-├── index.ts         # Tree-shakable re-exports  
-├── date.ts         # Date utility functions
-├── color.ts        # Color utility functions  
-├── validation.ts   # Validation functions
-├── dom.ts          # DOM utility functions
-└── event.ts        # Event system (singleton)
-```
-
-**Usage Examples:**
-```typescript
-// ✅ Tree-shakable (only imports what you use)
-import { calculateDate, isValidEmail, hexaToRgba } from "#utils";
-
-// ✅ Category-specific when needed
-import { hexaToRgba, rgbaToHsla } from "#utils/color";
-
-// ✅ Singleton pattern
-import event from "#utils/event";
-```
-
-### ✅ Core Module P1 Achievements
-All 7 essential Core components successfully migrated:
-- **Icon** ✅ - Foundation component for other modules
-- **Spinner** ✅ - Used by Button and Tag components
-- **Button** ✅ - Critical interactive component 
-- **Tag** ✅ - Standalone UI element with Icon/Spinner support
-- **Avatar** ✅ - User representation component
-- **Divider** ✅ - Layout utility component (stories fixed)
-- **Card** ✅ - Complex container component with variants
-
-**Core Module Benefits:**
-- Tree-shakable individual imports: `import { Button, Tag } from '@BRIUS/design-system/core'`
-- 100% backward compatibility maintained
-
-### ✅ Forms Module Strengthening  
-Four components successfully migrated to Forms module:
-- **Input** ✅ - Complex input component supporting multiple types:
-  - Text, number, search, email, password inputs
-  - File upload with drag & drop functionality  
-  - Tag input system with add/remove capabilities
-  - Built-in validation for email, domain, URL formats
-  - Textarea support with flexible sizing
-  - Custom masking for CPF, CNPJ, CEP, etc.
-
-- **Select** ✅ - Dropdown selection component with advanced features:
-  - Single selection from items array
-  - Object array support with labelKey/valueKey configuration
-  - Searchable dropdown functionality  
-  - Icon support and custom item rendering
-  - Keyboard navigation (arrows, home, end, enter, escape)
-  - Disabled and error states
-  - Absolute/relative positioning options
-
-- **MultiSelect** ✅ - Multi-selection component with comprehensive features:
-  - Multiple selection from items array
-  - Object array support with labelKey/selectedKey configuration
-  - Searchable multi-select functionality
-  - Selected item count display in status area
-  - Icon support and custom item rendering
-  - labelFormatter support for custom label display
-  - Keyboard navigation and accessibility features
-  - Disabled and error states
-
-- **Checkbox** ✅ - Boolean selection component with advanced states:
-  - Boolean checkbox with true/false states
-  - Indeterminate state support (null value) with allowIndeterminate prop
-  - Right-hand side label positioning with rhs prop
-  - Disabled state support and ARIA accessibility
-  - Inline SVG icons for checked and indeterminate states
-  - Keyboard navigation (space key toggle)
-  - Lightweight with minimal dependencies
-
-**Forms Module Benefits:**
-- Tree-shakable input components: `import { Input, Select, MultiSelect, Checkbox } from '@BRIUS/design-system/forms'`
-- Comprehensive form controls with validation and advanced features
-- Maintains all existing BInput/BSelect/BMultiSelect/BCheckbox functionality with improved modularity
-- Complete Storybook integration with proper categorization
-- TypeScript definitions exported for all components
-
-### ✅ Storybook Architecture Standardization - COMPLETE
-Unified all migrated components under consistent Storybook structure:
-- **Standardized titles**: All components follow `"Module/Component"` pattern
-- **Organized categories**: Core, Forms, Feedback modules properly categorized
-- **Fixed story conflicts**: Resolved ID conflicts and removed duplicate stories
-- **Updated configuration**: Enhanced `.storybook/main.ts` and `preview.ts` for modular architecture
-- **Story optimization**: All 15 migrated components now use consistent structure
-
-**Storybook Organization:**
-```
-📁 Core/
-   ├── Avatar, Button, Card, Divider, Icon, Spinner, Tag
-
-📁 Feedback/  
-   ├── Alert, Dialog, Toast
-
-📁 Forms/
-   ├── Input, Select, MultiSelect, Checkbox
-```
-
-**Benefits:**
-- Consistent navigation and discoverability
-- Proper module-based organization
-- No more story ID conflicts or loading errors
-- Clear separation between legacy and modular components
-
-### ✅ Import Performance Results
-- **Bundle size reduction**: 47% smaller when using tree-shakable imports
-- **Tree-shaking effectiveness**: 95% (up from 40%)  
-- **Import resolution speed**: 60% faster
-- **Memory usage**: 40% reduction
-
-## Common Issues & Solutions
-
-### CSS Import Errors
-```bash
-# Fix relative paths in Vue components
-# From: @import "../../assets/main.css"
-# To: @import "../../../assets/main.css"
-```
-
-### Storybook Import Errors
-Update .stories.ts files to use new component names without 'B' prefix.
-
-**Component Registration Issues:**
-```typescript
-// ❌ WRONG: Missing component registration
-export const Primary: Story = {
-  render: (args: any) => ({
-    setup() { return { args }; },
-    template: `<MyComponent />` // Component not registered
-  })
-}
-
-// ✅ CORRECT: Register component in stories
-export const Primary: Story = {
-  render: (args: any) => ({
-    components: { MyComponent }, // Register component
-    setup() { return { args }; },
-    template: `<MyComponent />`
-  })
-}
-```
-
-### Build Failures
-Check that all internal dependencies use the new modular imports.
-
-### Path Alias Import Errors
-```bash
-# ❌ WRONG: Don't use path aliases for .vue files in utils/components
-import Overlay from "#utils/components/Overlay.vue";
-
-# ✅ CORRECT: Use relative paths for .vue files
-import Overlay from "../../../utils/components/Overlay.vue";
-
-# ✅ CORRECT: Path aliases work for .ts files
-import { calculateDate } from "#utils/date";
-import event from "#utils/event";
-```
-
-**Rule**: Path aliases `#utils/*` only work for `.ts` files, not `.vue` files in subdirectories.
-
-### Missing Module Configuration Errors
-When you see `Missing "#modules/xyz" specifier`, follow P.V.E.T:
-1. **P**ackage.json - Add to imports and exports
-2. **V**ite.config.ts - Add build entries
-3. **E**xport - Create module index.ts  
-4. **T**est - Run `npm run type-check`
-
-## Getting Help
-
-- Check existing migration PRs for examples
-- Review completed migrations (Core: Icon, Spinner, Button, Tag, Avatar, Divider, Card | Feedback: Alert, Toast, Dialog, Confirm)
-- Ask questions in the migration tracking issue
-- Refer to the original plan at `docs/plan.md`
-
-## Milestone Celebrations 🎉
-
-### ✅ Core P1 Module - COMPLETE (52.4% of P0-P1 migration done!)
-All foundational UI components migrated:
-- 7/7 P1 components ✅
-- Tree-shaking optimized ✅  
-- Storybook integration ✅
-- TypeScript definitions ✅
-- 100% backward compatibility ✅
-
-### ✅ Feedback Module - COMPLETE 
-All user feedback components migrated:
-- 4/4 components ✅
-- Complex dependency resolution ✅
-- Event system integration ✅
-
-**Next Focus:** Forms module (Input, Select, Checkbox) or Display module (Table, MetricCard)
+## 8) External quality references (research step)
+
+- Before finalizing a component, review established Vue 3 libraries:
+  - PrimeVue, Vuetify 3, Quasar, Naive UI, Element Plus, Ant Design Vue, Arco Design Vue, TDesign Vue (Next), Headless UI for Vue, Varlet (mobile)
+  - WAI-ARIA Authoring Practices for roles, properties, keyboard interactions
+- Validate: accessibility (roles/labels/tab/arrow/home/end/esc/enter/space), focus management, states (disabled/error/loading), and RTL support where applicable
+- Incorporate proven interaction patterns and a11y attributes into the component and its visual demo
+
+## 9) Linear workflow (issues)
+
+- Manage migration tasks in Linear. For each component:
+  - Create/select an issue in the migration project
+  - Link the PR to the Linear issue and close it upon merge
+
+## 10) Composables, types, and workers
+
+Composables, types, and workers should follow the same module boundaries and public API rules as components.
+
+### Composables
+
+- Scope
+  - Shared primitives: `src/modules/core/composables/...` and (optionally) re-export from `@ETUS/eds/core`.
+  - Module-specific: `src/modules/<module>/composables/...`. Keep internal by default; only re-export if part of the public API.
+  - Component-local: colocate under `src/modules/<module>/<Component>/composables/...` or inside the SFC. Do not export.
+- Rules
+  - Naming: `useSomething`.
+  - No cross-module imports. If reused across modules, move to `core`.
+  - Public imports must be via module roots only (e.g., `@ETUS/eds/forms`). No deep imports.
+- Public exposure (optional)
+  - If you need to expose a composable, re-export it from the module root `index.ts` and document it.
+
+### Types
+
+- Placement
+  - Component-level: `src/modules/<module>/<Component>/<Component>.types.ts`. Export only if part of the public API.
+  - Module-level shared types: `src/modules/<module>/types/...`.
+  - Cross-module/shared: `src/modules/core/types/...`.
+- Exports
+  - Re-export curated public types from the module root using `export type { ... }`.
+  - Keep internal types unexported (no public path).
+- Build/types config
+  - Ensure `.d.ts` generation and subpath `exports` map `types` for each module entry in `package.json`.
+
+### Workers
+
+- Placement
+  - Component-specific: `src/modules/<module>/<Component>/<name>.worker.ts`.
+  - Module-shared: `src/modules/<module>/workers/...`.
+  - Cross-module/shared: `src/modules/core/workers/...`.
+- Access pattern
+  - Hide workers behind composables (e.g., `useColorWorker`) or components. Do not export worker files directly.
+  - Type message payloads in a nearby `types/worker.ts` or in `core/types` if shared.
+- Usage
+  - Instantiate with `new URL('./<name>.worker.ts', import.meta.url)` inside the composable/component.
+  - Clean up with `worker.terminate()` when appropriate.
+- Build
+  - Ensure Vite worker support remains enabled. No public `exports` for worker files are required.
+
+### Enforcement
+
+- Enforce the dependency DAG for composables, types, and workers: `utils → core → {forms, data-display, feedback, navigation, overlay, layout}`.
+- Disallow consumer deep imports (e.g., `@ETUS/eds/forms/composables/useX`). Only allow imports from module roots.
+- Within a module, allow relative imports for internal files (e.g., `./composables/useX`).

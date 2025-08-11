@@ -1,523 +1,549 @@
 <script setup lang="ts">
-	import { useOptionalModel } from "#composables";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+import { useOptionalModel, useKeyboardNavigation, useAriaAttributes } from "#composables";
+import { useHistoryAccessibility } from '#composables/useHistoryAccessibility';
+import BHistoryItem from './BHistoryItem.vue';
+import HistoryPagination from './HistoryPagination.vue';
+import type { 
+	BHistoryProps, 
+	BHistoryEmits,
+	BHistoryPaginationContext,
+	BHistoryItem as BHistoryItemType,
+	BHistorySelectionEvent,
+	BHistoryTimelineMetadata,
+	BHistoryItemContext
+} from './BHistory.types';
 
-	const props = withDefaults(
-		defineProps<{
-			modelValue: any;
-			items: any[];
-			position?: "top" | "bottom" | "left" | "right";
-			type?: "primary" | "info" | "success" | "warning" | "danger" | "neutral";
-			disabled?: boolean;
-		}>(),
-		{
-			modelValue: undefined,
-			position: "right",
-			type: "primary",
-			disabled: false,
+const props = withDefaults(
+	defineProps<BHistoryProps>(),
+	{
+		modelValue: null,
+		position: "right",
+		type: "primary",
+		disabled: false,
+		keyboardNavigation: true,
+		loopNavigation: true,
+		focusOnNavigation: true,
+		announceNavigation: true,
+		announcementPrefix: "History item",
+		reduceMotion: false,
+		liveRegionPoliteness: "polite",
+		role: "region",
+		showPagination: false,
+		currentPage: 1,
+		itemsPerPage: 10,
+		dateFormatOptions: () => ({
+			year: 'numeric',
+			month: 'long',
+			day: '2-digit',
+			hour: '2-digit',
+			minute: '2-digit'
+		} as const),
+		locale: 'en-US',
+		announceItemCounts: true,
+		announceDateInfo: true,
+		announceOrientation: true
+	}
+);
+
+const emit = defineEmits<BHistoryEmits>();
+
+// Component refs and state
+const historyRef = ref<HTMLElement | null>(null);
+const liveRegionRef = ref<HTMLElement | null>(null);
+const focusedIndex = ref<number>(-1);
+
+// Accessibility setup
+const { useAriaId } = useAriaAttributes();
+const historyId = useAriaId('history');
+const listId = useAriaId('history-list');
+
+// Live region management
+const updateLiveRegion = (message: string) => {
+	if (liveRegionRef.value) {
+		liveRegionRef.value.textContent = message;
+	}
+};
+
+/**
+ * Reactive model for the currently selected history item
+ */
+const [model, setModel] = useOptionalModel<BHistoryItemType | null>(
+	props,
+	"modelValue",
+	emit,
+	null
+);
+
+// Pagination computed values
+const paginatedItems = computed(() => {
+	if (!props.showPagination) return props.items;
+	
+	const startIndex = (props.currentPage - 1) * props.itemsPerPage;
+	const endIndex = startIndex + props.itemsPerPage;
+	return props.items.slice(startIndex, endIndex);
+});
+
+const paginationContext = computed<BHistoryPaginationContext>(() => {
+	const totalItems = props.items.length;
+	const totalPages = Math.ceil(totalItems / props.itemsPerPage);
+	const currentPage = props.currentPage;
+	
+	return {
+		currentPage,
+		totalPages,
+		itemsPerPage: props.itemsPerPage,
+		totalItems,
+		hasPreviousPage: currentPage > 1,
+		hasNextPage: currentPage < totalPages,
+		itemRange: {
+			start: (currentPage - 1) * props.itemsPerPage + 1,
+			end: Math.min(currentPage * props.itemsPerPage, totalItems)
 		}
-	);
+	};
+});
 
-	const emit = defineEmits<{
-		"update:modelValue": [value: any];
-	}>();
+// Timeline metadata
+const timelineMetadata = computed<BHistoryTimelineMetadata>(() => {
+	const items = props.showPagination ? paginatedItems.value : props.items;
+	const selectedIndex = items.findIndex(item => item === model.value);
+	
+	const dates = items
+		.map(item => item.date)
+		.filter(date => date instanceof Date)
+		.sort((a, b) => a!.getTime() - b!.getTime());
+	
+	return {
+		totalItems: items.length,
+		selectedIndex,
+		dateRange: dates.length > 0 ? {
+			earliest: dates[0]!,
+			latest: dates[dates.length - 1]!
+		} : undefined,
+		isChronological: dates.length > 1,
+		orientation: props.position === 'top' || props.position === 'bottom' ? 'horizontal' : 'vertical'
+	};
+});
 
-	const [model, setModel] = useOptionalModel<any>(
-		props,
-		"modelValue",
-		emit,
-		null
-	);
+// Format date for accessibility
+const formatDateForAccessibility = (date: Date | undefined): string => {
+	if (!date) return '';
+	
+	try {
+		return date.toLocaleDateString(props.locale, props.dateFormatOptions);
+	} catch {
+		return date.toLocaleDateString();
+	}
+};
+
+// Generate item context for accessibility
+const getItemContext = (item: BHistoryItemType, index: number): BHistoryItemContext => {
+	const items = props.showPagination ? paginatedItems.value : props.items;
+	const isActive = item === model.value;
+	const isFocused = index === focusedIndex.value;
+	const totalItems = items.length;
+	const position = index + 1;
+	
+	return {
+		item,
+		index,
+		active: isActive,
+		focused: isFocused,
+		totalItems,
+		positionText: `${position} of ${totalItems}`,
+		accessibleDate: formatDateForAccessibility(item.date),
+		itemAriaAttrs: {
+			role: 'listitem',
+			'aria-setsize': totalItems,
+			'aria-posinset': position,
+			'aria-selected': isActive,
+			tabindex: isFocused ? 0 : -1,
+			'aria-label': `${props.announcementPrefix} ${position}: ${item.label || 'Unlabeled item'}${item.date ? `, ${formatDateForAccessibility(item.date)}` : ''}`,
+			...(isActive && { 'aria-current': 'step' })
+		}
+	};
+};
+
+// Keyboard navigation setup
+const displayedItems = computed(() => props.showPagination ? paginatedItems.value : props.items);
+const {
+	activeIndex,
+	isNavigating,
+	handleKeydown,
+	setActiveIndex,
+	reset: resetNavigation
+} = useKeyboardNavigation(
+	displayedItems,
+	(item, index) => handleItemSelection(item, { index }),
+	{
+		loop: props.loopNavigation,
+		horizontal: props.position === 'top' || props.position === 'bottom',
+		customHandlers: {
+			'PageUp': () => {
+				if (props.showPagination && paginationContext.value.hasPreviousPage) {
+					emit('update:currentPage', props.currentPage - 1);
+				}
+			},
+			'PageDown': () => {
+				if (props.showPagination && paginationContext.value.hasNextPage) {
+					emit('update:currentPage', props.currentPage + 1);
+				}
+			}
+		}
+	}
+);
+
+// Main ARIA attributes for the history container
+const historyAriaAttrs = computed(() => {
+	const attrs: Record<string, any> = {
+		role: props.role,
+		id: historyId,
+		'aria-label': props['aria-label'] || `History timeline with ${timelineMetadata.value.totalItems} items`,
+		...(props['aria-labelledby'] && { 'aria-labelledby': props['aria-labelledby'] }),
+		...(props['aria-describedby'] && { 'aria-describedby': props['aria-describedby'] }),
+	};
+	
+	// Add orientation for screen reader context
+	if (props.announceOrientation) {
+		attrs['aria-orientation'] = timelineMetadata.value.orientation;
+	}
+	
+	return attrs;
+});
+
+// List ARIA attributes
+const listAriaAttrs = computed(() => ({
+	role: 'list',
+	id: listId,
+	'aria-label': `${props.announcementPrefix} list, ${timelineMetadata.value.totalItems} items total`
+}));
+
+/**
+ * Handles history item selection with proper event payload and accessibility announcements
+ */
+const handleItemSelection = (item: BHistoryItemType, event: BHistorySelectionEvent): void => {
+	if (props.disabled) return;
+	
+	setModel(item, event);
+	
+	// Update focused index to match selection
+	focusedIndex.value = event.index;
+	
+	// Announce selection change
+	if (props.announceNavigation) {
+		const context = getItemContext(item, event.index);
+		const announcement = `${props.announcementPrefix} selected: ${context.itemAriaAttrs['aria-label']}`;
+		updateLiveRegion(announcement);
+	}
+};
+
+/**
+ * Handles keyboard events for the history timeline
+ */
+const handleHistoryKeydown = (event: KeyboardEvent): void => {
+	if (!props.keyboardNavigation || props.disabled) return;
+	handleKeydown(event);
+};
+
+/**
+ * Handles item focus events
+ */
+const handleItemFocus = (item: BHistoryItemType, index: number): void => {
+	focusedIndex.value = index;
+	emit('focus-change', item, index);
+};
+
+/**
+ * Handles item blur events
+ */
+const handleItemBlur = (): void => {
+	// Only reset focus if we're not navigating
+	if (!isNavigating.value) {
+		focusedIndex.value = -1;
+	}
+};
+
+// Watch for active index changes and update focus
+watch(activeIndex, (newIndex) => {
+	focusedIndex.value = newIndex;
+	
+	if (newIndex >= 0 && props.focusOnNavigation) {
+		nextTick(() => {
+			if (props.announceNavigation) {
+				const item = displayedItems.value[newIndex];
+				const context = getItemContext(item, newIndex);
+				updateLiveRegion(`Navigated to ${context.itemAriaAttrs['aria-label']}`);
+			}
+			
+			emit('focus-change', displayedItems.value[newIndex], newIndex);
+		});
+	}
+});
+
+// Initialize component on mount
+onMounted(() => {
+	// Set initial focus if there's a selected item
+	if (model.value) {
+		const selectedIndex = displayedItems.value.findIndex(item => item === model.value);
+		if (selectedIndex >= 0) {
+			focusedIndex.value = selectedIndex;
+		}
+	}
+	
+	// Announce timeline description if enabled
+	if (props.announceOrientation && props.announceItemCounts) {
+		const metadata = timelineMetadata.value;
+		const announcement = `${metadata.orientation} history timeline with ${metadata.totalItems} items${metadata.dateRange ? ` from ${formatDateForAccessibility(metadata.dateRange.earliest)} to ${formatDateForAccessibility(metadata.dateRange.latest)}` : ''}`;
+		
+		// Delay announcement to avoid conflicts with page load
+		setTimeout(() => {
+			updateLiveRegion(announcement);
+		}, 500);
+	}
+});
+
+// Cleanup on unmount
+onUnmounted(() => {
+	resetNavigation();
+});
+
+// Watch for pagination changes and announce
+watch(() => props.currentPage, (newPage) => {
+	if (props.showPagination && props.announceNavigation) {
+		const context = paginationContext.value;
+		const announcement = `Page ${newPage} of ${context.totalPages}, showing items ${context.itemRange.start} to ${context.itemRange.end} of ${context.totalItems}`;
+		updateLiveRegion(announcement);
+	}
+});
 </script>
 
 <template>
 	<div
+		ref="historyRef"
 		class="b-history"
-		:class="{ flex: position === 'top' || position === 'bottom' }">
+		:class="{ 
+			'timeline-horizontal': position === 'top' || position === 'bottom',
+			'timeline-vertical': position === 'left' || position === 'right',
+			'reduce-motion': reduceMotion
+		}"
+		v-bind="historyAriaAttrs"
+		@keydown="handleHistoryKeydown"
+	>
+		<!-- Screen reader live region for announcements -->
 		<div
-			v-for="(item, index) in items"
-			:key="index"
-			class="item"
-			:class="[
-				position,
-				item.type ? item.type : type,
-				{
-					'last-item': !items[index + 1],
-					'first-item': index == 0,
-					active: (index == 0 && !model && !disabled) || item === model,
-					disabled: disabled,
-				},
-			]"
-			@click="!disabled && setModel(item, { index })">
-			<div
-				class="circle"
-				:class="{
-					'circle-icon': !!item.icon && !item.isIconRound,
-					'round-icon': !!item.icon && item.isIconRound,
-				}">
-				<BIcon
-					:name="item.icon"
-					v-if="item.icon"
-					:filled="!item.unfilled" />
-			</div>
-			<div
-				class="custom-border"
-				:class="{ 'have-icon': !!item.icon && !item.isIconRound }" />
-			<div class="data-list">
-				<slot
-					name="item"
-					:item="item"
-					:index="index"
-					:active="(index == 0 && !model && !disabled) || item === model" />
-			</div>
-		</div>
+			ref="liveRegion"
+			:aria-live="liveRegionPoliteness"
+			aria-atomic="true"
+			aria-relevant="text"
+			class="sr-only"
+		></div>
+
+		<!-- History timeline list -->
+		<ol
+			v-bind="listAriaAttrs"
+			class="history-list"
+			:class="`position-${position}`"
+		>
+			<BHistoryItem
+				v-for="(item, index) in displayedItems"
+				:key="item.id || index"
+				:item="item"
+				:position="position"
+				:type="item.type || type"
+				:active="(index === 0 && !model && !disabled) || item === model"
+				:disabled="disabled"
+				:is-first="index === 0"
+				:is-last="index === displayedItems.length - 1"
+				:index="index"
+				:total-items="displayedItems.length"
+				:context="getItemContext(item, index)"
+				@click="handleItemSelection"
+				@focus="handleItemFocus"
+				@blur="handleItemBlur"
+			>
+				<template #default="{ item: slotItem, index: slotIndex, active, context }">
+					<slot
+						name="item"
+						:item="slotItem"
+						:index="slotIndex"
+						:active="active"
+						:context="context"
+					/>
+				</template>
+			</BHistoryItem>
+		</ol>
+
+		<!-- Pagination controls (if enabled) -->
+		<nav
+			v-if="showPagination && paginationContext.totalPages > 1"
+			class="history-pagination"
+			aria-label="History pagination"
+		>
+			<button
+				type="button"
+				:disabled="!paginationContext.hasPreviousPage"
+				:aria-label="`Go to previous page, page ${currentPage - 1}`"
+				@click="emit('update:currentPage', currentPage - 1)"
+				class="pagination-button"
+			>
+				Previous
+			</button>
+			
+			<span 
+				aria-live="polite"
+				class="pagination-info"
+			>
+				Page {{ currentPage }} of {{ paginationContext.totalPages }}
+			</span>
+			
+			<button
+				type="button"
+				:disabled="!paginationContext.hasNextPage"
+				:aria-label="`Go to next page, page ${currentPage + 1}`"
+				@click="emit('update:currentPage', currentPage + 1)"
+				class="pagination-button"
+			>
+				Next
+			</button>
+		</nav>
 	</div>
 </template>
+
 <style scoped>
-	@reference "../../assets/main.css";
+@import "../../assets/main.css";
 
-	.first-item {
-		.data-list {
-			@apply border-none;
-		}
+/* CSS Custom Properties for easier theming */
+:root {
+	--history-timeline-gap: theme(spacing.base);
+	--history-item-padding: theme(spacing.base);
+	--history-border-width: 1.5px;
+	--history-border-color: theme(colors.neutral.border.default);
+	--history-transition-duration: theme(transitionDuration.200);
+}
 
-		.circle {
-			@apply z-[1];
-		}
+.b-history {
+	@apply relative;
+	
+	/* Support for CSS custom properties */
+	--timeline-gap: var(--history-timeline-gap);
+	--item-padding: var(--history-item-padding);
+	--border-width: var(--history-border-width);
+	--border-color: var(--history-border-color);
+}
+
+.b-history.reduce-motion * {
+	animation-duration: 0.01ms !important;
+	animation-iteration-count: 1 !important;
+	transition-duration: 0.01ms !important;
+}
+
+/* Timeline orientation classes */
+.timeline-horizontal {
+	@apply flex;
+}
+
+.timeline-vertical {
+	@apply block;
+}
+
+/* History list base styles */
+.history-list {
+	@apply list-none p-0 m-0;
+}
+
+/* Position-specific list layouts */
+.history-list.position-top,
+.history-list.position-bottom {
+	@apply flex flex-row gap-base;
+}
+
+.history-list.position-left,
+.history-list.position-right {
+	@apply flex flex-col;
+}
+
+/* Screen reader only class */
+.sr-only {
+	@apply absolute w-px h-px p-0 -m-px overflow-hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* Pagination styles */
+.history-pagination {
+	@apply flex items-center justify-center gap-base mt-base px-base py-sm;
+	@apply border-t border-neutral-border-default;
+}
+
+.pagination-button {
+	@apply px-base py-sm border border-neutral-border-default rounded-base;
+	@apply bg-neutral-surface-default hover:bg-neutral-surface-highlight;
+	@apply text-neutral-foreground-high;
+	@apply transition-colors duration-200 ease-in-out;
+}
+
+.pagination-button:disabled {
+	@apply opacity-50 cursor-not-allowed hover:bg-neutral-surface-default;
+}
+
+.pagination-button:focus {
+	@apply outline-none ring-2 ring-primary-interaction-default ring-offset-2;
+}
+
+.pagination-info {
+	@apply text-sm text-neutral-foreground-medium font-medium;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+	.pagination-button:focus {
+		@apply ring-4 ring-black;
 	}
-
-	.last-item {
-		.data-list {
-			@apply border-none;
-		}
+	
+	.pagination-button {
+		@apply border-2;
 	}
+}
 
-	.item.first-item.last-item {
-		.custom-border {
-			@apply hidden;
-		}
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+	.b-history,
+	.pagination-button {
+		transition: none !important;
+		animation: none !important;
 	}
+}
 
-	.item {
-		@apply w-full relative cursor-pointer;
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--history-border-color: theme(colors.neutral.border.default.dark);
 	}
-
-	.item.disabled {
-		@apply hover:bg-transparent cursor-default;
+	
+	.pagination-info {
+		@apply text-neutral-foreground-medium-dark;
 	}
-
-	.item.disabled.primary {
-		@apply hover:bg-transparent;
-
-		.circle {
-			@apply bg-primary-interaction-default z-[2];
-		}
-
-		.circle.round-icon {
-			@apply text-primary-interaction-default bg-neutral-surface-default;
-		}
+	
+	.pagination-button {
+		@apply bg-neutral-surface-default-dark border-neutral-border-default-dark;
+		@apply text-neutral-foreground-high-dark;
+		@apply hover:bg-neutral-surface-highlight-dark;
 	}
+}
 
-	.item.disabled.info {
-		@apply hover:bg-transparent;
-
-		.circle {
-			@apply bg-informative-interaction-default z-[2];
-		}
-
-		.circle.round-icon {
-			@apply text-informative-interaction-default bg-neutral-surface-default;
-		}
+/* Container queries for responsive design (if supported) */
+@container (max-width: 768px) {
+	.timeline-horizontal .history-list {
+		@apply flex-col;
 	}
-
-	.item.disabled.success {
-		@apply hover:bg-transparent;
-
-		.circle {
-			@apply bg-success-interaction-default z-[2];
-		}
-
-		.circle.round-icon {
-			@apply text-success-interaction-default bg-neutral-surface-default;
-		}
+	
+	.history-pagination {
+		@apply flex-col gap-xs;
 	}
-
-	.item.disabled.warning {
-		@apply hover:bg-transparent;
-
-		.circle {
-			@apply bg-warning-interaction-default z-[2];
-		}
-
-		.circle.round-icon {
-			@apply text-warning-interaction-default bg-neutral-surface-default;
-		}
+	
+	.pagination-button {
+		@apply w-full;
 	}
-
-	.item.disabled.danger {
-		@apply hover:bg-transparent;
-
-		.circle {
-			@apply bg-danger-interaction-default z-[2];
-		}
-
-		.circle.round-icon {
-			@apply text-danger-interaction-default bg-neutral-surface-default;
-		}
-	}
-
-	.item.disabled.neutral {
-		@apply hover:bg-transparent;
-
-		.circle {
-			@apply bg-neutral-interaction-default z-[2];
-		}
-
-		.circle.round-icon {
-			@apply text-neutral-interaction-default bg-neutral-surface-default;
-		}
-	}
-
-	.item.primary {
-		@apply hover:bg-primary-surface-default;
-	}
-
-	.item.info {
-		@apply hover:bg-informative-surface-default;
-	}
-
-	.item.success {
-		@apply hover:bg-success-surface-default;
-	}
-
-	.item.warning {
-		@apply hover:bg-warning-surface-default;
-	}
-
-	.item.danger {
-		@apply hover:bg-danger-surface-default;
-	}
-
-	.item.neutral {
-		@apply hover:bg-neutral-surface-highlight;
-	}
-
-	.primary.active {
-		@apply bg-primary-surface-default;
-
-		.circle {
-			@apply bg-primary-interaction-default z-[2];
-		}
-
-		.circle.round-icon {
-			@apply text-primary-interaction-default bg-neutral-surface-default;
-		}
-	}
-
-	.info.active {
-		@apply bg-informative-surface-default;
-
-		.circle {
-			@apply bg-informative-interaction-default z-[2];
-		}
-
-		.circle.round-icon {
-			@apply text-informative-interaction-default bg-neutral-surface-default;
-		}
-	}
-
-	.success.active {
-		@apply bg-success-surface-default;
-
-		.circle {
-			@apply bg-success-interaction-default z-[2];
-		}
-
-		.circle.round-icon {
-			@apply text-success-interaction-default bg-neutral-surface-default;
-		}
-	}
-
-	.warning.active {
-		@apply bg-warning-surface-default;
-
-		.circle {
-			@apply bg-warning-interaction-default z-[2];
-		}
-		.circle.round-icon {
-			@apply text-warning-interaction-default bg-neutral-surface-default;
-		}
-	}
-
-	.danger.active {
-		@apply bg-danger-surface-default;
-
-		.circle {
-			@apply bg-danger-interaction-default z-[2];
-		}
-
-		.circle.round-icon {
-			@apply text-danger-interaction-default bg-neutral-surface-default;
-		}
-	}
-
-	.neutral.active {
-		@apply bg-neutral-surface-highlight;
-
-		.circle {
-			@apply bg-neutral-interaction-default z-[2];
-		}
-
-		.circle.round-icon {
-			@apply text-neutral-interaction-default bg-neutral-surface-default;
-		}
-	}
-
-	.circle {
-		@apply bg-neutral-surface-disabled absolute w-[10px] h-[10px] rounded-full;
-	}
-
-	.custom-border {
-		@apply border-neutral-border-default absolute;
-	}
-
-	.data-list {
-		@apply border-neutral-border-default;
-	}
-
-	.circle.circle-icon {
-		@apply flex items-center justify-center p-sm text-neutral-foreground-negative bg-neutral-surface-disabled;
-
-		span {
-			@apply text-base;
-		}
-	}
-
-	.circle.round-icon {
-		@apply bg-neutral-surface-default w-fit h-[20px] text-neutral-surface-disabled;
-
-		.b-icon {
-			@apply text-3xl;
-		}
-	}
-
-	.right {
-		@apply pl-[20.5px] pr-[16px];
-
-		.circle {
-			@apply top-[22px] left-[21px];
-		}
-
-		.circle.round-icon {
-			@apply top-[22px] left-[11px];
-		}
-
-		.circle.circle-icon {
-			@apply top-[22px] left-[15px];
-		}
-
-		.data-list {
-			@apply border-l-[1.5px] border-neutral-border-default pb-[16px] pt-[20px] ml-[5px] pl-[20px];
-		}
-	}
-
-	.right.first-item {
-		@apply pt-[20px];
-
-		.custom-border {
-			@apply border-r-[1.5px] border-neutral-border-default mr-[5px] pr-[20px] pb-[16px] pt-[20px];
-		}
-
-		.data-list {
-			@apply pt-[0px];
-		}
-
-		.circle {
-			@apply top-[26px];
-		}
-
-		.circle.circle-icon,
-		.circle.round-icon {
-			@apply top-[22px];
-		}
-	}
-
-	.right.last-item {
-		.custom-border {
-			@apply border-r-xxs h-[22px] w-[.5px] mt-[0] ml-[5px];
-		}
-	}
-
-	.left {
-		@apply pl-[16px] pr-[20.5px];
-
-		.circle {
-			@apply top-[22px] right-[21px];
-		}
-
-		.circle.round-icon {
-			@apply top-[22px] right-[13.5px];
-		}
-
-		.circle.circle-icon {
-			@apply top-[22px] right-[14.5px];
-		}
-
-		.data-list {
-			@apply border-r-[1.5px] border-neutral-border-default mr-[5px] pr-[20px] pb-[16px] pt-[20px];
-		}
-	}
-
-	.left.first-item {
-		@apply pt-[20px];
-
-		.custom-border {
-			@apply border-t-[1.5px] border-neutral-border-default pt-[20px] px-[16px] ml-0;
-		}
-
-		.data-list {
-			@apply pt-[0px];
-		}
-
-		.circle {
-			@apply top-[26px];
-		}
-
-		.circle.circle-icon,
-		.circle.round-icon {
-			@apply top-[22px];
-		}
-	}
-
-	.left.last-item {
-		.custom-border {
-			@apply border-l-xxs h-[22px] w-[.5px] right-[26px];
-		}
-	}
-
-	.top {
-		.circle {
-			@apply top-[16px] left-[16px];
-		}
-
-		.circle.round-icon {
-			@apply top-[7px] left-[16px];
-		}
-
-		.circle.circle-icon {
-			@apply top-[9.5px] left-[16px];
-		}
-
-		.data-list {
-			@apply border-t-[1.5px] border-neutral-border-default pt-[20px] px-[16px] ml-0;
-		}
-
-		.custom-border {
-			@apply h-[.5px] w-full;
-		}
-	}
-
-	.top.item {
-		@apply pt-[20px] pb-[16px];
-	}
-
-	.top.first-item {
-		.custom-border {
-			@apply border-t-xxs ml-[26px] 2xl:mt-[0.5%];
-		}
-
-		.custom-border.have-icon {
-			@apply mt-[1px];
-		}
-
-		.circle {
-			@apply left-[26px];
-		}
-
-		.circle.round-icon,
-		.circle.circle-icon {
-			@apply left-[17px];
-		}
-	}
-
-	.top.last-item {
-		.custom-border {
-			@apply border-t-xxs w-[22px] left-[-5px] 2xl:mt-[0.5%];
-		}
-
-		.custom-border.have-icon {
-			@apply mt-[1px];
-		}
-	}
-
-	.bottom {
-		@apply pb-[20.5px] pt-[16px];
-
-		.circle {
-			@apply bottom-[16px] left-[16px];
-		}
-
-		.circle.round-icon {
-			@apply bottom-[14px] left-[16px];
-		}
-
-		.circle.circle-icon {
-			@apply bottom-[10px] left-[16px];
-		}
-
-		.data-list {
-			@apply border-b-[1.5px] border-neutral-border-default pb-[20px] px-[16px];
-		}
-
-		.custom-border {
-			@apply h-[.5px] w-full;
-		}
-	}
-
-	.bottom.first-item {
-		.custom-border {
-			@apply border-b-xxs ml-[26px] bottom-[20.5px];
-		}
-
-		.circle {
-			@apply left-[26px];
-		}
-
-		.circle.round-icon,
-		.circle.circle-icon {
-			@apply left-[17px];
-		}
-	}
-
-	.bottom.last-item {
-		.custom-border {
-			@apply border-b-xxs w-[22px] left-[-5px] bottom-[20.5px];
-		}
-	}
-
-	.before-triangle-cover {
-		@apply z-1 absolute w-[20px] h-full left-0 top-1/2 translate-y-[-50%];
-		content: "";
-		background: var(--color-neutral-border-default);
-		clip-path: polygon(0 0, 0 100%, 100% 50%);
-	}
-
-	.step-button:not(.last-button)::after {
-		@apply z-4 absolute w-[20px] h-full top-1/2 translate-y-[-50%] bg-inherit border-inherit;
-		content: "";
-		clip-path: polygon(0 0, 0 100%, 100% 50%);
-	}
-
-	.step-button.first-button:not(.last-button) .step-button.large {
-		@apply z-2 absolute w-[20px] h-full left-0 top-1/2 translate-y-[-50%];
-		content: "";
-		background: var(--color-neutral-border-default);
-		clip-path: polygon(0 0, 0 100%, 100% 50%);
-	}
-
-	.after-triangle-cover {
-		@apply z-3 absolute w-[20px] h-[102%] right-[-20px] top-1/2 translate-y-[-50%] bg-inherit border-inherit;
-		content: "";
-		background: var(--color-neutral-border-default);
-		clip-path: polygon(0 0, 0 100%, 100% 50%);
-	}
+}
 </style>

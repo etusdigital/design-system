@@ -3,12 +3,30 @@
 	// of ionicons not triggering a div resize event to the observer. Or it could be some
 	// slot content shenanigans aswell, idk.
 	// @TODO: Fix border width for container with sub items
-	import { ref, onMounted, onBeforeUnmount, onUpdated, computed } from "vue";
+	import { 
+		ref, 
+		onMounted, 
+		onBeforeUnmount, 
+		onUpdated, 
+		computed, 
+		nextTick,
+		watch 
+	} from "vue";
 	import type { BContainerModelExtra } from "../../utils/components/BContainerModelExtra.types";
-	import { useOptionalModel } from "#composables";
+	import type { 
+		BSelectContainerProps,
+		BSelectContainerEmits,
+		BSelectContainerState,
+		BSelectContainerAriaAttributes,
+		BSelectContainerItem,
+		DEFAULT_ACCESSIBILITY_CONFIG,
+		DEFAULT_KEYBOARD_CONFIG,
+		DEFAULT_FOCUS_CONFIG
+	} from "./BSelectContainer.types";
+	import { useOptionalModel, useAriaAttributes, useScreenReader, useFocusTrap } from "#composables";
 
 	const props = withDefaults(
-		defineProps<{
+		defineProps<BSelectContainerProps & {
 			modelValue?: boolean;
 			labelValue?: string;
 			role?: string;
@@ -26,6 +44,7 @@
 			hideArrow?: boolean;
 		}>(),
 		{
+			// Legacy props
 			modelValue: undefined,
 			labelValue: "",
 			role: "listbox",
@@ -41,29 +60,292 @@
 			minWidth: "15em",
 			secondary: false,
 			hideArrow: false,
+			// Accessibility props with defaults
+			...DEFAULT_ACCESSIBILITY_CONFIG,
+			keyboardConfig: () => DEFAULT_KEYBOARD_CONFIG,
+			focusConfig: () => DEFAULT_FOCUS_CONFIG,
 		}
 	);
 
-	const emit = defineEmits<{
+	const emit = defineEmits<BSelectContainerEmits & {
 		"update:modelValue": [value: boolean, extra: BContainerModelExtra];
 	}>();
 
+	// Composables
 	const [model, setModel] = useOptionalModel<boolean>(
 		props,
 		"modelValue",
 		emit,
 		false
 	);
+	const { useAriaId } = useAriaAttributes();
+	const { announcePolitely, announceAssertively } = useScreenReader();
+	const { trapFocus, releaseFocusTrap } = useFocusTrap();
+
+	// Template refs
 	const container = ref<HTMLDivElement>();
 	const fatherContainer = ref<HTMLDivElement>();
 	const content = ref<HTMLDivElement>();
+	const triggerElement = ref<HTMLElement>();
+	const listElement = ref<HTMLElement>();
+	
+	// Observers
 	const resizeObserver = new ResizeObserver(resize);
 	const mutationObserver = new MutationObserver(resize);
 
+	// Reactive state
+	const containerId = computed(() => useAriaId('select-container'));
+	const listboxId = computed(() => `${containerId.value}-listbox`);
+	const helpTextId = computed(() => props.helpText ? `${containerId.value}-help` : undefined);
+	const errorId = computed(() => props.errorMessage ? `${containerId.value}-error` : undefined);
+	const isFocused = ref(false);
+	const focusedItemIndex = ref<number>(-1);
+	const searchQuery = ref('');
+	const typeAheadTimeout = ref<NodeJS.Timeout | null>(null);
+
+	// Computed properties
 	const isExpanded = computed((): boolean =>
 		props.disabled ? false : model.value
 	);
 
+	const isDisabled = computed((): boolean => props.disabled);
+	const isRequired = computed((): boolean => props.required);
+	const hasError = computed((): boolean => props.isError || !!props.errorMessage);
+
+	// Component state for accessibility
+	const containerState = computed((): BSelectContainerState => ({
+		isExpanded: isExpanded.value,
+		isDisabled: isDisabled.value,
+		hasFocus: isFocused.value,
+		hasError: hasError.value,
+		isRequired: isRequired.value,
+		isLoading: props.loading || false,
+		searchQuery: searchQuery.value,
+		focusedItemIndex: focusedItemIndex.value,
+		selectedItems: [], // Will be updated by actual implementation
+		totalItems: 0, // Will be updated by actual implementation
+		filteredItems: 0, // Will be updated by actual implementation
+	}));
+
+	// ARIA attributes
+	const ariaAttributes = computed((): BSelectContainerAriaAttributes => {
+		const describedByIds = [
+			props.ariaDescribedBy,
+			helpTextId.value,
+			errorId.value,
+		].filter(Boolean);
+
+		return {
+			role: props.role || 'combobox',
+			'aria-expanded': isExpanded.value,
+			'aria-haspopup': 'listbox',
+			'aria-controls': listboxId.value,
+			...(props.ariaLabel && { 'aria-label': props.ariaLabel }),
+			...(props.ariaLabelledBy && { 'aria-labelledby': props.ariaLabelledBy }),
+			...(describedByIds.length > 0 && { 'aria-describedby': describedByIds.join(' ') }),
+			...(hasError.value && { 'aria-invalid': true }),
+			...(isRequired.value && { 'aria-required': true }),
+			...(isDisabled.value && { 'aria-disabled': true }),
+			...(props.loading && { 'aria-busy': true }),
+			...(props.multiSelect && { 'aria-multiselectable': true }),
+			...(focusedItemIndex.value >= 0 && { 'aria-activedescendant': `${listboxId.value}-item-${focusedItemIndex.value}` }),
+		};
+	});
+
+	// Watch for state changes and announcements
+	watch(
+		() => isExpanded.value,
+		(newExpanded, oldExpanded) => {
+			if (newExpanded !== oldExpanded && props.announceChanges) {
+				const message = props.stateAnnouncementTemplate
+					?.replace('{state}', newExpanded ? 'opened' : 'closed')
+					?.replace('{itemCount}', containerState.value.totalItems.toString()) 
+					|| `Select container ${newExpanded ? 'opened' : 'closed'}`;
+				announcePolitely(message);
+			}
+
+			if (newExpanded) {
+				handleContainerOpen();
+			} else {
+				handleContainerClose();
+			}
+		}
+	);
+
+	// Focus management
+	function handleContainerOpen(): void {
+		emit('opened', containerState.value);
+		
+		nextTick(() => {
+			if (props.focusConfig?.trapFocus && content.value) {
+				trapFocus(content.value);
+			}
+
+			// Set initial focus based on configuration
+			const initialFocus = props.focusConfig?.initialFocus || 'first-item';
+			switch (initialFocus) {
+				case 'first-item':
+					focusedItemIndex.value = 0;
+					break;
+				case 'container':
+					content.value?.focus();
+					break;
+				case 'none':
+				default:
+					break;
+			}
+		});
+	}
+
+	function handleContainerClose(): void {
+		emit('closed', containerState.value);
+		
+		if (props.focusConfig?.trapFocus) {
+			releaseFocusTrap();
+		}
+
+		// Reset focus state
+		focusedItemIndex.value = -1;
+		searchQuery.value = '';
+
+		// Restore focus to trigger if configured
+		if (props.focusConfig?.restoreFocus && triggerElement.value) {
+			triggerElement.value.focus();
+		}
+	}
+
+	// Keyboard event handling
+	function handleKeydown(event: KeyboardEvent): void {
+		if (isDisabled.value) return;
+
+		const { key } = event;
+		const keyboardConfig = props.keyboardConfig || DEFAULT_KEYBOARD_CONFIG;
+
+		// Handle opening keys
+		if (!isExpanded.value && keyboardConfig.openKeys?.includes(key)) {
+			event.preventDefault();
+			openContainer();
+			return;
+		}
+
+		// Handle closing keys
+		if (isExpanded.value && keyboardConfig.closeKeys?.includes(key)) {
+			event.preventDefault();
+			closeContainer();
+			return;
+		}
+
+		// Handle navigation when expanded
+		if (isExpanded.value) {
+			handleExpandedKeydown(event);
+		}
+
+		emit('keyboard', event, `key-${key}`);
+	}
+
+	function handleExpandedKeydown(event: KeyboardEvent): void {
+		const { key } = event;
+		const keyboardConfig = props.keyboardConfig || DEFAULT_KEYBOARD_CONFIG;
+
+		switch (key) {
+			case 'ArrowDown':
+				event.preventDefault();
+				navigateItems(1);
+				break;
+			case 'ArrowUp':
+				event.preventDefault();
+				navigateItems(-1);
+				break;
+			case 'Home':
+				if (keyboardConfig.homeEndNavigation) {
+					event.preventDefault();
+					focusedItemIndex.value = 0;
+				}
+				break;
+			case 'End':
+				if (keyboardConfig.homeEndNavigation) {
+					event.preventDefault();
+					focusedItemIndex.value = containerState.value.totalItems - 1;
+				}
+				break;
+			default:
+				// Type-ahead search
+				if (keyboardConfig.typeAhead && key.length === 1) {
+					handleTypeAhead(key);
+				}
+				break;
+		}
+	}
+
+	function navigateItems(direction: number): void {
+		const totalItems = containerState.value.totalItems;
+		if (totalItems === 0) return;
+
+		let newIndex = focusedItemIndex.value + direction;
+		
+		const keyboardConfig = props.keyboardConfig || DEFAULT_KEYBOARD_CONFIG;
+		if (keyboardConfig.wrapNavigation) {
+			if (newIndex < 0) {
+				newIndex = totalItems - 1;
+			} else if (newIndex >= totalItems) {
+				newIndex = 0;
+			}
+		} else {
+			newIndex = Math.max(0, Math.min(newIndex, totalItems - 1));
+		}
+
+		focusedItemIndex.value = newIndex;
+		emit('focus-changed', newIndex, null); // Item will be provided by actual implementation
+	}
+
+	function handleTypeAhead(key: string): void {
+		if (typeAheadTimeout.value) {
+			clearTimeout(typeAheadTimeout.value);
+		}
+
+		searchQuery.value += key.toLowerCase();
+		
+		const keyboardConfig = props.keyboardConfig || DEFAULT_KEYBOARD_CONFIG;
+		typeAheadTimeout.value = setTimeout(() => {
+			searchQuery.value = '';
+		}, keyboardConfig.typeAheadDelay || 500);
+
+		// Emit search event for parent to handle
+		emit('search-changed', searchQuery.value, []);
+	}
+
+	// Container control methods
+	function openContainer(): void {
+		if (isDisabled.value) return;
+		changeModel(true, {});
+	}
+
+	function closeContainer(): void {
+		if (isDisabled.value) return;
+		changeModel(false, {});
+	}
+
+	function toggleContainer(): void {
+		if (isExpanded.value) {
+			closeContainer();
+		} else {
+			openContainer();
+		}
+	}
+
+	// Focus event handlers
+	function handleFocus(): void {
+		isFocused.value = true;
+	}
+
+	function handleBlur(): void {
+		isFocused.value = false;
+		if (props.closeOnBlur && isExpanded.value) {
+			closeContainer();
+		}
+	}
+
+	// Legacy and observer functions
 	onMounted(() => {
 		if (!fatherContainer.value) return;
 		container.value = fatherContainer.value.querySelector(
@@ -90,6 +372,9 @@
 
 	onBeforeUnmount(() => {
 		if (resizeObserver) resizeObserver.disconnect();
+		if (mutationObserver) mutationObserver.disconnect();
+		if (typeAheadTimeout.value) clearTimeout(typeAheadTimeout.value);
+		releaseFocusTrap();
 	});
 
 	function resize() {
@@ -109,6 +394,8 @@
 	<div ref="fatherContainer">
 		<BExpandableContainer
 			v-model="model"
+			v-bind="ariaAttributes"
+			:id="containerId"
 			:absolute="absolute"
 			:label-value="labelValue"
 			:close-on-blur="closeOnBlur"
@@ -121,7 +408,17 @@
 			:min-width="minWidth"
 			:secondary="secondary"
 			:hide-arrow="hideArrow"
-			@update:model-value="changeModel">
+			:class="{
+				'high-contrast': highContrast,
+				'reduced-motion': reduceMotion,
+				'enhanced-focus': enhancedFocus,
+				'min-touch-target': minTouchTarget,
+			}"
+			@update:model-value="changeModel"
+			@keydown="handleKeydown"
+			@focus="handleFocus"
+			@blur="handleBlur">
+			
 			<slot />
 
 			<template
@@ -142,7 +439,11 @@
 					ref="content"
 					class="content-wrapper">
 					<div
+						:id="listboxId"
 						class="content transition-translate"
+						role="listbox"
+						:aria-label="props.ariaLabel || 'Select options'"
+						:aria-multiselectable="multiSelect"
 						:class="{
 							secondary,
 							expanded: isExpanded,
@@ -150,6 +451,7 @@
 						}">
 						<slot name="content">
 							<ul
+								ref="listElement"
 								role="list"
 								class="items-list"
 								:class="[{ 'p-xxs *:p-xs': !dontHaveMaxHeight }]">
@@ -160,6 +462,8 @@
 						<div
 							v-if="$slots.actions"
 							class="actions"
+							role="group"
+							aria-label="Container actions"
 							tabindex="0">
 							<slot name="actions" />
 						</div>
@@ -167,47 +471,139 @@
 				</div>
 			</template>
 		</BExpandableContainer>
+
+		<!-- Screen reader help text -->
+		<div
+			v-if="helpText"
+			:id="helpTextId"
+			class="sr-only">
+			{{ helpText }}
+		</div>
+
+		<!-- Screen reader instructions -->
+		<div
+			v-if="showKeyboardInstructions && screenReaderInstructions"
+			:id="`${containerId}-instructions`"
+			class="sr-only">
+			{{ screenReaderInstructions }}
+		</div>
+
+		<!-- Error message for screen readers -->
+		<div
+			v-if="errorMessage"
+			:id="errorId"
+			class="sr-only"
+			role="alert"
+			aria-live="assertive">
+			{{ errorMessage }}
+		</div>
+
+		<!-- Live region for announcements -->
+		<div
+			v-if="announceChanges"
+			:aria-live="liveRegionPoliteness"
+			aria-atomic="true"
+			class="sr-only">
+			<!-- Dynamic announcements will be inserted here -->
+		</div>
 	</div>
 </template>
 
 <style scoped>
-	@reference "../../assets/main.css";
+	@import "../../assets/main.css";
 
-	.content-wrapper {
-		@apply top-full left-0 transition-[max-height] duration-100 w-full;
+	/* Accessibility enhancements */
+	.high-contrast {
+		border: 2px solid var(--color-neutral-border-default);
 	}
 
-	.content {
-		@apply overflow-hidden flex flex-col items-center -translate-y-full duration-100 ease-out
-    rounded-xs bg-neutral-surface-default text-xs;
+	.high-contrast:focus-within {
+		border-color: var(--color-primary-interaction-default);
+		background-color: var(--color-primary-surface-subtle);
 	}
 
-	.content.secondary {
-		@apply bg-primary-interaction-default text-neutral-foreground-negative;
+	.reduced-motion,
+	.reduced-motion * {
+		transition: none !important;
+		animation: none !important;
+	}
 
-		.items-list::-webkit-scrollbar-thumb {
-			@apply bg-primary-surface-pressed;
+	.enhanced-focus:focus-within {
+		outline: 2px solid var(--color-primary-interaction-default);
+		outline-offset: 2px;
+	}
+
+	.min-touch-target .content {
+		min-height: 44px;
+	}
+
+	.min-touch-target .actions button,
+	.min-touch-target .items-list li {
+		min-height: 44px;
+		min-width: 44px;
+	}
+
+	/* Screen reader only content */
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	/* Focus indicators for keyboard navigation */
+	.content[role="listbox"]:focus {
+		outline: 2px solid var(--color-primary-interaction-default);
+		outline-offset: 2px;
+	}
+
+	/* High contrast mode support */
+	@media (prefers-contrast: high) {
+		.content-wrapper {
+			border: 2px solid CanvasText;
 		}
 
-		.items-list::-webkit-scrollbar {
-			@apply bg-primary-surface-default;
+		.content {
+			background-color: Canvas;
+			color: CanvasText;
+		}
+
+		.enhanced-focus:focus-within {
+			outline: 3px solid Highlight;
+			outline-offset: 2px;
 		}
 	}
 
-	.content.expanded {
-		@apply translate-y-[0];
+	/* Reduced motion support */
+	@media (prefers-reduced-motion: reduce) {
+		.content-wrapper,
+		.content,
+		.transition-translate {
+			transition: none !important;
+			animation: none !important;
+		}
 	}
 
-	.content.has-max-height {
-		@apply max-h-[12em];
+	/* Loading state accessibility */
+	.content[aria-busy="true"] {
+		opacity: 0.7;
+		pointer-events: none;
 	}
 
-	.items-list {
-		@apply overflow-auto rounded-b-xs w-full;
-	}
-
-	.actions {
-		@apply flex gap-xxs items-center justify-end p-xs w-full border-t-xxs;
-		border-top-color: var(--color-neutral-border-default);
+	.content[aria-busy="true"]::after {
+		content: 'Loading...';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background: var(--color-neutral-surface-default);
+		padding: 8px 16px;
+		border-radius: 4px;
+		font-size: 14px;
 	}
 </style>

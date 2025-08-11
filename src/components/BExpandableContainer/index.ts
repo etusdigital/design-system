@@ -9,4 +9,21 @@ export default {
 
 export {
     BExpandableContainer,
-}
+};
+
+export type {
+    BExpandableContainerProps,
+    BExpandableContainerEmits,
+    ExpandableAccessibilityConfig,
+    DisclosureAccessibilityConfig,
+    ExpandableKeyboardConfig,
+    ExpandableFocusConfig,
+    ExpandableAnimationConfig,
+    ExpandableLoadingConfig,
+    ProgressiveDisclosureConfig,
+    ExpandableState,
+    UseExpandableContainerReturn,
+    ExpandableContainerSize,
+    ContentAlignment,
+    AnimationTimingFunction,
+} from './BExpandableContainer.types';

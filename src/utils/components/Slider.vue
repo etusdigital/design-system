@@ -1,23 +1,107 @@
 <script setup lang="ts">
 	import { getPosition } from "../index";
-	import { ref, onMounted, onBeforeUnmount, watch, computed } from "vue";
+	import { ref, shallowRef, onMounted, onBeforeUnmount, watch, computed, markRaw } from "vue";
 	import { blendColors } from "../index";
+	import { useScreenReader } from "#composables";
+
+	/**
+	 * Mouse or touch event types for slider interactions
+	 */
+	type SliderEvent = MouseEvent | TouchEvent | { clientX: number; clientY: number };
+
+	/**
+	 * Extracts client coordinates from various event types
+	 */
+	function getEventCoordinates(event: SliderEvent): { clientX: number; clientY: number } {
+		if ('clientX' in event && 'clientY' in event) {
+			return { clientX: event.clientX, clientY: event.clientY };
+		} else if ('touches' in event && event.touches.length > 0) {
+			return { clientX: event.touches[0].clientX, clientY: event.touches[0].clientY };
+		}
+		return { clientX: 0, clientY: 0 };
+	}
+
+	/**
+	 * Style object for slider steps
+	 */
+	type StepStyle = Record<string, string | undefined>;
+
+	/**
+	 * Configuration for slider step values
+	 */
+	export interface SliderStep {
+		/** The step value as a percentage (0-1) */
+		value: number;
+		/** Optional label for the step */
+		label?: string;
+	}
+
+	/**
+	 * Color configuration for slider fills
+	 */
+	export type SliderFillColor = string;
+
+	/**
+	 * Slider value type - array of numbers for single or range sliders
+	 */
+	export type SliderValue = number[];
+
+	/**
+	 * Accessibility configuration for the slider component
+	 */
+	export interface SliderAccessibilityConfig {
+		/** Whether to announce value changes */
+		announceChanges?: boolean;
+		/** Custom value formatter for announcements */
+		valueFormatter?: (value: number, unit: string) => string;
+		/** Whether to use live regions for announcements */
+		useLiveRegions?: boolean;
+	}
+
+	/**
+	 * Props for the internal Slider component
+	 */
+	export interface SliderProps {
+		/** Current slider values */
+		modelValue?: SliderValue;
+		/** Size variant of the slider */
+		size?: "small" | "medium" | "large";
+		/** Maximum value for the slider range */
+		max?: number;
+		/** Unit to display in tooltips */
+		unit?: string;
+		/** Primary color for the slider */
+		color?: string;
+		/** Whether to show value tooltips */
+		showTooltip?: boolean;
+		/** Whether the slider is disabled */
+		disabled?: boolean;
+		/** Whether to render vertically */
+		vertical?: boolean;
+		/** Array of colors for gradient fills */
+		fillColors?: SliderFillColor[];
+		/** Whether this is a range slider */
+		isRange?: boolean;
+		/** Step values for the slider */
+		steps?: number[] | SliderStep[];
+		/** Whether to use neutral background */
+		neutralBackground?: boolean;
+		/** ARIA label for accessibility */
+		ariaLabel?: string;
+		/** ID for minimum slider handle */
+		minSliderId?: string;
+		/** ID for maximum slider handle */
+		maxSliderId?: string;
+		/** ARIA label for minimum handle */
+		minHandleLabel?: string;
+		/** ARIA label for maximum handle */
+		maxHandleLabel?: string;
+		/** Accessibility configuration */
+		accessibilityConfig?: SliderAccessibilityConfig;
+	}
 
 	const props = withDefaults(
-		defineProps<{
-			modelValue?: number[];
-			size?: "small" | "medium" | "large";
-			max?: number;
-			unit?: string;
-			color?: string;
-			showTooltip?: boolean;
-			disabled?: boolean;
-			vertical?: boolean;
-			fillColors?: any[];
-			isRange?: boolean;
-			steps?: any[];
-			neutralBackground?: boolean;
-		}>(),
+		defineProps<SliderProps>(),
 		{
 			modelValue: undefined,
 			max: 0,
@@ -30,18 +114,34 @@
 			isRange: false,
 			steps: undefined,
 			neutralBackground: false,
+			ariaLabel: '',
+			minSliderId: '',
+			maxSliderId: '',
+			minHandleLabel: '',
+			maxHandleLabel: '',
+			accessibilityConfig: () => ({}),
 		}
 	);
 
-	const emit = defineEmits<{
-		"update:modelValue": [value: number[]];
-	}>();
+	/**
+	 * Events emitted by the Slider component
+	 */
+	export interface SliderEmits {
+		"update:modelValue": [value: SliderValue];
+	}
+
+	const emit = defineEmits<SliderEmits>();
+
+	// Accessibility composables
+	const screenReader = useScreenReader();
 
 	onMounted(() => {
-		window.addEventListener("mousemove", updateCursor);
+		// Add passive listeners for better performance
+		window.addEventListener("mousemove", updateCursor, { passive: true });
 		window.addEventListener("mouseup", stopDragging);
-		window.addEventListener("touchmove", updateCursorTouch);
-		window.addEventListener("touhend", stopDragging);
+		window.addEventListener("touchmove", updateCursorTouch, { passive: true });
+		// Fixed typo: touhend -> touchend
+		window.addEventListener("touchend", stopDragging);
 		calculateCursor();
 	});
 
@@ -49,7 +149,8 @@
 		window.removeEventListener("mousemove", updateCursor);
 		window.removeEventListener("mouseup", stopDragging);
 		window.removeEventListener("touchmove", updateCursorTouch);
-		window.removeEventListener("touhend", stopDragging);
+		// Fixed typo: touhend -> touchend
+		window.removeEventListener("touchend", stopDragging);
 	});
 
 	watch(
@@ -89,6 +190,15 @@
 		}
 	);
 
+	// Watch for model changes to update ARIA labels
+	watch(
+		() => percentage.value,
+		() => {
+			// Update ARIA values for handles (will be reactive in template)
+		},
+		{ deep: true }
+	);
+
 	watch(
 		() => props.max,
 		() => {
@@ -102,6 +212,21 @@
 	const cursors = ref<HTMLSpanElement[]>();
 	const fillBar = ref<HTMLDivElement>();
 	const slider = ref<HTMLDivElement>();
+	
+	// Keyboard navigation state
+	const focusedHandle = ref(0); // 0 = first handle, 1 = second handle (for range)
+	const keyboardMode = ref(false);
+
+	// Generate unique IDs if not provided
+	const sliderId = props.minSliderId || `slider-${Date.now()}`;
+	const sliderLabelId = `${sliderId}-label`;
+	const instructionsId = `${sliderId}-instructions`;
+
+	// Initialize focused handle based on range type
+	onMounted(() => {
+		focusedHandle.value = 0;
+	});
+
 	const tooltipText = computed((): string => {
 		const min = Math.min(...percentage.value);
 		const max = Math.max(...percentage.value);
@@ -115,9 +240,98 @@
 		return blendColors(props.color);
 	});
 
-	function getStepStyle(step: number) {
+	// Computed accessibility values
+	const minHandleValue = computed(() => {
+		if (!props.isRange) return percentage.value[0];
+		return Math.min(...percentage.value);
+	});
+
+	const maxHandleValue = computed(() => {
+		if (!props.isRange) return percentage.value[0];
+		return Math.max(...percentage.value);
+	});
+
+	const getActualValue = (percentageVal: number): number => {
+		return props.max ? percentageVal * props.max : percentageVal * 100;
+	};
+
+	const formatValueForAria = (percentageVal: number): string => {
+		const actualValue = getActualValue(percentageVal);
+		const unit = props.max ? props.unit : props.unit || '%';
+		return `${actualValue.toFixed(1)}${unit}`;
+	};
+
+	const ariaInstructions = computed(() => {
+		let instructions = 'Use arrow keys to adjust value. ';
+		if (props.isRange) {
+			instructions += 'Tab to switch between minimum and maximum handles. ';
+		}
+		instructions += 'Home and End keys jump to minimum and maximum values.';
+		if (props.steps) instructions += ' Values snap to predefined steps.';
+		return instructions;
+	});
+	
+	// Generate unique handle IDs
+	const getHandleId = (index: number): string => {
+		if (props.isRange) {
+			return index === 0 
+				? (props.minSliderId || `${sliderId}-min`)
+				: (props.maxSliderId || `${sliderId}-max`);
+		}
+		return sliderId;
+	};
+
+	const getHandleLabel = (index: number): string => {
+		// Use provided handle labels if available
+		if (props.isRange) {
+			if (index === 0 && props.minHandleLabel) return props.minHandleLabel;
+			if (index === 1 && props.maxHandleLabel) return props.maxHandleLabel;
+		}
+		
+		// Fall back to aria label if provided
+		if (props.ariaLabel) return props.ariaLabel;
+		
+		// Generate default labels
+		if (props.isRange) {
+			const value = formatValueForAria(percentage.value[index]);
+			return index === 0 ? `Minimum value: ${value}` : `Maximum value: ${value}`;
+		}
+		
+		const value = formatValueForAria(percentage.value[0] || 0);
+		return `Value: ${value}`;
+	};
+	
+	function shouldShowKeyboardFocus(handleIndex: number): boolean {
+		return keyboardMode.value && focusedHandle.value === handleIndex;
+	}
+	
+	function handleFocus(handleIndex: number): void {
+		focusedHandle.value = handleIndex;
+		keyboardMode.value = true;
+		
+		// Announce which handle is focused for range sliders
+		if (props.isRange && percentage.value.length === 2) {
+			const config = props.accessibilityConfig || {};
+			if (config.announceChanges !== false) {
+				const handleName = handleIndex === 0 ? 'minimum' : 'maximum';
+				const value = formatValueForAria(percentage.value[handleIndex]);
+				screenReader.announcePolitely(`Focused on ${handleName} handle: ${value}`);
+			}
+		}
+	}
+
+	function handleBlur(): void {
+		keyboardMode.value = false;
+	}
+
+	/**
+	 * Gets the CSS style for a slider step
+	 * @param step - The step value (0-1)
+	 * @returns CSS style object for the step
+	 */
+	function getStepStyle(step: number): StepStyle {
 		const value = step * 100 + "%";
-		const style: any = {};
+		const style: StepStyle = {};
 
 		if (props.vertical) style.bottom = value;
 		else style.left = value;
@@ -130,7 +344,7 @@
 			const stepPercentage = step - min;
 			const colorRange = total / props.fillColors.length;
 
-			const background = props.fillColors.find((_: any, i: number) => {
+			const background = props.fillColors.find((color: SliderFillColor, i: number) => {
 				const startRange = i * colorRange;
 				const endRange = (i + 1) * colorRange;
 
@@ -141,6 +355,7 @@
 				) {
 					return props.fillColors[i];
 				}
+				return undefined;
 			});
 
 			style.background = background;
@@ -151,25 +366,42 @@
 		return style;
 	}
 
-	function betweenPercentage(value: number) {
+	/**
+	 * Checks if a value is between the current percentage range
+	 * @param value - The value to check (0-1)
+	 * @returns Whether the value is within the current range
+	 */
+	function betweenPercentage(value: number): boolean {
 		const max = Math.max(...percentage.value);
 		const min = Math.min(...percentage.value);
 		const actualValue = value;
 		return actualValue <= max && actualValue >= min;
 	}
 
-	function getTooltipText(value: number) {
+	/**
+	 * Formats a value for tooltip display
+	 * @param value - The percentage value (0-1)
+	 * @returns Formatted string with value and unit
+	 */
+	function getTooltipText(value: number): string {
 		const unit = props.max ? props.unit : props.unit || "%";
 		return `${((props.max || 100) * value).toFixed(1) + unit}`;
 	}
 
-	function stopDragging() {
+	/**
+	 * Stops all dragging operations
+	 */
+	function stopDragging(): void {
 		isDraggingSlider.value = isDraggingSlider.value.map(() => false);
 	}
 
-	function getPercentage() {
+	/**
+	 * Converts model values to percentage values (0-1)
+	 * @returns Array of percentage values
+	 */
+	function getPercentage(): number[] {
 		const percentage = [0, 0];
-		props.modelValue?.forEach((value: any, index: number) => {
+		props.modelValue?.forEach((value: number, index: number) => {
 			let actualValue = value;
 			if (props.max) actualValue = value / props.max;
 			percentage[index] = getStepPercentage(
@@ -179,7 +411,11 @@
 		return percentage;
 	}
 
-	function getModel() {
+	/**
+	 * Converts percentage values back to model values
+	 * @returns Array of model values
+	 */
+	function getModel(): SliderValue {
 		const model = [0, 0];
 		percentage.value.forEach((value: number, index: number) => {
 			let actualValue = value;
@@ -189,31 +425,59 @@
 		return model;
 	}
 
-	function getStepPercentage(value: number) {
+	/**
+	 * Snaps a value to the nearest step if steps are defined
+	 * @param value - The input value (0-1)
+	 * @returns The snapped value or original value if no steps
+	 */
+	function getStepPercentage(value: number): number {
 		if (!props.steps || !props.steps.length) return value;
 
-		return props.steps.reduce((prev: number, curr: number) => {
+		// Handle both number[] and SliderStep[] formats
+		const stepValues = props.steps.map(step => 
+			typeof step === 'number' ? step : step.value
+		);
+
+		return stepValues.reduce((prev: number, curr: number) => {
 			return Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev;
 		});
 	}
 
-	function startDraggingTouch(event: TouchEvent) {
+	/**
+	 * Starts dragging from a touch event
+	 * @param event - The touch event
+	 */
+	function startDraggingTouch(event: TouchEvent): void {
 		startDragging(event.touches[0]);
 	}
 
-	function startDraggingSliderTouch(event: TouchEvent, index: number) {
+	/**
+	 * Starts dragging a specific slider handle from touch
+	 * @param event - The touch event
+	 * @param index - The handle index
+	 */
+	function startDraggingSliderTouch(event: TouchEvent, index: number): void {
 		startDraggingSlider(event.touches[0], index);
 	}
 
-	function updateCursorTouch(event: TouchEvent) {
+	/**
+	 * Updates cursor position from touch event
+	 * @param event - The touch event
+	 */
+	function updateCursorTouch(event: TouchEvent): void {
 		updateCursor(event.touches[0]);
 	}
 
-	function startDragging(event: any) {
+	/**
+	 * Starts dragging the slider from a mouse/touch event
+	 * @param event - The input event
+	 */
+	function startDragging(event: SliderEvent): void {
 		if (!slider.value || !cursors.value) return;
 
 		let closestCursorIndex = 0;
-		const cursorPosition = getPosition(event, cursors.value[0], slider.value);
+		const eventCoords = getEventCoordinates(event);
+		const cursorPosition = getPosition(eventCoords, cursors.value[0], slider.value);
 		let closestDistance = Infinity;
 		if (props.vertical) {
 			const cursorPositionY = cursorPosition.y;
@@ -242,7 +506,12 @@
 		startDraggingSlider(event, closestCursorIndex);
 	}
 
-	function startDraggingSlider(event: any, index: number) {
+	/**
+	 * Starts dragging a specific slider handle
+	 * @param event - The input event
+	 * @param index - The handle index
+	 */
+	function startDraggingSlider(event: SliderEvent, index: number): void {
 		if (!cursors.value) return;
 		stopDragging();
 		isDraggingSlider.value[index] = true;
@@ -254,23 +523,35 @@
 		);
 	}
 
-	function updateCursor(event: any) {
-		isDraggingSlider.value.forEach((value: any, index: number) => {
+	/**
+	 * Updates cursor positions based on current dragging state
+	 * @param event - The input event
+	 */
+	function updateCursor(event: SliderEvent): void {
+		isDraggingSlider.value.forEach((value: boolean, index: number) => {
 			if (!cursors.value) return;
 			updateSlider(event, cursors.value[index], value, index);
 		});
 	}
 
+	/**
+	 * Updates a specific slider handle position
+	 * @param event - The input event
+	 * @param cursor - The cursor element
+	 * @param isDragging - Whether this cursor is being dragged
+	 * @param index - The cursor index
+	 */
 	function updateSlider(
-		event: any,
+		event: SliderEvent,
 		cursor: HTMLSpanElement | undefined,
 		isDragging: boolean,
 		index = 0
-	) {
+	): void {
 		if (!isDragging || !cursor || !slider.value) return;
 
 		let percentageValue = 0;
-		const clamped = getPosition(event, cursor, slider.value);
+		const eventCoords = getEventCoordinates(event);
+		const clamped = getPosition(eventCoords, cursor, slider.value);
 		if (props.vertical) {
 			const clampedBottom = clamped.y;
 			const height = slider.value.clientHeight - cursor.clientHeight / 2;
@@ -285,7 +566,10 @@
 		emit("update:modelValue", getModel());
 	}
 
-	function calculateCursor() {
+	/**
+	 * Calculates and updates cursor positions based on current percentage values
+	 */
+	function calculateCursor(): void {
 		cursors.value?.forEach((cursor, index) => {
 			if (!cursor || !slider.value) return;
 
@@ -307,14 +591,10 @@
 					width,
 					Math.max(0, width * percentage.value[index])
 				);
-				const borderWidth =
-					Number(
-						(cursor as any)
-							?.computedStyleMap()
-							.get("--border-width-xs")
-							.toString()
-							.replace("px", "")
-					) / 2;
+				// Safely get border width from computed styles or use fallback
+				const computedStyle = getComputedStyle(cursor);
+				const borderWidthStr = computedStyle.getPropertyValue('--border-width-xs') || '2px';
+				const borderWidth = Number(borderWidthStr.replace('px', '')) / 2;
 				cursor.style.left = left - cursor.clientWidth / 3 - borderWidth + "px";
 
 				cursor.style.bottom = "50%";
@@ -323,7 +603,10 @@
 		changeFillBarPosition();
 	}
 
-	function changeFillBarPosition() {
+	/**
+	 * Updates the fill bar position based on cursor positions
+	 */
+	function changeFillBarPosition(): void {
 		if (!fillBar.value || !cursors.value || !slider.value) return;
 
 		if (props.vertical) {
@@ -361,6 +644,118 @@
 			fillBar.value.style.height = "100%";
 		}
 	}
+
+	// Keyboard navigation functions
+	function handleKeyDown(event: KeyboardEvent, handleIndex: number): void {
+		if (props.disabled) return;
+
+		// Handle Tab key for switching between handles in range sliders
+		if (event.key === 'Tab' && props.isRange && percentage.value.length === 2) {
+			// Let Tab naturally move focus between handles
+			return;
+		}
+
+		const currentPercentage = percentage.value[handleIndex];
+		let newPercentage = currentPercentage;
+		const step = getKeyboardStep();
+
+		switch (event.key) {
+			case 'ArrowRight':
+			case 'ArrowUp':
+				event.preventDefault();
+				newPercentage = Math.min(1, currentPercentage + step);
+				break;
+			case 'ArrowLeft':
+			case 'ArrowDown':
+				event.preventDefault();
+				newPercentage = Math.max(0, currentPercentage - step);
+				break;
+			case 'Home':
+				event.preventDefault();
+				newPercentage = 0;
+				break;
+			case 'End':
+				event.preventDefault();
+				newPercentage = 1;
+				break;
+			case 'PageUp':
+				event.preventDefault();
+				newPercentage = Math.min(1, currentPercentage + step * 10);
+				break;
+			case 'PageDown':
+				event.preventDefault();
+				newPercentage = Math.max(0, currentPercentage - step * 10);
+				break;
+			default:
+				return;
+		}
+
+		// Apply step snapping
+		newPercentage = getStepPercentage(newPercentage);
+
+		// For range sliders, prevent handles from crossing over with accessibility feedback
+		let overlayDetected = false;
+		if (props.isRange && percentage.value.length === 2) {
+			const otherIndex = handleIndex === 0 ? 1 : 0;
+			const otherValue = percentage.value[otherIndex];
+			const originalNewValue = newPercentage;
+
+			if (handleIndex === 0) {
+				// Min handle - can't go above max handle
+				newPercentage = Math.min(newPercentage, otherValue);
+				overlayDetected = originalNewValue > otherValue;
+			} else {
+				// Max handle - can't go below min handle
+				newPercentage = Math.max(newPercentage, otherValue);
+				overlayDetected = originalNewValue < otherValue;
+			}
+		}
+
+		// Update the value
+		if (newPercentage !== currentPercentage) {
+			keyboardMode.value = true;
+			percentage.value[handleIndex] = newPercentage;
+			calculateCursor();
+			changeFillBarPosition();
+			emit("update:modelValue", getModel());
+
+			// Announce the change with accessibility config support
+			const config = props.accessibilityConfig || {};
+			if (config.announceChanges !== false) {
+				const formattedValue = formatValueForAria(newPercentage);
+				const handleName = props.isRange ? (handleIndex === 0 ? 'Minimum' : 'Maximum') : 'Value';
+				screenReader.announcePolitely(`${handleName}: ${formattedValue}`);
+			}
+		} else if (overlayDetected) {
+			// Announce when movement is blocked due to handle collision
+			const config = props.accessibilityConfig || {};
+			if (config.announceChanges !== false) {
+				const limitType = handleIndex === 0 ? 'maximum' : 'minimum';
+				screenReader.announcePolitely(`Cannot move beyond ${limitType} handle`);
+			}
+		}
+	}
+
+	function getKeyboardStep(): number {
+		// If steps are defined, use the smallest step difference
+		if (props.steps && props.steps.length > 1) {
+			const stepValues = props.steps.map(step => 
+				typeof step === 'number' ? step : step.value
+			).sort((a, b) => a - b);
+			
+			let minDiff = 1;
+			for (let i = 1; i < stepValues.length; i++) {
+				const diff = stepValues[i] - stepValues[i - 1];
+				if (diff > 0) {
+					minDiff = Math.min(minDiff, diff);
+				}
+			}
+			return minDiff;
+		}
+		
+		// Default step is 1% or 1/100th of the range
+		return 0.01;
+	}
 </script>
 
 <template>
@@ -378,21 +773,56 @@
 				'is-custom-color': !!background,
 			},
 		]"
+		:id="sliderId"
+		role="group"
+		:aria-labelledby="sliderLabelId"
+		:aria-describedby="instructionsId"
 		:aria-disabled="disabled"
 		@mousedown="startDragging"
 		@touchstart="startDraggingTouch">
+		
+		<!-- Hidden label and instructions for screen readers -->
+		<div :id="sliderLabelId" class="sr-only">
+			{{ props.ariaLabel || (props.isRange ? 'Range Slider' : 'Slider') }}
+		</div>
+		<div :id="instructionsId" class="sr-only">
+			{{ ariaInstructions }}
+		</div>
 		<span
 			v-for="(value, index) in isDraggingSlider"
 			ref="cursors"
 			:key="index"
 			class="cursor cursor-slider relative select-none"
-			:class="{ grabbing: value, colored: color }"
+			:class="{ 
+				grabbing: value, 
+				colored: color,
+				'keyboard-focus': shouldShowKeyboardFocus(index)
+			}"
+			:id="getHandleId(index)"
+			role="slider"
+			:aria-label="getHandleLabel(index)"
+			:aria-valuemin="0"
+			:aria-valuemax="props.max || 100"
+			:aria-valuenow="getActualValue(percentage[index] || 0)"
+			:aria-valuetext="formatValueForAria(percentage[index] || 0)"
+			:aria-orientation="vertical ? 'vertical' : 'horizontal'"
+			:aria-disabled="disabled"
+			:tabindex="disabled ? -1 : 0"
 			@mousedown="(e: MouseEvent) => startDraggingSlider(e, index)"
-			@touchstart="(e: TouchEvent) => startDraggingSliderTouch(e, index)">
+			@touchstart="(e: TouchEvent) => startDraggingSliderTouch(e, index)"
+			@keydown="(e: KeyboardEvent) => handleKeyDown(e, index)"
+			@focus="handleFocus(index)"
+			@blur="handleBlur">
+			
+			<!-- Screen reader only text for handle description -->
+			<span class="sr-only" v-if="props.isRange">
+				{{ index === 0 ? 'Minimum' : 'Maximum' }} handle of range slider
+			</span>
 			<BTooltip
 				:text="tooltipText"
 				:position="vertical ? 'right' : 'top'"
 				class="cursor-tooltip select-none"
+				aria-hidden="true"
 				v-if="showTooltip" />
 		</span>
 		<div
@@ -409,16 +839,16 @@
 				:style="{ background: color }" />
 		</div>
 		<div
-			v-for="step in steps"
-			:key="step"
+			v-for="(step, index) in steps"
+			:key="typeof step === 'number' ? step : step.value"
 			class="step"
-			:class="{ active: betweenPercentage(step) }"
-			:style="getStepStyle(step)" />
+			:class="{ active: betweenPercentage(typeof step === 'number' ? step : step.value) }"
+			:style="getStepStyle(typeof step === 'number' ? step : step.value)" />
 	</div>
 </template>
 
 <style scoped>
-	@reference "../../assets/main.css";
+	@import "../../assets/main.css";
 
 	.slider {
 		@apply flex justify-start w-full relative bg-primary-surface-highlight h-[.5em];
@@ -523,6 +953,17 @@
 
 	.cursor {
 		@apply cursor-grab border-xs absolute z-1 border-primary-interaction-default bg-neutral-surface-default rounded-full;
+		
+		&:focus {
+			outline: 2px solid var(--primary-interaction-default);
+			outline-offset: 2px;
+		}
+		
+		&.keyboard-focus {
+			outline: 2px solid var(--primary-interaction-default);
+			outline-offset: 2px;
+			box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.2);
+		}
 	}
 
 	.cursor.grabbing {
@@ -531,6 +972,18 @@
 
 	.cursor.colored {
 		border-color: v-bind(color);
+	}
+
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
 	}
 
 	.fill-bar {

@@ -1,5 +1,6 @@
 import type {App, Plugin } from 'vue';
 import BProgressBar from './BProgressBar.vue';
+import type { BProgressBarAccessibilityConfig } from './BProgressBar.vue';
 
 export default {
     install(Vue: App){
@@ -9,4 +10,5 @@ export default {
 
 export {
     BProgressBar,
+    type BProgressBarAccessibilityConfig,
 }

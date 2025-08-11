@@ -1,40 +1,331 @@
 <script setup lang="ts">
-	import { ref, watch } from "vue";
+	import { ref, watch, onMounted, onUnmounted, computed, nextTick } from "vue";
+	import { useAriaAttributes } from "../../composables/useAriaAttributes";
+	import { useScreenReader, screenReaderUtils } from "../../composables/useScreenReader";
+	import { useFocusTrap } from "../../composables/useFocusTrap";
+	import type { BContentScreenProps, BContentScreenEmits } from "./BContentScreen.types";
 
 	const props = withDefaults(
-		defineProps<{
-			progression?: number;
-			steps?: number;
-			isImgRight?: boolean;
-			isAnimatedLogo?: boolean;
-		}>(),
+		defineProps<BContentScreenProps>(),
 		{
+			// Layout defaults
 			progression: 0,
 			steps: 0,
 			isImgRight: false,
 			isAnimatedLogo: false,
+			
+			// Accessibility defaults
+			enhancedAccessibility: true,
+			announceContentChanges: true,
+			
+			// Content defaults
+			backgroundLogoAlt: "Company background logo",
+			logoAlt: "Company logo",
+			backgroundLogoDecorative: false,
+			logoDecorative: false,
+			
+			// Landmark defaults
+			backgroundLandmark: () => ({
+				role: 'complementary',
+				label: 'Brand presentation'
+			}),
+			contentLandmark: () => ({
+				role: 'main',
+				label: 'Main content'
+			}),
+			
+			// Skip links defaults
+			skipLinks: () => ([
+				{ target: 'main-content', text: 'Skip to main content' },
+				{ target: 'progress-section', text: 'Skip to progress' }
+			]),
+			
+			// Loading state defaults
+			loadingState: () => ({
+				announceChanges: true,
+				loadingMessage: 'Content is loading',
+				loadedMessage: 'Content loaded'
+			}),
+			
+			// Page structure defaults
+			pageStructure: () => ({
+				announcePageChanges: true,
+				focusTargetOnChange: 'main-content'
+			}),
+			
+			// Focus management defaults
+			focusManagement: () => ({
+				trapFocus: false,
+				restoreFocus: true,
+				skipFocusManagement: false
+			}),
+			
+			// Responsive defaults
+			responsive: () => ({
+				respectReducedMotion: true,
+				supportHighContrast: true,
+				mobileBreakpoint: 768,
+				mobileAccessibilityAdjustments: true
+			})
 		}
 	);
 
-	const progressionValue = ref(props.progression);
+	const emit = defineEmits<BContentScreenEmits>();
 
+	// Core state
+	const progressionValue = ref(props.progression);
+	const isLoading = ref(props.loadingState?.isLoading ?? false);
+
+	// Accessibility setup
+	const { useAriaId, useBusyAria } = useAriaAttributes();
+	const { announcePolitely, announceAssertively, useLiveRegion } = useScreenReader();
+
+	// Component references
+	const containerRef = ref<HTMLElement | null>(null);
+	const backgroundRef = ref<HTMLElement | null>(null);
+	const contentRef = ref<HTMLElement | null>(null);
+	const skipLinksRef = ref<HTMLElement | null>(null);
+
+	// IDs for accessibility
+	const contentScreenId = props.id || useAriaId('content-screen');
+	const backgroundId = useAriaId('background-section');
+	const mainContentId = props.pageStructure?.focusTargetOnChange || 'main-content';
+	const progressSectionId = 'progress-section';
+	const liveRegionId = props.liveRegionId || useAriaId('content-screen-live');
+
+	// Live region for announcements
+	const { liveRegion, updateLiveRegion } = useLiveRegion('polite');
+
+	// Focus trap setup
+	const shouldTrapFocus = computed(() => props.focusManagement?.trapFocus ?? false);
+	const isFocusActive = ref(shouldTrapFocus.value);
+	const { focusFirstElement, activate, deactivate } = useFocusTrap(contentRef, isFocusActive);
+
+	// Busy state for loading
+	const busyAttributes = computed(() => ({
+		'aria-busy': isLoading.value,
+		...(isLoading.value && props.loadingState?.loadingMessage && { 
+			'aria-label': props.loadingState.loadingMessage 
+		}),
+	}));
+
+	// Keyboard event handlers
+	const keyboardShortcuts = computed(() => props.keyboardShortcuts || {});
+
+	function handleKeydown(event: KeyboardEvent) {
+		// Handle escape key
+		if (event.key === 'Escape' && props.handleEscapeKey && props.onEscape) {
+			event.preventDefault();
+			props.onEscape();
+			return;
+		}
+		
+		// Handle custom shortcuts
+		const shortcutKey = `${event.ctrlKey ? 'ctrl+' : ''}${event.altKey ? 'alt+' : ''}${event.shiftKey ? 'shift+' : ''}${event.key.toLowerCase()}`;
+		const handler = keyboardShortcuts.value[shortcutKey];
+		if (handler) {
+			event.preventDefault();
+			handler();
+		}
+	}
+
+	function handleSkipLinkClick(target: string, event: Event) {
+		event.preventDefault();
+		const targetElement = document.getElementById(target);
+		if (targetElement) {
+			targetElement.focus();
+			emit('skip-link-activated', target);
+			announcePolitely(`Navigated to ${target.replace('-', ' ')}`);
+		}
+	}
+
+	// Watch progression changes
 	watch(
 		() => props.progression,
-		() => {
-			progressionValue.value = props.progression;
+		(newValue, oldValue) => {
+			progressionValue.value = newValue;
+			
+			if (props.announceContentChanges && newValue !== oldValue) {
+				const percentage = props.steps > 0 
+					? Math.round((newValue / props.steps) * 100)
+					: Math.round(newValue * 100);
+				announcePolitely(`Progress updated to ${percentage} percent`);
+			}
 		}
 	);
 
-	const emit = defineEmits<{
-		"update:progression": [value: number];
-	}>();
+	// Watch loading state
+	watch(
+		() => props.loadingState?.isLoading,
+		(newValue) => {
+			isLoading.value = newValue ?? false;
+			
+			if (props.loadingState?.announceChanges) {
+				if (newValue) {
+					screenReaderUtils.announceLoading(props.loadingState.loadingMessage);
+					emit('content-loading');
+				} else {
+					screenReaderUtils.announceLoaded(props.loadingState.loadedMessage);
+					emit('content-loaded');
+				}
+			}
+		}
+	);
+
+	// Watch page structure changes
+	watch(
+		() => props.pageStructure?.pageTitle,
+		(newTitle) => {
+			if (newTitle && props.pageStructure?.announcePageChanges) {
+				announcePolitely(`Page changed to ${newTitle}`);
+				emit('page-change', newTitle);
+				
+				// Focus management on page change
+				nextTick(() => {
+					const focusTarget = props.pageStructure?.focusTargetOnChange;
+					if (focusTarget) {
+						const element = document.getElementById(focusTarget);
+						if (element) {
+							element.focus();
+						}
+					}
+				});
+			}
+		}
+	);
+
+	// Computed properties
+	const backgroundLandmarkAttributes = computed(() => {
+		const landmark = props.backgroundLandmark;
+		return {
+			role: landmark?.role || 'complementary',
+			'aria-label': landmark?.label,
+			'aria-labelledby': landmark?.labelledBy,
+			id: backgroundId
+		};
+	});
+
+	const contentLandmarkAttributes = computed(() => {
+		const landmark = props.contentLandmark;
+		return {
+			role: landmark?.role || 'main',
+			'aria-label': landmark?.label,
+			'aria-labelledby': landmark?.labelledBy,
+			id: mainContentId
+		};
+	});
+
+	const containerClasses = computed(() => [
+		'w-full h-screen flex',
+		{
+			'flex-row-reverse': props.isImgRight,
+			'reduce-motion': props.responsive?.respectReducedMotion,
+			'high-contrast': props.responsive?.supportHighContrast
+		}
+	]);
+
+	const skipLinksClasses = computed(() => [
+		'skip-links',
+		'sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50',
+		'bg-white border border-gray-300 px-4 py-2 rounded shadow-lg'
+	]);
+
+	onMounted(() => {
+		// Set up keyboard event listeners
+		if (containerRef.value) {
+			containerRef.value.addEventListener('keydown', handleKeydown);
+		}
+		
+		// Prevent scroll if requested
+		if (props.preventScroll) {
+			document.body.style.overflow = 'hidden';
+		}
+		
+		// Announce page load
+		if (props.enhancedAccessibility && props.announceContentChanges) {
+			nextTick(() => {
+				const pageTitle = props.pageStructure?.pageTitle || 'Content screen';
+				screenReaderUtils.announceLoaded(`${pageTitle} loaded`);
+			});
+		}
+		
+		// Initial focus management
+		if (!props.focusManagement?.skipFocusManagement) {
+			const initialTarget = props.focusManagement?.initialFocusTarget;
+			if (initialTarget) {
+				nextTick(() => {
+					const element = document.getElementById(initialTarget) || 
+						document.querySelector(initialTarget) as HTMLElement;
+					if (element) {
+						element.focus();
+					}
+				});
+			}
+		}
+	});
+
+	onUnmounted(() => {
+		// Clean up keyboard event listeners
+		if (containerRef.value) {
+			containerRef.value.removeEventListener('keydown', handleKeydown);
+		}
+		
+		// Restore scroll
+		if (props.preventScroll) {
+			document.body.style.overflow = '';
+		}
+		
+		// Deactivate focus trap
+		if (isFocusActive.value) {
+			deactivate();
+		}
+	});
 </script>
 
 <template>
+	<!-- Skip Links -->
 	<div
-		class="w-full h-screen flex"
-		:class="{ 'flex-row-reverse': isImgRight }">
-		<div class="left-side">
+		v-if="props.enhancedAccessibility && props.skipLinks?.length"
+		ref="skipLinksRef"
+		:class="skipLinksClasses">
+		<a
+			v-for="skipLink in props.skipLinks"
+			:key="skipLink.target"
+			:href="`#${skipLink.target}`"
+			:class="[
+				'skip-link',
+				'focus:z-50 focus:bg-white focus:text-gray-900',
+				'focus:px-4 focus:py-2 focus:border focus:border-gray-300',
+				'focus:rounded focus:shadow-lg focus:no-underline'
+			]"
+			@click="handleSkipLinkClick(skipLink.target, $event)">
+			{{ skipLink.text }}
+		</a>
+	</div>
+
+	<!-- Live Region for Screen Reader Announcements -->
+	<div
+		ref="liveRegion"
+		:id="liveRegionId"
+		aria-live="polite"
+		aria-atomic="true"
+		aria-relevant="text"
+		class="sr-only">
+	</div>
+
+	<!-- Main Container -->
+	<div
+		:id="contentScreenId"
+		ref="containerRef"
+		:class="containerClasses"
+		v-bind="busyAttributes"
+		tabindex="-1">
+		
+		<!-- Background/Brand Section -->
+		<div
+			ref="backgroundRef"
+			class="left-side"
+			v-bind="backgroundLandmarkAttributes">
 			<slot name="bg-logo">
 				<div class="w-full h-full overflow-hidden relative">
 					<div
@@ -44,7 +335,10 @@
 							height="100%"
 							viewBox="-126 -126 252 252"
 							fill="none"
-							xmlns="http://www.w3.org/2000/svg">
+							xmlns="http://www.w3.org/2000/svg"
+							:aria-hidden="props.backgroundLogoDecorative"
+							:aria-label="!props.backgroundLogoDecorative ? props.backgroundLogoAlt : undefined"
+							role="img">
 							<circle
 								cx="0"
 								cy="0"
@@ -67,7 +361,10 @@
 								stroke="#0057F4"
 								stroke-width="5"
 								fill="#0057F4"
-								:class="{ 'brius-animated-logo': isAnimatedLogo }" />
+								:class="{ 
+									'brius-animated-logo': isAnimatedLogo,
+									'reduce-motion': props.responsive?.respectReducedMotion
+								}" />
 						</svg>
 						<slot name="bg-logo-text">
 							<svg
@@ -75,7 +372,9 @@
 								height="100%"
 								viewBox="0 0 219 62"
 								fill="none"
-								xmlns="http://www.w3.org/2000/svg">
+								xmlns="http://www.w3.org/2000/svg"
+								role="img"
+								aria-label="Brius For Publisher">
 								<path
 									d="M19.7199 30.9038C19.7199 34.8127 16.714 37.853 12.4199 37.853H0V12.6956H11.5611C15.4258 12.6956 18.4317 15.3015 18.4317 19.2104C18.4317 21.8164 17.1434 23.5537 15.4258 24.8567C18.0023 25.2576 19.7199 27.8635 19.7199 30.9038ZM4.29412 16.6045V23.1194H10.7353C12.4529 23.1194 14.1706 21.8164 14.1706 20.0791C14.1706 18.3418 12.8493 17.0388 10.7023 17.0388H4.29412V16.6045ZM15.4258 30.0351C15.4258 27.8635 13.7081 26.5605 11.9905 26.5605H4.29412V33.9441H11.5611C13.7081 33.9441 15.4258 32.2068 15.4258 30.0351Z"
 									fill="#0057F4" />
@@ -136,31 +435,77 @@
 				</div>
 			</slot>
 		</div>
+		
+		<!-- Main Content Section -->
 		<div
+			ref="contentRef"
 			class="right-side"
-			:class="[isImgRight ? 'mr-[28%]' : 'ml-[28%]']">
+			:class="[isImgRight ? 'mr-[28%]' : 'ml-[28%]']"
+			v-bind="contentLandmarkAttributes">
 			<slot>
 				<div class="right-content">
-					<slot name="logo">
-						<img
-							src="./brius-logo-lightblue.png"
-							alt="Brius logo"
-							class="brius-logo" />
-					</slot>
-					<slot name="progress-bar">
-						<BProgressBar
-							class="w-[95%]"
-							size="small"
-							v-model="progressionValue"
-							:steps="steps"
-							@update:modelValue="(value: number) => emit('update:progression', value)" />
-					</slot>
-					<slot name="card">
-						<BCard class="w-full">
-							<slot name="card-content" />
-						</BCard>
-					</slot>
-					<slot name="actions" />
+					<!-- Logo Section -->
+					<div
+						:id="props.logoDecorative ? undefined : 'logo-section'"
+						class="logo-section">
+						<slot name="logo">
+							<img
+								:src="props.logoSrc || './brius-logo-lightblue.png'"
+								:alt="props.logoAlt"
+								:aria-hidden="props.logoDecorative"
+								class="brius-logo" />
+						</slot>
+					</div>
+
+					<!-- Progress Bar Section -->
+					<div
+						:id="progressSectionId"
+						class="progress-section"
+						role="region"
+						aria-label="Progress indicator">
+						<slot name="progress-bar">
+							<BProgressBar
+								class="w-[95%]"
+								size="small"
+								v-model="progressionValue"
+								:steps="steps"
+								:aria-label="`Progress: ${steps > 0 ? Math.round((progressionValue / steps) * 100) : Math.round(progressionValue * 100)} percent complete`"
+								@update:modelValue="(value: number) => emit('update:progression', value)" />
+						</slot>
+					</div>
+
+					<!-- Main Card Content -->
+					<section
+						id="main-content-section"
+						class="main-content-section"
+						role="region"
+						aria-label="Main content">
+						<slot name="card">
+							<BCard 
+								class="w-full"
+								:aria-busy="isLoading">
+								<div
+									v-if="isLoading && props.loadingState?.loadingMessage"
+									class="loading-overlay"
+									role="status"
+									:aria-label="props.loadingState.loadingMessage">
+									<div class="loading-content">
+										{{ props.loadingState.loadingMessage }}
+									</div>
+								</div>
+								<slot name="card-content" />
+							</BCard>
+						</slot>
+					</section>
+
+					<!-- Action Section -->
+					<div
+						id="actions-section"
+						class="actions-section"
+						role="region"
+						aria-label="Available actions">
+						<slot name="actions" />
+					</div>
 				</div>
 			</slot>
 		</div>
@@ -168,7 +513,25 @@
 </template>
 
 <style scoped>
-	@reference "../../assets/main.css";
+	@import "../../assets/main.css";
+	
+	/* Skip Links */
+	.skip-links {
+		@apply absolute top-0 left-0 z-50;
+	}
+	
+	.skip-link {
+		@apply sr-only;
+	}
+	
+	.skip-link:focus {
+		@apply not-sr-only absolute top-4 left-4 z-50;
+		@apply bg-white text-gray-900 px-4 py-2;
+		@apply border border-gray-300 rounded shadow-lg;
+		@apply no-underline font-medium;
+	}
+
+	/* Main sections */
 	.left-side {
 		@apply w-[28%] h-full;
 		position: fixed;
@@ -177,6 +540,8 @@
 
 	.right-side {
 		@apply bg-default w-[72%] h-full;
+		/* Ensure proper focus indicators */
+		outline-offset: 2px;
 	}
 
 	.right-content {
@@ -184,15 +549,74 @@
 		padding: 3em 8em;
 	}
 
-	.brius-logo {
-		width: 10em;
+	/* Logo styling */
+	.logo-section {
+		@apply flex justify-center items-center;
 	}
 
+	.brius-logo {
+		width: 10em;
+		max-width: 100%;
+		height: auto;
+	}
+
+	/* Progress section */
+	.progress-section {
+		@apply w-full flex justify-center;
+	}
+
+	/* Main content section */
+	.main-content-section {
+		@apply w-full;
+	}
+
+	/* Actions section */
+	.actions-section {
+		@apply w-full;
+	}
+
+	/* Loading overlay */
+	.loading-overlay {
+		@apply absolute inset-0 bg-white bg-opacity-75;
+		@apply flex items-center justify-center z-10;
+	}
+
+	.loading-content {
+		@apply text-center p-4 bg-white rounded shadow;
+	}
+
+	/* Animation handling */
 	.brius-animated-logo {
 		width: 10%;
 		animation: brius-logo-rotate 5s infinite;
 	}
 
+	/* Respect reduced motion preference */
+	.reduce-motion .brius-animated-logo,
+	@media (prefers-reduced-motion: reduce) {
+		.brius-animated-logo {
+			animation: none;
+		}
+	}
+
+	/* High contrast mode support */
+	.high-contrast,
+	@media (prefers-contrast: high) {
+		.skip-link:focus {
+			@apply border-2 border-black bg-white text-black;
+		}
+		
+		.loading-overlay {
+			@apply bg-white border border-black;
+		}
+	}
+
+	/* Focus management */
+	.right-side:focus-visible {
+		@apply outline-2 outline-blue-500 outline-offset-2;
+	}
+
+	/* Animation keyframes */
 	@keyframes brius-logo-rotate {
 		0% {
 			cx: 115;
@@ -202,5 +626,40 @@
 			cx: 115;
 			transform: rotate(360deg);
 		}
+	}
+
+	/* Mobile accessibility adjustments */
+	@media (max-width: 768px) {
+		.right-content {
+			padding: 2em 1em;
+		}
+		
+		.skip-link:focus {
+			@apply text-sm px-3 py-2;
+		}
+	}
+
+	/* Screen reader only utility */
+	.sr-only {
+		position: absolute !important;
+		width: 1px !important;
+		height: 1px !important;
+		padding: 0 !important;
+		margin: -1px !important;
+		overflow: hidden !important;
+		clip: rect(0, 0, 0, 0) !important;
+		white-space: nowrap !important;
+		border: 0 !important;
+	}
+
+	.focus\:not-sr-only:focus {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		padding: inherit !important;
+		margin: inherit !important;
+		overflow: visible !important;
+		clip: auto !important;
+		white-space: normal !important;
 	}
 </style>

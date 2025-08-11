@@ -10,3 +10,28 @@ export default {
 export {
     BBreadcrumb,
 }
+
+// Export TypeScript interfaces for consumer use
+export type {
+    BBreadcrumbItem,
+    BreadcrumbItemType,
+    MoreOptionsItem,
+    ParsedBreadcrumbItem,
+    BBreadcrumbAccessibilityProps,
+    BBreadcrumbKeyboardConfig,
+    BBreadcrumbStructuredData,
+    BBreadcrumbNavigationProps,
+    BBreadcrumbDisplayProps,
+    BBreadcrumbMoreOptionsProps,
+    BBreadcrumbProps,
+    BBreadcrumbEmits,
+    BBreadcrumbNavigationContext,
+    BBreadcrumbAnnouncementTemplates,
+    BBreadcrumbFocusConfig,
+    BBreadcrumbLinkConfig,
+    BBreadcrumbSize,
+    BBreadcrumbDirection,
+    BBreadcrumbDropdownPosition,
+    BBreadcrumbFocusStrategy,
+    BBreadcrumbLinkTarget,
+} from './BBreadcrumb.types';

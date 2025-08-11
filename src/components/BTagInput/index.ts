@@ -10,3 +10,8 @@ export default {
 export {
     BTagInput,
 }
+
+// Export TypeScript interfaces for consumer use
+export type {
+    BTagInputMask,
+} from './BTagInput.vue';

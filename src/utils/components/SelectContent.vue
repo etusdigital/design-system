@@ -9,7 +9,7 @@
 	const props = withDefaults(
 		defineProps<{
 			modelValue?: string;
-			items: any;
+			items: unknown[];
 			icon?: string;
 			expanded?: boolean;
 			searchable?: boolean;
@@ -26,7 +26,7 @@
 	);
 
 	const emit = defineEmits<{
-		"update:modelValue": [value: any, extra: { index: number }];
+		"update:modelValue": [value: string, extra: { index: number }];
 		"update:expanded": [value: boolean, extra: BSelectExpandedExtra];
 	}>();
 
@@ -73,11 +73,11 @@
 	</span>
 </template>
 <style scoped>
-	@reference "../../assets/main.css";
+	@import "../../assets/main.css";
 
 	.search {
 		@apply h-full w-full border-none shadow-none outline-0;
-		padding-left: var(--spacing-xxs);
+		padding-left: 0.25rem;
 		padding-top: 0px;
 		padding-right: 0px;
 		padding-bottom: 0px;

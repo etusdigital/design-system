@@ -9,4 +9,16 @@ export default {
 
 export {
     BDivider,
-}
+};
+
+// Re-export types for convenience
+export type {
+    BDividerProps,
+    BDividerAriaAttributes,
+    BDividerAccessibilityConfig,
+    BDividerEvents,
+    BDividerSlots,
+    BDividerInstance,
+    BDividerPositioning,
+    BDividerStyling,
+} from './BDivider.types';

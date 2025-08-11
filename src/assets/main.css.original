@@ -1,0 +1,750 @@
+@import "tailwindcss";
+
+/*
+=============================================================================
+TAILWIND CSS v4 STANDARD LAYER ARCHITECTURE
+=============================================================================
+
+This file follows Tailwind v4's standard 3-layer architecture for optimal compatibility
+and maintainability.The layers control cascade order and organize styles systematically.
+
+Standard 3-Layer Priority (lowest to highest):
+1.base       - Base element styles, typography, themes, @theme definitions
+2.components - Reusable component classes (.btn, .card, etc.)
+3.utilities  - Custom utility classes and .declarations
+
+Usage Guidelines:
+- Use 'base' for: element selectors (h1, body, a), theme classes, @theme definitions
+- Use 'components' for: reusable component classes (.btn, .card, .form-control)
+- Use 'utilities' for: custom .declarations and one-off utility classes
+
+Best Practices:
+- Keep components flat - no nested layers
+- Use semantic class names for components
+- Prefer utilities over components when possible
+- Group related styles logically within layers
+*/
+
+/* Standard Tailwind v4 3-layer architecture */
+@layer base, components, utilities;
+
+/* =============================================================================
+   BASE LAYER - Element styles, typography, theme classes
+   ============================================================================= */
+@layer base {
+	/* Importação de fontes dentro da camada base */
+	@import url("https://fonts.googleapis.com/css?family=Inter&display=swap");
+	@import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
+
+	/* Definição de cor de borda padrão (como estava antes) */
+	*,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(
+			--color-gray-200,
+			/* Certifique-se que --color-gray-200 está em @theme */ currentcolor
+		);
+	}
+
+	/* Seus estilos :root e .brius-theme podem vir aqui se forem considerados 'base' */
+	:root {
+		--leading-base: 1.5; /* Variáveis globais que não são do Tailwind Theme */
+	}
+	h1 {
+		font-size: var(--font-size-4xl); /* 32px - from @theme */
+		line-height: var(--line-height-2xl); /* 40px - from @theme */
+		font-weight: var(--font-weight-bold); /* 700 - from @theme */
+	}
+	h2 {
+		font-size: var(--font-size-2xl); /* 24px - from @theme */
+		line-height: var(--line-height-xl); /* 28.8px - from @theme */
+		font-weight: var(--font-weight-bold); /* 700 - from @theme */
+	}
+	h3 {
+		font-size: var(--font-size-xl); /* 20px - from @theme */
+		line-height: var(--line-height-lg); /* 22px - from @theme */
+		font-weight: var(--font-weight-bold); /* 700 - from @theme */
+	}
+	h4 {
+		font-size: var(--font-size-base); /* 16px - from @theme */
+		line-height: var(--line-height-base); /* 19.2px - from @theme */
+		font-weight: var(--font-weight-semibold); /* 600 - from @theme */
+	}
+	h5 {
+		font-size: var(--font-size-sm); /* 14px - from @theme */
+		line-height: var(--line-height-sm); /* 16.8px - from @theme */
+		font-weight: var(--font-weight-semibold); /* 600 - from @theme */
+	}
+	h6 {
+		font-size: var(--font-size-xs); /* 12px - from @theme */
+		line-height: var(--line-height-xs); /* 12.6px - from @theme */
+		font-weight: var(--font-weight-semibold); /* 600 - from @theme */
+	}
+
+	a {
+		color: var(--color-primary-interaction-default);
+		text-decoration-color: var(--color-primary-interaction-default);
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	/* ETUS Theme - explicit class for Storybook */
+	.etus-theme {
+		/* ETUS colors are already defined as defaults in @theme directive */
+		/* This class exists for explicit theme application in Storybook */
+		/* No color overrides needed - inherits from @theme */
+	}
+
+	.brius-theme {
+		--font-sans: "Inter", sans-serif;
+		/* ...outras sobrescritas do brius-theme ...*/
+		/* Primary - Brius Blue */
+		--color-primary-surface-default: #e7f0ff;
+		--color-primary-surface-highlight: #b8d0ff;
+		--color-primary-surface-hover: #d0e0ff;
+		--color-primary-surface-pressed: #90b1ff;
+		--color-primary-interaction-default: #004ed7;
+		--color-primary-interaction-hover: #003298; /* Usado em BCheckbox */
+		--color-primary-interaction-pressed: #001040;
+		--color-primary-interaction-selected: #002070;
+		--color-primary-foreground-disabled: #90b1ff;
+		--color-primary-foreground-low: #0041b8;
+		--color-primary-foreground-high: #003298;
+		--color-primary-border-default: #115be2;
+		--color-primary-border-hover: #0041b8;
+		--color-primary-border-selected: #003298;
+		--color-primary-border-pressed: #001040;
+
+		/* Informative - Brius Purple */
+		--color-informative-surface-default: #f2eeff;
+		--color-informative-surface-highlight: #c7bbff;
+		--color-informative-surface-hover: #9072ff;
+		--color-informative-surface-pressed: #6149cc;
+		--color-informative-interaction-default: #523bbb;
+		--color-informative-interaction-hover: #362780;
+		--color-informative-interaction-pressed: #1f144c;
+		--color-informative-interaction-selected: #45329e;
+		--color-informative-foreground-disabled: #9072ff;
+		--color-informative-foreground-low: #362780;
+		--color-informative-foreground-high: #2b1d63;
+		--color-informative-border-default: #45329e;
+		--color-informative-border-hover: #362780;
+		--color-informative-border-selected: #2b1d63;
+		--color-informative-border-pressed: #1f144c;
+	}
+
+	html {
+		color: var(--color-neutral-foreground-high);
+		font-weight: var(--font-weight-normal);
+	}
+
+	body {
+		background-color: var(--color-neutral-background-default);
+		line-height: var(--leading-base);
+	}
+
+	* {
+		font-family: var(--font-sans); /* Aplicar a variável CSS diretamente */
+	}
+
+	/* Estilos de scrollbar (se aplicável à camada base) */
+	::-webkit-scrollbar {
+		border-radius: var(--rounded-full);
+		width: var(--spacing-xs);
+		height: var(--spacing-xs);
+		background-color: var(--color-neutral-surface-disabled);
+	}
+
+	::-webkit-scrollbar-thumb {
+		border-radius: var(--rounded-full);
+		background-color: var(--color-neutral-interaction-disabled);
+	}
+
+	/* Reset de foco (se aplicável à camada base) */
+	[type="text"]:focus,
+	input:where(:not([type])):focus,
+	[type="email"]:focus,
+	[type="url"]:focus,
+	[type="password"]:focus,
+	[type="number"]:focus,
+	[type="date"]:focus,
+	[type="datetime-local"]:focus,
+	[type="month"]:focus,
+	[type="search"]:focus,
+	[type="tel"]:focus,
+	[type="time"]:focus,
+	[type="week"]:focus,
+	[multiple]:focus,
+	textarea:focus,
+	select:focus {
+		outline: 0px solid transparent !important;
+		outline-offset: 0px !important;
+		--tw-ring-inset: 0 !important;
+		--tw-ring-offset-width: 0px !important;
+		--tw-ring-offset-shadow: 0 !important;
+		--tw-ring-shadow: 0 !important;
+		box-shadow: none !important;
+	}
+
+	/* =============================================================================
+	   THEME TOKENS - Design token definitions integrated in base layer
+	   ============================================================================= */
+	/* Theme configuration - keep minimal to preserve default Tailwind utilities */
+	@theme {
+		/* Only essential custom extensions that don't exist in default theme */
+		--font-size-4xl: 2rem; /* 32px - h1 - Different from Tailwind's 2.25rem */
+		--font-size-xxs: 0.625rem; /* 10px - tiny text - Not in Tailwind defaults */
+
+		/* Font Families - From design tokens */
+		--font-sans: "Poppins", sans-serif;
+		--font-inter: "Inter", sans-serif;
+
+		/* =============================================================================
+	   BASE COLOR PALETTES - Exact values from design-tokens.tokens.json  
+	   ============================================================================= */
+
+		/* Neutral palette */
+		--color-neutral-0: #ffffffff;
+		--color-neutral-5: #fbfcfdff;
+		--color-neutral-10: #f8fafbff;
+		--color-neutral-50: #f4f6f7ff;
+		--color-neutral-100: #e3e7eaff;
+		--color-neutral-200: #cad2d7ff;
+		--color-neutral-300: #a6b4baff;
+		--color-neutral-400: #7a8d96ff;
+		--color-neutral-500: #5f717bff;
+		--color-neutral-600: #465058ff;
+		--color-neutral-700: #3e464cff;
+		--color-neutral-800: #1b1f22ff;
+		--color-neutral-900: #101214ff;
+		--color-neutral-950: #050505ff;
+
+		/* Etus-green palette */
+		--color-etus-green-50: #effaf4ff;
+		--color-etus-green-100: #d9f2e4ff;
+		--color-etus-green-200: #b6e4cdff;
+		--color-etus-green-300: #86cfaeff;
+		--color-etus-green-400: #63ba96ff;
+		--color-etus-green-500: #329771ff;
+		--color-etus-green-600: #22795aff;
+		--color-etus-green-700: #1b614aff;
+		--color-etus-green-800: #184d3bff;
+		--color-etus-green-900: #144032ff;
+		--color-etus-green-950: #0a241dff;
+
+		/* Brius-blue palette */
+		--color-brius-blue-50: #e7f0ffff;
+		--color-brius-blue-100: #d0e0ffff;
+		--color-brius-blue-200: #b8d0ffff;
+		--color-brius-blue-300: #90b1ffff;
+		--color-brius-blue-400: #3265ffff;
+		--color-brius-blue-500: #115be2ff;
+		--color-brius-blue-600: #004ed7ff;
+		--color-brius-blue-700: #0041b8ff;
+		--color-brius-blue-800: #003298ff;
+		--color-brius-blue-900: #002070ff;
+		--color-brius-blue-950: #001040ff;
+
+		/* Evolution-green palette */
+		--color-evolution-green-50: #edfff8ff;
+		--color-evolution-green-100: #d5fff1ff;
+		--color-evolution-green-200: #aeffe3ff;
+		--color-evolution-green-300: #70ffcfff;
+		--color-evolution-green-400: #2bfdb4ff;
+		--color-evolution-green-500: #00ffa7ff;
+		--color-evolution-green-600: #00c079ff;
+		--color-evolution-green-700: #009662ff;
+		--color-evolution-green-800: #067550ff;
+		--color-evolution-green-900: #076044ff;
+		--color-evolution-green-950: #003725ff;
+
+		/* ETUS Theme Colors (Default) */
+		/* Primary colors - ETUS Green */
+		--color-primary-surface-default: #effaf4;
+		--color-primary-surface-highlight: #b6e4cd;
+		--color-primary-surface-hover: #d9f2e4;
+		--color-primary-surface-pressed: #86cfae;
+		--color-primary-interaction-default: #329771;
+		--color-primary-interaction-hover: #22795a;
+		--color-primary-interaction-pressed: #1b614a;
+		--color-primary-interaction-selected: #1b614a;
+		--color-primary-foreground-disabled: #86cfae;
+		--color-primary-foreground-low: #1b614a;
+		--color-primary-foreground-high: #184d3b;
+		--color-primary-border-default: #329771;
+		--color-primary-border-hover: #1b614a;
+		--color-primary-border-selected: #184d3b;
+		--color-primary-border-pressed: #144032;
+
+		/* Informative colors - ETUS Teal */
+		--color-informative-surface-default: #eefcfd;
+		--color-informative-surface-highlight: #afecf2;
+		--color-informative-surface-hover: #77dee9;
+		--color-informative-surface-pressed: #39c5d7;
+		--color-informative-interaction-default: #1b879f;
+		--color-informative-interaction-hover: #1b687b;
+		--color-informative-interaction-pressed: #20596a;
+		--color-informative-interaction-selected: #1f4b5a;
+		--color-informative-foreground-disabled: #77dee9;
+		--color-informative-foreground-low: #1b687b;
+		--color-informative-foreground-high: #1f4b5a;
+		--color-informative-border-default: #1b687b;
+		--color-informative-border-hover: #20596a;
+		--color-informative-border-selected: #1f4b5a;
+		--color-informative-border-pressed: #20596a;
+
+		/* Success colors */
+		--color-success-interaction-default: #22c55e;
+		--color-success-interaction-hover: #16a34a;
+		--color-success-interaction-pressed: #15803d;
+		--color-success-foreground-high: #15803d;
+		--color-success-foreground-low: #16a34a;
+		--color-success-foreground-disabled: #86efac;
+		--color-success-surface-default: #f0fdf4;
+		--color-success-surface-hover: #bbf7d0;
+		--color-success-surface-pressed: #86efac;
+		--color-success-surface-highlight: #dcfce7;
+		--color-success-border-default: #22c55e;
+		--color-success-border-hover: #16a34a;
+		--color-success-border-pressed: #15803d;
+
+		/* Warning colors */
+		--color-warning-interaction-default: #f59e0b;
+		--color-warning-interaction-hover: #d97706;
+		--color-warning-interaction-pressed: #b45309;
+		--color-warning-foreground-high: #b45309;
+		--color-warning-foreground-low: #d97706;
+		--color-warning-foreground-disabled: #fdba74;
+		--color-warning-surface-default: #fffbeb;
+		--color-warning-surface-hover: #fed7aa;
+		--color-warning-surface-pressed: #fdba74;
+		--color-warning-surface-highlight: #fef3c7;
+		--color-warning-border-default: #f59e0b;
+		--color-warning-border-hover: #d97706;
+		--color-warning-border-pressed: #b45309;
+
+		/* Danger colors */
+		--color-danger-interaction-default: #ef4444;
+		--color-danger-interaction-hover: #dc2626;
+		--color-danger-interaction-pressed: #b91c1c;
+		--color-danger-foreground-high: #b91c1c;
+		--color-danger-foreground-low: #dc2626;
+		--color-danger-foreground-disabled: #fca5a5;
+		--color-danger-surface-default: #fef2f2;
+		--color-danger-surface-hover: #fecaca;
+		--color-danger-surface-pressed: #fca5a5;
+		--color-danger-surface-highlight: #fee2e2;
+		--color-danger-border-default: #ef4444;
+		--color-danger-border-hover: #dc2626;
+		--color-danger-border-pressed: #b91c1c;
+
+		/* Neutral colors */
+		--color-neutral-foreground-negative: #ffffff;
+		--color-neutral-foreground-high: #1a1a1a;
+		--color-neutral-foreground-low: #666666;
+		--color-neutral-foreground-disabled: #a3a3a3;
+		--color-neutral-interaction-default: #666666;
+		--color-neutral-interaction-hover: #525252;
+		--color-neutral-interaction-pressed: #404040;
+		--color-neutral-interaction-disabled: #d4d4d4;
+		--color-neutral-surface-default: #ffffff;
+		--color-neutral-surface-hover: #f5f5f5;
+		--color-neutral-surface-disabled: #f5f5f5;
+		--color-neutral-surface-highlight: #e5e5e5;
+		--color-neutral-border-default: #d4d4d4;
+		--color-neutral-border-hover: #a3a3a3;
+		--color-neutral-border-pressed: #737373;
+		--color-neutral-border-disabled: #e5e5e5;
+		--color-neutral-background-default: #ffffff;
+
+		/* Box shadow variables */
+		--box-shadow-neutral-default: 0 1px 3px rgba(0, 0, 0, 0.1);
+		--box-shadow-neutral-selected: 0 2px 8px rgba(0, 0, 0, 0.12);
+
+		/* Z-index variables */
+		--z-index-overlay: 1000;
+		--z-index-dialog-overlay: 1002;
+		--z-index-dialog: 1003;
+
+		/* Additional mappings */
+		--color-default: #ffffff;
+		--color-emphasis: #f5f5f5;
+		--color-negative: #1a1a1a;
+	}
+} /* End of base layer */
+
+/* =============================================================================
+   UTILITIES LAYER - Custom utility classes and .declarations
+   ============================================================================= */
+@layer utilities {
+	/* Essential utilities that components depend on */
+	.inset-0 {
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+	}
+	
+	.bg-white {
+		background-color: #ffffff;
+	}
+	
+	.bg-transparent {
+		background-color: transparent;
+	}
+
+	/* Essential text size utilities */
+	.text-xs {
+		font-size: var(--font-size-xs);
+		line-height: var(--line-height-xs);
+	}
+	.text-sm {
+		font-size: var(--font-size-sm);
+		line-height: var(--line-height-sm);
+	}
+	.text-base {
+		font-size: var(--font-size-base);
+		line-height: var(--line-height-base);
+	}
+	.text-lg {
+		font-size: var(--font-size-lg);
+		line-height: var(--line-height-lg);
+	}
+	.text-xl {
+		font-size: var(--font-size-xl);
+		line-height: var(--line-height-xl);
+	}
+	.text-2xl {
+		font-size: var(--font-size-2xl);
+		line-height: var(--line-height-2xl);
+	}
+
+	/* Custom typography utilities */
+	.p1 {
+		font-size: var(--font-size-2xl);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
+	}
+	.p2 {
+		font-size: var(--font-size-base);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
+	}
+	.p3 {
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
+	}
+	.p4 {
+		font-size: var(--font-size-xs);
+		font-weight: var(--font-weight-normal);
+		line-height: var(--line-height-lg);
+	}
+	.caption-c1 {
+		font-size: var(--font-size-xs);
+		font-weight: var(--font-weight-medium);
+	}
+	.caption-c2 {
+		font-size: var(--font-size-xxs);
+		font-weight: var(--font-weight-normal);
+	}
+} /* End of utilities layer */
+
+/* =============================================================================
+   CONTAINER CUSTOMIZATION - Tailwind v4 CSS-first approach
+   ============================================================================= */
+@utility container {
+	/* Auto-centering with horizontal margins */
+	margin-inline: auto;
+	
+	/* Responsive horizontal padding using CSS variables from theme */
+	padding-inline: var(--spacing-4); /* 16px base padding */
+	
+	/* Enhanced responsive padding for better mobile/desktop experience */
+	@media (width >= 40rem) {
+		padding-inline: var(--spacing-6); /* 24px on sm+ */
+	}
+	
+	@media (width >= 64rem) {
+		padding-inline: var(--spacing-8); /* 32px on lg+ */
+	}
+}
+
+/* =============================================================================
+   COMPONENTS LAYER - Reusable component classes (flattened structure)
+   ============================================================================= */
+@layer components {
+	/*
+  Component organization (no nested layers - flattened for Tailwind v4 compatibility):
+  - Button components (.b-button, variants)
+  - Form components (.b-input, .b-select, etc.)
+  - Layout components (.b-card, .b-container, etc.)
+  - Feedback components (.b-alert, .b-toast, etc.)
+  - Navigation components (.b-nav, .b-breadcrumb, etc.)
+  - Data display components (.b-table, .b-badge, etc.)
+  */
+
+	/* =============================================================================
+     BUTTON COMPONENTS
+     ============================================================================= */
+	/* Base Button Styles */
+	.b-button {
+		position: relative;
+		display: inline-flex;
+		cursor: pointer;
+		align-items: center;
+		justify-content: center;
+		text-transform: capitalize;
+		user-select: none;
+		border-radius: var(--border-radius-base);
+		border-width: var(--border-width-xs);
+		font-size: var(--font-size-sm);
+		font-weight: var(--font-weight-semibold);
+		line-height: var(--line-height-lg);
+		letter-spacing: var(--letter-spacing-wider);
+	}
+
+	.b-button:active {
+		transform: scale(0.95);
+	}
+
+	.b-button .b-spinner {
+		position: absolute;
+	}
+
+	/* Button Sizes */
+	.b-button.small {
+		padding: var(--spacing-xs) var(--spacing-base);
+	}
+	.b-button.small .b-spinner {
+		font-size: 0.75rem;
+	}
+
+	.b-button.medium {
+		padding: var(--spacing-sm) var(--spacing-base);
+	}
+	.b-button.medium .b-spinner {
+		font-size: 0.875rem;
+	}
+
+	.b-button.large {
+		padding: var(--spacing-base) var(--spacing-xl);
+	}
+	.b-button.large .b-spinner {
+		font-size: 1rem;
+	}
+
+	/* Button Label */
+	.button-label {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		column-gap: var(--spacing-xs);
+	}
+
+	/* Progress Bar */
+	.b-button .progress {
+		position: absolute;
+		overflow: hidden;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		transition: width 300ms ease-out;
+		border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+	}
+
+	/* Default Color Variants */
+	.b-button.primary {
+		background-color: var(--color-primary-interaction-default);
+		border-color: var(--color-primary-interaction-default);
+		color: var(--color-neutral-foreground-negative);
+	}
+	.b-button.primary:hover {
+		background-color: var(--color-primary-interaction-hover);
+		border-color: var(--color-primary-interaction-hover);
+	}
+	.b-button.primary:active {
+		background-color: var(--color-primary-interaction-pressed);
+		border-color: var(--color-primary-interaction-pressed);
+	}
+	.b-button.primary:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-primary-interaction-default),
+			0 0 0 4px rgba(0, 78, 215, 0.2);
+	}
+	.b-button.primary .progress {
+		background-color: var(--color-primary-surface-highlight);
+	}
+
+	.b-button.info {
+		background-color: var(--color-informative-interaction-default);
+		border-color: var(--color-informative-interaction-default);
+		color: var(--color-neutral-foreground-negative);
+	}
+	.b-button.info:hover {
+		background-color: var(--color-informative-interaction-hover);
+		border-color: var(--color-informative-interaction-hover);
+	}
+	.b-button.info:active {
+		background-color: var(--color-informative-interaction-pressed);
+		border-color: var(--color-informative-interaction-pressed);
+	}
+	.b-button.info:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-informative-interaction-default),
+			0 0 0 4px rgba(82, 59, 187, 0.2);
+	}
+	.b-button.info .progress {
+		background-color: var(--color-informative-surface-highlight);
+	}
+
+	.b-button.success {
+		background-color: var(--color-success-interaction-default);
+		border-color: var(--color-success-interaction-default);
+		color: var(--color-neutral-foreground-negative);
+	}
+	.b-button.success:hover {
+		background-color: var(--color-success-interaction-hover);
+		border-color: var(--color-success-interaction-hover);
+	}
+	.b-button.success:active {
+		background-color: var(--color-success-interaction-pressed);
+		border-color: var(--color-success-interaction-pressed);
+	}
+	.b-button.success:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-success-interaction-default),
+			0 0 0 4px rgba(34, 197, 94, 0.2);
+	}
+	.b-button.success .progress {
+		background-color: var(--color-success-surface-highlight);
+	}
+
+	.b-button.warning {
+		background-color: var(--color-warning-interaction-default);
+		border-color: var(--color-warning-interaction-default);
+		color: var(--color-neutral-foreground-negative);
+	}
+	.b-button.warning:hover {
+		background-color: var(--color-warning-interaction-hover);
+		border-color: var(--color-warning-interaction-hover);
+	}
+	.b-button.warning:active {
+		background-color: var(--color-warning-interaction-pressed);
+		border-color: var(--color-warning-interaction-pressed);
+	}
+	.b-button.warning:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-warning-interaction-default),
+			0 0 0 4px rgba(245, 158, 11, 0.2);
+	}
+	.b-button.warning .progress {
+		background-color: var(--color-warning-surface-highlight);
+	}
+
+	.b-button.danger {
+		background-color: var(--color-danger-interaction-default);
+		border-color: var(--color-danger-interaction-default);
+		color: var(--color-neutral-foreground-negative);
+	}
+	.b-button.danger:hover {
+		background-color: var(--color-danger-interaction-hover);
+		border-color: var(--color-danger-interaction-hover);
+	}
+	.b-button.danger:active {
+		background-color: var(--color-danger-interaction-pressed);
+		border-color: var(--color-danger-interaction-pressed);
+	}
+	.b-button.danger:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-danger-interaction-default),
+			0 0 0 4px rgba(239, 68, 68, 0.2);
+	}
+	.b-button.danger .progress {
+		background-color: var(--color-danger-surface-highlight);
+	}
+
+	.b-button.neutral {
+		background-color: var(--color-neutral-interaction-default);
+		border-color: var(--color-neutral-interaction-default);
+		color: var(--color-neutral-foreground-negative);
+	}
+	.b-button.neutral:hover {
+		background-color: var(--color-neutral-interaction-hover);
+		border-color: var(--color-neutral-interaction-hover);
+	}
+	.b-button.neutral:active {
+		background-color: var(--color-neutral-interaction-pressed);
+		border-color: var(--color-neutral-interaction-pressed);
+	}
+	.b-button.neutral:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-neutral-interaction-default),
+			0 0 0 4px rgba(102, 102, 102, 0.2);
+	}
+	.b-button.neutral .progress {
+		background-color: var(--color-neutral-surface-highlight);
+	}
+
+	/* Disabled State */
+	.b-button.disabled {
+		pointer-events: none;
+		border-color: var(--color-neutral-border-default);
+		background-color: var(--color-neutral-surface-disabled);
+		color: var(--color-neutral-interaction-disabled);
+	}
+	.b-button.disabled .progress {
+		background-color: var(--color-neutral-surface-disabled);
+	}
+
+	/* Secondary Variant */
+	.b-button.secondary {
+		background-color: transparent;
+	}
+
+	.b-button.secondary.primary {
+		color: var(--color-primary-interaction-default);
+	}
+	.b-button.secondary.primary:hover {
+		background-color: var(--color-primary-surface-hover);
+		border-color: var(--color-primary-border-hover);
+		color: var(--color-primary-interaction-hover);
+	}
+	.b-button.secondary.primary:active {
+		background-color: var(--color-primary-surface-pressed);
+		border-color: var(--color-primary-border-pressed);
+		color: var(--color-primary-interaction-pressed);
+	}
+	.b-button.secondary.primary:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px var(--color-primary-interaction-default),
+			0 0 0 4px rgba(0, 78, 215, 0.2);
+	}
+
+	/* Enhanced Accessibility Features for BButton */
+
+	/* Progress indicator */
+	.b-button-progress {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		background-color: currentColor;
+		opacity: 0.15;
+		transition: width 0.3s ease-out;
+		border-radius: inherit;
+		pointer-events: none;
+	}
+
+	/* Button content container */
+	.b-button-content {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--spacing-xs);
+	}
+}

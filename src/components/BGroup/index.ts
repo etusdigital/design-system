@@ -1,5 +1,6 @@
 import type { App, Plugin } from 'vue';
 import BGroup from './BGroup.vue';
+import type { BGroupProps } from './BGroup.vue';
 
 export * from './BGroup.types';
 
@@ -11,4 +12,5 @@ export default {
 
 export {
     BGroup,
+    type BGroupProps,
 }

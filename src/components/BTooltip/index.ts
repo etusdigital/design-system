@@ -9,4 +9,13 @@ export default {
 
 export {
     BTooltip,
-}
+};
+
+// Export types for external use
+export type {
+    BTooltipProps,
+    TooltipPosition,
+    TooltipTrigger,
+    TooltipAccessibilityConfig,
+    TooltipTimingConfig,
+} from './BTooltip.vue';
