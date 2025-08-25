@@ -1,0 +1,71 @@
+---
+Confirm Dialog Documentation
+---
+
+**BConfirm** is a custom function, designed to display a confirmation dialog, that allow the user to accept or reject some sort of action. It returns a promise that resolves to a boolean value, indicating whether the user accept(true) or reject(false) the operation.
+
+To use **BConfirm**, call it as a function and provide an object with following properties
+
+>- **title** (optional): A string representing dialog title
+>- **message**: A string containing the dialog message
+>- **acceptText**: A string specifying accept button text
+>- **cancelText**: A string specifying cancel/reject button text
+
+```js
+this.$confirm({
+    title: 'Title',
+    message: 'message',
+    acceptText: 'Accept',
+    cancelText: 'Cancel',
+})
+
+// or
+
+import { inject } from 'vue'
+const confirm = inject('confirm')
+confirm({
+    title: 'Title',
+    message: 'message',
+    acceptText: 'Accept',
+    cancelText: 'Cancel',
+})
+```
+
+The ``this.$confirm`` return is a promise with one boolean result, determined if the user clicked in the accept button.
+
+Here are some example of to how to handle the ``this.$confirm`` promise.
+
+```js
+this.$confirm({
+    title: 'Title',
+    message: 'message',
+    acceptText: 'Accept',
+    cancelText: 'Cancel',
+}).then((result) => {
+    if (result) {
+        // accept code
+    } else {
+        // reject code
+    }
+})
+```
+
+```js
+const result = await this.$confirm({
+    title: 'Title',
+    message: 'message',
+    acceptText: 'Accept',
+    cancelText: 'Cancel',
+})
+```
+
+To make **BConfirm** work, add the following code in your app.vue
+
+```html
+<b-confirm />
+
+<!-- or -->
+
+<b-confirm></b-confirm>
+```
+

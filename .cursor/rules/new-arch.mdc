@@ -1,0 +1,54 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Arquitetura ideal do projeto de Design System da ETUS
+
+## modules:
+  base:
+    description: "Componentes fundamentais do design system"
+    components: [Avatar, Badge, Button, Card, Divider, Icon, Spinner, Tag]
+    
+  forms:
+    description: "Componentes de entrada de dados"
+    components: [Input, Select, Checkbox, Radio, Slider, etc.]
+    
+  data-display:
+    description: "Visualização de dados"
+    components: [Table, Timeline, MetricCard, ProgressBar]
+    
+  feedback:
+    description: "Comunicação com usuário"
+    components: [Alert, Toast, Dialog, Tooltip]
+    
+  navigation:
+    description: "Navegação e menus"
+    components: [Navbar, Sidebar, Menu, Breadcrumb, Pagination]
+    
+  layout:
+    description: "Estrutura e organização"
+    components: [Collapse, Group, Grid, ScrollArea]
+    
+  date-time:
+    description: "Seleção de data e hora"
+    components: [Calendar, DatePicker, DateFilter]
+    
+  media:
+    description: "Upload e manipulação de mídia"
+    components: [ImageCropper, FileUpload]
+
+## Padrão de Organização por Módulo
+
+modules/[nome-modulo]/
+├── components/           # Componentes Vue
+│   └── [Component]/
+│       ├── index.ts      # Export
+│       ├── Component.vue # Implementação
+│       ├── types.ts      # TypeScript types
+│       ├── styles.css    # Estilos (se necessário)
+│       └── README.md     # Documentação
+├── composables/          # Hooks reutilizáveis
+├── utils/                # Funções auxiliares
+├── types/                # Types compartilhados
+└── index.ts              # Export do módulo
