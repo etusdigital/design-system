@@ -1,1 +1,0 @@
-import{s as n,c}from"./vue.esm-bundler-B3dae8Cn.js";function i(s,e,u,a){const o=n(a);return[c({get(){return s[e]===void 0?o.value:s[e]},set(t){o.value=t,u(`update:${e}`,t)}}),(t,l)=>{o.value=t,u(`update:${e}`,t,l)}]}export{i as u};
