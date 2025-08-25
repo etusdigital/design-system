@@ -1,10 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import BSpinner from "./BSpinner.vue";
 
-const meta = {
+export default {
   component: BSpinner,
 } satisfies Meta<typeof BSpinner>;
-export default meta;
 
 type Story = StoryObj<typeof BSpinner>;
 
@@ -25,14 +24,14 @@ export const Colors: Story = {
       return { args };
     },
     template:
-      '<div style="display: flex; gap: 2rem; background-color: #202020; padding: 1rem">' +
-      '\n<BSpinner style="color: white" />' +
-      '\n<BSpinner style="color: red" />' +
-      '\n<BSpinner style="color: blue" />' +
-      '\n<BSpinner style="color: #F0F020" />' +
-      '\n<BSpinner style="color: #20D0D0" />' +
-      '\n<BSpinner style="color: #20F030" />' +
-      "</div>",
+      `<div class="flex gap-sm">
+        <BSpinner class="text-neutral-interaction-default" />
+        <BSpinner class="text-primary-interaction-default" />
+        <BSpinner class="text-informative-interaction-default" />
+        <BSpinner class="text-success-interaction-default" />
+        <BSpinner class="text-warning-interaction-default" />
+        <BSpinner class="text-danger-interaction-default" />
+      </div>`,
   }),
 };
 
@@ -43,12 +42,12 @@ export const Sizes: Story = {
       return { args };
     },
     template:
-      '<div style="display: flex; gap: 2rem">' +
-      '\n<BSpinner style="font-size: .5rem" />' +
-      '\n<BSpinner style="font-size: 1rem" />' +
-      '\n<BSpinner style="font-size: 2rem" />' +
-      '\n<BSpinner style="font-size: 3rem" />' +
-      '\n<BSpinner style="font-size: 4rem" />' +
-      "</div>",
+      `<div class="flex gap-sm">
+        <BSpinner class="text-xs" />
+        <BSpinner class="text-xl" />
+        <BSpinner class="text-3xl" />
+        <BSpinner class="text-5xl" />
+        <BSpinner class="text-7xl" />
+      </div>`,
   }),
 };

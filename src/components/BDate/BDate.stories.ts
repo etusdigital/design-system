@@ -3,7 +3,6 @@ import BDate from "./BDate.vue";
 
 export default {
   component: BDate,
-  tags: ["autodocs"],
   argTypes: {
     modelValue: {
       type: { summary: "Date | Date[] | null" },
@@ -53,21 +52,56 @@ const defaultArgs = {
   maxEnd: undefined,
 };
 
+const defaultRender = (args: any) => ({
+  components: { BDate },
+  setup() {
+    return { args };
+  },
+  template: `
+    <BDate 
+      v-model="args.modelValue" 
+      :lang="args.lang" 
+      :is-period="args.isPeriod" 
+      :max-init="args.maxInit" 
+      :max-end="args.maxEnd"
+    />
+    `,
+});
+
 export const Primary: Story = {
-  render: (args: any) => ({
-    components: { BDate },
-    setup() {
-      return { args };
-    },
-    template: `
-      <BDate 
-        v-model="args.modelValue" 
-        :lang="args.lang" 
-        :is-period="args.isPeriod" 
-        :max-init="args.maxInit" 
-        :max-end="args.maxEnd"
-      />
-      `,
-  }),
+  render: defaultRender,
   args: defaultArgs,
+};
+
+export const Lang: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    lang: "pt-BR",
+  },
+};
+
+export const IsPeriod: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    modelValue: [],
+    isPeriod: true,
+  },
+};
+
+export const MaxInit: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    maxInit: new Date(),
+  },
+};
+
+export const MaxEnd: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    maxEnd: new Date(),
+  },
 };

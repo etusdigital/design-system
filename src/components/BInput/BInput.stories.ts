@@ -1,193 +1,160 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
-import BInput from "./BInput.vue";
+import type { Meta, StoryObj } from '@storybook/vue3';
+import BInput from './BInput.vue';
 
 export default {
 	component: BInput,
-	tags: ["autodocs"],
 	argTypes: {
 		modelValue: {
-			description: "Will be the input current value.",
-			control: { type: "object" },
-			table: { type: { summary: "any" } },
+			type: { summary: 'any' },
+			description: 'Will be the input current value.',
 		},
 		labelValue: {
-			description: "Will be the input label.",
-			control: { type: "text" },
-			table: { type: { summary: "string" } },
+			type: { summary: 'text' },
+			description: 'Will be the input label.',
 		},
 		type: {
-			description: "Will be the input type.",
-			control: "select",
-			options: [
-				"text",
-				"number",
-				"search",
-				"color",
-				"password",
-				"file",
-				"email",
-			],
+			type: { summary: 'text' },
+			control: 'select',
+			options: ['text', 'number', 'search', 'color', 'password', 'file', 'email'],
 			table: {
-				type: {
-					summary:
-						"'text' | 'number' | 'search' | 'color' | 'password' | 'file' | 'email'",
-				},
-				defaultValue: { summary: "text" },
+				defaultValue: { summary: 'text' },
 			},
+			description: 'Will be the input type.',
 		},
 		max: {
-			description: "Will be the maximum number of letters or input value.",
-			control: { type: "number" },
-			table: { type: { summary: "number" } },
+			type: { summary: 'number' },
+			description: 'Will be the maximum number of letters or input value.',
 		},
 		min: {
-			description: "Will be the minimum input value.",
-			control: { type: "number" },
-			table: { type: { summary: "number" } },
+			type: { summary: 'number' },
+			description: 'Will be the minimum input value.',
 		},
 		step: {
-			description:
-				"Will be the increase or decrease amount of the number input.",
-			control: { type: "number" },
-			table: { type: { summary: "number" } },
+			type: { summary: 'number' },
+			description: 'Will be the increase or decrease amount of the number input.',
 		},
 		errorMessage: {
-			description: "Will be the input error message.",
-			control: { type: "text" },
-			table: { type: { summary: "string" } },
+			type: { summary: 'text' },
+			description: 'Will be the input error message.',
 		},
 		infoMessage: {
-			description: "Will be the input info message.",
-			control: { type: "text" },
-			table: { type: { summary: "string" } },
+			type: { summary: 'text' },
+			description: 'Will be the input info message.',
 		},
 		placeholder: {
-			description: "Will be the input placeholder.",
-			control: { type: "text" },
-			table: { type: { summary: "string" } },
+			type: { summary: 'text' },
+			description: 'Will be the input placeholder.',
 		},
 		isError: {
-			description: "Ative error mode.",
-			control: { type: "boolean" },
+			type: { summary: 'boolean' },
 			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "false" },
+				defaultValue: { summary: false },
 			},
+			description: 'Ative error mode.',
 		},
 		size: {
-			description: "Will be input size.",
-			control: "select",
-			options: ["xs", "sm", "base", "lg", "xl", "100"],
+			type: { summary: 'text' },
+			description: 'Will be input size.',
+			control: 'select',
+			options: ['xs', 'sm', 'base', 'lg', 'xl', 'full'],
 			table: {
-				type: { summary: "'xs' | 'sm' | 'base' | 'lg' | 'xl' | '100'" },
-				defaultValue: { summary: "100" },
+				defaultValue: { summary: 'full' },
 			},
 		},
 		mask: {
+			type: { summary: 'text' },
 			description:
-				"Will be the masked applied to the input. Only triggered on input type text without min or max limit.",
-			control: "select",
-			options: ["cpf", "cnpj", "cep", "domain", "url"],
+				'Will be the masked applied to the input. Only triggered on input type text without min or max limit.',
+			control: 'select',
+			options: ['cpf', 'cnpj', 'cep', 'domain', 'url'],
 			table: {
-				type: {
-					summary: "'cpf' | 'cnpj' | 'cep' | 'domain' | 'url' | undefined",
-				},
-				defaultValue: { summary: "undefined" },
+				defaultValue: { summary: undefined },
 			},
 		},
 		isTextArea: {
-			description:
-				"Instead of a regular input the component will be a text area.",
-			control: { type: "boolean" },
+			type: { summary: 'boolean' },
+			description: 'Instead of a regular input the component will be a text area.',
 			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "false" },
+				defaultValue: { summary: false },
 			},
 		},
 		disabled: {
-			description: "Desabilita o input",
-			control: { type: "boolean" },
+			type: { summary: 'boolean' },
 			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "false" },
+				defaultValue: { summary: false },
 			},
 		},
 		icon: {
-			description: "Will be the input icon.",
-			control: { type: "text" },
-			table: { type: { summary: "string" } },
+			type: { summary: 'text' },
+			description: 'Will be the input icon.',
 		},
 		appendIcon: {
-			description: "If true, the icon will be appended to the input.",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean" },
-			},
+			type: { summary: 'boolean' },
+			description: 'If true, the icon will be appended to the input.',
 		},
 		textAlign: {
-			description: "This property will be input text alignment.",
-			control: "select",
-			options: ["start", "center", "end"],
+			type: { summary: 'text' },
+			control: 'select',
+			options: ['start', 'center', 'end'],
 			table: {
-				type: { summary: "'start' | 'center' | 'end'" },
-				defaultValue: { summary: "start" },
+				defaultValue: { summary: 'start' },
 			},
+			description: 'This property will be input text alignment.',
 		},
 		tooltipMinWidth: {
-			description:
-				"This property will be info tooltip min-width. It doesn't work with file input",
-			control: { type: "text" },
+			type: { summary: 'text' },
 			table: {
-				type: { summary: "string" },
-				defaultValue: { summary: "none" },
+				defaultValue: { summary: 'none' },
 			},
+			description: "This property will be info tooltip min-width. It doesn't work with file input",
 		},
-		onFocus: {
-			description: "Will be the function that execute when input get focus.",
+		focus: {
+			type: { summary: 'function' },
 			table: {
-				category: "events",
-				type: { summary: "(event: FocusEvent) => void" },
+				defaultValue: { summary: '(value)=>{void}' },
 			},
+			description: 'Will be the function that execute when input get focus.',
 		},
-		onBlur: {
-			description:
-				"Will be the function that execute when input get out of focus.",
+		blur: {
+			type: { summary: 'function' },
 			table: {
-				category: "events",
-				type: { summary: "(event: FocusEvent) => void" },
+				defaultValue: { summary: '(value)=>{void}' },
 			},
+			description: 'Will be the function that execute when input get out of focus.',
 		},
-		"uploaded-file": {
-			description:
-				"When the type is file and a file is uploaded, this slot will appear",
-			table: { type: { summary: "slot" } },
+		'uploaded-file': {
+			description: 'When the type is file and a file is uploaded, this slot will appear',
+		},
+		"icon-slot": {
+		  description: "Will be the icon slot.",
+		},
+		"appended-icon-slot": {
+		  description: "Will be the appended icon slot.",
 		},
 	},
 } satisfies Meta<typeof BInput>;
 
 type Story = StoryObj<typeof BInput>;
 
-type BInputStoryArgs = Partial<InstanceType<typeof BInput>["$props"]>;
-
-const defaultArgs: BInputStoryArgs = {
+const defaultArgs = {
 	modelValue: null,
-	labelValue: "label",
-	type: "text",
+	labelValue: 'label',
+	type: 'text',
 	mask: undefined,
 	max: undefined,
 	min: undefined,
 	step: 1,
-	errorMessage: "",
-	infoMessage: "",
-	placeholder: "",
+	errorMessage: '',
+	infoMessage: '',
+	placeholder: '',
 	isError: false,
-	size: "sm",
+	size: 'sm',
 	isTextArea: false,
 	disabled: false,
 	required: false,
-	textAlign: "start",
-	tooltipMinWidth: "none",
-	icon: "",
+	textAlign: 'start',
+	tooltipMinWidth: 'none',
+	icon: '',
 	appendIcon: false,
 };
 
@@ -225,7 +192,7 @@ export const Primary: Story = {
 	render: defaultRender,
 	args: {
 		...defaultArgs,
-		errorMessage: "Error message",
+		errorMessage: 'Error message',
 	},
 };
 
@@ -233,10 +200,10 @@ export const Number: Story = {
 	render: defaultRender,
 	args: {
 		...defaultArgs,
-		labelValue: "Number",
+		labelValue: 'Number',
 		max: 10,
 		min: 0,
-		type: "number",
+		type: 'number',
 	},
 };
 
@@ -244,7 +211,7 @@ export const TextArea: Story = {
 	render: defaultRender,
 	args: {
 		...defaultArgs,
-		labelValue: "Text area",
+		labelValue: 'Text area',
 		isTextArea: true,
 	},
 };
@@ -253,8 +220,8 @@ export const Search: Story = {
 	render: defaultRender,
 	args: {
 		...defaultArgs,
-		labelValue: "Search",
-		type: "search",
+		labelValue: 'Search',
+		type: 'search',
 	},
 };
 
@@ -262,8 +229,8 @@ export const Color: Story = {
 	render: defaultRender,
 	args: {
 		...defaultArgs,
-		labelValue: "Color",
-		type: "color",
+		labelValue: 'Color',
+		type: 'color',
 	},
 };
 
@@ -272,7 +239,7 @@ export const MaxLetters: Story = {
 	args: {
 		...defaultArgs,
 		max: 20,
-		type: "text",
+		type: 'text',
 	},
 };
 
@@ -280,10 +247,10 @@ export const Error: Story = {
 	render: defaultRender,
 	args: {
 		...defaultArgs,
-		labelValue: "Error",
+		labelValue: 'Error',
 		isError: true,
-		errorMessage: "Error message",
-		type: "text",
+		errorMessage: 'Error message',
+		type: 'text',
 	},
 };
 
@@ -291,8 +258,8 @@ export const Password: Story = {
 	render: defaultRender,
 	args: {
 		...defaultArgs,
-		labelValue: "Password",
-		type: "password",
+		labelValue: 'Password',
+		type: 'password',
 	},
 };
 
@@ -300,9 +267,9 @@ export const File: Story = {
 	render: defaultRender,
 	args: {
 		...defaultArgs,
-		labelValue: "Select a file",
-		placeholder: "or drag and drop it here",
-		type: "file",
+		labelValue: 'Select a file',
+		placeholder: 'or drag and drop it here',
+		type: 'file',
 	},
 };
 
@@ -310,9 +277,9 @@ export const Email: Story = {
 	render: defaultRender,
 	args: {
 		...defaultArgs,
-		labelValue: "Email",
-		errorMessage: "Invalid email",
-		type: "email",
+		labelValue: 'Email',
+		errorMessage: 'Invalid email',
+		type: 'email',
 	},
 };
 
@@ -320,6 +287,22 @@ export const InfoMessage: Story = {
 	render: defaultRender,
 	args: {
 		...defaultArgs,
-		infoMessage: "Info message",
+		infoMessage: 'Info message',
+	},
+};
+
+export const Disabled: Story = {
+	render: defaultRender,
+	args: {
+		...defaultArgs,
+		disabled: true,
+	},
+};
+
+export const Required: Story = {
+	render: defaultRender,
+	args: {
+		...defaultArgs,
+		required: true,
 	},
 };

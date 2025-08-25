@@ -1,20 +1,73 @@
-import { Canvas, Meta } from '@storybook/blocks';
-import * as BSpinnerStories from './BSpinner.stories.ts';
+import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
+import * as BSpinner from './BSpinner.stories.ts';
 
-<Meta of={BSpinnerStories} />
+<Meta of={BSpinner} />
 
-# BSpinner
+# Name: b-spinner
+## Component Overview
 
-<Canvas of={BSpinnerStories.Primary} />
+**Purpose**: A loading spinner component with customizable colors and sizes for indicating loading states.
 
-## Color
+**Import**: Automatic - no need to import any DS components
 
-The color can be changed through the **color** CSS property.
+<br />
+### Playground
 
-<Canvas of={BSpinnerStories.Colors} />
+<Canvas of={BSpinner.Primary} />
+<Controls />
 
-## Size
+---
 
-The size can be changed through the **font-size** CSS property, or you can manipulate **width** and **height** directly.
+### Basic Usage
 
-<Canvas of={BSpinnerStories.Sizes} />
+```vue
+<template>
+    <b-spinner />
+</template>
+```
+
+<Canvas sourceState="none" of={BSpinner.Primary} />
+
+---
+
+### Props API
+
+#### color
+Controls the spinner's color. Can be changed through the **color** CSS property or theme colors.
+
+```vue
+<template>
+    <div class="flex gap-sm">
+        <b-spinner class="text-neutral-interaction-default" />
+        <b-spinner class="text-primary-interaction-default" />
+        <b-spinner class="text-informative-interaction-default" />
+        <b-spinner class="text-success-interaction-default" />
+        <b-spinner class="text-warning-interaction-default" />
+        <b-spinner class="text-danger-interaction-default" />
+    </div>
+</template>
+```
+
+<Canvas sourceState="none" of={BSpinner.Colors} />
+
+#### size
+Controls the spinner's dimensions. Can be changed through the **font-size** CSS property, or by manipulating **width** and **height** directly.
+
+```vue
+<template>
+    <div class="flex gap-sm">
+        <b-spinner class="text-xs" />
+        <b-spinner class="text-xl" />
+        <b-spinner class="text-3xl" />
+        <b-spinner class="text-5xl" />
+        <b-spinner class="text-7xl" />
+      </div>
+</template>
+```
+
+<Canvas sourceState="none" of={BSpinner.Sizes} />
+
+**Important Notes:**
+- Use appropriate sizes for different contexts (small for inline, larger for overlays)
+- Consider accessibility by providing loading text or aria-labels
+- The spinner inherits color from its parent element unless explicitly styled

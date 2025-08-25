@@ -2,9 +2,8 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import BAvatar from "./BAvatar.vue";
 import photo from "./photo.svg";
 
-const meta = {
+export default {
   component: BAvatar,
-  tags: ["autodocs"],
   argTypes: {
     name: {
       type: { summary: "text" },
@@ -28,8 +27,6 @@ const meta = {
     },
   },
 } satisfies Meta<typeof BAvatar>;
-
-export default meta;
 
 type Story = StoryObj<typeof BAvatar>;
 const defaultArgs = {

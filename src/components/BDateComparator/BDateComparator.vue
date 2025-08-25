@@ -64,6 +64,7 @@ function selectDate(date: Date[] | Date[][]){
 
 <template>
     <Calendar
+        class="b-date-comparator"
         v-model="selectedDate"
         :initial-dates="initialDates"
         :is-compare="isCompare"

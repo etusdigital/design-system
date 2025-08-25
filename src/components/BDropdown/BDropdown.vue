@@ -133,6 +133,7 @@ function getValue(item: any): any {
 
 <template>
   <BExpandableContainer
+    class="b-dropdown"
     v-model="isExpanded"
     :absolute="absolute"
     :label-value="labelValue"

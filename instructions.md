@@ -11,7 +11,7 @@ Vue 3 component library built with TypeScript and Vite, published to GCP npm reg
 - Vite 5.x
 - Storybook 8.x
 - Tailwind CSS
-- Node.js 22
+- Node.js 20.11.1
 
 ## Project Structure
 
@@ -123,12 +123,6 @@ The library builds to multiple formats:
 Output directory: `lib/`
 
 ## Publishing
-
-**Nota:** Atualmente, o foco é no desenvolvimento e teste local. A publicação em um registro npm (seja GCP ou público) está em espera.
-
-Para desenvolvimento local e consumo em outros projetos locais, utilize `npm link` conforme descrito na seção de instalação do `README.md`.
-
-Passos anteriores para publicação (mantidos para referência futura):
 
 1. Bump version:
 

@@ -10,7 +10,7 @@
     "allowJs": false,
     "declarationDir": "lib",
     "outDir": "lib",
-    "composite": true,
+    "composite": false,
     "baseUrl": ".",
     "paths": {
       "#*": ["./src/*"]

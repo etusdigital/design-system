@@ -120,10 +120,10 @@ function setFormatedDate() {
 
 <template>
   <BSelectContainer
+    class="b-date-filter"
     v-model="isExpanded"
     :label-value="labelValue"
     :required="required"
-    class="b-select"
     aria-multiselectable="false"
     dont-have-max-height
     :absolute="absolute"
@@ -182,10 +182,10 @@ function setFormatedDate() {
       <div class="flex items-center justify-end gap-xs w-full">
         <slot name="actions">
           <BButton size="small" variant="plain" @click="resetModel">
-            <slot name="clear-text"> Clear </slot>
+            <slot name="clear-label"> Clear </slot>
           </BButton>
           <BButton size="small" @click="emit('apply', model)">
-            <slot name="apply-text"> Apply </slot>
+            <slot name="apply-label"> Apply </slot>
           </BButton>
         </slot>
       </div>

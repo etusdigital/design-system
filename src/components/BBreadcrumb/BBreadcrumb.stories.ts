@@ -3,7 +3,6 @@ import BBreadcrumb from "./BBreadcrumb.vue";
 
 export default {
   component: BBreadcrumb,
-  tags: ["autodocs"],
   argTypes: {
     modelValue: {
       type: { summary: "any" },
@@ -66,18 +65,4 @@ const defaultRender = (args: any) => ({
 export const Primary: Story = {
   render: defaultRender,
   args: defaultArgs,
-};
-
-export const ObjectArray: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    modelValue: 1,
-    getObject: true,
-    items: [
-      { label: "Home", value: 1 },
-      { label: "Dashboard", value: 2 },
-      { label: "Profile", value: 3 },
-    ],
-  },
 };

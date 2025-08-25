@@ -60,6 +60,7 @@ function selectItem(item: string) {
 
 <template>
   <BSelectContainer
+    class="b-auto-complete"
     v-model="isExpanded"
     :absolute="absolute"
     :label-value="labelValue"

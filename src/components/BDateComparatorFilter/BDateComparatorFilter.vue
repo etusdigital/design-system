@@ -190,6 +190,7 @@ function clear() {
 
 <template>
   <BExpandableContainer
+    class="b-date-comparator-filter"
     v-model="isExpanded"
     :disabled="disabled"
     :required="required"
@@ -198,6 +199,7 @@ function clear() {
     :is-error="isError"
     :error-message="errorMessage"
     :align-right="alignRight"
+    disable-label-auto-width
     hide-arrow
     @update:modelValue="emit('update:expanded', isExpanded)"
   >
@@ -246,7 +248,7 @@ function clear() {
                             optionSelected = '';
                         }"
             >
-              <slot name="compare-text"> Compare two periods </slot>
+              <slot name="compare-label"> Compare two periods </slot>
             </BCheckbox>
           </div>
         </div>
@@ -269,13 +271,13 @@ function clear() {
               variant="plain"
               @click="clear"
             >
-              <slot name="clear-text"> Clear </slot>
+              <slot name="clear-label"> Clear </slot>
             </BButton>
             <BButton
               size="small"
               @click="emit('apply', model)"
             >
-              <slot name="apply-text"> Apply </slot>
+              <slot name="apply-label"> Apply </slot>
             </BButton>
           </slot>
           </div>

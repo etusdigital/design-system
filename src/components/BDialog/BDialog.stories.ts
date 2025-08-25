@@ -3,7 +3,6 @@ import BDialog from "./BDialog.vue";
 
 export default {
   component: BDialog,
-  tags: ["autodocs"],
   argTypes: {
     modelValue: {
       type: { summary: "boolean" },
@@ -46,30 +45,44 @@ const defaultArgs = {
   noOutsideClose: false,
 };
 
-export const Primary: Story = {
-  render: (args: any) => ({
-    components: { BDialog },
-    setup() {
-      return { args };
-    },
-    template: `
-        <BButton  @click="args.modelValue = !args.modelValue">Show Dialog</BButton>
-        <BDialog
-             v-model="args.modelValue"
-             :width="args.width"
-             :height="args.height"
-             :no-outside-close="args.noOutsideClose"
-        >
-            <div class="flex flex-col p-xl gap-sm">
-                <h2 class="font-bold text-lg">Dialog</h2>
-                <p class="text-sm text-neutral-foreground-low">Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a massa praesent ultricies.</p>
-                <div class="flex justify-end w-full gap-xs">
-                    <BButton variant="plain" @click="args.modelValue = false">Cancel</BButton>
-                    <BButton>Save</BButton>
-                </div>
+const defaultRender = (args: any) => ({
+  components: { BDialog },
+  setup() {
+    return { args };
+  },
+  template: `
+    <BButton @click="args.modelValue = !args.modelValue">Show Dialog</BButton>
+    <BDialog
+         v-model="args.modelValue"
+         :width="args.width"
+         :height="args.height"
+         :no-outside-close="args.noOutsideClose"
+    >
+        <div class="flex flex-col p-xl gap-sm">
+            <h2 class="font-bold text-lg">Dialog</h2>
+            <p class="text-sm text-neutral-foreground-low">
+              Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas
+              amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a
+              massa praesent ultricies.
+            </p>
+            <div class="flex justify-end w-full gap-xs">
+                <BButton variant="plain" @click="args.modelValue = false">Cancel</BButton>
+                <BButton @click="args.modelValue = false">Save</BButton>
             </div>
-        </BDialog>
-        `,
-  }),
+        </div>
+    </BDialog>
+  `,
+});
+
+export const Primary: Story = {
+  render: defaultRender,
   args: defaultArgs,
+};
+
+export const NoOutsideClose: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    noOutsideClose: true,
+  },
 };

@@ -4,7 +4,6 @@ import { calculateDate } from "../../utils";
 
 export default {
   component: BDateFilter,
-  tags: ["autodocs"],
   argTypes: {
     modelValue: {
       type: { summary: "Date[] | any[]" },
@@ -73,10 +72,10 @@ export default {
     default: {
       description: "This slot will be displayed on the select area.",
     },
-    "clear-text": {
+    "clear-label": {
       description: "This slot will be the clear button text.",
     },
-    "apply-text": {
+    "apply-label": {
       description: "This slot will be the apply button text.",
     },
     actions: {
@@ -145,32 +144,94 @@ const defaultArgs = {
   ],
 };
 
+const defaultRender = (args: any) => ({
+  components: { BDateFilter },
+  setup() {
+    return { args };
+  },
+  template: `
+    <BDateFilter
+        v-model="args.modelValue"
+        :labelValue="args.labelValue"
+        :lang="args.lang"
+        :max-init="args.maxInit"
+        :max-end="args.maxEnd"
+        :options="args.options"
+        :absolute="args.absolute"
+        :disabled="args.disabled"
+        :required="args.required"
+        :is-error="args.isError"
+        :error-message="args.errorMessage"
+    >
+        Date Filter
+        <template #clear-label>
+            Clear
+        </template>
+        <template #apply-label>
+            Apply
+        </template>
+    </BDateFilter>
+  `,
+});
+
 export const Primary: Story = {
-  render: (args: any) => ({
-    components: { BDateFilter },
-    setup() {
-      return { args };
-    },
-    template: `
-            <BDateFilter
-                v-model="args.modelValue"
-                :labelValue="args.labelValue"
-                :lang="args.lang"
-                :max-init="args.maxInit"
-                :max-end="args.maxEnd"
-                :options="args.options"
-                :absolute="args.absolute"
-                :disabled="args.disabled"
-                :required="args.required"
-                :is-error="args.isError"
-                :error-message="args.errorMessage"
-            >
-                Date Filter
-                <template #clear-text>
-                    Clear
-                </template>
-            </BDateFilter>
-        `,
-  }),
+  render: defaultRender,
   args: defaultArgs,
+};
+
+export const Lang: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    lang: "pt-BR",
+  },
+};
+
+export const MaxInit: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    maxInit: new Date(),
+  },
+};
+
+export const MaxEnd: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    maxEnd: new Date(),
+  },
+};
+
+export const Absolute: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    absolute: true,
+  },
+};
+
+export const Disabled: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    disabled: true,
+  },
+};
+
+export const Required: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    required: true,
+  },
+};
+
+export const IsError: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    isError: true,
+    errorMessage: "Error message",
+  },
 };

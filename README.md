@@ -16,21 +16,40 @@
 
 ## Installation
 
-Para usar o Design System localmente em outro projeto durante o desenvolvimento:
+### 1. Google Cloud SDK
 
-1.  **Neste projeto (`@BRIUS/design-system`):**
-    *   Certifique-se de que as dependências estão instaladas: `npm install`
-    *   Construa o projeto: `npm run build`
-    *   Crie um link simbólico local para o pacote: `npm link`
+This library resides in our private npm registry in our GCP environment, so make sure you have Google Cloud SDK up and running and you are properly authenticated and logged in (<https://cloud.google.com/sdk/docs/install>).
 
-2.  **No seu projeto que consumirá o Design System:**
-    *   Navegue até a pasta raiz do seu outro projeto.
-    *   Vincule o pacote do Design System: `npm link "@BRIUS/design-system"`
-    *   Agora você pode importar componentes como faria normalmente.
+Set up your application default credentials so you don't have to log in through the browser everytime:
 
-Quando não precisar mais do link local, você pode desfazê-lo:
-*   No seu projeto consumidor: `npm unlink "@BRIUS/design-system"`
-*   Neste projeto (`@BRIUS/design-system`): `npm unlink` (para remover o link global)
+```sh
+gcloud auth application-default login
+```
+
+Then, NPM needs to know where to look for our registry. Create a file named `.npmrc` inside your project's root folder and paste this inside:
+
+```
+@BRIUS:registry=https://us-east1-npm.pkg.dev/etus-media-mgmt/shared/
+//us-east1-npm.pkg.dev/etus-media-mgmt/shared/:always-auth=true
+```
+
+> This repository contains an example `.npmrc` that you can copy if you wish.
+
+### NPM Install
+
+Authenticate NPM to our GCP registry:
+
+```sh
+npx google-artifactregistry-auth
+```
+
+Everytime NPM needs to access our registry, it's possible that the authentication with the registry has expired. If you encounter a 403 error while updating packages, just rerun the above command.
+
+After that, you can `npm install` the library.
+
+```sh
+npm install @BRIUS/design-system
+```
 
 ### TLDR
 

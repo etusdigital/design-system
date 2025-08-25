@@ -1,131 +1,99 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import BSlider from "./BSlider.vue";
 
-const meta = {
-	component: BSlider,
-	tags: ["autodocs"],
-	argTypes: {
-		modelValue: {
-			description:
-				"Valor(es) do slider (v-model). Array de números entre 0 e 1 (ou 0 e max).",
-			control: { type: "object" },
-			table: {
-				type: { summary: "number[]" },
-				defaultValue: { summary: "[0]" },
-			},
-		},
-		size: {
-			description: "Tamanho do slider.",
-			control: "select",
-			options: ["small", "medium", "large"],
-			table: {
-				type: { summary: "'small' | 'medium' | 'large'" },
-				defaultValue: { summary: "medium" },
-			},
-		},
-		max: {
-			description:
-				"Valor máximo da escala do slider. Se definido, modelValue será relativo a este max.",
-			control: { type: "number" },
-			table: {
-				type: { summary: "number" },
-				defaultValue: { summary: "0 (escala 0-1)" },
-			},
-		},
-		unit: {
-			description: "Unidade a ser exibida no tooltip (ex: '%', 'px').",
-			control: { type: "text" },
-			table: {
-				type: { summary: "string" },
-				defaultValue: { summary: "" },
-			},
-		},
-		color: {
-			description: "Cor principal do slider (ex: valor CSS de cor).",
-			control: { type: "color" },
-			table: {
-				type: { summary: "string" },
-				defaultValue: { summary: "(cor primária do tema)" },
-			},
-		},
-		showTooltip: {
-			description:
-				"Exibe um tooltip com o valor atual acima (ou à direita) do cursor.",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		vertical: {
-			description:
-				"Renderiza o slider na vertical. Requer um container pai com altura definida.",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		disabled: {
-			description: "Desabilita a interação com o slider.",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		fillColors: {
-			description:
-				"Array de cores para preencher segmentos da barra (se isRange=true e houver múltiplos cursores).",
-			control: { type: "object" },
-			table: {
-				type: { summary: "string[]" },
-				defaultValue: { summary: "[]" },
-			},
-		},
-		steps: {
-			description:
-				"Array de posições (0-1) para marcadores de passo. O cursor irá 'travar' nesses passos.",
-			control: { type: "object" },
-			table: {
-				type: { summary: "number[]" },
-				defaultValue: { summary: "[]" },
-			},
-		},
-		neutralBackground: {
-			description:
-				"Se verdadeiro, usa um fundo neutro para a barra do slider em vez de uma cor de highlight do tema.",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "false" },
-			},
-		},
-	},
+export default {
+  component: BSlider,
+  argTypes: {
+    modelValue: {
+      type: { summary: "number" },
+      table: {
+        defaultValue: { summary: 0 },
+      },
+      description:
+        'This property will be the slider fill percentage or the equivalent number in "max" scale. Max: 1 and Min: 0, if max isn\'t specified.',
+    },
+    size: {
+      type: { summary: "text" },
+      control: "select",
+      options: ["small", "medium", "large"],
+      table: {
+        defaultValue: { summary: "medium" },
+      },
+    },
+    max: {
+      type: { summary: "number" },
+      description:
+        "If the max is specified, the modelValue will be multiply by it.",
+    },
+    unit: {
+      type: { summary: "text" },
+      description:
+        "This property will be the unit shown in tooltip with the modelValue.",
+    },
+    color: {
+      type: { summary: "text" },
+      description:
+        "This property will be the slider color, if it's not set, the color will be the default one.",
+    },
+    showTooltip: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description:
+        "When this property is true, a tooltip showing the modelValue will appear in the slider thumb top or right.",
+    },
+    vertical: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description:
+        "The vertical property requires a external div with a specified height.",
+    },
+    disabled: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+    },
+    fillColors: {
+      type: { summary: "array" },
+      description:
+        "When this property is settled, the fill area will be divided between the passed colors.",
+    },
+    steps: {
+      type: { summary: "array" },
+      description:
+      "When this property is settled, marks will be place in the passed positions (Scale: 0-1) and modelValue can only have the passed values.",
+    },
+    neutralBackground: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description: "If this property is true, the slider will have a neutral background.",
+    },
+  },
 } satisfies Meta<typeof BSlider>;
-export default meta;
 
 type Story = StoryObj<typeof BSlider>;
 
-// Definir um tipo para as props do BSlider para defaultArgs
-// Usaremos Partial porque nem todas as props precisam ser definidas em defaultArgs se tiverem valores padrão no componente
-type BSliderStoryArgs = Partial<InstanceType<typeof BSlider>["$props"]>;
-
-const defaultArgs: BSliderStoryArgs = {
-	modelValue: 0,
-	size: "medium", // TypeScript irá verificar se "medium" é compatível com BSliderProps['size']
-	max: 0,
-	unit: "",
-	color: "",
-	showTooltip: false,
-	disabled: false,
-	vertical: false,
-	fillColors: [], // Mantido como array mutável
-	steps: [], // Mantido como array mutável
-	neutralBackground: false,
+const defaultArgs = {
+  modelValue: 0,
+  size: "medium",
+  max: 0,
+  unit: "",
+  color: "",
+  showTooltip: false,
+  disabled: false,
+  vertical: false,
+  fillColors: [],
+  steps: [],
+  neutralBackground: false,
 };
 
-const singleTemplate = `
+const defaultHtml = `
 <div :class="{'h-[15em]': args.vertical }">
   <BSlider
     v-model="args.modelValue"
@@ -136,136 +104,92 @@ const singleTemplate = `
     :max="args.max"
     :unit="args.unit"
     :color="args.color"
-    :fill-colors="args.fillColors"
+    :fillColors="args.fillColors"
     :steps="args.steps"
     :neutral-background="args.neutralBackground"
   />
-</div>`;
+</div>`
 
-const defaultTemplate = `
-<BSlider
-  v-model="args.modelValue"
-  size="small"
-  :show-tooltip="args.showTooltip"
-  :disabled="args.disabled"
-  :vertical="args.vertical"
-  :max="args.max"
-  :unit="args.unit"
-  :color="args.color"
-  :fill-colors="args.fillColors"
-  :steps="args.steps"
-  :neutral-background="args.neutralBackground"
-/>
-<BSlider
-  v-model="args.modelValue"
-  size="medium"
-  :show-tooltip="args.showTooltip"
-  :disabled="args.disabled"
-  :vertical="args.vertical"
-  :max="args.max"
-  :unit="args.unit"
-  :color="args.color"
-  :fill-colors="args.fillColors"
-  :steps="args.steps"
-  :neutral-background="args.neutralBackground"
-/>
-<BSlider
-  v-model="args.modelValue"
-  size="large"
-  :show-tooltip="args.showTooltip"
-  :disabled="args.disabled"
-  :vertical="args.vertical"
-  :max="args.max"
-  :unit="args.unit"
-  :color="args.color"
-  :fill-colors="args.fillColors"
-  :steps="args.steps"
-  :neutral-background="args.neutralBackground"
-/>
-`;
+
+const defaultRender = (args: any) => ({
+  components: { BSlider },
+  setup() {
+    return { args };
+  },
+  template: defaultHtml,
+});
 
 export const Primary: Story = {
-	render: (args: any) => ({
-		components: { BSlider },
-		setup() {
-			return { args };
-		},
-		template: singleTemplate,
-	}),
-	args: defaultArgs,
-};
-
-export const NeutralBackground: Story = {
-	render: (args: any) => ({
-		components: { BSlider },
-		setup() {
-			return { args };
-		},
-		template: singleTemplate,
-	}),
-	args: {
-		...defaultArgs,
-		neutralBackground: true,
-	},
+  render: defaultRender,
+  args: defaultArgs,
 };
 
 export const Sizes: Story = {
-	render: (args: any) => ({
-		components: { BSlider },
-		setup() {
-			return { args };
-		},
-		template: `
+  render: (args: any) => ({
+    components: { BSlider },
+    setup() {
+      return { args };
+    },
+    template: `
       <div class="flex flex-col gap-base">
-        ${defaultTemplate}
+        ${["small", "medium", "large"]
+          .map((size) => {
+            return defaultHtml.replaceAll("args.size", `'${size}'`);
+          })
+          .join("")}
       </div>
     `,
-	}),
-	args: defaultArgs,
+  }),
+  args: defaultArgs,
+};
+
+export const ShowTooltip: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    showTooltip: true,
+  },
+};
+
+export const Disabled: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    modelValue: 0.5,
+    disabled: true,
+  },
 };
 
 export const Vertical: Story = {
-	render: (args: any) => ({
-		components: { BSlider },
-		setup() {
-			return { args };
-		},
-		template: `
-      <div class="h-[15em] flex gap-base">
-        ${defaultTemplate}
-      </div>
-    `,
-	}),
-	args: {
-		...defaultArgs,
-		vertical: true,
-	},
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    vertical: true
+  },
 };
 
 export const FillColors: Story = {
-	render: (args: any) => ({
-		components: { BSlider },
-		setup() {
-			return { args };
-		},
-		template: singleTemplate,
-	}),
-	args: {
-		...defaultArgs,
-		fillColors: ["#00CEFC", "#50358A", "#FF9654"],
-	},
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    modelValue: 0.5,
+    fillColors: ["#00CEFC", "#50358A", "#FF9654"],
+  },
 };
 
+
 export const Steps: Story = {
-	render: (args: any) => ({
-		components: { BSlider },
-		setup() {
-			return { args };
-		},
-		template: singleTemplate,
-	}),
-	args: {
-		...defaultArgs,
-		steps: [0, 0.25, 0.5, 0.75, 1],
-	},
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    steps: [0, 0.25, 0.5, 0.75, 1],
+  },
+};
+
+export const NeutralBackground: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    neutralBackground: true,
+  },
 };

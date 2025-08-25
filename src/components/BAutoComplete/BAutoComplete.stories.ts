@@ -3,7 +3,6 @@ import BAutoComplete from "./BAutoComplete.vue";
 
 export default {
   component: BAutoComplete,
-  tags: ["autodocs"],
   argTypes: {
     modelValue: {
       type: { summary: "string" },
@@ -24,6 +23,13 @@ export default {
     },
     placeholder: {
       type: { summary: "text" },
+    },
+    required: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description: "Makes the select container required.",
     },
     disabled: {
       type: { summary: "boolean" },
@@ -75,29 +81,70 @@ const defaultArgs = {
   infoMessage: "",
 };
 
-const defaultHtml = `
-<BAutoComplete 
-    v-model="args.modelValue" 
-    v-model:expanded="args.expanded"
-    :label-value="args.labelValue"
-    :placeholder="args.placeholder"
-    :items="args.items"
-    :absolute="args.absolute" 
-    :required="args.required" 
-    :disabled="args.disabled"
-    :is-error="args.isError"
-    :error-message="args.errorMessage"
-    :info-message="args.infoMessage"
-/>`;
+const defaultRender = (args: any) => ({
+  setup() {
+    return { args };
+  },
+  template:  `
+  <BAutoComplete 
+      v-model="args.modelValue" 
+      v-model:expanded="args.expanded"
+      :label-value="args.labelValue"
+      :placeholder="args.placeholder"
+      :items="args.items"
+      :absolute="args.absolute" 
+      :required="args.required" 
+      :disabled="args.disabled"
+      :is-error="args.isError"
+      :error-message="args.errorMessage"
+      :info-message="args.infoMessage"
+  />`,
+});
 
 export const Primary: Story = {
-  render: (args: any) => ({
-    setup() {
-      return { args };
-    },
-    template: defaultHtml,
-  }),
+  render: defaultRender,
   args: defaultArgs,
+};
+
+export const Absolute: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    absolute: true,
+  },
+};
+
+export const Required: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    required: true,
+  },
+};
+
+export const Disabled: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    disabled: true,
+  },
+};
+
+export const IsError: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    isError: true,
+    errorMessage: "Error message",
+  },
+};
+
+export const InfoMessage: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    infoMessage: "Info message",
+  },
 };
 
 export const CustomItem: Story = {
@@ -107,17 +154,17 @@ export const CustomItem: Story = {
     },
     template: `
     <BAutoComplete
-    v-model="args.modelValue" 
-    v-model:expanded="args.expanded"
-    :label-value="args.labelValue"
-    :placeholder="args.placeholder"
-    :items="args.items"
-    :absolute="args.absolute" 
-    :required="args.required" 
-    :disabled="args.disabled"
-    :is-error="args.isError"
-    :error-message="args.errorMessage"
-    :info-message="args.infoMessage"
+      v-model="args.modelValue" 
+      v-model:expanded="args.expanded"
+      :label-value="args.labelValue"
+      :placeholder="args.placeholder"
+      :items="args.items"
+      :absolute="args.absolute" 
+      :required="args.required" 
+      :disabled="args.disabled"
+      :is-error="args.isError"
+      :error-message="args.errorMessage"
+      :info-message="args.infoMessage"
     >
       <template #item="{ item, index }">
         <BIcon name="account_circle" size="1rem" class="shrink-0 h-[1em] flex items-center" /> {{ item }}

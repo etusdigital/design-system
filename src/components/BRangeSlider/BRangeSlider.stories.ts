@@ -1,127 +1,97 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import BRangeSlider from "./BRangeSlider.vue";
 
-const meta = {
-	component: BRangeSlider,
-	tags: ["autodocs"],
-	argTypes: {
-		modelValue: {
-			description:
-				'This property will be an array with the slider fill percentage or the equivalent number in "max" scale based in each thumb. Max: 1 and Min: 0, if max isn\'t specified.',
-			control: { type: "object" },
-			table: {
-				type: { summary: "number[]" },
-				defaultValue: { summary: "[0, 0]" },
-			},
-		},
-		size: {
-			description: "Tamanho do slider.",
-			control: "select",
-			options: ["small", "medium", "large"],
-			table: {
-				type: { summary: "'small' | 'medium' | 'large'" },
-				defaultValue: { summary: "medium" },
-			},
-		},
-		max: {
-			description:
-				"If the max is specified, the modelValue will be multiply by it.",
-			control: { type: "number" },
-			table: {
-				type: { summary: "number" },
-			},
-		},
-		unit: {
-			description:
-				"This property will be the unit shown in tooltip with the modelValue.",
-			control: { type: "text" },
-			table: {
-				type: { summary: "string" },
-			},
-		},
-		color: {
-			description:
-				"This property will be the slider color, if it's not set, the color will be the default one.",
-			control: { type: "color" },
-			table: {
-				type: { summary: "string" },
-			},
-		},
-		showTooltip: {
-			description:
-				"When this property is true, a tooltip showing the modelValue will appear in the slider thumb top or right.",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		vertical: {
-			description:
-				"The vertical property requires a external div with a specified height.",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		disabled: {
-			description: "Desabilita a interação.",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		fillColors: {
-			description:
-				"When this property is settled, the fill area will be divided between the passed colors.",
-			control: { type: "object" },
-			table: {
-				type: { summary: "string[]" },
-			},
-		},
-		steps: {
-			description:
-				"When this property is settled, marks will be place in the passed positions (Scale: 0-1) and modelValue can only have the passed values.",
-			control: { type: "object" },
-			table: {
-				type: { summary: "number[]" },
-			},
-		},
-		neutralBackground: {
-			description:
-				"When this property is true, the slider will have a neutral background.",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean" },
-			},
-		},
-	},
+export default {
+  component: BRangeSlider,
+  argTypes: {
+    modelValue: {
+      type: { summary: "number[]" },
+      table: {
+        defaultValue: { summary: [0, 0] },
+      },
+      description:
+        'This property will be an array with the slider fill percentage or the equivalent number in "max" scale based in each thumb. Max: 1 and Min: 0, if max isn\'t specified.',
+    },
+    size: {
+      type: { summary: "text" },
+      control: "select",
+      options: ["small", "medium", "large"],
+      table: {
+        defaultValue: { summary: "medium" },
+      },
+    },
+    max: {
+      type: { summary: "number" },
+      description:
+        "If the max is specified, the modelValue will be multiply by it.",
+    },
+    unit: {
+      type: { summary: "text" },
+      description:
+        "This property will be the unit shown in tooltip with the modelValue.",
+    },
+    color: {
+      type: { summary: "text" },
+      description:
+        "This property will be the slider color, if it's not set, the color will be the default one.",
+    },
+    showTooltip: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description:
+        "When this property is true, a tooltip showing the modelValue will appear in the slider thumb top or right.",
+    },
+    vertical: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description:
+        "The vertical property requires a external div with a specified height.",
+    },
+    disabled: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+    },
+    fillColors: {
+      type: { summary: "array" },
+      description:
+        "When this property is settled, the fill area will be divided between the passed colors.",
+    },
+    steps: {
+      type: { summary: "array" },
+      description:
+        "When this property is settled, marks will be place in the passed positions (Scale: 0-1) and modelValue can only have the passed values.",
+    },
+    neutralBackground: {
+      type: { summary: "boolean" },
+      description:
+        "When this property is true, the slider will have a neutral background.",
+    },
+  },
 } satisfies Meta<typeof BRangeSlider>;
-export default meta;
 
 type Story = StoryObj<typeof BRangeSlider>;
 
-type BRangeSliderStoryArgs = Partial<
-	InstanceType<typeof BRangeSlider>["$props"]
->;
-
-const defaultArgs: BRangeSliderStoryArgs = {
-	modelValue: [0, 0],
-	size: "medium",
-	max: 0,
-	unit: "",
-	color: "",
-	showTooltip: false,
-	disabled: false,
-	vertical: false,
-	fillColors: [],
-	steps: [],
-	neutralBackground: false,
+const defaultArgs = {
+  modelValue: [0, 0],
+  size: "medium",
+  max: 0,
+  unit: "",
+  color: "",
+  showTooltip: false,
+  disabled: false,
+  vertical: false,
+  fillColors: [],
+  steps: [],
+  neutralBackground: false,
 };
 
-const singleTemplate = `
+const defaultHtml = `
 <div :class="{'h-[15em]': args.vertical }">
   <BRangeSlider
     v-model="args.modelValue"
@@ -136,132 +106,88 @@ const singleTemplate = `
     :steps="args.steps"
     :neutral-background="args.neutralBackground"
   />
-</div>`;
+</div>`
 
-const defaultTemplate = `
-<BRangeSlider
-  v-model="args.modelValue"
-  size="small"
-  :show-tooltip="args.showTooltip"
-  :disabled="args.disabled"
-  :vertical="args.vertical"
-  :max="args.max"
-  :unit="args.unit"
-  :color="args.color"
-  :fill-colors="args.fillColors"
-  :steps="args.steps"
-  :neutral-background="args.neutralBackground"
-/>
-<BRangeSlider
-  v-model="args.modelValue"
-  size="medium"
-  :show-tooltip="args.showTooltip"
-  :disabled="args.disabled"
-  :vertical="args.vertical"
-  :max="args.max"
-  :unit="args.unit"
-  :color="args.color"
-  :fill-colors="args.fillColors"
-  :steps="args.steps"
-  :neutral-background="args.neutralBackground"
-/>
-<BRangeSlider
-  v-model="args.modelValue"
-  size="large"
-  :show-tooltip="args.showTooltip"
-  :disabled="args.disabled"
-  :vertical="args.vertical"
-  :max="args.max"
-  :unit="args.unit"
-  :color="args.color"
-  :fill-colors="args.fillColors"
-  :steps="args.steps"
-  :neutral-background="args.neutralBackground"
-/>
-`;
+
+const defaultRender = (args: any) => ({
+  components: { BRangeSlider },
+  setup() {
+    return { args };
+  },
+  template: defaultHtml,
+});
 
 export const Primary: Story = {
-	render: (args: any) => ({
-		components: { BRangeSlider },
-		setup() {
-			return { args };
-		},
-		template: singleTemplate,
-	}),
-	args: defaultArgs,
-};
-
-export const NeutralBackground: Story = {
-	render: (args: any) => ({
-		components: { BRangeSlider },
-		setup() {
-			return { args };
-		},
-		template: singleTemplate,
-	}),
-	args: {
-		...defaultArgs,
-		neutralBackground: true,
-	},
+  render: defaultRender,
+  args: defaultArgs,
 };
 
 export const Sizes: Story = {
-	render: (args: any) => ({
-		components: { BRangeSlider },
-		setup() {
-			return { args };
-		},
-		template: `
+  render: (args: any) => ({
+    components: { BRangeSlider },
+    setup() {
+      return { args };
+    },
+    template: `
       <div class="flex flex-col gap-base">
-          ${defaultTemplate}
+        ${["small", "medium", "large"]
+          .map((size) => {
+            return defaultHtml.replaceAll("args.size", `'${size}'`);
+          })
+          .join("")}
       </div>
     `,
-	}),
-	args: defaultArgs,
+  }),
+  args: defaultArgs,
+};
+
+export const ShowTooltip: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    showTooltip: true,
+  },
+};
+
+export const Disabled: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    modelValue: [0.2, 0.8],
+    disabled: true,
+  },
 };
 
 export const Vertical: Story = {
-	render: (args: any) => ({
-		components: { BRangeSlider },
-		setup() {
-			return { args };
-		},
-		template: `
-      <div class="h-[15em] flex gap-base">
-        ${defaultTemplate}
-      </div>
-    `,
-	}),
-	args: {
-		...defaultArgs,
-		vertical: true,
-	},
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    vertical: true
+  },
 };
 
 export const FillColors: Story = {
-	render: (args: any) => ({
-		components: { BRangeSlider },
-		setup() {
-			return { args };
-		},
-		template: singleTemplate,
-	}),
-	args: {
-		...defaultArgs,
-		fillColors: ["#00CEFC", "#50358A", "#FF9654"],
-	},
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    modelValue: [0.2, 0.8],
+    fillColors: ["#00CEFC", "#50358A", "#FF9654"],
+  },
 };
 
+
 export const Steps: Story = {
-	render: (args: any) => ({
-		components: { BRangeSlider },
-		setup() {
-			return { args };
-		},
-		template: singleTemplate,
-	}),
-	args: {
-		...defaultArgs,
-		steps: [0, 0.25, 0.5, 0.75, 1],
-	},
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    steps: [0, 0.25, 0.5, 0.75, 1],
+  },
+};
+
+export const NeutralBackground: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    neutralBackground: true,
+  },
 };

@@ -2,9 +2,8 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import BCrop from "./BCrop.vue";
 import banner from "./banner.jpg";
 
-const meta = {
+export default {
   component: BCrop,
-  tags: ["autodocs"],
   argTypes: {
     modelValue: {
       type: { summary: "File" },
@@ -32,7 +31,6 @@ const meta = {
     },
   },
 } satisfies Meta<typeof BCrop>;
-export default meta;
 
 type Story = StoryObj<typeof BCrop>;
 
@@ -56,8 +54,8 @@ export const Primary: Story = {
           :width="args.width"
           :height="args.height"
       />
-      <span class="block mt-[1em]">Model value (it can have a delay):</span>
-      <img class="mt-4 border-[.1em] border-black border-solid" :src="args.modelValue" />`,
+      <span class="block mt-sm">Model value (it can have a delay):</span>
+      <img class="mt-sm border-xxs border-black border-solid" :src="args.modelValue" />`,
   }),
   args: defaultArgs,
 };

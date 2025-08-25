@@ -1,186 +1,239 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import BRoundButton from "./BRoundButton.vue";
 
-const meta = {
-	component: BRoundButton,
-	tags: ["autodocs"],
-	argTypes: {
-		type: {
-			description: "Tipo do botão HTML.",
-			control: "select",
-			options: ["button", "reset", "submit"],
-			table: {
-				type: { summary: "'button' | 'reset' | 'submit'" },
-				defaultValue: { summary: "button" },
-			},
-		},
-		color: {
-			description: "Cor temática do botão.",
-			control: "select",
-			options: ["primary", "info", "success", "warning", "danger", "neutral"],
-			table: {
-				type: {
-					summary:
-						"'primary' | 'info' | 'success' | 'warning' | 'danger' | 'neutral'",
-				},
-				defaultValue: { summary: "primary" },
-			},
-		},
-		text: {
-			description:
-				"It will be the value the button will show when it's hovered.",
-			control: { type: "text" },
-			table: { type: { summary: "string | undefined" } },
-		},
-		icon: {
-			description: "This property will be the button icon.",
-			control: { type: "text" },
-			table: {
-				type: { summary: "string | undefined" },
-				defaultValue: { summary: "plus" },
-			},
-		},
-		background: {
-			description:
-				"This property will be the button background background, if it's not set, the background will respect the color background.",
-			control: { type: "text" },
-			table: { type: { summary: "string | undefined" } },
-		},
-		size: {
-			description: "Tamanho do botão.",
-			control: "select",
-			options: ["small", "medium", "large"],
-			table: {
-				type: { summary: "'small' | 'medium' | 'large'" },
-				defaultValue: { summary: "small" },
-			},
-		},
-		variant: {
-			description: "Variante de estilo do botão.",
-			control: "select",
-			options: ["default", "secondary", "plain", "reverse"],
-			table: {
-				type: { summary: "'default' | 'secondary' | 'plain' | 'reverse'" },
-				defaultValue: { summary: "default" },
-			},
-		},
-		disabled: {
-			description:
-				'Disables the underlying button\'s HTML element and sets the CSS property "cursor-events" to "none".',
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean | undefined" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		alwaysOpen: {
-			description: "When this prop is true, the text will always be shown.",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean | undefined" },
-				defaultValue: { summary: "false" },
-			},
-		},
-	},
+export default {
+  component: BRoundButton,
+  argTypes: {
+    type: {
+      type: { summary: "text" },
+      control: "select",
+      options: ["button", "reset", "submit"],
+      table: {
+        defaultValue: { summary: "button" },
+      },
+    },
+    color: {
+      type: { summary: "text" },
+      control: "select",
+      options: [
+        "primary",
+        "info",
+        "success",
+        "warning",
+        "danger",
+        "neutral",
+      ],
+      table: {
+        defaultValue: { summary: "primary" },
+      },
+    },
+    labelValue: {
+      type: { summary: "text" },
+      description:
+        "Text displayed when the button is hovered or always open.",
+    },
+    text: {
+      type: { summary: "text" },
+      description:
+        "Text displayed when the button is hovered or always open. Deprecated, use labelValue instead.",
+    },
+    icon: {
+      type: { summary: "text" },
+      table: {
+        defaultValue: { summary: "plus" },
+      },
+      description: "This property will be the button icon.",
+    },
+    background: {
+      type: { summary: "text" },
+      description:
+        "This property will be the button background background, if it's not set, the background will respect the color background.",
+    },
+    size: {
+      type: { summary: "text" },
+      control: "select",
+      options: ["small", "medium", "large"],
+      table: {
+        defaultValue: { summary: "small" },
+      },
+    },
+    variant: {
+      type: { summary: "text" },
+      control: "select",
+      options: [
+        "default",
+        "secondary",
+        "plain",
+        "reverse",
+      ],
+      table: {
+        defaultValue: { summary: "default" },
+      },
+    },
+    disabled: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description:
+        'Disables the underlying button\'s HTML element and sets the CSS property "cursor-events" to "none".',
+    },
+    alwaysOpen: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description: "When this prop is true, the text will always be shown.",
+    },
+  },
 } satisfies Meta<typeof BRoundButton>;
-export default meta;
 
 type Story = StoryObj<typeof BRoundButton>;
 
-type BRoundButtonStoryArgs = Partial<
-	InstanceType<typeof BRoundButton>["$props"]
->;
-
-const defaultArgs: BRoundButtonStoryArgs = {
-	type: "button",
-	color: "primary",
-	text: "Create",
-	size: "small",
-	variant: "default",
-	background: "",
-	icon: "",
-	disabled: false,
-	alwaysOpen: false,
+const defaultArgs = {
+  type: "button",
+  color: "primary",
+  labelValue: "Create",
+  size: "small",
+  variant: "default",
+  background: "",
+  icon: "",
+  disabled: false,
+  alwaysOpen: false,
 };
+
+const defaultHtml = `
+  <BRoundButton 
+      id="test-button"
+      :type="args.type"
+      :label-value="args.labelValue"
+      :icon="args.icon"
+      :background="args.background"
+      :color="args.color"
+      :size="args.size"
+      :variant="args.variant"
+      :disabled="args.disabled"
+      :always-open="args.alwaysOpen"
+      @click="args.click"
+  />
+`;
+
 const defaultRender = (args: any) => ({
-	components: { BRoundButton },
-	setup() {
-		return { args };
-	},
-	template:
-		'<div class="flex gap-sm">' +
-		'<BRoundButton :type="args.type" text="Primary" color="primary" :size="args.size" :background="args.background" :variant="args.variant" :disabled="args.disabled" :always-open="args.alwaysOpen" @click="args.click" />' +
-		'<BRoundButton :type="args.type" text="Info" color="info" :size="args.size" :background="args.background" :variant="args.variant" :disabled="args.disabled" :always-open="args.alwaysOpen" @click="args.click" />' +
-		'<BRoundButton :type="args.type" text="Success" color="success" :size="args.size" :background="args.background" :variant="args.variant" :disabled="args.disabled" :always-open="args.alwaysOpen" @click="args.click" />' +
-		'<BRoundButton :type="args.type" text="Warning" color="warning" :size="args.size" :background="args.background" :variant="args.variant" :disabled="args.disabled" :always-open="args.alwaysOpen" @click="args.click" />' +
-		'<BRoundButton :type="args.type" text="Danger" color="danger" :size="args.size" :background="args.background" :variant="args.variant" :disabled="args.disabled" :always-open="args.alwaysOpen" @click="args.click" />' +
-		'<BRoundButton :type="args.type" text="Neutral" color="neutral" :size="args.size" :background="args.background" :variant="args.variant" :disabled="args.disabled" :always-open="args.alwaysOpen" @click="args.click" />' +
-		"</div>",
+  components: { BRoundButton },
+  setup() {
+    return { args };
+  },
+  template: defaultHtml,
 });
 
 export const Primary: Story = {
-	render: (args: any) => ({
-		components: { BRoundButton },
-		setup() {
-			return { args };
-		},
-		template: `
-      <BRoundButton 
-          id="test-button"
-          :type="args.type"
-          :text="args.text"
-          :icon="args.icon"
-          :background="args.background"
-          :color="args.color"
-          :size="args.size"
-          :variant="args.variant"
-          :disabled="args.disabled"
-          :always-open="args.alwaysOpen"
-          @click="args.click"
-      />
+  render: defaultRender,
+  args: defaultArgs,
+};
+
+export const Colors: Story = {render: (args: any) => ({
+  components: { BRoundButton },
+  setup() {
+    return { args };
+  },
+  template: `
+    <div class="flex gap-xs">
+      ${["primary", "info", "success", "warning", "danger", "neutral"]
+        .map((color) => {
+          return defaultHtml
+            .replaceAll("args.color", `'${color}'`)
+            .replaceAll(
+              "Label",
+              `${color.charAt(0).toUpperCase() + color.slice(1)}`
+            );
+        })
+        .join("")}
+    </div>`,
+}),
+  args: {
+    ...defaultArgs,
+  },
+};
+
+export const Variants: Story = {
+  render: (args: any) => ({
+    components: { BRoundButton },
+    setup() {
+      return { args };
+    },
+    template: `
+      <div class="flex gap-xs">
+        ${["default", "secondary", "plain", "reverse"]
+          .map((variant) => {
+            return defaultHtml
+              .replaceAll("args.variant", `'${variant}'`)
+              .replaceAll(
+                "Label",
+                `${variant.charAt(0).toUpperCase() + variant.slice(1)}`
+              );
+          })
+          .join("")}
+      </div>`,
+  }),
+  args: defaultArgs,
+};
+
+export const Disabled: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    disabled: true,
+  },
+};
+
+export const Progress: Story = {
+  render: (args: any) => ({
+    components: { BRoundButton },
+    setup() {
+      return { args };
+    },
+    template: `
+      <div class="flex gap-xs">
+        ${[0.3, 0.75, 1]
+          .map((progress) => {
+            return defaultHtml
+              .replaceAll("args.progress", `'${progress}'`)
+          })
+          .join("")}
+      </div>
     `,
-	}),
-	args: defaultArgs,
-};
-
-export const Secondary: Story = {
-	render: defaultRender,
-	args: {
-		...defaultArgs,
-		variant: "secondary",
-	},
-};
-
-export const Plain: Story = {
-	render: defaultRender,
-	args: {
-		...defaultArgs,
-		variant: "plain",
-	},
-};
-
-export const Reverse: Story = {
-	render: defaultRender,
-	args: {
-		...defaultArgs,
-		variant: "reverse",
-	},
+  }),
+  args: defaultArgs,
 };
 
 export const Sizes: Story = {
-	render: (args: any) => ({
-		components: { BRoundButton },
-		setup() {
-			return { args };
-		},
-		template:
-			'<div class="flex gap-3">' +
-			'<BRoundButton id="test-button" :type="args.type" :text="args.text" :color="args.color" size="small" :background="args.background" :variant="args.variant" :disabled="args.disabled" :always-open="args.alwaysOpen" @click="args.click"></BRoundButton>' +
-			'<BRoundButton id="test-button" :type="args.type" :text="args.text" :color="args.color" size="medium" :background="args.background" :variant="args.variant" :disabled="args.disabled" :always-open="args.alwaysOpen" @click="args.click"></BRoundButton>' +
-			'<BRoundButton id="test-button" :type="args.type" :text="args.text" :color="args.color" size="large" :background="args.background" :variant="args.variant" :disabled="args.disabled" :always-open="args.alwaysOpen" @click="args.click"></BRoundButton>' +
-			"</div>",
-	}),
-	args: {
-		...defaultArgs,
-	},
+  render: (args: any) => ({
+    components: { BRoundButton },
+    setup() {
+      return { args };
+    },
+    template: `
+      <div class="flex gap-xs">
+        ${["small", "medium", "large"]
+          .map((size) => {
+            return defaultHtml
+              .replaceAll("args.size", `'${size}'`)
+              .replaceAll(
+                "Label",
+                `${size.charAt(0).toUpperCase() + size.slice(1)}`
+              );
+          })
+          .join("")}
+      </div>
+    `,
+  }),
+  args: defaultArgs,
+};
+
+export const AlwaysOpen: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    alwaysOpen: true,
+  },
 };

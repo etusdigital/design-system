@@ -69,6 +69,7 @@ function setExpanded(value: boolean) {
 
 <template>
   <BExpandableContainer
+    class="b-date-picker"
     v-model="isExpanded"
     :disabled="disabled"
     :required="required"
@@ -108,10 +109,10 @@ function setExpanded(value: boolean) {
       >
         <slot name="actions">
           <BButton size="small" variant="plain" @click="setModel(undefined)">
-            <slot name="clear-text"> Clear </slot>
+            <slot name="clear-label"> Clear </slot>
           </BButton>
           <BButton size="small" @click="emit('apply', model)">
-            <slot name="apply-text"> Apply </slot>
+            <slot name="apply-label"> Apply </slot>
           </BButton>
         </slot>
       </div>

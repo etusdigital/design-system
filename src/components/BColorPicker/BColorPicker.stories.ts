@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import BColorPicker from "./BColorPicker.vue";
 
-const meta = {
+export default {
   component: BColorPicker,
-  tags: ["autodocs"],
   argTypes: {
     modelValue: {
       type: { summary: "text" },
@@ -27,7 +26,6 @@ const meta = {
     },
   },
 } satisfies Meta<typeof BColorPicker>;
-export default meta;
 
 type Story = StoryObj<typeof BColorPicker>;
 
@@ -37,14 +35,29 @@ const defaultArgs = {
   noShadow: false,
 };
 
+const defaultRender = (args: any) => ({
+  components: { BColorPicker },
+  setup() {
+    return { args };
+  },
+  template: `
+    <BColorPicker 
+      v-model="args.modelValue" 
+      :type="args.type" 
+      :no-shadow="args.noShadow" 
+    />
+  `,
+});
+
 export const Primary: Story = {
-  render: (args: any) => ({
-    components: { BColorPicker },
-    setup() {
-      return { args };
-    },
-    template:
-      '<BColorPicker v-model="args.modelValue" :type="args.type" :no-shadow="args.noShadow" />',
-  }),
+  render: defaultRender,
   args: defaultArgs,
+};
+
+export const NoShadow: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    noShadow: true,
+  },
 };

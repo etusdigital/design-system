@@ -4,7 +4,6 @@ import { calculateDate } from "../../utils";
 
 export default {
   component: BDateComparatorFilter,
-  tags: ["autodocs"],
   argTypes: {
     modelValue: {
       type: { summary: "Date[] | Date[][] | null" },
@@ -104,13 +103,13 @@ export default {
     apply: {
       description: "This function will be called when the apply button is clicked.",
     },
-    "compare-text": {
+    "compare-label": {
       description: "This slot will be the checkbox text.",
     },
-    "clear-text": {
+    "clear-label": {
       description: "This slot will be the clear button text.",
     },
-    "apply-text": {
+    "apply-label": {
       description: "This slot will be the apply button text.",
     },
     actions: {
@@ -183,38 +182,131 @@ const defaultArgs = {
   ],
 };
 
+const defaultRender = (args: any) => ({
+  components: { BDateComparatorFilter },
+  setup() {
+    return { args };
+  },
+  template: `
+    <div class="flex w-full" :class="{ 'justify-end': args.alignRight }">
+      <BDateComparatorFilter
+          v-model="args.modelValue"
+          v-model:expanded="args.expanded"
+          :labelValue="args.labelValue"
+          :lang="args.lang"
+          :is-compare="args.isCompare"
+          :max-init="args.maxInit"
+          :max-end="args.maxEnd"
+          :options="args.options"
+          :disabled="args.disabled"
+          :required="args.required"
+          :is-error="args.isError"
+          :error-message="args.errorMessage"
+          :absolute="args.absolute"
+          :separator="args.separator"
+          :align-right="args.alignRight"
+      >
+          Date Filter
+          <template #clear-label>
+              Clear
+          </template>
+          <template #apply-label>
+              Apply
+          </template>
+          <template #compare-label>
+              Compare two periods
+          </template>
+      </BDateComparatorFilter>
+    </div>
+  `,
+});
+
 export const Primary: Story = {
-  render: (args: any) => ({
-    setup() {
-      return { args };
-    },
-    template: `
-            <BDateComparatorFilter
-                v-model="args.modelValue"
-                v-model:expanded="args.expanded"
-                :labelValue="args.labelValue"
-                :lang="args.lang"
-                :is-compare="args.isCompare"
-                :max-init="args.maxInit"
-                :max-end="args.maxEnd"
-                :options="args.options"
-                :disabled="args.disabled"
-                :required="args.required"
-                :is-error="args.isError"
-                :error-message="args.errorMessage"
-                :absolute="args.absolute"
-                :separator="args.separator"
-                :align-right="args.alignRight"
-            >
-                Date Filter
-                <template #clear-text>
-                    Clear
-                </template>
-                <template #compare-text>
-                    Compare two periods
-                </template>
-            </BDateComparatorFilter>
-        `,
-  }),
+  render: defaultRender,
   args: defaultArgs,
+};
+
+export const Lang: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    lang: "pt-BR",
+    separator: "e",
+  },
+};
+
+export const IsCompare: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    modelValue: [[], []],
+    isCompare: true,
+  },
+};
+
+export const MaxInit: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    maxInit: new Date(),
+  },
+};
+
+export const MaxEnd: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    maxEnd: new Date(),
+  },
+};
+
+export const Absolute: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    absolute: true,
+  },
+};
+
+export const Disabled: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    disabled: true,
+  },
+};
+
+export const Required: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    required: true,
+  },
+};
+
+export const IsError: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    isError: true,
+    errorMessage: "Error message",
+  },
+};
+
+export const AlignRight: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    alignRight: true,
+  },
+};
+
+export const Separator: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    modelValue: [[], []],
+    isCompare: true,
+    separator: "separator",
+  },
 };

@@ -1,18 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import BFilter from "./BFilter.vue";
 
-const meta = {
+export default {
   component: BFilter,
-  tags: ["autodocs"],
   argTypes: {
     modelValue: {
       type: { summary: "any" },
-      description:
-        'Will be an item from the "items" array at the selected index.',
-    },
-    labelValue: {
-      type: { summary: "text" },
-      description: "Will be the filter label.",
+      description: "Controls the selected filter values by category.",
     },
     expanded: {
       type: { summary: "boolean" },
@@ -20,16 +14,25 @@ const meta = {
         defaultValue: { summary: false },
       },
     },
+    items: {
+      type: { summary: "any" },
+      description:
+        'Array of filter categories with their available options. It\'s objects must contains "items" property.',
+    },
+    labelValue: {
+      type: { summary: "text" },
+      description: "Will be the filter label.",
+    },
     labelKey: {
       type: { summary: "text" },
       table: {
         defaultValue: { summary: "label" },
       },
     },
-    selectedKey: {
+    valueKey: {
       type: { summary: "text" },
       table: {
-        defaultValue: { summary: "selected" },
+        defaultValue: { summary: "value" },
       },
     },
     icon: {
@@ -37,10 +40,9 @@ const meta = {
       table: {
         defaultValue: { summary: "filter_list" },
       },
-      description:
-        "This will be filter icon.",
+      description: "This will be filter icon.",
     },
-    searchText: {
+    searchLabel: {
       type: { summary: "text" },
       table: {
         defaultValue: { summary: "Search" },
@@ -67,6 +69,11 @@ const meta = {
       },
       description: "Makes the content dropdown have an absolute position.",
     },
+    getObject: {
+      type: { summary: "function" },
+      description:
+        "Will be the function that returns the object with the selected items.",
+    },
     apply: {
       type: { summary: "function" },
       table: {
@@ -79,14 +86,14 @@ const meta = {
       description:
         "This slot will be status when a item is selected. Param: selected (number of selected items).",
     },
-    "status-text": {
+    "status-label": {
       description:
         "This slot will be status text when a item is selected. Param: selected (number of selected items).",
     },
-    "clear-text": {
+    "clear-label": {
       description: "Will be clear button text.",
     },
-    "apply-text": {
+    "apply-label": {
       description: "Will be apply button text.",
     },
     default: {
@@ -99,62 +106,97 @@ const meta = {
   },
 } satisfies Meta<typeof BFilter>;
 
-export default meta;
-
 type Story = StoryObj<typeof BFilter>;
 
 const defaultArgs = {
-  modelValue: {
-    option1: [
-      { label: "Option 1", something: 0, selected: false },
-      { label: "Option 2", something: 1, selected: true },
-      { label: "Option 3", something: 2, selected: false },
-      { label: "Option 4", something: 3, selected: false },
-      { label: "Option 5", something: 4, selected: false },
-    ],
-    option2: [
-      { label: "Option 1", something: 0, selected: false },
-      { label: "Option 2", something: 1, selected: true },
-      { label: "Option 3", something: 2, selected: false },
-      { label: "Option 4", something: 3, selected: false },
-      { label: "Option 5", something: 4, selected: false },
-    ],
-  },
+  modelValue: {},
+  items: [
+    {
+      label: "Option 1",
+      value: "option1",
+      items: [
+        { label: "Option 1", value: 0 },
+        { label: "Option 2", value: 1 },
+        { label: "Option 3", value: 2 },
+        { label: "Option 4", value: 3 },
+        { label: "Option 5", value: 4 },
+      ],
+    },
+    {
+      label: "Option 2",
+      value: "option2",
+      items: [
+        { label: "Option 1", value: 0 },
+        { label: "Option 2", value: 1 },
+        { label: "Option 3", value: 2 },
+        { label: "Option 4", value: 3 },
+        { label: "Option 5", value: 4 },
+      ],
+    },
+  ],
   labelValue: "label",
   expanded: false,
   labelKey: "label",
-  selectedKey: "selected",
-  searchText: "Search",
+  valueKey: "value",
+  searchLabel: "Search",
   icon: "filter_list",
   searchable: false,
   disabled: false,
   absolute: false,
+  getObject: false,
   apply: () => {},
 };
 
+const defaultRender = (args: any) => ({
+  components: { BFilter },
+  setup() {
+    return { args };
+  },
+  template: `
+    <BFilter 
+        v-model="args.modelValue" 
+        v-model:expanded="args.expanded" 
+        :items="args.items"
+        :label-value="args.labelValue"
+        :label-key="args.labelKey" 
+        :value-key="args.valueKey"
+        :required="args.required" 
+        :icon="args.icon" 
+        :searchable="args.searchable" 
+        :disabled="args.disabled"
+        :absolute="args.absolute"
+        :search-label="args.searchLabel"
+        :get-object="args.getObject"
+        @apply="args.apply" 
+    />
+  `,
+});
+
 export const Primary: Story = {
-  render: (args: any) => ({
-    components: { BFilter },
-    setup() {
-      return { args };
-    },
-    template: `
-        <BFilter 
-            v-model="args.modelValue" 
-            v-model:expanded="args.expanded" 
-            :labelValue="args.labelValue"
-            :label-key="args.labelKey" 
-            :selected-key="args.selectedKey" 
-            :required="args.required" 
-            :icon="args.icon" 
-            :searchable="args.searchable" 
-            :disabled="args.disabled"
-            :absolute="args.absolute"
-            :search-text="args.searchText"
-            @apply="args.apply" 
-        />
-        <span class="block mt-[1em]">Selected: {{ JSON.stringify(args.modelValue, null, 2) }}</span>
-        `,
-  }),
+  render: defaultRender,
   args: defaultArgs,
+};
+
+export const Absolute: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    absolute: true,
+  },
+};
+
+export const Disabled: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    disabled: true,
+  },
+};
+
+export const Searchable: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    searchable: true,
+  },
 };

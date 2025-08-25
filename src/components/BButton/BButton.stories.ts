@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import BButton from "./BButton.vue";
 
-const meta = {
+export default {
   component: BButton,
-  tags: ["autodocs"],
   argTypes: {
     type: {
       type: { summary: "text" },
@@ -16,14 +15,7 @@ const meta = {
     color: {
       type: { summary: "text" },
       control: "select",
-      options: [
-        "primary",
-        "info",
-        "success",
-        "warning",
-        "danger",
-        "neutral",
-      ],
+      options: ["primary", "info", "success", "warning", "danger", "neutral"],
       table: {
         defaultValue: { summary: "primary" },
       },
@@ -31,13 +23,9 @@ const meta = {
     variant: {
       type: { summary: "text" },
       control: "select",
-      options: [
-        "primary",
-        "secondary",
-        "ghost",
-      ],
+      options: ["default", "secondary", "plain", "reverse"],
       table: {
-        defaultValue: { summary: "primary" },
+        defaultValue: { summary: "default" },
       },
     },
     size: {
@@ -85,80 +73,83 @@ const meta = {
     },
   },
 } satisfies Meta<typeof BButton>;
-export default meta;
 
 type Story = StoryObj<typeof BButton>;
 
 const defaultArgs = {
   type: "button",
   color: "primary",
-  variant: "primary",
-  size: 'medium',
+  variant: "default",
+  size: "medium",
   disabled: false,
   loading: false,
   progress: 0,
 };
+
+const defaultHtml = `
+  <BButton
+    id="test-button"
+    :type="args.type"
+    :color="args.color"
+    :variant="args.variant"
+    :size="args.size"
+    :disabled="args.disabled"
+    :loading="args.loading"
+    :progress="args.progress"
+    @click="args.click"
+    >Label</BButton
+  >`;
 
 const defaultRender = (args: any) => ({
   components: { BButton },
   setup() {
     return { args };
   },
-  template:
-    '<div class="flex gap-3">' +
-    '<BButton :type="args.type" color="primary" :variant="args.variant" :size="args.size" :disabled="args.disabled" @click="args.click" :loading="args.loading" :progress="args.progress">Primary</BButton>' +
-    '<BButton :type="args.type" color="info" :variant="args.variant" :size="args.size" :disabled="args.disabled" @click="args.click" :loading="args.loading" :progress="args.progress">Informative</BButton>' +
-    '<BButton :type="args.type" color="success" :variant="args.variant" :size="args.size" :disabled="args.disabled" @click="args.click" :loading="args.loading" :progress="args.progress">Success</BButton>' +
-    '<BButton :type="args.type" color="warning" :variant="args.variant" :size="args.size" :disabled="args.disabled" @click="args.click" :loading="args.loading" :progress="args.progress">Warning</BButton>' +
-    '<BButton :type="args.type" color="danger" :variant="args.variant" :size="args.size" :disabled="args.disabled" @click="args.click" :loading="args.loading" :progress="args.progress">Danger</BButton>' +
-    '<BButton :type="args.type" color="neutral" :variant="args.variant" :size="args.size" :disabled="args.disabled" @click="args.click" :loading="args.loading" :progress="args.progress">Neutral</BButton>' +
-    "</div>",
+  template: `
+    <BButton
+      id="test-button"
+      :type="args.type"
+      :color="args.color"
+      :variant="args.variant"
+      :size="args.size"
+      :disabled="args.disabled"
+      :loading="args.loading"
+      :progress="args.progress"
+      @click="args.click"
+      >Label</BButton
+    >`,
 });
 
 export const Primary: Story = {
-  render: (args: any) => ({
-    components: { BButton },
-    setup() {
-      return { args };
-    },
-    template:
-      '<BButton id="test-button" :type="args.type" :color="args.color" :variant="args.variant" :size="args.size" :disabled="args.disabled" @click="args.click" :loading="args.loading" :progress="args.progress">Test button</BButton>',
-  }),
+  render: defaultRender,
   args: defaultArgs,
 };
 
-export const Colors: Story = {
-  render: defaultRender,
+export const Colors: Story = {render: (args: any) => ({
+  components: { BButton },
+  setup() {
+    return { args };
+  },
+  template: `
+    <div class="flex gap-xs">
+      ${["primary", "info", "success", "warning", "danger", "neutral"]
+        .map((color) => {
+          return defaultHtml
+            .replaceAll("args.color", `'${color}'`)
+            .replaceAll(
+              "Label",
+              `${color.charAt(0).toUpperCase() + color.slice(1)}`
+            );
+        })
+        .join("")}
+    </div>`,
+}),
   args: {
     ...defaultArgs,
   },
 };
 
-export const Secondary: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    variant: "secondary",
-  },
-};
-
-export const Ghost: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    variant: "ghost",
-  },
-};
-
-export const LoadingWithProgress: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    progress: 0.32,
-  },
-};
-
-export const Size: Story = {
+export const Variants: Story = {
   render: (args: any) => ({
     components: { BButton },
     setup() {
@@ -166,11 +157,77 @@ export const Size: Story = {
     },
     template: `
       <div class="flex gap-xs">
-        <BButton class="h-fit" :type="args.type" :color="args.color" :variant="args.variant" size="small" :disabled="args.disabled" @click="args.click" :loading="args.loading" :progress="args.progress">Small</BButton>
-        <BButton class="h-fit" :type="args.type" :color="args.color" :variant="args.variant" size="medium" :disabled="args.disabled" @click="args.click" :loading="args.loading" :progress="args.progress">Medium</BButton>
-        <BButton class="h-fit" :type="args.type" :color="args.color" :variant="args.variant" size="large" :disabled="args.disabled" @click="args.click" :loading="args.loading" :progress="args.progress">Large</BButton>
+        ${["default", "secondary", "plain", "reverse"]
+          .map((variant) => {
+            return defaultHtml
+              .replaceAll("args.variant", `'${variant}'`)
+              .replaceAll(
+                "Label",
+                `${variant.charAt(0).toUpperCase() + variant.slice(1)}`
+              );
+          })
+          .join("")}
+      </div>`,
+  }),
+  args: defaultArgs,
+};
+
+export const Disabled: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    disabled: true,
+  },
+};
+
+export const Loading: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    loading: true,
+  },
+};
+
+export const Progress: Story = {
+  render: (args: any) => ({
+    components: { BButton },
+    setup() {
+      return { args };
+    },
+    template: `
+      <div class="flex gap-xs">
+        ${[0.3, 0.75, 1]
+          .map((progress) => {
+            return defaultHtml
+              .replaceAll("args.progress", `'${progress}'`)
+          })
+          .join("")}
       </div>
-    `
+    `,
+  }),
+  args: defaultArgs,
+};
+
+export const Sizes: Story = {
+  render: (args: any) => ({
+    components: { BButton },
+    setup() {
+      return { args };
+    },
+    template: `
+      <div class="flex gap-xs">
+        ${["small", "medium", "large"]
+          .map((size) => {
+            return defaultHtml
+              .replaceAll("args.size", `'${size}'`)
+              .replaceAll(
+                "Label",
+                `${size.charAt(0).toUpperCase() + size.slice(1)}`
+              );
+          })
+          .join("")}
+      </div>
+    `,
   }),
   args: defaultArgs,
 };

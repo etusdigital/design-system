@@ -2,67 +2,61 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import BDivider from "./BDivider.vue";
 
 export default {
-	component: BDivider,
-	tags: ["autodocs"],
-	argTypes: {
-		position: {
-			description: "Posição da linha em relação ao conteúdo do slot.",
-			control: "select",
-			options: ["left", "both", "right"],
-			table: {
-				type: { summary: "'left' | 'both' | 'right'" },
-				defaultValue: { summary: "right" },
-			},
-		},
-	},
+  component: BDivider,
+  argTypes: {
+    position: {
+      type: { summary: "text" },
+      control: "select",
+      options: ["left", "center", "right"],
+      table: {
+        defaultValue: { summary: "right" },
+      },
+    },
+  },
 } satisfies Meta<typeof BDivider>;
 
 type Story = StoryObj<typeof BDivider>;
 
-type BDividerStoryArgs = Partial<InstanceType<typeof BDivider>["$props"]>;
-
-const defaultArgs: BDividerStoryArgs = {
-	position: "right",
+const defaultArgs = {
+  position: "right",
 };
 
+const defaultRender = (args: any) => ({
+  components: { BDivider },
+  setup() {
+    return { args };
+  },
+  template: `
+    <BDivider :position="args.position">
+      Divider
+    </BDivider>
+  `,
+});
+
 export const Primary: Story = {
-	render: (args: any) => ({
-		setup() {
-			return { args };
-		},
-		template: `
-      <BDivider
-          :position="args.position"
-      >
-        Divider
-      </BDivider>
-    `,
-	}),
-	args: defaultArgs,
+  render: defaultRender,
+  args: defaultArgs,
 };
 
 export const Positions: Story = {
-	render: (args: any) => ({
-		setup() {
-			return { args };
-		},
-		template: `
-      <BDivider
-          position="left"
-      >
-        Left
-      </BDivider>
-      <BDivider
-          position="both"
-      >
-        Both
-      </BDivider>
-      <BDivider
-          position="right"
-      >
-        Right
-      </BDivider>
+  render: (args: any) => ({
+    components: { BDivider },
+    setup() {
+      return { args };
+    },
+    template: `
+      <div class="space-y-lg">
+        <BDivider position="left">
+          Left
+        </BDivider>
+        <BDivider position="center">
+          Center
+        </BDivider>
+        <BDivider position="right">
+          Right
+        </BDivider>
+      </div>
     `,
-	}),
-	args: defaultArgs,
+  }),
+  args: defaultArgs,
 };

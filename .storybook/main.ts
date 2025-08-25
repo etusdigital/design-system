@@ -2,7 +2,7 @@ import { StorybookConfig } from '@storybook/vue3-vite';
 import { mergeConfig } from "vite";
 
 const config: StorybookConfig = {
-  stories: ["../src/**/*.stories.@(js|jsx|ts|tsx)"],
+  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
   addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
@@ -16,7 +16,7 @@ const config: StorybookConfig = {
   async viteFinal(config) {
     return mergeConfig(config, {
       optimizeDeps: {
-        include: [],
+        include: ['storybook-dark-mode'],
       },
     });
   },

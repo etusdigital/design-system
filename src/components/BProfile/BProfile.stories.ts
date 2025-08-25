@@ -2,277 +2,277 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import BProfile from "./BProfile.vue";
 
 export default {
-	component: BProfile,
-	tags: ["autodocs"],
-	argTypes: {
-		// Props
-		modelValue: {
-			description: "This will be the selected account.",
-			control: { type: "object" },
-			table: { type: { summary: "object | undefined" } },
-		},
-		name: {
-			description: "This property will be the main user name.",
-			control: { type: "text" },
-			table: { type: { summary: "string" } },
-		},
-		profilePicture: {
-			description:
-				"This property will be shown when viewing more user information.",
-			control: { type: "text" },
-			table: {
-				type: { summary: "string | undefined" },
-				defaultValue: { summary: "person-circle" },
-			},
-		},
-		accounts: {
-			description: "If the user have multiple account pass them here.",
-			control: { type: "object" },
-			table: {
-				type: { summary: "any[] | undefined" },
-				defaultValue: { summary: "[]" },
-			},
-		},
-		nameKey: {
-			description: "This the key to get account name in accounts array.",
-			control: { type: "text" },
-			table: {
-				type: { summary: "string | undefined" },
-				defaultValue: { summary: "name" },
-			},
-		},
-		disabled: {
-			description: "Desabilita o componente",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean | undefined" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		absolute: {
-			description: "Makes the content dropdown have an absolute position.",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean | undefined" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		// Eventos (documentados com on[EventName])
-		onLogout: {
-			description: "Evento emitido ao clicar no botão de logout.",
-			table: { category: "events", type: { summary: "() => void" } },
-		},
-		onEditProfile: {
-			description: "Evento emitido ao clicar no botão de editar perfil.",
-			table: { category: "events", type: { summary: "() => void" } },
-		},
-		onEditAccount: {
-			description: "Evento emitido ao clicar no botão de editar conta.",
-			table: { category: "events", type: { summary: "() => void" } },
-		},
-		onChangeAccount: {
-			description:
-				"Evento emitido quando o usuário escolhe outra conta. A conta é passada como parâmetro.",
-			table: {
-				category: "events",
-				type: { summary: "(account: any) => void" },
-			},
-		},
-		onPrivacyPolicyFunction: {
-			description:
-				"Evento emitido para navegação para a política de privacidade.",
-			table: { category: "events", type: { summary: "() => void" } },
-		},
-		onTermsOfUseFucntion: {
-			description: "Evento emitido para navegação para os termos de uso.",
-			table: { category: "events", type: { summary: "() => void" } },
-		},
-		// Slots (documentados com o nome do slot)
-		account: {
-			description:
-				"Slot para customizar a renderização de cada item de conta na lista. Params: account, index, active.",
-			table: { category: "slots", type: { summary: "#account" } },
-		},
-		editProfile: {
-			description: "Slot para o conteúdo do botão Editar Perfil.",
-			table: {
-				category: "slots",
-				type: { summary: "#editProfile" },
-				defaultValue: { summary: "Edit Profile" },
-			},
-		},
-		editAccount: {
-			description: "Slot para o conteúdo do botão Editar Conta.",
-			table: {
-				category: "slots",
-				type: { summary: "#editAccount" },
-				defaultValue: { summary: "Edit Account" },
-			},
-		},
-		logout: {
-			description: "Slot para o conteúdo do botão Logout.",
-			table: {
-				category: "slots",
-				type: { summary: "#logout" },
-				defaultValue: { summary: "Logout" },
-			},
-		},
-		privacyPolicy: {
-			description: "Slot para o texto do link da política de privacidade.",
-			table: {
-				category: "slots",
-				type: { summary: "#privacyPolicy" },
-				defaultValue: { summary: "Privacy Policy" },
-			},
-		},
-		termsOfUse: {
-			description: "Slot para o texto do link dos termos de uso.",
-			table: {
-				category: "slots",
-				type: { summary: "#termsOfUse" },
-				defaultValue: { summary: "Terms of Use" },
-			},
-		},
-	},
+  component: BProfile,
+  argTypes: {
+    modelValue: {
+      type: { summary: "any" },
+      description:
+        'This will be the selected account.',
+    },
+    name: {
+      type: { summary: "text" },
+      description: "This property will be the main user name.",
+    },
+    picture: {
+      type: { summary: "text" },
+      table: {
+        defaultValue: { summary: "person-circle" },
+      },
+      description:
+        "This property will be shown when viewing more user information.",
+    },
+    items: {
+      type: { summary: "array" },
+      table: {
+        defaultValue: { summary: [] },
+      },
+      description: "If the user have multiple account pass them here.",
+    },
+    labelKey: {
+      type: { summary: "text" },
+      table: {
+        defaultValue: { summary: "label" },
+      },
+      description: "This the key to get account name in accounts array.",
+    },
+    valueKey: {
+      type: { summary: "text" },
+      table: {
+        defaultValue: { summary: "value" },
+      },
+      description: "This the key to get account value in accounts array.",
+    },
+    disabled: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+    },
+    absolute: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description: "Makes the content dropdown have an absolute position.",
+    },
+    getObject: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+    },
+    privacyPolicyFunction: {
+      type: { summary: "function" },
+      table: {
+        defaultValue: { summary: "()=>{void}" },
+      },
+      description: "This function will send user to privacy political page",
+    },
+    edit: {
+      type: { summary: "function" },
+      table: {
+        defaultValue: { summary: "()=>{void}" },
+      },
+      description:
+        "This function will executed when button edit profile is pressed.",
+    },
+    editItem: {
+      type: { summary: "function" },
+      table: {
+        defaultValue: { summary: "()=>{void}" },
+      },
+      description:
+        "This function will executed when button edit item is pressed.",
+    },
+    termsOfUseFucntion: {
+      type: { summary: "function" },
+      table: {
+        defaultValue: { summary: "()=>{void}" },
+      },
+      description: "This function will send user to terms of use page",
+    },
+    logout: {
+      type: { summary: "function" },
+      table: {
+        defaultValue: { summary: "()=>{void}" },
+      },
+      description:
+        "This function will executed when button logout is pressed.",
+    },
+    'logout-slot': {
+      type: { summary: "slot" },
+      table: {
+        defaultValue: { summary: "Logout" },
+      },
+      description:
+        "This slot is the logout button text and function that execute when this it's clicked.",
+    },
+    'edit-slot': {
+      type: { summary: "slot" },
+      table: {
+        defaultValue: { summary: "Edit Profile" },
+      },
+      description:
+        "This slot is the edit profile button text and function that execute when this it's clicked.",
+    },
+    'edit-item': {
+      table: {
+        defaultValue: { summary: "Edit Account" },
+      },
+      description: "This slot is the edit account button text and function that execute when this it's clicked.",
+    },
+    item: {
+      description:
+        "This slot will be displayed as an account option. Params: item, index and active.",
+    },
+    'privacy-policy': {
+      table: {
+        defaultValue: { summary: "Privacy Policy" },
+      },
+      description: "This slot is the privacy policy text.",
+    },
+    'terms-of-use': {
+      table: {
+        defaultValue: { summary: "Terms of Use" },
+      },
+      description: "This slot is the terms of use text.",
+    },
+  },
 } satisfies Meta<typeof BProfile>;
 
 type Story = StoryObj<typeof BProfile>;
 
-// Tipar defaultArgs explicitamente com as props reais do componente.
-// Funções de evento serão adicionadas aos args das stories específicas se necessário.
-type BProfileStoryArgs = Partial<InstanceType<typeof BProfile>["$props"]>;
-
-const defaultArgs: BProfileStoryArgs = {
-	modelValue: { name: "Other Account 1" },
-	name: "User name",
-	profilePicture: "",
-	absolute: false,
-	disabled: false,
-	accounts: [
-		{ name: "Other Account 1" },
-		{ name: "Other Account 2" },
-		{ name: "Other Account 3" },
-		{ name: "Other Account 4" },
-		{ name: "Other Account 5" },
-		{ name: "Other Account 6" },
-		{ name: "Other Account 7" },
-		{ name: "Other Account 8" },
-		{ name: "Other Account 9" },
-	],
-	nameKey: "name",
-	// As funções de evento não são props, então não devem estar em defaultArgs tipado por $props
-	// Elas serão adicionadas aos args das stories que as utilizam.
+const defaultArgs = {
+  modelValue: "personal-account",
+  name: "John Doe",
+  picture: "",
+  absolute: false,
+  disabled: false,
+  getObject: false,
+  items: [
+    { label: "Personal Account", value: "personal-account" },
+    { label: "Work Account", value: "work-account" },
+    { label: "Project Alpha", value: "project-alpha" },
+    { label: "Project Beta", value: "project-beta" },
+    { label: "Development Team", value: "dev-team" },
+  ],
+  labelKey: "label",
+  valueKey: "value",
+  logout: () => {},
+  edit: () => {},
+  editItem: () => {},
+  privacyPolicyFunction: () => {},
+  termsOfUseFucntion: () => {},
 };
+
+const defaultRender = (args: any) => ({
+  components: { BProfile },
+  setup() {
+    return { args };
+  },
+  template: `
+    <BProfile
+      v-model="args.modelValue"
+      :name="args.name"
+      :picture="args.picture"
+      :items="args.items"
+      :label-key="args.labelKey"
+      :value-key="args.valueKey"
+      :absolute="args.absolute"
+      :disabled="args.disabled"
+      :get-object="args.getObject"
+      @logout="args.logout"
+      @edit="args.edit"
+      @edit-item="args.editItem"
+      @privacy-policy-function="args.privacyPolicyFunction"
+      @terms-of-use-fucntion="args.termsOfUseFucntion"
+    >
+      <template #edit-slot>
+          Edit profile
+      </template>
+      <template #edit-item>
+          Edit account
+      </template>
+      <template #logout-slot>
+          Logout
+      </template>
+      <template #privacy-policy>
+          Privacy Policy
+      </template>
+      <template #terms-of-use>
+          Terms Of Use
+      </template>
+    </BProfile>
+  `,
+});
 
 export const Primary: Story = {
-	render: (args: any) => ({
-		// Manter any por enquanto para simplicidade, ou tipar com BProfileStoryArgs & { eventHandlers... }
-		components: { BProfile },
-		setup() {
-			return { args };
-		},
-		template: `
-      <BProfile
-          v-model="args.modelValue"
-          :name="args.name"
-          :profile-picture="args.profilePicture"
-          :accounts="args.accounts"
-          :name-key="args.nameKey"
-          :absolute="args.absolute"
-          :disabled="args.disabled"
-          @logout="args.logout"
-          @edit-profile="args.editProfile"
-          @edit-account="args.editAccount"
-          @change-account="args.onChangeAccount"
-          @privacy-policy-function="args.onPrivacyPolicyFunction"
-          @terms-of-use-fucntion="args.onTermsOfUseFucntion"
-      >
-          <template #editProfile>
-              Edit profile
-          </template>
-          <template #editAccount>
-              Edit account
-          </template>
-          <template #logout>
-              Logout
-          </template>
-          <template #privacyPolicy>
-              Privacy Policy
-          </template>
-          <template #termsOfUse>
-              Terms Of Use
-          </template>
-      </BProfile>
-    `,
-	}),
-	args: {
-		...defaultArgs,
-		// Definir as funções de evento aqui para a story Primary
-		logout: () => console.log("Logout clicked"),
-		editProfile: () => console.log("Edit Profile clicked"),
-		editAccount: () => console.log("Edit Account clicked"),
-		onChangeAccount: (account: any) => console.log("Change Account:", account),
-		onPrivacyPolicyFunction: () => console.log("Privacy Policy clicked"),
-		onTermsOfUseFucntion: () => console.log("Terms of Use clicked"),
-	},
+  render: defaultRender,
+  args: defaultArgs,
 };
 
-export const CustomAccount: Story = {
-	render: (args: any) => ({
-		// Manter any por enquanto
-		components: { BProfile },
-		setup() {
-			return { args };
-		},
-		template: `
+export const Absolute: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    absolute: true,
+  },
+};
+
+export const Disabled: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    disabled: true,
+  },
+};
+
+export const Items: Story = {
+  render: (args: any) => ({
+    components: { BProfile },
+    setup() {
+      return { args };
+    },
+    template: `
       <BProfile
           v-model="args.modelValue"
           :name="args.name"
-          :profile-picture="args.profilePicture"
-          :accounts="args.accounts"
-          :name-key="args.nameKey"
+          :picture="args.picture"
+          :items="args.items"
+          :label-key="args.labelKey"
+          :value-key="args.valueKey"
           :absolute="args.absolute"
           :disabled="args.disabled"
+          :get-object="args.getObject"
           @logout="args.logout"
-          @edit-profile="args.editProfile"
-          @edit-account="args.editAccount"
-          @change-account="args.onChangeAccount"
-          @privacy-policy-function="args.onPrivacyPolicyFunction"
-          @terms-of-use-fucntion="args.onTermsOfUseFucntion"
+          @edit="args.edit"
+          @edit-item="args.editItem"
+          @privacy-policy-function="args.privacyPolicyFunction"
+          @terms-of-use-fucntion="args.termsOfUseFucntion"
       >
-          <template #editProfile>
+          <template #edit-slot>
               Edit profile
           </template>
-          <template #editAccount>
+          <template #edit-item>
               Edit account
           </template>
-          <template #logout>
+          <template #logout-slot>
               Logout
           </template>
-          <template #privacyPolicy>
+          <template #privacy-policy>
               Privacy Policy
           </template>
-          <template #termsOfUse>
+          <template #terms-of-use>
               Terms Of Use
           </template>
-          <template #account="{ account, index, active }">
-              <div class="flex items-center gap-2">
+          <template #item="{ item, index, active }">
+              <div class="flex items-center gap-xs">
                   <BIcon name="account_circle" />
-                  <span :class="{'underline': active }">{{ account.name }}</span>
+                  <span :class="{'underline': active }">{{ item.label }}</span>
               </div>
           </template>
       </BProfile>
     `,
-	}),
-	args: {
-		...defaultArgs, // Herda as props de defaultArgs
-		// Sobrescreve ou adiciona funções de evento específicas para esta story, se necessário
-		logout: () => console.log("Custom Logout"),
-		editProfile: () => console.log("Custom Edit Profile"),
-		editAccount: () => console.log("Custom Edit Account"),
-		onChangeAccount: (account: any) =>
-			console.log("Custom Change Account:", account),
-		onPrivacyPolicyFunction: () => console.log("Custom Privacy Policy"),
-		onTermsOfUseFucntion: () => console.log("Custom Terms of Use"),
-	},
+  }),
+  args: defaultArgs,
 };

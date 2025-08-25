@@ -2,183 +2,218 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import BDatePicker from "./BDatePicker.vue";
 
 export default {
-	component: BDatePicker,
-	tags: ["autodocs"],
-	argTypes: {
-		modelValue: {
-			description:
-				"Data ou período selecionado (v-model). Pode ser Date[], Date[][] ou null.",
-			control: { type: "object" },
-			table: {
-				type: { summary: "Date[] | Date[][] | null" },
-				defaultValue: { summary: "null" },
-			},
-		},
-		expanded: {
-			description:
-				"Controla o estado expandido do seletor de data (v-model:expanded).",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		labelValue: {
-			description: "Label do campo.",
-			control: { type: "text" },
-			table: {
-				type: { summary: "string" },
-			},
-		},
-		lang: {
-			description: "Idioma para formatação de datas (ex: 'en-US', 'pt-BR').",
-			control: { type: "text" },
-			table: {
-				type: { summary: "string" },
-				defaultValue: { summary: "en-US" },
-			},
-		},
-		maxInit: {
-			description: "Data inicial máxima permitida para seleção.",
-			control: { type: "date" },
-			table: {
-				type: { summary: "Date" },
-				defaultValue: { summary: "null" },
-			},
-		},
-		maxEnd: {
-			description: "Data final máxima permitida para seleção.",
-			control: { type: "date" },
-			table: {
-				type: { summary: "Date" },
-				defaultValue: { summary: "null" },
-			},
-		},
-		absolute: {
-			description:
-				"Se o dropdown do calendário deve ter posicionamento absoluto.",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		disabled: {
-			description: "Desabilita o componente.",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		required: {
-			description: "Indica se o campo é obrigatório (visual).",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		isError: {
-			description: "Ativa o modo de erro visualmente.",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		errorMessage: {
-			description: "Mensagem de erro a ser exibida.",
-			control: { type: "text" },
-			table: {
-				type: { summary: "string" },
-			},
-		},
-		alignRight: {
-			description: "Alinha o dropdown à direita (requer 'absolute=true').",
-			control: { type: "boolean" },
-			table: {
-				type: { summary: "boolean" },
-				defaultValue: { summary: "false" },
-			},
-		},
-		apply: {
-			description: "Evento emitido ao clicar no botão 'Aplicar'.",
-			table: {
-				type: { summary: "function" },
-			},
-		},
-		default: {
-			description: "Slot para o conteúdo exibido no campo de seleção de data.",
-			table: {
-				type: { summary: "VNode | string" },
-			},
-		},
-		"clear-text": {
-			description: "Slot para o texto do botão 'Limpar'.",
-			table: {
-				type: { summary: "VNode | string" },
-			},
-		},
-		"apply-text": {
-			description: "Slot para o texto do botão 'Aplicar'.",
-			table: {
-				type: { summary: "VNode | string" },
-			},
-		},
-		actions: {
-			description:
-				"Slot para substituir a área de ações padrão (botões Limpar/Aplicar).",
-			table: {
-				type: { summary: "VNode | string" },
-			},
-		},
-	},
+  component: BDatePicker,
+  argTypes: {
+    modelValue: {
+      type: { summary: "Date[] | Date[][] | null" },
+      table: {
+        defaultValue: { summary: null },
+      },
+      description: "Will be the current date or period.",
+    },
+    expanded: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+    },
+    labelValue: {
+      type: { summary: "text" },
+      description: "Will be the date comparator label.",
+    },
+    lang: {
+      type: { summary: "text" },
+      table: {
+        defaultValue: { summary: "en-US" },
+      },
+      description: "Will be the date input language.",
+    },
+    maxInit: {
+      type: { summary: "Date" },
+      table: {
+        defaultValue: { summary: null },
+      },
+      description: "Will be the oldest date the user can select.",
+    },
+    maxEnd: {
+      type: { summary: "Date" },
+      table: {
+        defaultValue: { summary: null },
+      },
+      description: "Will be the newest date the user can select.",
+    },
+    absolute: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description: "Makes the content dropdown have an absolute position.",
+    },
+    disabled: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+    },
+    required: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+    },
+    isError: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description: "Activate error mode.",
+    },
+    errorMessage: {
+      type: { summary: "text" },
+      description: "Will be the error message.",
+    },
+    alignRight: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description:
+        "Determine if the dropdown will be right-aligned. To work absolute needs to be true.",
+    },
+    apply: {
+      description: "This function will be called when the apply button is clicked.",
+    },
+    default: {
+      description: "This slot will be displayed on the select area.",
+    },
+    "clearlabel": {
+      description: "This slot will be the clear button text.",
+    },
+    "apply-label": {
+      description: "This slot will be the apply button text and function.",
+    },
+    actions: {
+      description: "Slot to replace the actions area."
+    },
+  },
 } satisfies Meta<typeof BDatePicker>;
 
 type Story = StoryObj<typeof BDatePicker>;
 
 const defaultArgs = {
-	modelValue: undefined,
-	labelValue: "label",
-	lang: "en-US",
-	maxInit: undefined,
-	maxEnd: undefined,
-	disabled: false,
-	required: false,
-	isError: false,
-	errorMessage: "",
-	absolute: false,
-	expanded: false,
-	alignRight: false,
+  modelValue: null,
+  labelValue: "label",
+  lang: "en-US",
+  maxInit: undefined,
+  maxEnd: undefined,
+  disabled: false,
+  required: false,
+  isError: false,
+  errorMessage: "",
+  absolute: false,
+  expanded: false,
+  alignRight: false,
 };
 
+const defaultRender = (args: any) => ({
+  components: { BDatePicker },
+  setup() {
+    return { args };
+  },
+  template: `
+    <div class="flex w-full" :class="{ 'justify-end': args.alignRight }">
+      <BDatePicker
+        v-model="args.modelValue"
+        v-model:expanded="args.expanded"
+        :labelValue="args.labelValue"
+        :lang="args.lang"
+        :max-init="args.maxInit"
+        :max-end="args.maxEnd"
+        :disabled="args.disabled"
+        :required="args.required"
+        :is-error="args.isError"
+        :error-message="args.errorMessage"
+        :absolute="args.absolute"
+        :align-right="args.alignRight"
+    >
+        Date Picker
+        <template #clear-label>
+            Clear
+        </template>
+        <template #apply-label>
+            Apply
+        </template>
+    </BDatePicker>
+    </div>
+  `,
+});
+
 export const Primary: Story = {
-	render: (args: any) => ({
-		setup() {
-			return { args };
-		},
-		template: `
-            <BDatePicker
-                v-model="args.modelValue"
-                v-model:expanded="args.expanded"
-                :labelValue="args.labelValue"
-                :lang="args.lang"
-                :max-init="args.maxInit"
-                :max-end="args.maxEnd"
-                :disabled="args.disabled"
-                :required="args.required"
-                :is-error="args.isError"
-                :error-message="args.errorMessage"
-                :absolute="args.absolute"
-                :align-right="args.alignRight"
-            >
-                Date Picker
-                <template #clear-text>
-                    Clear
-                </template>
-            </BDatePicker>
-        `,
-	}),
-	args: defaultArgs,
+  render: defaultRender,
+  args: defaultArgs,
+};
+
+export const Lang: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    lang: "pt-BR",
+  },
+};
+
+export const MaxInit: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    maxInit: new Date(),
+  },
+};
+
+export const MaxEnd: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    maxEnd: new Date(),
+  },
+};
+
+export const Absolute: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    absolute: true,
+  },
+};
+
+export const Disabled: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    disabled: true,
+  },
+};
+
+export const Required: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    required: true,
+  },
+};
+
+export const IsError: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    isError: true,
+    errorMessage: "Error message",
+  },
+};
+
+export const AlignRight: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    alignRight: true,
+  },
 };

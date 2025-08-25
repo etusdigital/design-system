@@ -183,8 +183,8 @@ function changeExpanded(value: boolean, extra: any) {
       :searchable="searchable"
       @update:expanded="changeExpanded"
     >
-      <template #searchText v-if="$slots.searchText">
-        <slot name="searchText" />
+      <template #search-label v-if="$slots['search-label']">
+        <slot name="search-label" />
       </template>
       <template #status>
         <slot

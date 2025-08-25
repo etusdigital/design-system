@@ -1,328 +1,282 @@
 <script setup lang="ts">
-	type Info =
-		| "default"
-		| "sample"
-		| "primary"
-		| "info"
-		| "success"
-		| "danger"
-		| "warning";
+type Color = 'primary' | 'informative' | 'success' | 'warning' | 'danger' | 'neutral';
 
-	const props = withDefaults(
-		defineProps<{
-			title?: string;
-			description?: string | number;
-			value?: string | number;
-			icon?: string;
-			color?: string;
-			type?: "default" | "success" | "danger" | "sample" | "card";
-			size?: "small" | "medium" | "large";
-			infoMessage?: string;
-			infoType?: Info;
-			tooltipMinWidth?: string;
-			loading?: boolean;
-			noTooltip?: boolean;
-			boldTitle?: boolean;
-		}>(),
-		{
-			title: "",
-			description: "",
-			value: "",
-			icon: "",
-			color: "",
-			type: "default",
-			size: "medium",
-			infoMessage: "",
-			infoType: "primary",
-			tooltipMinWidth: "none",
-			loading: false,
-			noTooltip: false,
-			boldTitle: false,
-		}
-	);
+const props = withDefaults(defineProps<{
+    title?: string;
+    description?: string | number;
+    value?: string | number;
+    icon?: string;
+    color?: Color;
+    type?: 'default' | 'dashed' | 'card';
+    size?: 'small' | 'medium' | 'large';
+    infoMessage?: string;
+    infoType?: Color;
+    tooltipMinWidth?: string;
+    loading?: boolean;
+    noTooltip?: boolean;
+    boldTitle?: boolean;
+}>(), {
+    title: '',
+    description: '',
+    value: '',
+    icon: '',
+    color: 'neutral',
+    type: 'default',
+    size: 'medium',
+    infoMessage: '',
+    infoType: 'primary',
+    tooltipMinWidth: 'none',
+    loading: false,
+    noTooltip: false,
+    boldTitle: false,
+});
 </script>
 
 <template>
-	<BCard
-		class="b-metric-card"
-		:class="[type, size]">
-		<div
-			class="flex gap-xxs items-center"
-			v-if="(title || icon || $slots['title-slot']) && !loading">
-			<BIcon
-				class="icon"
-				:name="icon"
-				v-if="icon" />
-			<slot name="title-slot">
-				<p
-					class="card-title"
-					:class="{ 'font-bold': boldTitle }">
-					{{ title }}
-				</p>
-			</slot>
-			<slot name="info">
-				<template v-if="infoMessage">
-					<BTooltip v-if="!noTooltip">
-						<template #text>
-							<div
-								class="tooltip-text"
-								:class="{
-									'whitespace-nowrap break-words text-wrap':
-										tooltipMinWidth != 'none',
-								}"
-								:style="{ minWidth: tooltipMinWidth }">
-								{{ infoMessage }}
-							</div>
-						</template>
-						<BIcon
-							name="info"
-							class="info-icon info-label"
-							:class="[infoType]" />
-					</BTooltip>
-					<p
-						class="info-text info-label"
-						:class="[infoType]"
-						v-else>
-						{{ infoMessage }}
-					</p>
-				</template>
-			</slot>
-		</div>
-		<div
-			class="skeleton-div header"
-			v-else-if="loading" />
-		<slot
-			name="content"
-			v-if="!loading">
-			<div class="flex items-end gap-xs">
-				<slot name="value-slot">
-					<p
-						class="card-value"
-						:class="{ 'colored-text': color }">
-						{{ value }}
-					</p>
-				</slot>
-				<slot name="description-slot">
-					<p class="card-description">{{ description }}</p>
-				</slot>
-			</div>
-		</slot>
-		<div
-			class="skeleton-div content"
-			v-else />
-		<slot v-if="!loading" />
-	</BCard>
+    <BCard class="b-metric-card" :class="[type, color, size]">
+        <div class="flex gap-xxs items-center" v-if="(title || icon || $slots['title-slot']) && !loading">
+            <BIcon class="icon" :name="icon" v-if="icon" />
+            <slot name="title-slot">
+                <p class="card-title" :class="{'font-bold': boldTitle}">{{ title }}</p>
+            </slot>
+            <slot name="info">
+                <template v-if="infoMessage">
+                    <BTooltip v-if="!noTooltip">
+                        <template #label>
+                            <div
+                                class="tooltip-text"
+                                :class="{
+                                    'whitespace-nowrap break-words text-wrap': tooltipMinWidth != 'none',
+                                }"
+                                :style="{ minWidth: tooltipMinWidth }"
+                            >
+                                {{ infoMessage }}
+                            </div>
+                        </template>
+                        <BIcon name="info" class="info-icon info-label" :class="[infoType]" />
+                    </BTooltip>
+                    <p class="info-text info-label" :class="[infoType]" v-else>{{ infoMessage }}</p>
+                </template>
+            </slot>
+        </div>
+        <BSkeleton class="header" v-else-if="loading" />
+        <slot name="content" v-if="!loading">
+            <div class="flex items-end gap-xs">
+                <slot name="value-slot">
+                    <p class="card-value">{{ value }}</p>
+                </slot>
+                <slot name="description-slot">
+                    <p class="card-description">{{ description }}</p>
+                </slot>
+            </div>
+        </slot>
+        <BSkeleton class="content" v-else />
+        <slot v-if="!loading" />
+    </BCard>
 </template>
 
 <style scoped>
-	@reference "../../assets/main.css";
-	.b-metric-card {
-		@apply flex flex-col gap-xs p-sm text-neutral-interaction-default bg-neutral-surface-default border-xs border-neutral-border-default shadow-none;
-	}
+.b-metric-card {
+    @apply flex flex-col gap-xs p-sm text-neutral-interaction-default bg-neutral-surface-default border-xs border-neutral-default shadow-none;
+}
 
-	.b-metric-card.success {
-		@apply text-success-foreground-low border-success-border-default bg-success-surface-default;
+.b-metric-card.primary {
+    @apply text-primary-foreground-low border-primary-default bg-primary-surface-default;
 
-		*.info-label {
-			@apply text-success-interaction-default;
-		}
-	}
+    *.info-label {
+        @apply text-primary-interaction-default;
+    }
+}
 
-	.b-metric-card.danger {
-		@apply text-danger-foreground-low border-danger-border-default bg-danger-surface-default;
+.b-metric-card.info {
+    @apply text-informative-foreground-low border-informative-default bg-informative-surface-default;
 
-		*.info-label {
-			@apply text-danger-interaction-default;
-		}
-	}
+    *.info-label {
+        @apply text-informative-interaction-default;
+    }
+}
 
-	.b-metric-card.sample {
-		@apply text-informative-foreground-high border-informative-border-default border-dashed;
+.b-metric-card.success {
+    @apply text-success-foreground-low border-success-default bg-success-surface-default;
 
-		*.info-label {
-			@apply text-informative-foreground-high;
-		}
-	}
+    *.info-label {
+        @apply text-success-interaction-default;
+    }
+}
 
-	.b-metric-card.card {
-		@apply border-none;
-		box-shadow: var(--box-shadow-neutral-default);
+.b-metric-card.warning {
+    @apply text-warning-foreground-low border-warning-default bg-warning-surface-default;
 
-		.card-value.colored-text {
-			color: v-bind(color);
-		}
+    *.info-label {
+        @apply text-warning-interaction-default;
+    }
+}
 
-		.card-title {
-			@apply font-bold;
-		}
-	}
+.b-metric-card.danger {
+    @apply text-danger-foreground-low border-danger-default bg-danger-surface-default;
 
-	.b-metric-card.small {
-		@apply px-sm py-xs gap-0;
+    *.info-label {
+        @apply text-danger-interaction-default;
+    }
+}
 
-		.card-title {
-			font-size: var(--font-size-xxs);
-		}
+*.b-metric-card.dashed {
+    @apply border-dashed bg-transparent;
+}
 
-		.card-value {
-			@apply text-lg;
-		}
+*.b-metric-card.card {
+    @apply shadow-neutral-default text-neutral-interaction-default bg-transparent border-none;
 
-		.card-description,
-		.icon {
-			@apply text-xs;
-		}
+    .card-title {
+        @apply font-bold;
+    }
+}
 
-		.info-icon {
-			@apply text-base;
-		}
+.b-metric-card.card.primary .card-value, .info-label.primary {
+    @apply text-primary-interaction-default;
+}
 
-		.info-text {
-			font-size: var(--font-size-xxs);
-		}
+.b-metric-card.card.info .card-value, .info-label.info {
+    @apply text-informative-interaction-default;
+}
 
-		.tooltip-text {
-			font-size: var(--font-size-xxs);
-		}
+.b-metric-card.card.success .card-value, .info-label.success {
+    @apply text-success-interaction-default;
+}
 
-		.skeleton-div.header {
-			@apply h-[12px];
-		}
+.b-metric-card.card.warning .card-value, .info-label.warning {
+    @apply text-warning-interaction-default;
+}
 
-		.skeleton-div.content {
-			@apply h-[16px];
-		}
-	}
+.b-metric-card.card.danger .card-value, .info-label.danger {
+    @apply text-danger-interaction-default;
+}
 
-	.b-metric-card.medium {
-		.card-title {
-			@apply text-xs;
-		}
+.b-metric-card.small {
+    @apply px-sm py-xs gap-0;
 
-		.card-value {
-			@apply text-xl;
-		}
+    .card-title {
+        @apply text-xxs;
+    }
 
-		.card-description,
-		.icon {
-			@apply text-sm;
-		}
+    .card-value {
+        @apply text-lg;
+    }
 
-		.info-icon {
-			@apply text-lg;
-		}
+    .card-description, .icon {
+        @apply text-xs;
+    }
 
-		.info-text {
-			font-size: var(--font-size-xxs);
-		}
+    .info-icon {
+        @apply text-base;
+    }
 
-		.skeleton-div.header {
-			@apply h-[14px];
-		}
+    .info-text {
+        @apply text-xxs;
+    }
 
-		.skeleton-div.content {
-			@apply h-[18px];
-		}
-	}
+    .tooltip-text {
+        @apply text-xxs;
+    }
 
-	.b-metric-card.large {
-		.card-title {
-			@apply text-sm;
-		}
+    .b-skeleton.header {
+        @apply h-sm;
+    }
 
-		.card-value {
-			@apply text-2xl;
-		}
+    .b-skeleton.content {
+        @apply h-base;
+    }
+}
 
-		.card-description {
-			@apply text-sm;
-		}
+.b-metric-card.medium {
+    .card-title {
+        @apply text-xs;
+    }
 
-		.icon {
-			@apply text-base;
-		}
+    .card-value {
+        @apply text-xl;
+    }
 
-		.info-icon {
-			@apply text-xl;
-		}
+    .card-description, .icon {
+        @apply text-sm;
+    }
 
-		.info-text {
-			@apply text-xs;
-		}
+    .info-icon {
+        @apply text-lg;
+    }
 
-		.skeleton-div.header {
-			@apply h-[14px];
-		}
+    .info-text {
+        @apply text-xxs;
+    }
 
-		.skeleton-div.content {
-			@apply h-[20px];
-		}
-	}
+    .b-skeleton.header {
+        @apply h-sm;
+    }
 
-	.info-icon {
-		@apply h-[1em] flex items-center;
-	}
+    .b-skeleton.content {
+        @apply h-base;
+    }
+}
 
-	.info-text {
-		@apply font-bold ml-xxs;
-	}
+.b-metric-card.large {
+    .card-title {
+        @apply text-sm;
+    }
 
-	.info-label {
-		@apply text-neutral-interaction-default;
-	}
+    .card-value {
+        @apply text-2xl;
+    }
 
-	.info-label.sample {
-		@apply text-informative-interaction-default;
-	}
+    .card-description {
+        @apply text-sm;
+    }
 
-	.info-label.primary {
-		@apply text-primary-interaction-default;
-	}
+    .icon {
+        @apply text-base;
+    }
 
-	.info-label.info {
-		@apply text-informative-interaction-default;
-	}
+    .info-icon {
+        @apply text-xl;
+    }
 
-	.info-label.success {
-		@apply text-success-interaction-default;
-	}
+    .info-text {
+        @apply text-xs;
+    }
 
-	.info-label.warning {
-		@apply text-warning-interaction-default;
-	}
+    .b-skeleton.header {
+        @apply h-sm;
+    }
 
-	.info-label.danger {
-		@apply text-danger-interaction-default;
-	}
+    .b-skeleton.content {
+        @apply h-lg;
+    }
+}
 
-	.tooltip-text {
-		@apply text-xs;
-	}
+.info-icon {
+	@apply flex items-center;
+}
 
-	.card-value {
-		@apply font-bold;
-	}
+.info-text {
+	@apply font-bold ml-xxs;
+}
 
-	.skeleton-div {
-		@apply bg-neutral-surface-disabled bg-linear-to-r from-transparent via-white to-transparent;
-		background-size: 200% 100%;
-		animation: moveBar 1.5s linear infinite;
-	}
+.info-label {
+	@apply text-neutral-interaction-default;
+}
 
-	.skeleton-div.header {
-		@apply w-[3em] mb-xs;
-	}
+.tooltip-text {
+	@apply text-xs;
+}
 
-	.skeleton-div.content {
-		@apply w-full min-w-[8em];
-	}
+.card-value {
+    @apply font-bold;
+}
 
-	@keyframes moveBar {
-		0% {
-			background-position: -100% 0;
-		}
-		100% {
-			background-position: 100% 0;
-		}
-	}
+.b-skeleton.header {
+    @apply w-[30%] mb-xs;
+}
+
+.b-skeleton.content {
+    @apply w-full min-w-9xl;
+}
 </style>

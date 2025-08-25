@@ -120,6 +120,7 @@ function getItemValue(item: any) {
 
 <template>
     <component
+        class="b-smart-select"
         :is="component"
         v-model="model"
         v-model:expanded="expandedModel"
@@ -139,11 +140,11 @@ function getItemValue(item: any) {
         @update:expanded="updateExpanded"
     >
         <slot />
-        <template #searchText v-if="$slots.searchText">
-            <slot name="searchText" />
+        <template #search-label v-if="$slots['search-label']">
+            <slot name="search-label" />
         </template>
-        <template #status-text="{ selected }" v-if="isMultiple">
-            <slot name="status-text" :selected="selected" v-if="$slots['status-text']">
+        <template #status-label="{ selected }" v-if="isMultiple">
+            <slot name="status-label" :selected="selected" v-if="$slots['status-label']">
                 {{ labelValue }}
             </slot>
         </template>
@@ -155,7 +156,7 @@ function getItemValue(item: any) {
         </template>
         <template #actions v-if="clearable">
             <BButton variant="plain" size="small" @click="clearFilter">
-                <slot name="clear-text">Clear</slot>
+                <slot name="clear-label">Clear</slot>
             </BButton>
         </template>
     </component>
