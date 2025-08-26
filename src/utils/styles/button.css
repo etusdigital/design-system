@@ -1,0 +1,390 @@
+.primary {
+  background-color: var(--primary-interaction-default);
+  border-color: var(--primary-interaction-default);
+  &:hover {
+    background-color: var(--primary-interaction-hover);
+    border-color: var(--primary-interaction-hover);
+  }
+  &:active {
+    background-color: var(--primary-interaction-pressed);
+    border-color: var(--primary-interaction-pressed);
+  }
+
+  .progress {
+    background-color: var(--primary-surface-highlight);
+  }
+}
+
+.info {
+  background-color: var(--informative-interaction-default);
+  border-color: var(--informative-interaction-default);
+  &:hover {
+    background-color: var(--informative-interaction-hover);
+    border-color: var(--informative-interaction-hover);
+  }
+  &:active {
+    background-color: var(--informative-interaction-pressed);
+    border-color: var(--informative-interaction-pressed);
+  }
+
+  .progress {
+    background-color: var(--informative-surface-highlight);
+  }
+}
+
+.success {
+  background-color: var(--success-interaction-default);
+  border-color: var(--success-interaction-default);
+  &:hover {
+    background-color: var(--success-interaction-hover);
+    border-color: var(--success-interaction-hover);
+  }
+  &:active {
+    background-color: var(--success-interaction-pressed);
+    border-color: var(--success-interaction-pressed);
+  }
+
+  .progress {
+    background-color: var(--success-surface-highlight);
+  }
+}
+
+.warning {
+  background-color: var(--warning-interaction-default);
+  border-color: var(--warning-interaction-default);
+  &:hover {
+    background-color: var(--warning-interaction-hover);
+    border-color: var(--warning-interaction-hover);
+  }
+  &:active {
+    background-color: var(--warning-interaction-pressed);
+    border-color: var(--warning-interaction-pressed);
+  }
+
+  .progress {
+    background-color: var(--warning-surface-highlight);
+  }
+}
+
+.danger {
+  background-color: var(--danger-interaction-default);
+  border-color: var(--danger-interaction-default);
+  &:hover {
+    background-color: var(--danger-interaction-hover);
+    border-color: var(--danger-interaction-hover);
+  }
+  &:active {
+    background-color: var(--danger-interaction-pressed);
+    border-color: var(--danger-interaction-pressed);
+  }
+
+  .progress {
+    background-color: var(--danger-surface-highlight);
+  }
+}
+
+.neutral {
+  background-color: var(--neutral-interaction-default);
+  border-color: var(--neutral-interaction-default);
+  &:hover {
+    background-color: var(--neutral-interaction-hover);
+    border-color: var(--neutral-interaction-hover);
+  }
+  &:active {
+    background-color: var(--neutral-interaction-pressed);
+    border-color: var(--neutral-interaction-pressed);
+  }
+
+  .progress {
+    background-color: var(--neutral-surface-highlight);
+  }
+}
+
+*.disabled {
+  pointer-events: none;
+  border-color: var(--neutral-default);
+  background-color: var(--neutral-surface-disabled);
+  color: var(--neutral-interaction-disabled);
+
+  .progress {
+    background-color: var(--neutral-surface-disabled);
+  }
+}
+
+.secondary {
+  background-color: transparent;
+}
+
+.secondary.primary {
+  color: var(--primary-interaction-default);
+  &:hover {
+    background-color: var(--primary-surface-hover);
+    border-color: var(--primary-hover);
+    color: var(--primary-interaction-hover);
+  }
+  &:active {
+    background-color: var(--primary-surface-pressed);
+    border-color: var(--primary-pressed);
+    color: var(--primary-interaction-pressed);
+  }
+}
+
+.secondary.info {
+  color: var(--informative-interaction-default);
+  &:hover {
+    background-color: var(--informative-surface-hover);
+    border-color: var(--informative-hover);
+    color: var(--informative-interaction-hover);
+  }
+  &:active {
+    background-color: var(--informative-surface-pressed);
+    border-color: var(--informative-pressed);
+    color: var(--informative-interaction-pressed);
+  }
+}
+
+.secondary.success {
+  color: var(--success-interaction-default);
+  &:hover {
+    background-color: var(--success-surface-hover);
+    border-color: var(--success-hover);
+    color: var(--success-interaction-hover);
+  }
+  &:active {
+    background-color: var(--success-surface-pressed);
+    border-color: var(--success-pressed);
+    color: var(--success-interaction-pressed);
+  }
+}
+
+.secondary.warning {
+  color: var(--warning-interaction-default);
+  &:hover {
+    background-color: var(--warning-surface-hover);
+    border-color: var(--warning-hover);
+    color: var(--warning-interaction-hover);
+  }
+  &:active {
+    background-color: var(--warning-surface-pressed);
+    border-color: var(--warning-pressed);
+    color: var(--warning-interaction-pressed);
+  }
+}
+
+.secondary.danger {
+  color: var(--danger-interaction-default);
+  &:hover {
+    background-color: var(--danger-surface-hover);
+    border-color: var(--danger-hover);
+    color: var(--danger-interaction-hover);
+  }
+  &:active {
+    background-color: var(--danger-surface-pressed);
+    border-color: var(--danger-pressed);
+    color: var(--danger-interaction-pressed);
+  }
+}
+
+.secondary.neutral {
+  color: var(--neutral-interaction-default);
+  &:hover {
+    background-color: var(--neutral-surface-hover);
+    border-color: var(--neutral-interaction-hover);
+    color: var(--neutral-interaction-hover);
+  }
+  &:active {
+    background-color: var(--neutral-surface-disabled);
+    border-color: var(--neutral-interaction-pressed);
+    color: var(--neutral-interaction-pressed);
+  }
+}
+
+.secondary.disabled {
+  pointer-events: none;
+  border-color: var(--neutral-default);
+  background-color: var(--neutral-surface-disabled);
+  color: var(--neutral-interaction-disabled);
+
+  .progress {
+    background-color: var(--neutral-surface-disabled);
+  }
+}
+
+.reverse {
+  background-color: transparent;
+}
+
+.reverse.primary {
+  color: var(--primary-interaction-default);
+  &:hover {
+    background-color: var(--primary-interaction-default);
+    border-color: var(--primary-interaction-default);
+    color: var(--neutral-foreground-negative);
+  }
+  &:active {
+    background-color: var(--primary-interaction-pressed);
+    border-color: var(--primary-interaction-pressed);
+  }
+}
+
+.reverse.info {
+  color: var(--informative-interaction-default);
+  &:hover {
+    background-color: var(--informative-interaction-default);
+    border-color: var(--informative-interaction-default);
+    color: var(--neutral-foreground-negative);
+  }
+  &:active {
+    background-color: var(--informative-interaction-pressed);
+    border-color: var(--informative-interaction-pressed);
+  }
+}
+
+.reverse.success {
+  color: var(--success-interaction-default);
+  &:hover {
+    background-color: var(--success-interaction-default);
+    border-color: var(--success-interaction-default);
+    color: var(--neutral-foreground-negative);
+  }
+  &:active {
+    background-color: var(--success-interaction-pressed);
+    border-color: var(--success-interaction-pressed);
+  }
+}
+
+.reverse.warning {
+  color: var(--warning-interaction-default);
+  &:hover {
+    background-color: var(--warning-interaction-default);
+    border-color: var(--warning-interaction-default);
+    color: var(--neutral-foreground-negative);
+  }
+  &:active {
+    background-color: var(--warning-interaction-pressed);
+    border-color: var(--warning-interaction-pressed);
+  }
+}
+
+.reverse.danger {
+  color: var(--danger-interaction-default);
+  &:hover {
+    background-color: var(--danger-interaction-default);
+    border-color: var(--danger-interaction-default);
+    color: var(--neutral-foreground-negative);
+  }
+  &:active {
+    background-color: var(--danger-interaction-pressed);
+    border-color: var(--danger-interaction-pressed);
+  }
+}
+
+.reverse.neutral {
+  color: var(--neutral-interaction-default);
+  &:hover {
+    background-color: var(--neutral-interaction-default);
+    border-color: var(--neutral-interaction-default);
+    color: var(--neutral-foreground-negative);
+  }
+  &:active {
+    background-color: var(--neutral-interaction-pressed);
+    border-color: var(--neutral-interaction-pressed);
+  }
+}
+
+.reverse.disabled {
+  pointer-events: none;
+  border-color: var(--neutral-default);
+  background-color: transparent;
+  color: var(--neutral-interaction-disabled);
+}
+
+.plain {
+  background-color: transparent;
+  border-color: transparent;
+  &:hover {
+    border-color: transparent;
+  }
+  &:active {
+    border-color: transparent;
+  }
+}
+
+.plain.primary {
+  color: var(--primary-interaction-default);
+  &:hover {
+    background-color: var(--primary-surface-hover);
+    color: var(--primary-interaction-hover);
+  }
+  &:active {
+    background-color: var(--primary-surface-pressed);
+    color: var(--primary-interaction-pressed);
+  }
+}
+
+.plain.info {
+  color: var(--informative-interaction-default);
+  &:hover {
+    background-color: var(--informative-surface-hover);
+    color: var(--informative-interaction-hover);
+  }
+  &:active {
+    background-color: var(--informative-surface-pressed);
+    color: var(--informative-interaction-pressed);
+  }
+}
+
+.plain.success {
+  color: var(--success-interaction-default);
+  &:hover {
+    background-color: var(--success-surface-hover);
+    color: var(--success-interaction-hover);
+  }
+  &:active {
+    background-color: var(--success-surface-pressed);
+    color: var(--success-interaction-pressed);
+  }
+}
+
+.plain.warning {
+  color: var(--warning-interaction-default);
+  &:hover {
+    background-color: var(--warning-surface-hover);
+    color: var(--warning-interaction-hover);
+  }
+  &:active {
+    background-color: var(--warning-surface-pressed);
+    color: var(--warning-interaction-pressed);
+  }
+}
+
+.plain.danger {
+  color: var(--danger-interaction-default);
+  &:hover {
+    background-color: var(--danger-surface-hover);
+    color: var(--danger-interaction-hover);
+  }
+  &:active {
+    background-color: var(--danger-surface-pressed);
+    color: var(--danger-interaction-pressed);
+  }
+}
+
+.plain.neutral {
+  color: var(--neutral-interaction-default);
+  &:hover {
+    background-color: var(--neutral-surface-hover);
+    color: var(--neutral-interaction-hover);
+  }
+  &:active {
+    background-color: var(--neutral-surface-disabled);
+    color: var(--neutral-interaction-pressed);
+  }
+}
+
+.plain.disabled {
+  pointer-events: none;
+  border-color: transparent;
+  background-color: transparent;
+  color: var(--neutral-interaction-disabled);
+}
