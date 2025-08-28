@@ -123,7 +123,7 @@ function toggle() {
 
 <template>
   <div class="container">
-    <div v-if="labelValue" class="mxxs flex justify-between items-center">
+    <div v-if="labelValue" class="m-xxs flex justify-between items-center">
       <Label
         :label-value="labelValue"
         :info-message="infoMessage"
@@ -142,7 +142,7 @@ function toggle() {
       <slot name="label">
         <div
           ref="label"
-          class="label-container"
+          class="label-content"
           :class="{
             disabled,
             secondary,
@@ -195,28 +195,28 @@ function toggle() {
   @apply w-fit relative;
 }
 
-.label-container {
+.label-content {
   @apply inline-flex items-center gap-xs border-xxs rounded-sm cursor-pointer px-sm py-xs select-none transition-[border,border-radius] p3
     duration-0 delay-100 text-neutral-interaction-default bg-neutral-surface-default border-neutral-default focus:border-primary-default;
 }
 
-.secondary.label-container {
+.secondary.label-content {
   @apply bg-primary-interaction-default text-neutral-foreground-negative;
 }
 
-.expanded.label-container {
+.expanded.label-content {
   @apply delay-0 border-primary-default;
 }
 
-.expanded.label-container.hide-bottom {
+.expanded.label-content.hide-bottom {
   @apply rounded-none border-neutral-default focus:border-neutral-default;
 }
 
-.label-container.disabled {
+.label-content.disabled {
   @apply bg-neutral-surface-disabled text-neutral-foreground-disabled;
 }
 
-.label-container.error {
+.label-content.error {
   @apply text-danger-foreground-high border-danger-default;
 }
 
