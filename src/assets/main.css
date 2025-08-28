@@ -453,30 +453,32 @@
     text-decoration: underline;
     text-decoration-color: var(--primary-interaction-default);
   }
-
-  [type="text"]:focus,
-  input:where(:not([type])):focus,
-  [type="email"]:focus,
-  [type="url"]:focus,
-  [type="password"]:focus,
-  [type="number"]:focus,
-  [type="date"]:focus,
-  [type="datetime-local"]:focus,
-  [type="month"]:focus,
-  [type="search"]:focus,
-  [type="tel"]:focus,
-  [type="time"]:focus,
-  [type="week"]:focus,
-  [multiple]:focus,
-  textarea:focus,
-  select:focus {
-    outline: 0px solid transparent;
-    outline-offset: 0px;
-    --tw-ring-inset: 0;
-    --tw-ring-offset-width: 0px;
-    --tw-ring-offset-shadow: 0;
-    --tw-ring-shadow: 0;
-    box-shadow: none;
+  :root {
+    [type="text"]:focus,
+    input:where(:not([type])):focus,
+    [type="email"]:focus,
+    [type="url"]:focus,
+    [type="password"]:focus,
+    [type="number"]:focus,
+    [type="date"]:focus,
+    [type="datetime-local"]:focus,
+    [type="month"]:focus,
+    [type="search"]:focus,
+    [type="tel"]:focus,
+    [type="time"]:focus,
+    [type="week"]:focus,
+    [multiple]:focus,
+    textarea:focus,
+    select:focus {
+      outline: 0px solid transparent;
+      outline-offset: 0px;
+      --tw-ring-inset: 0;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-shadow: 0;
+      --tw-ring-shadow: 0;
+      box-shadow: none;
+      border-width: 0;
+    }
   }
 }
 
@@ -645,7 +647,7 @@
   --radius-xl: var(--border-radius-xl);
   --radius-2xl: var(--border-radius-2xl);
   --radius-full: var(--border-radius-full);
-  
+
   --color-default: var(--neutral-background-default);
   --color-emphasis: var(--neutral-background-emphasis);
   --color-negative: var(--neutral-background-negative);
@@ -684,12 +686,20 @@
   --color-informative-surface-hover: var(--informative-surface-hover);
   --color-informative-surface-pressed: var(--informative-surface-pressed);
 
-  --color-informative-interaction-default: var(--informative-interaction-default);
+  --color-informative-interaction-default: var(
+    --informative-interaction-default
+  );
   --color-informative-interaction-hover: var(--informative-interaction-hover);
-  --color-informative-interaction-pressed: var(--informative-interaction-pressed);
-  --color-informative-interaction-selected: var(--informative-interaction-selected);
+  --color-informative-interaction-pressed: var(
+    --informative-interaction-pressed
+  );
+  --color-informative-interaction-selected: var(
+    --informative-interaction-selected
+  );
 
-  --color-informative-foreground-disabled: var(--informative-foreground-disabled);
+  --color-informative-foreground-disabled: var(
+    --informative-foreground-disabled
+  );
   --color-informative-foreground-low: var(--informative-foreground-low);
   --color-informative-foreground-high: var(--informative-foreground-high);
 
@@ -734,7 +744,8 @@
   --color-danger-foreground-low: var(--danger-foreground-low);
   --color-danger-foreground-high: var(--danger-foreground-high);
 
-  --shadow-neutral-default: 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+  --shadow-neutral-default: 0px 1px 3px 0px rgba(0, 0, 0, 0.1),
+    0px 1px 2px 0px rgba(0, 0, 0, 0.06);
   --shadow-neutral-selected: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 }
 
