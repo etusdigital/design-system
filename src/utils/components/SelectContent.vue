@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useOptionalModel } from "#composables";
-import { type BContainerModelExtra } from "./BContainerModelExtra.types";
+import { type ContainerModelExtra } from "./ContainerModelExtra.types";
 
-type BSelectExpandedExtra = {
-  source: BContainerModelExtra["source"] | "value-selected";
+type SelectExpandedExtra = {
+  source: ContainerModelExtra["source"] | "value-selected";
 };
 
 const props = withDefaults(
@@ -27,7 +27,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   "update:modelValue": [value: any, extra: { index: number }];
-  "update:expanded": [value: boolean, extra: BSelectExpandedExtra];
+  "update:expanded": [value: boolean, extra: SelectExpandedExtra];
 }>();
 
 const [model] = useOptionalModel<string>(
@@ -45,7 +45,7 @@ const [expandedModel, setExpandedModel] = useOptionalModel<boolean>(
 </script>
 
 <template>
-  <BIcon
+  <Icon
     v-if="icon"
     :name="icon"
     class="icon shrink-0"
@@ -61,7 +61,7 @@ const [expandedModel, setExpandedModel] = useOptionalModel<boolean>(
       :class="{ secondary, hidden: !expandedModel }"
       @click="setExpandedModel(true, { source: 'click' })"
     >
-      <BIcon name="search" class="icon" />
+      <Icon name="search" class="icon" />
       <div v-show="!model.length" class="relative pointer-events-none">
         <span
           class="search-placeholder"
@@ -90,11 +90,11 @@ const [expandedModel, setExpandedModel] = useOptionalModel<boolean>(
   @apply bg-primary-interaction-default text-neutral-foreground-negative placeholder:text-neutral-foreground-negative;
 }
 
-.icon.b-icon {
+.icon.icon {
   @apply text-neutral-interaction-default text-base;
 }
 
-.secondary .icon.b-icon {
+.secondary .icon.icon {
   @apply text-neutral-foreground-negative;
 }
 

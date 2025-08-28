@@ -391,7 +391,7 @@ function changeFillBarPosition() {
       @mousedown="(e: MouseEvent) => startDraggingSlider(e, index)"
       @touchstart="(e: TouchEvent) => startDraggingSliderTouch(e, index)"
     >
-      <BTooltip
+      <Tooltip
         :label-value="tooltipText"
         :position="vertical ? 'right' : 'top'"
         class="cursor-tooltip select-none"

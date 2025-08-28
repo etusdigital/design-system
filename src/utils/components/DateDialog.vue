@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<{
 
 <template>
     <Transition name="appear">
-        <BCard 
+        <Card 
             v-if="show"
             class="absolute z-[1] transition-transform top-[20%] left-[50%] -translate-x-1/2
                 flex items-center justify-center"
@@ -35,7 +35,7 @@ const props = withDefaults(defineProps<{
             <template  v-for="item in items">
                 <slot name="item" :item="item" />
             </template>
-        </BCard>
+        </Card>
     </Transition>
 </template>
 

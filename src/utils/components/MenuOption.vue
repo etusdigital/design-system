@@ -18,8 +18,8 @@ const props = withDefaults(
 </script>
 
 <template>
-  <Option :selected="selected" :disabled="disabled" class="b-menu-option">
-    <BIcon v-if="icon" :name="icon" />
+  <Option :selected="selected" :disabled="disabled" class="menu-option">
+    <Icon v-if="icon" :name="icon" />
     <span v-if="label" class="flex-1">{{ label }}</span>
     <slot />
   </Option>
@@ -28,11 +28,11 @@ const props = withDefaults(
 <style scoped>
 @reference "../../assets/main.css";
 
-.b-menu-option {
+.menu-option {
   @apply flex items-center gap-xs p-sm rounded-base;
 }
 
-.b-icon {
+.icon {
   @apply text-xl;
 }
 </style>

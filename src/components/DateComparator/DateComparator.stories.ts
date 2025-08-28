@@ -1,0 +1,107 @@
+import type { Meta, StoryObj } from "@storybook/vue3";
+import DateComparator from "./DateComparator.vue";
+
+export default {
+  component: DateComparator,
+  argTypes: {
+    modelValue: {
+      type: { summary: "Date[] | Date[][] | null" },
+      table: {
+        defaultValue: { summary: null },
+      },
+      description: "Will be the current date or period.",
+    },
+    lang: {
+      type: { summary: "text" },
+      table: {
+        defaultValue: { summary: "en-US" },
+      },
+      description: "Will be the date input language.",
+    },
+    isCompare: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description: "Will determine if the user can select 2 period.",
+    },
+    maxInit: {
+      type: { summary: "Date" },
+      table: {
+        defaultValue: { summary: null },
+      },
+      description: "Will be the oldest date the user can select.",
+    },
+    maxEnd: {
+      type: { summary: "Date" },
+      table: {
+        defaultValue: { summary: null },
+      },
+      description: "Will be the newest date the user can select.",
+    },
+  },
+} satisfies Meta<typeof DateComparator>;
+
+type Story = StoryObj<typeof DateComparator>;
+
+const defaultArgs = {
+  modelValue: null,
+  lang: "en-US",
+  isCompare: false,
+  maxInit: undefined,
+  maxEnd: undefined,
+};
+
+const defaultRender = (args: any) => ({
+  components: { DateComparator },
+  setup() {
+    return { args };
+  },
+  template: `
+    <DateComparator 
+      v-model="args.modelValue" 
+      :lang="args.lang" 
+      :is-compare="args.isCompare" 
+      :max-init="args.maxInit" 
+      :max-end="args.maxEnd" 
+    />
+  `,
+});
+
+export const Primary: Story = {
+  render: defaultRender,
+  args: defaultArgs,
+};
+
+export const Lang: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    lang: "pt-BR",
+  },
+};
+
+export const IsCompare: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    modelValue: [[], []],
+    isCompare: true,
+  },
+};
+
+export const MaxInit: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    maxInit: new Date(),
+  },
+};
+
+export const MaxEnd: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    maxEnd: new Date(),
+  },
+};

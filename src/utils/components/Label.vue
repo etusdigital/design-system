@@ -18,7 +18,7 @@ const props = withDefaults(
 <template>
   <h5 v-if="labelValue" class="label-value">
     {{ labelValue }}
-    <BTooltip v-if="infoMessage" class="ml-xxs">
+    <Tooltip v-if="infoMessage" class="ml-xxs">
       <template #text>
         <div
           class="tooltip-text"
@@ -31,8 +31,8 @@ const props = withDefaults(
           {{ infoMessage }}
         </div>
       </template>
-      <BIcon name="info" class="info-icon" />
-    </BTooltip>
+      <Icon name="info" class="info-icon" />
+    </Tooltip>
     <span v-if="required" class="text-primary-foreground-low ml-xxs">*</span>
   </h5>
 </template>
@@ -48,7 +48,7 @@ const props = withDefaults(
   @apply p-1 text-neutral-foreground-negative;
 }
 
-.info-icon.b-icon {
+.info-icon.icon {
   @apply flex items-center text-primary-foreground-low text-lg;
 }
 </style>

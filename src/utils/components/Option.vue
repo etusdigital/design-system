@@ -27,7 +27,7 @@ const props = withDefaults(
 .option-container {
   @apply p3 flex items-center gap-xs cursor-pointer select-none text-neutral-interaction-default rounded-sm hover:text-primary-interaction-default hover:bg-primary-surface-default;
 
-  .b-icon {
+  .icon {
     @apply text-base;
   }
 }

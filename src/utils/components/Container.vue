@@ -4,9 +4,9 @@
 // slot content shenanigans aswell, idk.
 // @TODO: Fix border width for container with sub items
 import { ref, onMounted, onUpdated, onBeforeUnmount, computed } from "vue";
-import type { BContainerModelExtra } from "./BContainerModelExtra.types";
+import type { ContainerModelExtra } from "./ContainerModelExtra.types";
 import { useOptionalModel } from "#composables";
-import BLabel from "./Label.vue";
+import Label from "./Label.vue";
 
 const props = withDefaults(
   defineProps<{
@@ -48,7 +48,7 @@ const props = withDefaults(
 const mutationObserver = new MutationObserver(resize);
 
 const emit = defineEmits<{
-  "update:modelValue": [value: boolean, extra: BContainerModelExtra];
+  "update:modelValue": [value: boolean, extra: ContainerModelExtra];
 }>();
 
 const [model, setModel] = useOptionalModel<boolean>(
@@ -122,9 +122,9 @@ function toggle() {
 </script>
 
 <template>
-  <div class="b-container">
-    <div v-if="labelValue" class="mb-xxs flex justify-between items-center">
-      <BLabel
+  <div class="container">
+    <div v-if="labelValue" class="mxxs flex justify-between items-center">
+      <Label
         :label-value="labelValue"
         :info-message="infoMessage"
         :required="required"
@@ -135,7 +135,7 @@ function toggle() {
       :role="role"
       :aria-disabled="disabled"
       :aria-required="required"
-      class="b-label-container"
+      class="label-container"
       :class="{ 'pointer-events-none': disabled }"
       tabindex="0"
     >
@@ -158,7 +158,7 @@ function toggle() {
 
           <div class="flex items-center gap-xs ml-auto">
             <slot name="complement" />
-            <BIcon
+            <Icon
               v-if="!hideArrow"
               name="keyboard_arrow_down"
               class="arrow-icon"
@@ -187,11 +187,11 @@ function toggle() {
 <style scoped>
 @reference "../../assets/main.css";
 
-.b-container {
+.container {
   @apply relative;
 }
 
-.b-label-container {
+.label-container {
   @apply w-fit relative;
 }
 
@@ -209,7 +209,7 @@ function toggle() {
 }
 
 .expanded.label-container.hide-bottom {
-  @apply rounded-b-none border-b-neutral-default focus:border-b-neutral-default;
+  @apply rounded-none border-neutral-default focus:border-neutral-default;
 }
 
 .label-container.disabled {

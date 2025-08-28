@@ -230,19 +230,19 @@ function hidePopup() {
 </script>
 
 <template>
-  <div class="b-calendar flex relative w-fit">
+  <div class="calendar flex relative w-fit">
     <div
       v-for="(item, index) in items"
       :key="index"
       class="w-fit p-sm overflow-hidden"
     >
-      <header class="relative flex items-center justify-center gap-xs mb-xs">
+      <header class="relative flex items-center justify-center gap-xs mxs">
         <div
           v-if="index == 0"
           class="calendar-arrow left-0"
           @click="setNewMonth(-1)"
         >
-          <BIcon name="chevron_left" />
+          <Icon name="chevron_left" />
         </div>
         <Transition :name="!isBack ? 'slide-fade' : 'slide-fade-out'">
           <h1
@@ -260,7 +260,7 @@ function hidePopup() {
           class="calendar-arrow right-0"
           @click="setNewMonth(1)"
         >
-          <BIcon name="chevron_right" />
+          <Icon name="chevron_right" />
         </div>
       </header>
       <main>
@@ -372,7 +372,7 @@ th {
   @apply flex items-center absolute text-neutral-interaction-default rounded-base border-xxs p-xxs
     border-neutral-default cursor-pointer hover:bg-neutral-surface-hover hover:text-neutral-interaction-hover;
 
-  .b-icon {
+  .icon {
     @apply text-xl;
   }
 }
