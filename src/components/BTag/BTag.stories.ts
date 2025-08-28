@@ -5,15 +5,15 @@ export default {
   component: BTag,
   argTypes: {
     labelValue: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "This property will be the text in the tag.",
     },
     text: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "This property will be the text in the tag. Deprecated, use labelValue instead.",
     },
     color: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: [
         "primary",
@@ -29,7 +29,7 @@ export default {
       description: "This property will be tag color.",
     },
     type: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: [
         "default",
@@ -41,7 +41,7 @@ export default {
       },
     },
     size: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["small", "medium", "large"],
       table: {
@@ -49,22 +49,22 @@ export default {
       },
     },
     loading: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: false,
       },
       description: "Determine if the tag is loading.",
     },
     icon: {
-      type: { summary: "string" },
+      type: { name: "string" },
       description: "This property will be the icon in the tag.",
     },
     isAppendedIcon: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "This property will be the icon in the tag.",
     },
     closeable: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "This property will be the icon in the tag.",
     },
     default: {
@@ -77,9 +77,9 @@ type Story = StoryObj<typeof BTag>;
 
 const defaultArgs = {
   labelValue: "Tag component",
-  color: "primary",
-  size: "medium",
-  type: "default",
+  color: "primary" as const,
+  size: "medium" as const,
+  type: "default" as const,
   loading: false,
   icon: "star",
   isAppendedIcon: false,
@@ -123,7 +123,7 @@ export const Colors: Story = {
       ${["primary", "info", "success", "warning", "danger", "neutral"]
         .map((color) => {
           return defaultHtml
-            .replaceAll("args.color", `'${color}'`)
+            .replace(/args\.color/g, `'${color}'`)
         })
       .join("")}
     </div>`,
@@ -140,7 +140,7 @@ export const Types: Story = {
     template: `
       <div class="flex gap-xs">
           ${["default", "secondary", "heavy"].map(type => `
-            ${defaultHtml.replaceAll("args.type", `'${type}'`)}
+            ${defaultHtml.replace(/args\.type/g, `'${type}'`)}
           `).join("")}
       </div>
     `,

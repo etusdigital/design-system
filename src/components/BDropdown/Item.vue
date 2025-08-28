@@ -94,6 +94,8 @@ function getValue(item: any): any {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .custom-card {
   :first-child .item {
     @apply rounded-t-sm;

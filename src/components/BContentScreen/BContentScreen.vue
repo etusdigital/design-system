@@ -190,6 +190,8 @@ const emit = defineEmits<{
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-content-screen {
     @apply w-full h-screen flex;
 }

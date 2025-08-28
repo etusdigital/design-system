@@ -3,6 +3,12 @@
 
 @import "tailwindcss";
 
+@source inline("brius-theme p1 p2 p3 p4 caption-c1 caption-c2");
+
+@plugin "@tailwindcss/aspect-ratio";
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
+
 @layer base {
   :root {
     /**
@@ -140,10 +146,10 @@
     */
 
     /**
-    * @tokens Colors
+    * @tokens color
     * @presenter Color
     */
-    /* Colors */
+    /* color */
     /* Neutral */
 
     /* Background */
@@ -317,10 +323,10 @@
     */
 
     /**
-    * @tokens BColors
+    * @tokens Bcolor
     * @presenter Color
     */
-    /* Colors */
+    /* color */
     /* Primary */
 
     /* Surface */
@@ -474,122 +480,289 @@
   }
 }
 
-/* ===== UTILITIES ===== */
-@layer utilities {
-  /* Spacing utilities */
-  .gap-2xxs { gap: var(--spacing-2xxs); }
-  .gap-xxs { gap: var(--spacing-xxs); }
-  .gap-xs { gap: var(--spacing-xs); }
-  .gap-sm { gap: var(--spacing-sm); }
-  .gap-base { gap: var(--spacing-base); }
-  .gap-lg { gap: var(--spacing-lg); }
-  .gap-xl { gap: var(--spacing-xl); }
+@theme {
+  --letter-spacing-tighter: "-0.05em";
+  --letter-spacing-tight: "-0.025em";
+  --letter-spacing-normal: "0em";
+  --letter-spacing-wide: "0.05em";
+  --letter-spacing-wider: "0.070em";
+  --letter-spacing-widest: "0.1em";
+
+  --font-sans: var(--font-sans);
+
+  --text-xxs: var(--font-size-xxs);
+  --text-xs: var(--font-size-xs);
+  --text-sm: var(--font-size-sm);
+  --text-base: var(--font-size-base);
+  --text-md: var(--font-size-md);
+  --text-lg: var(--font-size-lg);
+  --text-xl: var(--font-size-xl);
+  --text-2xl: var(--font-size-2xl);
+  --text-3xl: var(--font-size-3xl);
+  --text-4xl: var(--font-size-4xl);
+  --text-5xl: var(--font-size-5xl);
+  --text-6xl: var(--font-size-6xl);
+  --text-7xl: var(--font-size-7xl);
+  --text-8xl: var(--font-size-8xl);
+  --text-9xl: var(--font-size-9xl);
+
+  --font-weight-thin: var(--font-weight-thin);
+  --font-weight-extra-light: var(--font-weight-extra-light);
+  --font-weight-light: var(--font-weight-light);
+  --font-weight-normal: var(--font-weight-normal);
+  --font-weight-medium: var(--font-weight-medium);
+  --font-weight-semibold: var(--font-weight-semibold);
+  --font-weight-bold: var(--font-weight-bold);
+  --font-weight-extra-bold: var(--font-weight-extra-bold);
+  --font-weight-black: var(--font-weight-black);
+
+  --line-height-none: var(--line-height-none);
+  --line-height-xxs: var(--line-height-xxs);
+  --line-height-xs: var(--line-height-xs);
+  --line-height-sm: var(--line-height-sm);
+  --line-height-base: var(--line-height-base);
+  --line-height-lg: var(--line-height-lg);
+  --line-height-xl: var(--line-height-xl);
+
+  --spacing-none: var(--spacing-none);
+  --spacing-2xxs: var(--spacing-2xxs);
+  --spacing-xxs: var(--spacing-xxs);
+  --spacing-xs: var(--spacing-xs);
+  --spacing-sm: var(--spacing-sm);
+  --spacing-base: var(--spacing-base);
+  --spacing-lg: var(--spacing-lg);
+  --spacing-xl: var(--spacing-xl);
+  --spacing-2xl: var(--spacing-2xl);
+  --spacing-3xl: var(--spacing-3xl);
+  --spacing-4xl: var(--spacing-4xl);
+  --spacing-5xl: var(--spacing-5xl);
+  --spacing-6xl: var(--spacing-6xl);
+  --spacing-7xl: var(--spacing-7xl);
+  --spacing-8xl: var(--spacing-8xl);
+  --spacing-9xl: var(--spacing-9xl);
+  --spacing-10xl: var(--spacing-10xl);
+  --spacing-11xl: var(--spacing-11xl);
+  --spacing-12xl: var(--spacing-12xl);
+  --spacing-13xl: var(--spacing-13xl);
+  --spacing-14xl: var(--spacing-14xl);
+  --spacing-15xl: var(--spacing-15xl);
+  --spacing-16xl: var(--spacing-16xl);
+  --spacing-17xl: var(--spacing-17xl);
+  --spacing-18xl: var(--spacing-18xl);
+  --spacing-19xl: var(--spacing-19xl);
+  --spacing-20xl: var(--spacing-20xl);
+
+  --border-width-none: var(--border-width-none);
+  --border-width-xxs: var(--border-width-xxs);
+  --border-width-xs: var(--border-width-xs);
+  --border-width-sm: var(--border-width-sm);
+  --border-width-base: var(--border-width-base);
+
+  --border-color-neutral-default: var(--neutral-border-default);
+  --border-color-neutral-hover: var(--neutral-border-hover);
+  --border-color-neutral-pressed: var(--neutral-border-pressed);
+  --border-color-neutral-disabled: var(--neutral-border-disabled);
+  --border-color-neutral-selected: var(--neutral-border-selected);
+
+  --border-color-primary-default: var(--primary-border-default);
+  --border-color-primary-hover: var(--primary-border-hover);
+  --border-color-primary-pressed: var(--primary-border-pressed);
+  --border-color-primary-disabled: var(--primary-border-disabled);
+  --border-color-primary-selected: var(--primary-border-selected);
+
+  --border-color-informative-default: var(--informative-border-default);
+  --border-color-informative-hover: var(--informative-border-hover);
+  --border-color-informative-pressed: var(--informative-border-pressed);
+  --border-color-informative-disabled: var(--informative-border-disabled);
+  --border-color-informative-selected: var(--informative-border-selected);
+
+  --border-color-success-default: var(--success-border-default);
+  --border-color-success-hover: var(--success-border-hover);
+  --border-color-success-pressed: var(--success-border-pressed);
+  --border-color-success-disabled: var(--success-border-disabled);
+  --border-color-success-selected: var(--success-border-selected);
+
+  --border-color-warning-default: var(--warning-border-default);
+  --border-color-warning-hover: var(--warning-border-hover);
+  --border-color-warning-pressed: var(--warning-border-pressed);
+  --border-color-warning-disabled: var(--warning-border-disabled);
+  --border-color-warning-selected: var(--warning-border-selected);
+
+  --border-color-danger-default: var(--danger-border-default);
+  --border-color-danger-hover: var(--danger-border-hover);
+  --border-color-danger-pressed: var(--danger-border-pressed);
+  --border-color-danger-disabled: var(--danger-border-disabled);
+  --border-color-danger-selected: var(--danger-border-selected);
+
+  --outline-width-none: var(--border-width-none);
+  --outline-width-xxs: var(--border-width-xxs);
+  --outline-width-xs: var(--border-width-xs);
+  --outline-width-sm: var(--border-width-sm);
+  --outline-width-base: var(--border-width-base);
+
+  --outline-color-neutral-default: var(--neutral-border-default);
+  --outline-color-neutral-hover: var(--neutral-border-hover);
+  --outline-color-neutral-pressed: var(--neutral-border-pressed);
+  --outline-color-neutral-disabled: var(--neutral-border-disabled);
+  --outline-color-neutral-selected: var(--neutral-border-selected);
+
+  --outline-color-primary-default: var(--primary-border-default);
+  --outline-color-primary-hover: var(--primary-border-hover);
+  --outline-color-primary-pressed: var(--primary-border-pressed);
+  --outline-color-primary-disabled: var(--primary-border-disabled);
+  --outline-color-primary-selected: var(--primary-border-selected);
+
+  --outline-color-informative-default: var(--informative-border-default);
+  --outline-color-informative-hover: var(--informative-border-hover);
+  --outline-color-informative-pressed: var(--informative-border-pressed);
+  --outline-color-informative-disabled: var(--informative-border-disabled);
+  --outline-color-informative-selected: var(--informative-border-selected);
+
+  --outline-color-success-default: var(--success-border-default);
+  --outline-color-success-hover: var(--success-border-hover);
+  --outline-color-success-pressed: var(--success-border-pressed);
+  --outline-color-success-disabled: var(--success-border-disabled);
+  --outline-color-success-selected: var(--success-border-selected);
+
+  --outline-color-warning-default: var(--warning-border-default);
+  --outline-color-warning-hover: var(--warning-border-hover);
+  --outline-color-warning-pressed: var(--warning-border-pressed);
+  --outline-color-warning-disabled: var(--warning-border-disabled);
+  --outline-color-warning-selected: var(--warning-border-selected);
+
+  --outline-color-danger-default: var(--danger-border-default);
+  --outline-color-danger-hover: var(--danger-border-hover);
+  --outline-color-danger-pressed: var(--danger-border-pressed);
+  --outline-color-danger-disabled: var(--danger-border-disabled);
+  --outline-color-danger-selected: var(--danger-border-selected);
+
+  --radius-none: var(--border-radius-none);
+  --radius-xxs: var(--border-radius-xxs);
+  --radius-xs: var(--border-radius-xs);
+  --radius-sm: var(--border-radius-sm);
+  --radius-base: var(--border-radius-base);
+  --radius-lg: var(--border-radius-lg);
+  --radius-xl: var(--border-radius-xl);
+  --radius-2xl: var(--border-radius-2xl);
+  --radius-full: var(--border-radius-full);
   
-  /* Padding utilities */
-  .p-2xxs { padding: var(--spacing-2xxs); }
-  .p-xxs { padding: var(--spacing-xxs); }
-  .p-xs { padding: var(--spacing-xs); }
-  .p-sm { padding: var(--spacing-sm); }
-  .p-base { padding: var(--spacing-base); }
-  .p-lg { padding: var(--spacing-lg); }
-  .p-xl { padding: var(--spacing-xl); }
-  
-  .px-2xxs { padding-left: var(--spacing-2xxs); padding-right: var(--spacing-2xxs); }
-  .px-xxs { padding-left: var(--spacing-xxs); padding-right: var(--spacing-xxs); }
-  .px-xs { padding-left: var(--spacing-xs); padding-right: var(--spacing-xs); }
-  .px-sm { padding-left: var(--spacing-sm); padding-right: var(--spacing-sm); }
-  .px-base { padding-left: var(--spacing-base); padding-right: var(--spacing-base); }
-  .px-lg { padding-left: var(--spacing-lg); padding-right: var(--spacing-lg); }
-  .px-xl { padding-left: var(--spacing-xl); padding-right: var(--spacing-xl); }
-  
-  .py-2xxs { padding-top: var(--spacing-2xxs); padding-bottom: var(--spacing-2xxs); }
-  .py-xxs { padding-top: var(--spacing-xxs); padding-bottom: var(--spacing-xxs); }
-  .py-xs { padding-top: var(--spacing-xs); padding-bottom: var(--spacing-xs); }
-  .py-sm { padding-top: var(--spacing-sm); padding-bottom: var(--spacing-sm); }
-  .py-base { padding-top: var(--spacing-base); padding-bottom: var(--spacing-base); }
-  .py-lg { padding-top: var(--spacing-lg); padding-bottom: var(--spacing-lg); }
-  .py-xl { padding-top: var(--spacing-xl); padding-bottom: var(--spacing-xl); }
-  
-  /* Margin utilities */
-  .m-2xxs { margin: var(--spacing-2xxs); }
-  .m-xxs { margin: var(--spacing-xxs); }
-  .m-xs { margin: var(--spacing-xs); }
-  .m-sm { margin: var(--spacing-sm); }
-  .m-base { margin: var(--spacing-base); }
-  .m-lg { margin: var(--spacing-lg); }
-  .m-xl { margin: var(--spacing-xl); }
-  
-  /* Width/Height utilities */
-  .w-2xxs { width: var(--spacing-2xxs); }
-  .w-xs { width: var(--spacing-xs); }
-  .w-sm { width: var(--spacing-sm); }
-  .w-base { width: var(--spacing-base); }
-  .w-lg { width: var(--spacing-lg); }
-  .w-xl { width: var(--spacing-xl); }
-  
-  .h-2xxs { height: var(--spacing-2xxs); }
-  .h-xs { height: var(--spacing-xs); }
-  .h-sm { height: var(--spacing-sm); }
-  .h-base { height: var(--spacing-base); }
-  .h-lg { height: var(--spacing-lg); }
-  .h-xl { height: var(--spacing-xl); }
-  
-  /* Color utilities */
-  .text-neutral-interaction-default { color: var(--neutral-interaction-default); }
-  .text-neutral-interaction-disabled { color: var(--neutral-interaction-disabled); }
-  .text-neutral-foreground-negative { color: var(--neutral-foreground-negative); }
-  .text-neutral-foreground-high { color: var(--neutral-foreground-high); }
-  .text-neutral-foreground-low { color: var(--neutral-foreground-low); }
-  .text-primary-foreground-high { color: var(--primary-foreground-high); }
-  .text-primary-foreground-low { color: var(--primary-foreground-low); }
-  .text-success-foreground-high { color: var(--success-foreground-high); }
-  .text-danger-foreground-high { color: var(--danger-foreground-high); }
-  .text-warning-foreground-high { color: var(--warning-foreground-high); }
-  .text-informative-foreground-high { color: var(--informative-foreground-high); }
-  
-  /* Background utilities */
-  .bg-default { background-color: var(--neutral-background-default); }
-  .bg-emphasis { background-color: var(--neutral-background-emphasis); }
-  .bg-negative { background-color: var(--neutral-background-negative); }
-  
-  .bg-neutral-surface-default { background-color: var(--neutral-surface-default); }
-  .bg-neutral-surface-highlight { background-color: var(--neutral-surface-highlight); }
-  .bg-neutral-surface-hover { background-color: var(--neutral-surface-hover); }
-  .bg-neutral-surface-disabled { background-color: var(--neutral-surface-disabled); }
-  
-  .bg-primary-surface-default { background-color: var(--primary-surface-default); }
-  .bg-primary-surface-highlight { background-color: var(--primary-surface-highlight); }
-  .bg-primary-surface-hover { background-color: var(--primary-surface-hover); }
-  .bg-primary-surface-pressed { background-color: var(--primary-surface-pressed); }
-  
-  .bg-primary-interaction-default { background-color: var(--primary-interaction-default); }
-  .bg-primary-interaction-hover { background-color: var(--primary-interaction-hover); }
-  .bg-primary-interaction-pressed { background-color: var(--primary-interaction-pressed); }
-  .bg-primary-interaction-selected { background-color: var(--primary-interaction-selected); }
-  
-  .bg-success-surface-default { background-color: var(--success-surface-default); }
-  .bg-success-interaction-default { background-color: var(--success-interaction-default); }
-  .bg-danger-surface-default { background-color: var(--danger-surface-default); }
-  .bg-danger-interaction-default { background-color: var(--danger-interaction-default); }
-  .bg-warning-surface-default { background-color: var(--warning-surface-default); }
-  .bg-warning-interaction-default { background-color: var(--warning-interaction-default); }
-  .bg-informative-surface-default { background-color: var(--informative-surface-default); }
-  .bg-informative-interaction-default { background-color: var(--informative-interaction-default); }
-  
-  /* Border utilities */
-  .border-neutral-border-default { border-color: var(--neutral-border-default); }
-  .border-primary-border-default { border-color: var(--primary-border-default); }
-  .border-success-border-default { border-color: var(--success-border-default); }
-  .border-danger-border-default { border-color: var(--danger-border-default); }
-  .border-warning-border-default { border-color: var(--warning-border-default); }
-  .border-informative-border-default { border-color: var(--informative-border-default); }
-  
-  .rounded-base { border-radius: var(--border-radius-base); }
-  .rounded-b-none { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
-  
-  /* Line height utilities */
-  .leading-xl { line-height: var(--line-height-xl); }
-  .leading-lg { line-height: var(--line-height-lg); }
-  .leading-sm { line-height: var(--line-height-sm); }
-  .leading-xs { line-height: var(--line-height-xs); }
+  --color-default: var(--neutral-background-default);
+  --color-emphasis: var(--neutral-background-emphasis);
+  --color-negative: var(--neutral-background-negative);
+
+  --color-neutral-surface-default: var(--neutral-surface-default);
+  --color-neutral-surface-highlight: var(--neutral-surface-highlight);
+  --color-neutral-surface-hover: var(--neutral-surface-hover);
+  --color-neutral-surface-disabled: var(--neutral-surface-disabled);
+
+  --color-neutral-interaction-default: var(--neutral-interaction-default);
+  --color-neutral-interaction-hover: var(--neutral-interaction-hover);
+  --color-neutral-interaction-pressed: var(--neutral-interaction-pressed);
+  --color-neutral-interaction-disabled: var(--neutral-interaction-disabled);
+
+  --color-neutral-foreground-disabled: var(--neutral-foreground-disabled);
+  --color-neutral-foreground-low: var(--neutral-foreground-low);
+  --color-neutral-foreground-high: var(--neutral-foreground-high);
+  --color-neutral-foreground-negative: var(--neutral-foreground-negative);
+
+  --color-primary-surface-default: var(--primary-surface-default);
+  --color-primary-surface-highlight: var(--primary-surface-highlight);
+  --color-primary-surface-hover: var(--primary-surface-hover);
+  --color-primary-surface-pressed: var(--primary-surface-pressed);
+
+  --color-primary-interaction-default: var(--primary-interaction-default);
+  --color-primary-interaction-hover: var(--primary-interaction-hover);
+  --color-primary-interaction-pressed: var(--primary-interaction-pressed);
+  --color-primary-interaction-selected: var(--primary-interaction-selected);
+
+  --color-primary-foreground-disabled: var(--primary-foreground-disabled);
+  --color-primary-foreground-low: var(--primary-foreground-low);
+  --color-primary-foreground-high: var(--primary-foreground-high);
+
+  --color-informative-surface-default: var(--informative-surface-default);
+  --color-informative-surface-highlight: var(--informative-surface-highlight);
+  --color-informative-surface-hover: var(--informative-surface-hover);
+  --color-informative-surface-pressed: var(--informative-surface-pressed);
+
+  --color-informative-interaction-default: var(--informative-interaction-default);
+  --color-informative-interaction-hover: var(--informative-interaction-hover);
+  --color-informative-interaction-pressed: var(--informative-interaction-pressed);
+  --color-informative-interaction-selected: var(--informative-interaction-selected);
+
+  --color-informative-foreground-disabled: var(--informative-foreground-disabled);
+  --color-informative-foreground-low: var(--informative-foreground-low);
+  --color-informative-foreground-high: var(--informative-foreground-high);
+
+  --color-success-surface-default: var(--success-surface-default);
+  --color-success-surface-highlight: var(--success-surface-highlight);
+  --color-success-surface-hover: var(--success-surface-hover);
+  --color-success-surface-pressed: var(--success-surface-pressed);
+
+  --color-success-interaction-default: var(--success-interaction-default);
+  --color-success-interaction-hover: var(--success-interaction-hover);
+  --color-success-interaction-pressed: var(--success-interaction-pressed);
+  --color-success-interaction-selected: var(--success-interaction-selected);
+
+  --color-success-foreground-disabled: var(--success-foreground-disabled);
+  --color-success-foreground-low: var(--success-foreground-low);
+  --color-success-foreground-high: var(--success-foreground-high);
+
+  --color-warning-surface-default: var(--warning-surface-default);
+  --color-warning-surface-highlight: var(--warning-surface-highlight);
+  --color-warning-surface-hover: var(--warning-surface-hover);
+
+  --color-warning-interaction-default: var(--warning-interaction-default);
+  --color-warning-interaction-hover: var(--warning-interaction-hover);
+  --color-warning-interaction-pressed: var(--warning-interaction-pressed);
+  --color-warning-interaction-selected: var(--warning-interaction-selected);
+
+  --color-warning-foreground-disabled: var(--warning-foreground-disabled);
+  --color-warning-foreground-low: var(--warning-foreground-low);
+  --color-warning-foreground-high: var(--warning-foreground-high);
+
+  --color-danger-surface-default: var(--danger-surface-default);
+  --color-danger-surface-highlight: var(--danger-surface-highlight);
+  --color-danger-surface-hover: var(--danger-surface-hover);
+  --color-danger-surface-pressed: var(--danger-surface-pressed);
+
+  --color-danger-interaction-default: var(--danger-interaction-default);
+  --color-danger-interaction-hover: var(--danger-interaction-hover);
+  --color-danger-interaction-pressed: var(--danger-interaction-pressed);
+  --color-danger-interaction-selected: var(--danger-interaction-selected);
+
+  --color-danger-foreground-disabled: var(--danger-foreground-disabled);
+  --color-danger-foreground-low: var(--danger-foreground-low);
+  --color-danger-foreground-high: var(--danger-foreground-high);
+
+  --shadow-neutral-default: 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+  --shadow-neutral-selected: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+}
+
+@utility p1 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-lg);
+}
+@utility p2 {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-lg);
+}
+@utility p3 {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-lg);
+}
+@utility p4 {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-lg);
+}
+@utility caption-c1 {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+@utility caption-c2 {
+  font-size: var(--font-size-xxs);
+  font-weight: var(--font-weight-normal);
 }

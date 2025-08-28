@@ -23,6 +23,8 @@ const parsedItems = computed((): Item[][] => {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .custom-card {
   @apply shadow-neutral-default rounded-t-base rounded-b-base;
 }

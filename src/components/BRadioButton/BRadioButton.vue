@@ -75,6 +75,8 @@ function toggle() {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .active {
   @apply bg-primary-interaction-default text-neutral-foreground-negative border-primary-interaction-default;
 }

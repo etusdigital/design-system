@@ -38,6 +38,8 @@ const props = withDefaults(
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .label-value {
   @apply flex items-center;
 }

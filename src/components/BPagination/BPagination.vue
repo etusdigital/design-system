@@ -110,6 +110,8 @@ function changePage(page: number) {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-pagination {
   @apply flex items-center gap-xs;
 }

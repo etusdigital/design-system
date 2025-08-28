@@ -334,6 +334,8 @@ function hidePopup() {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 th {
   @apply text-neutral-foreground-low text-sm;
 }

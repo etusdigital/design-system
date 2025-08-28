@@ -142,142 +142,127 @@ function resize() {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-alert {
-  display: flex;
-  justify-content: space-between;
-  padding: var(--spacing-base);
-  border-radius: var(--border-radius-base);
-  border-width: var(--border-width-xs);
-  gap: var(--spacing-base);
-  transition: height 0.1s ease-in-out;
+  @apply flex justify-between p-base rounded-base border-xxs gap-base transition-[height] duration-100;
 
   .title {
-    font-weight: var(--font-weight-bold);
+    @apply font-bold;
   }
 }
 
 .b-alert.small {
   .title {
-    font-size: var(--font-size-sm);
+    @apply text-sm;
   }
 
   .message {
-    font-size: var(--font-size-xs);
+    @apply text-xs;
   }
 
   .type-icon .b-type-icon,
   .b-icon {
-    font-size: var(--font-size-xl);
+    @apply text-xl;
   }
 }
 
 .b-alert.medium {
   .title {
-    font-size: var(--font-size-base);
+    @apply text-base;
   }
 
   .message {
-    font-size: var(--font-size-sm);
+    @apply text-sm;
   }
 
   .type-icon .b-type-icon,
   .b-icon {
-    font-size: var(--font-size-2xl);
+    @apply text-2xl;
   }
 }
 
 .b-alert.large {
   .title {
-    font-size: var(--font-size-xl);
+    @apply text-xl;
   }
 
   .message {
-    font-size: var(--font-size-base);
+    @apply text-base;
   }
 
   .type-icon .b-type-icon,
   .b-icon {
-    font-size: var(--font-size-2xl);
+    @apply text-2xl;
   }
 }
 
 .info {
-  background-color: var(--informative-surface-default);
-  border-color: var(--informative-default);
-  color: var(--informative-interaction-default);
+  @apply bg-informative-surface-default border-informative-default text-informative-interaction-default;
 
   .title {
-    color: var(--informative-foreground-high);
+    @apply text-informative-foreground-high;
   }
 
   .type-icon,
   .message {
-    color: var(--informative-foreground-low);
+    @apply text-informative-foreground-low;
   }
 }
 
 .success {
-  background-color: var(--success-surface-default);
-  border-color: var(--success-default);
-  color: var(--success-interaction-default);
+  @apply bg-success-surface-default border-success-default text-success-interaction-default;
 
   .title {
-    color: var(--success-foreground-high);
+    @apply text-success-foreground-high;
   }
 
   .type-icon,
   .message {
-    color: var(--success-foreground-low);
+    @apply text-success-foreground-low;
   }
 }
 
 .warning {
-  background-color: var(--warning-surface-default);
-  border-color: var(--warning-default);
-  color: var(--warning-interaction-default);
+  @apply bg-warning-surface-default border-warning-default text-warning-interaction-default;
 
   .title {
-    color: var(--warning-foreground-high);
+    @apply text-warning-foreground-high;
   }
 
   .type-icon,
   .message {
-    color: var(--warning-foreground-low);
+    @apply text-warning-foreground-low;
   }
 }
 
 .danger {
-  background-color: var(--danger-surface-default);
-  border-color: var(--danger-default);
-  color: var(--danger-interaction-default);
+  @apply bg-danger-surface-default border-danger-default text-danger-interaction-default;
 
   .title {
-    color: var(--danger-foreground-high);
+    @apply text-danger-foreground-high;
   }
 
   .type-icon,
   .message {
-    color: var(--danger-foreground-low);
+    @apply text-danger-foreground-low;
   }
 }
 
 .neutral {
-  background-color: var(--neutral-surface-default);
-  border-color: var(--neutral-default);
-  color: var(--neutral-interaction-default);
+  @apply bg-neutral-surface-default border-neutral-default text-neutral-interaction-default;
 
   .title {
-    color: var(--neutral-foreground-high);
+    @apply text-neutral-foreground-high;
   }
 
   .type-icon,
   .message {
-    color: var(--neutral-foreground-low);
+    @apply text-neutral-foreground-low;
   }
 }
 
 .type-icon {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
+  @apply flex transition-transform duration-500;
 }
 </style>

@@ -87,6 +87,8 @@ function toggle() {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-radio {
   @apply inline-flex gap-xs items-center text-xs cursor-pointer text-primary-interaction-default;
 }

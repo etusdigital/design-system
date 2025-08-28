@@ -10,6 +10,8 @@ const props = defineProps<{
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-card {
   @apply bg-neutral-surface-default rounded-base shadow-neutral-selected border-xxs border-neutral-default;
 }

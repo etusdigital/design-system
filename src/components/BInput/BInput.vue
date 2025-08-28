@@ -435,6 +435,8 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 /* #region INPUT SIZES  */
 .size-xs {
   width: 176px;

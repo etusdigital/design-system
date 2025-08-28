@@ -285,6 +285,8 @@ function checkSource(value: boolean, extra: any) {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .tag-default {
   @apply flex items-center gap-xs;
 }

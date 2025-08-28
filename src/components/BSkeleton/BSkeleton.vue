@@ -3,6 +3,8 @@
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-skeleton {
     @apply bg-neutral-surface-disabled bg-gradient-to-r from-transparent via-white to-transparent min-h-xs min-w-xs;
     background-size: 200% 100%;

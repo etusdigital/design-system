@@ -105,6 +105,8 @@ function getLinkComponent() {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-menu {
   @apply flex flex-col justify-between gap-sm w-fit py-lg px-xs bg-default border-r-xxs border-r-neutral-default;
   height: v-bind(computedHeight);

@@ -151,6 +151,8 @@ function getDates(index = 0) {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .day {
   @apply flex items-center justify-center rounded-xs cursor-pointer p-xs text-sm font-semibold text-neutral-interaction-default
   relative overflow-hidden hover:text-primary-interaction-hover hover:bg-primary-surface-hover;

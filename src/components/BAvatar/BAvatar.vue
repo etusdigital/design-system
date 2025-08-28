@@ -32,52 +32,41 @@ const parsedName = computed(() => {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-avatar {
-    height: fit-content;
-    width: fit-content;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    background-color: var(--primary-surface-default);
+    @apply h-fit w-fit relative flex items-center justify-center rounded-full bg-primary-surface-default overflow-hidden;
 
     img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 1;
+        @apply absolute inset-0 w-full h-full object-cover z-[1];
     }
 
     span {
-        color: var(--primary-interaction-default);
-        font-weight: var(--font-weight-bold);
+        @apply text-primary-interaction-default font-bold;
     }
 }
 
 .b-avatar.small {
-    padding: var(--spacing-xs);
+    @apply p-xs;
 
     span {
-        font-size: var(--font-size-xxs);
+        @apply text-xxs;
     }
 }
 
 .b-avatar.medium {
-    padding: var(--spacing-sm);
+    @apply p-sm;
 
     span {
-        font-size: var(--font-size-xs);
+        @apply text-xs;
     }
 }
 
 .b-avatar.large {
-    padding: var(--spacing-base);
+    @apply p-base;
 
     span {
-        font-size: var(--font-size-sm);
+        @apply text-sm;
     }
 }
 </style>

@@ -62,6 +62,8 @@ function closeDialog() {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-dialog {
   @apply fixed z-[1003] top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-neutral-surface-default rounded-base border-xxs border-neutral-default transform transition-transform;
   max-width: calc(100% - var(--spacing-xl));

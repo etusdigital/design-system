@@ -301,6 +301,8 @@ function apply() {
   </BSelectContainer>
 </template>
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-select {
   @apply w-full;
 }

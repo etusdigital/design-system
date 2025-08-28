@@ -6,57 +6,57 @@ export default {
   component: BTagInput,
   argTypes: {
     modelValue: {
-      type: { summary: "any" },
+      type: { name: "any" },
       description: "Will be the array containing the value of the tags.",
     },
     labelValue: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the input label.",
     },
     errorMessage: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the input error message.",
     },
     infoMessage: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the input info message.",
     },
     placeholder: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the input placeholder.",
     },
     isError: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: false,
       },
       description: "Activate error mode.",
     },
     allowDuplicate: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: false,
       },
       description: "Disable the input of duplicated values.",
     },
     max: {
-      type: { summary: "number" },
+      type: { name: "number" },
       description: "Will be the max number of tags allowed on the input.",
     },
     required: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: false,
       },
     },
     disabled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: false,
       },
     },
     mask: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description:
         "Will be the masked applied to the input. Only triggered on input type text without min or max limit.",
       control: "select",
@@ -66,11 +66,11 @@ export default {
       },
     },
     icon: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the icon name.",
     },
     appendIcon: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
     },
     "hint-message": {
       description: "This slot will be displayed in after the input.",
@@ -95,9 +95,9 @@ const defaultArgs = {
   isError: false,
   required: false,
   allowDuplicate: false,
-  max: null,
+      max: undefined,
   disabled: false,
-  mask: "",
+      mask: undefined,
   icon: "",
   appendIcon: false,
 };

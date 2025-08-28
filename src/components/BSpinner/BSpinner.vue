@@ -5,6 +5,8 @@
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-spinner {
     @apply inline-block w-[1.5em] h-[1.5em];
     animation: rotate 2s linear infinite;

@@ -126,6 +126,8 @@ function calculatePosition(rect: DOMRect, tooltip: HTMLElement) {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .opacity-enter-active,
 .opacity-leave-active {
   @apply transition-opacity duration-500 ease-out;

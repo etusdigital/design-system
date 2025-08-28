@@ -5,16 +5,16 @@ export default {
   component: BTooltip,
   argTypes: {
     labelValue: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: 'This is the text showed inside the tooltip.',
     },
     text: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description:
         'This is the text showed inside the tooltip. Deprecated, use labelValue instead.',
     },
     position: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["top", "bottom", "left", "right"],
       table: {
@@ -33,7 +33,7 @@ type Story = StoryObj<typeof BTooltip>;
 
 const defaultArgs = {
   labelValue: "Tooltip",
-  position: "right",
+  position: "right" as const,
 };
 
 const defaultRender = (args: any) => ({

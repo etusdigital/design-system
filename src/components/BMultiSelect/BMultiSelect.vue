@@ -178,6 +178,8 @@ function changeExpanded(value: boolean, extra: any) {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .select-count {
   @apply flex items-center justify-center text-neutral-foreground-negative bg-primary-interaction-selected text-xs w-[1.6em] h-[1.6em] rounded-full;
 }

@@ -112,6 +112,8 @@ function getValue(item: any) {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-side-menu {
   @apply flex flex-col justify-between gap-sm w-fit py-lg px-sm bg-default border-r-xxs border-r-neutral-default;
   height: v-bind(computedHeight);

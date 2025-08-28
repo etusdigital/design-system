@@ -185,6 +185,8 @@ function toggle() {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-container {
   @apply relative;
 }

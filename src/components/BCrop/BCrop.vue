@@ -262,6 +262,8 @@ function crop(cropArea: HTMLDivElement, parent: HTMLElement) {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-crop {
   @apply flex flex-col gap-xs rounded-xl w-full h-full;
 }

@@ -133,6 +133,8 @@ function changeModel() {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-collapse {
   @apply px-base py-xs w-full shadow-none transition-colors duration-300 hover:bg-neutral-surface-hover;
 }
@@ -142,6 +144,6 @@ function changeModel() {
 }
 
 .b-hidden {
-  @apply max-h-0 !important;
+  @apply max-h-0;
 }
 </style>

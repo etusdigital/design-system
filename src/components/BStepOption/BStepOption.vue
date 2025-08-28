@@ -37,6 +37,8 @@ function handleClick() {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-step-option {
     @apply flex items-center gap-base cursor-pointer min-w-[400px] p-base rounded-2xl transition-colors hover:bg-neutral-surface-hover;
 }

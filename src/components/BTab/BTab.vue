@@ -75,6 +75,8 @@ function getValue(item: any): string {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-tab {
   @apply p-xxs rounded-sm;
 }

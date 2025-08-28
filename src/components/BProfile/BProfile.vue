@@ -231,6 +231,8 @@ function changeExpanded(expanded: boolean) {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .profile-picture {
   @apply rounded-full;
 }

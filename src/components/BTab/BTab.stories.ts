@@ -5,7 +5,7 @@ export default {
   component: BTab,
   argTypes: {
     modelValue: {
-      type: { summary: "any" },
+      type: { name: "any" },
       description: "Will the current tab.",
       table: {
         defaultValue: { summary: undefined },
@@ -33,14 +33,14 @@ export default {
       type: { summary: "boolean" },
       description: "Show icons instead of words.",
       table: {
-        defaultValue: { summary: false },
+        defaultValue: false,
       },
     },
     notCard: {
       type: { summary: "boolean" },
       description: "No card will wrapper the items.",
       table: {
-        defaultValue: { summary: false },
+        defaultValue: false,
       },
     },
   },

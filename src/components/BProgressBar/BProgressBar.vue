@@ -119,6 +119,8 @@ const component = computed((): string => {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-progress-bar,
 .b-step-bar .step {
   @apply flex items-center rounded-lg bg-primary-surface-highlight justify-start relative;

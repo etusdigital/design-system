@@ -383,6 +383,8 @@ function selectAll(value: boolean) {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-table-content {
   @apply min-w-full max-w-full overflow-x-auto rounded-xl bg-neutral-surface-default border-xxs border-neutral-default shadow-neutral-selected;
 }

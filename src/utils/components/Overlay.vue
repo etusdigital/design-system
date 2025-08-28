@@ -34,6 +34,8 @@ watch(
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .background-div {
   @apply fixed w-screen h-screen inset-0 flex items-center justify-center bg-negative opacity-60;
   z-index: v-bind(zIndex);

@@ -76,6 +76,8 @@ const props = withDefaults(defineProps<{
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-metric-card {
     @apply flex flex-col gap-xs p-sm text-neutral-interaction-default bg-neutral-surface-default border-xs border-neutral-default shadow-none;
 }

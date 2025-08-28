@@ -5,95 +5,95 @@ export default {
   component: BTable,
   argTypes: {
     headers: {
-      type: { summary: "array" },
+      type: { name: "array" },
       description: "This property will be the table header.",
     },
     items: {
-      type: { summary: "array" },
+      type: { name: "array" },
       description:
         "This property will be selected page items displayed in the table.",
     },
     options: {
-      type: { summary: "object" },
+      type: { name: "object" },
       description: "This property will be the sort settings.",
     },
     page: {
-      type: { summary: "number" },
+      type: { name: "number" },
       table: {
-        defaultValue: { summary: 1 },
+        defaultValue: 1,
       },
       description: "This property will be the current page.",
     },
     itemsPerPage: {
-      type: { summary: "number" },
+      type: { name: "number" },
       table: {
-        defaultValue: { summary: 10 },
+        defaultValue: 10,
       },
       description: "This property will be the number of items in 1 page.",
     },
     loading: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: false,
       },
       description: "Determine the data is loading.",
     },
     enableSelection: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: false,
       },
       description: "Determine if the user can select all items.",
     },
     enableAggregation: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: false,
       },
       description: "Determine if the table has a space for aggregations.",
     },
     isHeaderFixed: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: false,
       },
       description:
         "Determine if the table header will be fixed and if the table will have y scroll.",
     },
     hasHover: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: false,
       },
       description:
         "When hasHover property is true, the row will have a hover effect.",
     },
     hideFooter: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: false,
       },
       description: "Determine if the default footer is shown.",
     },
     noShadow: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: false,
       },
       description:
         "When noShadow property is true, the card will have no shadow.",
     },
     numberOfItems: {
-      type: { summary: "number" },
+      type: { name: "number" },
       table: {
-        defaultValue: { summary: 0 },
+        defaultValue: 0,
       },
       description: "This property will be the total of items in general.",
     },
     renderPaginationInBackEnd: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: false,
       },
       description: "Determine if the pagination is redened in back-end.",
     },
@@ -702,8 +702,8 @@ const defaultArgs = {
   loading: false,
   noShadow: false,
   hasHover: false,
-  sortBy: (key: string, isSortDesc: boolean) => {},
-  pageItems: (page: number, itemsPerPage: number) => {},
+  sortBy: (_key: string, _isSortDesc: boolean) => {},
+  pageItems: (_page: number, _itemsPerPage: number) => {},
   selectAll: () => {},
 };
 

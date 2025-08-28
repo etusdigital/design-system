@@ -261,6 +261,8 @@ function applyMasks(e: any) {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .tag-input-container {
   @apply flex flex-row flex-wrap gap-xxs border-xxs border-neutral-default rounded-base items-center py-xs px-sm bg-neutral-surface-default;
 }

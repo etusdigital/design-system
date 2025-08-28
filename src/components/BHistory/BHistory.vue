@@ -72,6 +72,8 @@ const [model, setModel] = useOptionalModel<any>(
   </div>
 </template>
 <style scoped>
+@reference "../../assets/main.css";
+
 .first-item {
   .data-list {
     @apply border-none;

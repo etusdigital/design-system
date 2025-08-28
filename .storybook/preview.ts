@@ -1,6 +1,12 @@
 import type { Preview } from '@storybook/vue3-vite'
 import '@/assets/main.css'
 
+// Load Google Material Symbols font for BIcon component
+const materialSymbolsLink = document.createElement("link");
+materialSymbolsLink.rel = "stylesheet";
+materialSymbolsLink.href = "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
+document.head.appendChild(materialSymbolsLink);
+
 const preview: Preview = {
   parameters: {
     controls: {

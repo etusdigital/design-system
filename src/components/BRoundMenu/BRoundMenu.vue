@@ -61,6 +61,8 @@ function calculateButtonPosition() {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-round-menu {
   @apply relative flex items-center h-fit w-fit overflow-visible;
 }

@@ -40,6 +40,8 @@ const props = withDefaults(defineProps<{
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .appear-enter-active {
     @apply transition-all duration-500 ease-out;
 }

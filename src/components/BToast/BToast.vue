@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import BAlert from "../BAlert/BAlert.vue";
-import BIcon from "../BIcon/BIcon.vue";
-import event from "#utils/event";
+import event from "@/utils/event";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
 type Type = "info" | "success" | "warning" | "danger" | "neutral";
@@ -99,6 +98,8 @@ function removeToast(id: string) {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .toast-container {
   @apply z-[1100] fixed flex flex-col gap-sm p-sm;
 }

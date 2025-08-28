@@ -159,6 +159,8 @@ const isDropdownOpen = ref(false);
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-navbar {
   @apply flex items-center justify-between gap-sm w-full py-sm px-xl bg-emphasis border-b-xxs border-b-neutral-default;
 }

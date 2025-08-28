@@ -26,6 +26,8 @@ const props = withDefaults(
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-menu-option {
   @apply flex items-center gap-xs p-sm rounded-base;
 }

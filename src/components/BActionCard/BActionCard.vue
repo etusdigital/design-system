@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
+import BCard from "../BCard/BCard.vue";
+import BIcon from "../BIcon/BIcon.vue";
 
 const props = withDefaults(
   defineProps<{
@@ -91,24 +93,21 @@ function getEvent(event: Event): Event {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-action-card {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xxs);
-  transition: transform 0.15s ease-in-out;
+  @apply flex items-center gap-xxs transition-transform duration-150 ease-in-out;
 }
 
 .b-action-card:hover {
-  transform: scale(1.05);
+  @apply transition-transform duration-150 ease-in-out scale-105;
 
   .icon {
-    color: var(--neutral-interaction-default);
+    @apply text-neutral-interaction-default;
   }
 }
 
 .icon {
-  display: flex;
-  align-items: center;
-  color: var(--neutral-interaction-disabled);
+  @apply flex items-center text-neutral-interaction-disabled;
 }
 </style>

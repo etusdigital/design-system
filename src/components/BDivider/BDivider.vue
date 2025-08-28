@@ -15,6 +15,8 @@ const props = withDefaults(defineProps<{
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-divider {
     @apply flex items-center gap-xs w-full text-neutral-foreground-high font-bold;
 }

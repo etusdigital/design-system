@@ -47,6 +47,8 @@ function updateSelection(value: any) {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .vert {
 	@apply flex-col;
 }

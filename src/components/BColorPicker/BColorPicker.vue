@@ -491,6 +491,8 @@ function move(updateType = true) {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-color-picker {
     @apply p-base flex flex-col gap-sm;
 }

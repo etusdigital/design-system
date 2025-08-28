@@ -112,6 +112,8 @@ function getLinkComponent() {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .item {
   @apply rounded-base;
 }

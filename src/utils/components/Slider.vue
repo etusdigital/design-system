@@ -424,6 +424,8 @@ function changeFillBarPosition() {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .slider {
   @apply flex justify-start w-full rounded-base relative bg-primary-surface-highlight h-[.5em];
 

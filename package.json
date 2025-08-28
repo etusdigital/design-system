@@ -11,8 +11,15 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@mdi/font": "^7.4.47",
+    "@mdi/js": "^7.4.47",
     "@storybook/blocks": "^8.6.14",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.12",
+    "mdi-vue": "^3.0.13",
+    "normalize.css": "^8.0.1",
     "tailwindcss": "^4.1.12",
     "vue": "^3.5.18"
   },
@@ -32,5 +39,21 @@
     "vite": "^7.1.2",
     "vitest": "^3.2.4",
     "vue-tsc": "^3.0.5"
+  },
+  "imports": {
+    "#composables": "./src/composables/index.ts",
+    "#composables/*": "./src/composables/*.ts",
+    "#components/*": "./src/components/*/*.vue",
+    "#utils/*": "./src/utils/*.ts"
+  },
+  "exports": {
+    "./components/*": "./src/components/*/index.ts",
+    "./composables/*": "./src/composables/*.ts",
+    "./styles.css": "./lib/index.css",
+    ".": {
+      "types": "./lib/main.d.ts",
+      "import": "./lib/design-system.es.js",
+      "require": "./lib/design-system.umd.js"
+    }
   }
 }

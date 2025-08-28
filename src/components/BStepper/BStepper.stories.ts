@@ -96,7 +96,7 @@ const defaultArgs = {
   ],
   labelKey: "label",
   valueKey: "value",
-  size: "medium",
+  size: "medium" as const,
   disabled: false,
   allowedSkip: false,
   getObject: false,

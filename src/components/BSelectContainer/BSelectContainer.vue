@@ -172,6 +172,8 @@ function changeModel(value: boolean, extra: BContainerModelExtra) {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .content-wrapper {
   @apply top-full left-0 transition-[max-height] duration-100 w-full;
 }

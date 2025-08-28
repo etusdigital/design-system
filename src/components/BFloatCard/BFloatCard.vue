@@ -141,6 +141,8 @@ async function showCard() {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-float-card {
   @apply z-[1004] fixed;
 }

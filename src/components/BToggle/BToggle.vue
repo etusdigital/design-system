@@ -59,6 +59,8 @@ function toggle() {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-toggle {
     @apply inline-flex text-base gap-xs items-center cursor-pointer;
 }

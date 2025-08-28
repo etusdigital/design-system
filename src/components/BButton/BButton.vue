@@ -76,62 +76,41 @@ const isLoading = computed(
 <style scoped src="@/utils/styles/button.css" />
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-button {
-  padding: var(--spacing-base);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-xs);
-  border-radius: var(--border-radius-base);
-  position: relative;
-  display: inline-flex;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: 0.05em;
-  text-transform: capitalize;
-  user-select: none;
-  border-width: var(--border-width-xs);
-  color: var(--neutral-foreground-negative);
+  @apply p3 font-semibold leading-xs rounded-base relative inline-flex cursor-pointer items-center justify-center tracking-wider capitalize select-none active:scale-95 border-xs text-neutral-foreground-negative;
 
   .b-spinner {
-    position: absolute;
+    @apply absolute;
   }
 }
 
 .b-button.small {
-  padding: var(--spacing-xs) var(--spacing-base);
+  @apply py-xs px-base;
 
   .b-spinner {
-    font-size: var(--font-size-xs);
+    @apply text-xs;
   }
 }
 
 .b-button.medium {
-  padding: var(--spacing-sm) var(--spacing-base);
+  @apply py-sm px-base;
 }
 
 .b-button.large {
-  padding: var(--spacing-base) var(--spacing-xl);
+  @apply py-base px-xl;
 }
 
 .progress {
-  position: absolute;
-  overflow: hidden;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  border-top-left-radius: var(--border-radius-sm);
-  transition: width 0.3s ease-out;
+  @apply absolute overflow-hidden top-0 left-0 bottom-0 rounded-l-sm transition-[width] ease-out duration-300;
 }
 
 .b-button.default .progress {
-  background-color: var(--neutral-surface-default);
-  opacity: 0.6;
+  @apply bg-white opacity-60;
 }
 
 .button-label {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-xs);
+  @apply inline-flex items-center justify-center gap-x-xs;
 }
 </style>

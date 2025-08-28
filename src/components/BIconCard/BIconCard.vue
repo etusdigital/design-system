@@ -40,6 +40,8 @@ withDefaults(
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-icon-card {
   @apply relative min-w-20xl;
 }

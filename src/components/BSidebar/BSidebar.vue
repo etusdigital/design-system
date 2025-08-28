@@ -57,6 +57,8 @@ function closeDialog() {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-sidebar {
   @apply z-[1001] fixed top-0 right-0 h-screen bg-neutral-surface-default rounded-l-base border-xxs border-neutral-default transform transition-transform;
   max-width: calc(100% - var(--spacing-xl));

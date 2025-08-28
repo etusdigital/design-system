@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, type Ref, onBeforeMount } from "vue";
+import { ref, watch, onBeforeMount } from "vue";
 import { isObject } from "../../utils";
 
 const props = withDefaults(
@@ -171,6 +171,8 @@ function findIndex(item: any) {
   </div>
 </template>
 <style scoped>
+@reference "../../assets/main.css";
+
 .step-button {
   @apply flex items-center justify-center rounded-e-xxs border-xxs h-[2.2em] w-[10em] border-neutral-default text-neutral-interaction-default pl-base ml-xs font-bold uppercase text-sm text-start relative bg-default;
   width: 100%;

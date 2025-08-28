@@ -80,6 +80,8 @@ const [expandedModel, setExpandedModel] = useOptionalModel<boolean>(
   </span>
 </template>
 <style scoped>
+@reference "../../assets/main.css";
+
 .search {
   @apply h-full w-full pl-xxs p-0 m-0 border-none shadow-none outline-none text-xs;
 }

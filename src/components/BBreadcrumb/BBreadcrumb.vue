@@ -118,42 +118,31 @@ function isActive(item: any): boolean {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
+  @apply flex items-center gap-xs;
 }
 
 .item {
-  color: var(--neutral-interaction-default);
-  cursor: pointer;
-  &:hover {
-    color: var(--primary-interaction-hover);
-  }
+  @apply text-neutral-interaction-default cursor-pointer hover:text-primary-interaction-hover;
 }
 
 .item.active {
-  pointer-events: none;
-  color: var(--neutral-foreground-high);
+  @apply pointer-events-none text-neutral-foreground-high;
 }
 
 .more-options {
-  overflow: auto;
-  min-width: var(--spacing-9xl);
-  max-height: var(--spacing-9xl);
-  padding: var(--spacing-xxs);
-  & > * {
-    padding: var(--spacing-xs);
-  }
+  @apply overflow-auto min-w-9xl max-h-9xl p-xxs [&>*]:p-xs;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.2s ease-in-out;
+  @apply transition-opacity duration-200;
 }
 
 .fade-enter-from,
 .fade-leave-to {
-  opacity: 0;
+  @apply opacity-0;
 }
 </style>

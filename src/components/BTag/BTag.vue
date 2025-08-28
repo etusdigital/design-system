@@ -66,6 +66,8 @@ const appendedIcon = computed(() => {
 </template>
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-tag {
   @apply flex items-center justify-center gap-xxs overflow-hidden relative text-center w-fit h-fit rounded-full border-xxs;
 }

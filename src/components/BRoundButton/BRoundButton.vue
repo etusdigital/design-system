@@ -92,6 +92,8 @@ const computedIcon = computed((): string => {
 <style scoped src="@/utils/styles/button.css" />
 
 <style scoped>
+@reference "../../assets/main.css";
+
 .b-round-button {
   @apply border-xxs relative inline-flex cursor-pointer max-h-fit items-center font-bold tracking-wider select-none active:scale-95
     cursor-pointer items-center font-bold tracking-wider capitalize select-none rounded-full text-neutral-foreground-negative;
