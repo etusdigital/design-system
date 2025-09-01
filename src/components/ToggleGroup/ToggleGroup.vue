@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Group from '../../utils/components/Group.vue';
+import Toggle from '../Toggle/Toggle.vue';
 import { isObject } from "../../utils";
 import { ref, watch } from "vue";
 
@@ -56,9 +57,9 @@ function getDisabled(item: any): boolean {
 
 <template>
 	<Group v-model="model" :vertical="vertical" :disabled="disabled" @update:model-value="setModel">
-		<Radio v-for="item in items" :key="getValue(item)" :group-value="getValue(item)" :disabled="getDisabled(item)">
+		<Toggle v-for="item in items" :key="getValue(item)" :group-value="getValue(item)" :disabled="getDisabled(item)">
 			{{ getLabel(item) }}
-		</Radio>
+		</Toggle>
 	</Group>
 </template>
 

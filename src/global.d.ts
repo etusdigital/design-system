@@ -25,7 +25,6 @@ declare module '@vue/runtime-core' {
     FileUpload: typeof import('./components/FileUpload/FileUpload.vue')['default']
     Filter: typeof import('./components/Filter/Filter.vue')['default']
     FloatCard: typeof import('./components/FloatCard/FloatCard.vue')['default']
-    Group: typeof import('./components/Group/Group.vue')['default']
     History: typeof import('./components/History/History.vue')['default']
     Icon: typeof import('./components/Icon/Icon.vue')['default']
     IconCard: typeof import('./components/IconCard/IconCard.vue')['default']
@@ -38,6 +37,7 @@ declare module '@vue/runtime-core' {
     Profile: typeof import('./components/Profile/Profile.vue')['default']
     ProgressBar: typeof import('./components/ProgressBar/ProgressBar.vue')['default']
     Radio: typeof import('./components/Radio/Radio.vue')['default']
+    RadioGroup: typeof import('./components/RadioGroup/RadioGroup.vue')['default']
     RangeSlider: typeof import('./components/RangeSlider/RangeSlider.vue')['default']
     RoundButton: typeof import('./components/RoundButton/RoundButton.vue')['default']
     RoundMenu: typeof import('./components/RoundMenu/RoundMenu.vue')['default']
@@ -60,6 +60,7 @@ declare module '@vue/runtime-core' {
     Textarea: typeof import('./components/Textarea/Textarea.vue')['default']
     Toast: typeof import('./components/Toast/Toast.vue')['default']
     Toggle: typeof import('./components/Toggle/Toggle.vue')['default']
+    ToggleGroup: typeof import('./components/ToggleGroup/ToggleGroup.vue')['default']
     Tooltip: typeof import('./components/Tooltip/Tooltip.vue')['default']
   }
 }

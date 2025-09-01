@@ -34,11 +34,7 @@ const defaultRender = (args: any) => ({
     return { args };
   },
   template:
-    '<Group v-model="args.modelValue" :vertical="args.vertical" :disabled="args.disabled">' +
-    '\n<Radio :group-value="1">First</Radio>' +
-    '\n<Radio :group-value="2">Second</Radio>' +
-    '\n<Radio :group-value="3">Third</Radio>' +
-    "\n</Group>",
+    '<Group v-model="args.modelValue" :vertical="args.vertical" :disabled="args.disabled" :items="args.items" :label-key="args.labelKey" :value-key="args.valueKey" :get-object="args.getObject" />'
 })
 
 export const Radio: Story = {
@@ -47,6 +43,14 @@ export const Radio: Story = {
     modelValue: 1,
     vertical: false,
     disabled: false,
+    items: [
+      { label: "First", value: 1 },
+      { label: "Second", value: 2 },
+      { label: "Third", value: 3 },
+    ],
+    labelKey: "label",
+    valueKey: "value",
+    getObject: false,
   },
 };
 
