@@ -32,7 +32,6 @@ const props = withDefaults(
     errorMessage?: string;
     infoMessage?: string;
     size?: Size;
-    isTextArea?: boolean;
     disabled?: boolean;
     isError?: boolean;
     required?: boolean;
@@ -53,7 +52,6 @@ const props = withDefaults(
     errorMessage: "",
     infoMessage: "",
     size: "full",
-    isTextArea: false,
     disabled: false,
     isError: false,
     required: false,
@@ -86,7 +84,7 @@ const type = computed((): InputType => {
 });
 
 const computedMax = computed((): number | undefined => {
-  if ((props.max || props.max == 0) && (!props.mask || props.isTextArea))
+  if ((props.max || props.max == 0) && !props.mask)
     return props.max;
 
   return undefined;
@@ -182,7 +180,7 @@ function getSvgSize() {
 }
 
 function onInput() {
-  if (!props.isTextArea && props.mask && isTypeValid("text"))
+  if (props.mask && isTypeValid("text"))
     inputValue.value = applyMask(inputValue.value, props.mask);
 
   if (isTypeValid("number")) {
@@ -339,20 +337,7 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
         />
       </div>
     </div>
-    <textarea
-      v-else-if="isTextArea"
-      v-model="inputValue"
-      class="input-container textarea"
-      :class="inputClasses"
-      :style="inputStyle"
-      :maxlength="computedMax"
-      :placeholder="placeholder"
-      :disabled="disabled"
-      @blur="onBlur"
-      @focus="onFocus"
-      @input="onInput"
-    />
-    <div class="flex items-center h-fit" :class="`size-${size}`" v-else>
+    <div class="flex items-center h-fit" :class="`size-${size}`" v-else-if="isTypeValid('file', true)">
       <div class="input-container flex-1" :class="inputClasses">
         <slot name="icon-slot">
           <Icon
@@ -469,8 +454,7 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
   @apply text-sm;
 }
 
-.input,
-.textarea {
+.input {
   @apply p3;
 }
 
@@ -507,9 +491,7 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
   @apply outline-primary-default;
 }
 
-.textarea {
-  @apply border-none;
-}
+
 
 .input {
   @apply flex-1 bg-transparent text-neutral-foreground-high outline-none p-0 border-none min-h-xl;

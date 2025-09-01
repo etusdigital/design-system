@@ -71,13 +71,6 @@ export default {
 				defaultValue: { summary: undefined },
 			},
 		},
-		isTextArea: {
-			type: { summary: 'boolean' },
-			description: 'Instead of a regular input the component will be a text area.',
-			table: {
-				defaultValue: { summary: false },
-			},
-		},
 		disabled: {
 			type: { summary: 'boolean' },
 			table: {
@@ -149,7 +142,6 @@ const defaultArgs = {
 	placeholder: '',
 	isError: false,
 	size: 'sm',
-	isTextArea: false,
 	disabled: false,
 	required: false,
 	textAlign: 'start',
@@ -176,7 +168,6 @@ const defaultRender = (args: any) => ({
          :error-message="args.errorMessage"
          :info-message="args.infoMessage"
          :is-error="args.isError"
-         :is-text-area="args.isTextArea"
          :size="args.size"
          :disabled="args.disabled"
          :required="args.required"
@@ -204,15 +195,6 @@ export const Number: Story = {
 		max: 10,
 		min: 0,
 		type: 'number',
-	},
-};
-
-export const TextArea: Story = {
-	render: defaultRender,
-	args: {
-		...defaultArgs,
-		labelValue: 'Text area',
-		isTextArea: true,
 	},
 };
 

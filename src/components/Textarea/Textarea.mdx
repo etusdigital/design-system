@@ -1,0 +1,184 @@
+import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
+import * as Textarea from './Textarea.stories.ts';
+
+<Meta of={Textarea} />
+
+# Name: textarea
+## Component Overview
+
+**Purpose**: A versatile textarea component for multi-line text input with character counting, validation, and customization options for form data collection.
+
+**Import**: Automatic - no need to import any DS components
+
+<br />
+### Playground
+
+<Canvas of={Textarea.Primary} />
+<Controls />
+
+---
+
+### Basic Usage
+
+```vue
+<template>
+    <textarea 
+        v-model="textareaValue"
+        label-value="Message"
+        placeholder="Enter your message..."
+    />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const textareaValue = ref('')
+</script>
+```
+
+<Canvas sourceState="none" of={Textarea.Primary} />
+
+---
+
+### Props API
+
+#### v-model
+Controls the textarea value. Type: `string` (default: `""`)
+
+#### label-value
+The label displayed above the textarea. Type: `string` (default: `""`)
+
+#### max
+Maximum character limit for textarea. Type: `number` (default: `undefined`)
+
+<Canvas sourceState="none" of={Textarea.MaxCharacters} />
+
+#### is-error
+Activates error styling mode. Type: `boolean` (default: `false`)
+
+<Canvas sourceState="none" of={Textarea.Error} />
+
+#### error-message
+Error message to display when in error state. Type: `string` (default: `""`)
+
+#### info-message
+Informational message displayed with tooltip. Type: `string` (default: `""`)
+
+<Canvas sourceState="none" of={Textarea.InfoMessage} />
+
+#### size
+Textarea component width. Type: `'xs' | 'sm' | 'base' | 'lg' | 'xl' | 'full'` (default: `"full"`)
+
+<Canvas sourceState="none" of={Textarea.DifferentSizes} />
+
+#### disabled
+Disables textarea interaction. Type: `boolean` (default: `false`)
+
+<Canvas sourceState="none" of={Textarea.Disabled} />
+
+#### required
+Marks the field as required. Type: `boolean` (default: `false`)
+
+<Canvas sourceState="none" of={Textarea.Required} />
+
+#### placeholder
+Placeholder text for the textarea. Type: `string` (default: `""`)
+
+#### text-align
+Text alignment within textarea. Type: `'start' | 'center' | 'end'` (default: `"start"`)
+
+<Canvas sourceState="none" of={Textarea.TextAlignment} />
+
+#### tooltip-min-width
+Minimum width for info tooltip. Type: `string` (default: `"none"`)
+
+---
+
+### Events API
+
+#### @update:model-value
+Triggered when the textarea value changes.
+
+#### @focus
+Triggered when the textarea gains focus. Receives the current value.
+
+#### @blur
+Triggered when the textarea loses focus. Receives the current value.
+
+---
+
+### Usage Examples
+
+#### Basic Textarea
+```vue
+<template>
+    <textarea 
+        v-model="message"
+        label-value="Your Message"
+        placeholder="Type your message here..."
+    />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const message = ref('')
+</script>
+```
+
+#### Textarea with Character Limit
+```vue
+<template>
+    <textarea 
+        v-model="description"
+        label-value="Description"
+        :max="500"
+        placeholder="Describe your project..."
+    />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const description = ref('')
+</script>
+```
+
+#### Textarea with Validation
+```vue
+<template>
+    <textarea 
+        v-model="comment"
+        label-value="Comment"
+        :is-error="hasError"
+        :error-message="errorMessage"
+        placeholder="Leave a comment..."
+        @blur="validateComment"
+    />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const comment = ref('')
+const hasError = ref(false)
+const errorMessage = ref('')
+
+const validateComment = () => {
+    if (comment.value.length < 10) {
+        hasError.value = true
+        errorMessage.value = 'Comment must be at least 10 characters'
+    } else {
+        hasError.value = false
+        errorMessage.value = ''
+    }
+}
+</script>
+```
+
+**Important Notes:**
+- Multi-line text input with automatic resizing based on content
+- Character limit validation with real-time counter display
+- Comprehensive error handling and visual feedback
+- Text alignment options (start, center, end)
+- Responsive sizing options from extra small to full width
+- Built-in accessibility features and keyboard navigation
+- Support for required field validation
+- Info tooltips for additional context
