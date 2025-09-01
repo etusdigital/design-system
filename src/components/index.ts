@@ -35,7 +35,7 @@ export { default as Pagination } from './Pagination';
 export { default as Profile } from './Profile';
 export { default as ProgressBar } from './ProgressBar';
 export { default as Radio } from './Radio';
-export { default as RadioButton } from './RadioButton';
+export { default as Toggle } from './Toggle';
 export { default as RangeSlider } from './RangeSlider';
 export { default as RoundButton } from './RoundButton';
 export { default as RoundMenu } from './RoundMenu';

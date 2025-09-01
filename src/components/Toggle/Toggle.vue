@@ -58,12 +58,12 @@ function toggle() {
   <div
     :id="id"
     :name="name || id"
-    role="radio"
+    role="button"
     :aria-checked="model"
     :aria-disabled="isDisabled"
     class="bg-neutral-surface-default text-xs relative inline-flex min-h-[3em] min-w-[10em] cursor-pointer items-center justify-center py-base px-2xl font-bold tracking-wider uppercase select-none leading-xs border-xxs border-current text-neutral-interaction-default"
     :class="[
-      isDiv ? 'radio-div' : 'radio-button',
+      isDiv ? 'toggle-div' : 'toggle-button',
       { active: model, disabled: isDisabled },
     ]"
     tabindex="0"
@@ -81,19 +81,19 @@ function toggle() {
   @apply bg-primary-interaction-default text-neutral-foreground-negative border-primary-interaction-default;
 }
 
-.radio-div {
+.toggle-div {
   @apply py-xs px-base min-w-[8em] border-neutral-default rounded-base text-neutral-interaction-default;
 }
 
-.radio-div > :first-child {
+.toggle-div > :first-child {
   @apply text-neutral-interaction-default border-neutral-default;
 }
 
-.radio-div.active {
+.toggle-div.active {
   @apply bg-primary-surface-highlight text-primary-interaction-default border-primary-interaction-default;
 }
 
-.radio-div.active > :first-child {
+.toggle-div.active > :first-child {
   @apply text-primary-interaction-default border-primary-interaction-default;
 }
 

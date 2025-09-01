@@ -1,19 +1,19 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as RadioButton from './RadioButton.stories.ts';
+import * as Toggle from './Toggle.stories.ts';
 
-<Meta of={RadioButton} />
+<Meta of={Toggle} />
 
-# Name: radio-button
+# Name: toggle
 ## Component Overview
 
-**Purpose**: A button-style radio component with two visual variants for creating toggleable button groups and card-style selections.
+**Purpose**: A button-style toggle component with two visual variants for creating toggleable button groups and card-style selections.
 
 **Import**: Automatic - no need to import any DS components
 
 <br />
 ### Playground
 
-<Canvas of={RadioButton.Primary} />
+<Canvas of={Toggle.Primary} />
 <Controls />
 
 ---
@@ -22,12 +22,12 @@ import * as RadioButton from './RadioButton.stories.ts';
 
 ```vue
 <template>
-    <radio-button 
+    <toggle 
         v-model="isSelected"
         name="buttonGroup"
     >
-      Test radio
-    </radio-button>
+      Test toggle
+    </toggle>
 </template>
 
 <script setup lang="ts">
@@ -36,51 +36,51 @@ const isSelected = ref(false)
 </script>
 ```
 
-<Canvas sourceState="none" of={RadioButton.Primary} />
+<Canvas sourceState="none" of={Toggle.Primary} />
 
 ---
 
 ### Props API
 
 #### v-model
-Controls the radio button selection state. Type: `boolean` (default: `false`)
+Controls the toggle button selection state. Type: `boolean` (default: `false`)
 
 #### id
-Unique identifier for the radio button element. Type: `string` (default: `undefined`)
+Unique identifier for the toggle button element. Type: `string` (default: `undefined`)
 
 #### name
 Name attribute for form grouping and accessibility. Type: `string` (default: `undefined`)
 
 #### group-value
-Value used when radio is part of a Group component. Type: `any` (default: `undefined`)
+Value used when toggle is part of a Group component. Type: `any` (default: `undefined`)
 
 #### disabled
-Disables radio button interaction. Type: `boolean` (default: `false`)
+Disables toggle button interaction. Type: `boolean` (default: `false`)
 
-<Canvas sourceState="none" of={RadioButton.Disabled} />
+<Canvas sourceState="none" of={Toggle.Disabled} />
 
 #### is-div
 Switches to card-style variant with different styling. Type: `boolean` (default: `false`)
 
-<Canvas sourceState="none" of={RadioButton.RadioDiv} />
+<Canvas sourceState="none" of={Toggle.ToggleDiv} />
 
 ---
 
 ### Events API
 
 #### @update:model-value
-Triggered when the radio button selection state changes.
+Triggered when the toggle button selection state changes.
 
 ### Slots API
 
 #### #default
-Content displayed inside the radio button.
+Content displayed inside the toggle button.
 
 ```vue
 <template>
-    <radio-button v-model="selected" name="options">
+    <toggle v-model="selected" name="options">
         Slot: default
-    </radio-button>
+    </toggle>
 </template>
 
 <script setup lang="ts">

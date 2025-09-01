@@ -1,12 +1,12 @@
 import type { App, Plugin } from 'vue';
-import RadioButton from './RadioButton.vue';
+import Toggle from './Toggle.vue';
 
 export default {
     install(Vue: App) {
-        Vue.component('RadioButton', RadioButton);
+        Vue.component('Toggle', Toggle);
     },
 } as Plugin;
 
 export {
-    RadioButton,
+    Toggle,
 }

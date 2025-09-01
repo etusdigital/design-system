@@ -38,7 +38,6 @@ declare module '@vue/runtime-core' {
     Profile: typeof import('./components/Profile/Profile.vue')['default']
     ProgressBar: typeof import('./components/ProgressBar/ProgressBar.vue')['default']
     Radio: typeof import('./components/Radio/Radio.vue')['default']
-    RadioButton: typeof import('./components/RadioButton/RadioButton.vue')['default']
     RangeSlider: typeof import('./components/RangeSlider/RangeSlider.vue')['default']
     RoundButton: typeof import('./components/RoundButton/RoundButton.vue')['default']
     RoundMenu: typeof import('./components/RoundMenu/RoundMenu.vue')['default']
@@ -60,6 +59,7 @@ declare module '@vue/runtime-core' {
     TagSelect: typeof import('./components/TagSelect/TagSelect.vue')['default']
     Textarea: typeof import('./components/Textarea/Textarea.vue')['default']
     Toast: typeof import('./components/Toast/Toast.vue')['default']
+    Toggle: typeof import('./components/Toggle/Toggle.vue')['default']
     Tooltip: typeof import('./components/Tooltip/Tooltip.vue')['default']
   }
 }

@@ -64,7 +64,7 @@ export const Disabled: Story = {
   },
 };
 
-export const RadioButton: Story = {
+export const Toggle: Story = {
   render: (args: any) => ({
     components: { Group },
     setup() {
@@ -72,9 +72,9 @@ export const RadioButton: Story = {
     },
     template:
       '<Group v-model="args.modelValue" :vertical="args.vertical" :disabled="args.disabled">' +
-      '\n<RadioButton :group-value="1">First</RadioButton>' +
-      '\n<RadioButton :group-value="2">Second</RadioButton>' +
-      '\n<RadioButton :group-value="3">Third</RadioButton>' +
+      '\n<Toggle :group-value="1">First</Toggle>' +
+      '\n<Toggle :group-value="2">Second</Toggle>' +
+      '\n<Toggle :group-value="3">Third</Toggle>' +
       "\n</Group>",
   }),
   args: {
@@ -92,9 +92,9 @@ export const RadioDiv: Story = {
     },
     template:
       '<Group v-model="args.modelValue" :vertical="args.vertical" :disabled="args.disabled">' +
-      '\n<RadioButton :group-value="1" :is-div="true"><div class="border-[.1em] h-[20px] w-[20px]" /></RadioButton>' +
-      '\n<RadioButton :group-value="2" :is-div="true"><div class="border-[.1em] h-[20px] w-[20px] rounded-[4px]" /></RadioButton>' +
-      '\n<RadioButton :group-value="3" :is-div="true"><div class="border-[.1em] h-[20px] w-[20px] rounded-[50%]" /></RadioButton>' +
+      '\n<Toggle :group-value="1" :is-div="true"><div class="border-[.1em] h-[20px] w-[20px]" /></Toggle>' +
+      '\n<Toggle :group-value="2" :is-div="true"><div class="border-[.1em] h-[20px] w-[20px] rounded-[4px]" /></Toggle>' +
+      '\n<Toggle :group-value="3" :is-div="true"><div class="border-[.1em] h-[20px] w-[20px] rounded-[50%]" /></Toggle>' +
       "\n</Group>",
   }),
   args: {

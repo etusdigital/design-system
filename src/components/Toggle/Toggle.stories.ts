@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import RadioButton from "./RadioButton.vue";
+import Toggle from "./Toggle.vue";
 
 export default {
-  component: RadioButton,
+  component: Toggle,
   argTypes: {
     modelValue: {
       type: { summary: "boolean" },
@@ -30,12 +30,12 @@ export default {
       },
     },
     default: {
-      description: "This slot will be content inside the radio button.",
+      description: "This slot will be content inside the toggle.",
     },
   },
-} satisfies Meta<typeof RadioButton>;
+} satisfies Meta<typeof Toggle>;
 
-type Story = StoryObj<typeof RadioButton>;
+type Story = StoryObj<typeof Toggle>;
 
 const defaultArgs = {
   modelValue: false,
@@ -45,20 +45,20 @@ const defaultArgs = {
 };
 
 const defaultRender = (args: any) => ({
-  components: { RadioButton },
+  components: { Toggle },
   setup() {
     return { args };
   },
   template: `
-    <RadioButton 
+    <Toggle 
       v-model="args.modelValue" 
       name="test" 
       :group-value="args.groupValue" 
       :disabled="args.disabled" 
       :is-div="args.isDiv"
     >
-      Test radio
-    </RadioButton>
+      Test toggle
+    </Toggle>
   `,
 });
 
@@ -75,7 +75,7 @@ export const Disabled: Story = {
   },
 };
 
-export const RadioDiv: Story = {
+export const ToggleDiv: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
