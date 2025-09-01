@@ -3,7 +3,7 @@ import * as Stepper from './Stepper.stories.ts';
 
 <Meta of={Stepper} />
 
-# Name: stepper
+# Name: Stepper
 ## Component Overview
 
 **Purpose**: A multi-step navigation component with two visual styles, progress tracking, and customizable step validation for creating guided workflows and multi-step forms.
@@ -22,7 +22,7 @@ import * as Stepper from './Stepper.stories.ts';
 
 ```vue
 <template>
-    <stepper 
+    <Stepper 
         v-model="currentStep"
         :items="steps"
     />
@@ -95,7 +95,7 @@ Triggered when any step interaction occurs. Receives the step item and index.
 
 ```vue
 <template>
-    <stepper 
+    <Stepper 
         v-model="currentStep"
         :items="steps"
         disabled

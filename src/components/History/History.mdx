@@ -3,7 +3,7 @@ import * as History from './History.stories.ts';
 
 <Meta of={History} />
 
-# Name: history
+# Name: History
 ## Component Overview
 
 **Purpose**: An interactive timeline component for displaying chronological events with customizable positioning, icons, and color themes for tracking progress, version control, or activity feeds.
@@ -22,7 +22,7 @@ import * as History from './History.stories.ts';
 
 ```vue
 <template>
-    <history 
+    <History 
         v-model="selectedItem"
         :items="historyItems"
     >
@@ -36,7 +36,7 @@ import * as History from './History.stories.ts';
                 </p>
             </div>
         </template>
-    </history>
+    </History>
 </template>
 
 <script setup lang="ts">
@@ -118,7 +118,7 @@ Custom rendering for each history item in the timeline.
 
 ```vue
 <template>
-    <history v-model="selected" :items="items">
+    <History v-model="selected" :items="items">
         <template #item="{ item, index, active }">
             <div class="p-base border rounded" :class="{ 'border-primary-default': active }">
                 <h4 class="font-semibold">{{ item.title }}</h4>
@@ -129,7 +129,7 @@ Custom rendering for each history item in the timeline.
                 </div>
             </div>
         </template>
-    </history>
+    </History>
 </template>
 ```
 

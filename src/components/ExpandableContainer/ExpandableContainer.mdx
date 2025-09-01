@@ -3,7 +3,7 @@ import * as ExpandableContainer from './ExpandableContainer.stories.ts';
 
 <Meta of={ExpandableContainer} />
 
-# Name: expandable-container
+# Name: ExpandableContainer
 ## Component Overview
 
 **Purpose**: A versatile expandable container component with customizable content areas, absolute positioning options, and comprehensive form integration features for building complex dropdown interfaces and collapsible sections.
@@ -22,7 +22,7 @@ import * as ExpandableContainer from './ExpandableContainer.stories.ts';
 
 ```vue
 <template>
-    <expandable-container 
+    <ExpandableContainer 
         v-model="isExpanded"
         label-value="Select Options"
         @update:model-value="handleSwitch"
@@ -37,7 +37,7 @@ import * as ExpandableContainer from './ExpandableContainer.stories.ts';
                 </div>
             </div>
         </template>
-    </expandable-container>
+    </ExpandableContainer>
 </template>
 
 <script setup lang="ts">

@@ -3,7 +3,7 @@ import * as SmartSelect from './SmartSelect.stories.ts';
 
 <Meta of={SmartSelect} />
 
-# Name: smart-select
+# Name: SmartSelect
 ## Component Overview
 
 **Purpose**: An intelligent selection component that dynamically adapts between single and multi-selection modes, offering unified API and enhanced functionality for both scenarios.
@@ -22,13 +22,13 @@ import * as SmartSelect from './SmartSelect.stories.ts';
 
 ```vue
 <template>
-    <smart-select 
+    <SmartSelect 
         v-model="selectedItem"
         label-value="label"
         :items="options"
     >
         Placeholder
-    </smart-select>
+    </SmartSelect>
 </template>
 
 <script setup lang="ts">
@@ -128,9 +128,9 @@ Content displayed in the collapsed state of the select.
 
 ```vue
 <template>
-    <smart-select v-model="selected" :items="items">
+    <SmartSelect v-model="selected" :items="items">
         Slot: default
-    </smart-select>
+    </SmartSelect>
 </template>
 
 <script setup lang="ts">
@@ -157,7 +157,7 @@ Custom rendering for individual items in the dropdown.
 
 ```vue
 <template>
-    <smart-select v-model="selected" :items="items">
+    <SmartSelect v-model="selected" :items="items">
         Placeholder
         <template #item="{ item }">
             <div class="flex items-center gap-xs">
@@ -165,7 +165,7 @@ Custom rendering for individual items in the dropdown.
                 {{ item.label }}
             </div>
         </template>
-    </smart-select>
+    </SmartSelect>
 </template>
 
 <script setup lang="ts">

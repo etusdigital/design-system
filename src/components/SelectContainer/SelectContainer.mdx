@@ -3,7 +3,7 @@ import * as SelectContainer from './SelectContainer.stories.ts';
 
 <Meta of={SelectContainer} />
 
-# Name: select-container
+# Name: SelectContainer
 ## Component Overview
 
 **Purpose**: A graphical template component providing a select-like visual style with expandable content. Used internally to build other select components and exported for custom implementations.
@@ -24,7 +24,7 @@ import * as SelectContainer from './SelectContainer.stories.ts';
 
 ```vue
 <template>
-    <select-container v-model="isOpen" label-value="Custom Select">
+    <SelectContainer v-model="isOpen" label-value="Custom Select">
         <Icon name="sentiment_satisfied" />
         <span class="truncate">Select container example</span>
         
@@ -39,7 +39,7 @@ import * as SelectContainer from './SelectContainer.stories.ts';
             <button size="small" variant="plain">Clear</button>
             <button size="small">Apply</button>
         </template>
-    </select-container>
+    </SelectContainer>
 </template>
 
 <script setup lang="ts">
@@ -133,12 +133,12 @@ Replaces the entire dropdown content area.
 
 ```vue
 <template>
-    <select-container v-model="isOpen" label-value="Custom Content">
+    <SelectContainer v-model="isOpen" label-value="Custom Content">
         <span class="truncate">Select container example</span>
         <template #content>
             <div>Slot: content</div>
         </template>
-    </select-container>
+    </SelectContainer>
 </template>
 
 <script setup lang="ts">

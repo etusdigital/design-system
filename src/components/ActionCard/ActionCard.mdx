@@ -3,7 +3,7 @@ import * as ActionCard from './ActionCard.stories.ts';
 
 <Meta of={ActionCard} />
 
-# Name: action-card
+# Name: ActionCard
 ## Component Overview
 
 **Purpose**: An interactive card component with drag-and-drop functionality, customizable header styling, and integrated delete actions for creating dynamic content management interfaces.
@@ -22,14 +22,14 @@ import * as ActionCard from './ActionCard.stories.ts';
 
 ```vue
 <template>
-    <action-card 
+    <ActionCard 
         icon="send"
         @delete="handleDelete"
         @dragstart="handleDragStart"
         @dragend="handleDragEnd"
     >
         Label
-    </action-card>
+    </ActionCard>
 </template>
 
 <script setup lang="ts">
@@ -79,9 +79,9 @@ Content displayed as the card title in the header section.
 
 ```vue
 <template>
-    <action-card icon="settings">
+    <ActionCard icon="settings">
         Slot: default
-    </action-card>
+    </ActionCard>
 </template>
 ```
 
@@ -90,7 +90,7 @@ Main content area of the card, displayed below the header.
 
 ```vue
 <template>
-    <action-card icon="mail">
+    <ActionCard icon="mail">
         <div class="flex justify-between items-center text-white w-full">
             <div class="flex flex-col text-sm">
                 <p>Send Message:</p>
@@ -119,7 +119,7 @@ Main content area of the card, displayed below the header.
             </div>
         </div>
         </template>
-    </action-card>
+    </ActionCard>
 </template>
 
 <style scoped>

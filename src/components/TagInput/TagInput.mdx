@@ -3,7 +3,7 @@ import * as TagInput from './TagInput.stories.ts';
 
 <Meta of={TagInput} />
 
-# Name: tag-input
+# Name: TagInput
 ## Component Overview
 
 **Purpose**: An interactive input component for creating and managing multiple tags with validation, duplicate prevention, masking support, and flexible constraints for collecting structured data entries.
@@ -22,14 +22,14 @@ import * as TagInput from './TagInput.stories.ts';
 
 ```vue
 <template>
-    <tag-input 
+    <TagInput 
         v-model="tags"
         label-value="label"
     >
         <template #hint-message>
             Press enter to add a new tag
         </template>
-    </tag-input>
+    </TagInput>
 </template>
 
 <script setup lang="ts">
@@ -109,11 +109,11 @@ Custom informational text displayed below the input area.
 
 ```vue
 <template>
-    <tag-input v-model="tags" label-value="label">
+    <TagInput v-model="tags" label-value="label">
         <template #hint-message>
             Press enter to add a new tag
         </template>
-    </tag-input>
+    </TagInput>
 </template>
 
 <script setup lang="ts">
@@ -127,7 +127,7 @@ Custom icon content for prepended (left-side) icons. This slot allows you to ove
 
 ```vue
 <template>
-    <tag-input 
+    <TagInput 
         v-model="inputValue" 
         label-value="label" 
     >
@@ -138,7 +138,7 @@ Custom icon content for prepended (left-side) icons. This slot allows you to ove
                 @click="handleCreate" 
             />
         </template>
-    </tag-input >
+    </TagInput >
 </template>
 
 <script setup lang="ts">
@@ -155,7 +155,7 @@ Custom icon content specifically for appended (right-side) icons. This slot is i
 
 ```vue
 <template>
-    <tag-input
+    <TagInput
         v-model="inputValue" 
         label-value="label" 
     >
@@ -166,7 +166,7 @@ Custom icon content specifically for appended (right-side) icons. This slot is i
                 @click="handleCreate" 
             />
         </template>
-    </tag-input >
+    </TagInput >
 </template>
 
 <script setup lang="ts">

@@ -3,7 +3,7 @@ import * as Toggle from './Toggle.stories.ts';
 
 <Meta of={Toggle} />
 
-# Name: toggle
+# Name: Toggle
 ## Component Overview
 
 **Purpose**: A button-style toggle component with two visual variants for creating toggleable button groups and card-style selections.
@@ -22,12 +22,12 @@ import * as Toggle from './Toggle.stories.ts';
 
 ```vue
 <template>
-    <toggle 
+    <Toggle 
         v-model="isSelected"
         name="buttonGroup"
     >
       Test toggle
-    </toggle>
+    </Toggle>
 </template>
 
 <script setup lang="ts">
@@ -78,9 +78,9 @@ Content displayed inside the toggle button.
 
 ```vue
 <template>
-    <toggle v-model="selected" name="options">
+    <Toggle v-model="selected" name="options">
         Slot: default
-    </toggle>
+    </Toggle>
 </template>
 
 <script setup lang="ts">

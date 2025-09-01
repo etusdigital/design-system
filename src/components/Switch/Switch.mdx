@@ -3,7 +3,7 @@ import * as Switch from './Switch.stories.ts';
 
 <Meta of={Switch} />
 
-# Name: switch
+# Name: Switch
 ## Component Overview
 
 **Purpose**: A switch component with customizable positioning and accessibility features for binary state control with visual feedback and keyboard navigation support.
@@ -22,11 +22,11 @@ import * as Switch from './Switch.stories.ts';
 
 ```vue
 <template>
-    <switch 
+    <Switch 
         v-model="isEnabled"
     >
         Switch Label
-    </switch>
+    </Switch>
 </template>
 
 <script setup lang="ts">
@@ -74,9 +74,9 @@ Content displayed as the switch label next to the switch.
 
 ```vue
 <template>
-    <switch v-model="setting">
+    <Switch v-model="setting">
         Slot: default
-    </switch>
+    </Switch>
 </template>
 
 <script setup lang="ts">

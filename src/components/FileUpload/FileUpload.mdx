@@ -3,7 +3,7 @@ import * as FileUpload from './FileUpload.stories.ts';
 
 <Meta of={FileUpload} />
 
-# Name: file-upload
+# Name: FileUpload
 ## Component Overview
 
 **Purpose**: A dedicated file upload component with drag-and-drop support, file type restrictions, multiple file selection, and visual feedback for file upload operations.
@@ -22,7 +22,7 @@ import * as FileUpload from './FileUpload.stories.ts';
 
 ```vue
 <template>
-    <file-upload 
+    <FileUpload 
         v-model="uploadedFile"
         label-value="Upload Document"
         placeholder="Select a file or drag it here"
@@ -105,7 +105,7 @@ Triggered when files are selected or uploaded. Receives the File object(s) or un
 #### Basic File Upload
 ```vue
 <template>
-    <file-upload 
+    <FileUpload 
         v-model="document"
         label-value="Upload Document"
         accept=".pdf,.doc,.docx"
@@ -122,7 +122,7 @@ const document = ref<File>()
 #### Multiple File Upload with Validation
 ```vue
 <template>
-    <file-upload 
+    <FileUpload 
         v-model="images"
         label-value="Upload Images"
         :multiple="true"
@@ -164,7 +164,7 @@ const validateFiles = (files: File[] | undefined) => {
 #### Custom Upload Display
 ```vue
 <template>
-    <file-upload 
+    <FileUpload 
         v-model="avatar"
         label-value="Profile Picture"
         accept="image/jpeg,image/png"
@@ -190,7 +190,7 @@ const validateFiles = (files: File[] | undefined) => {
                 </button>
             </div>
         </template>
-    </file-upload>
+    </FileUpload>
 </template>
 
 <script setup lang="ts">

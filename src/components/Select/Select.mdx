@@ -3,7 +3,7 @@ import * as Select from './Select.stories.ts';
 
 <Meta of={Select} />
 
-# Name: select
+# Name: Select
 ## Component Overview
 
 **Purpose**: A single-selection dropdown component with search functionality, custom item rendering, and flexible configuration for selecting one option from a list. Prefer using `smart-select` when available
@@ -22,13 +22,13 @@ import * as Select from './Select.stories.ts';
 
 ```vue
 <template>
-    <select 
+    <Select 
         v-model="selectedItem"
         label-value="label"
         :items="options"
     >
         Placeholder
-    </select>
+    </Select>
 </template>
 
 <script setup lang="ts">
@@ -129,7 +129,7 @@ Custom rendering for individual items in the dropdown.
 
 ```vue
 <template>
-    <select v-model="selected" :items="items">
+    <Select v-model="selected" :items="items">
         Placeholder
         <template #item="{ item, index }">
             <div class="flex items-center gap-xs">
@@ -137,7 +137,7 @@ Custom rendering for individual items in the dropdown.
                 {{ item.label }}
             </div>
         </template>
-    </select>
+    </Select>
 </template>
 
 <script setup lang="ts">

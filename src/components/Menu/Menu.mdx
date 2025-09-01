@@ -3,7 +3,7 @@ import * as Menu from './Menu.stories';
 
 <Meta of={Menu} />
 
-# Name: menu
+# Name: Menu
 ## Component Overview
 
 **Purpose**: A vertical navigation menu component with expandable/collapsible layout, icon support, and flexible routing integration for building application sidebars and navigation systems.
@@ -23,7 +23,7 @@ import * as Menu from './Menu.stories';
 ```vue
 <template>
     <div class="h-screen flex">
-        <menu 
+        <Menu 
             v-model="selectedItem"
             :expanded="isExpanded"
             :items="menuItems"
@@ -93,7 +93,7 @@ The Menu component can be integrated with SideMenu to handle nested menu items a
 ```vue
 <template>
     <div class="flex h-screen">
-        <menu 
+        <Menu 
             v-model="selectedMenuItem"
             :expanded="menuExpanded"
             :items="mainMenuItems"

@@ -3,7 +3,7 @@ import * as Dropdown from './Dropdown.stories.ts';
 
 <Meta of={Dropdown} />
 
-# Name: dropdown
+# Name: Dropdown
 ## Component Overview
 
 **Purpose**: A flexible dropdown component with multi-level navigation, search functionality, and customizable trigger elements for complex menu structures.
@@ -22,7 +22,7 @@ import * as Dropdown from './Dropdown.stories.ts';
 
 ```vue
 <template>
-    <dropdown 
+    <Dropdown 
         v-model="selectedValue"
         label-value="label"
         :items="menuItems"
@@ -126,7 +126,7 @@ Custom trigger element to replace the default dropdown button.
 
 ```vue
 <template>
-    <dropdown 
+    <Dropdown 
         v-model="selectedValue"
         :items="menuItems"
         v-model:expanded="isExpanded"
@@ -134,7 +134,7 @@ Custom trigger element to replace the default dropdown button.
         <button @click="isExpanded = !isExpanded">
             Custom Trigger
         </button>
-    </dropdown>
+    </Dropdown>
 </template>
 
 <script setup lang="ts">

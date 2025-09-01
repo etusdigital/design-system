@@ -3,7 +3,7 @@ import * as Navbar from './Navbar.stories';
 
 <Meta of={Navbar} />
 
-# Name: navbar
+# Name: Navbar
 ## Component Overview
 
 **Purpose**: A comprehensive navigation bar component with logo area, dropdown menu navigation, notifications system, and user profile integration for application headers.
@@ -22,7 +22,7 @@ import * as Navbar from './Navbar.stories';
 
 ```vue
 <template>
-    <navbar
+    <Navbar
         v-model="selectedItem"
         title="My Application"
         :items="navigationItems"
@@ -38,7 +38,7 @@ import * as Navbar from './Navbar.stories';
                 </div>
             </div>
         </template>
-    </navbar>
+    </Navbar>
 </template>
 
 <script setup lang="ts">

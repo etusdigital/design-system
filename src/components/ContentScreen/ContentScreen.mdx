@@ -3,7 +3,7 @@ import * as ContentScreen from './ContentScreen.stories.ts';
 
 <Meta of={ContentScreen} />
 
-# Name: content-screen
+# Name: ContentScreen
 ## Component Overview
 
 **Purpose**: A full-screen layout component with left branding section and right content area, designed for multi-step workflows, onboarding, and form processes.
@@ -22,7 +22,7 @@ import * as ContentScreen from './ContentScreen.stories.ts';
 
 ```vue
 <template>
-    <content-screen v-model:progression="currentStep" :steps="totalSteps">
+    <ContentScreen v-model:progression="currentStep" :steps="totalSteps">
         <template #card-content>
             <div class="w-full p-base">
                 <h3 class="font-bold mxs">Title</h3>
@@ -37,7 +37,7 @@ import * as ContentScreen from './ContentScreen.stories.ts';
                 <button>Next</button>
             </div>
         </template>
-    </content-screen>
+    </ContentScreen>
 </template>
 ```
 

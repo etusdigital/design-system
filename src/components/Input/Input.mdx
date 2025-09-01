@@ -3,7 +3,7 @@ import * as Input from './Input.stories.ts';
 
 <Meta of={Input} />
 
-# Name: input
+# Name: Input
 ## Component Overview
 
 **Purpose**: A comprehensive input component with multiple types, validation, masking, file upload, and extensive customization options for form data collection.
@@ -22,7 +22,7 @@ import * as Input from './Input.stories.ts';
 
 ```vue
 <template>
-    <input 
+    <Input 
         v-model="inputValue"
         label-value="label"
     />
@@ -140,7 +140,7 @@ Custom content for file upload display when a file is selected.
 
 ```vue
 <template>
-    <input type="file" label-value="Upload Document">
+    <Input type="file" label-value="Upload Document">
         <template #uploaded-file>
             <div class="flex items-center gap-xs">
                 <icon name="description" class="text-primary-500" />
@@ -150,7 +150,7 @@ Custom content for file upload display when a file is selected.
                 </button>
             </div>
         </template>
-    </input>
+    </Input>
 </template>
 
 <script setup lang="ts">
@@ -163,7 +163,7 @@ Custom icon content for prepended (left-side) icons. This slot allows you to ove
 
 ```vue
 <template>
-    <input 
+    <Input 
         v-model="inputValue" 
         label-value="Search" 
         icon="search"
@@ -176,7 +176,7 @@ Custom icon content for prepended (left-side) icons. This slot allows you to ove
                 @click="performSearch" 
             />
         </template>
-    </input>
+    </Input>
 </template>
 
 <script setup lang="ts">
@@ -193,7 +193,7 @@ Custom icon content specifically for appended (right-side) icons. This slot is i
 
 ```vue
 <template>
-    <input 
+    <Input 
         v-model="passwordValue" 
         type="password"
         label-value="Password" 
@@ -206,7 +206,7 @@ Custom icon content specifically for appended (right-side) icons. This slot is i
                 @click="togglePassword" 
             />
         </template>
-    </input>
+    </Input>
 </template>
 
 <script setup lang="ts">

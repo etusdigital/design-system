@@ -3,7 +3,7 @@ import * as Profile from './Profile.stories.ts';
 
 <Meta of={Profile} />
 
-# Name: profile
+# Name: Profile
 ## Component Overview
 
 **Purpose**: A user profile dropdown component with account switching capabilities, profile management actions, and customizable content areas for user authentication workflows.
@@ -22,7 +22,7 @@ import * as Profile from './Profile.stories.ts';
 
 ```vue
 <template>
-    <profile
+    <Profile
         v-model="selectedAccount"
         :name="currentUser.name"
         :picture="currentUser.picture"
@@ -48,7 +48,7 @@ import * as Profile from './Profile.stories.ts';
         <template #terms-of-use>
             Terms Of Use
         </template>
-    </profile>
+    </Profile>
 </template>
 
 <script setup lang="ts">
@@ -141,7 +141,7 @@ Custom rendering for account selection items.
 
 ```vue
 <template>
-    <profile
+    <Profile
         v-model="selectedAccount"
         :name="userName"
         :items="accounts"
@@ -153,7 +153,7 @@ Custom rendering for account selection items.
                 <span :class="{'underline': active }">{{ item.label }}</span>
             </div>
         </template>
-    </profile>
+    </Profile>
 </template>
 ```
 

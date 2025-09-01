@@ -3,7 +3,7 @@ import * as Checkbox from './Checkbox.stories.ts';
 
 <Meta of={Checkbox} />
 
-# Name: checkbox
+# Name: Checkbox
 ## Component Overview
 
 **Purpose**: A checkbox input component with support for indeterminate state, flexible positioning, and accessibility features for form controls and selection interfaces.
@@ -22,13 +22,13 @@ import * as Checkbox from './Checkbox.stories.ts';
 
 ```vue
 <template>
-    <checkbox 
+    <Checkbox 
         v-model="isChecked"
         id="basic-checkbox"
         name="basic"
     >
         Test label
-    </checkbox>
+    </Checkbox>
 </template>
 
 <script setup lang="ts">
@@ -81,9 +81,9 @@ Content displayed next to the checkbox box (typically the label text).
 
 ```vue
 <template>
-    <checkbox v-model="isSelected" id="slot-example">
+    <Checkbox v-model="isSelected" id="slot-example">
         Slot: default
-    </checkbox>
+    </Checkbox>
 </template>
 ```
 

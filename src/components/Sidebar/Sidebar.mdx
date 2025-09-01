@@ -3,7 +3,7 @@ import * as Sidebar from './Sidebar.stories.ts';
 
 <Meta of={Sidebar} />
 
-# Name: sidebar
+# Name: Sidebar
 ## Component Overview
 
 **Purpose**: A slide-out sidebar panel component that appears from the right side of the screen with an overlay backdrop, supporting customizable width and close behavior.
@@ -24,7 +24,7 @@ import * as Sidebar from './Sidebar.stories.ts';
 <template>
     <div>
         <button @click="openSidebar">Show Sidebar</button>
-        <sidebar v-model="showSidebar" width="40%">
+        <Sidebar v-model="showSidebar" width="40%">
             <div class="flex flex-col justify-between h-full p-xl">
                 <div class="flex flex-col gap-sm">
                     <h2 class="font-bold text-lg">Sidebar</h2>
@@ -39,7 +39,7 @@ import * as Sidebar from './Sidebar.stories.ts';
                     <button>Save</button>
                 </div>
             </div>
-        </sidebar>
+        </Sidebar>
     </div>
 </template>
 
@@ -87,9 +87,9 @@ The main content slot for the sidebar. Contains all the sidebar content includin
 
 ```vue
 <template>
-    <sidebar v-model="showForm" width="500px">
+    <Sidebar v-model="showForm" width="500px">
         Slot: default
-    </sidebar>
+    </Sidebar>
 </template>
 
 <script setup lang="ts">

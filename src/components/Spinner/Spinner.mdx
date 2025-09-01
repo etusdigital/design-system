@@ -3,7 +3,7 @@ import * as Spinner from './Spinner.stories.ts';
 
 <Meta of={Spinner} />
 
-# Name: spinner
+# Name: Spinner
 ## Component Overview
 
 **Purpose**: A loading spinner component with customizable colors and sizes for indicating loading states.
@@ -22,7 +22,7 @@ import * as Spinner from './Spinner.stories.ts';
 
 ```vue
 <template>
-    <spinner />
+    <Spinner />
 </template>
 ```
 
@@ -38,12 +38,12 @@ Controls the spinner's color. Can be changed through the **color** CSS property 
 ```vue
 <template>
     <div class="flex gap-sm">
-        <spinner class="text-neutral-interaction-default" />
-        <spinner class="text-primary-interaction-default" />
-        <spinner class="text-informative-interaction-default" />
-        <spinner class="text-success-interaction-default" />
-        <spinner class="text-warning-interaction-default" />
-        <spinner class="text-danger-interaction-default" />
+        <Spinner class="text-neutral-interaction-default" />
+        <Spinner class="text-primary-interaction-default" />
+        <Spinner class="text-informative-interaction-default" />
+        <Spinner class="text-success-interaction-default" />
+        <Spinner class="text-warning-interaction-default" />
+        <Spinner class="text-danger-interaction-default" />
     </div>
 </template>
 ```
@@ -56,11 +56,11 @@ Controls the spinner's dimensions. Can be changed through the **font-size** CSS 
 ```vue
 <template>
     <div class="flex gap-sm">
-        <spinner class="text-xs" />
-        <spinner class="text-xl" />
-        <spinner class="text-3xl" />
-        <spinner class="text-5xl" />
-        <spinner class="text-7xl" />
+        <Spinner class="text-xs" />
+        <Spinner class="text-xl" />
+        <Spinner class="text-3xl" />
+        <Spinner class="text-5xl" />
+        <Spinner class="text-7xl" />
       </div>
 </template>
 ```

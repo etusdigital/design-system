@@ -3,7 +3,7 @@ import * as TagSelect from './TagSelect.stories.ts';
 
 <Meta of={TagSelect} />
 
-# Name: tag-select
+# Name: TagSelect
 ## Component Overview
 
 **Purpose**: A tag-based selection component with search functionality, custom tag creation, and removable tag management for collecting multiple values as visual tags.
@@ -22,7 +22,7 @@ import * as TagSelect from './TagSelect.stories.ts';
 
 ```vue
 <template>
-    <tag-select 
+    <TagSelect 
         v-model="selectedTags"
         label-value="Select Tags"
         :items="availableTags"
@@ -36,7 +36,7 @@ import * as TagSelect from './TagSelect.stories.ts';
         <template #empty-state>
             No tags created yet
         </template>
-    </tag-select>
+    </TagSelect>
 </template>
 
 <script setup lang="ts">

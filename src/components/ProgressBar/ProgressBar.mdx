@@ -3,7 +3,7 @@ import * as ProgressBar from './ProgressBar.stories';
 
 <Meta of={ProgressBar} />
 
-# Name: progress-bar
+# Name: ProgressBar
 ## Component Overview
 
 **Purpose**: A versatile progress indicator component supporting both percentage-based and step-based progress tracking with customizable styling, animations, and display options.
@@ -22,7 +22,7 @@ import * as ProgressBar from './ProgressBar.stories';
 
 ```vue
 <template>
-    <progress-bar v-model="uploadProgress" />
+    <ProgressBar v-model="uploadProgress" />
 </template>
 
 <script setup lang="ts">
@@ -95,14 +95,14 @@ Custom content to replace the default icon at the end of the progress bar.
 
 ```vue
 <template>
-    <progress-bar 
+    <ProgressBar 
         v-model="progress"
         display-percentage="bar"
     >
         <template #icon-slot>
             Slot: icon-slot
         </template>
-    </progress-bar>
+    </ProgressBar>
 </template>
 ```
 

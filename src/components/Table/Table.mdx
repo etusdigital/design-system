@@ -3,7 +3,7 @@ import * as Table from './Table.stories.ts';
 
 <Meta of={Table} />
 
-# Name: table
+# Name: Table
 ## Component Overview
 
 **Purpose**: A comprehensive data table component with sorting, pagination, selection, loading states, and extensive customization through slots for displaying structured data.
@@ -22,7 +22,7 @@ import * as Table from './Table.stories.ts';
 
 ```vue
 <template>
-    <table :headers="headers" :items="items">
+    <Table :headers="headers" :items="items">
         <template v-for="header in headers" v-slot:[header.value]="{ item, index }">
             <td>{{ item[header.value] }}</td>
         </template>
@@ -32,7 +32,7 @@ import * as Table from './Table.stories.ts';
                 <RoundButton color="primary" variant="plain" icon="more_vert"/>
             </td>
         </template>
-    </table>
+    </Table>
 </template>
 
 <script setup lang="ts">
@@ -89,9 +89,9 @@ Current active page number. Type: `number` (default: `1`)
 
 ```vue
 <template>
-    <table :headers="headers" :items="items" v-model:page="currentPage" @update:page="handlePageChange">
+    <Table :headers="headers" :items="items" v-model:page="currentPage" @update:page="handlePageChange">
         ...
-    </table>
+    </Table>
 </template>
 
 <script setup lang="ts">
@@ -107,14 +107,14 @@ Number of items to display per page. Type: `number` (default: `10`)
 
 ```vue
 <template>
-    <table 
+    <Table 
         :headers="headers" 
         :items="items"
         v-model:items-per-page="itemsPerPage"
         @update:items-per-page="handleItemsPerPageChange"
     >
         ...
-    </table>
+    </Table>
 </template>
 
 <script setup lang="ts">
@@ -135,14 +135,14 @@ Enables row selection with checkboxes. Type: `boolean` (default: `false`)
 
 ```vue
 <template>
-    <table :headers="headers" :items="items" enable-selection @select-all="handleSelectAll">
+    <Table :headers="headers" :items="items" enable-selection @select-all="handleSelectAll">
         <template #select="{ item }">
             <td>
                 <Checkbox v-model="item.selected" />
             </td>
         </template>
         ...
-    </table>
+    </Table>
 </template>
 
 <script setup lang="ts">
@@ -157,7 +157,7 @@ Enables expandable rows for nested data. Type: `boolean` (default: `false`)
 
 ```vue
 <template>
-    <table :headers="headers" :items="items" enable-aggregation>
+    <Table :headers="headers" :items="items" enable-aggregation>
         <template #aggregation="{ item }">
             <div class="flex items-center justify-center p-xxs rounded-full cursor-pointer hover:bg-neutral-surface-highlight">
                 <icon
@@ -176,7 +176,7 @@ Enables expandable rows for nested data. Type: `boolean` (default: `false`)
                 <td>{{ child.value }}</td>
             </tr>
         </template>
-    </table>
+    </Table>
 </template>
 ```
 
@@ -207,7 +207,7 @@ Total number of items across all pages (used for backend pagination). Type: `num
 
 ```vue
 <template>
-    <table 
+    <Table 
         :headers="headers" 
         :items="currentPageItems"
         :render-pagination-in-back-end="true"
@@ -216,7 +216,7 @@ Total number of items across all pages (used for backend pagination). Type: `num
         @sort-by="handleSort"
       >
         ...
-    </table>
+    </Table>
 </template>
 
 <script setup lang="ts">
@@ -257,11 +257,11 @@ For each header, a slot is created with the header's `value` as the slot name.
 
 ```vue
 <template>
-    <table :headers="headers" :items="items">
+    <Table :headers="headers" :items="items">
         <template v-for="header in headers" v-slot:[header.value]="{ item, index }">
             <td>{{ item[header.value] }}</td>
         </template>
-    </table>
+    </Table>
 </template>
 ```
 
@@ -270,14 +270,14 @@ Displays action buttons or controls for each row.
 
 ```vue
 <template>
-    <table :headers="headers" :items="items">
+    <Table :headers="headers" :items="items">
         ...
         <template #actions="{ item }">
             <td class="flex items-center justify-end">
                 <RoundButton color="primary" variant="plain" icon="more_vert" @click="() => handleActions(item)" />
             </td>
         </template>
-    </table>
+    </Table>
 </template>
 
 <script setup lang="ts">
@@ -299,13 +299,13 @@ Displayed when no items are available.
 
 ```vue
 <template>
-    <table :headers="headers" :items="items">
+    <Table :headers="headers" :items="items">
           <template #empty-state>
               <div class="flex items-center justify-center p-xxs rounded-full text-xl">
                   <Icon name="sentiment_dissatisfied" size="1em" />
               </div>
           </template>
-      </table>
+      </Table>
 </template>
 ```
 

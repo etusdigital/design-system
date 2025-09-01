@@ -3,7 +3,7 @@ import * as Dialog from './Dialog.stories.ts';
 
 <Meta of={Dialog} />
 
-# Name: dialog
+# Name: Dialog
 ## Component Overview
 
 **Purpose**: A modal dialog component with overlay and customizable dimensions for displaying content that requires user attention or interaction.
@@ -27,7 +27,7 @@ import * as Dialog from './Dialog.stories.ts';
             Show Dialog
         </button>
         
-        <dialog v-model="showDialog">
+        <Dialog v-model="showDialog">
             <div class="flex flex-col p-xl gap-sm">
                 <h2 class="font-bold text-lg">Dialog</h2>
                 <p class="text-sm text-neutral-foreground-low">
@@ -44,7 +44,7 @@ import * as Dialog from './Dialog.stories.ts';
                     </button>
                 </div>
             </div>
-        </dialog>
+        </Dialog>
     </div>
 </template>
 
@@ -88,9 +88,9 @@ The main content area of the dialog.
 
 ```vue
 <template>
-    <dialog v-model="isOpen">
+    <Dialog v-model="isOpen">
         Slot: default
-    </dialog>
+    </Dialog>
 </template>
 
 <script setup lang="ts">

@@ -3,7 +3,7 @@ import * as Button from './Button.stories.ts';
 
 <Meta of={Button} />
 
-# Name: button
+# Name: Button
 ## Component Overview
 
 **Purpose**: A customizable button component with support for different colors, sizes, variants, loading states, and progress indicators.
@@ -22,7 +22,7 @@ import * as Button from './Button.stories.ts';
 
 ```vue
 <template>
-    <button>Label</button>
+    <Button>Label</Button>
 </template>
 ```
 
@@ -41,9 +41,9 @@ Controls the HTML button type attribute. Options: `"button"` | `"submit"` | `"re
 
 ```vue
 <template>
-    <button type="button" @click="handleClick">Click me</button>
-    <button type="submit">Submit Form</button>
-    <button type="reset">Reset Form</button>
+    <Button type="button" @click="handleClick">Click me</Button>
+    <Button type="submit">Submit Form</Button>
+    <Button type="reset">Reset Form</Button>
 </template>
 ```
 
@@ -53,12 +53,12 @@ Sets the button's color theme. Options: `"primary"` | `"info"` | `"success"` | `
 ```vue
 <template>
     <div class="flex gap-xs">
-        <button color="primary">Primary</button>
-        <button color="info">Info</button>
-        <button color="success">Success</button>
-        <button color="warning">Warning</button>
-        <button color="danger">Danger</button>
-        <button color="neutral">Neutral</button>
+        <Button color="primary">Primary</Button>
+        <Button color="info">Info</Button>
+        <Button color="success">Success</Button>
+        <Button color="warning">Warning</Button>
+        <Button color="danger">Danger</Button>
+        <Button color="neutral">Neutral</Button>
     </div>
 </template>
 ```
@@ -70,9 +70,9 @@ Controls the button's dimensions and padding. Options: `"small"` | `"medium"` | 
 ```vue
 <template>
     <div class="flex gap-xs">
-        <button class="h-fit" size="small">Small</button>
-        <button class="h-fit" size="medium">Medium</button>
-        <button class="h-fit" size="large">Large</button>
+        <Button class="h-fit" size="small">Small</Button>
+        <Button class="h-fit" size="medium">Medium</Button>
+        <Button class="h-fit" size="large">Large</Button>
     </div>
 </template>
 ```
@@ -89,10 +89,10 @@ Changes the button's visual style. Options: `"default"` | `"secondary"` | `"plai
 ```vue
 <template>
     <div class="flex gap-xs">
-        <button variant="default">Default</button>
-        <button variant="secondary">Secondary</button>
-        <button variant="plain">Plain</button>
-        <button variant="reverse">Reverse</button>
+        <Button variant="default">Default</Button>
+        <Button variant="secondary">Secondary</Button>
+        <Button variant="plain">Plain</Button>
+        <Button variant="reverse">Reverse</Button>
     </div>
 </template>
 ```
@@ -104,7 +104,7 @@ Disables the button and prevents interactions. Type: `boolean` (default: `false`
 
 ```vue
 <template>
-    <button disabled>Disabled</button>
+    <Button disabled>Disabled</Button>
 </template>
 ```
 
@@ -115,7 +115,7 @@ Shows a spinner and disables interactions. Type: `boolean` (default: `false`)
 
 ```vue
 <template>
-    <button loading>Loading...</button>
+    <Button loading>Loading...</Button>
 </template>
 ```
 
@@ -127,9 +127,9 @@ Shows a progress bar overlay (0-1 range). When > 0, automatically enables loadin
 ```vue
 <template>
     <div class="flex gap-xs">
-        <button :progress="0.3">30% Complete</button>
-        <button :progress="0.75">75% Complete</button>
-        <button :progress="1">Complete!</button>
+        <Button :progress="0.3">30% Complete</Button>
+        <Button :progress="0.75">75% Complete</Button>
+        <Button :progress="1">Complete!</Button>
     </div>
 </template>
 ```
@@ -143,9 +143,9 @@ HTML attributes for form handling and accessibility. Type: `string` (optional)
 <template>
     <form>
         <!-- When id/name is provided, creates a label element for better accessibility -->
-        <button id="submit-btn" name="submit-button" type="submit">
+        <Button id="submit-btn" name="submit-button" type="submit">
             Submit Form
-        </button>
+        </Button>
     </form>
 </template>
 ```
@@ -164,7 +164,7 @@ The main content slot for the button. Displays text, icons, or any other content
 
 ```vue
 <template>
-    <button>Slot: default</button>
+    <Button>Slot: default</Button>
 </template>
 ```
 

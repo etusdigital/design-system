@@ -3,7 +3,7 @@ import * as MetricCard from './MetricCard.stories.ts';
 
 <Meta of={MetricCard} />
 
-# Name: metric-card
+# Name: MetricCard
 ## Component Overview
 
 **Purpose**: A flexible metric display card component with multiple visual themes, loading states, and customizable content slots for showcasing key performance indicators and statistical data.
@@ -23,7 +23,7 @@ import * as MetricCard from './MetricCard.stories.ts';
 ```vue
 <template>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-base">
-        <metric-card
+        <MetricCard
             title="Total Revenue"
             value="$124,500"
             description="+12% from last month"
@@ -32,7 +32,7 @@ import * as MetricCard from './MetricCard.stories.ts';
             @click="viewDetails"
         />
         
-        <metric-card
+        <MetricCard
             title="Active Users"
             value="2,450"
             description="+5% from last week"
@@ -40,7 +40,7 @@ import * as MetricCard from './MetricCard.stories.ts';
             :loading="isLoading"
         />
         
-        <metric-card
+        <MetricCard
             title="Conversion Rate"
             value="3.2%"
             description="-0.5% from last month"
@@ -137,7 +137,7 @@ Additional content displayed below the main card information.
 
 ```vue
 <template>
-    <metric-card
+    <MetricCard
         class="w-fit"
         title="Your June recipe"
         value="$100,000.00"
@@ -165,7 +165,7 @@ Additional content displayed below the main card information.
             </button>
         </div>
         </div>
-    </metric-card>
+    </MetricCard>
 </template>
 
 <style scoped>

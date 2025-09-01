@@ -3,7 +3,7 @@ import * as Textarea from './Textarea.stories.ts';
 
 <Meta of={Textarea} />
 
-# Name: textarea
+# Name: Textarea
 ## Component Overview
 
 **Purpose**: A versatile textarea component for multi-line text input with character counting, validation, and customization options for form data collection.
@@ -22,7 +22,7 @@ import * as Textarea from './Textarea.stories.ts';
 
 ```vue
 <template>
-    <textarea 
+    <Textarea 
         v-model="textareaValue"
         label-value="Message"
         placeholder="Enter your message..."
@@ -111,7 +111,7 @@ Triggered when the textarea loses focus. Receives the current value.
 #### Basic Textarea
 ```vue
 <template>
-    <textarea 
+    <Textarea 
         v-model="message"
         label-value="Your Message"
         placeholder="Type your message here..."
@@ -127,7 +127,7 @@ const message = ref('')
 #### Textarea with Character Limit
 ```vue
 <template>
-    <textarea 
+    <Textarea 
         v-model="description"
         label-value="Description"
         :max="500"
@@ -144,7 +144,7 @@ const description = ref('')
 #### Textarea with Validation
 ```vue
 <template>
-    <textarea 
+    <Textarea 
         v-model="comment"
         label-value="Comment"
         :is-error="hasError"

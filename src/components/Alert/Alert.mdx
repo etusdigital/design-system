@@ -3,7 +3,7 @@ import * as Alert from './Alert.stories.ts';
 
 <Meta of={Alert} />
 
-# Name: alert
+# Name: Alert
 ## Component Overview
 
 **Purpose**: A flexible alert component for displaying important messages with different types, sizes, and interactive features like expandable content and close buttons.
@@ -22,7 +22,7 @@ import * as Alert from './Alert.stories.ts';
 
 ```vue
 <template>
-    <alert 
+    <Alert 
         title="Demo Title" 
         message="Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a massa praesent ultricies."
     />
@@ -88,7 +88,7 @@ Replaces the entire content area (title and message). Useful for custom layouts.
 
 ```vue
 <template>
-    <alert type="success">
+    <Alert type="success">
         <div class="flex flex-col gap-sm">
             <h3 class="font-bold text-lg">Custom Content</h3>
             <p>You can put any custom content here instead of using title and message props.</p>
@@ -97,7 +97,7 @@ Replaces the entire content area (title and message). Useful for custom layouts.
                 <button size="small" variant="secondary">Action 2</button>
             </div>
         </div>
-    </alert>
+    </Alert>
 </template>
 ```
 
@@ -106,7 +106,7 @@ Replaces the default action area (expand/close buttons). Useful for custom actio
 
 ```vue
 <template>
-    <alert 
+    <Alert 
         title="Custom Actions" 
         message="This alert has custom action buttons."
         type="warning"
@@ -124,7 +124,7 @@ Replaces the default action area (expand/close buttons). Useful for custom actio
                 </button>
             </div>
         </template>
-    </alert>
+    </Alert>
 </template>
 ```
 

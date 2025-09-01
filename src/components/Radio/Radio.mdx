@@ -3,7 +3,7 @@ import * as Radio from './Radio.stories.ts';
 
 <Meta of={Radio} />
 
-# Name: radio
+# Name: Radio
 ## Component Overview
 
 **Purpose**: A radio button component with support for groups, visual variants, and accessibility features for single-choice selection scenarios.
@@ -22,12 +22,12 @@ import * as Radio from './Radio.stories.ts';
 
 ```vue
 <template>
-    <radio 
+    <Radio 
         v-model="isSelected"
         name="radioGroup"
     >
       Test radio
-    </radio>
+    </Radio>
 </template>
 
 <script setup lang="ts">
@@ -78,9 +78,9 @@ Content displayed next to the radio button circle.
 
 ```vue
 <template>
-    <radio v-model="selected" name="options">
+    <Radio v-model="selected" name="options">
        Slot: default
-    </radio>
+    </Radio>
 </template>
 
 <script setup lang="ts">

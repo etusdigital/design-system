@@ -3,7 +3,7 @@ import * as FloatCard from './FloatCard.stories';
 
 <Meta of={FloatCard} />
 
-# Name: float-card
+# Name: FloatCard
 ## Component Overview
 
 **Purpose**: A floating card component with click or hover triggers, smart positioning, and intelligent scroll detection for displaying contextual content and tooltips with enhanced user experience.
@@ -22,7 +22,7 @@ import * as FloatCard from './FloatCard.stories';
 
 ```vue
 <template>
-    <float-card v-model="isCardOpen" mode="click">
+    <FloatCard v-model="isCardOpen" mode="click">
         <button>Click to show card</button>
         
         <template #card>
@@ -31,7 +31,7 @@ import * as FloatCard from './FloatCard.stories';
                 <p>This content appears in a floating card positioned relative to the trigger element.</p>
             </div>
         </template>
-    </float-card>
+    </FloatCard>
 </template>
 
 <script setup lang="ts">
@@ -69,9 +69,9 @@ The trigger element that activates the floating card when interacted with.
 
 ```vue
 <template>
-    <float-card v-model="showCard">
+    <FloatCard v-model="showCard">
         Slot: default
-    </float-card>
+    </FloatCard>
 </template>
 ```
 
@@ -80,7 +80,7 @@ Content displayed within the floating card when visible.
 
 ```vue
 <template>
-    <float-card v-model="showTooltip" mode="hover">
+    <FloatCard v-model="showTooltip" mode="hover">
         Slot: default
         
         <template #card>
@@ -89,7 +89,7 @@ Content displayed within the floating card when visible.
                 <p class="text-sm">This tooltip provides additional context and guidance for the user.</p>
             </div>
         </template>
-    </float-card>
+    </FloatCard>
 </template>
 ```
 
