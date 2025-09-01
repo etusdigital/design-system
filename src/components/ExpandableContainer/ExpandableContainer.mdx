@@ -25,7 +25,7 @@ import * as ExpandableContainer from './ExpandableContainer.stories.ts';
     <expandable-container 
         v-model="isExpanded"
         label-value="Select Options"
-        @update:model-value="handleToggle"
+        @update:model-value="handleSwitch"
     >
         <Icon name="sentiment_satisfied" class="text-base shrink-0" />
         <span class="truncate">Container content</span>
@@ -45,7 +45,7 @@ import { ref } from 'vue'
 const isExpanded = ref(false)
 const options = ref([...])
 
-const handleToggle = (value: boolean) => {
+const handleSwitch = (value: boolean) => {
     console.log('Container toggled:', value)
 }
 </script>

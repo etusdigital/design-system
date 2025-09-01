@@ -1,19 +1,19 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as Toggle from './Toggle.stories.ts';
+import * as Switch from './Switch.stories.ts';
 
-<Meta of={Toggle} />
+<Meta of={Switch} />
 
-# Name: toggle
+# Name: switch
 ## Component Overview
 
-**Purpose**: A toggle switch component with customizable positioning and accessibility features for binary state control with visual feedback and keyboard navigation support.
+**Purpose**: A switch component with customizable positioning and accessibility features for binary state control with visual feedback and keyboard navigation support.
 
 **Import**: Automatic - no need to import any DS components
 
 <br />
 ### Playground
 
-<Canvas of={Toggle.Primary} />
+<Canvas of={Switch.Primary} />
 <Controls />
 
 ---
@@ -22,11 +22,11 @@ import * as Toggle from './Toggle.stories.ts';
 
 ```vue
 <template>
-    <toggle 
+    <switch 
         v-model="isEnabled"
     >
-        Toggle Label
-    </toggle>
+        Switch Label
+    </switch>
 </template>
 
 <script setup lang="ts">
@@ -35,48 +35,48 @@ const isEnabled = ref(false)
 </script>
 ```
 
-<Canvas sourceState="none" of={Toggle.Primary} />
+<Canvas sourceState="none" of={Switch.Primary} />
 
 ---
 
 ### Props API
 
 #### v-model
-Controls the toggle state (on/off). Type: `boolean` (default: `false`)
+Controls the switch state (on/off). Type: `boolean` (default: `false`)
 
 #### id
-HTML id attribute for the toggle element. Type: `string` (default: `undefined`)
+HTML id attribute for the switch element. Type: `string` (default: `undefined`)
 
 #### name
 HTML name attribute for form integration. Type: `string` (default: `undefined`)
 
 #### rhs
-Positions the toggle switch on the right-hand side of the label. Type: `boolean` (default: `false`)
+Positions the switch button on the right-hand side of the label. Type: `boolean` (default: `false`)
 
-<Canvas sourceState="none" of={Toggle.RHS} />
+<Canvas sourceState="none" of={Switch.RHS} />
 
 #### disabled
-Disables the toggle interaction. Type: `boolean` (default: `false`)
+Disables the switch interaction. Type: `boolean` (default: `false`)
 
-<Canvas sourceState="none" of={Toggle.Disabled} />
+<Canvas sourceState="none" of={Switch.Disabled} />
 
 ---
 
 ### Events API
 
 #### @update:model-value
-Triggered when the toggle state changes. Receives the new boolean value.
+Triggered when the switch state changes. Receives the new boolean value.
 
 ### Slots API
 
 #### #default
-Content displayed as the toggle label next to the switch.
+Content displayed as the switch label next to the switch.
 
 ```vue
 <template>
-    <toggle v-model="setting">
+    <switch v-model="setting">
         Slot: default
-    </toggle>
+    </switch>
 </template>
 
 <script setup lang="ts">

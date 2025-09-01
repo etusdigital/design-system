@@ -19,7 +19,7 @@ const emit = defineEmits<{
 
 const [model] = useOptionalModel<boolean>(props, 'modelValue', emit, false);
 
-function toggle() {
+function switchState() {
     if (props.disabled) return;
     model.value = !model.value;
 }
@@ -32,15 +32,15 @@ function toggle() {
         role="switch"
         :aria-checked="model"
         :aria-disabled="disabled"
-        class="toggle"
+        class="switch"
         :class="{ 'flex-row-reverse': rhs, disabled }"
-        @click="toggle"
+        @click="switchState"
     >
         <div
             tabindex="0"
             class="container"
             :class="{ active: model }"
-            @keyup.space="toggle"
+            @keyup.space="switchState"
         >
             <div
                 class="inline-block rounded-full w-[.85em] h-[.85em] bg-current transition"
@@ -48,10 +48,10 @@ function toggle() {
             />
         </div>
         <template v-if="$slots.default">
-            <label v-if="name || id" :for="name || id" class="toggle-label cursor-[inherit]">
+            <label v-if="name || id" :for="name || id" class="switch-label cursor-[inherit]">
                 <slot />
             </label>
-            <div v-else class="toggle-label">
+            <div v-else class="switch-label">
                 <slot />
             </div>
         </template>
@@ -61,18 +61,18 @@ function toggle() {
 <style scoped>
 @reference "../../assets/main.css";
 
-.toggle {
+.switch {
     @apply inline-flex text-base gap-xs items-center cursor-pointer;
 }
 
-.toggle.disabled {
+.switch.disabled {
     @apply pointer-events-none;
 
     .container {
         @apply bg-neutral-surface-disabled;
     }
 
-    .toggle-label {
+    .switch-label {
         @apply text-neutral-interaction-disabled;
     }
 }
@@ -89,7 +89,7 @@ function toggle() {
     @apply bg-primary-interaction-default;
 }
 
-.toggle-label {
+.switch-label {
     @apply text-xs text-neutral-interaction-default;
 }
 </style>

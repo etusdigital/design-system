@@ -55,5 +55,5 @@ export { default as Tag } from './Tag';
 export { default as TagInput } from './TagInput';
 export { default as TagSelect } from './TagSelect';
 export { default as Toast } from './Toast';
-export { default as Toggle } from './Toggle';
+export { default as Switch } from './Switch';
 export { default as Tooltip } from './Tooltip';

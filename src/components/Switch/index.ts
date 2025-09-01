@@ -1,12 +1,12 @@
 import type { App, Plugin } from 'vue';
-import Toggle from './Toggle.vue';
+import Switch from './Switch.vue';
 
 export default {
     install(Vue: App) {
-        Vue.component('Toggle', Toggle);
+        Vue.component('Switch', Switch);
     },
 } as Plugin;
 
 export {
-    Toggle,
+    Switch,
 }

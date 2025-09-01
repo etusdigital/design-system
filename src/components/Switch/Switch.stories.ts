@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import Toggle from "./Toggle.vue";
+import Switch from "./Switch.vue";
 
 export default {
-  component: Toggle,
+  component: Switch,
   argTypes: {
     modelValue: {
       type: { summary: "boolean" },
@@ -27,9 +27,9 @@ export default {
       description: "This slot will be displayed next to the switch button.",
     },
   },
-} satisfies Meta<typeof Toggle>;
+} satisfies Meta<typeof Switch>;
 
-type Story = StoryObj<typeof Toggle>;
+type Story = StoryObj<typeof Switch>;
 
 const defaultArgs = {
   modelValue: false,
@@ -38,20 +38,20 @@ const defaultArgs = {
 };
 
 const defaultRender = (args: any) => ({
-  components: { Toggle },
+  components: { Switch },
   setup() {
     return { args };
   },
   template: `
-    <Toggle
+    <Switch
       v-model="args.modelValue"
       :id="args.id"
       :name="args.name"
       :disabled="args.disabled"
       :rhs="args.rhs"
     >
-      Toggle Label
-    </Toggle>
+      Switch Label
+    </Switch>
   `,
 });
 

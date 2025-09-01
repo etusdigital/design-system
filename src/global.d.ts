@@ -52,6 +52,7 @@ declare module '@vue/runtime-core' {
     Spinner: typeof import('./components/Spinner/Spinner.vue')['default']
     StepOption: typeof import('./components/StepOption/StepOption.vue')['default']
     Stepper: typeof import('./components/Stepper/Stepper.vue')['default']
+    Switch: typeof import('./components/Switch/Switch.vue')['default']
     Tab: typeof import('./components/Tab/Tab.vue')['default']
     Table: typeof import('./components/Table/Table.vue')['default']
     Tag: typeof import('./components/Tag/Tag.vue')['default']
@@ -59,7 +60,6 @@ declare module '@vue/runtime-core' {
     TagSelect: typeof import('./components/TagSelect/TagSelect.vue')['default']
     Textarea: typeof import('./components/Textarea/Textarea.vue')['default']
     Toast: typeof import('./components/Toast/Toast.vue')['default']
-    Toggle: typeof import('./components/Toggle/Toggle.vue')['default']
     Tooltip: typeof import('./components/Tooltip/Tooltip.vue')['default']
   }
 }
