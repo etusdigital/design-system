@@ -111,7 +111,7 @@ function onFocus() {
     </div>
     <textarea
       v-model="inputValue"
-      class="input-container textarea"
+      class="textarea textarea"
       :class="inputClasses"
       :style="inputStyle"
       :maxlength="computedMax"
@@ -174,8 +174,8 @@ function onFocus() {
 /* #endregion LABEL COMPONENTS STYLE */
 
 /* #region DEFAULT TEXTAREA STYLE */
-.input-container {
-  @apply flex items-center gap-xs outline outline-xxs bg-emphasis
+.textarea {
+  @apply flex items-center gap-xs outline-xxs
       outline-neutral-default
         rounded-sm
         transition-[outline-color]
@@ -183,27 +183,23 @@ function onFocus() {
         delay-100
         py-xs
         px-sm
-        min-h-fit
-        focus:outline-primary-default;
-}
+        focus:outline-primary-default
+        border-none bg-transparent text-neutral-foreground-high min-h-xl;
+  
+      }
 
-.input-container.focus {
+.textarea.focus {
   @apply outline-primary-default;
 }
 
-.textarea {
-  @apply border-none bg-transparent text-neutral-foreground-high outline-none min-h-xl;
-}
-/* #endregion DEFAULT TEXTAREA STYLE */
-
 /* #region DISABLED TEXTAREA STYLE */
-.input-container.disabled {
+.textarea.disabled {
   @apply bg-neutral-surface-disabled text-neutral-foreground-disabled outline-neutral-disabled;
 }
 /* #endregion DISABLED TEXTAREA STYLE */
 
 /* #region ERROR TEXTAREA STYLE */
-.input-container.error {
+.textarea.error {
   @apply text-danger-foreground-low outline-danger-default;
 }
 /* #endregion ERROR TEXTAREA STYLE */
