@@ -3,20 +3,17 @@ import { isRange } from "../index";
 
 const props = withDefaults(
   defineProps<{
-    modelValue: any[] | any[][];
+    modelValue: Date[] | Date[][];
     hovered?: Date;
     day?: Date | undefined;
-    isCompare?: boolean;
+    type?: "date" | "period" | "compare";
     maxInit?: Date;
     maxEnd?: Date;
     index?: number;
-    size?: number;
     position?: "start" | "middle" | "end";
   }>(),
   {
-    isCompare: false,
     index: 0,
-    size: 1,
     position: "middle",
   }
 );
@@ -28,18 +25,19 @@ const emit = defineEmits<{
 }>();
 
 function isInRange(day: Date, index = 0, isSelected = false) {
-  if (!props.modelValue || (index > 0 && (props.size == 1 || !props.isCompare)))
+  if (!props.modelValue || (index > 0 && props.type != "compare"))
     return false;
 
   let dates = getDates(index);
 
-  if (dates?.length > 1) {
-    return isRange(dates[0], dates[1], day, isSelected);
+  if (dates?.length > 1 && dates[0] instanceof Date && dates[1] instanceof Date) {
+    return isRange(dates[0] as Date, dates[1] as Date, day, isSelected);
   }
 
   return (
     isSelected &&
-    dates[0]?.toISOString().substr(0, 10) === day?.toISOString().substr(0, 10)
+    dates[0] instanceof Date &&
+    (dates[0] as Date)?.toISOString().substr(0, 10) === day?.toISOString().substr(0, 10)
   );
 }
 
@@ -47,26 +45,26 @@ function getHovered(day: Date, index = 0) {
   if (
     !props.hovered ||
     !props.modelValue ||
-    (index > 0 && !props.isCompare && props.size == 1) ||
-    (props.size == 1 && !props.isCompare)
+    (index > 0 && props.type == "date") ||
+    (props.type == "date")
   )
     return false;
 
   let dates = getDates(index);
 
-  return dates.length === 1 && isRange(dates[0], props.hovered, day);
+  return dates.length === 1 && isRange(dates[0] as Date, props.hovered, day);
 }
 
 function getDifference(day: Date, index = 0) {
-  if (!props.modelValue || (!props.isCompare && props.size == 1)) return false;
+  if (!props.modelValue || (props.type == "date")) return false;
 
   let dates = getDates(index);
 
   const parsedDay = day?.toISOString().substr(0, 10);
   let toCompare = props.hovered?.toISOString().substr(0, 10);
-  let start = dates[0]?.toISOString().substr(0, 10);
+  let start = (dates[0] as Date)?.toISOString().substr(0, 10);
 
-  if (dates.length > 1) toCompare = dates[1]?.toISOString().substr(0, 10);
+  if (dates.length > 1) toCompare = (dates[1] as Date)?.toISOString().substr(0, 10);
   if (start != parsedDay && parsedDay != toCompare) return;
 
   if (toCompare == parsedDay) toCompare = start;
@@ -94,8 +92,8 @@ function getDisabled(day: Date) {
 function getDates(index = 0) {
   if (!props.modelValue) return [];
 
-  let dates = props.modelValue;
-  if (props.isCompare && props.size > 1) dates = props.modelValue[index];
+  let dates = props.modelValue as Date[] | Date[][];
+  if (props.type == "compare") dates = (props.modelValue as Date[][])[index];
 
   return dates;
 }
@@ -114,7 +112,7 @@ function getDates(index = 0) {
         disabled: getDisabled(day),
         'hovered-primary': getHovered(day),
         'hovered-secondary': getHovered(day, 1),
-        'is-compare': isCompare || size > 1,
+        'is-compare': props.type != 'date',
       },
       getDifference(day),
       getDifference(day, 1),
@@ -129,8 +127,7 @@ function getDates(index = 0) {
         ((hovered == day && getDates(0).length > 1) || isInRange(day, 1, true)) &&
         isInRange(day, 0, true) &&
         (getDates(1).length < 2 || isInRange(day, 1, true)) &&
-        size > 1 &&
-        isCompare
+        props.type != 'date'
       "
       class="flex absolute w-full h-full"
     >

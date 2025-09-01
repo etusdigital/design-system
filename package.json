@@ -8,7 +8,11 @@
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "generate-docs": "node scripts/generate-md-simple.cjs",
+    "install-hooks": "node scripts/install-hooks.js",
+    "local-link": "./scripts/local-link.sh",
+    "local-link-windows": "./scripts/windows-elevate.bat"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",

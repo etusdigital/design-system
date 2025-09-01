@@ -1,10 +1,17 @@
 <script setup lang="ts">
-import Day from "./Day.vue";
-import DateDialog from "./DateDialog.vue";
-import { computed, ref, watch } from "vue";
-import { useOptionalModel } from "#composables";
-import { capitalizeFirstLetter, getArrayMonthDay, getMonths } from "../index";
+import { ref, watch, onBeforeMount, computed } from "vue";
+import {
+  capitalizeFirstLetter,
+  getArrayMonthDay,
+  getMonths,
+} from "../../utils/index";
+import Day from "../../utils/components/Day.vue";
+import DateDialog from "../../utils/components/DateDialog.vue";
 
+// type Type = "date" | "period" | "double";
+// type Type = "date" | "period" | "doublePeriod";
+// type Type = "date" | "period" | "compare";
+type Type = "date" | "period" | "compare";
 type Item = {
   title: string;
   date: Date;
@@ -12,43 +19,56 @@ type Item = {
   value: number;
 };
 
-type InitialItems = {
-  date: Date;
-  value?: number;
-};
-
 const props = withDefaults(
   defineProps<{
-    modelValue: Date[] | Date[][];
-    initialDates: InitialItems[];
+    modelValue?: Date | Date[] | Date[][];
     lang?: string;
-    isCompare?: boolean;
+    type?: Type;
+    doubleCalendar?: boolean;
     maxInit?: Date;
     maxEnd?: Date;
   }>(),
   {
     lang: "en-US",
-    isCompare: false,
+    type: "date",
+    doubleCalendar: false,
   }
 );
 
 const emit = defineEmits<{
-  "update:modelValue": [value: Date[] | Date[][]];
+  "update:modelValue": [value: Date | Date[] | Date[][]];
 }>();
 
-const [model, setModel] = useOptionalModel<any[] | any[][]>(
-  props,
-  "modelValue",
-  emit,
-  props.isCompare && props.initialDates.length != 1 ? [[], []] : []
-);
-
-const show = ref(true);
+const model = ref<Date[] | Date[][]>([]);
+const show = ref({
+  month: false,
+  year: false,
+});
 const isBack = ref(true);
-const showMonth = ref(false);
-const showYear = ref(false);
-const hoveredDate = ref();
+const showCalendar = ref(true);
 const selectedIndex = ref(0);
+const hoveredDate = ref();
+
+const dates = computed(() => {
+  if (props.doubleCalendar) {
+    return [
+      {
+        date: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+      },
+      {
+        date: new Date(),
+        value: -1,
+      },
+    ];
+  }
+
+  return [
+    {
+      date: new Date(),
+    },
+  ];
+});
+const items = ref(getItems());
 
 const weekDays = computed((): string[] => {
   const date = new Date("2021-10-03T23:15:30");
@@ -65,33 +85,54 @@ const weekDays = computed((): string[] => {
 const months = computed(() => getMonths(props.lang));
 const years = computed(() => {
   const years: any = [];
-  const date = props.initialDates[props.initialDates.length - 1].date;
+  const date = items.value[items.value.length - 1].date;
   for (let i = date.getFullYear() + 56; i >= date.getFullYear() - 62; i--) {
     years.push(i);
   }
   return years;
 });
 
-const items = ref(
-  props.initialDates.map((item: any) => getDateObject(item.date, item.value))
-);
+onBeforeMount(checkValidModel);
 
+watch(() => props.modelValue, checkValidModel);
+watch(() => props.type, checkValidModel);
 watch(
   () => props.lang,
+  () => updateItems()
+);
+watch(
+  () => props.doubleCalendar,
   () => {
-    updateData(0, false);
+    items.value = getItems();
+    updateItems();
   }
 );
 
-watch(
-  () => props.initialDates,
-  () => {
-    items.value = props.initialDates.map((item: any) =>
-      getDateObject(item.date, item.value)
-    );
-    updateData();
-  }
-);
+function checkValidModel() {
+  if (props.type === "compare") {
+    if (!props.modelValue) model.value = [[], []];
+    else if (
+      Array.isArray(props.modelValue) &&
+      !Array.isArray(props.modelValue[0])
+    )
+      model.value = [[...(props.modelValue as Date[])], []];
+    else model.value = [...(props.modelValue as Date[][])];
+  } else if (!props.modelValue) model.value = [];
+  else if (!Array.isArray(props.modelValue)) model.value = [props.modelValue];
+  else model.value = [...(props.modelValue as Date[])];
+}
+
+function updateItems(value?: number, changeWeeks = true) {
+  items.value.forEach((item: any) => {
+    if (value) item.date.setMonth(item.date.getMonth() + value);
+    if (changeWeeks) item.weeks = getArrayMonthDay(item.date);
+    item.title = getTitle(item.date);
+  });
+}
+
+function getItems() {
+  return dates.value.map((date) => getDateObject(date.date, date.value));
+}
 
 function getDateObject(date: Date, value = 1): Item {
   return {
@@ -102,17 +143,58 @@ function getDateObject(date: Date, value = 1): Item {
   };
 }
 
-function updateData(value?: number, changeWeeks = true) {
-  items.value.forEach((item: any) => {
-    if (value) item.date.setMonth(item.date.getMonth() + value);
-    if (changeWeeks) item.weeks = getArrayMonthDay(item.date);
-    item.title = getTitle(item.date);
-  });
+function getTitle(date: Date): string {
+  if (show.value.year || show.value.month) {
+    return capitalizeFirstLetter(
+      date.toLocaleDateString(props.lang, { year: "numeric" })
+    );
+  }
+  return capitalizeFirstLetter(
+    date.toLocaleDateString(props.lang, { year: "numeric", month: "long" })
+  );
 }
 
-function selectDate(date: Date) {
-  let selectedDate: any[] | any[][] = model.value;
-  if (props.isCompare && items.value.length != 1) {
+function setNewMonth(value: number) {
+  isBack.value = value === -1;
+  showCalendar.value = false;
+  updateItems(value);
+
+  setTimeout(() => {
+    showCalendar.value = true;
+  }, 100);
+}
+
+function hidePopup() {
+  setTimeout(() => {
+    Object.keys(show.value).forEach((key) => {
+      show.value[key as keyof typeof show.value] = false;
+    });
+    updateItems();
+  }, 100);
+}
+
+function showPopup(index: number) {
+  selectedIndex.value = index;
+  show.value.year = show.value.month && !show.value.year;
+  show.value.month = !show.value.month || show.value.year;
+
+  updateItems();
+}
+
+function getPosition(day: Date, week: any[]) {
+  const parsedWeek = week.filter((day: any) => day);
+  const index = parsedWeek.findIndex((d: any) => d == day);
+
+  if (day == parsedWeek[0]) return "start";
+  else if (index == parsedWeek.length - 1) return "end";
+  return "middle";
+}
+
+function setModel(date: Date) {
+  let selectedDate: Date[] | Date[][] = model.value;
+
+  if (props.type === "compare") {
+    selectedDate = selectedDate as unknown as Date[][];
     if (!selectedDate[0] || selectedDate[1].length > 1) {
       selectedDate = [[], []];
     }
@@ -120,19 +202,19 @@ function selectDate(date: Date) {
     let index = 0;
     if (selectedDate[0].length > 1) index = 1;
 
-    selectedDate[index] = changeDate(date, selectedDate[index]);
+    selectedDate[index] = sortDate(date, selectedDate[index]);
   } else {
-    selectedDate = changeDate(date, selectedDate as Date[]);
+    selectedDate = sortDate(date, selectedDate as Date[]);
   }
 
-  setModel(selectedDate, {});
+  emit("update:modelValue", props.type == "date" ? date : selectedDate);
 }
 
-function changeDate(date: Date, dates: Date[]): Date[] {
+function sortDate(date: Date, dates: Date[]): Date[] {
   if (
     dates.length > 1 ||
     !dates.length ||
-    (items.value.length == 1 && !props.isCompare)
+    (items.value.length == 1 && props.type == "date")
   ) {
     dates = [];
     dates[0] = date;
@@ -147,7 +229,7 @@ function changeDate(date: Date, dates: Date[]): Date[] {
 }
 
 function changeMonth(month: number) {
-  showMonth.value = false;
+  show.value.month = false;
   const index = selectedIndex.value;
   const primary = items.value[index].date;
   const secondary =
@@ -156,12 +238,12 @@ function changeMonth(month: number) {
 
   primary.setMonth(month);
   if (items.value.length > 1) secondary.setMonth(primary.getMonth() + toAdd);
-  updateData();
+  updateItems();
 }
 
 function changeYear(year: number) {
-  showYear.value = false;
-  showMonth.value = false;
+  show.value.year = false;
+  show.value.month = false;
   const index = selectedIndex.value;
   const primary = items.value[index].date;
   const secondary =
@@ -176,61 +258,12 @@ function changeYear(year: number) {
 
   primary.setFullYear(year);
   if (items.value.length > 1) secondary.setFullYear(year + toAdd);
-  updateData();
-}
-
-function showPopup(index: number) {
-  selectedIndex.value = index;
-  if (showMonth.value && !showYear.value) {
-    showYear.value = true;
-  } else {
-    showMonth.value = !showMonth.value;
-    showYear.value = false;
-  }
-  updateData();
-}
-
-function getTitle(date: Date): string {
-  if (showYear.value || showMonth.value) {
-    return capitalizeFirstLetter(
-      date.toLocaleDateString(props.lang, { year: "numeric" })
-    );
-  }
-  return capitalizeFirstLetter(
-    date.toLocaleDateString(props.lang, { year: "numeric", month: "long" })
-  );
-}
-
-function getPosition(day: Date, week: any[]) {
-  const parsedWeek = week.filter((day: any) => day);
-  const index = parsedWeek.findIndex((d: any) => d == day);
-
-  if (day == parsedWeek[0]) return "start";
-  else if (index == parsedWeek.length - 1) return "end";
-  return "middle";
-}
-
-function setNewMonth(value: number) {
-  isBack.value = value === -1;
-  show.value = false;
-  updateData(value);
-
-  setTimeout(() => {
-    show.value = true;
-  }, 100);
-}
-
-function hidePopup() {
-  setTimeout(() => {
-    showMonth.value = false;
-    showYear.value = false;
-    updateData();
-  }, 100);
+  updateItems();
 }
 </script>
 
 <template>
-  <div class="calendar flex relative w-fit">
+  <div class="calendar">
     <div
       v-for="(item, index) in items"
       :key="index"
@@ -265,14 +298,16 @@ function hidePopup() {
       </header>
       <main>
         <Transition :name="!isBack ? 'slide-fade' : 'slide-fade-out'">
-          <table v-if="show">
+          <table v-if="showCalendar">
             <tr class="[&>*]:p-xxs">
               <th v-for="(weekDay, index) in weekDays" :key="index">
                 {{ weekDay }}
               </th>
             </tr>
             <tr
-              v-for="(week, index) in item.weeks.filter(w => w.some((d: any) => d))"
+              v-for="(week, index) in item.weeks.filter((w) =>
+                w.some((d: any) => d)
+              )"
               :key="index"
               class="[&>*]:py-xxs [&>*]:px-none"
             >
@@ -281,13 +316,12 @@ function hidePopup() {
                   v-model="model"
                   v-model:hovered="hoveredDate"
                   :day="day"
-                  :is-compare="isCompare"
-                  :size="items.length"
+                  :type="type"
                   :index="index"
                   :position="getPosition(day, week)"
                   :max-init="maxInit"
                   :max-end="maxEnd"
-                  @select="selectDate"
+                  @select="setModel"
                 />
               </td>
             </tr>
@@ -295,7 +329,7 @@ function hidePopup() {
         </Transition>
       </main>
     </div>
-    <DateDialog :model-value="showMonth && !showYear" :items="months" wrap>
+    <DateDialog :model-value="show.month && !show.year" :items="months" wrap>
       <template #item="{ item }">
         <div
           :class="[
@@ -311,7 +345,7 @@ function hidePopup() {
       </template>
     </DateDialog>
     <DateDialog
-      :model-value="showYear"
+      :model-value="show.year"
       :items="years"
       vertical
       max-height="70%"
@@ -335,6 +369,10 @@ function hidePopup() {
 
 <style scoped>
 @reference "../../assets/main.css";
+
+.calendar {
+  @apply flex relative w-fit;
+}
 
 th {
   @apply text-neutral-foreground-low text-sm;

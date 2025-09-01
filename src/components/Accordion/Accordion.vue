@@ -21,10 +21,9 @@ const props = withDefaults(
   }
 );
 
-const emit =
-  defineEmits<{
-    "update:modelValue": [value: boolean];
-  }>();
+const emit = defineEmits<{
+  "update:modelValue": [value: boolean];
+}>();
 
 const model = ref(props.modelValue);
 let card = ref<HTMLDivElement>();
@@ -88,25 +87,16 @@ function changeModel() {
 </script>
 
 <template>
-  <Card class="collapse" :class="{ 'no-shadow': noShadow }">
+  <Card class="accordion" :class="{ 'no-shadow': noShadow }">
     <div class="w-full flex flex-col gap-sm" ref="card">
       <div
-        class="flex items-center justify-end w-full text-base cursor-pointer"
-        :class="{ 'justify-between': $slots.header }"
+        class="flex items-center w-full text-base cursor-pointer"
+        :class="[$slots.header ? 'justify-between' : 'justify-end']"
         @click="changeModel"
       >
         <slot name="header" />
         <div
-          class="
-            flex
-            items-center
-            w-fit
-            h-fit
-            transition-transform
-            ease-in-out
-            duration-300
-            text-2xl
-          "
+          class="flex items-center w-fit h-fit transition-transform ease-in-out duration-300 text-2xl"
           :class="{ 'rotate-180': model }"
         >
           <Icon
@@ -120,8 +110,8 @@ function changeModel() {
         <div
           ref="content"
           v-show="model"
-          class="content-wrapper top-full left-0 transition-[max-height]"
-          :class="{ 'hidden overflow-hidden': !model }"
+          class="transition-[max-height] ease-in-out"
+          :class="{ 'overflow-hidden': !model }"
           :style="{ 'transition-duration': `${parsedDuration}ms` }"
           data-max-height="0px"
         >
@@ -135,15 +125,11 @@ function changeModel() {
 <style scoped>
 @reference "../../assets/main.css";
 
-.collapse {
+.accordion {
   @apply px-base py-xs w-full shadow-none transition-colors duration-300 hover:bg-neutral-surface-hover;
 }
 
 .no-shadow {
   @apply border-none;
-}
-
-.hidden {
-  @apply max-h-0;
 }
 </style>

@@ -1,12 +1,12 @@
 import type { App, Plugin } from 'vue';
-import Collapse from './Collapse.vue';
+import Calendar from './Calendar.vue';
 
 export default {
     install(Vue: App) {
-        Vue.component('Collapse', Collapse);
+        Vue.component('Calendar', Calendar);
     },
 } as Plugin;
 
 export {
-    Collapse,
+    Calendar,
 }

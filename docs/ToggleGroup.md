@@ -1,0 +1,111 @@
+# Name: ToggleGroup
+## Component Overview
+
+**Purpose**: A container component for grouping related input components with synchronized selection state, commonly used for toggle button groups and visual component grouping.
+
+**Import**: Automatic - no need to import any DS components
+
+### Basic Usage
+
+```vue
+<template>
+    <ToggleGroup v-model="selectedValue">
+        <toggle group-value="1">First Option</toggle>
+        <toggle group-value="2">Second Option</toggle>
+        <toggle group-value="3">Third Option</toggle>
+    </ToggleGroup>
+    
+    <p>Selected: {{ selectedValue }}</p>
+</template>
+
+<script setup lang="ts">
+
+const selectedValue = ref('option1')
+</script>
+```
+
+---
+
+### Props API
+
+#### v-model
+Controls the currently selected component's group-value. Type: `any` (default: `null`)
+
+#### vertical
+Arranges grouped components vertically instead of horizontally. Type: `boolean` (default: `false`)
+
+#### disabled
+Disables all grouped components. Type: `boolean` (default: `false`)
+
+---
+
+### Events API
+
+#### @update:model-value
+Triggered when the selection changes within the group.
+
+### Slots API
+
+#### #default
+Contains the grouped components. Each component should have a `group-value` prop for selection tracking.
+
+```vue
+<template>
+    <ToggleGroup v-model="selected">
+        <toggle group-value="value1">Label 1</toggle>
+        <toggle group-value="value2">Label 2</toggle>
+    </ToggleGroup>
+</template>
+```
+
+---
+
+### Component Behavior Inside ToggleGroup
+
+The ToggleGroup component handles different child components in specific ways, applying appropriate styling and behavior based on the component type.
+
+#### Radio Components
+Radio buttons maintain individual spacing and selection states.
+
+**Behavior**: Individual spacing with margins between items
+
+```vue
+<template>
+    <ToggleGroup v-model="radioValue">
+        <toggle group-value="1">First</toggle>
+        <toggle group-value="2">Second</toggle>
+        <toggle group-value="3">Third</toggle>
+    </ToggleGroup>
+</template>
+
+<script setup lang="ts">
+
+const radioValue = ref('1')
+</script>
+```
+
+#### Toggle Components
+Toggles are styled as connected button groups with shared borders.
+
+**Behavior**: Connected borders, rounded corners only on first/last items
+
+```vue
+<template>
+    <ToggleGroup v-model="buttonValue">
+        <toggle-button group-value="1">First</toggle-button>
+        <toggle-button group-value="2">Second</toggle-button>
+        <toggle-button group-value="3">Third</toggle-button>
+    </ToggleGroup>
+</template>
+
+<script setup lang="ts">
+
+const buttonValue = ref(null)
+</script>
+```
+
+**Important Notes:**
+- Model value synchronization works bidirectionally between ToggleGroup and child components
+- Each grouped component needs a unique `group-value` prop for proper selection tracking
+- Visual connectors appear automatically for non-toggle components
+- Use `vertical` prop to change layout orientation for all grouped components

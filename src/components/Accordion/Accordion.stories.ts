@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import Collapse from "./Collapse.vue";
+import Accordion from "./Accordion.vue";
 
 export default {
-  component: Collapse,
+  component: Accordion,
   argTypes: {
     modelValue: {
       type: { summary: "boolean" },
@@ -32,9 +32,9 @@ export default {
       description: "This slot will be the collapse content.",
     },
   },
-} satisfies Meta<typeof Collapse>;
+} satisfies Meta<typeof Accordion>;
 
-type Story = StoryObj<typeof Collapse>;
+type Story = StoryObj<typeof Accordion>;
 
 const defArgs = {
   modelValue: false,
@@ -43,14 +43,14 @@ const defArgs = {
 };
 
 const defaultRender = (args: any) => ({
-  components: { Collapse },
+  components: { Accordion },
   setup() {
     return { args };
   },
   template: `
-      <Collapse v-model="args.modelValue" :duration="args.duration" :no-shadow="args.noShadow">
+      <Accordion v-model="args.modelValue" :duration="args.duration" :no-shadow="args.noShadow">
           <template #header>
-              <h4 class="text-neutral-foreground-high">Collapse component</h4>
+              <h4 class="text-neutral-foreground-high">Accordion component</h4>
           </template>
           <div class="flex items-end justify-start gap-base">
               <p>
@@ -59,7 +59,7 @@ const defaultRender = (args: any) => ({
                 massa praesent ultricies.
               </p>
           </div>
-      </Collapse>
+      </Accordion>
       `,
 });
 

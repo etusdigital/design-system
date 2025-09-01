@@ -1,13 +1,13 @@
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
-    show?: boolean;
+    modelValue?: boolean;
     items: any[];
     vertical?: boolean;
     width?: string,
     maxHeight?: string;
     noPadding?: boolean;
 }>(), {
-    show: false,
+    modelValue: false,
     vertical: false,
     maxHeight: 'none',
     width: '90%',
@@ -18,8 +18,8 @@ const props = withDefaults(defineProps<{
 <template>
     <Transition name="appear">
         <Card 
-            v-if="show"
-            class="absolute z-[1] transition-transform top-[20%] left-[50%] -translate-x-1/2
+            v-if="modelValue"
+            class="absolute z-[1] transition-transform top-[17%] left-[50%] -translate-x-1/2
                 flex items-center justify-center"
             :class="{
                 'overflow-auto': maxHeight != 'none',

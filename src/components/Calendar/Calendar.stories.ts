@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import Date from "./Date.vue";
+import Calendar from "./Calendar.vue";
 
 export default {
-  component: Date,
+  component: Calendar,
   argTypes: {
     modelValue: {
       type: { summary: "Date | Date[] | null" },
@@ -18,12 +18,21 @@ export default {
       },
       description: "Will be the date input language.",
     },
-    isPeriod: {
+    type: {
+      type: { summary: "string" },
+      control: { type: "select" },
+      options: ["date", "period", "compare"],
+      table: {
+        defaultValue: { summary: "date" },
+      },
+      description: "Selection mode: single date, date range, or comparison mode.",
+    },
+    doubleCalendar: {
       type: { summary: "boolean" },
       table: {
         defaultValue: { summary: false },
       },
-      description: "Will determine if the user can select 2 dates.",
+      description: "Shows two calendar months side by side.",
     },
     maxInit: {
       type: { summary: "Date" },
@@ -40,28 +49,30 @@ export default {
       description: "Will be the newest date the user can select.",
     },
   },
-} satisfies Meta<typeof Date>;
+} satisfies Meta<typeof Calendar>;
 
-type Story = StoryObj<typeof Date>;
+type Story = StoryObj<typeof Calendar>;
 
 const defaultArgs = {
   modelValue: null,
   lang: "en-US",
-  isPeriod: false,
+  type: "date",
+  doubleCalendar: false,
   maxInit: undefined,
   maxEnd: undefined,
 };
 
 const defaultRender = (args: any) => ({
-  components: { Date },
+  components: { Calendar },
   setup() {
     return { args };
   },
   template: `
-    <Date 
+    <Calendar 
       v-model="args.modelValue" 
       :lang="args.lang" 
-      :is-period="args.isPeriod" 
+      :type="args.type" 
+      :double-calendar="args.doubleCalendar" 
       :max-init="args.maxInit" 
       :max-end="args.maxEnd"
     />
@@ -81,12 +92,27 @@ export const Lang: Story = {
   },
 };
 
-export const IsPeriod: Story = {
+export const Period: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
-    modelValue: [],
-    isPeriod: true,
+    type: "period",
+  },
+};
+
+export const Compare: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    type: "compare",
+  },
+};
+
+export const DoubleCalendar: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    doubleCalendar: true,
   },
 };
 

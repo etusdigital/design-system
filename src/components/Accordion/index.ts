@@ -1,12 +1,12 @@
 import type { App, Plugin } from 'vue';
-import Date from './Date.vue';
+import Accordion from './Accordion.vue';
 
 export default {
     install(Vue: App) {
-        Vue.component('Date', Date);
+        Vue.component('Accordion', Accordion);
     },
 } as Plugin;
 
 export {
-    Date,
+    Accordion,
 }
