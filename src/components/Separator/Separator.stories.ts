@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import Divider from "./Divider.vue";
+import Separator from "./Separator.vue";
 
 export default {
-  component: Divider,
+  component: Separator,
   argTypes: {
     position: {
       type: { summary: "text" },
@@ -13,23 +13,23 @@ export default {
       },
     },
   },
-} satisfies Meta<typeof Divider>;
+} satisfies Meta<typeof Separator>;
 
-type Story = StoryObj<typeof Divider>;
+type Story = StoryObj<typeof Separator>;
 
 const defaultArgs = {
   position: "right",
 };
 
 const defaultRender = (args: any) => ({
-  components: { Divider },
+  components: { Separator },
   setup() {
     return { args };
   },
   template: `
-    <Divider :position="args.position">
-      Divider
-    </Divider>
+    <Separator :position="args.position">
+      Separator
+    </Separator>
   `,
 });
 
@@ -40,21 +40,21 @@ export const Primary: Story = {
 
 export const Positions: Story = {
   render: (args: any) => ({
-    components: { Divider },
+    components: { Separator },
     setup() {
       return { args };
     },
     template: `
       <div class="space-y-lg">
-        <Divider position="left">
+        <Separator position="left">
           Left
-        </Divider>
-        <Divider position="center">
+        </Separator>
+        <Separator position="center">
           Center
-        </Divider>
-        <Divider position="right">
+        </Separator>
+        <Separator position="right">
           Right
-        </Divider>
+        </Separator>
       </div>
     `,
   }),

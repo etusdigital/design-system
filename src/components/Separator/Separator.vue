@@ -7,21 +7,21 @@ const props = withDefaults(defineProps<{
 </script>
 
 <template>
-    <div class="divider">
-        <div class="divider" v-if="position != 'right'" />
+    <div class="separator">
+        <div class="separator-line" v-if="position != 'right'" />
         <slot />
-        <div class="divider" v-if="position != 'left'" />
+        <div class="separator-line" v-if="position != 'left'" />
     </div>
 </template>
 
 <style scoped>
 @reference "../../assets/main.css";
 
-.divider {
+.separator {
     @apply flex items-center gap-xs w-full text-neutral-foreground-high font-bold;
 }
 
-.divider {
+.separator-line {
     @apply border-t-xxs flex-1 border-neutral-default;
 }
 </style>

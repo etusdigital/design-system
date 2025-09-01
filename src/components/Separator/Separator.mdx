@@ -1,19 +1,19 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as Divider from './Divider.stories.ts';
+import * as Separator from './Separator.stories.ts';
 
-<Meta of={Divider} />
+<Meta of={Separator} />
 
-# Name: divider
+# Name: Separator
 ## Component Overview
 
-**Purpose**: A visual divider component with text labels and flexible positioning for sectioning content and creating visual hierarchy in layouts.
+**Purpose**: A visual separator component with text labels and flexible positioning for sectioning content and creating visual hierarchy in layouts.
 
 **Import**: Automatic - no need to import any DS components
 
 <br />
 ### Playground
 
-<Canvas of={Divider.Primary} />
+<Canvas of={Separator.Primary} />
 <Controls />
 
 ---
@@ -22,22 +22,22 @@ import * as Divider from './Divider.stories.ts';
 
 ```vue
 <template>
-    <divider>
-        Divider
-    </divider>
+    <Separator>
+        Separator
+    </Separator>
 </template>
 ```
 
-<Canvas sourceState="none" of={Divider.Primary} />
+<Canvas sourceState="none" of={Separator.Primary} />
 
 ---
 
 ### Props API
 
 #### position
-Controls the position of the divider lines relative to the text. Type: `'left' | 'center' | 'right'` (default: `'right'`)
+Controls the position of the separator lines relative to the text. Type: `'left' | 'center' | 'right'` (default: `'right'`)
 
-<Canvas sourceState="none" of={Divider.Positions} />
+<Canvas sourceState="none" of={Separator.Positions} />
 
 ---
 
@@ -48,13 +48,13 @@ This component doesn't emit any events.
 ### Slots API
 
 #### #default
-The text content displayed between or alongside the divider lines. Text content is optional
+The text content displayed between or alongside the separator lines. Text content is optional
 
 ```vue
 <template>
-    <divider>
+    <Separator>
         Slot: default
-    </divider>
+    </Separator>
 </template>
 ```
 
