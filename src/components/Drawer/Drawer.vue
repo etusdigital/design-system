@@ -5,13 +5,15 @@ import Overlay from "../../utils/components/Overlay.vue";
 const props = withDefaults(
   defineProps<{
     modelValue?: boolean;
-    width?: string;
+    size?: string;
     noOutsideClose?: boolean;
+    position?: "right" | "left" | "top" | "bottom";
   }>(),
   {
     modelValue: false,
-    width: "fit-content",
+    size: "fit-content",
     noOutsideClose: false,
+    position: "right",
   }
 );
 
@@ -47,7 +49,11 @@ function closeDialog() {
           v-if="model"
           ref="drawer"
           class="drawer"
-          :style="{ width: isMobile ? '100%' : width }"
+          :class="position"
+          :style="{ 
+            width: position === 'left' || position === 'right' ? (isMobile ? '100%' : size) : '100%',
+            height: position === 'top' || position === 'bottom' ? (isMobile ? '100%' : size) : '100%'
+          }"
         >
           <slot />
         </div>
@@ -60,8 +66,27 @@ function closeDialog() {
 @reference "../../assets/main.css";
 
 .drawer {
-  @apply z-[1001] fixed top-0 right-0 h-screen bg-neutral-surface-default rounded-l-base border-xxs border-neutral-default transform transition-transform;
+  @apply z-[1001] fixed bg-neutral-surface-default border-xxs border-neutral-default transform transition-transform;
+}
+
+.right {
+  @apply top-0 right-0 h-screen rounded-l-base;
   max-width: calc(100% - var(--spacing-xl));
+}
+
+.left {
+  @apply top-0 left-0 h-screen rounded-r-base;
+  max-width: calc(100% - var(--spacing-xl));
+}
+
+.top {
+  @apply top-0 left-0 w-screen rounded-b-base;
+  max-height: calc(100% - var(--spacing-xl));
+}
+
+.bottom {
+  @apply bottom-0 left-0 w-screen rounded-t-base;
+  max-height: calc(100% - var(--spacing-xl));
 }
 
 .slide-in-enter-active,
@@ -69,14 +94,48 @@ function closeDialog() {
   transition: transform 0.5s ease;
 }
 
-.slide-in-enter-from,
-.slide-in-leave-to {
+/* Right position animations */
+.right.slide-in-enter-from,
+.right.slide-in-leave-to {
   transform: translateX(100%);
 }
 
-.slide-in-enter-to,
-.slide-in-leave-from {
+.right.slide-in-enter-to,
+.right.slide-in-leave-from {
   transform: translateX(0%);
+}
+
+/* Left position animations */
+.left.slide-in-enter-from,
+.left.slide-in-leave-to {
+  transform: translateX(-100%);
+}
+
+.left.slide-in-enter-to,
+.left.slide-in-leave-from {
+  transform: translateX(0%);
+}
+
+/* Top position animations */
+.top.slide-in-enter-from,
+.top.slide-in-leave-to {
+  transform: translateY(-100%);
+}
+
+.top.slide-in-enter-to,
+.top.slide-in-leave-from {
+  transform: translateY(0%);
+}
+
+/* Bottom position animations */
+.bottom.slide-in-enter-from,
+.bottom.slide-in-leave-to {
+  transform: translateY(100%);
+}
+
+.bottom.slide-in-enter-to,
+.bottom.slide-in-leave-from {
+  transform: translateY(0%);
 }
 
 @media screen and (max-width: 768px) {
