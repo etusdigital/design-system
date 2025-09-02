@@ -35,6 +35,22 @@ The label displayed above the file upload area. Type: `string` (default: `""`)
 #### accept
 Specifies the types of files that can be uploaded. Type: `string` (default: `undefined`)
 
+```vue
+<template>
+    <FileUpload 
+        v-model="image"
+        label-value="Upload Image"
+        accept=".jpg,.jpeg,.png,.gif"
+        info-message="Only image files allowed"
+    />
+</template>
+
+<script setup lang="ts">
+
+const image = ref<File>()
+</script>
+```
+
 #### multiple
 Allows multiple file selection. Type: `boolean` (default: `false`)
 
@@ -48,19 +64,13 @@ Error message to display when in error state. Type: `string` (default: `""`)
 Informational message displayed with tooltip. Type: `string` (default: `""`)
 
 #### size
-File upload component size. Type: `'xs' | 'sm' | 'base' | 'lg' | 'xl' | 'full'` (default: `"full"`)
+File upload component size. Type: `'extra-small' | 'small' | 'medium' | 'large' | 'extra-large'` (default: `"medium"`)
 
 #### disabled
 Disables file upload interaction. Type: `boolean` (default: `false`)
 
-#### required
-Marks the field as required. Type: `boolean` (default: `false`)
-
 #### placeholder
 Placeholder text for the file upload area. Type: `string` (default: `"or drag and drop it here"`)
-
-#### tooltip-min-width
-Minimum width for info tooltip. Type: `string` (default: `"none"`)
 
 ---
 
@@ -70,122 +80,6 @@ Minimum width for info tooltip. Type: `string` (default: `"none"`)
 Triggered when files are selected or uploaded. Receives the File object(s) or undefined when files are removed.
 
 ---
-
-### Usage Examples
-
-#### Basic File Upload
-```vue
-<template>
-    <FileUpload 
-        v-model="document"
-        label-value="Upload Document"
-        accept=".pdf,.doc,.docx"
-        placeholder="Select a document or drag it here"
-    />
-</template>
-
-<script setup lang="ts">
-
-const document = ref<File>()
-</script>
-```
-
-#### Multiple File Upload with Validation
-```vue
-<template>
-    <FileUpload 
-        v-model="images"
-        label-value="Upload Images"
-        :multiple="true"
-        accept="image/*"
-        :is-error="hasError"
-        :error-message="errorMessage"
-        info-message="Maximum 5 images, 2MB each"
-        @update:model-value="validateFiles"
-    />
-</template>
-
-<script setup lang="ts">
-
-const images = ref<File[]>([])
-const hasError = ref(false)
-const errorMessage = ref('')
-
-const validateFiles = (files: File[] | undefined) => {
-    if (!files) {
-        hasError.value = false
-        return
-    }
-    
-    if (files.length > 5) {
-        hasError.value = true
-        errorMessage.value = 'Maximum 5 files allowed'
-    } else if (files.some(file => file.size > 2 * 1024 * 1024)) {
-        hasError.value = true
-        errorMessage.value = 'File size must not exceed 2MB'
-    } else {
-        hasError.value = false
-        errorMessage.value = ''
-    }
-}
-</script>
-```
-
-#### Custom Upload Display
-```vue
-<template>
-    <FileUpload 
-        v-model="avatar"
-        label-value="Profile Picture"
-        accept="image/jpeg,image/png"
-    >
-        <template #uploaded-file>
-            <div class="flex items-center gap-xs">
-                <img 
-                    :src="previewUrl" 
-                    alt="Avatar preview" 
-                    class="w-12 h-12 rounded-full object-cover"
-                />
-                <div class="flex flex-col">
-                    <span class="text-sm font-medium">{{ avatar?.name }}</span>
-                    <span class="text-xs text-neutral-foreground-low">
-                        {{ formatFileSize(avatar?.size || 0) }}
-                    </span>
-                </div>
-                <button 
-                    @click="removeAvatar"
-                    class="ml-auto text-danger-interaction-default hover:text-danger-foreground-low"
-                >
-                    Remove
-                </button>
-            </div>
-        </template>
-    </FileUpload>
-</template>
-
-<script setup lang="ts">
-
-const avatar = ref<File>()
-const previewUrl = ref('')
-
-watch(avatar, (newFile) => {
-    if (newFile) {
-        previewUrl.value = URL.createObjectURL(newFile)
-    }
-})
-
-const formatFileSize = (bytes: number) => {
-    return bytes < 1024 * 1024 
-        ? `${Math.round(bytes / 1024)}KB`
-        : `${Math.round(bytes / (1024 * 1024))}MB`
-}
-
-const removeAvatar = () => {
-    avatar.value = undefined
-    previewUrl.value = ''
-}
-</script>
-```
 
 ### Slots API
 

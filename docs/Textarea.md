@@ -44,9 +44,6 @@ Error message to display when in error state. Type: `string` (default: `""`)
 #### info-message
 Informational message displayed with tooltip. Type: `string` (default: `""`)
 
-#### size
-Textarea component width. Type: `'xs' | 'sm' | 'base' | 'lg' | 'xl' | 'full'` (default: `"full"`)
-
 #### disabled
 Disables textarea interaction. Type: `boolean` (default: `false`)
 
@@ -76,72 +73,6 @@ Triggered when the textarea gains focus. Receives the current value.
 Triggered when the textarea loses focus. Receives the current value.
 
 ---
-
-### Usage Examples
-
-#### Basic Textarea
-```vue
-<template>
-    <Textarea 
-        v-model="message"
-        label-value="Your Message"
-        placeholder="Type your message here..."
-    />
-</template>
-
-<script setup lang="ts">
-
-const message = ref('')
-</script>
-```
-
-#### Textarea with Character Limit
-```vue
-<template>
-    <Textarea 
-        v-model="description"
-        label-value="Description"
-        :max="500"
-        placeholder="Describe your project..."
-    />
-</template>
-
-<script setup lang="ts">
-
-const description = ref('')
-</script>
-```
-
-#### Textarea with Validation
-```vue
-<template>
-    <Textarea 
-        v-model="comment"
-        label-value="Comment"
-        :is-error="hasError"
-        :error-message="errorMessage"
-        placeholder="Leave a comment..."
-        @blur="validateComment"
-    />
-</template>
-
-<script setup lang="ts">
-
-const comment = ref('')
-const hasError = ref(false)
-const errorMessage = ref('')
-
-const validateComment = () => {
-    if (comment.value.length < 10) {
-        hasError.value = true
-        errorMessage.value = 'Comment must be at least 10 characters'
-    } else {
-        hasError.value = false
-        errorMessage.value = ''
-    }
-}
-</script>
-```
 
 **Important Notes:**
 - Multi-line text input with automatic resizing based on content

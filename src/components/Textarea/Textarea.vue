@@ -2,7 +2,6 @@
 import { ref, onBeforeMount, watch, computed } from "vue";
 import Label from "../../utils/components/Label.vue";
 
-type Size = "xs" | "sm" | "base" | "lg" | "xl" | "full";
 type TextAlign = "start" | "center" | "end";
 
 const props = withDefaults(
@@ -12,7 +11,6 @@ const props = withDefaults(
     max?: number;
     errorMessage?: string;
     infoMessage?: string;
-    size?: Size;
     disabled?: boolean;
     isError?: boolean;
     required?: boolean;
@@ -26,7 +24,6 @@ const props = withDefaults(
     max: undefined,
     errorMessage: "",
     infoMessage: "",
-    size: "full",
     disabled: false,
     isError: false,
     required: false,
@@ -97,7 +94,7 @@ function onFocus() {
 </script>
 
 <template>
-  <div class="flex flex-col gap-xxs h-fit" :class="`size-${size}`">
+  <div class="flex flex-col gap-xxs h-fit">
     <div class="flex justify-between items-center" v-if="labelValue || max || max == 0">
       <Label
         :label-value="labelValue"
@@ -111,7 +108,7 @@ function onFocus() {
     </div>
     <textarea
       v-model="inputValue"
-      class="textarea textarea"
+      class="textarea"
       :class="inputClasses"
       :style="inputStyle"
       :maxlength="computedMax"
@@ -130,32 +127,6 @@ function onFocus() {
 <style scoped>
 @reference "../../assets/main.css";
 
-/* #region TEXTAREA SIZES  */
-.size-xs {
-  width: 176px;
-}
-
-.size-sm {
-  width: 272px;
-}
-
-.size-base {
-  width: 367px;
-}
-
-.size-lg {
-  width: 559px;
-}
-
-.size-xl {
-  width: 1134px;
-}
-
-.size-full {
-  @apply w-full;
-}
-/* #endregion TEXTAREA SIZES  */
-
 /* #region BASE FONT SIZES */
 .max-length,
 .error-message {
@@ -163,7 +134,16 @@ function onFocus() {
 }
 
 .textarea {
-  @apply p3;
+  @apply p3 flex items-center gap-xs outline-xxs
+      outline-neutral-default
+        rounded-sm
+        transition-[outline-color]
+        duration-100
+        delay-100
+        py-xs
+        px-sm
+        focus:outline-primary-default
+        border-none bg-transparent text-neutral-foreground-high min-h-xl;
 }
 /* #endregion BASE FONT SIZES */
 
@@ -174,20 +154,6 @@ function onFocus() {
 /* #endregion LABEL COMPONENTS STYLE */
 
 /* #region DEFAULT TEXTAREA STYLE */
-.textarea {
-  @apply flex items-center gap-xs outline-xxs
-      outline-neutral-default
-        rounded-sm
-        transition-[outline-color]
-        duration-100
-        delay-100
-        py-xs
-        px-sm
-        focus:outline-primary-default
-        border-none bg-transparent text-neutral-foreground-high min-h-xl;
-  
-      }
-
 .textarea.focus {
   @apply outline-primary-default;
 }

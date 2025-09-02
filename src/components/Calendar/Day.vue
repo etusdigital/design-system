@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isRange } from "../index";
+import { isRange } from "../../utils";
 
 const props = withDefaults(
   defineProps<{

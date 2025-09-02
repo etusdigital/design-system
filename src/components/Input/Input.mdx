@@ -49,17 +49,7 @@ The label displayed above the input. Type: `string` (default: `""`)
 #### type
 Input type determining behavior and validation. Type: `'text' | 'number' | 'search' | 'color' | 'password' | 'file' | 'email'` (default: `"text"`)
 
-<Canvas sourceState="none" of={Input.Number} />
-
-<Canvas sourceState="none" of={Input.Search} />
-
-<Canvas sourceState="none" of={Input.Color} />
-
-<Canvas sourceState="none" of={Input.Password} />
-
-<Canvas sourceState="none" of={Input.File} />
-
-<Canvas sourceState="none" of={Input.Email} />
+<Canvas sourceState="none" of={Input.Types} />
 
 #### mask
 Input mask for automatic formatting. Type: `'cpf' | 'cnpj' | 'cep' | 'domain' | 'url'` (default: `undefined`)
@@ -78,7 +68,7 @@ Increment/decrement step for number inputs. Type: `number` (default: `1`)
 #### is-error
 Activates error styling mode. Type: `boolean` (default: `false`)
 
-<Canvas sourceState="none" of={Input.Error} />
+<Canvas sourceState="none" of={Input.IsError} />
 
 #### error-message
 Error message to display when in error state. Type: `string` (default: `""`)
@@ -87,11 +77,6 @@ Error message to display when in error state. Type: `string` (default: `""`)
 Informational message displayed with tooltip. Type: `string` (default: `""`)
 
 <Canvas sourceState="none" of={Input.InfoMessage} />
-
-#### size
-Input component width. Type: `'xs' | 'sm' | 'base' | 'lg' | 'xl' | 'full'` (default: `"full"`)
-
-
 
 #### disabled
 Disables input interaction. Type: `boolean` (default: `false`)
@@ -108,6 +93,8 @@ Placeholder text for the input. Type: `string` (default: `""`)
 
 #### text-align
 Text alignment within input. Type: `'left' | 'center' | 'right'` (default: `"start"`)
+
+<Canvas sourceState="none" of={Input.TextAlign} />
 
 #### tooltip-min-width
 Minimum width for info tooltip. Type: `string` (default: `"none"`)
@@ -134,29 +121,6 @@ Triggered when the input loses focus. Receives the current value.
 ---
 
 ### Slots API
-
-#### #uploaded-file
-Custom content for file upload display when a file is selected.
-
-```vue
-<template>
-    <Input type="file" label-value="Upload Document">
-        <template #uploaded-file>
-            <div class="flex items-center gap-xs">
-                <icon name="description" class="text-primary-500" />
-                <span class="text-sm">Custom file display</span>
-                <button size="small" variant="plain" @click="removeFile">
-                    Remove
-                </button>
-            </div>
-        </template>
-    </Input>
-</template>
-
-<script setup lang="ts">
-const removeFile = () => {}
-</script>
-```
 
 #### #icon-slot
 Custom icon content for prepended (left-side) icons. This slot allows you to override the default prepend icon with custom content and behavior.

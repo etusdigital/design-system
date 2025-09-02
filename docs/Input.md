@@ -55,9 +55,6 @@ Error message to display when in error state. Type: `string` (default: `""`)
 #### info-message
 Informational message displayed with tooltip. Type: `string` (default: `""`)
 
-#### size
-Input component width. Type: `'xs' | 'sm' | 'base' | 'lg' | 'xl' | 'full'` (default: `"full"`)
-
 #### disabled
 Disables input interaction. Type: `boolean` (default: `false`)
 
@@ -95,29 +92,6 @@ Triggered when the input loses focus. Receives the current value.
 ---
 
 ### Slots API
-
-#### #uploaded-file
-Custom content for file upload display when a file is selected.
-
-```vue
-<template>
-    <Input type="file" label-value="Upload Document">
-        <template #uploaded-file>
-            <div class="flex items-center gap-xs">
-                <icon name="description" class="text-primary-500" />
-                <span class="text-sm">Custom file display</span>
-                <button size="small" variant="plain" @click="removeFile">
-                    Remove
-                </button>
-            </div>
-        </template>
-    </Input>
-</template>
-
-<script setup lang="ts">
-const removeFile = () => {}
-</script>
-```
 
 #### #icon-slot
 Custom icon content for prepended (left-side) icons. This slot allows you to override the default prepend icon with custom content and behavior.
