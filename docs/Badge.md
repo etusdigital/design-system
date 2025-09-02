@@ -1,16 +1,21 @@
-# Name: Tag
+# Name: Badge
 ## Component Overview
 
-**Purpose**: A versatile tag component with multiple color schemes, sizes, and visual styles for labeling, categorization, and status indication with support for icons and close functionality.
+**Purpose**: A versatile tag component with custom color schemes for specialized labeling and categorization.
+
+**Prefer StatusBadge for standard status indicators** - use Badge only when theme colors don't meet your specific design requirements.
 
 **Import**: Automatic - no need to import any DS components
 
 ### Basic Usage
 
+> **⚠️ Recommendation:** Use StatusBadge for standard status indicators (primary, info, success, warning, error, neutral). Badge is intended for custom color requirements not covered by the design system theme.
+
 ```vue
 <template>
-    <Tag 
-        label-value="Tag component"
+    <Badge 
+        label-value="Custom Brand"
+        color="#000000"
         icon="star"
     />
 </template>
@@ -23,14 +28,13 @@
 #### label-value
 The text content displayed in the tag. Type: `string` (default: `""`)
 
-#### text (deprecated)
-The text content displayed in the tag. Use `label-value` instead. Type: `string` (default: `""`)
-
 #### color
-Visual color scheme for the tag. Type: `"primary" | "informative" | "success" | "warning" | "danger" | "neutral"` (default: `"primary"`)
+Custom color for specialized branding or design requirements. Type: `string` (default: `""`)
+
+> **Note:** For standard semantic colors (primary, info, success, warning, error, neutral), use StatusBadge instead.
 
 #### size
-Tag size variant affecting padding and font size. Type: `"small" | "medium" | "large"` (default: `"medium"`)
+Badge size variant affecting padding and font size. Type: `"small" | "medium" | "large"` (default: `"medium"`)
 
 #### type
 Visual style variant affecting background and border appearance. Type: `"default" | "secondary" | "heavy"` (default: `"default"`)
@@ -61,15 +65,16 @@ Content displayed instead of text prop when provided.
 
 ```vue
 <template>
-    <Tag>
+    <Badge>
        Slot: default
-    </Tag>
+    </Badge>
 </template>
 ```
 
 **Important Notes:**
+- **Use StatusBadge for standard status indicators** - Badge is for custom color requirements only
 - Three visual types: default (filled), secondary (outlined), heavy (high contrast)
-- Six semantic color options with consistent theming across all types
+- Custom color support for branding and specialized design requirements
 - Icon positioning supports both prepend (default) and append modes
 - Close functionality automatically adds close icon when enabled
 - Loading state replaces all content with animated spinner

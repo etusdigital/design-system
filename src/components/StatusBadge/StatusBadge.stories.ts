@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import Tag from "./Tag.vue";
+import StatusBadge from "./StatusBadge.vue";
 
 export default {
-  component: Tag,
+  component: StatusBadge,
   argTypes: {
     labelValue: {
       type: { name: "string" },
@@ -71,13 +71,13 @@ export default {
       description: "If no text is passed, it slot will be display instead.",
     },
   },
-} satisfies Meta<typeof Tag>;
+} satisfies Meta<typeof StatusBadge>;
 
-type Story = StoryObj<typeof Tag>;
+type Story = StoryObj<typeof StatusBadge>;
 
 const defaultArgs = {
-  labelValue: "Tag component",
-  color: "primary" as const,
+  labelValue: "StatusBadge component",
+  color: "primary",
   size: "medium" as const,
   type: "default" as const,
   loading: false,
@@ -87,7 +87,7 @@ const defaultArgs = {
 };
 
 const defaultHtml = `
-  <Tag
+  <StatusBadge
     :label-value="args.labelValue"
     :color="args.color"
     :type="args.type"
@@ -100,7 +100,7 @@ const defaultHtml = `
 `;
 
 const defaultRender = (args: any) => ({
-  components: { Tag },
+  components: { StatusBadge },
   setup() {
     return { args };
   },
@@ -114,7 +114,7 @@ export const Primary: Story = {
 
 export const Colors: Story = {
   render: (args: any) => ({
-    components: { Tag },
+    components: { StatusBadge },
     setup() {
       return { args };
     },
@@ -133,7 +133,7 @@ export const Colors: Story = {
 
 export const Types: Story = {
   render: (args: any) => ({
-    components: { Tag },
+    components: { StatusBadge },
     setup() {
       return { args };
     },
@@ -150,7 +150,7 @@ export const Types: Story = {
 
 export const Sizes: Story = {
   render: (args: any) => ({
-    components: { Tag },
+    components: { StatusBadge },
     setup() {
       return { args };
     },

@@ -1,35 +1,20 @@
-import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as Tag from './Tag.stories.ts';
-
-<Meta of={Tag} />
-
-# Name: Tag
+# Name: StatusBadge
 ## Component Overview
 
 **Purpose**: A versatile tag component with multiple color schemes, sizes, and visual styles for labeling, categorization, and status indication with support for icons and close functionality.
 
 **Import**: Automatic - no need to import any DS components
 
-<br />
-### Playground
-
-<Canvas of={Tag.Primary} />
-<Controls />
-
----
-
 ### Basic Usage
 
 ```vue
 <template>
-    <Tag 
-        label-value="Tag component"
+    <StatusBadge 
+        label-value="StatusBadge component"
         icon="star"
     />
 </template>
 ```
-
-<Canvas sourceState="none" of={Tag.Primary} />
 
 ---
 
@@ -38,43 +23,26 @@ import * as Tag from './Tag.stories.ts';
 #### label-value
 The text content displayed in the tag. Type: `string` (default: `""`)
 
-#### text (deprecated)
-The text content displayed in the tag. Use `label-value` instead. Type: `string` (default: `""`)
-
 #### color
 Visual color scheme for the tag. Type: `"primary" | "informative" | "success" | "warning" | "danger" | "neutral"` (default: `"primary"`)
 
-<Canvas sourceState="none" of={Tag.Colors} />
-
 #### size
-Tag size variant affecting padding and font size. Type: `"small" | "medium" | "large"` (default: `"medium"`)
-
-<Canvas sourceState="none" of={Tag.Sizes} />
+Badge size variant affecting padding and font size. Type: `"small" | "medium" | "large"` (default: `"medium"`)
 
 #### type
 Visual style variant affecting background and border appearance. Type: `"default" | "secondary" | "heavy"` (default: `"default"`)
 
-<Canvas sourceState="none" of={Tag.Types} />
-
 #### loading
 Shows spinner animation instead of content. Type: `boolean` (default: `false`)
-
-<Canvas sourceState="none" of={Tag.Loading} />
 
 #### icon
 Icon name to display within the tag. Type: `string` (default: `""`)
 
-<Canvas sourceState="none" of={Tag.WithIcon} />
-
 #### is-appended-icon
 Controls icon position - when true, icon appears after text. Type: `boolean` (default: `false`)
 
-<Canvas sourceState="none" of={Tag.IsAppendedIcon} />
-
 #### closeable
 Adds close button functionality with click event emission. Type: `boolean` (default: `false`)
-
-<Canvas sourceState="none" of={Tag.Closeable} />
 
 ---
 
@@ -90,9 +58,9 @@ Content displayed instead of text prop when provided.
 
 ```vue
 <template>
-    <Tag>
+    <StatusBadge>
        Slot: default
-    </Tag>
+    </StatusBadge>
 </template>
 ```
 

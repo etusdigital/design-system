@@ -1,12 +1,12 @@
 import type { App, Plugin } from 'vue';
-import Tag from './Tag.vue';
+import Badge from './Badge.vue';
 
 export default {
     install(Vue: App) {
-        Vue.component('Tag', Tag);
+        Vue.component('Badge', Badge);
     },
 } as Plugin;
 
 export {
-    Tag,
+    Badge,
 }
