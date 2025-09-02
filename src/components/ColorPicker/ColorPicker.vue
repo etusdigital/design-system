@@ -180,27 +180,50 @@ function updateColorSlider(event: MouseEvent) {
     }
 }
 
+function readCanvasPixel(x: number, y: number) {
+    const context = colorArea.value?.getContext('2d');
+    if (!colorArea.value || !context) return [0, 0, 0, 255];
+    
+    const pixelX = Math.max(0, Math.min(colorArea.value.clientWidth - 1, x));
+    const pixelY = Math.max(0, Math.min(colorArea.value.clientHeight - 1, y));
+    
+    const readX = Math.round(pixelX);
+    const readY = Math.round(pixelY);
+    
+    const pixel = context.getImageData(readX, readY, 1, 1).data;
+    let correctedPixel = Array.from(pixel);
+    
+    // Corrigir imprecisões nas extremidades
+    if (correctedPixel[0] > 250 && correctedPixel[1] > 250 && correctedPixel[2] > 250) {
+        correctedPixel = [255, 255, 255, 255];
+    }
+    else if (correctedPixel[0] < 5 && correctedPixel[1] < 5 && correctedPixel[2] < 5) {
+        correctedPixel = [0, 0, 0, 255];
+    }
+    
+    return correctedPixel;
+}
+
+function updateColorFromPixel(pixel: number[]) {
+    circleBackground.value = `rgba(${pixel[0]}, ${pixel[1]}, ${pixel[2]}, ${pixel[3] / 255})`;
+    inputColor.value = getColor({
+        r: pixel[0],
+        g: pixel[1],
+        b: pixel[2],
+        a: pixel[3] / 255,
+    });
+    emit('update:modelValue', inputColor.value);
+}
+
 function updateColorArea(event: MouseEvent) {
     if (isDraggingColorArea.value && cursorColorArea.value) {
-        const context = colorArea.value?.getContext('2d');
-        if (!colorArea.value || !context) return;
+        if (!colorArea.value) return;
         const clamped = getCursorPosition(event, cursorColorArea.value, colorArea.value, true);
         cursorColorArea.value.style.left = clamped.left + 'px';
         cursorColorArea.value.style.top = clamped.top + 'px';
-        const pixel = context.getImageData(
-            Math.min(colorArea.value.clientWidth - 1, clamped.left + 5),
-            Math.min(colorArea.value.clientHeight - 1, clamped.top),
-            1,
-            1
-        ).data;
-        circleBackground.value = `rgba(${pixel[0]}, ${pixel[1]}, ${pixel[2]}, ${pixel[3] / 255})`;
-        inputColor.value = getColor({
-            r: pixel[0],
-            g: pixel[1],
-            b: pixel[2],
-            a: pixel[3] / 255,
-        });
-        emit('update:modelValue', inputColor.value);
+        
+        const pixel = readCanvasPixel(clamped.left + 5, clamped.top);
+        updateColorFromPixel(pixel);
     }
 }
 
@@ -259,24 +282,12 @@ function getCursorPosition(event: MouseEvent, cursor: HTMLSpanElement, parent: E
 }
 
 function updatedCircleColor() {
-    const context = colorArea.value?.getContext('2d');
-    if (!context || !cursorColorArea.value || !colorArea.value) return;
+    if (!cursorColorArea.value || !colorArea.value) return;
     const left = Number(cursorColorArea.value.style.left.replace('px', '')) + 5;
     const top = Number(cursorColorArea.value.style.top.replace('px', ''));
-    const pixel = context.getImageData(
-        Math.min(colorArea.value.clientWidth - 1, left),
-        Math.min(colorArea.value.clientHeight - 1, top),
-        1,
-        1
-    ).data;
-    circleBackground.value = `rgba(${pixel[0]}, ${pixel[1]}, ${pixel[2]}, ${pixel[3] / 255})`;
-    inputColor.value = getColor({
-        r: pixel[0],
-        g: pixel[1],
-        b: pixel[2],
-        a: pixel[3] / 255,
-    });
-    emit('update:modelValue', inputColor.value);
+    
+    const pixel = readCanvasPixel(left, top);
+    updateColorFromPixel(pixel);
 }
 
 function calculateCursor() {
@@ -438,7 +449,7 @@ function move(updateType = true) {
 </script>
 
 <template>
-    <Card class="color-picker" :class="{ 'no-shadow': noShadow }">
+    <Card class="color-picker" :class="noShadow ? 'no-shadow' : ''">
         <div class="relative">
             <span class="cursor cursor-area" ref="cursorColorArea" @mousedown="startDraggingColorArea" @touchstart="startDraggingColorAreaTouch" />
             <canvas class="color-area" ref="colorArea" @mousedown="startDraggingColorArea" @touchstart="startDraggingColorAreaTouch" />
