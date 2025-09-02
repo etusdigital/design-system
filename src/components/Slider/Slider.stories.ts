@@ -5,12 +5,12 @@ export default {
   component: Slider,
   argTypes: {
     modelValue: {
-      type: { summary: "number" },
+      type: { summary: "number | number[]" },
       table: {
         defaultValue: { summary: 0 },
       },
       description:
-        'This property will be the slider fill percentage or the equivalent number in "max" scale. Max: 1 and Min: 0, if max isn\'t specified.',
+        'This property will be the slider fill percentage or the equivalent number in "max" scale. Max: 1 and Min: 0, if max isn\'t specified. If isRange is true, it will be an array of two numbers.',
     },
     size: {
       type: { summary: "text" },
@@ -19,6 +19,14 @@ export default {
       table: {
         defaultValue: { summary: "medium" },
       },
+    },
+    isRange: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description:
+        "If this property is true, the slider will be a range slider.",
     },
     max: {
       type: { summary: "number" },
@@ -82,6 +90,7 @@ type Story = StoryObj<typeof Slider>;
 const defaultArgs = {
   modelValue: 0,
   size: "medium",
+  isRange: false,
   max: 0,
   unit: "",
   color: "",
@@ -101,6 +110,7 @@ const defaultHtml = `
     :show-tooltip="args.showTooltip"
     :disabled="args.disabled"
     :vertical="args.vertical"
+    :is-range="args.isRange"
     :max="args.max"
     :unit="args.unit"
     :color="args.color"
@@ -141,6 +151,14 @@ export const Sizes: Story = {
     `,
   }),
   args: defaultArgs,
+};
+
+export const IsRange: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    isRange: true,
+  },
 };
 
 export const ShowTooltip: Story = {

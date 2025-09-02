@@ -38,12 +38,17 @@ const selectedValue = ref(0)
 ### Props API
 
 #### v-model
-Controls the selected value as a single number. Type: `number` (default: `0`)
+Controls the selected value(s). Type: `number | number[]` (default: `0`)
 
 #### size
 Controls the slider size variant. Type: `'small' | 'medium' | 'large'` (default: `'medium'`)
 
 <Canvas sourceState="none" of={Slider.Sizes} />
+
+#### is-range
+Enables range slider mode with two thumbs for selecting a range of values. Type: `boolean` (default: `false`)
+
+<Canvas sourceState="none" of={Slider.IsRange} />
 
 #### max
 Maximum value for the slider. If specified, modelValue will be multiplied by this value. Type: `number` (default: `0`)
@@ -100,6 +105,8 @@ This component uses the internal Slider component and doesn't expose custom slot
 **Important Notes:**
 - Returns values as percentages (0-1 scale) unless `max` prop is specified
 - When `max` is set, values are automatically scaled to the max value
+- Range mode (`is-range`) returns an array of two values for min/max selection
+- Single mode returns a single number value
 - Vertical mode requires a parent container with explicit height
 - Step mode constrains values to predefined positions for precise control
 - Fill colors create visual segments across the slider track
