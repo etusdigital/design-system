@@ -89,6 +89,7 @@ const defaultArgs: Partial<ComponentPropsAndSlots<typeof Button>> = {
 
 const defaultHtml: string = `
   <Button
+    class="h-fit"
     id="test-button"
     :type="args.type"
     :color="args.color"

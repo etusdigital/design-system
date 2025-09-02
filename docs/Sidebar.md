@@ -1,7 +1,7 @@
 # Name: Sidebar
 ## Component Overview
 
-**Purpose**: A slide-out sidebar panel component that appears from the right side of the screen with an overlay backdrop, supporting customizable width and close behavior.
+**Purpose**: A vertical navigation sidebar component with hierarchical menu support, automatic route detection, and flexible item positioning for application navigation.
 
 **Import**: Automatic - no need to import any DS components
 
@@ -9,34 +9,43 @@
 
 ```vue
 <template>
-    <div>
-        <button @click="openSidebar">Show Sidebar</button>
-        <Sidebar v-model="showSidebar" width="40%">
-            <div class="flex flex-col justify-between h-full p-xl">
-                <div class="flex flex-col gap-sm">
-                    <h2 class="font-bold text-lg">Sidebar</h2>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus
-                        maecenas amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis
-                        phasellus a massa praesent ultricies.
-                    </p>
-                </div>
-                <div class="flex justify-end w-full gap-xs">
-                    <button variant="plain" @click="showSidebar = false">Cancel</button>
-                    <button>Save</button>
-                </div>
-            </div>
-        </Sidebar>
-    </div>
+    <Sidebar 
+        v-model="selectedItem"
+        :items="menuItems"
+    />
 </template>
 
 <script setup lang="ts">
 
-const showSidebar = ref(false)
+const selectedItem = ref("home")
 
-const openSidebar = () => {
-    showSidebar.value = true
-}
+const menuItems = ref([
+    ...
+    {
+        label: "Projects",
+        value: "projects",
+        path: "/projects",
+        icon: "folder",
+        items: [
+            {
+                label: "All Projects",
+                value: "all-projects",
+                path: "/all",
+            },
+            {
+                label: "Internal",
+                value: "internal",
+                path: "/internal",
+            },
+            {
+                label: "External",
+                value: "external",
+                path: "/external",
+            },
+        ],
+    }
+    ...
+])
 </script>
 ```
 
@@ -45,44 +54,43 @@ const openSidebar = () => {
 ### Props API
 
 #### v-model
-Controls the visibility of the sidebar (v-model support). Type: `boolean` (default: `false`)
+Controls the selected menu item value. Type: `any` (default: `""`)
 
-#### width
-Sets the width of the sidebar panel. Type: `string` (default: `"fit-content"`)
+#### items
+Array of menu item objects defining the navigation structure. Type: `MenuItem[]` (required)
 
-#### no-outside-close
-Prevents the sidebar from closing when clicking on the overlay. Type: `boolean` (default: `false`)
+```typescript
+type MenuItem = {
+  label: string;       // Display text for the step item
+  value: string;       // Unique identifier for the item
+  icon: string;        // Icon name for the step item
+}
+```
+
+#### parent-path
+Base path prefix applied to all menu items. Type: `string` (default: `""`)
+
+#### get-object
+Returns the complete item object instead of just the value when true. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
-#### update:model-value
-Emitted when the sidebar's visibility state changes (v-model support). Receives the new boolean value.
+#### @update:model-value
+Triggered when a menu item is selected. Receives the selected value or object based on `get-object` prop.
 
 ---
 
 ### Slots API
 
-#### #default
-The main content slot for the sidebar. Contains all the sidebar content including headers, body, and actions.
-
-```vue
-<template>
-    <Sidebar v-model="showForm" width="500px">
-        Slot: default
-    </Sidebar>
-</template>
-
-<script setup lang="ts">
-
-const showForm = ref(false)
-</script>
-```
+This component uses internal `Item` components and doesn't expose custom slots.
 
 **Important Notes:**
-- The sidebar uses `Teleport` to render in the document body for proper z-index layering
-- On mobile devices (< 768px), the sidebar slides from bottom instead of right
-- The sidebar automatically handles focus management and accessibility
-- Content should include proper padding and structure for best visual results
-- Consider using semantic HTML elements (nav, header, main, etc.) within the slot for accessibility
+- Automatically detects and selects items based on current route path
+- Height adjusts dynamically based on navbar presence
+- Supports 1 nesting levels for complex navigation structures
+- Bottom items are separated and positioned at the menu bottom
+- Disabled items maintain visual feedback but prevent interaction
+- Parent path concatenation enables modular menu composition
+- Selection state automatically propagates through nested item hierarchies

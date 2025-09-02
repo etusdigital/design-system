@@ -42,8 +42,8 @@ Value used when toggle is part of a Group component. Type: `any` (default: `unde
 #### disabled
 Disables toggle button interaction. Type: `boolean` (default: `false`)
 
-#### is-div
-Switches to card-style variant with different styling. Type: `boolean` (default: `false`)
+#### type
+Visual variant of the toggle button. Type: `'default' | 'secondary'` (default: `'default'`)
 
 ---
 
@@ -71,11 +71,11 @@ const selected = ref(false)
 ```
 
 **Important Notes:**
-- Provides two distinct visual styles: button and card variants
+- Provides two distinct visual styles: default and secondary variants
 - Automatically integrates with Group component for grouped selections
 - Supports keyboard navigation with Space key activation
 - Provides proper ARIA attributes for screen reader accessibility
-- Button variant ideal for toggle groups and action selections
-- Card variant (is-div) perfect for option cards and feature selections
+- Default variant ideal for standard toggle groups and action selections
+- Secondary variant features rounded corners and different styling for card-like selections
 - Disabled state prevents interaction while maintaining visual feedback
 - Minimum sizing ensures consistent layout across different content lengths

@@ -22,41 +22,63 @@ export default {
         defaultValue: { summary: false },
       },
     },
+    type: {
+      control: "select",
+      options: ["default", "secondary"],
+      table: {
+        defaultValue: { summary: "default" },
+      },
+    },
   },
 } satisfies Meta<typeof ToggleGroup>;
 
 type Story = StoryObj<typeof ToggleGroup>;
 
+const defaultArgs = {
+  modelValue: 1,
+  vertical: false,
+  disabled: false,
+  items: [
+    { label: "First", value: 1 },
+    { label: "Second", value: 2 },
+    { label: "Third", value: 3 },
+  ],
+  labelKey: "label",
+  valueKey: "value",
+  getObject: false,
+  type: "default",
+};
+
+const defaultHtml = `
+  <ToggleGroup
+    v-model="args.modelValue"
+    :vertical="args.vertical"
+    :disabled="args.disabled"
+    :items="args.items"
+    :label-key="args.labelKey"
+    :value-key="args.valueKey"
+    :get-object="args.getObject"
+    :type="args.type"
+  />
+`;
 
 const defaultRender = (args: any) => ({
   components: { ToggleGroup },
   setup() {
     return { args };
   },
-  template:
-    '<ToggleGroup v-model="args.modelValue" :vertical="args.vertical" :disabled="args.disabled" :items="args.items" :label-key="args.labelKey" :value-key="args.valueKey" :get-object="args.getObject" />'
-})
+  template: defaultHtml,
+});
 
-export const Radio: Story = {
+export const Primary: Story = {
   render: defaultRender,
-  args: {
-    modelValue: 1,
-    vertical: false,
-    disabled: false,
-    items: [
-      { label: "First", value: 1 },
-      { label: "Second", value: 2 },
-      { label: "Third", value: 3 },
-    ],
-    labelKey: "label",
-    valueKey: "value",
-    getObject: false,
-  },
+  args: defaultArgs,
 };
 
 export const Vertical: Story = {
   render: defaultRender,
   args: {
+    ...defaultArgs,
     vertical: true,
   },
 };
@@ -64,26 +86,29 @@ export const Vertical: Story = {
 export const Disabled: Story = {
   render: defaultRender,
   args: {
+    ...defaultArgs,
     disabled: true,
   },
 };
 
-export const Toggle: Story = {
+
+export const Types: Story = {
   render: (args: any) => ({
     components: { ToggleGroup },
     setup() {
       return { args };
     },
-    template:
-      '<ToggleGroup v-model="args.modelValue" :vertical="args.vertical" :disabled="args.disabled">' +
-      '\n<Toggle :group-value="1">First</Toggle>' +
-      '\n<Toggle :group-value="2">Second</Toggle>' +
-      '\n<Toggle :group-value="3">Third</Toggle>' +
-      "\n</ToggleGroup>",
+    template: `
+      <div class="flex flex-col gap-xs">
+          ${["default", "secondary"]
+            .map(
+              (type) => `
+            ${defaultHtml.replace(/args\.type/g, `'${type}'`)}
+          `
+            )
+            .join("")}
+      </div>
+    `,
   }),
-  args: {
-    modelValue: 1,
-    vertical: false,
-    disabled: false,
-  },
+  args: defaultArgs,
 };

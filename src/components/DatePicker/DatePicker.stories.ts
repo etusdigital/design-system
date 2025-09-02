@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import DatePicker from "./DatePicker.vue";
+import { calculateDate } from "../../utils";
 
 export default {
   component: DatePicker,
@@ -11,12 +12,6 @@ export default {
       },
       description: "Will be the current date or period.",
     },
-    expanded: {
-      type: { summary: "boolean" },
-      table: {
-        defaultValue: { summary: false },
-      },
-    },
     labelValue: {
       type: { summary: "text" },
       description: "Will be the date comparator label.",
@@ -27,6 +22,22 @@ export default {
         defaultValue: { summary: "en-US" },
       },
       description: "Will be the date input language.",
+    },
+    type: {
+      type: { summary: "string" },
+      control: { type: "select" },
+      options: ["date", "period", "compare"],
+      table: {
+        defaultValue: { summary: "date" },
+      },
+      description: "Selection mode: single date, date range, or comparison mode.",
+    },
+    allowChangeType: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description: "Will determine if the user can change the type of the date input.",
     },
     maxInit: {
       type: { summary: "Date" },
@@ -41,6 +52,10 @@ export default {
         defaultValue: { summary: null },
       },
       description: "Will be the newest date the user can select.",
+    },
+    options: {
+      type: { summary: "array" },
+      description: "Will the predetermined options.",
     },
     absolute: {
       type: { summary: "boolean" },
@@ -72,6 +87,12 @@ export default {
       type: { summary: "text" },
       description: "Will be the error message.",
     },
+    expanded: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+    },
     alignRight: {
       type: { summary: "boolean" },
       table: {
@@ -80,17 +101,25 @@ export default {
       description:
         "Determine if the dropdown will be right-aligned. To work absolute needs to be true.",
     },
-    apply: {
-      description: "This function will be called when the apply button is clicked.",
+    separator: {
+      type: { summary: "text" },
+      description:
+        "If two period are selected, this property will separate them.",
     },
     default: {
       description: "This slot will be displayed on the select area.",
     },
-    "clearlabel": {
+    apply: {
+      description: "This function will be called when the apply button is clicked.",
+    },
+    "compare-label": {
+      description: "This slot will be the checkbox text.",
+    },
+    "clear-label": {
       description: "This slot will be the clear button text.",
     },
     "apply-label": {
-      description: "This slot will be the apply button text and function.",
+      description: "This slot will be the apply button text.",
     },
     actions: {
       description: "Slot to replace the actions area."
@@ -104,6 +133,8 @@ const defaultArgs = {
   modelValue: null,
   labelValue: "label",
   lang: "en-US",
+  type: "date",
+  allowChangeType: false,
   maxInit: undefined,
   maxEnd: undefined,
   disabled: false,
@@ -113,39 +144,94 @@ const defaultArgs = {
   absolute: false,
   expanded: false,
   alignRight: false,
+  separator: "",
+  options: [
+    {
+      selected: true,
+      value: "today",
+      label: "Today",
+      calculate: () => {
+        return calculateDate("today");
+      },
+    },
+    {
+      value: "yesterday",
+      label: "Yesterday",
+      calculate: () => {
+        return calculateDate("yesterday");
+      },
+    },
+    {
+      value: "last7",
+      label: "Last 7 days",
+      calculate: () => {
+        return calculateDate("last7");
+      },
+    },
+    {
+      value: "last15",
+      label: "Last 15 days",
+      calculate: () => {
+        return calculateDate("last15");
+      },
+    },
+    {
+      value: "last30",
+      label: "Last 30 days",
+      calculate: () => {
+        return calculateDate("last30");
+      },
+    },
+    {
+      value: "lastMonth",
+      label: "Last month",
+      calculate: () => {
+        return calculateDate("lastMonth");
+      },
+    },
+  ],
 };
+
+const defaultHtml = `
+    <div class="flex w-full" :class="{ 'justify-end': args.alignRight }">
+      <DatePicker
+          v-model="args.modelValue"
+          v-model:expanded="args.expanded"
+          v-model:type="args.type"
+          :label-value="args.labelValue"
+          :lang="args.lang"
+          :allow-change-type="args.allowChangeType"
+          :max-init="args.maxInit"
+          :max-end="args.maxEnd"
+          :options="args.options"
+          :disabled="args.disabled"
+          :required="args.required"
+          :is-error="args.isError"
+          :error-message="args.errorMessage"
+          :absolute="args.absolute"
+          :separator="args.separator"
+          :align-right="args.alignRight"
+      >
+          Date Filter
+          <template #clear-label>
+              Clear
+          </template>
+          <template #apply-label>
+              Apply
+          </template>
+          <template #compare-label>
+              Compare two periods
+          </template>
+      </DatePicker>
+    </div>
+  `;
 
 const defaultRender = (args: any) => ({
   components: { DatePicker },
   setup() {
     return { args };
   },
-  template: `
-    <div class="flex w-full" :class="{ 'justify-end': args.alignRight }">
-      <DatePicker
-        v-model="args.modelValue"
-        v-model:expanded="args.expanded"
-        :labelValue="args.labelValue"
-        :lang="args.lang"
-        :max-init="args.maxInit"
-        :max-end="args.maxEnd"
-        :disabled="args.disabled"
-        :required="args.required"
-        :is-error="args.isError"
-        :error-message="args.errorMessage"
-        :absolute="args.absolute"
-        :align-right="args.alignRight"
-    >
-        Date Picker
-        <template #clear-label>
-            Clear
-        </template>
-        <template #apply-label>
-            Apply
-        </template>
-    </DatePicker>
-    </div>
-  `,
+  template: defaultHtml,
 });
 
 export const Primary: Story = {
@@ -158,6 +244,35 @@ export const Lang: Story = {
   args: {
     ...defaultArgs,
     lang: "pt-BR",
+    separator: "e",
+  },
+};
+
+export const AllowChangeType: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    allowChangeType: true,
+    modelValue: [],
+    type: "period",
+  },
+};
+
+export const Period: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    modelValue: [],
+    type: "period",
+  },
+};
+
+export const Compare: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    modelValue: [],
+    type: "compare",
   },
 };
 
@@ -215,5 +330,15 @@ export const AlignRight: Story = {
   args: {
     ...defaultArgs,
     alignRight: true,
+  },
+};
+
+export const Separator: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    modelValue: [[], []],
+    type: "compare",
+    separator: "separator",
   },
 };

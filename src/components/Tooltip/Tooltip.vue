@@ -48,7 +48,6 @@ async function showTooltip() {
   const rect = (content.value.firstElementChild || content.value).getBoundingClientRect();
   const viewportWidth = window.innerWidth;
 
-  console.log(rect, rect.bottom, window.innerHeight);
   calculatePosition(rect, tooltip.value);
 
   const closeHandler = () => {

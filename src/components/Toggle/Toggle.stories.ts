@@ -23,10 +23,11 @@ export default {
         defaultValue: { summary: false },
       },
     },
-    isDiv: {
-      type: { summary: "boolean" },
+    type: {
+      control: "select",
+      options: ["default", "secondary"],
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "default" },
       },
     },
     default: {
@@ -41,25 +42,27 @@ const defaultArgs = {
   modelValue: false,
   groupValue: null,
   disabled: false,
-  isDiv: false,
+  type: "default",
 };
+
+const defaultHtml = `
+  <Toggle 
+    v-model="args.modelValue" 
+    name="test" 
+    :group-value="args.groupValue" 
+    :disabled="args.disabled" 
+    :type="args.type"
+  >
+    Test toggle
+  </Toggle>
+`;
 
 const defaultRender = (args: any) => ({
   components: { Toggle },
   setup() {
     return { args };
   },
-  template: `
-    <Toggle 
-      v-model="args.modelValue" 
-      name="test" 
-      :group-value="args.groupValue" 
-      :disabled="args.disabled" 
-      :is-div="args.isDiv"
-    >
-      Test toggle
-    </Toggle>
-  `,
+  template: defaultHtml,
 });
 
 export const Primary: Story = {
@@ -75,10 +78,23 @@ export const Disabled: Story = {
   },
 };
 
-export const ToggleDiv: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    isDiv: true,
-  },
+export const Types: Story = {
+  render: (args: any) => ({
+    components: { Toggle },
+    setup() {
+      return { args };
+    },
+    template: `
+      <div class="flex gap-xs">
+          ${["default", "secondary"]
+            .map(
+              (type) => `
+            ${defaultHtml.replace(/args\.type/g, `'${type}'`)}
+          `
+            )
+            .join("")}
+      </div>
+    `,
+  }),
+  args: defaultArgs,
 };

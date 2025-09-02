@@ -4,6 +4,7 @@ import {
   capitalizeFirstLetter,
   getArrayMonthDay,
   getMonths,
+  checkDateType,
 } from "../../utils/index";
 import Day from "./Day.vue";
 import DateDialog from "./DateDialog.vue";
@@ -91,7 +92,7 @@ const years = computed(() => {
 
 onBeforeMount(checkValidModel);
 
-watch(() => props.modelValue, checkValidModel);
+watch(() => props.modelValue, checkValidModel, { immediate: true, deep: true });
 watch(() => props.type, checkValidModel);
 watch(
   () => props.lang,
@@ -106,17 +107,7 @@ watch(
 );
 
 function checkValidModel() {
-  if (props.type === "compare") {
-    if (!props.modelValue) model.value = [[], []];
-    else if (
-      Array.isArray(props.modelValue) &&
-      !Array.isArray(props.modelValue[0])
-    )
-      model.value = [[...(props.modelValue as Date[])], []];
-    else model.value = [...(props.modelValue as Date[][])];
-  } else if (!props.modelValue) model.value = [];
-  else if (!Array.isArray(props.modelValue)) model.value = [props.modelValue];
-  else model.value = [...(props.modelValue as Date[])];
+  model.value = checkDateType(props.modelValue, props.type);
 }
 
 function updateItems(value?: number, changeWeeks = true) {

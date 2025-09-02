@@ -1,22 +1,9 @@
-import { Canvas, Meta, Controls } from '@storybook/blocks';
-import * as Drawer from './Drawer.stories.ts';
-
-<Meta of={Drawer} />
-
 # Name: Drawer
 ## Component Overview
 
 **Purpose**: A slide-out drawer panel component that can appear from any side of the screen (right, left, top, bottom) with an overlay backdrop, supporting customizable width/height and close behavior.
 
 **Import**: Automatic - no need to import any DS components
-
-<br />
-### Playground
-
-<Canvas of={Drawer.Primary} />
-<Controls />
-
----
 
 ### Basic Usage
 
@@ -44,7 +31,6 @@ import * as Drawer from './Drawer.stories.ts';
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 
 const showDrawer = ref(false)
 
@@ -53,8 +39,6 @@ const openDrawer = () => {
 }
 </script>
 ```
-
-<Canvas sourceState="none" of={Drawer.Primary} />
 
 ---
 
@@ -69,12 +53,8 @@ Sets the size of the drawer panel. For left/right positions this controls width,
 #### no-outside-close
 Prevents the drawer from closing when clicking on the overlay. Type: `boolean` (default: `false`)
 
-<Canvas sourceState="none" of={Drawer.NoOutsideClose} />
-
 #### position
 Sets the position from which the drawer will slide. Type: `"right" | "left" | "top" | "bottom"` (default: `"right"`)
-
-<Canvas sourceState="none" of={Drawer.Positions} />
 
 ---
 
@@ -98,7 +78,7 @@ The main content slot for the drawer. Contains all the drawer content including 
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+
 const showForm = ref(false)
 </script>
 ```

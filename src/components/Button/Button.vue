@@ -79,7 +79,7 @@ const isLoading = computed(
 @reference "../../assets/main.css";
 
 .button {
-  @apply p3 font-semibold leading-xs rounded-base relative inline-flex cursor-pointer items-center justify-center tracking-wider capitalize select-none active:scale-95 border-xs text-neutral-foreground-negative;
+  @apply p3 font-semibold leading-base rounded-base relative inline-flex cursor-pointer items-center justify-center tracking-wider capitalize select-none active:scale-95 border-xs text-neutral-foreground-negative;
 
   .spinner {
     @apply absolute;
@@ -107,7 +107,7 @@ const isLoading = computed(
 }
 
 .button.default .progress {
-  @apply bg-white opacity-60;
+  @apply bg-neutral-surface-default opacity-60;
 }
 
 .button-label {

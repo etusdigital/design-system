@@ -292,6 +292,30 @@ export function isRange(start: Date, end: Date, day: Date, isSelected = false) {
   return fn(parsedStart, parsedEnd, parsedDay);
 }
 
+export function checkDateType(value: Date | Date[] | Date[][] | undefined, type: "date" | "period" | "compare") {
+  let model: Date[] | Date[][] = [];
+  if (type === "compare") {
+    if (!value) model = [[], []];
+    else if (
+      Array.isArray(value) &&
+      !Array.isArray(value[0])
+    )
+      model = [[...(value as Date[])], []];
+    else model = [...(value as Date[][])];
+  } else if (!value) model = [];
+  else if (!Array.isArray(value)) model = [value];
+  else if (
+    Array.isArray(value) &&
+    Array.isArray(value[0])
+  )
+    model = [...value[0]];
+  else model = [...(value as Date[])];
+
+  console.log(model);
+  return model;
+}
+
+
 export function capitalizeFirstLetter(string: string) {
   if (!string) return string;
   return string.charAt(0).toUpperCase() + string.slice(1);

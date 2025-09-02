@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { watch, inject, computed } from "vue";
-import type { GroupState } from "../Group";
+import type { GroupState } from "../Conector";
 import { useOptionalModel } from "#composables";
 
 const props = withDefaults(
@@ -10,11 +10,12 @@ const props = withDefaults(
     name?: string;
     groupValue?: any;
     disabled?: boolean;
-    isDiv?: boolean;
+    type?: 'default' | 'secondary';
   }>(),
   {
     modelValue: undefined,
     disabled: false,
+    type: 'default',
   }
 );
 
@@ -61,9 +62,9 @@ function toggle() {
     role="button"
     :aria-checked="model"
     :aria-disabled="isDisabled"
-    class="bg-neutral-surface-default text-xs relative inline-flex min-h-[3em] min-w-[10em] cursor-pointer items-center justify-center py-base px-2xl font-bold tracking-wider uppercase select-none leading-xs border-xxs border-current text-neutral-interaction-default"
+    class="toggle"
     :class="[
-      isDiv ? 'toggle-div' : 'toggle-button',
+      type,
       { active: model, disabled: isDisabled },
     ]"
     tabindex="0"
@@ -77,27 +78,33 @@ function toggle() {
 <style scoped>
 @reference "../../assets/main.css";
 
+.toggle {
+  @apply relative inline-flex items-center justify-center min-h-3xl min-w-9xl
+          bg-neutral-surface-default py-xs px-base cursor-pointer text-xs font-bold text-neutral-interaction-default
+          tracking-wider uppercase select-none leading-xs border-current border-xxs border-current;
+}
+
+.toggle.disabled {
+  @apply text-neutral-interaction-disabled bg-neutral-surface-disabled border-neutral-disabled pointer-events-none;
+}
+
 .active {
   @apply bg-primary-interaction-default text-neutral-foreground-negative border-primary-interaction-default;
 }
 
-.toggle-div {
-  @apply py-xs px-base min-w-[8em] border-neutral-default rounded-base text-neutral-interaction-default;
+.toggle.secondary {
+  @apply py-base px-2xl rounded-base border-neutral-default;
 }
 
-.toggle-div > :first-child {
+.toggle.secondary > :first-child {
   @apply text-neutral-interaction-default border-neutral-default;
 }
 
-.toggle-div.active {
+.toggle.secondary.active {
   @apply bg-primary-surface-highlight text-primary-interaction-default border-primary-interaction-default;
 }
 
-.toggle-div.active > :first-child {
+.toggle.secondary.active > :first-child {
   @apply text-primary-interaction-default border-primary-interaction-default;
-}
-
-*.disabled {
-  @apply text-neutral-interaction-disabled bg-neutral-surface-disabled border-neutral-disabled pointer-events-none;
 }
 </style>

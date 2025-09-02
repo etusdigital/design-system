@@ -1,12 +1,12 @@
 import type { App, Plugin } from 'vue';
-import DateFilter from './DateFilter.vue';
+import Conector from './Conector.vue';
 
 export default {
     install(Vue: App) {
-        Vue.component('DateFilter', DateFilter);
+        Vue.component('Conector', Conector);
     },
 } as Plugin;
 
 export {
-    DateFilter,
+    Conector,
 }

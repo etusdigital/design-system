@@ -13,7 +13,7 @@ import * as ToggleGroup from './ToggleGroup.stories.ts';
 <br />
 ### Playground
 
-<Canvas of={ToggleGroup.Radio} />
+<Canvas of={ToggleGroup.Primary} />
 <Controls />
 
 ---
@@ -22,11 +22,7 @@ import * as ToggleGroup from './ToggleGroup.stories.ts';
 
 ```vue
 <template>
-    <ToggleGroup v-model="selectedValue">
-        <toggle group-value="1">First Option</toggle>
-        <toggle group-value="2">Second Option</toggle>
-        <toggle group-value="3">Third Option</toggle>
-    </ToggleGroup>
+    <ToggleGroup v-model="selectedValue" :items="items" />
     
     <p>Selected: {{ selectedValue }}</p>
 </template>
@@ -34,10 +30,11 @@ import * as ToggleGroup from './ToggleGroup.stories.ts';
 <script setup lang="ts">
 import { ref } from 'vue'
 const selectedValue = ref('option1')
+const items = [...]
 </script>
 ```
 
-<Canvas sourceState="none" of={ToggleGroup.Radio} />
+<Canvas sourceState="none" of={ToggleGroup.Primary} />
 
 ---
 
@@ -56,6 +53,11 @@ Disables all grouped components. Type: `boolean` (default: `false`)
 
 <Canvas sourceState="none" of={ToggleGroup.Disabled} />
 
+#### type
+Visual variant applied to all toggle buttons in the group. Type: `'default' | 'secondary'` (default: `'default'`)
+
+<Canvas sourceState="none" of={ToggleGroup.Types} />
+
 ---
 
 ### Events API
@@ -65,70 +67,8 @@ Triggered when the selection changes within the group.
 
 ### Slots API
 
-#### #default
-Contains the grouped components. Each component should have a `group-value` prop for selection tracking.
-
-```vue
-<template>
-    <ToggleGroup v-model="selected">
-        <toggle group-value="value1">Label 1</toggle>
-        <toggle group-value="value2">Label 2</toggle>
-    </ToggleGroup>
-</template>
-```
-
----
-
-### Component Behavior Inside ToggleGroup
-
-The ToggleGroup component handles different child components in specific ways, applying appropriate styling and behavior based on the component type.
-
-#### Radio Components
-Radio buttons maintain individual spacing and selection states.
-
-**Behavior**: Individual spacing with margins between items
-
-```vue
-<template>
-    <ToggleGroup v-model="radioValue">
-        <toggle group-value="1">First</toggle>
-        <toggle group-value="2">Second</toggle>
-        <toggle group-value="3">Third</toggle>
-    </ToggleGroup>
-</template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-const radioValue = ref('1')
-</script>
-```
-
-<Canvas sourceState="none" of={ToggleGroup.Radio} />
-
-#### Toggle Components
-Toggles are styled as connected button groups with shared borders.
-
-**Behavior**: Connected borders, rounded corners only on first/last items
-
-```vue
-<template>
-    <ToggleGroup v-model="buttonValue">
-        <toggle-button group-value="1">First</toggle-button>
-        <toggle-button group-value="2">Second</toggle-button>
-        <toggle-button group-value="3">Third</toggle-button>
-    </ToggleGroup>
-</template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-const buttonValue = ref(null)
-</script>
-```
-
-<Canvas sourceState="none" of={ToggleGroup.Toggle} />
+This component uses `Toggle` internally and doesn't expose custom slots.
 
 **Important Notes:**
 - Model value synchronization works bidirectionally between ToggleGroup and child components
-- Each grouped component needs a unique `group-value` prop for proper selection tracking
-- Visual connectors appear automatically for non-toggle components
 - Use `vertical` prop to change layout orientation for all grouped components

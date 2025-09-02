@@ -7,7 +7,7 @@ const props = withDefaults(
     modelValue?: boolean;
     size?: string;
     noOutsideClose?: boolean;
-    position?: "right" | "left" | "top" | "bottom";
+    position?: "top" | "bottom" | "left" | "right";
   }>(),
   {
     modelValue: false,

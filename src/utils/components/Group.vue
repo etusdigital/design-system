@@ -41,13 +41,17 @@ function updateSelection(value: any) {
 </script>
 
 <template>
-	<div class="group inline-flex" :class="[vertical ? 'vert' : 'hor']">
+	<div class="group " :class="[vertical ? 'vert' : 'hor']">
 		<slot />
 	</div>
 </template>
 
 <style scoped>
 @reference "../../assets/main.css";
+
+.group {
+	@apply inline-flex;
+}
 
 .vert {
 	@apply flex-col;

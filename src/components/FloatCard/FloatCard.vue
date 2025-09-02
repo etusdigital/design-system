@@ -91,7 +91,6 @@ function findScrollableParent(
 }
 
 async function showCard() {
-  console.log("showCard", content.value, card.value);
   if (
     !content.value ||
     !card.value

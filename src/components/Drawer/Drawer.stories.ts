@@ -13,7 +13,8 @@ export default {
       table: {
         defaultValue: { summary: "fit-content" },
       },
-      description: "Determine the drawer size (width for left/right positions, height for top/bottom positions).",
+      description:
+        "Determine the drawer size (width for left/right positions, height for top/bottom positions).",
     },
     noOutsideClose: {
       control: { type: "boolean" },
@@ -25,7 +26,7 @@ export default {
     },
     position: {
       control: { type: "select" },
-      options: ["right", "left", "top", "bottom"],
+      options: ["top", "bottom", "left", "right"],
       table: {
         defaultValue: { summary: "right" },
       },
@@ -46,166 +47,64 @@ const defaultArgs = {
   position: "right" as const,
 };
 
+const defaultHtml = `
+  <Button  @click="args.modelValue = !args.modelValue">Show Drawer</Button>
+  <Drawer
+        v-model="args.modelValue"
+        :size="args.size"
+        :no-outside-close="args.noOutsideClose"
+        :position="args.position"
+  >
+      <div class="flex flex-col justify-between h-full p-xl">
+          <div class="flex flex-col gap-sm">
+            <h2 class="font-bold text-lg">Drawer</h2>
+            <p class="text-sm text-neutral-foreground-low">Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a massa praesent ultricies.</p>
+          </div>
+          <div class="flex justify-end w-full gap-xs">
+              <Button variant="plain" @click="args.modelValue = false">Cancel</Button>
+              <Button>Save</Button>
+          </div>
+      </div>
+  </Drawer>
+  `;
+
+const defaultRender = (args: any) => ({
+  components: { Drawer },
+  setup() {
+    return { args };
+  },
+  template: defaultHtml,
+});
+
 export const Primary: Story = {
-  render: (args: any) => ({
-    components: { Drawer },
-    setup() {
-      return { args };
-    },
-    template: `
-        <Button  @click="args.modelValue = !args.modelValue">Show Drawer</Button>
-        <Drawer
-             v-model="args.modelValue"
-             :size="args.size"
-             :no-outside-close="args.noOutsideClose"
-             :position="args.position"
-        >
-            <div class="flex flex-col justify-between h-full p-xl">
-                <div class="flex flex-col gap-sm">
-                  <h2 class="font-bold text-lg">Drawer</h2>
-                  <p class="text-sm text-neutral-foreground-low">Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a massa praesent ultricies.</p>
-                </div>
-                <div class="flex justify-end w-full gap-xs">
-                    <Button variant="plain" @click="args.modelValue = false">Cancel</Button>
-                    <Button>Save</Button>
-                </div>
-            </div>
-        </Drawer>
-        `,
-  }),
+  render: defaultRender,
   args: defaultArgs,
 };
 
 export const NoOutsideClose: Story = {
-  render: (args: any) => ({
-    components: { Drawer },
-    setup() {
-      return { args };
-    },
-    template: `
-        <Button  @click="args.modelValue = !args.modelValue">Show Drawer</Button>
-        <Drawer
-             v-model="args.modelValue"
-             :size="args.size"
-             :no-outside-close="args.noOutsideClose"
-             :position="args.position"
-        >
-            <div class="flex flex-col justify-between h-full p-xl">
-                <div class="flex flex-col gap-sm">
-                  <h2 class="font-bold text-lg">No Outside Close</h2>
-                  <p class="text-sm text-neutral-foreground-low">Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a massa praesent ultricies.</p>
-                </div>
-                <div class="flex justify-end w-full gap-xs">
-                    <Button variant="plain" @click="args.modelValue = false">Cancel</Button>
-                    <Button>Save</Button>
-                </div>
-            </div>
-        </Drawer>
-        `,
-  }),
+  render: defaultRender,
   args: {
     ...defaultArgs,
     noOutsideClose: true,
   },
 };
 
-export const LeftPosition: Story = {
+export const Positions: Story = {
   render: (args: any) => ({
     components: { Drawer },
     setup() {
       return { args };
     },
-    template: `
-        <Button  @click="args.modelValue = !args.modelValue">Show Left Drawer</Button>
-        <Drawer
-             v-model="args.modelValue"
-             :size="args.size"
-             :no-outside-close="args.noOutsideClose"
-             :position="args.position"
-        >
-            <div class="flex flex-col justify-between h-full p-xl">
-                <div class="flex flex-col gap-sm">
-                  <h2 class="font-bold text-lg">Left Drawer</h2>
-                  <p class="text-sm text-neutral-foreground-low">This drawer slides from the left side of the screen.</p>
-                </div>
-                <div class="flex justify-end w-full gap-xs">
-                    <Button variant="plain" @click="args.modelValue = false">Cancel</Button>
-                    <Button>Save</Button>
-                </div>
-            </div>
-        </Drawer>
-        `,
+    template: `<div class="flex gap-xxs">
+    ${["left", "right", "top", "bottom"]
+      .map((position) => {
+        return `<Button  @click="() => { args.position = '${position}'; args.modelValue = !args.modelValue }">Show ${position} Drawer</Button>`;
+      })
+      .join("")}</div>
+    ${defaultHtml.replaceAll('<Button  @click="args.modelValue = !args.modelValue">Show Drawer</Button>', "")}`,
   }),
   args: {
     ...defaultArgs,
     position: "left",
-  },
-};
-
-export const TopPosition: Story = {
-  render: (args: any) => ({
-    components: { Drawer },
-    setup() {
-      return { args };
-    },
-    template: `
-        <Button  @click="args.modelValue = !args.modelValue">Show Top Drawer</Button>
-        <Drawer
-             v-model="args.modelValue"
-             :size="args.size"
-             :no-outside-close="args.noOutsideClose"
-             :position="args.position"
-        >
-            <div class="flex flex-col justify-between h-full p-xl">
-                <div class="flex flex-col gap-sm">
-                  <h2 class="font-bold text-lg">Top Drawer</h2>
-                  <p class="text-sm text-neutral-foreground-low">This drawer slides from the top of the screen.</p>
-                </div>
-                <div class="flex justify-end w-full gap-xs">
-                    <Button variant="plain" @click="args.modelValue = false">Cancel</Button>
-                    <Button>Save</Button>
-                </div>
-            </div>
-        </Drawer>
-        `,
-  }),
-  args: {
-    ...defaultArgs,
-    position: "top",
-    size: "50%",
-  },
-};
-
-export const BottomPosition: Story = {
-  render: (args: any) => ({
-    components: { Drawer },
-    setup() {
-      return { args };
-    },
-    template: `
-        <Button  @click="args.modelValue = !args.modelValue">Show Bottom Drawer</Button>
-        <Drawer
-             v-model="args.modelValue"
-             :size="args.size"
-             :no-outside-close="args.noOutsideClose"
-             :position="args.position"
-        >
-            <div class="flex flex-col justify-between h-full p-xl">
-                <div class="flex flex-col gap-sm">
-                  <h2 class="font-bold text-lg">Bottom Drawer</h2>
-                  <p class="text-sm text-neutral-foreground-low">This drawer slides from the bottom of the screen.</p>
-                </div>
-                <div class="flex justify-end w-full gap-xs">
-                    <Button variant="plain" @click="args.modelValue = false">Cancel</Button>
-                    <Button>Save</Button>
-                </div>
-            </div>
-        </Drawer>
-        `,
-  }),
-  args: {
-    ...defaultArgs,
-    position: "bottom",
-    size: "60%",
   },
 };
