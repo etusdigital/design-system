@@ -91,7 +91,7 @@ function getValue(item: any) {
 </script>
 
 <template>
-  <div class="side-menu">
+  <div class="sidebar">
     <div
       class="items-container"
       v-for="(items, index) in parsedItems"
@@ -114,7 +114,7 @@ function getValue(item: any) {
 <style scoped>
 @reference "../../assets/main.css";
 
-.side-menu {
+.sidebar {
   @apply flex flex-col justify-between gap-sm w-fit py-lg px-sm bg-default border-r-xxs border-r-neutral-default;
   height: v-bind(computedHeight);
 }

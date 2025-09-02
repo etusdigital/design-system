@@ -41,7 +41,7 @@ export { default as RoundMenu } from './RoundMenu';
 export { default as Select } from './Select';
 export { default as SelectContainer } from './SelectContainer';
 export { default as Separator } from './Separator';
-export { default as SideMenu } from './SideMenu';
+export { default as Sidebar } from './Sidebar';
 export { default as Skeleton } from './Skeleton';
 export { default as Slider } from './Slider';
 export { default as SmartSelect } from './SmartSelect';

@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import SideMenu from "./SideMenu.vue";
+import Sidebar from "./Sidebar.vue";
 
 export default {
-  component: SideMenu,
+  component: Sidebar,
   argTypes: {
     modelValue: {
       type: { summary: "any" },
@@ -26,9 +26,9 @@ export default {
         "If true, the selected value will be an object instead of value-key value.",
     },
   },
-} satisfies Meta<typeof SideMenu>;
+} satisfies Meta<typeof Sidebar>;
 
-type Story = StoryObj<typeof SideMenu>;
+type Story = StoryObj<typeof Sidebar>;
 
 const defaultArgs = {
   modelValue: "dashboard",
@@ -90,13 +90,13 @@ const defaultArgs = {
 
 export const Primary: Story = {
   render: (args: any) => ({
-    components: { SideMenu },
+    components: { Sidebar },
     setup() {
       return { args };
     },
     template: `
     <div class="h-screen">
-      <SideMenu
+      <Sidebar
         v-model="args.modelValue"
         :items="args.items"
         :parent-path="args.parentPath"

@@ -1,9 +1,9 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as SideMenu from './SideMenu.stories.ts';
+import * as Sidebar from './Sidebar.stories.ts';
 
-<Meta of={SideMenu} />
+<Meta of={Sidebar} />
 
-# Name: SideMenu
+# Name: Sidebar
 ## Component Overview
 
 **Purpose**: A vertical navigation sidebar component with hierarchical menu support, automatic route detection, and flexible item positioning for application navigation.
@@ -13,7 +13,7 @@ import * as SideMenu from './SideMenu.stories.ts';
 <br />
 ### Playground
 
-<Canvas of={SideMenu.Primary} />
+<Canvas of={Sidebar.Primary} />
 <Controls />
 
 ---
@@ -22,7 +22,7 @@ import * as SideMenu from './SideMenu.stories.ts';
 
 ```vue
 <template>
-    <SideMenu 
+    <Sidebar 
         v-model="selectedItem"
         :items="menuItems"
     />
@@ -62,7 +62,7 @@ const menuItems = ref([
 </script>
 ```
 
-<Canvas sourceState="none" of={SideMenu.Primary} />
+<Canvas sourceState="none" of={Sidebar.Primary} />
 
 ---
 
