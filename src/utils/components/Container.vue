@@ -4,7 +4,7 @@
 // slot content shenanigans aswell, idk.
 // @TODO: Fix border width for container with sub items
 import { ref, onMounted, onUpdated, onBeforeUnmount, computed } from "vue";
-import type { ContainerModelExtra } from "./ContainerModelExtra.types";
+import type { ContainerModelExtra } from "../types/ContainerModelExtra";
 import { useOptionalModel } from "#composables";
 import Label from "./Label.vue";
 

@@ -39,7 +39,41 @@ export default {
         defaultValue: { summary: "value" },
       },
     },
+    getObject: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description:
+        "If true, the selected value will be an object instead of value-key value.",
+    },
+    multiple: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+      description:
+        "If true, the selected value will be an array of the selected values.",
+    },
+    secondary: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+    },
     disabled: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+    },
+    searchable: {
+      type: { summary: "boolean" },
+      table: {
+        defaultValue: { summary: false },
+      },
+    },
+    clearable: {
       type: { summary: "boolean" },
       table: {
         defaultValue: { summary: false },
@@ -60,20 +94,6 @@ export default {
       type: { summary: "text" },
       description: "Will be the info message.",
     },
-    secondary: {
-      type: { summary: "boolean" },
-      table: {
-        defaultValue: { summary: false },
-      },
-    },
-    'search-label': {
-      type: { summary: "text" },
-      table: {
-        defaultValue: { summary: "Search" },
-      },
-      description:
-        "This slot will be placeholder for the input when searchable is true.",
-    },
     default: {
       description: "This slot will be displayed on the select area.",
     },
@@ -81,13 +101,12 @@ export default {
       description:
         "This slot will be status when a item is selected. Param: item (selected item).",
     },
+    "clear-label": {
+      description: "Will be clear button text.",
+    },
     item: {
       description:
         "This slot will be displayed as an option. Params: item and index.",
-    },
-    actions: {
-      description:
-        "This slot will be the select actions, displayed in the bottom of the dropdown",
     },
   },
 } satisfies Meta<typeof Select>;
@@ -103,41 +122,49 @@ const defaultArgs = {
   valueKey: "value",
   labelValue: "label",
   searchable: false,
+  clearable: false,
+  multiple: false,
+  getObject: false,
   disabled: false,
   required: false,
+  secondary: false,
   isError: false,
   errorMessage: "",
   infoMessage: "",
   absolute: false,
-  secondary: false,
 };
+
+const defaultHtml = `
+    <Select 
+        v-model="args.modelValue" 
+        v-model:expanded="args.expanded" 
+        :label-value="args.labelValue"
+        :items="args.items" 
+        :icon="args.icon" 
+        :absolute="args.absolute" 
+        :label-key="args.labelKey" 
+        :value-key="args.valueKey"
+        :required="args.required" 
+        :searchable="args.searchable" 
+        :clearable="args.clearable"
+        :disabled="args.disabled"
+        :multiple="args.multiple"
+        :secondary="args.secondary"
+        :is-error="args.isError"
+        :error-message="args.errorMessage"
+        :info-message="args.infoMessage"
+        :get-object="args.getObject"
+    >
+        Placeholder
+    </Select>
+  `;
 
 const defaultRender = (args: any) => ({
   components: { Select },
   setup() {
     return { args };
   },
-  template: `
-    <Select 
-        v-model="args.modelValue" 
-        v-model:expanded="args.expanded" 
-        :label-value="args.labelValue"
-        :items="args.items" 
-        :value-key="args.valueKey"
-        :icon="args.icon" 
-        :absolute="args.absolute" 
-        :label-key="args.labelKey" 
-        :required="args.required" 
-        :searchable="args.searchable" 
-        :disabled="args.disabled"
-        :is-error="args.isError"
-        :error-message="args.errorMessage"
-        :info-message="args.infoMessage"
-        :secondary="args.secondary"
-    >
-        Placeholder
-    </Select>
-  `,
+  template: defaultHtml,
 });
 
 export const Primary: Story = {
@@ -177,6 +204,28 @@ export const Searchable: Story = {
   },
 };
 
+export const Multiple: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    multiple: true,
+    items: [
+      { label: "Option 1", value: 0 },
+      { label: "Option 2", value: 1 },
+      { label: "Option 3", value: 2 },
+      { label: "Option 4", value: 3 },
+    ],
+  },
+};
+
+export const Secondary: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    secondary: true,
+  },
+};
+
 export const IsError: Story = {
   render: defaultRender,
   args: {
@@ -194,11 +243,11 @@ export const InfoMessage: Story = {
   },
 };
 
-export const Secondary: Story = {
+export const Clearable: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
-    secondary: true,
+    clearable: true,
   },
 };
 
@@ -208,27 +257,18 @@ export const CustomItem: Story = {
       return { args };
     },
     template: `
-      <Select 
-          v-model="args.modelValue" 
-          v-model:expanded="args.expanded"
-          :label-value="args.labelValue"
-          :items="args.items" 
-          :icon="args.icon" 
-          :absolute="args.absolute" 
-          :label-key="args.labelKey" 
-          :required="args.required" 
-          :searchable="args.searchable" 
-          :disabled="args.disabled" 
-          :secondary="args.secondary"
-      >
-          Placeholder
+      ${defaultHtml.replace(
+        "Placeholder",
+        `Placeholder
           <template #item="{ item, index }">
               <div class="flex items-center gap-xs">
                   <Icon name="account_circle" />
                   {{ item }}
               </div>
           </template>
-      </Select>`,
+      </Select>`
+      )}
+    `,
   }),
   args: defaultArgs,
 };

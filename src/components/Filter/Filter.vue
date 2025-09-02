@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useOptionalModel } from "#composables";
-import { type ContainerModelExtra } from "../../utils/components/ContainerModelExtra.types";
+import { type ContainerModelExtra } from "../../utils/types/ContainerModelExtra";
 import SelectContent from "../../utils/components/SelectContent.vue";
 import Option from "../../utils/components/Option.vue";
 import { isObject } from "../../utils";

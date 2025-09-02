@@ -311,7 +311,6 @@ export function checkDateType(value: Date | Date[] | Date[][] | undefined, type:
     model = [...value[0]];
   else model = [...(value as Date[])];
 
-  console.log(model);
   return model;
 }
 

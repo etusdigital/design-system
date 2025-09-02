@@ -2,6 +2,7 @@
 import { ref, watch, onBeforeMount } from "vue";
 import { dateOptions, checkDateType } from "../../utils";
 import Option from "../../utils/components/Option.vue";
+import ExpandableContainer from "../../utils/components/ExpandableContainer.vue";
 
 type OptionType = {
   label: string;

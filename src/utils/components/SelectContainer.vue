@@ -4,8 +4,9 @@
 // slot content shenanigans aswell, idk.
 // @TODO: Fix border width for container with sub items
 import { ref, onMounted, onBeforeUnmount, onUpdated, computed } from "vue";
-import type { ContainerModelExtra } from "../../utils/components/ContainerModelExtra.types";
+import type { ContainerModelExtra } from "../types/ContainerModelExtra";
 import { useOptionalModel } from "#composables";
+import ExpandableContainer from "./ExpandableContainer.vue";
 
 const props = withDefaults(
   defineProps<{

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useOptionalModel } from "#composables";
-import { type ContainerModelExtra } from "./ContainerModelExtra.types";
+import { type ContainerModelExtra } from "../types/ContainerModelExtra";
 
 type SelectExpandedExtra = {
   source: ContainerModelExtra["source"] | "value-selected";

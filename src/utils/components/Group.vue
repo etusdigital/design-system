@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, watch, provide } from 'vue';
-import type { GroupState } from '../types/Group.types';
+import type { GroupState } from '../types/Group';
 
 interface GroupProps {
 	modelValue?: any;

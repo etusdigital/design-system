@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import type { ContainerModelExtra } from "../../utils/components/ContainerModelExtra.types.ts";
-import Container from "../../utils/components/Container.vue";
+import type { ContainerModelExtra } from "../types/ContainerModelExtra.ts";
+import Container from "./Container.vue";
 import { useOptionalModel } from "#composables";
 
 const props = withDefaults(

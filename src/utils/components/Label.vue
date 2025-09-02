@@ -19,7 +19,7 @@ const props = withDefaults(
   <h5 v-if="labelValue" class="label-value">
     {{ labelValue }}
     <Tooltip v-if="infoMessage" class="ml-xxs">
-      <template #text>
+      <template #label>
         <div
           class="tooltip-text"
           :class="{
