@@ -5,12 +5,9 @@ import {
   getArrayMonthDay,
   getMonths,
 } from "../../utils/index";
-import Day from "../../utils/components/Day.vue";
-import DateDialog from "../../utils/components/DateDialog.vue";
+import Day from "./Day.vue";
+import DateDialog from "./DateDialog.vue";
 
-// type Type = "date" | "period" | "double";
-// type Type = "date" | "period" | "doublePeriod";
-// type Type = "date" | "period" | "compare";
 type Type = "date" | "period" | "compare";
 type Item = {
   title: string;
