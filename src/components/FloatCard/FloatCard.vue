@@ -57,9 +57,11 @@ function closeCard() {
 }
 
 function closeHandler(e: MouseEvent | WheelEvent) {
-  if (!card.value || !card.value.firstElementChild) return;
+  if (!card.value) return;
 
-  const cardContent = card.value.firstElementChild as HTMLElement;
+  const cardContent = card.value.querySelector('.float-card') as HTMLElement;
+  if (!cardContent) return;
+
   const isWheel = e.type === "wheel";
   const isInsideCard = cardContent.contains(e.target as Node);
 
@@ -91,18 +93,17 @@ function findScrollableParent(
 }
 
 async function showCard() {
-  if (
-    !content.value ||
-    !card.value
-  )
-    return;
+  await nextTick();
+  
+  if (!content.value || !card.value) return;
 
-  const cardContent = (card.value.firstElementChild || card.value) as HTMLElement;
+  let cardContent = card.value.querySelector('.float-card') as HTMLElement;
+  if (!cardContent) return;
+
+  cardContent = (card.value.firstElementChild || card.value) as HTMLElement;
   const rect = (content.value.firstElementChild || content.value).getBoundingClientRect();
   const viewportHeight = window.innerHeight;
   const viewportWidth = window.innerWidth;
-
-  await nextTick();
 
   if (rect.left + cardContent.offsetWidth > viewportWidth)
     cardContent.style.left = `${rect.right - cardContent.offsetWidth}px`;
@@ -127,13 +128,13 @@ async function showCard() {
     @mouseleave="mode == 'hover' ? closeCard() : null"
   >
     <Teleport to="body">
-      <Transition name="fade">
-        <div v-show="model" ref="card">
-          <card class="float-card">
+      <div ref="card">
+        <Transition name="fade">
+          <Card v-if="model" class="float-card">
             <slot name="card" />
-          </card>
-        </div>
-      </Transition>
+          </Card>
+        </Transition>
+      </div>
     </Teleport>
     <slot />
   </div>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick, ref } from "vue";
+import { computed, ref } from "vue";
 import { useOptionalModel } from "#composables";
 import Option from "../../utils/components/Option.vue";
 import { isObject } from "../../utils";

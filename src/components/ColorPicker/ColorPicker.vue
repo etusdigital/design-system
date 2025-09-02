@@ -154,7 +154,11 @@ function updateOpacitySlider(event: any) {
         const clampedLeft = getCursorPosition(event, cursorOpacitySlider.value, slider).left;
         cursorOpacitySlider.value.style.left = clampedLeft + 'px';
         const opacityFull = slider.clientWidth - 10;
-        const opacity = clampedLeft / opacityFull;
+        let opacity = clampedLeft / opacityFull;
+        
+        if (opacity >= 0.98) opacity = 1;
+        if (opacity <= 0.02) opacity = 0;
+        
         sliderOpacity.value = opacity;
         changeCanvasColor(sliderColor.value, opacity);
         updatedCircleColor();
@@ -186,18 +190,14 @@ function calculateColorFromPosition(x: number, y: number) {
     const width = colorArea.value.clientWidth;
     const height = colorArea.value.clientHeight;
     
-    // Normalizar coordenadas (0 a 1)
     const normalizedX = Math.max(0, Math.min(1, x / width));
     const normalizedY = Math.max(0, Math.min(1, y / height));
     
-    // Obter a cor base do slider (HSV com S=100%, V=100%)
     const hsva = getHsvaFromSlider();
     
-    // Calcular saturação e brilho baseado na posição
-    const saturation = normalizedX * 100; // 0% à esquerda, 100% à direita
-    const value = (1 - normalizedY) * 100; // 100% no topo, 0% embaixo
+    const saturation = normalizedX * 100;
+    const value = (1 - normalizedY) * 100;
     
-    // Converter HSV para RGB
     const rgba = hsvaToRgba(hsva.h, saturation, value, sliderOpacity.value);
     
     return [Math.round(rgba.r), Math.round(rgba.g), Math.round(rgba.b), Math.round(rgba.a * 255)];
@@ -209,19 +209,24 @@ function getHsvaFromSlider() {
     if (!sliderDiv) return { h: 0 };
     
     const left = Number(cursorColorSlider.value.style.left.replace('px', ''));
-    const sliderWidth = sliderDiv.clientWidth - 10; // -10 para o cursor
+    const sliderWidth = sliderDiv.clientWidth - 10;
     const hue = Math.round((left / sliderWidth) * 360);
     
     return { h: Math.max(0, Math.min(360, hue)) };
 }
 
 function updateColorFromPixel(pixel: number[]) {
-    circleBackground.value = `rgba(${pixel[0]}, ${pixel[1]}, ${pixel[2]}, ${pixel[3] / 255})`;
+    let alpha = pixel[3] / 255;
+    
+    if (alpha >= 0.98) alpha = 1;
+    if (alpha <= 0.02) alpha = 0;
+    
+    circleBackground.value = `rgba(${pixel[0]}, ${pixel[1]}, ${pixel[2]}, ${alpha})`;
     inputColor.value = getColor({
         r: pixel[0],
         g: pixel[1],
         b: pixel[2],
-        a: pixel[3] / 255,
+        a: alpha,
     });
     emit('update:modelValue', inputColor.value);
 }

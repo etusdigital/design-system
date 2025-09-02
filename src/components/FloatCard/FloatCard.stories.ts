@@ -36,7 +36,7 @@ const defaultRender = (args: any) => ({
       v-model="args.modelValue"
       :mode="args.mode"
     >
-      <b-button>Click to show card</b-button>
+      <Button>Click to show card</Button>
       
       <template #card>
         <div class="p-base">

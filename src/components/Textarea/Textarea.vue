@@ -94,7 +94,7 @@ function onFocus() {
 </script>
 
 <template>
-  <div class="flex flex-col gap-xxs h-fit">
+  <div class="textarea">
     <div class="flex justify-between items-center" v-if="labelValue || max || max == 0">
       <Label
         :label-value="labelValue"
@@ -108,7 +108,7 @@ function onFocus() {
     </div>
     <textarea
       v-model="inputValue"
-      class="textarea"
+      class="textarea-content"
       :class="inputClasses"
       :style="inputStyle"
       :maxlength="computedMax"
@@ -127,13 +127,17 @@ function onFocus() {
 <style scoped>
 @reference "../../assets/main.css";
 
+.textarea {
+  @apply flex flex-col gap-xxs h-fit;
+}
+
 /* #region BASE FONT SIZES */
 .max-length,
 .error-message {
   @apply text-sm;
 }
 
-.textarea {
+.textarea-content {
   @apply p3 flex items-center gap-xs outline-xxs
       outline-neutral-default
         rounded-sm
@@ -154,18 +158,18 @@ function onFocus() {
 /* #endregion LABEL COMPONENTS STYLE */
 
 /* #region DEFAULT TEXTAREA STYLE */
-.textarea.focus {
+.textarea-content.focus {
   @apply outline-primary-default;
 }
 
 /* #region DISABLED TEXTAREA STYLE */
-.textarea.disabled {
+.textarea-content.disabled {
   @apply bg-neutral-surface-disabled text-neutral-foreground-disabled outline-neutral-disabled;
 }
 /* #endregion DISABLED TEXTAREA STYLE */
 
 /* #region ERROR TEXTAREA STYLE */
-.textarea.error {
+.textarea-content.error {
   @apply text-danger-foreground-low outline-danger-default;
 }
 /* #endregion ERROR TEXTAREA STYLE */

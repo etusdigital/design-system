@@ -66,13 +66,13 @@ const emit = defineEmits<{
   blur: [value: any];
 }>();
 
-let inputValue = ref();
-let hasError = ref(false);
-let isFocused = ref(false);
-let showPass = ref(false);
-let haveFile = ref(false);
-let dragging = ref(false);
-let fileName = ref("");
+const inputValue = ref();
+const hasError = ref(false);
+const isFocused = ref(false);
+const showPass = ref(false);
+const showColor = ref(false);
+const haveFile = ref(false);
+const fileName = ref("");
 
 const type = computed((): InputType => {
   const type = props.type;
@@ -81,8 +81,7 @@ const type = computed((): InputType => {
 });
 
 const computedMax = computed((): number | undefined => {
-  if ((props.max || props.max == 0) && !props.mask)
-    return props.max;
+  if ((props.max || props.max == 0) && !props.mask) return props.max;
 
   return undefined;
 });
@@ -207,9 +206,7 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
 </script>
 
 <template>
-  <div
-    class="flex flex-col gap-xxs h-fit"
-  >
+  <div class="input">
     <div
       class="flex justify-between items-center"
       v-if="labelValue || max || max == 0"
@@ -239,7 +236,7 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
         </slot>
         <input
           v-model="inputValue"
-          class="input"
+          class="input-content"
           :style="inputStyle"
           :disabled="disabled"
           :value="inputValue"
@@ -253,17 +250,20 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
           @focus="onFocus"
           @blur="onBlur"
         />
-        <input
-          v-if="isTypeValid('color')"
-          v-model="inputValue"
-          class="color-display"
+        <FloatCard
+          v-model="showColor"
           :class="{ disabled: disabled }"
-          :disabled="disabled"
-          type="color"
-          @input="onInput"
-          @focus="onFocus"
-          @blur="onBlur"
-        />
+          v-if="isTypeValid('color')"
+        >
+          <div
+            class="color-display"
+            :class="{ disabled: disabled }"
+            :style="{ backgroundColor: inputValue }"
+          />
+          <template #card>
+            <ColorPicker v-model="inputValue" no-shadow @update:model-value="onInput" />
+          </template>
+        </FloatCard>
         <slot name="appended-icon-slot">
           <Icon
             v-if="appendedIcon"
@@ -309,14 +309,18 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
 <style scoped>
 @reference "../../assets/main.css";
 
+.input {
+  @apply flex flex-col gap-xxs h-fit;
+}
+
 /* #region BASE FONT SIZES */
 .max-length,
 .error-message {
   @apply text-sm;
 }
 
-.input {
-  @apply p3  flex-1 bg-transparent text-neutral-foreground-high outline-none p-0 border-none min-h-xl;
+.input-content {
+  @apply p3 flex-1 bg-transparent text-neutral-foreground-high outline-none p-0 border-none min-h-xl;
 }
 
 .side-icon {
@@ -368,7 +372,7 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
 
 /* #region COLOR DISPLAY STYLE */
 .color-display {
-  @apply w-2xl h-xl cursor-pointer bg-transparent;
+  @apply w-2xl h-xl cursor-pointer border-xxs border-neutral-default rounded-sm;
 }
 
 .color-display.disabled {
@@ -389,14 +393,6 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
 /* #endregion ERROR MESSAGE STYLE */
 
 /* #region CHANGE INPUT DEFAULT STYLE */
-input[type="color"]::-webkit-color-swatch-wrapper {
-  @apply border-0 p-0 bg-transparent;
-}
-
-input[type="color"]::-webkit-color-swatch {
-  @apply border-xxs border-neutral-surface-highlight rounded-sm;
-}
-
 input[type="number"] {
   -moz-appearance: textfield;
 }

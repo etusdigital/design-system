@@ -35,6 +35,7 @@ export const Primary: Story = {
                       { label: 'Option 4', value: 3 },
                       { label: 'Option 5', value: 4 },
                   ]"
+                  absolute
               >
                   Select
               </Select>

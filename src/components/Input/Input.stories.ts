@@ -117,10 +117,6 @@ export default {
       description:
         "Will be the function that execute when input get out of focus.",
     },
-    "uploaded-file": {
-      description:
-        "When the type is file and a file is uploaded, this slot will appear",
-    },
     "icon-slot": {
       description: "Will be the icon slot.",
     },
