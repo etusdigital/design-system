@@ -180,28 +180,39 @@ function updateColorSlider(event: MouseEvent) {
     }
 }
 
-function readCanvasPixel(x: number, y: number) {
-    const context = colorArea.value?.getContext('2d');
-    if (!colorArea.value || !context) return [0, 0, 0, 255];
+function calculateColorFromPosition(x: number, y: number) {
+    if (!colorArea.value) return [0, 0, 0, 255];
     
-    const pixelX = Math.max(0, Math.min(colorArea.value.clientWidth - 1, x));
-    const pixelY = Math.max(0, Math.min(colorArea.value.clientHeight - 1, y));
+    const width = colorArea.value.clientWidth;
+    const height = colorArea.value.clientHeight;
     
-    const readX = Math.round(pixelX);
-    const readY = Math.round(pixelY);
+    // Normalizar coordenadas (0 a 1)
+    const normalizedX = Math.max(0, Math.min(1, x / width));
+    const normalizedY = Math.max(0, Math.min(1, y / height));
     
-    const pixel = context.getImageData(readX, readY, 1, 1).data;
-    let correctedPixel = Array.from(pixel);
+    // Obter a cor base do slider (HSV com S=100%, V=100%)
+    const hsva = getHsvaFromSlider();
     
-    // Corrigir imprecisões nas extremidades
-    if (correctedPixel[0] > 250 && correctedPixel[1] > 250 && correctedPixel[2] > 250) {
-        correctedPixel = [255, 255, 255, 255];
-    }
-    else if (correctedPixel[0] < 5 && correctedPixel[1] < 5 && correctedPixel[2] < 5) {
-        correctedPixel = [0, 0, 0, 255];
-    }
+    // Calcular saturação e brilho baseado na posição
+    const saturation = normalizedX * 100; // 0% à esquerda, 100% à direita
+    const value = (1 - normalizedY) * 100; // 100% no topo, 0% embaixo
     
-    return correctedPixel;
+    // Converter HSV para RGB
+    const rgba = hsvaToRgba(hsva.h, saturation, value, sliderOpacity.value);
+    
+    return [Math.round(rgba.r), Math.round(rgba.g), Math.round(rgba.b), Math.round(rgba.a * 255)];
+}
+
+function getHsvaFromSlider() {
+    if (!cursorColorSlider.value) return { h: 0 };
+    const sliderDiv = cursorColorSlider.value.closest('.slider');
+    if (!sliderDiv) return { h: 0 };
+    
+    const left = Number(cursorColorSlider.value.style.left.replace('px', ''));
+    const sliderWidth = sliderDiv.clientWidth - 10; // -10 para o cursor
+    const hue = Math.round((left / sliderWidth) * 360);
+    
+    return { h: Math.max(0, Math.min(360, hue)) };
 }
 
 function updateColorFromPixel(pixel: number[]) {
@@ -222,7 +233,7 @@ function updateColorArea(event: MouseEvent) {
         cursorColorArea.value.style.left = clamped.left + 'px';
         cursorColorArea.value.style.top = clamped.top + 'px';
         
-        const pixel = readCanvasPixel(clamped.left + 5, clamped.top);
+        const pixel = calculateColorFromPosition(clamped.left + 5, clamped.top);
         updateColorFromPixel(pixel);
     }
 }
@@ -286,7 +297,7 @@ function updatedCircleColor() {
     const left = Number(cursorColorArea.value.style.left.replace('px', '')) + 5;
     const top = Number(cursorColorArea.value.style.top.replace('px', ''));
     
-    const pixel = readCanvasPixel(left, top);
+    const pixel = calculateColorFromPosition(left, top);
     updateColorFromPixel(pixel);
 }
 
