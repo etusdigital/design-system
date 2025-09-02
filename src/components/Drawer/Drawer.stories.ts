@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import Sidebar from "./Sidebar.vue";
+import Drawer from "./Drawer.vue";
 
 export default {
-  component: Sidebar,
+  component: Drawer,
   argTypes: {
     modelValue: {
       type: { summary: "boolean" },
@@ -27,9 +27,9 @@ export default {
       description: "This slot will be the dialog content.",
     },
   },
-} satisfies Meta<typeof Sidebar>;
+} satisfies Meta<typeof Drawer>;
 
-type Story = StoryObj<typeof Sidebar>;
+type Story = StoryObj<typeof Drawer>;
 
 const defaultArgs = {
   modelValue: false,
@@ -39,20 +39,20 @@ const defaultArgs = {
 
 export const Primary: Story = {
   render: (args: any) => ({
-    components: { Sidebar },
+    components: { Drawer },
     setup() {
       return { args };
     },
     template: `
-        <Button  @click="args.modelValue = !args.modelValue">Show Sidebar</Button>
-        <Sidebar
+        <Button  @click="args.modelValue = !args.modelValue">Show Drawer</Button>
+        <Drawer
              v-model="args.modelValue"
              :width="args.width"
              :no-outside-close="args.noOutsideClose"
         >
             <div class="flex flex-col justify-between h-full p-xl">
                 <div class="flex flex-col gap-sm">
-                  <h2 class="font-bold text-lg">Sidebar</h2>
+                  <h2 class="font-bold text-lg">Drawer</h2>
                   <p class="text-sm text-neutral-foreground-low">Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a massa praesent ultricies.</p>
                 </div>
                 <div class="flex justify-end w-full gap-xs">
@@ -60,7 +60,7 @@ export const Primary: Story = {
                     <Button>Save</Button>
                 </div>
             </div>
-        </Sidebar>
+        </Drawer>
         `,
   }),
   args: defaultArgs,
@@ -68,13 +68,13 @@ export const Primary: Story = {
 
 export const NoOutsideClose: Story = {
   render: (args: any) => ({
-    components: { Sidebar },
+    components: { Drawer },
     setup() {
       return { args };
     },
     template: `
-        <Button  @click="args.modelValue = !args.modelValue">Show Sidebar</Button>
-        <Sidebar
+        <Button  @click="args.modelValue = !args.modelValue">Show Drawer</Button>
+        <Drawer
              v-model="args.modelValue"
              :width="args.width"
              :no-outside-close="args.noOutsideClose"
@@ -89,7 +89,7 @@ export const NoOutsideClose: Story = {
                     <Button>Save</Button>
                 </div>
             </div>
-        </Sidebar>
+        </Drawer>
         `,
   }),
   args: {

@@ -20,7 +20,7 @@ const emit = defineEmits<{
 }>();
 
 const model = ref(props.modelValue);
-const sidebar = ref<HTMLElement>();
+const drawer = ref<HTMLElement>();
 
 const isMobile = computed(() => window.innerWidth < 768);
 
@@ -45,8 +45,8 @@ function closeDialog() {
       <Transition name="slide-in">
         <div
           v-if="model"
-          ref="sidebar"
-          class="sidebar"
+          ref="drawer"
+          class="drawer"
           :style="{ width: isMobile ? '100%' : width }"
         >
           <slot />
@@ -59,7 +59,7 @@ function closeDialog() {
 <style scoped>
 @reference "../../assets/main.css";
 
-.sidebar {
+.drawer {
   @apply z-[1001] fixed top-0 right-0 h-screen bg-neutral-surface-default rounded-l-base border-xxs border-neutral-default transform transition-transform;
   max-width: calc(100% - var(--spacing-xl));
 }
@@ -89,7 +89,7 @@ function closeDialog() {
     transform: translateY(0%);
   }
 
-  .sidebar {
+  .drawer {
     @apply w-full;
   }
 }

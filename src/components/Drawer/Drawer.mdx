@@ -1,0 +1,106 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks';
+import * as Drawer from './Drawer.stories.ts';
+
+<Meta of={Drawer} />
+
+# Name: Drawer
+## Component Overview
+
+**Purpose**: A slide-out drawer panel component that appears from the right side of the screen with an overlay backdrop, supporting customizable width and close behavior.
+
+**Import**: Automatic - no need to import any DS components
+
+<br />
+### Playground
+
+<Canvas of={Drawer.Primary} />
+<Controls />
+
+---
+
+### Basic Usage
+
+```vue
+<template>
+    <div>
+        <button @click="openDrawer">Show Drawer</button>
+        <Drawer v-model="showDrawer" width="40%">
+            <div class="flex flex-col justify-between h-full p-xl">
+                <div class="flex flex-col gap-sm">
+                    <h2 class="font-bold text-lg">Drawer</h2>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus
+                        maecenas amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis
+                        phasellus a massa praesent ultricies.
+                    </p>
+                </div>
+                <div class="flex justify-end w-full gap-xs">
+                    <button variant="plain" @click="showDrawer = false">Cancel</button>
+                    <button>Save</button>
+                </div>
+            </div>
+        </Drawer>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const showDrawer = ref(false)
+
+const openDrawer = () => {
+    showDrawer.value = true
+}
+</script>
+```
+
+<Canvas sourceState="none" of={Drawer.Primary} />
+
+---
+
+### Props API
+
+#### v-model
+Controls the visibility of the drawer (v-model support). Type: `boolean` (default: `false`)
+
+#### width
+Sets the width of the drawer panel. Type: `string` (default: `"fit-content"`)
+
+#### no-outside-close
+Prevents the drawer from closing when clicking on the overlay. Type: `boolean` (default: `false`)
+
+<Canvas sourceState="none" of={Drawer.NoOutsideClose} />
+
+---
+
+### Events API
+
+#### update:model-value
+Emitted when the drawer's visibility state changes (v-model support). Receives the new boolean value.
+
+---
+
+### Slots API
+
+#### #default
+The main content slot for the drawer. Contains all the drawer content including headers, body, and actions.
+
+```vue
+<template>
+    <Drawer v-model="showForm" width="500px">
+        Slot: default
+    </Drawer>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const showForm = ref(false)
+</script>
+```
+
+**Important Notes:**
+- The drawer uses `Teleport` to render in the document body for proper z-index layering
+- On mobile devices (< 768px), the drawer slides from bottom instead of right
+- The drawer automatically handles focus management and accessibility
+- Content should include proper padding and structure for best visual results
+- Consider using semantic HTML elements (nav, header, main, etc.) within the slot for accessibility
