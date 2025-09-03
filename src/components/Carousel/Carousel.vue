@@ -94,8 +94,14 @@ onMounted(() => {
 });
 
 function setModel(value: number) {
-  if (value > maxIndex.value) value = 0;
-  else if (value < 0) value = maxIndex.value;
+  if (value > maxIndex.value) {
+    if (!props.circular) return;
+    value = 0;
+  }
+  else if (value < 0) {
+    if (!props.circular) return;
+    value = maxIndex.value;
+  }
   model.value = value;
   nextTick(() => {
     calculateContentStyle();
@@ -116,6 +122,45 @@ function setCarouselInterval() {
       setModel(model.value + 1);
     });
   }, props.interval);
+}
+
+function onKeyUp(e: KeyboardEvent) {
+  switch (e.key) {
+    case "ArrowUp": {
+      if (!props.vertical) break;
+      if (model.value == 0 && !props.circular) break;
+      setModel(model.value - 1);
+      break;
+    }
+    case "ArrowDown": {
+      if (!props.vertical) break;
+      if (model.value == maxIndex.value && !props.circular) break;
+      setModel(model.value + 1);
+      break;
+    }
+    case "ArrowLeft": {
+      if (props.vertical) break;
+      if (model.value == 0 && !props.circular) break;
+      setModel(model.value - 1);
+      break;
+    }
+    case "ArrowRight": {
+      if (props.vertical) break;
+      if (model.value == maxIndex.value && !props.circular) break;
+      setModel(model.value + 1);
+      break;
+    }
+    case "Home": {
+      if (model.value == 0 && !props.circular) break;
+      setModel(0);
+      break;
+    }
+    case "End": {
+      if (model.value == maxIndex.value && !props.circular) break;
+      setModel(maxIndex.value);
+      break;
+    }
+  }
 }
 
 function calculateContentStyle() {
@@ -160,12 +205,14 @@ function calculateContentStyle() {
 </script>
 
 <template>
-  <div class="carousel" ref="carouselContainer">
+  <div class="carousel" ref="carouselContainer" tabindex="0" @keyup="onKeyUp">
     <div class="carousel-content" :class="{ vertical }">
       <div
         class="arrow-icon"
         :class="{ disabled: (model == 0 && !props.circular) || disabled }"
+        tabindex="0"
         @click="setModel(model - 1)"
+        @keyup.enter="setModel(model - 1)"
       >
         <Icon :name="vertical ? 'keyboard_arrow_up' : 'chevron_left'" />
       </div>
@@ -182,13 +229,17 @@ function calculateContentStyle() {
             :key="sectionIndex"
             class="flex gap-xs"
           >
-            <slot
-              name="item"
+            <div
               v-for="(item, index) in section"
               :key="index"
-              :item="item"
-              :index="index"
-            />
+              :inert="sectionIndex !== model"
+            >
+              <slot
+                name="item"
+                :item="item"
+                :index="index"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -197,7 +248,9 @@ function calculateContentStyle() {
         :class="{
           disabled: (model >= maxIndex && !props.circular) || disabled,
         }"
+        tabindex="0"
         @click="setModel(model + 1)"
+        @keyup.enter="setModel(model + 1)"
       >
         <Icon :name="vertical ? 'keyboard_arrow_down' : 'chevron_right'" />
       </div>
@@ -208,7 +261,9 @@ function calculateContentStyle() {
         :key="i"
         class="carousel-indicator"
         :class="{ active: model == i - 1, disabled }"
+        tabindex="0"
         @click="setModel(i - 1)"
+        @keyup.enter="setModel(i - 1)"
       />
     </div>
   </div>
