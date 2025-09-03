@@ -8,10 +8,6 @@ export default {
       type: { name: "string" },
       description: "This property will be the text in the tag.",
     },
-    text: {
-      type: { name: "string" },
-      description: "This property will be the text in the tag. Deprecated, use labelValue instead.",
-    },
     color: {
       type: { name: "string" },
       control: "select",

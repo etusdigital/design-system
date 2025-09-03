@@ -9,7 +9,7 @@
 
 ### Basic Usage
 
-> **⚠️ Recommendation:** Use StatusBadge for standard status indicators (primary, info, success, warning, error, neutral). Badge is intended for custom color requirements not covered by the design system theme.
+> **Recommendation:** Use StatusBadge for standard status indicators (primary, info, success, warning, error, neutral). Badge is intended for custom color requirements not covered by the design system theme.
 
 ```vue
 <template>

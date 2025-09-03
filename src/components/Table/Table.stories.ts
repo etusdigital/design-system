@@ -793,7 +793,7 @@ export const Primary: Story = {
 
           <template #actions>
               <td class="flex items-center justify-end">
-                <RoundButton color="primary" variant="plain" icon="more_vert"/>
+                <Button color="primary" variant="plain" icon="more_vert" round />
               </td>
           </template>
 

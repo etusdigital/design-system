@@ -28,7 +28,7 @@
                 <Input label-value="label" placeholder="Type here" />
             </Conector>
         </Card>
-        <RoundButton variant="success" />
+        <Button variant="success" round />
     </Conector>
 </template>
 ```

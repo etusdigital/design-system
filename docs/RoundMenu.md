@@ -1,4 +1,4 @@
-# Name: round-menu
+# Name: RoundMenu
 ## Component Overview
 
 **Purpose**: A circular radial menu component that expands menu items in a circular pattern around a central toggle button, ideal for floating action menus and contextual controls.
@@ -9,7 +9,7 @@
 
 ```vue
 <template>
-    <round-menu :items="menuItems" />
+    <RoundMenu :items="menuItems" />
 </template>
 
 <script setup lang="ts">
@@ -49,7 +49,7 @@ The component doesn't emit custom events. Interactions are handled through the `
 
 ### Slots API
 
-This component uses `RoundButton` internally and doesn't expose custom slots.
+This component uses `Button` internally and doesn't expose custom slots.
 
 ---
 

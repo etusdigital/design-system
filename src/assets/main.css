@@ -724,6 +724,7 @@
   --color-warning-surface-default: var(--warning-surface-default);
   --color-warning-surface-highlight: var(--warning-surface-highlight);
   --color-warning-surface-hover: var(--warning-surface-hover);
+  --color-warning-surface-pressed: var(--warning-surface-pressed);
 
   --color-warning-interaction-default: var(--warning-interaction-default);
   --color-warning-interaction-hover: var(--warning-interaction-hover);

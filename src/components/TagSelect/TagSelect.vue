@@ -274,9 +274,10 @@ function checkSource(value: boolean, extra: any) {
     </template>
     <template #actions>
       <div class="flex justify-center w-full">
-        <RoundButton
+        <Button
           @click="addTag(searchText)"
           :label-value="buttonLabel"
+          round
           always-open
         />
       </div>

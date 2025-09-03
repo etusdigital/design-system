@@ -8,17 +8,15 @@ import {
 const props = withDefaults(
   defineProps<{
     labelValue?: string;
-    text?: string;
     position?: "top" | "bottom" | "left" | "right";
   }>(),
   {
     labelValue: "",
-    text: "",
     position: "right",
   }
 );
 
-let isHovering = ref(false);
+const isHovering = ref(false);
 const content = ref<HTMLElement>();
 const tooltip = ref<HTMLElement>();
 
@@ -114,7 +112,7 @@ function calculatePosition(rect: DOMRect, tooltip: HTMLElement) {
           <div class="tooltip-triangle" />
           <div class="tooltip-content">
             <slot name="label">
-              {{ labelValue || text }}
+              {{ labelValue }}
             </slot>
           </div>
         </div>

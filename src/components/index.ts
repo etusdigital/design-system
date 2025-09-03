@@ -32,7 +32,6 @@ export { default as Profile } from './Profile';
 export { default as ProgressBar } from './ProgressBar';
 export { default as Radio } from './Radio';
 export { default as RadioGroup } from './RadioGroup';
-export { default as RoundButton } from './RoundButton';
 export { default as RoundMenu } from './RoundMenu';
 export { default as Select } from './Select';
 export { default as Separator } from './Separator';

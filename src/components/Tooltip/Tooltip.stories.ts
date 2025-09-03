@@ -8,11 +8,6 @@ export default {
       type: { name: "string" },
       description: 'This is the text showed inside the tooltip.',
     },
-    text: {
-      type: { name: "string" },
-      description:
-        'This is the text showed inside the tooltip. Deprecated, use labelValue instead.',
-    },
     position: {
       type: { name: "string" },
       control: "select",

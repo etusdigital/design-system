@@ -41,20 +41,25 @@ function calculateButtonPosition() {
           '-webkit-transform':`translate3d(${positions[index]})`,
         } : {}"
       >
-        <RoundButton
+        <Button
           :background="item.background"
           :icon="item.icon"
-          :label-value="item.label"
+          round
+          size="small"
           @click="item.action()"
           @mouseenter="isHovering[index] = true"
           @mouseleave="isHovering[index] = false"
           :class="{'z-[50]': isHovering[index]}"
-        />
+        >
+          {{ item.label }}
+        </Button>
       </div>
       <div class="item" :class="{'z-[1]': !isExpanded}">
-        <RoundButton
+        <Button
           :color="!isExpanded ? 'success' : 'neutral'"
+          size="small"
           @click="isExpanded = !isExpanded"
+          round
         />
       </div>
     </div>

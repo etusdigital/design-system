@@ -1,4 +1,4 @@
-# Name: filter
+# Name: Filter
 ## Component Overview
 
 **Purpose**: A multi-level filter component with search functionality, nested options, and customizable actions for complex data filtering scenarios.

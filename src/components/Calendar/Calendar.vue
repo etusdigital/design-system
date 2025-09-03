@@ -287,32 +287,36 @@ function changeYear(year: number) {
       <main>
         <Transition :name="!isBack ? 'slide-fade' : 'slide-fade-out'">
           <table v-if="showCalendar">
-            <tr class="[&>*]:p-xxs">
-              <th v-for="(weekDay, index) in weekDays" :key="index">
-                {{ weekDay }}
-              </th>
-            </tr>
-            <tr
-              v-for="(week, index) in item.weeks.filter((w) =>
-                w.some((d: any) => d)
-              )"
-              :key="index"
-              class="[&>*]:py-xxs [&>*]:px-none"
-            >
-              <td v-for="(day, index) in week" :key="index">
-                <Day
-                  v-model="model"
-                  v-model:hovered="hoveredDate"
-                  :day="day"
-                  :type="type"
-                  :index="index"
-                  :position="getPosition(day, week)"
-                  :max-init="maxInit"
-                  :max-end="maxEnd"
-                  @select="setModel"
-                />
-              </td>
-            </tr>
+            <thead>
+              <tr class="[&>*]:p-xxs">
+                <th v-for="(weekDay, index) in weekDays" :key="index">
+                  {{ weekDay }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(week, index) in item.weeks.filter((w) =>
+                  w.some((d: any) => d)
+                )"
+                :key="index"
+                class="[&>*]:py-xxs [&>*]:px-none"
+              >
+                <td v-for="(day, index) in week" :key="index">
+                  <Day
+                    v-model="model"
+                    v-model:hovered="hoveredDate"
+                    :day="day"
+                    :type="type"
+                    :index="index"
+                    :position="getPosition(day, week)"
+                    :max-init="maxInit"
+                    :max-end="maxEnd"
+                    @select="setModel"
+                  />
+                </td>
+              </tr>
+            </tbody>
           </table>
         </Transition>
       </main>

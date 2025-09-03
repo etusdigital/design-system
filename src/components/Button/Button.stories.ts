@@ -44,6 +44,27 @@ const meta = {
       description:
         'Disables the underlying button\'s HTML element and sets the CSS property "cursor-events" to "none".',
     },
+    round: {
+      type: "boolean",
+      table: {
+        default: false,
+      },
+      description: "If true, the button will have a rounded border.",
+    },
+    alwaysOpen: {
+      type: "boolean",
+      table: {
+        default: false,
+      },
+      description: "If true, the button will always be open.",
+    },
+    background: {
+      type: "string",
+      table: {
+        default: "",
+      },
+      description: "The background color of the button.",
+    },
     loading: {
       type: "boolean",
       table: {
@@ -83,6 +104,9 @@ const defaultArgs: Partial<ComponentPropsAndSlots<typeof Button>> = {
   variant: "default",
   size: "medium",
   disabled: false,
+  round: true,
+  alwaysOpen: false,
+  background: "",
   loading: false,
   progress: 0,
 };
@@ -96,29 +120,20 @@ const defaultHtml: string = `
     :variant="args.variant"
     :size="args.size"
     :disabled="args.disabled"
+    :round="args.round"
+    :always-open="args.alwaysOpen"
+    :background="args.background"
     :loading="args.loading"
     :progress="args.progress"
     @click="args.click"
-    >Label</Button
-  >`;
+  />`;
 
 const defaultRender = (args: any) => ({
   components: { Button },
   setup() {
     return { args };
   },
-  template: `
-    <Button
-      :type="args.type"
-      :color="args.color"
-      :variant="args.variant"
-      :size="args.size"
-      :disabled="args.disabled"
-      :loading="args.loading"
-      :progress="args.progress"
-      @click="args.click"
-    >Label</Button>
-  `,
+  template: defaultHtml,
 });
 
 export const Primary: Story = {
@@ -139,7 +154,7 @@ export const Colors: Story = {render: (args: any) => ({
             .replace("args.color", `'${color}'`)
             .replace(
               "Label",
-              `${color.charAt(0).toUpperCase() + color.slice(1)}`
+              color
             );
         })
         .join("")}
@@ -164,7 +179,7 @@ export const Variants: Story = {
               .replace("args.variant", `'${variant}'`)
               .replace(
                 "Label",
-                `${variant.charAt(0).toUpperCase() + variant.slice(1)}`
+                variant
               );
           })
           .join("")}
@@ -178,6 +193,23 @@ export const Disabled: Story = {
   args: {
     ...defaultArgs,
     disabled: true,
+  },
+};
+
+export const Round: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    round: true,
+  },
+};
+
+export const AlwaysOpen: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    round: true,
+    alwaysOpen: true,
   },
 };
 
@@ -223,7 +255,7 @@ export const Sizes: Story = {
               .replace("args.size", `'${size}'`)
               .replace(
                 "Label",
-                `${size.charAt(0).toUpperCase() + size.slice(1)}`
+                size
               );
           })
           .join("")}

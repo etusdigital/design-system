@@ -16,7 +16,7 @@
 
         <template #actions>
             <td class="flex items-center justify-end">
-                <RoundButton color="primary" variant="plain" icon="more_vert"/>
+                <Button color="primary" variant="plain" icon="more_vert" round />
             </td>
         </template>
     </Table>
@@ -243,7 +243,13 @@ Displays action buttons or controls for each row.
         ...
         <template #actions="{ item }">
             <td class="flex items-center justify-end">
-                <RoundButton color="primary" variant="plain" icon="more_vert" @click="() => handleActions(item)" />
+                <Button
+                    color="primary"
+                    variant="plain"
+                    icon="more_vert"
+                    round
+                    @click="() => handleActions(item)"
+                />
             </td>
         </template>
     </Table>

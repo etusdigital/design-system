@@ -111,6 +111,15 @@ Shows a progress bar overlay (0-1 range). When > 0, automatically enables loadin
 </template>
 ```
 
+#### round
+Applies rounded border styling to the button. Type: `boolean` (default: `false`)
+
+#### always-open
+Keeps the button in an always-open state (used with round buttons). Type: `boolean` (default: `false`)
+
+#### background
+Custom background color for the button. Type: `string` (default: `""`)
+
 #### id & name
 HTML attributes for form handling and accessibility. Type: `string` (optional)
 
