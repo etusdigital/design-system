@@ -101,7 +101,7 @@ const defaultHtml = `
               <p class="text-xs text-neutral-foreground-high">Links: <a class="lowercase cursor-pointer">{{ item.url }}</a></p>
             </div>
             <div class="flex gap-xs overflow-x-auto max-w-full pb-xxs">
-                <MetricCard icon="science" title="Sample" type="dashed" :value="item.sample.value" />
+                <MetricCard icon="science" title="Sample" type="dashed" color="info" :value="item.sample.value" />
                 <MetricCard icon="drafts" title="Open" :value="item.open.value" :description="item.open.description" class="min-w-[31%]" />
                 <MetricCard icon="arrow_selector_tool" title="Click" :value="item.click.value" :description="item.click.description" type="success" class="min-w-[30%]" />
                 <MetricCard icon="touch_app" title="CTOR" :value="item.ctor.value" class="min-w-[30%]" />

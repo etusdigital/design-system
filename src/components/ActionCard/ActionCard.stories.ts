@@ -98,7 +98,7 @@ export const Card: Story = {
                   <p class="text-xs text-neutral-foreground-high">Links: <a class="lowercase cursor-pointer">https://cartaofeito.com/cartao-santander-sx-p1/</a></p>
                 </div>
                 <div class="flex gap-xs overflow-x-auto max-w-full pb-xxs">
-                    <MetricCard icon="science" title="Sample" type="dashed" value="10%" />
+                    <MetricCard icon="science" title="Sample" type="dashed" color="info" value="10%" />
                     <MetricCard icon="drafts" title="Open" value="50%" description="100.000.000" class="min-w-[31%]" />
                     <MetricCard icon="arrow_selector_tool" title="Click" value="34%" description="68.000.000" type="success" class="min-w-[30%]" />
                     <MetricCard icon="touch_app" title="CTOR" value="15%" class="min-w-[30%]" />
