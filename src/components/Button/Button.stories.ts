@@ -104,7 +104,7 @@ const defaultArgs: Partial<ComponentPropsAndSlots<typeof Button>> = {
   variant: "default",
   size: "medium",
   disabled: false,
-  round: true,
+  round: false,
   alwaysOpen: false,
   background: "",
   loading: false,

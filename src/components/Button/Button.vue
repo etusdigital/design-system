@@ -45,11 +45,6 @@ const labelComponent = computed((): string => {
   return "div";
 });
 
-const slotComponent = computed((): string => {
-  if (props.round) return "span";
-  return "template";
-});
-
 const computedIcon = computed((): string => {
   if (props.icon) return props.icon;
   else if (!props.round) return "";
@@ -67,9 +62,11 @@ const style = computed((): any => {
 
   if (props.disabled) return style;
 
-  if (props.background && props.variant != "plain") style["border-color"] = props.background;
+  if (props.background && props.variant != "plain")
+    style["border-color"] = props.background;
 
-  if (props.background && props.variant != "default") style.color = props.background;
+  if (props.background && props.variant != "default")
+    style.color = props.background;
   else style.background = props.background;
 
   if (isHovering.value) {
@@ -126,10 +123,10 @@ const style = computed((): any => {
         :class="{ invisible: isLoading }"
         class="button-label cursor-[inherit]"
       >
-        <Icon :name="computedIcon" />
-        <component :is="slotComponent" class="label" v-if="$slots.default">
+        <Icon :name="computedIcon" v-if="computedIcon" />
+        <span class="label" v-if="$slots.default">
           <slot />
-        </component>
+        </span>
       </component>
     </template>
   </button>
@@ -176,6 +173,10 @@ const style = computed((): any => {
   @apply inline-flex items-center justify-center gap-x-xs;
 }
 
+.label {
+  @apply inline-flex items-center justify-center gap-x-xs;
+}
+
 .button.round {
   @apply rounded-full p-xxs;
 
@@ -201,17 +202,22 @@ const style = computed((): any => {
 .round.small {
   @apply text-xs py-none;
 
+  &.hovered .button-label,
+  &.always-open .button-label {
+    @apply gap-x-xxs;
+  }
+
   .icon {
-    @apply text-2xl;
+    @apply text-xl;
   }
 }
 
 .round.medium {
   @apply text-base leading-lg py-2xxs;
 
-  &.hovered .content,
-  &.always-open .content {
-    @apply gap-x-xs;
+  &.hovered .button-label,
+  &.always-open .button-label {
+    @apply gap-x-xxs;
   }
 
   .icon {
@@ -222,9 +228,9 @@ const style = computed((): any => {
 .round.large {
   @apply text-xl leading-xl;
 
-  .hovered .content,
-  .always-open .content {
-    @apply gap-x-xs;
+  .hovered .button-label,
+  .always-open .button-label {
+    @apply gap-x-sm;
   }
 
   .icon {
