@@ -126,7 +126,9 @@ const defaultHtml: string = `
     :loading="args.loading"
     :progress="args.progress"
     @click="args.click"
-  />`;
+  >
+    Label
+  </Button>`;
 
 const defaultRender = (args: any) => ({
   components: { Button },
