@@ -127,7 +127,7 @@ export const Controlled: Story = {
           </button>
           <button 
             @click="value = ''"
-            class="px-3 py-1 bg-neutral-default text-neutral-foreground rounded text-sm"
+            class="px-3 py-1 bg-neutral-interaction-disabled text-neutral-foreground rounded text-sm"
           >
             Clear
           </button>

@@ -17,18 +17,35 @@ const props = withDefaults(
   </Group>
 </template>
 
-<style scoped>
+<style>
 @reference "../../assets/main.css";
 
-.conector.hor > :slotted(*):not(:last-child) {
-  @apply relative mr-base after:content-[''] after:border-t-xxs after:w-base after:border-neutral-default after:absolute after:top-1/2 after:-translate-y-1/2 after:-right-base;
+.conector:not(.vert) {
+  @apply items-center;
 }
 
-.conector.hor > :slotted(*) {
+.conector:not(.vert) > *:not(:last-child) {
+  @apply relative mr-base;
+}
+
+.conector:not(.vert) > *:not(:last-child)::after {
+  @apply content-[''] w-base h-px bg-neutral-interaction-disabled absolute top-1/2 -translate-y-1/2 -right-base;
+}
+
+.conector:not(.vert) > .input:not(:last-child)::after, .conector:not(.vert) > .select:not(:last-child)::after {
+  @apply content-[''] w-base h-px bg-neutral-interaction-disabled absolute top-2/3 -translate-y-2/3 -right-base;
+}
+
+.conector:not(.vert) > * {
   @apply relative z-10;
 }
 
-.conector.vert > :slotted(*):not(:last-child) {
-  @apply relative mb-base after:content-[''] after:h-base after:border-r-xxs after:border-neutral-default after:absolute after:left-1/2 after:-translate-x-1/2 after:-bottom-base;
+.conector.vert > *:not(:last-child) {
+  @apply relative mb-base;
 }
+
+.conector.vert > *:not(:last-child)::after {
+  @apply content-[''] w-px h-base bg-neutral-interaction-disabled absolute left-1/2 -translate-x-1/2 -bottom-base;
+}
+
 </style>
