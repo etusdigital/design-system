@@ -1,8 +1,3 @@
-import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as PINInputStories from './PINInput.stories.ts';
-
-<Meta of={PINInputStories} />
-
 # Name: PIN Input
 
 ## Component Overview
@@ -10,14 +5,6 @@ import * as PINInputStories from './PINInput.stories.ts';
 **Purpose**: A specialized input component that allows users to enter a sequence of one-character alphanumeric inputs, commonly used for verification codes, PINs, and OTP entries.
 
 **Import**: Automatic - no need to import any DS components
-
-<br />
-### Playground
-
-<Canvas of={PINInputStories.Default} />
-<Controls />
-
----
 
 ### Basic Usage
 
@@ -31,7 +18,6 @@ import * as PINInputStories from './PINInput.stories.ts';
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 
 const pinValue = ref('')
 
@@ -40,8 +26,6 @@ const handleComplete = (value: string) => {
 }
 </script>
 ```
-
-<Canvas sourceState="none" of={PINInputStories.Default} />
 
 ---
 
@@ -53,12 +37,8 @@ Controls the PIN input value as a string. Type: `string` (default: `""`)
 #### length
 Number of input fields to display. Type: `number` (default: `6`)
 
-<Canvas sourceState="none" of={PINInputStories.Length} />
-
 #### disabled
 Disables all PIN input fields. Type: `boolean` (default: `false`)
-
-<Canvas sourceState="none" of={PINInputStories.Disabled} />
 
 #### placeholder
 Placeholder text for each input field. Type: `string` (default: `""`)
@@ -66,12 +46,8 @@ Placeholder text for each input field. Type: `string` (default: `""`)
 #### separator
 Character or string to display between input fields. Type: `string` (default: `""`)
 
-<Canvas sourceState="none" of={PINInputStories.Separator} />
-
 #### type
 Input field type - use 'password' to mask the entered values. Type: `'text' | 'password'` (default: `"text"`)
-
-<Canvas sourceState="none" of={PINInputStories.Password} />
 
 #### mask
 Whether to mask the input values (alternative to password type). Type: `boolean` (default: `false`)
@@ -119,7 +95,6 @@ Focuses the first empty input field, or the first field if all are filled.
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 
 const pinInputRef = ref()
 const pinValue = ref('')
@@ -140,7 +115,6 @@ Clears all input fields and focuses the first field.
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 
 const pinInputRef = ref()
 const pinValue = ref('')

@@ -60,7 +60,11 @@ onMounted(() => {
   window.addEventListener("mouseup", stopDragging);
   window.addEventListener("touchmove", updateCursorTouch);
   window.addEventListener("touhend", stopDragging);
-  calculateCursor();
+  updateModel(props.modelValue);
+  percentage.value = getPercentage();
+  setTimeout(() => {
+    calculateCursor();
+  }, 200);
 });
 
 onBeforeUnmount(() => {
@@ -200,6 +204,7 @@ function getModel() {
   const values: number[] = [0, 0];
   percentage.value.forEach((value: number, index: number) => {
     let actualValue: number = value;
+    // if (actualValue > 0.990) actualValue = 1;
     if (props.max) actualValue = value * props.max;
     values[index] = actualValue;
   });
@@ -290,11 +295,11 @@ function updateSlider(
   const clamped = getPosition(event, cursor, slider.value);
   if (props.vertical) {
     const clampedBottom = clamped.y;
-    const height = slider.value.clientHeight - cursor.clientHeight / 2;
+    const height = slider.value.clientHeight - cursor.clientHeight;
     percentageValue = getStepPercentage(clampedBottom / height);
   } else {
     const clampedLeft = clamped.x;
-    const width = slider.value.clientWidth - cursor.clientWidth / 2;
+    const width = slider.value.clientWidth - cursor.clientWidth;
     percentageValue = getStepPercentage(clampedLeft / width);
   }
   changeFillBarPosition();
@@ -315,7 +320,9 @@ function calculateCursor() {
       const borderWidth =
         Number(cursor.style.borderWidth.replace("px", "")) / 2;
       cursor.style.bottom =
-        bottom - cursor.clientHeight / 3 - borderWidth + "px";
+        model.value[index] < 0.99 || props.steps?.length
+          ? bottom - cursor.clientHeight / 3 - borderWidth + "px"
+          : bottom - cursor.clientHeight - borderWidth + "px";
 
       cursor.style.left = "50%";
     } else {
@@ -332,7 +339,11 @@ function calculateCursor() {
             .toString()
             .replace("px", "")
         ) / 2;
-      cursor.style.left = left - cursor.clientWidth / 3 - borderWidth + "px";
+
+      cursor.style.left =
+        model.value[index] < 0.99 || props.steps?.length
+          ? left - cursor.clientWidth / 3 - borderWidth + "px"
+          : left - cursor.clientWidth - borderWidth + "px";
 
       cursor.style.bottom = "50%";
     }
