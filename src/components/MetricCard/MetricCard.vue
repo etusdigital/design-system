@@ -1,13 +1,13 @@
 <script setup lang="ts">
 type Color = 'primary' | 'informative' | 'success' | 'warning' | 'danger' | 'neutral';
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
     title?: string;
     description?: string | number;
     value?: string | number;
     icon?: string;
     color?: Color;
-    type?: 'default' | 'dashed' | 'card';
+    type?: 'default' | 'secondary' | 'dashed';
     size?: 'small' | 'medium' | 'large';
     infoMessage?: string;
     infoType?: Color;
@@ -122,11 +122,11 @@ const props = withDefaults(defineProps<{
     }
 }
 
-*.metric-card.dashed {
+.metric-card.dashed {
     @apply border-dashed bg-transparent;
 }
 
-*.metric-card.card {
+.metric-card.secondary {
     @apply shadow-neutral-default text-neutral-interaction-default bg-transparent border-none;
 
     .card-title {
@@ -134,23 +134,23 @@ const props = withDefaults(defineProps<{
     }
 }
 
-.metric-card.card.primary .card-value, .info-label.primary {
+.metric-card.secondary.primary .card-value, .info-label.primary {
     @apply text-primary-interaction-default;
 }
 
-.metric-card.card.info .card-value, .info-label.info {
+.metric-card.secondary.info .card-value, .info-label.info {
     @apply text-informative-interaction-default;
 }
 
-.metric-card.card.success .card-value, .info-label.success {
+.metric-card.secondary.success .card-value, .info-label.success {
     @apply text-success-interaction-default;
 }
 
-.metric-card.card.warning .card-value, .info-label.warning {
+.metric-card.secondary.warning .card-value, .info-label.warning {
     @apply text-warning-interaction-default;
 }
 
-.metric-card.card.danger .card-value, .info-label.danger {
+.metric-card.secondary.danger .card-value, .info-label.danger {
     @apply text-danger-interaction-default;
 }
 

@@ -29,11 +29,7 @@ const carouselContainer = ref<HTMLElement>();
 const carouselItemsContainer = ref<HTMLElement>();
 const contentStyle = ref<{ width?: string; height?: string }>({});
 const transform = ref("-0px");
-
-const maxIndex = computed(
-  () => Math.ceil(props.items.length / props.visible) - 1
-);
-
+const carouselInterval = ref<ReturnType<typeof setInterval>>();
 const itemSections = computed(() => {
   const sections = [];
   for (let i = 0; i < props.items.length; i += props.visible) {
@@ -41,6 +37,10 @@ const itemSections = computed(() => {
   }
   return sections;
 });
+
+const maxIndex = computed(
+  () => Math.ceil(props.items.length / props.visible) - 1
+);
 
 const gap = computed(() => {
   return parseFloat(
@@ -64,6 +64,9 @@ watch(
   () => props.visible,
   () => {
     setModel(0);
+    nextTick(() => {
+      calculateContentStyle();
+    });
   }
 );
 
@@ -75,16 +78,44 @@ watch(
   }
 );
 
+watch(
+  () => props.interval,
+  () => {
+    setCarouselInterval();
+  }
+);
+
 onMounted(() => {
   model.value = Math.min(props.modelValue, maxIndex.value);
-  calculateContentStyle();
+  nextTick(() => {
+    calculateContentStyle();
+  });
+  setCarouselInterval();
 });
 
 function setModel(value: number) {
-  const clampedValue = Math.max(0, Math.min(value, maxIndex.value));
-  model.value = clampedValue;
-  calculateContentStyle();
-  emit("update:modelValue", clampedValue);
+  if (value > maxIndex.value) value = 0;
+  else if (value < 0) value = maxIndex.value;
+  model.value = value;
+  nextTick(() => {
+    calculateContentStyle();
+  });
+
+  emit("update:modelValue", value);
+}
+
+function setCarouselInterval() {
+  if (!props.interval) {
+    clearInterval(carouselInterval.value);
+    carouselInterval.value = undefined;
+    return;
+  }
+
+  carouselInterval.value = setInterval(() => {
+    nextTick(() => {
+      setModel(model.value + 1);
+    });
+  }, props.interval);
 }
 
 function calculateContentStyle() {
@@ -101,29 +132,22 @@ function calculateContentStyle() {
 
   let totalSize = 0;
   let totalTransform = 0;
-  const initial = props.visible * model.value;
 
-  for (
-    let i = initial;
-    i < Math.min(initial + props.visible, children.length);
-    i++
-  ) {
-    const child = children[i] as HTMLElement;
-    if (props.vertical) {
-      totalSize = Math.max(totalSize, child.offsetHeight);
-    } else {
-      totalSize += child.offsetWidth + 1;
-      if (i > initial) totalSize += gap.value;
-    }
+  const child = children[model.value] as HTMLElement;
+  if (props.vertical) {
+    totalSize = Math.max(totalSize, child.offsetHeight);
+  } else {
+    totalSize += child.offsetWidth + 1;
+    if (0 > model.value) totalSize += gap.value;
   }
 
-  for (let i = 0; i < initial; i++) {
+  for (let i = 0; i < model.value; i++) {
     const child = children[i] as HTMLElement;
     const rect = child.getBoundingClientRect();
     if (props.vertical) totalTransform += rect.height;
     else totalTransform += rect.width;
 
-    if (initial > 0) totalTransform += gap.value;
+    if (model.value > 0) totalTransform += gap.value;
   }
 
   transform.value = `-${Math.floor(totalTransform)}px`;
@@ -146,27 +170,27 @@ function calculateContentStyle() {
         <Icon :name="vertical ? 'keyboard_arrow_up' : 'chevron_left'" />
       </div>
       <div class="overflow-hidden shrink-0" :style="contentStyle">
-                 <div
-           class="carousel-items"
-           ref="carouselItemsContainer"
-           :style="{
-             transform: `translate${vertical ? 'Y' : 'X'}(${transform})`,
-           }"
-         >
-           <div 
-             v-for="(section, sectionIndex) in itemSections" 
-             :key="sectionIndex"
-             class="flex gap-xs"
-           >
-             <slot
-               name="item"
-               v-for="(item, index) in section"
-               :key="index"
-               :item="item"
-               :index="index"
-             />
-           </div>
-         </div>
+        <div
+          class="carousel-items"
+          ref="carouselItemsContainer"
+          :style="{
+            transform: `translate${vertical ? 'Y' : 'X'}(${transform})`,
+          }"
+        >
+          <div
+            v-for="(section, sectionIndex) in itemSections"
+            :key="sectionIndex"
+            class="flex gap-xs"
+          >
+            <slot
+              name="item"
+              v-for="(item, index) in section"
+              :key="index"
+              :item="item"
+              :index="index"
+            />
+          </div>
+        </div>
       </div>
       <div
         class="arrow-icon"

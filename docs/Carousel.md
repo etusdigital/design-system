@@ -1,7 +1,7 @@
 # Name: Carousel
 ## Component Overview
 
-**Purpose**: A visual connector component that adds connecting lines between grouped elements to show relationships and flow.
+**Purpose**: A carousel component that displays a collection of items with navigation controls and pagination indicators.
 
 **Import**: Automatic - no need to import any DS components
 
@@ -9,26 +9,19 @@
 
 ```vue
 <template>
-    <Carousel :vertical="true" class="items-center">
-        <Card class="p-base">
-            <Carousel>
-                <Input label-value="label" placeholder="Type here" />
-                <Select
-                    label-value="label"
-                    :items="[
-                        { label: 'Option 1', something: 0, selected: false },
-                        { label: 'Option 2', something: 1, selected: true },
-                        { label: 'Option 3', something: 2, selected: false },
-                        { label: 'Option 4', something: 3, selected: false },
-                        { label: 'Option 5', something: 4, selected: false },
-                    ]"
-                >
-                    Select
-                </Select>
-                <Input label-value="label" placeholder="Type here" />
-            </Carousel>
-        </Card>
-        <Button variant="success" round />
+    <Carousel 
+        v-model="currentIndex"
+        :items="items"
+        :visible="3"
+        :vertical="false"
+        :disabled="false"
+        :circular="false"
+    >
+        <template #item="{ item, index }">
+            <Card class="p-base">
+                {{ item.label }}
+            </Card>
+        </template>
     </Carousel>
 </template>
 ```
@@ -37,32 +30,53 @@
 
 ### Props API
 
+#### modelValue
+Current active index of the carousel. Type: `number` (default: `0`)
+
+#### items
+Array of items to display in the carousel. Type: `any[]` (required)
+
+#### visible
+Number of items visible at once. Type: `number` (default: `1`)
+
+#### interval
+Auto-play interval in milliseconds. Type: `number` (default: `3000`)
+
+#### disabled
+Disables navigation controls. Type: `boolean` (default: `false`)
+
+#### circular
+Enables circular navigation. Type: `boolean` (default: `false`)
+
 #### vertical
-Arranges connector lines vertically instead of horizontally. Type: `boolean` (default: `false`)
+Arranges carousel vertically. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
-Carousel does not emit any custom events. It's a simple conector component that passes through standard DOM events from the underlying div element.
+#### @update:model-value
+Emitted when the active index changes. Payload: `number`
 
 ---
 
 ### Slots API
 
-#### #default
-Contains the elements to be connected with visual lines.
+#### #item
+Slot for rendering individual carousel items.
 
 ```vue
 <template>
-    <Carousel>
-        Slot: default
+    <Carousel :items="items">
+        <template #item="{ item, index }">
+            <div>{{ item.label }}</div>
+        </template>
     </Carousel>
 </template>
 ```
 
 **Important Notes:**
-- Visual connectors appear automatically between all child elements except the last one
-- Use the `vertical` prop to change connector orientation
-- Elements are styled with relative positioning to accommodate connector lines
-- Connectors use neutral border styling for subtle visual connection
+- Use the `#item` slot to customize how each item is rendered
+- Navigation arrows automatically adjust for vertical/horizontal orientation
+- Pagination indicators show current position
+- Supports both manual and automatic navigation

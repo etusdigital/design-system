@@ -23,7 +23,7 @@ export default {
     type: {
       type: { summary: "text" },
       control: "select",
-      options: ["default", "dashed", "card"],
+      options: ["default", "secondary", "dashed"],
       table: {
         defaultValue: { summary: "default" },
       },
@@ -166,7 +166,7 @@ export const Types: Story = {
     },
     template: `
         <div class="flex gap-4">
-          ${["default", "dashed", "card"].map((type) => {
+          ${["default", "secondary", "dashed"].map((type) => {
             return defaultHtml.replaceAll("args.type", `'${type}'`);
           }).join("")}
         </div>
@@ -274,7 +274,7 @@ export const Slots: Story = {
           title="Your June recipe"
           value="$100,000.00"
           color="var(--primary-foreground-low)"
-          type="card"
+          type="secondary"
           size="large"
           bold-title
         >
