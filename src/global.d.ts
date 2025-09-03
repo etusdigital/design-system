@@ -34,6 +34,7 @@ declare module '@vue/runtime-core' {
     MultiSelect: typeof import('./components/MultiSelect/MultiSelect.vue')['default']
     Navbar: typeof import('./components/Navbar/Navbar.vue')['default']
     Pagination: typeof import('./components/Pagination/Pagination.vue')['default']
+    PINInput: typeof import('./components/PINInput/PINInput.vue')['default']
     Profile: typeof import('./components/Profile/Profile.vue')['default']
     ProgressBar: typeof import('./components/ProgressBar/ProgressBar.vue')['default']
     Radio: typeof import('./components/Radio/Radio.vue')['default']

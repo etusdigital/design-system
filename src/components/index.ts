@@ -28,6 +28,7 @@ export { default as Menu } from './Menu';
 export { default as MetricCard } from './MetricCard';
 export { default as Navbar } from './Navbar';
 export { default as Pagination } from './Pagination';
+export { default as PINInput } from './PINInput';
 export { default as Profile } from './Profile';
 export { default as ProgressBar } from './ProgressBar';
 export { default as Radio } from './Radio';
