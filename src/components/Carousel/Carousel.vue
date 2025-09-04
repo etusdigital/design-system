@@ -55,8 +55,10 @@ const gap = computed(() => {
 watch(
   () => props.modelValue,
   () => {
-    model.value = Math.min(props.modelValue, maxIndex.value);
-    calculateContentStyle();
+    checkModel(props.modelValue);
+    nextTick(() => {
+      calculateContentStyle();
+    });
   }
 );
 
@@ -73,7 +75,7 @@ watch(
 watch(
   () => props.items.length,
   () => {
-    model.value = Math.min(model.value, maxIndex.value);
+    checkModel(model.value);
     calculateContentStyle();
   }
 );
@@ -86,12 +88,16 @@ watch(
 );
 
 onMounted(() => {
-  model.value = Math.min(props.modelValue, maxIndex.value);
+  checkModel(props.modelValue);
   nextTick(() => {
     calculateContentStyle();
   });
   setCarouselInterval();
 });
+
+function checkModel(value: number) {
+  model.value = Math.max(0, Math.min(value, maxIndex.value));
+}
 
 function setModel(value: number) {
   if (value > maxIndex.value) {
