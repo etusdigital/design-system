@@ -99,7 +99,7 @@ function getLinkComponent() {
         <Item
           v-for="subItem in item.items"
           v-model="model"
-          v-model:selected="item.selected"
+          v-model:selected="subItem.selected"
           :key="subItem.value"
           :item="subItem"
           :get-object="getObject"

@@ -123,7 +123,7 @@ function toggle() {
 
 <template>
   <div class="container">
-    <div v-if="labelValue" class="m-xxs flex justify-between items-center">
+    <div v-if="labelValue" class="flex justify-between items-center">
       <Label
         :label-value="labelValue"
         :info-message="infoMessage"
@@ -176,11 +176,9 @@ function toggle() {
         <slot name="content" :min-width="contentMinWidth" />
       </Transition>
     </div>
-    <div>
-      <small v-if="isError" class="text-danger-foreground-low text-start p3">{{
-        errorMessage
-      }}</small>
-    </div>
+    <small v-if="isError" class="text-danger-foreground-low text-start p3">{{
+      errorMessage
+    }}</small>
   </div>
 </template>
 
@@ -188,7 +186,7 @@ function toggle() {
 @reference "../../assets/main.css";
 
 .container {
-  @apply relative;
+  @apply relative flex flex-col gap-xxs;
 }
 
 .label-container {
@@ -196,8 +194,8 @@ function toggle() {
 }
 
 .label-content {
-  @apply inline-flex items-center gap-xs border-xxs rounded-sm cursor-pointer px-sm py-xs select-none transition-[border,border-radius] p3
-    duration-0 delay-100 text-neutral-interaction-default bg-neutral-surface-default border-neutral-default focus:border-primary-default;
+  @apply inline-flex items-center gap-xs outline-xxs rounded-sm cursor-pointer px-sm py-xs select-none transition-[outline,border-radius] p3
+    duration-0 delay-100 text-neutral-interaction-default bg-neutral-surface-default outline-neutral-default focus:outline-primary-default;
 }
 
 .secondary.label-content {
@@ -205,11 +203,11 @@ function toggle() {
 }
 
 .expanded.label-content {
-  @apply delay-0 border-primary-default;
+  @apply delay-0 outline-primary-default;
 }
 
 .expanded.label-content.hide-bottom {
-  @apply rounded-none border-neutral-default focus:border-neutral-default;
+  @apply rounded-none outline-neutral-default focus:outline-neutral-default;
 }
 
 .label-content.disabled {
@@ -217,7 +215,7 @@ function toggle() {
 }
 
 .label-content.error {
-  @apply text-danger-foreground-high border-danger-default;
+  @apply text-danger-foreground-high outline-danger-default;
 }
 
 .arrow-icon {

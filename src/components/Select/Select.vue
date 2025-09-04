@@ -111,6 +111,11 @@ function setModel(value: any) {
   updateModel();
 }
 
+function findSelected() {
+  const item = props.items.find((item: any) => getValue(item) === getValue(model.value));
+  return getLabel(item);
+}
+
 function getLabel(item: any) {
   return isObject(item) ? item[props.labelKey] : item;
 }
@@ -243,12 +248,12 @@ function clearModel() {
           name="status"
           :item="model"
           v-else-if="
-            model &&
+            findSelected() &&
             !multiple &&
             ((!expandedModel && searchable) || !searchable)
           "
         >
-          {{ getLabel(model) }}
+          {{ findSelected() }}
         </slot>
         <slot v-else-if="(!expandedModel && searchable) || !searchable" />
       </template>
