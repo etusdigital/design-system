@@ -6,7 +6,7 @@ import * as RoundMenu from './RoundMenu.stories.ts';
 # Name: RoundMenu
 ## Component Overview
 
-**Purpose**: A circular radial menu component that expands menu items in a circular pattern around a central toggle button, ideal for floating action menus and contextual controls.
+**Purpose**: A circular radial menu component that expands menu options in a circular pattern around a central toggle button, ideal for floating action menus and contextual controls.
 
 **Import**: Automatic - no need to import any DS components
 
@@ -22,7 +22,7 @@ import * as RoundMenu from './RoundMenu.stories.ts';
 
 ```vue
 <template>
-    <RoundMenu :items="menuItems" />
+    <RoundMenu :options="menuItems" />
 </template>
 
 <script setup lang="ts">
@@ -37,7 +37,7 @@ const menuItems = ref([...])
 
 ### Props API
 
-#### items
+#### options
 Array of menu item objects that define the radial menu options. Type: `MenuItem[]` (required)
 
 ```typescript
@@ -49,10 +49,10 @@ type MenuItem = {
 }
 ```
 
-**Dynamic Positioning**: The component automatically calculates optimal positioning based on the number of items:
-- **< 7 items**: 60px radius for comfortable spacing
-- **7-9 items**: Dynamic radius based on `7 * itemCount`
-- **≥ 10 items**: Dynamic radius based on `6 * itemCount` for tighter spacing
+**Dynamic Positioning**: The component automatically calculates optimal positioning based on the number of options:
+- **< 7 options**: 60px radius for comfortable spacing
+- **7-9 options**: Dynamic radius based on `7 * itemCount`
+- **≥ 10 options**: Dynamic radius based on `6 * itemCount` for tighter spacing
 
 ---
 

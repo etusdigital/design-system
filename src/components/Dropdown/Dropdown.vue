@@ -12,7 +12,7 @@ const props = withDefaults(
     modelValue?: any;
     expanded?: boolean;
     labelValue?: string;
-    items: ItemType[];
+    options: ItemType[];
     absolute?: boolean;
     disabled?: boolean;
     isError?: boolean;
@@ -52,13 +52,13 @@ const search = ref("");
 const slots = useSlots();
 
 const selectedItem = computed(() => {
-  if (!props.items) return undefined;
-  return findItem(props.items, model.value)?.label;
+  if (!props.options) return undefined;
+  return findItem(props.options, model.value)?.label;
 });
 const filteredItems = computed(() => {
-  if (!props.items) return [];
-  else if (!search.value) return props.items;
-  return filterItems(props.items, search.value);
+  if (!props.options) return [];
+  else if (!search.value) return props.options;
+  return filterItems(props.options, search.value);
 });
 
 onBeforeMount(() => {
@@ -112,7 +112,7 @@ function selectItem(value: any) {
   model.value = value;
   isExpanded.value = false;
   updateSearch();
-  changeSelected(props.items, value);
+  changeSelected(props.options, value);
 }
 
 function onFocus() {
@@ -162,7 +162,7 @@ function getValue(item: any): any {
       </slot>
     </template>
     <template #card>
-      <Items :items="filteredItems">
+      <Items :options="filteredItems">
         <template #default="{ items }">
           <Item
             v-for="item in items"

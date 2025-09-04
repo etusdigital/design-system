@@ -31,7 +31,7 @@ const defaultArgs = {
   modelValue: 1,
   vertical: false,
   disabled: false,
-  items: [
+  options: [
     { label: "First", value: 1 },
     { label: "Second", value: 2 },
     { label: "Third", value: 3 },
@@ -46,7 +46,7 @@ const defaultHtml = `
     v-model="args.modelValue"
     :vertical="args.vertical"
     :disabled="args.disabled"
-    :items="args.items"
+    :options="args.options"
     :label-key="args.labelKey"
     :value-key="args.valueKey"
     :get-object="args.getObject"

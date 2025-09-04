@@ -8,7 +8,7 @@ export default {
       type: { summary: "any" },
       description: "Will name of the selected item.",
     },
-    items: {
+    options: {
       type: { summary: "array" },
       description:
         "Array of object to be used as menu options. Props(label: string, value: string, icon: string, path: string, disabled: boolean, bottom: boolean)",
@@ -34,7 +34,7 @@ const defaultArgs = {
   modelValue: "dashboard",
   getObject: false,
   expanded: false,
-  items: [
+  options: [
     {
       label: "Dashboard",
       value: "dashboard",
@@ -46,7 +46,7 @@ const defaultArgs = {
       value: "projects",
       path: "/projects",
       icon: "folder",
-      items: [
+      options: [
         {
           label: "All Projects",
           value: "all-projects",
@@ -97,7 +97,7 @@ const defaultRender = (args: any) => ({
       <Menu
         v-model="args.modelValue"
         :expanded="args.expanded"
-        :items="args.items"
+        :options="args.options"
         :get-object="args.getObject"
       />
     </div>
@@ -128,12 +128,12 @@ export const WithSideMenu: Story = {
         <Menu
           v-model="args.modelValue"
           :expanded="args.expanded"
-          :items="args.items"
+          :options="args.options"
           get-object
         />
         <SideMenu
-          v-if="args.modelValue && args.modelValue.items"
-          :items="args.modelValue.items"
+          v-if="args.modelValue && args.modelValue.options"
+          :options="args.modelValue.options"
           :parent-path="args.modelValue.path"
           :get-object="args.getObject"
         />
@@ -142,7 +142,7 @@ export const WithSideMenu: Story = {
   }),
   args: {
     ...defaultArgs,
-    modelValue: defaultArgs.items[1],
+    modelValue: defaultArgs.options[1],
     expanded: true,
   },
 };

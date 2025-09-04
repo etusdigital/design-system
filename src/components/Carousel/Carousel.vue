@@ -4,7 +4,7 @@ import { computed, ref, watch, onMounted, nextTick } from "vue";
 const props = withDefaults(
   defineProps<{
     modelValue?: number;
-    items: any[];
+    options: any[];
     visible?: number;
     interval?: number;
     disabled?: boolean;
@@ -32,14 +32,14 @@ const transform = ref("-0px");
 const carouselInterval = ref<ReturnType<typeof setInterval>>();
 const itemSections = computed(() => {
   const sections = [];
-  for (let i = 0; i < props.items.length; i += props.visible) {
-    sections.push(props.items.slice(i, i + props.visible));
+  for (let i = 0; i < props.options.length; i += props.visible) {
+    sections.push(props.options.slice(i, i + props.visible));
   }
   return sections;
 });
 
 const maxIndex = computed(
-  () => Math.ceil(props.items.length / props.visible) - 1
+  () => Math.ceil(props.options.length / props.visible) - 1
 );
 
 const gap = computed(() => {
@@ -73,7 +73,7 @@ watch(
 );
 
 watch(
-  () => props.items.length,
+  () => props.options.length,
   () => {
     checkModel(model.value);
     calculateContentStyle();
@@ -224,7 +224,7 @@ function calculateContentStyle() {
       </div>
       <div class="overflow-hidden shrink-0" :style="contentStyle">
         <div
-          class="carousel-items"
+          class="carousel-options"
           ref="carouselItemsContainer"
           :style="{
             transform: `translate${vertical ? 'Y' : 'X'}(${transform})`,
@@ -298,11 +298,11 @@ function calculateContentStyle() {
   @apply flex-col gap-sm;
 }
 
-.carousel-items {
+.carousel-options {
   @apply flex items-center justify-center gap-xs transition-transform duration-300 ease-in-out w-max;
 }
 
-.vertical .carousel-items {
+.vertical .carousel-options {
   @apply flex-col;
 }
 

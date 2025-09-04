@@ -8,7 +8,7 @@ const props = withDefaults(
     modelValue?: object;
     name: string;
     picture?: string;
-    items?: any[] | never[];
+    options?: any[] | never[];
     labelKey?: string;
     valueKey?: string;
     absolute?: boolean;
@@ -40,17 +40,17 @@ let onFocusInput = ref(false);
 let searchValue = ref("");
 
 const selected = computed(() => {
-  return props.items?.find((item: any) => getValue(item) == getValue(model.value));
+  return props.options?.find((item: any) => getValue(item) == getValue(model.value));
 });
 
 function searchItem(search: string) {
-  if (!props.items) {
+  if (!props.options) {
     return [];
   }
   if (!search) {
-    return props.items;
+    return props.options;
   }
-  return props.items.filter((item: any) => {
+  return props.options.filter((item: any) => {
     if (item[props.labelKey].toLowerCase().includes(search.toLowerCase())) {
       return item;
     }
@@ -137,7 +137,7 @@ function changeExpanded(expanded: boolean) {
       </div>
       <div
         class="flex flex-col items-center border-xxs text-neutral-interaction-default border-neutral-default"
-        v-if="items && items.length"
+        v-if="options && options.length"
       >
         <div class="flex items-center w-full relative">
           <div

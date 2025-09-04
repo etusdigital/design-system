@@ -9,7 +9,7 @@ type SelectExpandedExtra = {
 const props = withDefaults(
   defineProps<{
     modelValue?: string;
-    items: any;
+    options: any;
     icon?: string;
     expanded?: boolean;
     searchable?: boolean;
@@ -53,7 +53,7 @@ const [expandedModel, setExpandedModel] = useOptionalModel<boolean>(
   />
   <span
     class="flex items-center gap-xs truncate"
-    :class="{ 'text-neutral-foreground-low': !items }"
+    :class="{ 'text-neutral-foreground-low': !options }"
   >
     <div
       v-if="searchable && !disabled"

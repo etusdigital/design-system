@@ -17,10 +17,10 @@ type Options = {
 const props = withDefaults(
   defineProps<{
     headers: Header[];
-    items: any[];
-    options?: Options;
+    options: any[];
+    sortOptions?: Options;
     page?: number;
-    itemsPerPage?: number;
+    optionsPerPage?: number;
     numberOfItems?: number;
     renderPaginationInBackEnd?: boolean;
     hideFooter?: boolean;
@@ -33,7 +33,7 @@ const props = withDefaults(
   }>(),
   {
     page: 1,
-    itemsPerPage: 10,
+    optionsPerPage: 10,
     numberOfItems: 0,
     renderPaginationInBackEnd: false,
     hideFooter: false,
@@ -48,41 +48,41 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   "update:page": [value: number];
-  "update:itemsPerPage": [value: number];
+  "update:optionsPerPage": [value: number];
   sortBy: [key: string, isSortDesc: boolean];
-  pageItems: [page: number, itemsPerPage: number];
+  pageItems: [page: number, optionsPerPage: number];
   selectAll: [value: boolean];
 }>();
 const slots = useSlots();
 
 const sortByName = ref(props.options?.sortBy || "");
-const pagedItems = ref(props.items || []);
+const pagedItems = ref(props.options || []);
 const sortDesc: any = ref(getAllHeaderKeys());
-const itemsPerPageHolder = ref(props.itemsPerPage || 10);
+const optionsPerPageHolder = ref(props.optionsPerPage || 10);
 const pageHolder = ref(props.page || 1);
 const listPerPage = ref([5, 10, 20, 50, 100]);
 const allSelected = ref(false);
 
 const numberPage = computed((): number => {
   if (props.renderPaginationInBackEnd) {
-    return Math.ceil(props.numberOfItems / itemsPerPageHolder.value);
+    return Math.ceil(props.numberOfItems / optionsPerPageHolder.value);
   }
 
-  return Math.ceil(props.items?.length / itemsPerPageHolder.value);
+  return Math.ceil(props.options?.length / optionsPerPageHolder.value);
 });
 const min = computed((): number =>
   pageHolder.value === 1
     ? 1
-    : (pageHolder.value - 1) * itemsPerPageHolder.value + 1
+    : (pageHolder.value - 1) * optionsPerPageHolder.value + 1
 );
 const max = computed(
   (): number =>
-    (pageHolder.value - 1) * itemsPerPageHolder.value + pagedItems.value.length
+    (pageHolder.value - 1) * optionsPerPageHolder.value + pagedItems.value.length
 );
 const total = computed((): number =>
   props.renderPaginationInBackEnd
     ? props.numberOfItems
-    : props.items?.length || 0
+    : props.options?.length || 0
 );
 const colspan = computed((): number => {
   let colspan = props.headers.length;
@@ -96,14 +96,14 @@ onBeforeMount(() => {
   if (props.renderPaginationInBackEnd) return;
 
   if (sortByName.value) {
-    sortBy(sortByName.value, props.options?.sortDesc);
+    sortBy(sortByName.value, props.sortOptions?.sortDesc);
   } else {
-    pageItems(props.page, props.itemsPerPage);
+    pageItems(props.page, props.optionsPerPage);
   }
 });
 
 watch(
-  () => props.itemsPerPage,
+  () => props.optionsPerPage,
   (newValue) => {
     changeItemsPerPage(newValue, false);
   }
@@ -117,9 +117,9 @@ watch(
 );
 
 watch(
-  () => props.items,
+  () => props.options,
   () => {
-    pagedItems.value = props.items;
+    pagedItems.value = props.options;
 
     if (!props.renderPaginationInBackEnd)
       sortBy(sortByName.value, sortDesc.value[sortByName.value], false);
@@ -131,7 +131,7 @@ function getAllHeaderKeys(): { [key: string]: boolean } {
   const result: any = {};
   props.headers.forEach((header: any) => {
     if (header.value == sortByName.value) {
-      result[header.value] = !!props.options?.sortDesc;
+      result[header.value] = !!props.sortOptions?.sortDesc;
     } else {
       result[header.value] = false;
     }
@@ -142,14 +142,14 @@ function getAllHeaderKeys(): { [key: string]: boolean } {
 function changePage(page: number, emitEvent = true) {
   pageHolder.value = page;
   if (emitEvent) emit("update:page", page);
-  pageItems(page, itemsPerPageHolder.value);
+  pageItems(page, optionsPerPageHolder.value);
 }
 
-function changeItemsPerPage(itemsPerPage: number, emitEvent = true) {
-  itemsPerPageHolder.value = itemsPerPage || 10;
+function changeItemsPerPage(optionsPerPage: number, emitEvent = true) {
+  optionsPerPageHolder.value = optionsPerPage || 10;
   pageHolder.value = 1;
 
-  if (emitEvent) emit("update:itemsPerPage", itemsPerPage);
+  if (emitEvent) emit("update:optionsPerPage", optionsPerPage);
   emit("update:page", 1);
 
   sortBy(sortByName.value, sortDesc.value[sortByName.value]);
@@ -160,7 +160,7 @@ function sortBy(key: string, isSortDesc = true, emitEvent = true) {
     if (emitEvent) emit("sortBy", key, isSortDesc);
   } else {
     sortByName.value = key;
-    pagedItems.value = props.items?.sort((a: any, b: any) => {
+    pagedItems.value = props.options?.sort((a: any, b: any) => {
       const valueA = a[key];
       const valueB = b[key];
 
@@ -187,23 +187,23 @@ function sortBy(key: string, isSortDesc = true, emitEvent = true) {
       }
     });
   }
-  pageItems(pageHolder.value, itemsPerPageHolder.value);
+  pageItems(pageHolder.value, optionsPerPageHolder.value);
 }
 
-function pageItems(page: number, itemsPerPage: number) {
+function pageItems(page: number, optionsPerPage: number) {
   if (props.renderPaginationInBackEnd) {
-    emit("pageItems", page, itemsPerPage);
+    emit("pageItems", page, optionsPerPage);
   } else {
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    pagedItems.value = props.items?.slice(startIndex, endIndex);
+    const startIndex = (page - 1) * optionsPerPage;
+    const endIndex = startIndex + optionsPerPage;
+    pagedItems.value = props.options?.slice(startIndex, endIndex);
   }
 }
 
 function selectAll(value: boolean) {
   emit("selectAll", value);
-  props.items?.map((item: any) => (item.selected = value));
-  pagedItems.value = props.items;
+  props.options?.map((item: any) => (item.selected = value));
+  pagedItems.value = props.options;
 }
 </script>
 
@@ -358,12 +358,12 @@ function selectAll(value: boolean) {
           <slot name="items-per-page"> Items per page </slot>
         </p>
         <Select
-          v-model="itemsPerPageHolder"
-          :items="listPerPage"
+          v-model="optionsPerPageHolder"
+          :options="listPerPage"
           absolute
           @update:model-value="changeItemsPerPage"
         >
-          {{ itemsPerPageHolder }}
+          {{ optionsPerPageHolder }}
         </Select>
       </div>
       <Pagination

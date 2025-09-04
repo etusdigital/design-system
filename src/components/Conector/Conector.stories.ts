@@ -28,7 +28,7 @@ export const Primary: Story = {
               <Input label-value="label" placeholder="Type here" />
               <Select
                   label-value="label"
-                  :items="[
+                  :options="[
                       { label: 'Option 1', value: 0 },
                       { label: 'Option 2', value: 1 },
                       { label: 'Option 3', value: 2 },

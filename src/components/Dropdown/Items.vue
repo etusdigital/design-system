@@ -3,12 +3,12 @@ import { computed } from "vue";
 import { type Item } from "#utils/types/DropItem";
 
 const props = defineProps<{
-  items?: Item[] | undefined;
+  options?: Item[] | undefined;
 }>();
 
 const parsedItems = computed((): Item[][] => {
-  const topItems = props.items?.filter((item: Item) => !item.bottom) || [];
-  const bottomItems = props.items?.filter((item: Item) => item.bottom) || [];
+  const topItems = props.options?.filter((item: Item) => !item.bottom) || [];
+  const bottomItems = props.options?.filter((item: Item) => item.bottom) || [];
   return [topItems, bottomItems];
 });
 </script>

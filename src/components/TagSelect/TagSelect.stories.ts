@@ -13,7 +13,7 @@ export default {
       type: { summary: "text" },
       description: "Will be the input label.",
     },
-    items: {
+    options: {
       type: { summary: "array" },
       description:
         'Array of values to be used as options. Can also be an array of objects, in which case you should use the prop "labelKey" to specify which key to use as a label.',
@@ -66,10 +66,10 @@ export default {
     },
     "no-items-found": {
       description:
-        "This slot will be displayed when the search results in no items.",
+        "This slot will be displayed when the search results in no options.",
     },
     "empty-state": {
-      description: "This slot will be displayed if items is an empty array.",
+      description: "This slot will be displayed if options is an empty array.",
     },
     item: {
       description:
@@ -83,7 +83,7 @@ type Story = StoryObj<typeof TagSelect>;
 const defaultArgs = {
   modelValue: undefined,
   expanded: false,
-  items: [],
+  options: [],
   labelValue: "label",
   labelKey: "label",
   buttonLabel: "Add",
@@ -105,7 +105,7 @@ const defaultRender = (args: any) => ({
     <TagSelect
         v-model="args.modelValue"
         :v-model:expanded="args.expanded"
-        :items="args.items"
+        :options="args.options"
         :labelValue="args.labelValue"
         :error-message="args.errorMessage"
         :info-message="args.infoMessage"

@@ -14,10 +14,10 @@ export default {
         defaultValue: { summary: false },
       },
     },
-    items: {
+    options: {
       type: { summary: "any" },
       description:
-        'Array of filter categories with their available options. It\'s objects must contains "items" property.',
+        'Array of filter categories with their available options. It\'s objects must contains "options" property.',
     },
     labelValue: {
       type: { summary: "text" },
@@ -72,7 +72,7 @@ export default {
     getObject: {
       type: { summary: "function" },
       description:
-        "Will be the function that returns the object with the selected items.",
+        "Will be the function that returns the object with the selected options.",
     },
     apply: {
       type: { summary: "function" },
@@ -84,11 +84,11 @@ export default {
     },
     status: {
       description:
-        "This slot will be status when a item is selected. Param: selected (number of selected items).",
+        "This slot will be status when a item is selected. Param: selected (number of selected options).",
     },
     "status-label": {
       description:
-        "This slot will be status text when a item is selected. Param: selected (number of selected items).",
+        "This slot will be status text when a item is selected. Param: selected (number of selected options).",
     },
     "clear-label": {
       description: "Will be clear button text.",
@@ -110,11 +110,11 @@ type Story = StoryObj<typeof Filter>;
 
 const defaultArgs = {
   modelValue: {},
-  items: [
+  options: [
     {
       label: "Option 1",
       value: "option1",
-      items: [
+      options: [
         { label: "Option 1", value: 0 },
         { label: "Option 2", value: 1 },
         { label: "Option 3", value: 2 },
@@ -125,7 +125,7 @@ const defaultArgs = {
     {
       label: "Option 2",
       value: "option2",
-      items: [
+      options: [
         { label: "Option 1", value: 0 },
         { label: "Option 2", value: 1 },
         { label: "Option 3", value: 2 },
@@ -156,7 +156,7 @@ const defaultRender = (args: any) => ({
     <Filter 
         v-model="args.modelValue" 
         v-model:expanded="args.expanded" 
-        :items="args.items"
+        :options="args.options"
         :label-value="args.labelValue"
         :label-key="args.labelKey" 
         :value-key="args.valueKey"

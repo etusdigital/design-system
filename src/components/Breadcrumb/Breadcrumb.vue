@@ -7,14 +7,14 @@ import { isObject } from "../../utils";
 const props = withDefaults(
   defineProps<{
     modelValue: any;
-    items?: any[];
+    options?: any[];
     labelKey?: string;
     valueKey?: string;
     getObject?: boolean;
   }>(),
   {
     modelValue: undefined,
-    items: undefined,
+    options: undefined,
     labelKey: "label",
     valueKey: "value",
     getObject: false,
@@ -29,9 +29,9 @@ const [model] = useOptionalModel<any>(props, "modelValue", emit, undefined);
 const expanded = ref<any[]>([]);
 
 const parsedItems = computed(() => {
-  if (!props.items?.length) return [];
+  if (!props.options?.length) return [];
 
-  const items = [...props.items];
+  const items = [...props.options];
   let selectedIndex = items.findIndex((item) => isActive(item));
   if (selectedIndex === -1) selectedIndex = 0;
 
@@ -51,12 +51,12 @@ const parsedItems = computed(() => {
     } else if (i === 1 && selectedIndex > 1) {
       result.push({
         icon: "more_horiz",
-        items: items.slice(1, selectedIndex - 1)
+        options: items.slice(1, selectedIndex - 1)
       });
     } else if (i === items.length - 2 && selectedIndex < items.length - 2) {
       result.push({
         icon: "more_horiz",
-        items: items.slice(selectedIndex + 2, items.length - 1)
+        options: items.slice(selectedIndex + 2, items.length - 1)
       });
     }
   }
@@ -97,7 +97,7 @@ function isActive(item: any): boolean {
           <Icon name="more_horiz" class="cursor-pointer" />
             <template #card>
               <div class="more-options">
-                <Option v-for="option in item.items" :key="option" @click="setModel(option)">
+                <Option v-for="option in item.options" :key="option" @click="setModel(option)">
                   {{ getLabel(option) }}
                 </Option>
               </div>

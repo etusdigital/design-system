@@ -4,7 +4,7 @@ import { useOptionalModel } from "#composables";
 const props = withDefaults(
   defineProps<{
     modelValue: any;
-    items: any[];
+    options: any[];
     position?: "top" | "bottom" | "left" | "right";
     type?: "primary" | "info" | "success" | "warning" | "danger" | "neutral";
     disabled?: boolean;
@@ -32,14 +32,14 @@ const [model, setModel] = useOptionalModel<any>(
 <template>
   <div class="history" :class="{ flex: position === 'top' || position === 'bottom' }">
     <div
-      v-for="(item, index) in items"
+      v-for="(item, index) in options"
       :key="index"
       class="item"
       :class="[
         position,
         item.type ? item.type : type,
         {
-          'last-item': !items[index + 1],
+          'last-item': !options[index + 1],
           'first-item': index == 0,
           active: (index == 0 && !model && !disabled) || item === model,
           disabled: disabled,

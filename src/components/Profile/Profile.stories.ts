@@ -21,7 +21,7 @@ export default {
       description:
         "This property will be shown when viewing more user information.",
     },
-    items: {
+    options: {
       type: { summary: "array" },
       table: {
         defaultValue: { summary: [] },
@@ -149,7 +149,7 @@ const defaultArgs = {
   absolute: false,
   disabled: false,
   getObject: false,
-  items: [
+  options: [
     { label: "Personal Account", value: "personal-account" },
     { label: "Work Account", value: "work-account" },
     { label: "Project Alpha", value: "project-alpha" },
@@ -175,7 +175,7 @@ const defaultRender = (args: any) => ({
       v-model="args.modelValue"
       :name="args.name"
       :picture="args.picture"
-      :items="args.items"
+      :options="args.options"
       :label-key="args.labelKey"
       :value-key="args.valueKey"
       :absolute="args.absolute"
@@ -238,7 +238,7 @@ export const Items: Story = {
           v-model="args.modelValue"
           :name="args.name"
           :picture="args.picture"
-          :items="args.items"
+          :options="args.options"
           :label-key="args.labelKey"
           :value-key="args.valueKey"
           :absolute="args.absolute"

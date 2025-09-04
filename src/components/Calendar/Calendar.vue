@@ -66,7 +66,7 @@ const dates = computed(() => {
     },
   ];
 });
-const items = ref(getItems());
+const options = ref(getItems());
 
 const weekDays = computed((): string[] => {
   const date = new Date("2021-10-03T23:15:30");
@@ -83,7 +83,7 @@ const weekDays = computed((): string[] => {
 const months = computed(() => getMonths(props.lang));
 const years = computed(() => {
   const years: any = [];
-  const date = items.value[items.value.length - 1].date;
+  const date = options.value[options.value.length - 1].date;
   for (let i = date.getFullYear() + 56; i >= date.getFullYear() - 62; i--) {
     years.push(i);
   }
@@ -101,7 +101,7 @@ watch(
 watch(
   () => props.doubleCalendar,
   () => {
-    items.value = getItems();
+    options.value = getItems();
     updateItems();
   }
 );
@@ -111,7 +111,7 @@ function checkValidModel() {
 }
 
 function updateItems(value?: number, changeWeeks = true) {
-  items.value.forEach((item: any) => {
+  options.value.forEach((item: any) => {
     if (value) item.date.setMonth(item.date.getMonth() + value);
     if (changeWeeks) item.weeks = getArrayMonthDay(item.date);
     item.title = getTitle(item.date);
@@ -202,7 +202,7 @@ function sortDate(date: Date, dates: Date[]): Date[] {
   if (
     dates.length > 1 ||
     !dates.length ||
-    (items.value.length == 1 && props.type == "date")
+    (options.value.length == 1 && props.type == "date")
   ) {
     dates = [];
     dates[0] = date;
@@ -219,13 +219,13 @@ function sortDate(date: Date, dates: Date[]): Date[] {
 function changeMonth(month: number) {
   show.value.month = false;
   const index = selectedIndex.value;
-  const primary = items.value[index].date;
+  const primary = options.value[index].date;
   const secondary =
-    items.value[index == items.value.length - 1 ? 0 : index + 1].date;
-  const toAdd = items.value[index].value;
+    options.value[index == options.value.length - 1 ? 0 : index + 1].date;
+  const toAdd = options.value[index].value;
 
   primary.setMonth(month);
-  if (items.value.length > 1) secondary.setMonth(primary.getMonth() + toAdd);
+  if (options.value.length > 1) secondary.setMonth(primary.getMonth() + toAdd);
   updateItems();
 }
 
@@ -233,10 +233,10 @@ function changeYear(year: number) {
   show.value.year = false;
   show.value.month = false;
   const index = selectedIndex.value;
-  const primary = items.value[index].date;
+  const primary = options.value[index].date;
   const secondary =
-    items.value[index == items.value.length - 1 ? 0 : index + 1].date;
-  let toAdd = items.value[index].value;
+    options.value[index == options.value.length - 1 ? 0 : index + 1].date;
+  let toAdd = options.value[index].value;
 
   if (
     !(primary.getMonth() == 1 && toAdd == 1) &&
@@ -245,7 +245,7 @@ function changeYear(year: number) {
     toAdd = 0;
 
   primary.setFullYear(year);
-  if (items.value.length > 1) secondary.setFullYear(year + toAdd);
+  if (options.value.length > 1) secondary.setFullYear(year + toAdd);
   updateItems();
 }
 </script>
@@ -253,7 +253,7 @@ function changeYear(year: number) {
 <template>
   <div class="calendar">
     <div
-      v-for="(item, index) in items"
+      v-for="(item, index) in options"
       :key="index"
       class="w-fit p-sm overflow-hidden"
     >
@@ -277,7 +277,7 @@ function changeYear(year: number) {
           </h1>
         </Transition>
         <div
-          v-if="items.length - 1 == index"
+          v-if="options.length - 1 == index"
           class="calendar-arrow right-0"
           @click="setNewMonth(1)"
         >
@@ -321,11 +321,11 @@ function changeYear(year: number) {
         </Transition>
       </main>
     </div>
-    <DateDialog :model-value="show.month && !show.year" :items="months" wrap>
+    <DateDialog :model-value="show.month && !show.year" :options="months" wrap>
       <template #item="{ item }">
         <div
           :class="[
-            item.value === items[selectedIndex].date.getMonth()
+            item.value === options[selectedIndex].date.getMonth()
               ? 'bg-primary-interaction-default'
               : 'bg-primary-surface-highlight',
           ]"
@@ -338,7 +338,7 @@ function changeYear(year: number) {
     </DateDialog>
     <DateDialog
       :model-value="show.year"
-      :items="years"
+      :options="years"
       vertical
       max-height="70%"
       no-padding
@@ -348,7 +348,7 @@ function changeYear(year: number) {
           class="flex items-center justify-center cursor-pointer w-full p-xxs text-sm hover:bg-primary-surface-default hover:text-primary-interaction-default"
           :class="{
             'text-primary-interaction-default bg-primary-surface-default':
-              item === items[selectedIndex].date.getFullYear(),
+              item === options[selectedIndex].date.getFullYear(),
           }"
           @click="changeYear(item)"
         >

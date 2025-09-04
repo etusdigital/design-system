@@ -26,7 +26,7 @@ import * as Profile from './Profile.stories.ts';
         v-model="selectedAccount"
         :name="currentUser.name"
         :picture="currentUser.picture"
-        :items="userAccounts"
+        :options="userAccounts"
         @logout="handleLogout"
         @edit="editProfile"
         @edit-item="editAccount"
@@ -81,14 +81,14 @@ The main user name displayed in the profile. Type: `string` (required)
 #### picture
 URL of the user's profile picture image. Type: `string` (default: `""`)
 
-#### items
-Array of account items for multi-account selection. Type: `any[]` (default: `[]`)
+#### options
+Array of account options for multi-account selection. Type: `any[]` (default: `[]`)
 
 #### label-key
-Property name for item labels in the items array. Type: `string` (default: `"label"`)
+Property name for item labels in the options array. Type: `string` (default: `"label"`)
 
 #### value-key
-Property name for item values in the items array. Type: `string` (default: `"value"`)
+Property name for item values in the options array. Type: `string` (default: `"value"`)
 
 #### absolute
 Controls absolute positioning of the dropdown. Type: `boolean` (default: `false`)
@@ -137,14 +137,14 @@ Custom content for the edit account button.
 Custom content for the logout button.
 
 #### #item
-Custom rendering for account selection items.
+Custom rendering for account selection options.
 
 ```vue
 <template>
     <Profile
         v-model="selectedAccount"
         :name="userName"
-        :items="accounts"
+        :options="accounts"
     >
         ...
         <template #item="{ item, index, active }">
@@ -172,7 +172,7 @@ Custom content for the terms of use link.
 - Flexible account/profile switching with support for both simple values and complex objects
 - Customizable action buttons for profile management, account editing, and logout functionality
 - Built-in privacy policy and terms of use links with customizable content and actions
-- Slot-based architecture allows complete customization of account list items and action buttons
+- Slot-based architecture allows complete customization of account list options and action buttons
 - Responsive dropdown positioning prevents viewport overflow issues
 - Keyboard navigation support for accessibility compliance
 - Event-driven architecture enables integration with authentication and user management systems

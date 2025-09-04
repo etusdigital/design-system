@@ -15,7 +15,7 @@ const props = withDefaults(
   defineProps<{
     modelValue: any;
     labelValue?: string;
-    items: any[];
+    options: any[];
     icon?: string;
     expanded?: boolean;
     labelKey?: string;
@@ -55,7 +55,7 @@ const [expandedModel, setExpandedModel] = useOptionalModel<boolean>(
 );
 
 const model = ref<any>(props.modelValue || {});
-const itemsSearch = ref<any>({});
+const optionsSearch = ref<any>({});
 const itemExpanded = ref("");
 const selected = ref(getSelected());
 
@@ -73,11 +73,11 @@ function getValue(item: any): any {
 }
 
 function getSelected() {
-  const selected = props.items.filter((item: any) => {
+  const selected = props.options.filter((item: any) => {
     const key = getValue(item);
     const selected = model.value[key];
 
-    return item.items.filter((subItem: any) =>
+    return item.options.filter((subItem: any) =>
       selected?.some((x: any) => getValue(x) === getValue(subItem))
     ).length;
   });
@@ -120,10 +120,10 @@ function isActive(item: any): boolean {
   return itemExpanded.value === itemValue;
 }
 
-function searchItem(items: any, search: string) {
-  if (!search) return items;
+function searchItem(options: any, search: string) {
+  if (!search) return options;
 
-  return items.filter((value: any) => {
+  return options.filter((value: any) => {
     if (value[props.labelKey].toLowerCase().includes(search.toLowerCase()))
       return value;
   });
@@ -161,7 +161,7 @@ function apply() {
       v-model:expanded="expandedModel"
       :disabled="disabled"
       :icon="icon"
-      :items="modelValue"
+      :options="modelValue"
       @update:expanded="setExpandedModel"
     >
       <template #status>
@@ -185,7 +185,7 @@ function apply() {
           // @ts-ignore
           item[labelKey]
         "
-        v-for="(item, index) in items"
+        v-for="(item, index) in options"
         :key="item[labelKey]"
         class="flex flex-col gap-xs select-none h-max transition-[height] max-h-[3em] overflow-hidden"
         :tabindex="index"
@@ -242,7 +242,7 @@ function apply() {
                 size="xl"
               />
               <input
-                v-model="itemsSearch[getValue(item)]"
+                v-model="optionsSearch[getValue(item)]"
                 type="search"
                 class="h-full w-full p-0 m-0 border-none text-xs p-[.05em] placeholder:text-neutral-foreground-low outline-none border-none"
                 style="box-shadow: none"
@@ -252,8 +252,8 @@ function apply() {
             </div>
             <Option
               v-for="(subItem, subItemIndex) in searchItem(
-                item.items,
-                itemsSearch[getValue(item)]
+                item.options,
+                optionsSearch[getValue(item)]
               )"
               no-hover
               :disabled="subItem.disabled"

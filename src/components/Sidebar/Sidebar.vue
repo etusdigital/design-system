@@ -8,7 +8,7 @@ import Item from "./Item.vue";
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
-    items: ItemType[];
+    options: ItemType[];
     parentPath?: string;
     getObject?: boolean;
   }>(),
@@ -25,8 +25,8 @@ const emit = defineEmits<{
 
 const [model] = useOptionalModel<any>(props, "modelValue", emit, "");
 const parsedItems = computed(() => [
-  props.items.filter((item) => !item.bottom),
-  props.items.filter((item) => item.bottom),
+  props.options.filter((item) => !item.bottom),
+  props.options.filter((item) => item.bottom),
 ]);
 
 const computedHeight = computed((): string => {
@@ -41,19 +41,19 @@ const computedHeight = computed((): string => {
 });
 
 onBeforeMount(() => {
-  const item = getPaths(props.items, props.parentPath).find((item) =>
+  const item = getPaths(props.options, props.parentPath).find((item) =>
     checkPath(item.path)
   );
   if (item) changeModel(item.value);
 });
 
 function getPaths(
-  items: ItemType[],
+  options: ItemType[],
   parentPath: string = ""
 ): { path: string; value: any }[] {
   const result: { path: string; value: any }[] = [];
 
-  for (const item of items) {
+  for (const item of options) {
     const currentPath = parentPath ? `${parentPath}/${item.path}` : item.path;
 
     if (item.items?.length) {
@@ -65,9 +65,9 @@ function getPaths(
   return result;
 }
 
-function changeSelected(items: ItemType[], value: string): boolean {
+function changeSelected(options: ItemType[], value: string): boolean {
   let selected = false;
-  for (const item of items) {
+  for (const item of options) {
     if (item.items && item.items.length)
       item.selected = changeSelected(item.items, value);
     else item.selected = item.value == value;
@@ -81,7 +81,7 @@ function changeModel(item: ItemType) {
   const value = props.getObject ? item : getValue(item);
   model.value = value;
 
-  changeSelected(props.items, value);
+  changeSelected(props.options, value);
   emit("update:modelValue", value);
 }
 
@@ -93,12 +93,12 @@ function getValue(item: any) {
 <template>
   <div class="sidebar">
     <div
-      class="items-container"
-      v-for="(items, index) in parsedItems"
+      class="options-container"
+      v-for="(options, index) in parsedItems"
       :key="index"
     >
       <Item
-        v-for="item in items"
+        v-for="item in options"
         v-model="model"
         v-model:selected="item.selected"
         :key="item.value"
@@ -119,7 +119,7 @@ function getValue(item: any) {
   height: v-bind(computedHeight);
 }
 
-.items-container {
+.options-container {
   @apply flex flex-col gap-sm;
 }
 </style>

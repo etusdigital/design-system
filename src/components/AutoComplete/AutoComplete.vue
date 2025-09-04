@@ -9,7 +9,7 @@ const props = withDefaults(
     modelValue?: string;
     expanded?: boolean;
     labelValue?: string;
-    items?: string[];
+    options?: string[];
     absolute?: boolean;
     disabled?: boolean;
     isError?: boolean;
@@ -44,8 +44,8 @@ const emit = defineEmits<{
 const [model] = useOptionalModel<string>(props, "modelValue", emit, '');
 const [isExpanded] = useOptionalModel<boolean>(props, "expanded", emit, false);
 const filteredItems = computed(() => {
-  if (!model.value) return props.items;
-  return props.items?.filter((item: any) =>
+  if (!model.value) return props.options;
+  return props.options?.filter((item: any) =>
     item.toLowerCase().includes(model.value.toLowerCase())
   );
 });
@@ -87,7 +87,7 @@ function selectItem(item: string) {
       />
     </template>
 
-    <template #items>
+    <template #options>
       <Option
         :aria-selected="model == item"
         v-for="(item, index) in filteredItems"

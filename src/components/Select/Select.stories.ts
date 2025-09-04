@@ -7,13 +7,13 @@ export default {
     modelValue: {
       type: { summary: "any" },
       description:
-        'Will be an item from the "items" array at the selected index.',
+        'Will be an item from the "options" array at the selected index.',
     },
     labelValue: {
       type: { summary: "text" },
       description: "Will be the select label.",
     },
-    items: {
+    options: {
       type: { summary: "array" },
       description:
         'Array of values to be used as options. Can also be an array of objects, in which case you should use the prop "labelKey" to specify which key to use as a label.',
@@ -115,7 +115,7 @@ type Story = StoryObj<typeof Select>;
 
 const defaultArgs = {
   modelValue: null,
-  items: ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+  options: ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
   icon: "",
   expanded: false,
   labelKey: "label",
@@ -139,7 +139,7 @@ const defaultHtml = `
         v-model="args.modelValue" 
         v-model:expanded="args.expanded" 
         :label-value="args.labelValue"
-        :items="args.items" 
+        :options="args.options" 
         :icon="args.icon" 
         :absolute="args.absolute" 
         :label-key="args.labelKey" 
@@ -209,7 +209,7 @@ export const Multiple: Story = {
   args: {
     ...defaultArgs,
     multiple: true,
-    items: [
+    options: [
       { label: "Option 1", value: 0 },
       { label: "Option 2", value: 1 },
       { label: "Option 3", value: 2 },

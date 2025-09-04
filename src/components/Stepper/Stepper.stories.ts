@@ -11,7 +11,7 @@ export default {
         defaultValue: { summary: undefined },
       },
     },
-    items: {
+    options: {
       type: { summary: "array" },
       description: "Array of values to be used as options.",
     },
@@ -88,7 +88,7 @@ type Story = StoryObj<typeof Stepper>;
 
 const defaultArgs = {
   modelValue: "basic-info",
-  items: [
+  options: [
     { label: "Basic Info", value: "basic-info", icon: "person" },
     { label: "Configuration", value: "configuration", icon: "settings" },
     { label: "Review", value: "review", icon: "visibility" },
@@ -108,7 +108,7 @@ const defaultArgs = {
 const defaultHtml = `
   <Stepper
     v-model="args.modelValue"
-    :items="args.items"
+    :options="args.options"
     :label-key="args.labelKey"
     :value-key="args.valueKey"
     :size="args.size"

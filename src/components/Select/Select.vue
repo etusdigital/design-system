@@ -15,7 +15,7 @@ const props = withDefaults(
   defineProps<{
     modelValue?: any;
     labelValue?: string;
-    items: any[];
+    options: any[];
     icon?: string;
     expanded?: boolean;
     valueKey?: string;
@@ -112,7 +112,7 @@ function setModel(value: any) {
 }
 
 function findSelected() {
-  const item = props.items.find((item: any) => getValue(item) === getValue(model.value));
+  const item = props.options.find((item: any) => getValue(item) === getValue(model.value));
   return getLabel(item);
 }
 
@@ -143,7 +143,7 @@ function selectItem(item: any) {
 }
 
 function setSelection(e: KeyboardEvent, index: number) {
-  setModel(getItem(props.items[index]));
+  setModel(getItem(props.options[index]));
   e.preventDefault();
 }
 
@@ -154,13 +154,13 @@ function onKeyUp(e: KeyboardEvent) {
         if (selectedIndex.value == 0) break;
         selectedIndex.value = selectedIndex.value
           ? selectedIndex.value - 1
-          : props.items.length - 1;
+          : props.options.length - 1;
       }
       break;
 
     case "ArrowDown":
       {
-        if (selectedIndex.value == props.items.length - 1) break;
+        if (selectedIndex.value == props.options.length - 1) break;
         selectedIndex.value = selectedIndex.value ? selectedIndex.value + 1 : 0;
       }
       break;
@@ -170,7 +170,7 @@ function onKeyUp(e: KeyboardEvent) {
 
     case "End":
       {
-        const index = props.items.length - 1;
+        const index = props.options.length - 1;
         setSelection(e, index);
       }
       break;
@@ -184,9 +184,9 @@ function onKeyUp(e: KeyboardEvent) {
 }
 
 function searchItem(search: string) {
-  if (!search || !props.searchable) return props.items;
+  if (!search || !props.searchable) return props.options;
 
-  return props.items.filter((item: any) => {
+  return props.options.filter((item: any) => {
     if (getLabel(item).toLowerCase().includes(search.toLowerCase()))
       return item;
   });
@@ -231,7 +231,7 @@ function clearModel() {
       :disabled="disabled"
       :icon="icon"
       :secondary="secondary"
-      :items="items"
+      :options="options"
       :searchable="searchable"
       @update:expanded="changeExpanded"
     >
@@ -265,7 +265,7 @@ function clearModel() {
         }}</span>
     </template>
 
-    <template #items>
+    <template #options>
       <Option
         v-for="(item, index) in searchItem(searchText)"
         :aria-selected="isSelected(item)"

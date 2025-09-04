@@ -7,7 +7,7 @@ export default {
     modelValue: {
       control: { type: "number" },
     },
-    items: {
+    options: {
       control: {
         type: "object",
       },
@@ -34,7 +34,7 @@ type Story = StoryObj<typeof Carousel>;
 
 const defaultArgs = {
   modelValue: 0,
-  items: [
+  options: [
     {
       url: "https://cartaofeito.com/cartao-santander-sx-p1/",
       sample: { value: "10%" },
@@ -86,7 +86,7 @@ const defaultArgs = {
 const defaultHtml = `
   <Carousel
     v-model="args.modelValue"
-    :items="args.items"
+    :options="args.options"
     :vertical="args.vertical"
     :disabled="args.disabled"
     :visible="args.visible"

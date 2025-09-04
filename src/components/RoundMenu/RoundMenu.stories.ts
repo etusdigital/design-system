@@ -4,13 +4,13 @@ import RoundMenu from "./RoundMenu.vue";
 export default {
   component: RoundMenu,
   argTypes: {
-    items: {
+    options: {
       type: { summary: "array" },
       table: {
         defaultValue: { summary: "[]" },
       },
       description:
-        "This property will be items in menu. Props(label: string, icon: string, background: string, action: ()=>{void})",
+        "This property will be options in menu. Props(label: string, icon: string, background: string, action: ()=>{void})",
     },
   },
 } satisfies Meta<typeof RoundMenu>;
@@ -25,12 +25,12 @@ export const Primary: Story = {
     },
     template: `
         <div class="px-[3em] py-[4em]">
-            <RoundMenu :items="args.items" />
+            <RoundMenu :options="args.options" />
         </div>
         `,
   }),
   args: {
-    items: [
+    options: [
       {
         icon: "email",
         label: "Send email",

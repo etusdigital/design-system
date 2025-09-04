@@ -5,7 +5,7 @@ import { isObject } from "../../utils";
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
-    items: any[];
+    options: any[];
     labelKey?: string;
     valueKey?: string;
     isIcon?: boolean;
@@ -23,7 +23,7 @@ const props = withDefaults(
 const model = ref(props.modelValue);
 
 onBeforeMount(() => {
-  if (!model.value) changeTab(props.items[0]);
+  if (!model.value) changeTab(props.options[0]);
 });
 
 watch(
@@ -55,7 +55,7 @@ function getValue(item: any): string {
   >
     <div class="flex font-bold text-sm gap-xs w-fit">
       <button
-        v-for="(item, index) in items"
+        v-for="(item, index) in options"
         :key="index"
         class="default-tab"
         :class="{ 'active-tab': getValue(model) == getValue(item) }"

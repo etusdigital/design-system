@@ -9,7 +9,7 @@ const props = withDefaults(
   defineProps<{
     modelValue?: any;
     expanded?: boolean;
-    items: Item[];
+    options: Item[];
     getObject?: boolean;
   }>(),
   {
@@ -25,8 +25,8 @@ const emit = defineEmits<{
 
 const [model] = useOptionalModel<any>(props, "modelValue", emit, "");
 const parsedItems = computed(() => [
-  props.items.filter((item) => !item.bottom),
-  props.items.filter((item) => item.bottom),
+  props.options.filter((item) => !item.bottom),
+  props.options.filter((item) => item.bottom),
 ]);
 const computedHeight = computed((): string => {
   if (
@@ -40,7 +40,7 @@ const computedHeight = computed((): string => {
 });
 
 onBeforeMount(() => {
-  const item = props.items.find((item) => checkPath(item.path || ""));
+  const item = props.options.find((item) => checkPath(item.path || ""));
   if (item) changeModel(item);
 });
 
@@ -74,13 +74,13 @@ function getLinkComponent() {
 <template>
   <div class="menu">
     <div
-      class="items-container"
-      v-for="(items, index) in parsedItems"
+      class="options-container"
+      v-for="(options, index) in parsedItems"
       :key="index"
     >
       <component
         :is="getContainer()"
-        v-for="item in items"
+        v-for="item in options"
         :key="item.value"
         :label-value="item.label"
       >
@@ -112,7 +112,7 @@ function getLinkComponent() {
   height: v-bind(computedHeight);
 }
 
-.items-container {
+.options-container {
   @apply flex flex-col gap-sm;
 }
 </style>

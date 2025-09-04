@@ -14,7 +14,7 @@ type SelectExpandedExtra = {
 const props = withDefaults(
   defineProps<{
     modelValue?: any[];
-    items?: any[];
+    options?: any[];
     labelValue?: string;
     icon?: string;
     expanded?: boolean;
@@ -29,7 +29,7 @@ const props = withDefaults(
   }>(),
   {
     modelValue: undefined,
-    items: undefined,
+    options: undefined,
     labelValue: "",
     errorMessage: "",
     expanded: false,
@@ -45,15 +45,15 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   "update:modelValue": [value: any[]];
-  "update:items": [value: any[]];
+  "update:options": [value: any[]];
   "update:expanded": [value: boolean, extra: SelectExpandedExtra];
 }>();
 
 const [model, setModel] = useOptionalModel<any>(props, "modelValue", emit, []);
 model.value = model.value || [];
-const [itemsModel, setItemsModel] = useOptionalModel<any>(
+const [optionsModel, setItemsModel] = useOptionalModel<any>(
   props,
-  "items",
+  "options",
   emit,
   []
 );
@@ -63,9 +63,9 @@ const searchText = ref("");
 
 const searchedItems = computed((): any[] => {
   if (!searchText.value) {
-    return itemsModel.value;
+    return optionsModel.value;
   }
-  return itemsModel.value.filter((item: any) => {
+  return optionsModel.value.filter((item: any) => {
     if (isObject(item)) {
       if (
         item[props.labelKey]
@@ -92,13 +92,13 @@ watch(
 function addTag(tag: string) {
   if (props.isError || !tag) return;
 
-  if (isIncluded(itemsModel.value, tag)) {
+  if (isIncluded(optionsModel.value, tag)) {
     searchText.value = "";
     return;
   }
 
-  itemsModel.value.push(tag);
-  setItemsModel(itemsModel.value, { index: itemsModel.value.length - 1 });
+  optionsModel.value.push(tag);
+  setItemsModel(optionsModel.value, { index: optionsModel.value.length - 1 });
   searchText.value = "";
 }
 
@@ -109,7 +109,7 @@ function removeTag(index: number) {
 
 function onKeyUp(e: KeyboardEvent) {
   function setSelection(index: number) {
-    setModel([...model.value, itemsModel.value[index]], { index });
+    setModel([...model.value, optionsModel.value[index]], { index });
     e.preventDefault();
   }
 
@@ -122,7 +122,7 @@ function onKeyUp(e: KeyboardEvent) {
     case "End":
     case "ArrowUp":
       {
-        const index = itemsModel.value.length - 1;
+        const index = optionsModel.value.length - 1;
         setSelection(index);
       }
       break;
@@ -136,11 +136,11 @@ function selectItem(item: any, index: number) {
   emit("update:expanded", false, { source: "value-selected" });
 }
 
-function isIncluded(items: any, item: any) {
+function isIncluded(options: any, item: any) {
   if (isObject(item)) {
-    return items.find((i: any) => i[props.labelKey] === item[props.labelKey]);
+    return options.find((i: any) => i[props.labelKey] === item[props.labelKey]);
   }
-  return items?.includes(item);
+  return options?.includes(item);
 }
 
 function handleSlotClick(e: MouseEvent) {
@@ -186,7 +186,7 @@ function checkSource(value: boolean, extra: any) {
       v-model:expanded="expandedModel"
       :disabled="disabled"
       :icon="icon"
-      :items="items"
+      :options="options"
       @click="handleSlotClick"
       @update:expanded="changeExpanded"
     >
@@ -252,7 +252,7 @@ function checkSource(value: boolean, extra: any) {
       </div>
       <div
         class="text-xs italic text-neutral-foreground-low flex justify-center"
-        v-else-if="!itemsModel.length"
+        v-else-if="!optionsModel.length"
       >
         <slot name="empty-state"> No tags created yet </slot>
       </div>

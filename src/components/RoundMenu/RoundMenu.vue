@@ -2,7 +2,7 @@
 import { ref, watch, onBeforeMount } from 'vue';
 
 const props = withDefaults(defineProps<{
-  items: any[];
+  options: any[];
 }>(), {});
 
 const isExpanded = ref(false);
@@ -13,16 +13,16 @@ onBeforeMount(() =>  {
     calculateButtonPosition();
 })
 
-watch(props.items, () => {
+watch(props.options, () => {
     calculateButtonPosition();
 });
 
 function calculateButtonPosition() {
-  for(let i = 0; i < props.items.length; i++) {
-    const angle = (i * 360) / props.items.length;
+  for(let i = 0; i < props.options.length; i++) {
+    const angle = (i * 360) / props.options.length;
     const rads = (angle * Math.PI) / 180;
 
-    const z = props.items.length < 7 ? 60 : props.items.length < 10 ? 7 * props.items.length : 6 * props.items.length;
+    const z = props.options.length < 7 ? 60 : props.options.length < 10 ? 7 * props.options.length : 6 * props.options.length;
     const x = z * Math.cos(rads);
     const y = z * Math.sin(rads);
     positions.value.push(`${x}px, ${y}px, 0`);
@@ -33,7 +33,7 @@ function calculateButtonPosition() {
 <template>
     <div class="round-menu">
       <div
-        v-for="item, index in items"
+        v-for="item, index in options"
         :key="index"
         class="item"
         :style="isExpanded ? {

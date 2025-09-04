@@ -13,10 +13,10 @@ export default {
       description:
         "Will be the title of the navbar, can be used as a slot or as prop.",
     },
-    items: {
+    options: {
       type: { summary: "array" },
       description:
-        "Array of object to be used as menu options. Props(label: string, value: string, icon: string, disabled: boolean, bottom: boolean, items: same instruction as items)",
+        "Array of object to be used as menu options. Props(label: string, value: string, icon: string, disabled: boolean, bottom: boolean, options: same instruction as options)",
     },
     profile: {
       type: { summary: "object" },
@@ -26,17 +26,17 @@ export default {
     labelKey: {
       type: { summary: "string" },
       description:
-        "Will be the key of the label of the items.",
+        "Will be the key of the label of the options.",
     },
     valueKey: {
       type: { summary: "string" },
       description:
-        "Will be the key of the value of the items.",
+        "Will be the key of the value of the options.",
     },
     getObject: {
       type: { summary: "boolean" },
       description:
-        "Will be the key of the items.",
+        "Will be the key of the options.",
     },
     logo: {
       description:
@@ -65,7 +65,7 @@ const defaultArgs = {
   profile: {
     name: "John Doe",
   },
-  items: [
+  options: [
     {
       label: "Dashboard",
       value: "dashboard",
@@ -75,7 +75,7 @@ const defaultArgs = {
       label: "Analytics",
       value: "analytics",
       icon: "analytics",
-      items: [
+      options: [
         {
           label: "Reports",
           value: "reports",
@@ -111,7 +111,7 @@ const defaultRender = (args: any) => ({
     <Navbar
       v-model="args.modelValue"
       :title="args.title"
-      :items="args.items"
+      :options="args.options"
       :profile="args.profile"
       :label-key="args.labelKey"
       :value-key="args.valueKey"

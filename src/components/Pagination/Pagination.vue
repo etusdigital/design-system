@@ -26,7 +26,7 @@ const [model, setModel] = useOptionalModel<any>(
 
 const pageLength = computed(() => props.length < 1 ? 1 : props.length);
 
-const items = computed(() => {
+const options = computed(() => {
   const result: any = [];
   if (props.length < 1) return result;
 
@@ -87,7 +87,7 @@ function changePage(page: number) {
       <Icon name="chevron_left" />
     </div>
     <div class="flex">
-      <div v-for="page in items" :key="page" class="flex gap-xs">
+      <div v-for="page in options" :key="page" class="flex gap-xs">
         <div class="dots" v-if="page == -1">...</div>
         <div
           v-else

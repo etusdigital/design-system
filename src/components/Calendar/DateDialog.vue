@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
     modelValue?: boolean;
-    items: any[];
+    options: any[];
     vertical?: boolean;
     width?: string,
     maxHeight?: string;
@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<{
                 'width': width
             }"
         >
-            <template  v-for="item in items">
+            <template  v-for="item in options">
                 <slot name="item" :item="item" />
             </template>
         </Card>

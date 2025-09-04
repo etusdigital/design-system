@@ -9,7 +9,7 @@ const props = withDefaults(
     modelValue?: any;
     vertical?: boolean;
     disabled?: boolean;
-    items: any[];
+    options: any[];
     type?: "default" | "secondary";
     labelKey?: string;
     valueKey?: string;
@@ -43,7 +43,7 @@ function setModel(value: string) {
   let valueToEmit = value;
   model.value = value;
   if (props.getObject) {
-    const object = props.items.find((item: any) => getValue(item) === value);
+    const object = props.options.find((item: any) => getValue(item) === value);
     valueToEmit = object;
   }
   emit("update:modelValue", valueToEmit);
@@ -71,7 +71,7 @@ function getDisabled(item: any): boolean {
     @update:model-value="setModel"
   >
     <Toggle
-      v-for="item in items"
+      v-for="item in options"
       :key="getValue(item)"
       :group-value="getValue(item)"
       :disabled="getDisabled(item)"

@@ -12,7 +12,7 @@ const props = withDefaults(
   defineProps<{
     modelValue?: any;
     title?: string;
-    items?: Item[];
+    options?: Item[];
     profile?: Profile;
     labelKey?: string;
     valueKey?: string;
@@ -43,9 +43,9 @@ const isDropdownOpen = ref(false);
 
 <template>
   <div class="navbar">
-    <div class="flex items-center gap-base">
+    <div class="flex options-center gap-base">
       <div
-        class="flex items-center gap-base text-lg leading-lg font-light text-primary-foreground-high"
+        class="flex options-center gap-base text-lg leading-lg font-light text-primary-foreground-high"
       >
         <slot name="logo">
           <svg
@@ -137,7 +137,7 @@ const isDropdownOpen = ref(false);
         <Dropdown
           v-model="model"
           v-model:expanded="isDropdownOpen"
-          :items="items"
+          :options="options"
           :label-key="labelKey"
           :value-key="valueKey"
           :get-object="getObject"

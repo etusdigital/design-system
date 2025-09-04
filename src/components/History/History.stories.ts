@@ -7,11 +7,11 @@ export default {
     modelValue: {
       type: { summary: "any" },
       description:
-        'Will be an item from the "items" array at the selected index.',
+        'Will be an item from the "options" array at the selected index.',
     },
-    items: {
+    options: {
       type: { summary: "array" },
-      description: "This property will be the historic items.",
+      description: "This property will be the historic options.",
     },
     position: {
       type: { summary: "text" },
@@ -50,7 +50,7 @@ type Story = StoryObj<typeof History>;
 
 const defaultArgs = {
   modelValue: null,
-  items: [
+  options: [
     { label: "Person 1", date: new Date() },
     { label: "Person 2", date: new Date() },
     { label: "Person 3", date: new Date() },
@@ -110,7 +110,7 @@ const defaultItems = [
 const defaultHtml = `
   <History
       v-model="args.modelValue"
-      :items="args.items"
+      :options="args.options"
       :position="args.position"
       :type="args.type"
       :disabled="args.disabled"
@@ -230,7 +230,7 @@ export const MultiType: Story = {
   args: {
     ...defaultArgs,
     disabled: true,
-    items: [
+    options: [
       { label: "Person 1", date: new Date(), type: "primary" },
       { label: "Person 2", date: new Date(), type: "info" },
       { label: "Person 3", date: new Date(), type: "success" },
@@ -252,7 +252,7 @@ export const Icons: Story = {
   args: {
     ...defaultArgs,
     disabled: true,
-    items: [
+    options: [
       {
         label: "Person 1",
         date: new Date(),
@@ -298,7 +298,7 @@ export const IsIconRound: Story = {
   args: {
     ...defaultArgs,
     disabled: true,
-    items: defaultItems,
+    options: defaultItems,
   },
 };
 
@@ -313,6 +313,6 @@ export const Unfilled: Story = {
   args: {
     ...defaultArgs,
     disabled: true,
-    items: defaultItems.map((item) => ({ ...item, unfilled: true })),
+    options: defaultItems.map((item) => ({ ...item, unfilled: true })),
   },
 };

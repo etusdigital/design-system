@@ -8,12 +8,12 @@ export default {
       type: { name: "array" },
       description: "This property will be the table header.",
     },
-    items: {
+    options: {
       type: { name: "array" },
       description:
-        "This property will be selected page items displayed in the table.",
+        "This property will be selected page options displayed in the table.",
     },
-    options: {
+    sortOptions: {
       type: { name: "object" },
       description: "This property will be the sort settings.",
     },
@@ -24,12 +24,12 @@ export default {
       },
       description: "This property will be the current page.",
     },
-    itemsPerPage: {
+    optionsPerPage: {
       type: { name: "number" },
       table: {
         defaultValue: 10,
       },
-      description: "This property will be the number of items in 1 page.",
+      description: "This property will be the number of options in 1 page.",
     },
     loading: {
       type: { name: "boolean" },
@@ -43,7 +43,7 @@ export default {
       table: {
         defaultValue: false,
       },
-      description: "Determine if the user can select all items.",
+      description: "Determine if the user can select all options.",
     },
     enableAggregation: {
       type: { name: "boolean" },
@@ -88,7 +88,7 @@ export default {
       table: {
         defaultValue: 0,
       },
-      description: "This property will be the total of items in general.",
+      description: "This property will be the total of options in general.",
     },
     renderPaginationInBackEnd: {
       type: { name: "boolean" },
@@ -103,23 +103,23 @@ export default {
         defaultValue: { summary: "(key, isSortDesc = false) =>{void}" },
       },
       description:
-        "This function will be the function resposible for sort items. It only will be used if renderPaginationInBackEnd = true.",
+        "This function will be the function resposible for sort options. It only will be used if renderPaginationInBackEnd = true.",
     },
     pageItems: {
       type: { summary: "function" },
       table: {
-        defaultValue: { summary: "(page, itemsPerPage) =>{void}" },
+        defaultValue: { summary: "(page, optionsPerPage) =>{void}" },
       },
       description:
-        "This function will be the function resposible for page items. It only will be used if renderPaginationInBackEnd = true.",
+        "This function will be the function resposible for page options. It only will be used if renderPaginationInBackEnd = true.",
     },
     selectAll: {
       type: { summary: "function" },
       table: {
-        defaultValue: { summary: "(page, itemsPerPage) =>{void}" },
+        defaultValue: { summary: "(page, optionsPerPage) =>{void}" },
       },
       description:
-        "This function will be called if all items called. It only will be used if enableSelection = true",
+        "This function will be called if all options called. It only will be used if enableSelection = true",
     },
     "header.value": {
       description:
@@ -142,12 +142,12 @@ export default {
         "This slot will be a child of each row. It will be sorted together with it's parent. Params: item and index.",
     },
     "empty-state": {
-      description: "This slot will appear when items is an empty array.",
+      description: "This slot will appear when options is an empty array.",
     },
     footer: {
       description: "This slot will be table footer.",
     },
-    "items-per-page": {
+    "options-per-page": {
       table: {
         defaultValue: { summary: "Items per page" },
       },
@@ -155,14 +155,14 @@ export default {
     },
     "showing-page": {
       description:
-        "This slot will be the text in the end of table footer. Params: max(number of the last of this page) and total(total items on the table).",
+        "This slot will be the text in the end of table footer. Params: max(number of the last of this page) and total(total options on the table).",
     },
   },
 } satisfies Meta<typeof Table>;
 
 type Story = StoryObj<typeof Table>;
 
-const items = [
+const options = [
   {
     name: "Joanna",
     age: 43,
@@ -686,14 +686,14 @@ const defaultArgs = {
     },
     { label: "Membership", value: "memberShip", sortable: false, width: "20%" },
   ],
-  items: items,
-  options: {
+  options: options,
+  sortOptions: {
     sortBy: "",
     sortDesc: false,
   },
   page: 1,
-  itemsPerPage: 10,
-  numberOfItems: items.length,
+  optionsPerPage: 10,
+  numberOfItems: options.length,
   renderPaginationInBackEnd: false,
   hideFooter: false,
   isHeaderFixed: false,
@@ -703,7 +703,7 @@ const defaultArgs = {
   noShadow: false,
   hasHover: false,
   sortBy: (_key: string, _isSortDesc: boolean) => {},
-  pageItems: (_page: number, _itemsPerPage: number) => {},
+  pageItems: (_page: number, _optionsPerPage: number) => {},
   selectAll: () => {},
 };
 
@@ -715,11 +715,11 @@ const defaultRender = (args: any) => ({
   template: `
     <Table
         :headers="args.headers"
-        :items="args.items"
         :options="args.options"
+        :sort-options="args.sortOptions"
         v-model:page="args.page"
-        v-model:items-per-page="args.itemsPerPage"
-        :number-of-items="args.numberOfItems"
+        v-model:options-per-page="args.optionsPerPage"
+        :number-of-options="args.numberOfItems"
         :render-pagination-in-back-end="args.renderPaginationInBackEnd"
         :hide-footer="args.hideFooter"
         :is-header-fixed="args.isHeaderFixed"
@@ -745,11 +745,11 @@ export const Primary: Story = {
     template: `
       <Table
           :headers="args.headers"
-          :items="args.items"
           :options="args.options"
+          :sort-options="args.sortOptions"
           v-model:page="args.page"
-          v-model:items-per-page="args.itemsPerPage"
-          :number-of-items="args.numberOfItems"
+          v-model:options-per-page="args.optionsPerPage"
+          :number-of-options="args.numberOfItems"
           :render-pagination-in-back-end="args.renderPaginationInBackEnd"
           :hide-footer="args.hideFooter"
           :is-header-fixed="args.isHeaderFixed"
@@ -759,7 +759,7 @@ export const Primary: Story = {
           :no-shadow="args.noShadow"
           :has-hover="args.hasHover"
           @sort-by="args.sortBy"
-          @page-items="args.pageItems"
+          @page-options="args.pageItems"
           @select-all="args.selectAll"
       >
           <template v-slot:select="{ item }" v-if="args.enableSelection">
@@ -828,7 +828,7 @@ export const Primary: Story = {
               </div>
           </template>
 
-          <template #items-per-page>
+          <template #options-per-page>
               Items per page
           </template>
 
@@ -869,7 +869,7 @@ export const Selection: Story = {
     template: `
       <Table 
         :headers="args.headers"
-        :items="args.items"
+        :options="args.options"
         :enable-selection="args.enableSelection"
       >
           <template #select="{ item }">
@@ -899,12 +899,12 @@ export const Aggregation: Story = {
     template: `
       <Table 
           :headers="args.headers"
-          :items="args.items"
+          :options="args.options"
           :enable-aggregation="args.enableAggregation"
       >
           <template #aggregation="{ item }">
               <td>
-                <div class="flex items-center justify-center p-xxs rounded-full cursor-pointer hover:bg-neutral-surface-highlight">
+                <div class="flex options-center justify-center p-xxs rounded-full cursor-pointer hover:bg-neutral-surface-highlight">
                   <b-icon
                     name="arrow_drop_down"
                     class="transition-transform"
@@ -943,7 +943,7 @@ export const IsHeaderFixed: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
-    itemsPerPage: 100,
+    optionsPerPage: 100,
     isHeaderFixed: true,
   },
 };
@@ -981,10 +981,10 @@ export const EmptyState: Story = {
     template: `
       <Table 
         :headers="args.headers"
-        :items="args.items"
+        :options="args.options"
       >
           <template #empty-state>
-              <div class="flex items-center justify-center p-xxs rounded-full text-xl">
+              <div class="flex options-center justify-center p-xxs rounded-full text-xl">
                   <Icon name="sentiment_dissatisfied" size="1em" />
               </div>
           </template>
@@ -993,7 +993,7 @@ export const EmptyState: Story = {
   }),
   args: {
     ...defaultArgs,
-    items: [],
+    options: [],
   },
 };
 
@@ -1006,7 +1006,7 @@ export const Footer: Story = {
     template: `
       <Table 
         :headers="args.headers"
-        :items="args.items"
+        :options="args.options"
       >
           <template v-for="header in args.headers" v-slot:[header.value]="{ item, index }">
             <td>{{ item[header.value] }}</td>
@@ -1020,7 +1020,7 @@ export const Footer: Story = {
   }),
   args: {
     ...defaultArgs,
-    items: [],
+    options: [],
   },
 };
 
@@ -1033,13 +1033,13 @@ export const ItemsPerPage: Story = {
     template: `
       <Table 
         :headers="args.headers"
-        :items="args.items"
+        :options="args.options"
       >
           <template v-for="header in args.headers" v-slot:[header.value]="{ item, index }">
             <td>{{ item[header.value] }}</td>
           </template>
 
-          <template #items-per-page>
+          <template #options-per-page>
             Slot: Items per page
           </template>
       </Table>
@@ -1047,7 +1047,7 @@ export const ItemsPerPage: Story = {
   }),
   args: {
     ...defaultArgs,
-    items: [],
+    options: [],
   },
 };
 
@@ -1060,7 +1060,7 @@ export const ShowingPage: Story = {
     template: `
       <Table 
         :headers="args.headers"
-        :items="args.items"
+        :options="args.options"
       >
           <template v-for="header in args.headers" v-slot:[header.value]="{ item, index }">
             <td>{{ item[header.value] }}</td>
@@ -1074,6 +1074,6 @@ export const ShowingPage: Story = {
   }),
   args: {
     ...defaultArgs,
-    items: [],
+    options: [],
   },
 };

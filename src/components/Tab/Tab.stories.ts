@@ -11,7 +11,7 @@ export default {
         defaultValue: { summary: undefined },
       },
     },
-    items: {
+    options: {
       type: { summary: "array" },
       description: "Array of values to be used as options.",
     },
@@ -38,7 +38,7 @@ export default {
     },
     notCard: {
       type: { summary: "boolean" },
-      description: "No card will wrapper the items.",
+      description: "No card will wrapper the options.",
       table: {
         defaultValue: false,
       },
@@ -50,7 +50,7 @@ type Story = StoryObj<typeof Tab>;
 
 const defaultArgs = {
   modelValue: undefined,
-  items: ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+  options: ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
   labelKey: 'label',
   valueKey: 'value',
   isIcon: false,
@@ -66,7 +66,7 @@ const defaultRender = (args: any) => ({
     <Tab
         class="w-fit"
         v-model="args.modelValue" 
-        :items="args.items"
+        :options="args.options"
         :label-key="args.labelKey"
         :value-key="args.valueKey"
         :is-icon="args.isIcon"
@@ -85,7 +85,7 @@ export const Icons: Story = {
   args: {
     ...defaultArgs,
     isIcon: true,
-    items: ["laptop", "smartphone"],
+    options: ["laptop", "smartphone"],
   },
 };
 
@@ -93,7 +93,7 @@ export const ObjectArray: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
-    items: [
+    options: [
       {
         label: "Laptop",
         value: "laptop",

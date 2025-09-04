@@ -8,14 +8,14 @@ export default {
       type: { summary: "any" },
       description: "Will name of the selected item.",
     },
-    items: {
+    options: {
       type: { summary: "array" },
       description:
-        "Array of object to be used as menu options. Props(label: string, value: string, icon: string, path: string, disabled: boolean, bottom: boolean, items: Item[])",
+        "Array of object to be used as menu options. Props(label: string, value: string, icon: string, path: string, disabled: boolean, bottom: boolean, options: Item[])",
     },
     parentPath: {
       type: { summary: "string" },
-      description: "Path of the parent all items.",
+      description: "Path of the parent all options.",
     },
     getObject: {
       type: { summary: "boolean" },
@@ -34,7 +34,7 @@ const defaultArgs = {
   modelValue: "dashboard",
   getObject: false,
   parentPath: "",
-  items: [
+  options: [
     
     {
       label: "Dashboard",
@@ -47,7 +47,7 @@ const defaultArgs = {
       value: "projects",
       path: "/projects",
       icon: "folder",
-      items: [
+      options: [
         {
           label: "All Projects",
           value: "all-projects",
@@ -98,7 +98,7 @@ export const Primary: Story = {
     <div class="h-screen">
       <Sidebar
         v-model="args.modelValue"
-        :items="args.items"
+        :options="args.options"
         :parent-path="args.parentPath"
         :get-object="args.getObject"
       />

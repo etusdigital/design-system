@@ -16,10 +16,10 @@ export default {
       type: { summary: "text" },
       description: "Will be the select label.",
     },
-    items: {
+    options: {
       type: { summary: "array" },
       description:
-        "Array of object to be used as menu options. Props(label: string, value: string, icon: string, disabled: boolean, bottom: boolean, items: same instruction as items)",
+        "Array of object to be used as menu options. Props(label: string, value: string, icon: string, disabled: boolean, bottom: boolean, options: same instruction as options)",
     },
     disabled: {
       type: { summary: "boolean" },
@@ -67,7 +67,7 @@ type Story = StoryObj<typeof Dropdown>;
 const defaultArgs = {
   modelValue: undefined,
   expanded: false,
-  items: [
+  options: [
     {
       label: "Home",
       value: "home",
@@ -77,7 +77,7 @@ const defaultArgs = {
       label: "Publisher",
       value: "publisher",
       icon: "supervisor_account",
-      items: [
+      options: [
         {
           label: "Group Account",
           value: "group-account",
@@ -124,7 +124,7 @@ const defaultRender = (args: any) => ({
         v-model="args.modelValue"
         v-model:expanded="args.expanded"
         :label-value="args.labelValue"
-        :items="args.items"
+        :options="args.options"
         :absolute="args.absolute" 
         :required="args.required" 
         :disabled="args.disabled"
@@ -201,7 +201,7 @@ export const Default: Story = {
     <Dropdown
       v-model="args.modelValue"
       v-model:expanded="args.expanded"
-      :items="args.items"
+      :options="args.options"
       :absolute="args.absolute"
     >
       <Button @click="args.expanded = !args.expanded">Custom Trigger</Button>

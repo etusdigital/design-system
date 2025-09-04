@@ -8,7 +8,7 @@ export default {
       type: { summary: "any" },
       description: "This property will be the selected item.",
     },
-    items: {
+    options: {
       type: { summary: "array" },
       description: "This property will be the number of pages.",
     },
@@ -41,7 +41,7 @@ type Story = StoryObj<typeof Breadcrumb>;
 
 const defaultArgs = {
   modelValue: "Home",
-  items: ["Home", "Dashboard", "Profile", "Settings"],
+  options: ["Home", "Dashboard", "Profile", "Settings"],
   labelKey: "label",
   valueKey: "value",
   getObject: false,
@@ -54,7 +54,7 @@ const defaultRender = (args: any) => ({
   template: `
     <Breadcrumb 
       v-model="args.modelValue"
-      :items="args.items"
+      :options="args.options"
       :label-key="args.labelKey"
       :value-key="args.valueKey"
       :get-object="args.getObject"

@@ -16,7 +16,7 @@ export default {
       type: { summary: "text" },
       description: "Will be the select label.",
     },
-    items: {
+    options: {
       type: { summary: "array" },
       description:
         'Array of values to be used as options.',
@@ -70,7 +70,7 @@ type Story = StoryObj<typeof AutoComplete>;
 const defaultArgs = {
   modelValue: undefined,
   expanded: false,
-  items: ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+  options: ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
   labelValue: "label",
   placeholder: "Placeholder",
   disabled: false,
@@ -91,7 +91,7 @@ const defaultRender = (args: any) => ({
       v-model:expanded="args.expanded"
       :label-value="args.labelValue"
       :placeholder="args.placeholder"
-      :items="args.items"
+      :options="args.options"
       :absolute="args.absolute" 
       :required="args.required" 
       :disabled="args.disabled"
@@ -158,7 +158,7 @@ export const CustomItem: Story = {
       v-model:expanded="args.expanded"
       :label-value="args.labelValue"
       :placeholder="args.placeholder"
-      :items="args.items"
+      :options="args.options"
       :absolute="args.absolute" 
       :required="args.required" 
       :disabled="args.disabled"

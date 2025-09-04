@@ -7,7 +7,7 @@ const props = withDefaults(
     modelValue?: any;
     labelKey?: string;
     valueKey?: string;
-    items: any[];
+    options: any[];
     size?: "medium" | "large";
     disabled?: boolean;
     allowedSkip?: boolean;
@@ -35,7 +35,7 @@ const passedIn = ref(new Set<number>());
 passedIn.value.add(0);
 
 onBeforeMount(() => {
-  if (!model.value) changeActiveStep(props.items[0], 0);
+  if (!model.value) changeActiveStep(props.options[0], 0);
 });
 
 watch(
@@ -95,13 +95,13 @@ function getValue(item: any) {
 }
 
 function findIndex(item: any) {
-  return props.items.findIndex((i) => getValue(i) == getValue(item));
+  return props.options.findIndex((i) => getValue(i) == getValue(item));
 }
 </script>
 <template>
   <div class="stepper flex w-full" v-if="version == 1">
     <button
-      v-for="(item, index) in items"
+      v-for="(item, index) in options"
       :key="`step-button-${index}`"
       class="step-button"
       :class="[
@@ -109,8 +109,8 @@ function findIndex(item: any) {
         {
           'active-button': index === step,
           'fisrt-button': index === 0,
-          'last-button': !items[index + 1],
-          'middle-button': index !== 0 && items[index + 1],
+          'last-button': !options[index + 1],
+          'middle-button': index !== 0 && options[index + 1],
           'even-button': index % 2 == 0,
           'past-button': index <= biggerStepSelected,
         },
@@ -121,15 +121,15 @@ function findIndex(item: any) {
         getLabel(item)
       }}</span>
       <span class="before-triangle-cover" v-if="index !== 0"></span>
-      <span class="after-triangle-cover" v-if="items[index + 1]"></span>
+      <span class="after-triangle-cover" v-if="options[index + 1]"></span>
     </button>
   </div>
   <div class="stepper flex justify-end" v-if="version == 2">
     <div
-      v-for="(item, index) in items"
+      v-for="(item, index) in options"
       :key="`step-button-${index}`"
       class="flex items-center"
-      :class="[size, items[index + 1] ? 'w-full' : 'w-fit']"
+      :class="[size, options[index + 1] ? 'w-full' : 'w-fit']"
     >
       <div class="button-container" :class="{ 'scale-[1.2]': index === step }">
         <div class="background" v-if="index === step">
@@ -165,7 +165,7 @@ function findIndex(item: any) {
             ? 'bg-primary-interaction-default'
             : 'netrual-border-color',
         ]"
-        v-if="items[index + 1]"
+        v-if="options[index + 1]"
       />
     </div>
   </div>
