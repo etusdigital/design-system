@@ -11,7 +11,7 @@
 <template>
     <History 
         v-model="selectedItem"
-        :items="historyItems"
+        :options="historyItems"
     >
         <template #item="{ item, index, active }">
             <div class="p-base">
@@ -46,10 +46,10 @@ const formatDate = (date: Date) => {
 ### Props API
 
 #### v-model
-Controls the selected history item from the items array. Type: `any` (default: `null`)
+Controls the selected history item from the options array. Type: `any` (default: `null`)
 
-#### items
-Array of history items to display in the timeline. Type: `any[]` (required)
+#### options
+Array of history options to display in the timeline. Type: `any[]` (required)
 
 ```typescript
 type HistoryItem = {
@@ -67,7 +67,7 @@ type HistoryItem = {
 Position of the history timeline relative to content. Type: `"top" | "bottom" | "left" | "right"` (default: `"right"`)
 
 #### type
-Default color theme for history items (overridden by item.type). Type: `"primary" | "info" | "success" | "warning" | "danger" | "neutral"` (default: `"primary"`)
+Default color theme for history options (overridden by item.type). Type: `"primary" | "info" | "success" | "warning" | "danger" | "neutral"` (default: `"primary"`)
 
 #### disabled
 Disables item selection interaction. Type: `boolean` (default: `false`)
@@ -86,12 +86,12 @@ Custom rendering for each history item in the timeline.
 
 **Slot Props:**
 - `item`: The history item object
-- `index`: Position in the items array
+- `index`: Position in the options array
 - `active`: Whether this item is currently selected
 
 ```vue
 <template>
-    <History v-model="selected" :items="items">
+    <History v-model="selected" :options="options">
         <template #item="{ item, index, active }">
             <div class="p-base border rounded" :class="{ 'border-primary-default': active }">
                 <h4 class="font-semibold">{{ item.title }}</h4>
@@ -107,7 +107,7 @@ Custom rendering for each history item in the timeline.
 ```
 
 **Important Notes:**
-- Automatic timeline connector lines between items for visual continuity
+- Automatic timeline connector lines between options for visual continuity
 - Support for both regular and round icon variants with customizable styling
 - Flexible positioning system (top, bottom, left, right) for different layout needs
 - Individual item type override allows mixed color themes within a single timeline

@@ -11,7 +11,7 @@
 <template>
     <Breadcrumb 
         v-model="currentPage"
-        :items="navigationPath"
+        :options="navigationPath"
     />
 </template>
 
@@ -29,8 +29,8 @@ const navigationPath = ["Home", "Dashboard", "Profile", "Settings"]
 #### v-model
 Controls the currently selected breadcrumb item. Type: `any` (default: `undefined`)
 
-#### items
-Array of breadcrumb navigation items. Can be strings or objects. Type: `any[]` (default: `undefined`)
+#### options
+Array of breadcrumb navigation options. Can be strings or objects. Type: `any[]` (default: `undefined`)
 
 #### label-key
 Property name used for displaying item labels when using object arrays. Type: `string` (default: `"label"`)
@@ -48,10 +48,10 @@ Triggered when a breadcrumb item is clicked. Receives the selected value based o
 
 ### Slots API
 
-This component uses internal rendering for breadcrumb items and doesn't expose custom slots.
+This component uses internal rendering for breadcrumb options and doesn't expose custom slots.
 
 **Important Notes:**
-- Intelligent truncation algorithm shows first, last, and items around current selection
+- Intelligent truncation algorithm shows first, last, and options around current selection
 - Expandable "more" menus with smart viewport positioning to prevent overflow
 - Automatic scroll detection and menu dismissal for better user experience
 - Portal rendering for overflow menus prevents z-index conflicts and ensures proper layering

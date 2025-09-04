@@ -15,7 +15,7 @@
                 <Input label-value="label" placeholder="Type here" />
                 <Select
                     label-value="label"
-                    :items="[
+                    :options="[
                         { label: 'Option 1', something: 0, selected: false },
                         { label: 'Option 2', something: 1, selected: true },
                         { label: 'Option 3', something: 2, selected: false },

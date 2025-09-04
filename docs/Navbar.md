@@ -12,7 +12,7 @@
     <Navbar
         v-model="selectedItem"
         title="My Application"
-        :items="navigationItems"
+        :options="navigationItems"
         :profile="userProfile"
     >
         <template #notifications>
@@ -47,7 +47,7 @@ const navigationItems = ref([
         label: "Analytics",
         value: "analytics", 
         icon: "analytics",
-        items: [
+        options: [
             { label: "Reports", value: "reports", icon: "assessment" },
             { label: "Metrics", value: "metrics", icon: "bar_chart" }
         ]
@@ -76,15 +76,15 @@ type Item = {
   icon?: string;        // Optional icon name
   disabled?: boolean;   // Whether the item is disabled
   bottom?: boolean;     // Whether to display at bottom of menu
-  items?: Item[];       // Nested suitems
+  options?: Item[];       // Nested suoptions
 }
 ```
 
 #### title
 Title text displayed in the navbar brand area. Type: `string` (default: `""`)
 
-#### items
-Array of navigation menu items with nested support. Type: `Item[]` (default: `undefined`)
+#### options
+Array of navigation menu options with nested support. Type: `Item[]` (default: `undefined`)
 
 #### profile
 User profile information for avatar display. Type: `Profile` (default: `undefined`)
@@ -139,5 +139,5 @@ Content displayed in the notifications dropdown panel.
 - Smooth transitions and animations for enhanced user experience
 - Keyboard navigation support for accessibility compliance
 - Z-index management ensures proper layering over page content
-- Support for nested navigation items with unlimited depth
-- Bottom-aligned menu items for logout/settings functionality
+- Support for nested navigation options with unlimited depth
+- Bottom-aligned menu options for logout/settings functionality

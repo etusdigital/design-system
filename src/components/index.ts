@@ -54,3 +54,4 @@ export { default as Toast } from './Toast';
 export { default as Toggle } from './Toggle';
 export { default as ToggleGroup } from './ToggleGroup';
 export { default as Tooltip } from './Tooltip';
+export { default as Tree } from './Tree';

@@ -9,13 +9,13 @@
 
 ```vue
 <template>
-    <RadioGroup v-model="selectedValue" :items="items" />
+    <RadioGroup v-model="selectedValue" :options="options" />
 </template>
 
 <script setup lang="ts">
 
 const selectedValue = ref('option1')
-const items = ref([...])
+const options = ref([...])
 </script>
 ```
 
@@ -32,14 +32,14 @@ Arranges grouped components vertically instead of horizontally. Type: `boolean` 
 #### disabled
 Disables all grouped components. Type: `boolean` (default: `false`)
 
-#### items
+#### options
 Array of objects or primitive values to render as radio options. Type: `any[]` (required)
 
 #### label-key
-Property name to use as display label when items are objects. Type: `string` (default: `"label"`)
+Property name to use as display label when options are objects. Type: `string` (default: `"label"`)
 
 #### value-key
-Property name to use as option value when items are objects. Type: `string` (default: `"value"`)
+Property name to use as option value when options are objects. Type: `string` (default: `"value"`)
 
 #### get-object
 Whether to emit the full object instead of just the value when selection changes. Type: `boolean` (default: `false`)

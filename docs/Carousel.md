@@ -1,7 +1,7 @@
 # Name: Carousel
 ## Component Overview
 
-**Purpose**: A carousel component that displays a collection of items with navigation controls and pagination indicators.
+**Purpose**: A carousel component that displays a collection of options with navigation controls and pagination indicators.
 
 **Import**: Automatic - no need to import any DS components
 
@@ -11,7 +11,7 @@
 <template>
     <Carousel 
         v-model="currentIndex"
-        :items="items"
+        :options="options"
         :visible="3"
         :vertical="false"
         :disabled="false"
@@ -33,11 +33,11 @@
 #### modelValue
 Current active index of the carousel. Type: `number` (default: `0`)
 
-#### items
-Array of items to display in the carousel. Type: `any[]` (required)
+#### options
+Array of options to display in the carousel. Type: `any[]` (required)
 
 #### visible
-Number of items visible at once. Type: `number` (default: `1`)
+Number of options visible at once. Type: `number` (default: `1`)
 
 #### interval
 Auto-play interval in milliseconds. Type: `number` (default: `3000`)
@@ -63,11 +63,11 @@ Emitted when the active index changes. Payload: `number`
 ### Slots API
 
 #### #item
-Slot for rendering individual carousel items.
+Slot for rendering individual carousel options.
 
 ```vue
 <template>
-    <Carousel :items="items">
+    <Carousel :options="options">
         <template #item="{ item, index }">
             <div>{{ item.label }}</div>
         </template>

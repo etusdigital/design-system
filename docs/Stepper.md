@@ -11,7 +11,7 @@
 <template>
     <Stepper 
         v-model="currentStep"
-        :items="steps"
+        :options="steps"
     />
 </template>
 
@@ -29,8 +29,8 @@ const steps = ref([...])
 #### v-model
 Controls the currently active step. Type: `any` (default: `undefined`)
 
-#### items
-Array of step items that can be strings or objects. Type: `any[]` (required)
+#### options
+Array of step options that can be strings or objects. Type: `any[]` (required)
 
 #### label-key
 Property name used for displaying item labels when using object arrays. Type: `string` (default: `"label"`)
@@ -74,7 +74,7 @@ Triggered when any step interaction occurs. Receives the step item and index.
 <template>
     <Stepper 
         v-model="currentStep"
-        :items="steps"
+        :options="steps"
         disabled
         @change-step="handleStepChange"
     />
@@ -107,7 +107,7 @@ const save = () => {}
 
 ### Slots API
 
-This component doesn't expose custom slots. Content is controlled through the `items` prop.
+This component doesn't expose custom slots. Content is controlled through the `options` prop.
 
 **Important Notes:**
 - Automatically tracks step progression and prevents skipping unless `allowed-skip` is enabled

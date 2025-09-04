@@ -11,7 +11,7 @@
 <template>
     <Filter 
         v-model="selectedFilters"
-        :items="filterItems"
+        :options="filterItems"
         label-value="label"
     />
 </template>
@@ -39,14 +39,14 @@ type SelectedFilters = {
 #### v-model:expanded
 Controls the filter dropdown expanded state. Type: `boolean` (default: `false`)
 
-#### items
+#### options
 Array of filter categories with their available options. Type: `FilterItem[]` (required)
 
 ```typescript
 type FilterItem = {
   [labelKey]: string | number;        // Display text for filter option
   [valueKey]: any;        // Unique value for the option
-  items: any[];   // Additional custom properties
+  options: any[];   // Additional custom properties
 }
 ```
 
@@ -93,7 +93,7 @@ Triggered when the Apply button is clicked to confirm filter selections.
 ### Slots API
 
 #### #status
-Custom content for displaying filter status when items are selected.
+Custom content for displaying filter status when options are selected.
 
 #### #status-label
 Custom text for the filter status display.
@@ -112,7 +112,7 @@ Custom action buttons to replace the default Clear/Apply buttons.
 - Built-in search functionality for finding specific filter options quickly
 - Automatic selection counting and status display
 - Expandable categories with smooth animations and visual feedback
-- Flexible data structure allows custom properties on filter items
+- Flexible data structure allows custom properties on filter options
 - Clear and Apply actions for batch filter management
 - Disabled state preserves selections while preventing modifications
 - Absolute positioning option prevents layout shifts when dropdown opens

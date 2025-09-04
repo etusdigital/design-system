@@ -9,7 +9,7 @@
 
 ```vue
 <template>
-    <Table :headers="headers" :items="items">
+    <Table :headers="headers" :options="options">
         <template v-for="header in headers" v-slot:[header.value]="{ item, index }">
             <td>{{ item[header.value] }}</td>
         </template>
@@ -29,7 +29,7 @@ const headers = [
     { label: "Membership", value: "membership" }
 ]
 
-const items = [
+const options = [
     { name: "Joanna", age: 43, memberShip: "Platinum" },
     { name: "Jhonny", age: 23, memberShip: "Gold" },
     ...
@@ -47,17 +47,17 @@ Array of column headers defining table structure. Type: `Header[]` (required)
 ```typescript
 type Header = {
   label?: string;     // Display text for column
-  value: string;      // Property key from items
+  value: string;      // Property key from options
   sortable?: boolean; // Enable sorting for this column
   width?: string;     // CSS width value
   align?: string;     // Text alignment: 'left', 'center', 'right'
 }
 ```
 
-#### items
+#### options
 Array of data objects to display in table rows. Type: `any[]` (required)
 
-#### options
+#### sortOptions
 Configuration object for sorting settings. Type: `Options` (optional)
 
 ```typescript
@@ -72,7 +72,7 @@ Current active page number. Type: `number` (default: `1`)
 
 ```vue
 <template>
-    <Table :headers="headers" :items="items" v-model:page="currentPage" @update:page="handlePageChange">
+    <Table :headers="headers" :options="options" v-model:page="currentPage" @update:page="handlePageChange">
         ...
     </Table>
 </template>
@@ -85,16 +85,16 @@ const handlePageChange = (newPage: number) => {}
 </script>
 ```
 
-#### items-per-page
-Number of items to display per page. Type: `number` (default: `10`)
+#### options-per-page
+Number of options to display per page. Type: `number` (default: `10`)
 
 ```vue
 <template>
     <Table 
         :headers="headers" 
-        :items="items"
-        v-model:items-per-page="itemsPerPage"
-        @update:items-per-page="handleItemsPerPageChange"
+        :options="options"
+        v-model:options-per-page="optionsPerPage"
+        @update:options-per-page="handleItemsPerPageChange"
     >
         ...
     </Table>
@@ -102,7 +102,7 @@ Number of items to display per page. Type: `number` (default: `10`)
 
 <script setup lang="ts">
 
-const itemsPerPage = ref(20)
+const optionsPerPage = ref(20)
 
 const handleItemsPerPageChange = (newItemsPerPage: number) => {}
 </script>
@@ -116,7 +116,7 @@ Enables row selection with checkboxes. Type: `boolean` (default: `false`)
 
 ```vue
 <template>
-    <Table :headers="headers" :items="items" enable-selection @select-all="handleSelectAll">
+    <Table :headers="headers" :options="options" enable-selection @select-all="handleSelectAll">
         <template #select="{ item }">
             <td>
                 <Checkbox v-model="item.selected" />
@@ -136,7 +136,7 @@ Enables expandable rows for nested data. Type: `boolean` (default: `false`)
 
 ```vue
 <template>
-    <Table :headers="headers" :items="items" enable-aggregation>
+    <Table :headers="headers" :options="options" enable-aggregation>
         <template #aggregation="{ item }">
             <div class="flex items-center justify-center p-xxs rounded-full cursor-pointer hover:bg-neutral-surface-highlight">
                 <icon
@@ -171,17 +171,17 @@ Hides pagination footer. Type: `boolean` (default: `false`)
 #### no-shadow
 Removes the default shadow from the table card container. Type: `boolean` (default: `false`)
 
-#### number-of-items
-Total number of items across all pages (used for backend pagination). Type: `number` (default: `0`)
+#### number-of-options
+Total number of options across all pages (used for backend pagination). Type: `number` (default: `0`)
 
 ```vue
 <template>
     <Table 
         :headers="headers" 
-        :items="currentPageItems"
+        :options="currentPageItems"
         :render-pagination-in-back-end="true"
-        :number-of-items="totalItems"
-        @page-items="handlePageChange"
+        :number-of-options="totalItems"
+        @page-options="handlePageChange"
         @sort-by="handleSort"
       >
         ...
@@ -189,7 +189,7 @@ Total number of items across all pages (used for backend pagination). Type: `num
 </template>
 
 <script setup lang="ts">
-const handlePageChange = (page: number, itemsPerPage: number) => {}
+const handlePageChange = (page: number, optionsPerPage: number) => {}
 
 const handleSort = (key: string, isDesc: boolean) => {}
 </script>
@@ -205,14 +205,14 @@ Enables backend pagination mode. Type: `boolean` (default: `false`)
 #### update:page
 Emitted when the current page changes (v-model:page). Receives the new page number.
 
-#### update:items-per-page
-Emitted when the items per page selection changes (v-model:items-per-page). Receives the new items per page count.
+#### update:options-per-page
+Emitted when the options per page selection changes (v-model:options-per-page). Receives the new options per page count.
 
 #### @sort-by
 Triggered when a column header is clicked for sorting.
 
-#### @page-items
-Triggered when pagination changes (page or items per page).
+#### @page-options
+Triggered when pagination changes (page or options per page).
 
 #### @select-all
 Triggered when the "select all" checkbox is toggled.
@@ -226,7 +226,7 @@ For each header, a slot is created with the header's `value` as the slot name.
 
 ```vue
 <template>
-    <Table :headers="headers" :items="items">
+    <Table :headers="headers" :options="options">
         <template v-for="header in headers" v-slot:[header.value]="{ item, index }">
             <td>{{ item[header.value] }}</td>
         </template>
@@ -239,7 +239,7 @@ Displays action buttons or controls for each row.
 
 ```vue
 <template>
-    <Table :headers="headers" :items="items">
+    <Table :headers="headers" :options="options">
         ...
         <template #actions="{ item }">
             <td class="flex items-center justify-end">
@@ -270,11 +270,11 @@ Expand/collapse controls when `enableAggregation` is true.
 Renders nested/child rows when parent row is expanded.
 
 #### #empty-state
-Displayed when no items are available.
+Displayed when no options are available.
 
 ```vue
 <template>
-    <Table :headers="headers" :items="items">
+    <Table :headers="headers" :options="options">
           <template #empty-state>
               <div class="flex items-center justify-center p-xxs rounded-full text-xl">
                   <Icon name="sentiment_dissatisfied" size="1em" />
@@ -287,7 +287,7 @@ Displayed when no items are available.
 #### #footer
 Custom table footer content.
 
-#### #items-per-page
+#### #options-per-page
 Custom text for pagination controls.
 
 #### #showing-page

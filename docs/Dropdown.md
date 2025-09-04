@@ -12,7 +12,7 @@
     <Dropdown 
         v-model="selectedValue"
         label-value="label"
-        :items="menuItems"
+        :options="menuItems"
     />
 </template>
 
@@ -37,8 +37,8 @@ Controls the dropdown expanded state. Type: `boolean` (default: `false`)
 #### label-value
 The label displayed for the dropdown. Type: `string` (default: `""`)
 
-#### items
-Array of menu items with hierarchical support. Type: `Item[]` (required)
+#### options
+Array of menu options with hierarchical support. Type: `Item[]` (required)
 
 ```typescript
 type Item = {
@@ -46,8 +46,8 @@ type Item = {
   value: string;        // Unique identifier/value for selection
   icon?: string;        // Material icon name for the item
   disabled?: boolean;   // Disable interaction for this item
-  bottom?: boolean;     // Position item at bottom of menu (for special items)
-  items?: Item[];       // Nested sub-menu items for hierarchical structure
+  bottom?: boolean;     // Position item at bottom of menu (for special options)
+  options?: Item[];       // Nested sub-menu options for hierarchical structure
 }
 ```
 
@@ -100,7 +100,7 @@ Custom trigger element to replace the default dropdown button.
 <template>
     <Dropdown 
         v-model="selectedValue"
-        :items="menuItems"
+        :options="menuItems"
         v-model:expanded="isExpanded"
     >
         <button @click="isExpanded = !isExpanded">
@@ -122,6 +122,6 @@ const menuItems = [...]
 - Searchable mode transforms the component into a filterable select
 - Custom trigger slot allows complete control over the dropdown appearance
 - Automatic item selection state management for nested structures
-- Bottom positioning option for special menu items (like logout/settings)
+- Bottom positioning option for special menu options (like logout/settings)
 - Keyboard navigation support for accessibility
 - Absolute positioning ensures dropdown menu doesn't affect layout

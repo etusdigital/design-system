@@ -12,7 +12,7 @@
     <Select 
         v-model="selectedItem"
         label-value="label"
-        :items="options"
+        :options="options"
     >
         Placeholder
     </Select>
@@ -38,7 +38,7 @@ Controls the dropdown expanded state. Type: `boolean` (default: `false`)
 #### label-value
 The label displayed for the select button. Type: `string` (default: `""`)
 
-#### items
+#### options
 Array of options to select from. Can be strings or objects. Type: `any[]` (required)
 
 #### icon
@@ -100,7 +100,7 @@ Content displayed in the collapsed state of the select.
 
 ```vue
 <template>
-    <Select v-model="selected" :items="items">
+    <Select v-model="selected" :options="options">
         Slot: default
     </Select>
 </template>
@@ -108,7 +108,7 @@ Content displayed in the collapsed state of the select.
 <script setup lang="ts">
 
 const selected = ref(null)
-const items = ref([...])
+const options = ref([...])
 </script>
 ```
 
@@ -125,11 +125,11 @@ Custom text for the status display (multi-selection mode only).
 Custom text for the clear button when clearable is enabled.
 
 #### #item
-Custom rendering for individual items in the dropdown.
+Custom rendering for individual options in the dropdown.
 
 ```vue
 <template>
-    <Select v-model="selected" :items="items">
+    <Select v-model="selected" :options="options">
         Placeholder
         <template #item="{ item }">
             <div class="flex items-center gap-xs">
@@ -143,7 +143,7 @@ Custom rendering for individual items in the dropdown.
 <script setup lang="ts">
 
 const selected = ref(null)
-const items = ref([...])
+const options = ref([...])
 </script>
 ```
 

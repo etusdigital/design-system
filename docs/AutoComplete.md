@@ -14,7 +14,7 @@
         v-model:expanded="isExpanded"
         label-value="label"
         placeholder="Placeholder"
-        :items="options"
+        :options="options"
     />
 </template>
 
@@ -39,7 +39,7 @@ Controls whether the dropdown is open. Type: `boolean` (default: `false`)
 #### label-value
 Label displayed above the input. Type: `string` (default: `""`)
 
-#### items
+#### options
 Array of string options to filter and display. Type: `string[]` (required)
 
 #### placeholder
@@ -91,7 +91,7 @@ Customizes the rendering of each dropdown option. Provides `item` and `index` as
         v-model:expanded="isExpanded"
         label-value="label"
         placeholder="Placeholder"
-        :items="options"
+        :options="options"
     >
         <template #item="{ item, index }">
             <Icon name="account_circle" /> {{ item }}

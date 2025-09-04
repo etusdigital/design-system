@@ -9,7 +9,7 @@
 
 ```vue
 <template>
-    <ToggleGroup v-model="selectedValue" :items="items" />
+    <ToggleGroup v-model="selectedValue" :options="options" />
     
     <p>Selected: {{ selectedValue }}</p>
 </template>
@@ -17,7 +17,7 @@
 <script setup lang="ts">
 
 const selectedValue = ref('option1')
-const items = [...]
+const options = [...]
 </script>
 ```
 

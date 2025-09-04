@@ -12,12 +12,12 @@
     <TagSelect 
         v-model="selectedTags"
         label-value="Select Tags"
-        :items="availableTags"
+        :options="availableTags"
     >
         <template #search-label>
             Search
         </template>
-        <template #no-items-found>
+        <template #no-options-found>
             No result found
         </template>
         <template #empty-state>
@@ -46,7 +46,7 @@ Controls the dropdown expanded state. Type: `boolean` (default: `false`)
 #### label-value
 The label displayed for the tag select input. Type: `string` (default: `""`)
 
-#### items
+#### options
 Array of available tag options. Can be strings or objects. Type: `any[]` (default: `[]`)
 
 #### icon
@@ -83,8 +83,8 @@ Text displayed on the add button. Type: `string` (default: `"Add"`)
 #### @update:model-value
 Triggered when the selected tags change. Receives the updated tags array.
 
-#### @update:items
-Triggered when new tags are added to the items array. Receives the updated items array.
+#### @update:options
+Triggered when new tags are added to the options array. Receives the updated options array.
 
 #### @update:expanded
 Triggered when the dropdown expanded state changes.
@@ -96,20 +96,20 @@ Triggered when the dropdown expanded state changes.
 #### #search-label
 Custom placeholder text for the search input.
 
-#### #no-items-found
+#### #no-options-found
 Custom content displayed when search yields no results.
 
 #### #empty-state
-Custom content displayed when no items are available.
+Custom content displayed when no options are available.
 
 #### #item
-Custom rendering for individual items in the dropdown.
+Custom rendering for individual options in the dropdown.
 
 **Important Notes:**
 - Prevents duplicate tag selection automatically
 - Supports both string arrays and object arrays with configurable label keys
-- New tags created via search are automatically added to the items array
+- New tags created via search are automatically added to the options array
 - Search input is accessible and maintains focus for continuous tag creation
-- Visual feedback distinguishes between available and selected items
+- Visual feedback distinguishes between available and selected options
 - Disabled state prevents tag creation while maintaining visual feedback
 - Absolute positioning option prevents layout shifts when dropdown opens

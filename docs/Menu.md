@@ -13,7 +13,7 @@
         <Menu 
             v-model="selectedItem"
             :expanded="isExpanded"
-            :items="menuItems"
+            :options="menuItems"
         />
         <main class="flex-1 p-base">
             <h1>Selected: {{ selectedItem }}</h1>
@@ -39,8 +39,8 @@ Controls the selected menu item value or object. Type: `any` (default: `undefine
 #### expanded
 Controls whether the menu is expanded to show labels. Type: `boolean` (default: `false`)
 
-#### items
-Array of menu items with navigation and display properties. Type: `Item[]` (required)
+#### options
+Array of menu options with navigation and display properties. Type: `Item[]` (required)
 
 ```typescript
 type Item = {
@@ -50,7 +50,7 @@ type Item = {
   path?: string;       // Navigation path/route
   disabled?: boolean;  // Whether the item is disabled
   bottom?: boolean;    // Whether to position at bottom of menu
-  items?: Item[];      // Nested menu items (for sub-menus)
+  options?: Item[];      // Nested menu options (for sub-menus)
 }
 ```
 
@@ -70,7 +70,7 @@ This component uses internal MenuOption components and doesn't expose custom slo
 
 ### Integration with side-menu
 
-The Menu component can be integrated with SideMenu to handle nested menu items and sunavigation. When using `get-object="true"`, the selected menu item can contain nested items that are displayed in a secondary navigation panel.
+The Menu component can be integrated with SideMenu to handle nested menu options and sunavigation. When using `get-object="true"`, the selected menu item can contain nested options that are displayed in a secondary navigation panel.
 
 ```vue
 <template>
@@ -78,12 +78,12 @@ The Menu component can be integrated with SideMenu to handle nested menu items a
         <Menu 
             v-model="selectedMenuItem"
             :expanded="menuExpanded"
-            :items="mainMenuItems"
+            :options="mainMenuItems"
             get-object
         />
         <side-menu
-            v-if="selectedMenuItem?.items"
-            :items="selectedMenuItem.items"
+            v-if="selectedMenuItem?.options"
+            :options="selectedMenuItem.options"
             :parent-path="selectedMenuItem.path"
             :get-object="true"
         />
@@ -102,7 +102,7 @@ const mainMenuItems = ref([
         value: "projects",
         path: "/projects",
         icon: "folder",
-        items: [
+        options: [
             {
                 label: "All Projects",
                 value: "all-projects",
@@ -140,15 +140,15 @@ This integration pattern is ideal for:
 - Automatic routing integration with Vue Router and Nuxt Link detection
 - Responsive height calculation based on navbar presence for optimal layout
 - Icon-only mode when collapsed with tooltip support for better UX
-- Bottom positioning support for logout, settings, and help items
+- Bottom positioning support for logout, settings, and help options
 - Disabled state prevents interaction while maintaining visual consistency
 - Path normalization ensures proper navigation regardless of input format
-- Selected state management with visual highlighting of active items
+- Selected state management with visual highlighting of active options
 - Flexible return value (object vs value) for different use cases
 - Automatic current route detection and selection on component mount
 - CSS custom properties for dynamic height calculation
 - Border and spacing optimized for sidebar layouts
 - Z-index management for proper layering in complex layouts
-- Integration with SideMenu component for handling nested menu items and sunavigation
+- Integration with SideMenu component for handling nested menu options and sunavigation
 - Support for hierarchical menu structures with 2 nesting levels
 - Seamless coordination between primary and secondary navigation panels
