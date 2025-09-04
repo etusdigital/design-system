@@ -24,6 +24,7 @@ export { default as FloatCard } from './FloatCard';
 export { default as History } from './History';
 export { default as Icon } from './Icon';
 export { default as IconCard } from './IconCard';
+export { default as Image } from './Image';
 export { default as Input } from './Input';
 export { default as Menu } from './Menu';
 export { default as MetricCard } from './MetricCard';
