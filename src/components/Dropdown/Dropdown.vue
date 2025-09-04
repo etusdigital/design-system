@@ -4,6 +4,7 @@ import { useOptionalModel } from "#composables";
 import Item from "./Item.vue";
 import { type Item as ItemType } from "#utils/types/DropItem";
 import Items from "./Items.vue";
+import ExpandableContainer from "../../utils/components/ExpandableContainer.vue";
 import { isObject } from "../../utils";
 
 const props = withDefaults(

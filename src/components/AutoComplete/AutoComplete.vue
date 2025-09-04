@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useOptionalModel } from "#composables";
+import SelectContainer from "../../utils/components/SelectContainer.vue";
 import Option from "@/utils/components/Option.vue";
 
 const props = withDefaults(
