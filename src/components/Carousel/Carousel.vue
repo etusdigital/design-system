@@ -188,7 +188,7 @@ function calculateContentStyle() {
   if (props.vertical) {
     totalSize = Math.max(totalSize, child.offsetHeight);
   } else {
-    totalSize += child.offsetWidth + 1;
+    totalSize += child.offsetWidth;
     if (0 > model.value) totalSize += gap.value;
   }
 
