@@ -43,9 +43,9 @@ const isDropdownOpen = ref(false);
 
 <template>
   <div class="navbar">
-    <div class="flex options-center gap-base">
+    <div class="flex items-center gap-base">
       <div
-        class="flex options-center gap-base text-lg leading-lg font-light text-primary-foreground-high"
+        class="flex items-center gap-base text-lg leading-lg font-light text-primary-foreground-high"
       >
         <slot name="logo">
           <svg
@@ -135,6 +135,7 @@ const isDropdownOpen = ref(false);
       <div class="border-r-xxs border-r-neutral-default min-h-xl" />
       <slot>
         <Dropdown
+          v-if="options && options.length"
           v-model="model"
           v-model:expanded="isDropdownOpen"
           :options="options"
@@ -146,7 +147,7 @@ const isDropdownOpen = ref(false);
     </div>
     <div class="flex items-center gap-base">
       <slot name="actions">
-        <FloatCard v-model="isNotificationsOpen">
+        <FloatCard class="w-fit" v-model="isNotificationsOpen">
           <Icon class="notification-icon" name="notifications" />
           <template #card>
             <slot name="notifications" />

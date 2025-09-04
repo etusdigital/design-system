@@ -2,6 +2,7 @@
 import { computed, ref } from "vue";
 import { useOptionalModel } from "#composables";
 import { isObject } from "../../utils";
+import SelectContainer from "../../utils/components/SelectContainer.vue";
 
 const props = withDefaults(
   defineProps<{
@@ -127,7 +128,7 @@ function changeExpanded(expanded: boolean) {
         </h4>
         <Button
           type="submit"
-          variant="primary"
+          color="primary"
           @click="emit('edit')"
           class="mxxs truncate"
           :disabled="!name && !picture"

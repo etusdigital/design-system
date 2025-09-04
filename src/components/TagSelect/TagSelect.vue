@@ -6,6 +6,7 @@ import SelectContent from "../../utils/components/SelectContent.vue";
 import Option from "../../utils/components/Option.vue";
 import { computed } from "vue";
 import { isObject } from "../../utils";
+import SelectContainer from "../../utils/components/SelectContainer.vue";
 
 type SelectExpandedExtra = {
   source: ContainerModelExtra["source"] | "value-selected";
@@ -222,7 +223,7 @@ function checkSource(value: boolean, extra: any) {
           />
         </div>
         <div class="flex flex-wrap gap-xxs my-xs max-w-[40em]" v-else>
-          <Tag
+          <StatusBadge
             color="transparent"
             class="tag"
             v-for="(item, index) in model"
@@ -238,7 +239,7 @@ function checkSource(value: boolean, extra: any) {
                 class="close-icon"
               />
             </div>
-          </Tag>
+          </StatusBadge>
         </div>
       </template>
     </SelectContent>
@@ -276,10 +277,12 @@ function checkSource(value: boolean, extra: any) {
       <div class="flex justify-center w-full">
         <Button
           @click="addTag(searchText)"
-          :label-value="buttonLabel"
           round
+          size="small"
           always-open
-        />
+        >
+          {{ buttonLabel }}
+        </Button>
       </div>
     </template>
   </SelectContainer>

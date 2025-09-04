@@ -5,6 +5,7 @@ import { type ContainerModelExtra } from "../../utils/types/ContainerModelExtra"
 import SelectContent from "../../utils/components/SelectContent.vue";
 import Option from "../../utils/components/Option.vue";
 import { isObject } from "../../utils";
+import SelectContainer from "../../utils/components/SelectContainer.vue";
 
 type MultiSelectModelExtra = {
   selected: number[];
