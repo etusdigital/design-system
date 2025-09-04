@@ -28,12 +28,16 @@ const props = withDefaults(
   @apply relative mr-base;
 }
 
-.conector:not(.vert) > *:not(:last-child)::after {
+.conector:not(.vert) > *:not(.input, .select):not(:last-child)::after {
   @apply content-[''] w-base h-px bg-neutral-interaction-disabled absolute top-1/2 -translate-y-1/2 -right-base;
 }
 
-.conector:not(.vert) > .input:not(:last-child)::after, .conector:not(.vert) > .select:not(:last-child)::after {
-  @apply content-[''] w-base h-px bg-neutral-interaction-disabled absolute top-2/3 -translate-y-2/3 -right-base;
+.conector:not(.vert) > .input:not(:last-child) > div:last-child::after, .conector:not(.vert) > .select:not(:last-child) > div > .label-container::after {
+  @apply content-[''] w-base h-px bg-neutral-interaction-disabled absolute top-1/2 -translate-y-1/2 -right-base;
+}
+
+.conector:not(.vert) > .input:not(:last-child) > div:last-child, .conector:not(.vert) > .select:not(:last-child) > div > .label-container {
+  @apply relative;
 }
 
 .conector:not(.vert) > * {
