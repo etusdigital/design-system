@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import Icon from '../Icon/Icon.vue';
+import Overlay from '../../utils/components/Overlay.vue';
 
 interface ImageProps {
   src?: string;
@@ -23,7 +24,6 @@ const emit = defineEmits<{
 const previewVisible = ref(false);
 const previewImageRef = ref<HTMLImageElement>();
 const previewContainer = ref<HTMLDivElement>();
-const previewMask = ref<HTMLDivElement>();
 
 const rotate = ref(0);
 const scale = ref(1);
@@ -44,7 +44,6 @@ const previewImageStyle = computed(() => ({
   transition: 'transform 0.15s',
 }));
 
-// Methods
 const showPreview = () => {
   previewVisible.value = true;
   emit('show');
@@ -79,10 +78,8 @@ const zoomOut = () => {
   scale.value = Math.max(scale.value - 0.1, 0.5);
 };
 
-const onMaskClick = (event: MouseEvent) => {
-  if (event.target === previewMask.value) {
-    hidePreview();
-  }
+const closePreview = () => {
+  hidePreview();
 };
 
 const onKeyDown = (event: KeyboardEvent) => {
@@ -129,70 +126,72 @@ onUnmounted(() => {
     </div>
 
     <Teleport to="body">
-      <div
-        v-if="previewVisible"
-        ref="previewMask"
-        class="image-preview-mask"
-        role="dialog"
-        :aria-modal="true"
-        @click="onMaskClick"
-      >
-        <div class="image-preview-toolbar">
-          <Icon
-            name="rotate_left"
-            size="32px"
-            :aria-label="'Rotate Left'"
-            @click="rotateLeft"
-            class="preview-control-icon"
-          />
-          <Icon
-            name="rotate_right"
-            size="32px"
-            :aria-label="'Rotate Right'"
-            @click="rotateRight"
-            class="preview-control-icon"
-          />
-          <Icon
-            name="zoom_out"
-            size="32px"
-            :aria-label="'Zoom Out'"
-            @click="zoomOut"
-            class="preview-control-icon"
-          />
-          <Icon
-            name="zoom_in"
-            size="32px"
-            :aria-label="'Zoom In'"
-            @click="zoomIn"
-            class="preview-control-icon"
-          />
-          <Icon
-            name="close"
-            size="32px"
-            :aria-label="'Close'"
-            @click="hidePreview"
-            class="preview-control-icon"
-          />
-        </div>
-
-        <div class="image-preview-container" ref="previewContainer">
-          <div class="image-preview-content">
-            <slot 
-              name="preview" 
-              :style="previewImageStyle"
-              :onClick="onPreviewImageClick"
-            >
-              <img 
-                :src="src" 
-                :alt="alt"
-                :style="previewImageStyle"
-                class="image-preview"
-                @click="onPreviewImageClick"
+      <Overlay v-model="previewVisible" :z-index="1000" @click="closePreview">
+        <Transition name="fade-in">
+          <div
+            v-if="previewVisible"
+            class="image-preview-modal"
+            role="dialog"
+            :aria-modal="true"
+          >
+            <div class="image-preview-toolbar">
+              <Icon
+                name="rotate_left"
+                size="32px"
+                :aria-label="'Rotate Left'"
+                @click="rotateLeft"
+                class="preview-control-icon"
               />
-            </slot>
+              <Icon
+                name="rotate_right"
+                size="32px"
+                :aria-label="'Rotate Right'"
+                @click="rotateRight"
+                class="preview-control-icon"
+              />
+              <Icon
+                name="zoom_out"
+                size="32px"
+                :aria-label="'Zoom Out'"
+                @click="zoomOut"
+                class="preview-control-icon"
+              />
+              <Icon
+                name="zoom_in"
+                size="32px"
+                :aria-label="'Zoom In'"
+                @click="zoomIn"
+                class="preview-control-icon"
+              />
+              <Icon
+                name="close"
+                size="32px"
+                :aria-label="'Close'"
+                @click="hidePreview"
+                class="preview-control-icon"
+              />
+            </div>
+
+            <div class="image-preview-container" ref="previewContainer">
+              <div class="image-preview-content">
+                <slot 
+                  name="preview" 
+                  :style="previewImageStyle"
+                  :onClick="onPreviewImageClick"
+                >
+                  <img 
+                    :src="src" 
+                    :alt="alt"
+                    :style="previewImageStyle"
+                    class="image-preview"
+                    @click="onPreviewImageClick"
+                  />
+                </slot>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </Transition>
+      </Overlay>
     </Teleport>
   </span>
 </template>
@@ -224,8 +223,8 @@ onUnmounted(() => {
   @apply text-white text-2xl;
 }
 
-.image-preview-mask {
-  @apply fixed inset-0 bg-black/75 flex items-center justify-center z-[1000];
+.image-preview-modal {
+  @apply fixed inset-0 flex items-center justify-center z-[1001];
 }
 
 .image-preview-toolbar {
@@ -248,16 +247,18 @@ onUnmounted(() => {
   @apply max-w-full max-h-[80vh] object-contain;
 }
 
-.image-preview-mask {
-  animation: fade-in 0.15s ease-out;
+.fade-in-enter-active,
+.fade-in-leave-active {
+  transition: opacity 0.15s ease-out;
 }
 
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.fade-in-enter-from,
+.fade-in-leave-to {
+  opacity: 0;
+}
+
+.fade-in-enter-to,
+.fade-in-leave-from {
+  opacity: 1;
 }
 </style>
