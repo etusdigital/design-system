@@ -118,7 +118,7 @@ const defaultRender = (args: any) => ({
       :get-object="args.getObject"
     >
       <template #notifications>
-        <div class="p-base max-w-xs">
+        <div class="p-base">
           <h4 class="font-semibold mb-xs">Notifications</h4>
           <p class="text-sm text-neutral-foreground-medium">No new notifications</p>
         </div>
