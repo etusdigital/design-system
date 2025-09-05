@@ -6,7 +6,7 @@ import * as Tree from './Tree.stories.ts';
 # Name: Tree
 ## Component Overview
 
-**Purpose**: A versatile tooltip component with smart positioning, automatic viewport detection, and flexible content support for providing contextual information and help text on hover interactions.
+**Purpose**: A hierarchical tree component with advanced selection management, supporting both single and multiple selection modes with intelligent parent-child relationship handling.
 
 **Import**: Automatic - no need to import any DS components
 
@@ -22,9 +22,12 @@ import * as Tree from './Tree.stories.ts';
 
 ```vue
 <template>
-    <Tree label-value="Helpful tooltip text">
-        <button>Hover me</button>
-    </Tree>
+    <Tree 
+      v-model="selectedItems"
+      :items="treeData"
+      :multiple="true"
+      :get-object="true"
+    />
 </template>
 ```
 
@@ -34,59 +37,54 @@ import * as Tree from './Tree.stories.ts';
 
 ### Props API
 
-#### label-value
-The text content displayed inside the tooltip. Type: `string` (default: `""`)
+#### v-model
+The selected value(s). Can be a single item or array for multiple selection. Type: `any` (default: `undefined`)
 
-#### text (deprecated)
-The text content displayed inside the tooltip. Use `label-value` instead. Type: `string` (default: `""`)
+#### items
+The tree data structure with nested items. Type: `array` (required)
 
-#### position
-Controls the tooltip positioning relative to the trigger element. Type: `"top" | "bottom" | "left" | "right"` (default: `"right"`)
+#### label-key
+The property name to use for displaying item labels. Type: `string` (default: `"label"`)
 
+#### value-key
+The property name to use for item values/identification. Type: `string` (default: `"value"`)
+
+#### get-object
+When true, returns complete objects in selection. When false, returns only values. Type: `boolean` (default: `false`)
+
+#### multiple
+Enables multiple item selection with hierarchical relationship management. Type: `boolean` (default: `false`)
+
+#### disabled
+Disables the entire tree component. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
-This component doesn't emit custom events. Tree visibility is controlled internally by hover interactions.
+#### update:model-value
+Emitted when selection changes. Payload contains the selected item(s) based on `getObject` and `multiple` settings.
 
 ### Slots API
 
-#### #default
-The trigger element that activates the tooltip on hover.
+This component uses internal logic for page display and doesn't expose custom slots.
 
-```vue
-<template>
-    <Tree label-value="Tree text">
-        Slot: default
-    </Tree>
-</template>
-```
+### Selection Behavior
 
-#### #label
-Custom content for the tooltip, overrides the `label-value` prop.
+#### Hierarchical Selection (getObject: true, multiple: true)
+- Selecting a child automatically adds all parent ancestors to maintain hierarchy
+- Removing a child removes parents only if they have no other selected children
+- Selected items maintain the tree structure with only selected branches
 
-```vue
-<template>
-    <Tree>
-        <button>Rich tooltip</button>
-        <template #label>
-            <div class="flex items-center gap-xs">
-                <icon name="info" />
-                <span>Rich content here</span>
-            </div>
-        </template>
-    </Tree>
-</template>
-```
-
+#### Example Selection Flow:
+1. Select "Settings.txt" → Model contains: `[{Documents: {items: [{Work: {items: ["Settings.txt"]}}]}}]`
+2. Select "Code.js" → Adds to Work's items
+3. Remove "Settings.txt" → Removes only that item, keeps Work with Code.js
+4. Remove "Code.js" → Removes Work, and Documents if no other children
 
 **Important Notes:**
-- Smart viewport detection prevents tooltips from extending beyond screen boundaries
-- Automatic text wrapping and word breaking for long content with dynamic width adjustment
-- Portal rendering to body prevents z-index conflicts and ensures proper layering
-- Smooth fade animations with optimized timing for better user experience
-- Scroll-aware behavior automatically hides tooltips during page scrolling
-- Dynamic positioning calculation accounts for trigger element size and viewport constraints
-- CSS-only triangular pointers positioned accurately for all four directions
-- Memory efficient event handling with automatic cleanup on component unmount
+- Intelligent parent-child relationship management prevents orphaned selections
+- Hierarchical structure is preserved in the model when `getObject: true`
+- Memory efficient with automatic cleanup of empty parent nodes
+- Deep cloning prevents mutation of original data structure
+- Supports unlimited nesting levels with recursive selection handling

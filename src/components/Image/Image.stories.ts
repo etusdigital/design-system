@@ -21,6 +21,10 @@ export default {
       type: { summary: "string | number" },
       description: "Height of the image",
     },
+    icon: {
+      type: { summary: "string" },
+      description: "Icon name",
+    },
     preview: {
       type: { summary: "boolean" },
       control: "boolean",
@@ -38,76 +42,36 @@ const defaultArgs = {
   src: bannerImage,
   alt: "Sample image",
   width: "250",
+  icon: "visibility",
   preview: false,
 };
 
-export const Primary: Story = {
-  render: (args: any) => ({
-    components: { Image },
-    setup() {
-      return { args };
-    },
-    template: `
+const defaultRender = (args: any) => ({
+  components: { Image },
+  setup() {
+    return { args };
+  },
+  template: `
       <Image
         :src="args.src"
         :alt="args.alt"
         :width="args.width"
         :height="args.height"
+        :icon="args.icon"
         :preview="args.preview"
       />
     `,
-  }),
+});
+
+export const Primary: Story = {
+  render: defaultRender,
   args: defaultArgs,
 };
 
-export const WithPreview: Story = {
-  render: (args: any) => ({
-    components: { Image },
-    setup() {
-      return { args };
-    },
-    template: `
-      <Image
-        :src="args.src"
-        :alt="args.alt"
-        :width="args.width"
-        :height="args.height"
-        :preview="args.preview"
-      />
-    `,
-  }),
+export const Preview: Story = {
+  render: defaultRender,
   args: {
     ...defaultArgs,
     preview: true,
-  },
-};
-
-export const Template: Story = {
-  render: (args: any) => ({
-    components: { Image },
-    setup() {
-      return { args };
-    },
-    template: `
-      <Image :alt="args.alt" preview>
-        <template #previewicon>
-          <i class="material-symbols-rounded">search</i>
-        </template>
-        <template #image>
-          <img :src="args.src" alt="image" width="200" />
-        </template>
-        <template #preview="slotProps">
-          <img 
-            :src="args.src" 
-            alt="preview" 
-            :style="slotProps.style" 
-            @click="slotProps.onClick" 
-          />
-        </template>
-      </Image>
-    `,
-  }),
-  args: {
-    ...defaultArgs,
   },
 };

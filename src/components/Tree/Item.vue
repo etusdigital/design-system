@@ -13,6 +13,7 @@ const props = withDefaults(
     multiple: boolean;
     selected?: boolean;
     disabled?: boolean;
+    getObject?: boolean;
   }>(),
   {
     modelValue: undefined,
@@ -21,11 +22,12 @@ const props = withDefaults(
     multiple: false,
     selected: false,
     disabled: false,
+    getObject: false,
   }
 );
 
 const emit = defineEmits<{
-  "update:modelValue": [value: any];
+  "update:modelValue": [value: any, add: boolean];
 }>();
 
 const expanded = ref(false);
@@ -35,6 +37,7 @@ watch(
   () => props.modelValue,
   () => {
     isSelected.value = getSelected();
+    console.log("isSelected", props.item, isSelected.value);
   },
   { immediate: true, deep: true }
 );
@@ -51,26 +54,43 @@ function getValue(item: any) {
   return isObject(item) ? item[props.valueKey] : item;
 }
 
-function getSelected(item: Item = props.item) {
-  if (Array.isArray(props.modelValue)) {
-    const selected = props.modelValue.some(
-      (x: any) => getValue(x) === getValue(item)
+function getModel() {
+  if (props.getObject && props.multiple)
+    return (
+      props.modelValue.find((x: any) => getValue(x) === getValue(props.item))
+        ?.items || []
     );
-
-    if (!selected && item.items?.length) {
-      const isChildSelected = item.items?.filter(
-        (x: any) => getSelected(x) !== false
-      );
-      if (isChildSelected.length == item.items?.length) return true;
-      else if (isChildSelected.length) return null;
-    }
-
-    return selected;
-  } else return getValue(props.modelValue) === getValue(item);
+  else return props.modelValue;
 }
 
-function setModel(value: Item) {
-  emit("update:modelValue", value);
+function getSelected(item: Item = props.item, model = props.modelValue) {
+  if (Array.isArray(model)) {
+    const selected = model.find((x: any) => getValue(x) === getValue(item));
+
+    if (
+      ((selected && props.getObject) || (!props.getObject && !selected)) &&
+      item.items?.length
+    ) {
+      if (props.getObject && selected) model = selected.items;
+
+      const isChildSelected = item.items?.filter(
+        (x: any) => getSelected(x, model) === true
+      );
+
+      console.log("isChildSelected", item, isChildSelected.length, model);
+      if (isChildSelected.length == item.items?.length) return true;
+      else if (
+        item.items?.filter((x: any) => getSelected(x, model) != false).length
+      )
+        return null;
+    }
+
+    return !!selected;
+  } else return getValue(model) === getValue(item);
+}
+
+function setModel(value: Item, add = !isSelected.value && !props.selected) {
+  emit("update:modelValue", value, add);
 }
 </script>
 
@@ -104,6 +124,7 @@ function setModel(value: Item) {
             v-if="multiple"
             :model-value="selected || isSelected"
             allow-indeterminate
+            :disabled="item.disabled || disabled"
             class="pointer-events-none"
             @update:model-value="setModel(item)"
           />
@@ -120,13 +141,14 @@ function setModel(value: Item) {
         <Item
           v-for="subItem in item.items"
           :key="subItem.value"
-          :model-value="modelValue"
+          :model-value="getModel()"
           :item="subItem"
           :selected="!!isSelected || selected"
           :label-key="labelKey"
           :value-key="valueKey"
           :multiple="multiple"
           :disabled="disabled"
+          :get-object="getObject"
           @update:model-value="setModel"
         />
       </div>

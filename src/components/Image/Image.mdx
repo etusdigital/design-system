@@ -44,6 +44,11 @@ Width of the image (can be string with units or number for pixels). Type: `strin
 #### height
 Height of the image (can be string with units or number for pixels). Type: `string | number` (optional)
 
+#### icon
+Icon name for the preview overlay. Type: `string` (default: `"visibility"`)
+
+The icon displayed when hovering over an image with preview enabled.
+
 #### preview
 Enable preview mode with modal overlay and transformation controls. Type: `boolean` (default: `false`)
 
@@ -55,7 +60,7 @@ When enabled, clicking the image opens a modal with zoom and rotation controls.
 </template>
 ```
 
-<Canvas sourceState="none" of={Image.WithPreview} />
+<Canvas sourceState="none" of={Image.Preview} />
 
 ---
 
@@ -67,29 +72,6 @@ Emitted when the preview modal is opened.
 #### @hide
 Emitted when the preview modal is closed.
 
-```vue
-<template>
-    <Image 
-        src="/image.jpg" 
-        alt="Sample image" 
-        width="250" 
-        preview 
-        @show="onPreviewShow"
-        @hide="onPreviewHide"
-    />
-</template>
-
-<script setup>
-const onPreviewShow = () => {
-    console.log('Preview opened')
-}
-
-const onPreviewHide = () => {
-    console.log('Preview closed')
-}
-</script>
-```
-
 ---
 
 ### Slots API
@@ -97,34 +79,11 @@ const onPreviewHide = () => {
 #### #image
 Custom slot for the main image content. Allows complete customization of the displayed image.
 
-#### #previewicon
+#### #image-overlay
 Custom slot for the preview overlay icon. Default shows a visibility icon.
 
 #### #preview
 Custom slot for the preview modal image with access to transformation styles and click handler.
-
-```vue
-<template>
-    <Image alt="Custom image" preview>
-        <template #previewicon>
-            <i class="material-symbols-rounded">search</i>
-        </template>
-        <template #image>
-            <img src="/thumbnail.jpg" alt="thumbnail" width="200" />
-        </template>
-        <template #preview="{ style, onClick }">
-            <img 
-                src="/full-image.jpg" 
-                alt="full size" 
-                :style="style" 
-                @click="onClick" 
-            />
-        </template>
-    </Image>
-</template>
-```
-
-<Canvas sourceState="none" of={Image.Template} />
 
 ---
 

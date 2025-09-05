@@ -30,7 +30,7 @@
 
 ### Props API
 
-#### modelValue
+#### v-model
 Current active index of the carousel. Type: `number` (default: `0`)
 
 #### options

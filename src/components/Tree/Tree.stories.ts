@@ -104,7 +104,7 @@ const defaultArgs = {
   labelKey: "label",
   valueKey: "value",
   getObject: false,
-  multiple: true,
+  multiple: false,
   disabled: false,
 };
 

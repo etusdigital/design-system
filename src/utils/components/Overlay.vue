@@ -5,10 +5,12 @@ const props = withDefaults(
   defineProps<{
     modelValue?: boolean;
     zIndex?: number;
+    class?: string;
   }>(),
   {
     modelValue: false,
     zIndex: 1000,
+    class: "",
   }
 );
 
@@ -28,7 +30,7 @@ watch(
 
 <template>
   <Transition name="fade-in">
-    <div class="background-div" v-if="model" @click="emit('click')" />
+    <div class="background-div" :class="class" v-if="model" @click="emit('click')" />
   </Transition>
   <slot />
 </template>

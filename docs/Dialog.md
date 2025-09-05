@@ -55,7 +55,7 @@ Sets the dialog width. Type: `string` (default: `"fit-content"`)
 Sets the dialog height. Type: `string` (default: `"fit-content"`)
 
 #### no-outside-close
-Prevents closing the dialog when clicking outside. Type: `boolean` (default: `false`)
+Prevents closing the dialog when clicking outside. When enabled, clicking outside triggers a warning bounce animation to indicate the dialog cannot be closed. Type: `boolean` (default: `false`)
 
 ---
 
@@ -86,6 +86,7 @@ const isOpen = ref(false)
 - Uses Teleport to render in document body for proper z-index stacking
 - Includes smooth bounce animations for open/close transitions
 - Supports click-outside-to-close behavior (can be disabled with no-outside-close)
+- When no-outside-close is enabled, shows a warning bounce animation on outside clicks
 - Automatically centers content and handles responsive sizing
 - Built-in overlay component for consistent backdrop behavior
 - Maximum dimensions constrained to viewport with padding for mobile compatibility

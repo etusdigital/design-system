@@ -32,7 +32,7 @@ Controls the slider size variant. Type: `'small' | 'medium' | 'large'` (default:
 Enables range slider mode with two thumbs for selecting a range of values. Type: `boolean` (default: `false`)
 
 #### max
-Maximum value for the slider. If specified, modelValue will be multiplied by this value. Type: `number` (default: `0`)
+Maximum value for the slider. If specified, v-model will be multiplied by this value. Type: `number` (default: `0`)
 
 #### unit
 Unit displayed in tooltip alongside the value. Type: `string` (default: `""`)

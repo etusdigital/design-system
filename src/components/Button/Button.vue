@@ -116,7 +116,7 @@ const style = computed((): any => {
       :style="{ width: progress * 100 + '%' }"
     />
     <Spinner v-if="isLoading" />
-    <template v-if="$slots.default || round">
+    <template v-if="$slots.default || round || computedIcon">
       <component
         :is="labelComponent"
         :for="name || id"
@@ -213,7 +213,7 @@ const style = computed((): any => {
 }
 
 .round.medium {
-  @apply text-base leading-lg py-2xxs;
+  @apply text-base leading-lg py-none;
 
   &.hovered .button-label,
   &.always-open .button-label {
@@ -221,7 +221,7 @@ const style = computed((): any => {
   }
 
   .icon {
-    @apply text-4xl;
+    @apply text-3xl;
   }
 }
 

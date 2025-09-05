@@ -33,9 +33,9 @@ watch(
 
 function closeDialog() {
   if (props.noOutsideClose) {
-    dialog.value?.classList.add("bounce-active");
+    dialog.value?.classList.add("no-outside-close-warning");
     setTimeout(() => {
-      dialog.value?.classList.remove("bounce-active");
+      dialog.value?.classList.remove("no-outside-close-warning");
     }, 100);
   } else {
     model.value = false;
@@ -65,7 +65,7 @@ function closeDialog() {
 @reference "../../assets/main.css";
 
 .dialog {
-  @apply fixed z-[1003] top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-neutral-surface-default rounded-base border-xxs border-neutral-default transform transition-transform;
+  @apply fixed z-[1003] top-[50%] left-[50%] bg-neutral-surface-default rounded-base border-xxs border-neutral-default;
   max-width: calc(100% - var(--spacing-xl));
   max-height: calc(100% - var(--spacing-xl));
 }
@@ -78,8 +78,8 @@ function closeDialog() {
   animation: bounce-in 0.5s reverse;
 }
 
-.bounce-active {
-  animation: bounce 0.5s ease;
+.no-outside-close-warning {
+  animation: bounce-warning 0.5s ease;
 }
 
 @keyframes bounce-in {
@@ -93,7 +93,7 @@ function closeDialog() {
   }
 }
 
-@keyframes bounce {
+@keyframes bounce-warning {
   0% {
     transform: translate(-50%, -50%) scale(1.1);
   }
