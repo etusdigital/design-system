@@ -86,7 +86,7 @@ function getLabel(option: any): string {
 }
 
 .default-tab {
-  @apply text-neutral-interaction-default py-xs px-xs rounded-xs hover:text-primary-interaction-hover;
+  @apply text-neutral-interaction-default py-xs px-xs rounded-xs cursor-pointer hover:text-primary-interaction-hover;
 
   .icon {
     @apply text-lg;
