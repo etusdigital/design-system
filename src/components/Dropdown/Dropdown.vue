@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, ref, useSlots } from "vue";
 import { useOptionalModel } from "#composables";
-import Item from "./Item.vue";
-import { type Item as ItemType } from "#utils/types/DropItem";
-import Items from "./Items.vue";
+import { type Option as OptionType } from "#utils/types/DropOption";
 import ExpandableContainer from "../../utils/components/ExpandableContainer.vue";
+import Options from "./Options.vue";
+import Option from "./Option.vue";
 import { isObject } from "../../utils";
 
 const props = withDefaults(
@@ -12,7 +12,7 @@ const props = withDefaults(
     modelValue?: any;
     expanded?: boolean;
     labelValue?: string;
-    options: ItemType[];
+    options: OptionType[];
     absolute?: boolean;
     disabled?: boolean;
     isError?: boolean;
@@ -51,64 +51,70 @@ const [isExpanded] = useOptionalModel<boolean>(props, "expanded", emit, false);
 const search = ref("");
 const slots = useSlots();
 
-const selectedItem = computed(() => {
+const selectedOption = computed(() => {
   if (!props.options) return undefined;
-  return findItem(props.options, model.value)?.label;
+  return findOption(props.options, model.value)?.label;
 });
-const filteredItems = computed(() => {
+
+const filteredOptions = computed(() => {
   if (!props.options) return [];
   else if (!search.value) return props.options;
-  return filterItems(props.options, search.value);
+  return filterOptions(props.options, search.value);
 });
 
 onBeforeMount(() => {
   updateSearch();
 });
 
-function findItem(items: ItemType[], value: string): ItemType | undefined {
-  for (const item of items) {
-    if (item.value === getValue(value)) {
-      return item;
+function findOption(
+  options: OptionType[],
+  value: string
+): OptionType | undefined {
+  for (const option of options) {
+    if (option.value === getValue(value)) {
+      return option;
     }
-    if (item.items) {
-      const found = findItem(item.items, value);
+    if (option.options) {
+      const found = findOption(option.options, value);
       if (found) return found;
     }
   }
   return undefined;
 }
 
-function filterItems(items: ItemType[], value: string): ItemType[] {
-  const filteredItems: ItemType[] = [];
-  for (const item of items) {
-    let found: ItemType[] = [];
+function filterOptions(options: OptionType[], value: string): OptionType[] {
+  const filteredOptions: OptionType[] = [];
+  for (const option of options) {
+    let found: OptionType[] = [];
 
-    if (item.items && item.items.length) found = filterItems(item.items, value);
+    if (option.options && option.options.length)
+      found = filterOptions(option.options, value);
 
     if (
-      item.label.toLowerCase().includes(value.toLowerCase()) ||
+      option.label.toLowerCase().includes(value.toLowerCase()) ||
       found.length
     ) {
-      if (found.length) item.items = found;
-      filteredItems.push(item);
+      if (found.length) option.options = found;
+      filteredOptions.push(option);
     }
   }
 
-  return filteredItems;
+  return filteredOptions;
 }
 
-function changeSelected(items: ItemType[], value: any): boolean {
+function changeSelected(options: OptionType[], value: any): boolean {
   let selected = false;
-  for (const item of items) {
-    if (item.items && item.items.length) item.selected = changeSelected(item.items, value);
-    else item.selected = item.value == getValue(value);
+  for (const option of options) {
+    if (option.options && option.options.length)
+      option.selected = changeSelected(option.options, value);
+    else option.selected = option.value == getValue(value);
 
-    if (item.selected) selected = true;
+    if (option.selected) selected = true;
   }
   return selected;
 }
 
-function selectItem(value: any) {
+function selectOption(value: any) {
   model.value = value;
   isExpanded.value = false;
   updateSearch();
@@ -123,12 +129,12 @@ function onFocus() {
 function updateSearch() {
   setTimeout(() => {
     if (!isExpanded.value && !slots.default && props.searchable)
-      search.value = selectedItem.value || "";
+      search.value = selectedOption.value || "";
   });
 }
 
-function getValue(item: any): any {
-  return isObject(item) ? item.value : item;
+function getValue(option: any): any {
+  return isObject(option) ? option.value : option;
 }
 </script>
 
@@ -147,7 +153,7 @@ function getValue(item: any): any {
     :min-width="minWidth"
     @update:model-value="updateSearch"
   >
-    {{ selectedItem }}
+    {{ selectedOption }}
     <template #label>
       <slot>
         <Input
@@ -162,18 +168,18 @@ function getValue(item: any): any {
       </slot>
     </template>
     <template #card>
-      <Items :options="filteredItems">
-        <template #default="{ items }">
-          <Item
-            v-for="item in items"
+      <Options :options="filteredOptions">
+        <template #default="{ options }">
+          <Option
+            v-for="option in options"
             v-model="model"
-            v-model:selected="item.selected"
-            :item="item"
+            v-model:selected="option.selected"
+            :option="option"
             :get-object="getObject"
-            @update:model-value="selectItem"
+            @update:model-value="selectOption"
           />
         </template>
-      </Items>
+      </Options>
     </template>
   </ExpandableContainer>
 </template>

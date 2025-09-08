@@ -112,38 +112,38 @@ function setModel(value: any) {
 }
 
 function findSelected() {
-  const item = props.options.find((item: any) => getValue(item) === getValue(model.value));
-  return getLabel(item);
+  const option = props.options.find((option: any) => getValue(option) === getValue(model.value));
+  return getLabel(option);
 }
 
-function getLabel(item: any) {
-  return isObject(item) ? item[props.labelKey] : item;
+function getLabel(option: any) {
+  return isObject(option) ? option[props.labelKey] : option;
 }
 
-function getValue(item: any) {
-  return isObject(item) ? item[props.valueKey] : item;
+function getValue(option: any) {
+  return isObject(option) ? option[props.valueKey] : option;
 }
 
-function getItem(item: any) {
-  return !props.getObject ? getValue(item) : item;
+function getOption(option: any) {
+  return !props.getObject ? getValue(option) : option;
 }
 
-function isSelected(item: any) {
+function isSelected(option: any) {
   if (Array.isArray(model.value))
-    return model.value.some((x: any) => getValue(x) === getValue(item));
-  else return getValue(model.value) === getValue(item);
+    return model.value.some((x: any) => getValue(x) === getValue(option));
+  else return getValue(model.value) === getValue(option);
 }
 
-function selectItem(item: any) {
+function selectOption(option: any) {
   if (props.disabled) return;
 
   selectedIndex.value = null;
-  setModel(getItem(item));
+  setModel(getOption(option));
   if (!props.multiple) setExpandedModel(false, { source: "value-selected" });
 }
 
 function setSelection(e: KeyboardEvent, index: number) {
-  setModel(getItem(props.options[index]));
+  setModel(getOption(props.options[index]));
   e.preventDefault();
 }
 
@@ -183,12 +183,12 @@ function onKeyUp(e: KeyboardEvent) {
   }
 }
 
-function searchItem(search: string) {
+function searchOption(search: string) {
   if (!search || !props.searchable) return props.options;
 
-  return props.options.filter((item: any) => {
-    if (getLabel(item).toLowerCase().includes(search.toLowerCase()))
-      return item;
+  return props.options.filter((option: any) => {
+    if (getLabel(option).toLowerCase().includes(search.toLowerCase()))
+      return option;
   });
 }
 
@@ -246,7 +246,7 @@ function clearModel() {
         </slot>
         <slot
           name="status"
-          :item="model"
+          :option="model"
           v-else-if="
             findSelected() &&
             !multiple &&
@@ -267,25 +267,25 @@ function clearModel() {
 
     <template #options>
       <Option
-        v-for="(item, index) in searchItem(searchText)"
-        :aria-selected="isSelected(item)"
+        v-for="(option, index) in searchOption(searchText)"
+        :aria-selected="isSelected(option)"
         :key="index"
         :secondary="secondary"
-        :disabled="item.disabled"
+        :disabled="option.disabled"
         :no-hover="multiple"
-        :selected="!multiple && isSelected(item)"
+        :selected="!multiple && isSelected(option)"
         class="flex items-center gap-xxs"
-        @click="selectItem(item)"
-        @keyup.space="selectItem(item)"
-        @keyup.enter="selectItem(item)"
+        @click="selectOption(option)"
+        @keyup.space="selectOption(option)"
+        @keyup.enter="selectOption(option)"
       >
         <Checkbox
           v-if="multiple"
-          :model-value="isSelected(item)"
+          :model-value="isSelected(option)"
           class="pointer-events-none"
         />
-        <slot name="item" :item="item" :index="index">
-          {{ getLabel(item) }}
+        <slot name="option" :option="option" :index="index">
+          {{ getLabel(option) }}
         </slot>
       </Option>
     </template>

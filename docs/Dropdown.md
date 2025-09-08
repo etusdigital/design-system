@@ -12,7 +12,7 @@
     <Dropdown 
         v-model="selectedValue"
         label-value="label"
-        :options="menuItems"
+        :options="menuOptions"
     />
 </template>
 
@@ -20,7 +20,7 @@
 
 const selectedValue = ref('')
 
-const menuItems = [...]
+const menuOptions = [...]
 </script>
 ```
 
@@ -38,16 +38,16 @@ Controls the dropdown expanded state. Type: `boolean` (default: `false`)
 The label displayed for the dropdown. Type: `string` (default: `""`)
 
 #### options
-Array of menu options with hierarchical support. Type: `Item[]` (required)
+Array of menu options with hierarchical support. Type: `Option[]` (required)
 
 ```typescript
-type Item = {
-  label: string;        // Display text for menu item
+type Option = {
+  label: string;        // Display text for menu option
   value: string;        // Unique identifier/value for selection
-  icon?: string;        // Material icon name for the item
-  disabled?: boolean;   // Disable interaction for this item
-  bottom?: boolean;     // Position item at bottom of menu (for special options)
-  options?: Item[];       // Nested sub-menu options for hierarchical structure
+  icon?: string;        // Material icon name for the option
+  disabled?: boolean;   // Disable interaction for this option
+  bottom?: boolean;     // Position option at bottom of menu (for special options)
+  options?: Option[];       // Nested sub-menu options for hierarchical structure
 }
 ```
 
@@ -100,7 +100,7 @@ Custom trigger element to replace the default dropdown button.
 <template>
     <Dropdown 
         v-model="selectedValue"
-        :options="menuItems"
+        :options="menuOptions"
         v-model:expanded="isExpanded"
     >
         <button @click="isExpanded = !isExpanded">
@@ -113,7 +113,7 @@ Custom trigger element to replace the default dropdown button.
 
 const selectedValue = ref('')
 const isExpanded = ref(false)
-const menuItems = [...]
+const menuOptions = [...]
 </script>
 ```
 
@@ -121,7 +121,7 @@ const menuItems = [...]
 - Supports hierarchical menu structures with unlimited nesting levels
 - Searchable mode transforms the component into a filterable select
 - Custom trigger slot allows complete control over the dropdown appearance
-- Automatic item selection state management for nested structures
+- Automatic option selection state management for nested structures
 - Bottom positioning option for special menu options (like logout/settings)
 - Keyboard navigation support for accessibility
 - Absolute positioning ensures dropdown menu doesn't affect layout

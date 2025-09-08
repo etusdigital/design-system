@@ -2,7 +2,7 @@
 // @TODO: Fix the initial size of the label div. I think it's due to the dynamic loading
 // of ionicons not triggering a div resize event to the observer. Or it could be some
 // slot content shenanigans aswell, idk.
-// @TODO: Fix border width for container with sub items
+// @TODO: Fix border width for container with sub options
 import { ref, onMounted, onBeforeUnmount, onUpdated, computed } from "vue";
 import type { ContainerModelExtra } from "../types/ContainerModelExtra";
 import { useOptionalModel } from "#composables";
@@ -155,10 +155,10 @@ function changeModel(value: boolean, extra: ContainerModelExtra) {
             <slot name="content">
               <ul
                 role="list"
-                class="items-list"
+                class="options-list"
                 :class="[{ 'p-xxs [&>*]:p-xs': !dontHaveMaxHeight }]"
               >
-                <slot name="items" />
+                <slot name="options" />
               </ul>
             </slot>
 
@@ -187,11 +187,11 @@ function changeModel(value: boolean, extra: ContainerModelExtra) {
 .content.secondary {
   @apply bg-primary-interaction-default text-neutral-foreground-negative;
 
-  .items-list::-webkit-scrollbar-thumb {
+  .options-list::-webkit-scrollbar-thumb {
     @apply bg-primary-surface-pressed;
   }
 
-  .items-list::-webkit-scrollbar {
+  .options-list::-webkit-scrollbar {
     @apply bg-primary-surface-default;
   }
 }
@@ -204,7 +204,7 @@ function changeModel(value: boolean, extra: ContainerModelExtra) {
   @apply max-h-[12em];
 }
 
-.items-list {
+.options-list {
   @apply overflow-auto rounded-sm w-full;
 }
 

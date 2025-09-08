@@ -17,14 +17,14 @@ export default {
     },
     labelKey: {
       type: { summary: "text" },
-      description: "Property name used for displaying item labels when using object arrays.",
+      description: "Property name used for displaying option labels when using object arrays.",
       table: {
         defaultValue: { summary: "label" },
       },
     },
     valueKey: {
       type: { summary: "text" },
-      description: "Property name used for displaying item values when using object arrays.",
+      description: "Property name used for displaying option values when using object arrays.",
       table: {
         defaultValue: { summary: "value" },
       },

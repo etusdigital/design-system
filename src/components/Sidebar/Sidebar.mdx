@@ -6,7 +6,7 @@ import * as Sidebar from './Sidebar.stories.ts';
 # Name: Sidebar
 ## Component Overview
 
-**Purpose**: A vertical navigation sidebar component with hierarchical menu support, automatic route detection, and flexible item positioning for application navigation.
+**Purpose**: A vertical navigation sidebar component with hierarchical menu support, automatic route detection, and flexible option positioning for application navigation.
 
 **Import**: Automatic - no need to import any DS components
 
@@ -23,16 +23,16 @@ import * as Sidebar from './Sidebar.stories.ts';
 ```vue
 <template>
     <Sidebar 
-        v-model="selectedItem"
-        :options="menuItems"
+        v-model="selectedOption"
+        :options="menuOptions"
     />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-const selectedItem = ref("home")
+const selectedOption = ref("home")
 
-const menuItems = ref([
+const menuOptions = ref([
     ...
     {
         label: "Projects",
@@ -69,16 +69,19 @@ const menuItems = ref([
 ### Props API
 
 #### v-model
-Controls the selected menu item value. Type: `any` (default: `""`)
+Controls the selected menu option value. Type: `any` (default: `""`)
 
 #### options
-Array of menu item objects defining the navigation structure. Type: `MenuItem[]` (required)
+Array of menu option objects defining the navigation structure. Type: `MenuOption[]` (required)
 
 ```typescript
-type MenuItem = {
-  label: string;       // Display text for the step item
-  value: string;       // Unique identifier for the item
-  icon: string;        // Icon name for the step item
+type MenuOption = {
+  label: string;       // Display text for the step option
+  value: string;       // Unique identifier for the option
+  icon: string;        // Icon name for the step option
+  disabled?: boolean;  // Whether the option is disabled
+  bottom?: boolean;    // Whether to position at bottom of menu
+  options?: Option[];      // Nested menu options (for sub-menus)
 }
 ```
 
@@ -86,20 +89,20 @@ type MenuItem = {
 Base path prefix applied to all menu options. Type: `string` (default: `""`)
 
 #### get-object
-Returns the complete item object instead of just the value when true. Type: `boolean` (default: `false`)
+Returns the complete option object instead of just the value when true. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
 #### @update:model-value
-Triggered when a menu item is selected. Receives the selected value or object based on `get-object` prop.
+Triggered when a menu option is selected. Receives the selected value or object based on `get-object` prop.
 
 ---
 
 ### Slots API
 
-This component uses internal `Item` components and doesn't expose custom slots.
+This component uses internal `Option` components and doesn't expose custom slots.
 
 **Important Notes:**
 - Automatically detects and selects options based on current route path
@@ -108,4 +111,4 @@ This component uses internal `Item` components and doesn't expose custom slots.
 - Bottom options are separated and positioned at the menu bottom
 - Disabled options maintain visual feedback but prevent interaction
 - Parent path concatenation enables modular menu composition
-- Selection state automatically propagates through nested item hierarchies
+- Selection state automatically propagates through nested option hierarchies

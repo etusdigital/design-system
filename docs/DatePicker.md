@@ -54,10 +54,10 @@ Selection mode for the date picker. Type: `'date' | 'period' | 'compare'` (defau
 #### allow-change-type
 Allows users to switch between different selection modes. Type: `boolean` (default: `false`)
 
-#### max-init
+#### min-date
 Earliest selectable date constraint. Type: `Date` (default: `undefined`)
 
-#### max-end
+#### max-date
 Latest selectable date constraint. Type: `Date` (default: `undefined`)
 
 #### options

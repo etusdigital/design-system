@@ -39,14 +39,14 @@ export default {
       },
       description: "Will determine if the user can change the type of the date input.",
     },
-    maxInit: {
+    minDate: {
       type: { summary: "Date" },
       table: {
         defaultValue: { summary: null },
       },
       description: "Will be the oldest date the user can select.",
     },
-    maxEnd: {
+    maxDate: {
       type: { summary: "Date" },
       table: {
         defaultValue: { summary: null },
@@ -135,8 +135,8 @@ const defaultArgs = {
   lang: "en-US",
   type: "date",
   allowChangeType: false,
-  maxInit: undefined,
-  maxEnd: undefined,
+  minDate: undefined,
+  maxDate: undefined,
   disabled: false,
   required: false,
   isError: false,
@@ -201,8 +201,8 @@ const defaultHtml = `
           :label-value="args.labelValue"
           :lang="args.lang"
           :allow-change-type="args.allowChangeType"
-          :max-init="args.maxInit"
-          :max-end="args.maxEnd"
+          :min-date="args.minDate"
+          :max-date="args.maxDate"
           :options="args.options"
           :disabled="args.disabled"
           :required="args.required"
@@ -276,19 +276,19 @@ export const Compare: Story = {
   },
 };
 
-export const MaxInit: Story = {
+export const MinDate: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
-    maxInit: new Date(),
+    minDate: new Date(),
   },
 };
 
-export const MaxEnd: Story = {
+export const MaxDate: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
-    maxEnd: new Date(),
+    maxDate: new Date(),
   },
 };
 

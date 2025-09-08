@@ -61,15 +61,15 @@ Shows two calendar months side by side. Type: `boolean` (default: `false`)
 
 <Canvas sourceState="none" of={Calendar.DoubleCalendar} />
 
-#### max-init
+#### min-date
 Earliest selectable date constraint. Type: `Date` (default: `undefined`)
 
-<Canvas sourceState="none" of={Calendar.MaxInit} />
+<Canvas sourceState="none" of={Calendar.MinDate} />
 
-#### max-end
+#### max-date
 Latest selectable date constraint. Type: `Date` (default: `undefined`)
 
-<Canvas sourceState="none" of={Calendar.MaxEnd} />
+<Canvas sourceState="none" of={Calendar.MaxDate} />
 
 ---
 
@@ -86,5 +86,5 @@ This component uses the internal Calendar component and doesn't expose custom sl
 - Supports single date, date range, and comparison modes via `type` prop
 - Use `double-calendar` prop to show two months side by side
 - Automatically handles locale-specific date formatting and display  
-- Date constraints can be applied using `max-init` and `max-end` props
+- Date constraints can be applied using `min-date` and `max-date` props
 - Returns `Date` for single selection, `Date[]` for ranges, or `Date[][]` for comparison mode

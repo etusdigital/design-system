@@ -57,7 +57,7 @@ const [expandedModel, setExpandedModel] = useOptionalModel<boolean>(
 
 const model = ref<any>(props.modelValue || {});
 const optionsSearch = ref<any>({});
-const itemExpanded = ref("");
+const OptionExpanded = ref("");
 const selected = ref(getSelected());
 
 watch(() => props.modelValue, (newVal) => {
@@ -69,28 +69,28 @@ function getLabel(value: any): string {
   return isObject(value) ? value[props.labelKey] : value;
 }
 
-function getValue(item: any): any {
-  return isObject(item) ? item[props.valueKey] : item;
+function getValue(option: any): any {
+  return isObject(option) ? option[props.valueKey] : option;
 }
 
 function getSelected() {
-  const selected = props.options.filter((item: any) => {
-    const key = getValue(item);
+  const selected = props.options.filter((option: any) => {
+    const key = getValue(option);
     const selected = model.value[key];
 
-    return item.options.filter((subItem: any) =>
-      selected?.some((x: any) => getValue(x) === getValue(subItem))
+    return option.options.filter((subOption: any) =>
+      selected?.some((x: any) => getValue(x) === getValue(subOption))
     ).length;
   });
 
   return selected.length;
 }
 
-function selectItem(item: any, subItem: any) {
+function selectOption(option: any, subOption: any) {
   if (props.disabled) return;
 
-  const key = getValue(item);
-  const value = props.getObject ? subItem : getValue(subItem);
+  const key = getValue(option);
+  const value = props.getObject ? subOption : getValue(subOption);
 
   if (!model.value[key]) model.value[key] = [];
   const index = model.value[key]?.findIndex((x: any) => getValue(x) === value);
@@ -109,19 +109,19 @@ function selectItem(item: any, subItem: any) {
   emit("update:modelValue", model.value, extra);
 }
 
-function toggleSubList(item: any) {
-  const value = getValue(item);
+function toggleSubList(option: any) {
+  const value = getValue(option);
 
-  if (itemExpanded.value === value) itemExpanded.value = "";
-  else itemExpanded.value = value;
+  if (optionExpanded.value === value) optionExpanded.value = "";
+  else optionExpanded.value = value;
 }
 
-function isActive(item: any): boolean {
-  const itemValue = getValue(item);
-  return itemExpanded.value === itemValue;
+function isActive(option: any): boolean {
+  const optionValue = getValue(option);
+  return optionExpanded.value === optionValue;
 }
 
-function searchItem(options: any, search: string) {
+function searchOption(options: any, search: string) {
   if (!search) return options;
 
   return options.filter((value: any) => {
@@ -130,9 +130,9 @@ function searchItem(options: any, search: string) {
   });
 }
 
-function isSelected(item: any, subItem: any) {
-  return model.value[getValue(item)]?.some(
-    (x: any) => getValue(x) === getValue(subItem)
+function isSelected(option: any, subOption: any) {
+  return model.value[getValue(option)]?.some(
+    (x: any) => getValue(x) === getValue(subOption)
   );
 }
 
@@ -179,47 +179,47 @@ function apply() {
       <span class="select-count">{{ selected }}</span>
     </template>
 
-    <template #items>
+    <template #options>
       <li
         role="option"
         :aria-selected="
           // @ts-ignore
-          item[labelKey]
+          option[labelKey]
         "
-        v-for="(item, index) in options"
-        :key="item[labelKey]"
+        v-for="(option, index) in options"
+        :key="option[labelKey]"
         class="flex flex-col gap-xs select-none h-max transition-[height] max-h-[3em] overflow-hidden"
         :tabindex="index"
-        :class="{ active: isActive(item) }"
+        :class="{ active: isActive(option) }"
         style="transition: max-height 0.2s ease"
       >
         <div
           class="flex items-center justify-between text-neutral-interaction-default w-full h-full cursor-pointer [&>*]:p-xs hover:text-primary-interaction-default hover:bg-primary-surface-hover"
           :class="{
             'bg-primary-surface-default text-primary-interaction-default font-bold':
-              isActive(item),
+              isActive(option),
           }"
-          @click.prevent="toggleSubList(item)"
-          @keyup.space="toggleSubList(item)"
+          @click.prevent="toggleSubList(option)"
+          @keyup.space="toggleSubList(option)"
         >
           <p class="text-neutral-interaction-default">
-            {{ item[labelKey] }}
+            {{ option[labelKey] }}
           </p>
           <div class="flex items-center gap-xs">
-            <slot v-if="model[getValue(item)]" name="status">
+            <slot v-if="model[getValue(option)]" name="status">
               <span
                 class="select-count font-normal"
                 :class="{
-                  active: isActive(item),
+                  active: isActive(option),
                 }"
               >
-                {{ model[getValue(item)].length }}
+                {{ model[getValue(option)].length }}
               </span>
             </slot>
             <div
               class="flex items-center w-fit h-fit transition-transform ease-in-out duration-300 cursor-pointer text-xl"
               :class="[
-                isActive(item)
+                isActive(option)
                   ? 'rotate-180 text-primary-interaction-default'
                   : 'text-neutral-interaction-default',
               ]"
@@ -230,7 +230,7 @@ function apply() {
         </div>
         <Transition name="content">
           <ul
-            v-if="isActive(item)"
+            v-if="isActive(option)"
             class="flex flex-col gap-xs pxxs overflow-auto custom-scroll max-h-[12em] mr-xxs mxxs"
           >
             <div
@@ -243,7 +243,7 @@ function apply() {
                 size="xl"
               />
               <input
-                v-model="optionsSearch[getValue(item)]"
+                v-model="optionsSearch[getValue(option)]"
                 type="search"
                 class="h-full w-full p-0 m-0 border-none text-xs p-[.05em] placeholder:text-neutral-foreground-low outline-none border-none"
                 style="box-shadow: none"
@@ -252,25 +252,25 @@ function apply() {
               />
             </div>
             <Option
-              v-for="(subItem, subItemIndex) in searchItem(
-                item.options,
-                optionsSearch[getValue(item)]
+              v-for="(subOption, subOptionIndex) in searchOption(
+                option.options,
+                optionsSearch[getValue(option)]
               )"
               no-hover
-              :disabled="subItem.disabled"
-              :key="subItemIndex"
-              @click="selectItem(item, subItem)"
-              @key.space="selectItem(item, subItem)"
+              :disabled="subOption.disabled"
+              :key="subOptionIndex"
+              @click="selectOption(option, subOption)"
+              @key.space="selectOption(option, subOption)"
               class="flex items-center pl-xxs gap-xs"
             >
               <Checkbox
                 :modelValue="
                   // @ts-ignore
-                  isSelected(item, subItem)
+                  isSelected(option, subOption)
                 "
                 class="pointer-events-none"
               />
-              {{ getLabel(subItem) }}
+              {{ getLabel(subOption) }}
             </Option>
           </ul>
         </Transition>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Option from "./Option.vue";
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     label?: string;
     icon?: string;

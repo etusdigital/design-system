@@ -34,14 +34,14 @@ export default {
       },
       description: "Shows two calendar months side by side.",
     },
-    maxInit: {
+    minDate: {
       type: { summary: "Date" },
       table: {
         defaultValue: { summary: null },
       },
       description: "Will be the oldest date the user can select.",
     },
-    maxEnd: {
+    maxDate: {
       type: { summary: "Date" },
       table: {
         defaultValue: { summary: null },
@@ -58,8 +58,8 @@ const defaultArgs = {
   lang: "en-US",
   type: "date",
   doubleCalendar: false,
-  maxInit: undefined,
-  maxEnd: undefined,
+  minDate: undefined,
+  maxDate: undefined,
 };
 
 const defaultRender = (args: any) => ({
@@ -73,8 +73,8 @@ const defaultRender = (args: any) => ({
       :lang="args.lang" 
       :type="args.type" 
       :double-calendar="args.doubleCalendar" 
-      :max-init="args.maxInit" 
-      :max-end="args.maxEnd"
+      :min-date="args.minDate" 
+      :max-date="args.maxDate"
     />
     `,
 });
@@ -116,18 +116,18 @@ export const DoubleCalendar: Story = {
   },
 };
 
-export const MaxInit: Story = {
+export const MinDate: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
-    maxInit: new Date(),
+    minDate: new Date(),
   },
 };
 
-export const MaxEnd: Story = {
+export const MaxDate: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
-    maxEnd: new Date(),
+    maxDate: new Date(),
   },
 };

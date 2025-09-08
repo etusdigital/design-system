@@ -54,10 +54,10 @@ watch(
 
 const emit = defineEmits<{
   "update:modelValue": [value: any];
-  changeStep: [item: any, index: number];
+  changeStep: [option: any, index: number];
 }>();
 
-function changeActiveStep(item: any, index: number) {
+function changeActiveStep(option: any, index: number) {
   if (!props.disabled) {
     if (
       biggerStepSelected.value + 1 === index ||
@@ -66,8 +66,8 @@ function changeActiveStep(item: any, index: number) {
       props.allowedSkip
     ) {
       step.value = index;
-      model.value = props.getObject ? item : getValue(item);
-      emit("update:modelValue", item);
+      model.value = props.getObject ? option : getValue(option);
+      emit("update:modelValue", option);
     }
 
     if (biggerStepSelected.value < index && step.value === index)
@@ -75,7 +75,7 @@ function changeActiveStep(item: any, index: number) {
   }
 
   passedIn.value.add(index);
-  emit("changeStep", item, index);
+  emit("changeStep", option, index);
 }
 
 function isSkipped(index: number) {
@@ -86,22 +86,22 @@ function isSkipped(index: number) {
   );
 }
 
-function getLabel(item: any) {
-  return isObject(item) ? item[props.labelKey] : item;
+function getLabel(option: any) {
+  return isObject(option) ? option[props.labelKey] : option;
 }
 
-function getValue(item: any) {
-  return isObject(item) ? item[props.valueKey] : item;
+function getValue(option: any) {
+  return isObject(option) ? option[props.valueKey] : option;
 }
 
-function findIndex(item: any) {
-  return props.options.findIndex((i) => getValue(i) == getValue(item));
+function findIndex(option: any) {
+  return props.options.findIndex((i) => getValue(i) == getValue(option));
 }
 </script>
 <template>
   <div class="stepper flex w-full" v-if="version == 1">
     <button
-      v-for="(item, index) in options"
+      v-for="(option, index) in options"
       :key="`step-button-${index}`"
       class="step-button"
       :class="[
@@ -115,10 +115,10 @@ function findIndex(item: any) {
           'past-button': index <= biggerStepSelected,
         },
       ]"
-      @click="changeActiveStep(item, index)"
+      @click="changeActiveStep(option, index)"
     >
       <span class="step-value mr-[.6em]">{{
-        getLabel(item)
+        getLabel(option)
       }}</span>
       <span class="before-triangle-cover" v-if="index !== 0"></span>
       <span class="after-triangle-cover" v-if="options[index + 1]"></span>
@@ -126,7 +126,7 @@ function findIndex(item: any) {
   </div>
   <div class="stepper flex justify-end" v-if="version == 2">
     <div
-      v-for="(item, index) in options"
+      v-for="(option, index) in options"
       :key="`step-button-${index}`"
       class="flex items-center"
       :class="[size, options[index + 1] ? 'w-full' : 'w-fit']"
@@ -147,15 +147,15 @@ function findIndex(item: any) {
         />
         <button
           class="step-button-circle"
-          :data-after-content="getLabel(item)"
+          :data-after-content="getLabel(option)"
           :class="{
             'active-button': index === step,
             'past-button': index <= biggerStepSelected,
             'skip-button': isSkipped(index),
           }"
-          @click="changeActiveStep(item, index)"
+          @click="changeActiveStep(option, index)"
         >
-          <Icon :name="item.icon ? item.icon : 'image'" />
+          <Icon :name="option.icon ? option.icon : 'image'" />
         </button>
       </div>
       <span

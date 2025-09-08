@@ -6,12 +6,12 @@ export default {
   argTypes: {
     modelValue: {
       type: { summary: "any" },
-      description: "Will name of the selected item.",
+      description: "Will name of the selected option.",
     },
     options: {
       type: { summary: "array" },
       description:
-        "Array of object to be used as menu options. Props(label: string, value: string, icon: string, path: string, disabled: boolean, bottom: boolean, options: Item[])",
+        "Array of object to be used as menu options. Props(label: string, value: string, icon: string, path: string, disabled: boolean, bottom: boolean, options: Option[])",
     },
     parentPath: {
       type: { summary: "string" },

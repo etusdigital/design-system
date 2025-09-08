@@ -22,8 +22,8 @@ const props = withDefaults(
     type?: Type;
     isCompare?: boolean;
     allowChangeType?: boolean;
-    maxInit?: Date;
-    maxEnd?: Date;
+    minDate?: Date;
+    maxDate?: Date;
     disabled?: boolean;
     required?: boolean;
     isError?: boolean;
@@ -243,8 +243,8 @@ function changeType() {
             v-model="model"
             :lang="lang"
             :type="type"
-            :max-init="maxInit"
-            :max-end="maxEnd"
+            :min-date="minDate"
+            :max-date="maxDate"
             :double-calendar="type !== 'date'"
             @update:model-value="setModel"
           />

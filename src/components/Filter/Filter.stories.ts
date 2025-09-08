@@ -84,11 +84,11 @@ export default {
     },
     status: {
       description:
-        "This slot will be status when a item is selected. Param: selected (number of selected options).",
+        "This slot will be status when a option is selected. Param: selected (number of selected options).",
     },
     "status-label": {
       description:
-        "This slot will be status text when a item is selected. Param: selected (number of selected options).",
+        "This slot will be status text when a option is selected. Param: selected (number of selected options).",
     },
     "clear-label": {
       description: "Will be clear button text.",

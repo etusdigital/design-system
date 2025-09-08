@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import { ref, watch, onBeforeMount } from "vue";
-import { type Item as ItemType } from "#utils/types/DropItem";
+import { type Option as OptionType } from "#utils/types/DropOption";
 import { isObject } from "../../utils";
-import Item from "./Item.vue";
+import Option from "./Option.vue";
 
 type ModelValue =
   | string
   | number
   | boolean
   | object
-  | Array<string | number | boolean | object | ItemType>
-  | ItemType
+  | Array<string | number | boolean | object | OptionType>
+  | OptionType
   | undefined;
 
 const props = withDefaults(
   defineProps<{
     modelValue?: ModelValue;
-    items: ItemType[];
+    options: OptionType[];
     labelKey?: string;
     valueKey?: string;
     getObject?: boolean;
@@ -25,7 +25,7 @@ const props = withDefaults(
   }>(),
   {
     modelValue: undefined,
-    items: () => [] as ItemType[],
+    options: () => [] as OptionType[],
     labelKey: "label",
     valueKey: "value",
     getObject: false,
@@ -76,55 +76,55 @@ function updateModel() {
   emit("update:modelValue", model.value);
 }
 
-function getItem(item: ItemType) {
-  return props.getObject ? item : getValue(item);
+function getOption(option: OptionType) {
+  return props.getObject ? option : getValue(option);
 }
 
-function getValue(item: ItemType) {
-  return isObject(item) ? (item as any)[props.valueKey] : item;
+function getValue(option: OptionType) {
+  return isObject(option) ? (option as any)[props.valueKey] : option;
 }
 
-function getParent(value: ItemType, items = props.items): ItemType | undefined {
-  return items?.find((item: ItemType) => {
-    if (!item.items || !item.items.length) return false;
+function getParent(value: OptionType, options = props.options): OptionType | undefined {
+  return options?.find((option: OptionType) => {
+    if (!option.options || !option.options.length) return false;
 
-    const founded = item.items.find(
-      (x: ItemType) => getValue(x) === getValue(value)
+    const founded = option.options.find(
+      (x: OptionType) => getValue(x) === getValue(value)
     );
     if (founded) return founded;
 
-    return getParent(value, item.items);
+    return getParent(value, option.options);
   });
 }
 
-function parseModel(value: ItemType, add = false) {
+function parseModel(value: OptionType, add = false) {
   let originalValue = value;
-  value = getItem(value);
+  value = getOption(value);
 
   if (props.multiple && Array.isArray(model.value)) {
     if (props.getObject) {
       const parent = getParent(originalValue);
       if (!parent)
-        parseItem(originalValue, model.value as Array<ItemType>, add);
+        parseOption(originalValue, model.value as Array<OptionType>, add);
       else
         updateSelection(
           originalValue,
           parent,
-          model.value as Array<ItemType>,
+          model.value as Array<OptionType>,
           add
         );
-      model.value = model.value.filter((x: ItemType) => x.items?.length);
+      model.value = model.value.filter((x: OptionType) => x.options?.length);
     } else {
       const index = model.value.findIndex(
         (x: any) => getValue(x) === getValue(value)
       );
 
       if (index != -1) model.value.splice(index, 1);
-      else if (!originalValue.items?.length) model.value.push(value);
+      else if (!originalValue.options?.length) model.value.push(value);
 
-      if (originalValue.items?.length) {
-        originalValue.items.forEach((item: ItemType) => {
-          parseModel(item, add);
+      if (originalValue.options?.length) {
+        originalValue.options.forEach((option: OptionType) => {
+          parseModel(option, add);
         });
       }
     }
@@ -132,51 +132,51 @@ function parseModel(value: ItemType, add = false) {
 }
 
 function updateSelection(
-  item: ItemType,
-  parent: ItemType,
-  model: Array<ItemType>,
+  option: OptionType,
+  parent: OptionType,
+  model: Array<OptionType>,
   add: boolean
 ) {
-  if (!parent.items) return;
+  if (!parent.options) return;
 
-  const isLevel = parent.items.findIndex((x) => getValue(x) === getValue(item));
+  const isLevel = parent.options.findIndex((x) => getValue(x) === getValue(option));
 
   let index = model.findIndex((x) => getValue(x) === getValue(parent));
   if ((!model.length || index == -1) && add) {
     index = model.length;
     model.push({
       ...parent,
-      items: [] as ItemType[],
+      options: [] as OptionType[],
     });
   }
 
   if (isLevel == -1) {
-    const newParent = getParent(item, parent.items);
-    if (model[index]?.items && newParent)
-      updateSelection(item, newParent, model[index].items!, add);
+    const newParent = getParent(option, parent.options);
+    if (model[index]?.options && newParent)
+      updateSelection(option, newParent, model[index].options!, add);
 
     return;
   }
 
-  parseItem(item, model[index].items!, add);
+  parseOption(option, model[index].options!, add);
 
   if (
     index !== -1 &&
-    model[index]?.items &&
-    !model[index]?.items?.length &&
+    model[index]?.options &&
+    !model[index]?.options?.length &&
     !add
   )
     model.splice(index, 1);
 }
 
-function parseItem(item: ItemType, items: ItemType[], add: boolean) {
-  const index = items.findIndex((x) => getValue(x) === getValue(item));
-  if (index != -1) items.splice(index, 1);
+function parseOption(option: OptionType, options: OptionType[], add: boolean) {
+  const index = options.findIndex((x) => getValue(x) === getValue(option));
+  if (index != -1) options.splice(index, 1);
 
-  if (add) items.push(JSON.parse(JSON.stringify(item)));
+  if (add) options.push(JSON.parse(JSON.stringify(option)));
 }
 
-function setModel(value: ItemType, add = false) {
+function setModel(value: OptionType, add = false) {
   parseModel(value, add);
   updateModel();
 }
@@ -184,11 +184,11 @@ function setModel(value: ItemType, add = false) {
 
 <template>
   <div class="tree">
-    <Item
-      v-for="item in items"
-      :key="getValue(item)"
+    <Option
+      v-for="option in options"
+      :key="getValue(option)"
       :model-value="model"
-      :item="item"
+      :option="option"
       :get-object="getObject"
       :label-key="labelKey"
       :value-key="valueKey"

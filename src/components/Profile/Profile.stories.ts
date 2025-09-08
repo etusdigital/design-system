@@ -76,13 +76,13 @@ export default {
       description:
         "This function will executed when button edit profile is pressed.",
     },
-    editItem: {
+    editOption: {
       type: { summary: "function" },
       table: {
         defaultValue: { summary: "()=>{void}" },
       },
       description:
-        "This function will executed when button edit item is pressed.",
+        "This function will executed when button edit option is pressed.",
     },
     termsOfUseFucntion: {
       type: { summary: "function" },
@@ -115,15 +115,15 @@ export default {
       description:
         "This slot is the edit profile button text and function that execute when this it's clicked.",
     },
-    'edit-item': {
+    'edit-option': {
       table: {
         defaultValue: { summary: "Edit Account" },
       },
       description: "This slot is the edit account button text and function that execute when this it's clicked.",
     },
-    item: {
+    option: {
       description:
-        "This slot will be displayed as an account option. Params: item, index and active.",
+        "This slot will be displayed as an account option. Params: option, index and active.",
     },
     'privacy-policy': {
       table: {
@@ -145,7 +145,7 @@ type Story = StoryObj<typeof Profile>;
 const defaultArgs = {
   modelValue: "personal-account",
   name: "John Doe",
-  picture: "",
+  picture: undefined,
   absolute: false,
   disabled: false,
   getObject: false,
@@ -160,7 +160,7 @@ const defaultArgs = {
   valueKey: "value",
   logout: () => {},
   edit: () => {},
-  editItem: () => {},
+  editOption: () => {},
   privacyPolicyFunction: () => {},
   termsOfUseFucntion: () => {},
 };
@@ -183,14 +183,14 @@ const defaultRender = (args: any) => ({
       :get-object="args.getObject"
       @logout="args.logout"
       @edit="args.edit"
-      @edit-item="args.editItem"
+      @edit-option="args.editOption"
       @privacy-policy-function="args.privacyPolicyFunction"
       @terms-of-use-fucntion="args.termsOfUseFucntion"
     >
       <template #edit-slot>
           Edit profile
       </template>
-      <template #edit-item>
+      <template #edit-option>
           Edit account
       </template>
       <template #logout-slot>
@@ -227,7 +227,7 @@ export const Disabled: Story = {
   },
 };
 
-export const Items: Story = {
+export const Options: Story = {
   render: (args: any) => ({
     components: { Profile },
     setup() {
@@ -246,14 +246,14 @@ export const Items: Story = {
           :get-object="args.getObject"
           @logout="args.logout"
           @edit="args.edit"
-          @edit-item="args.editItem"
+          @edit-option="args.editOption"
           @privacy-policy-function="args.privacyPolicyFunction"
           @terms-of-use-fucntion="args.termsOfUseFucntion"
       >
           <template #edit-slot>
               Edit profile
           </template>
-          <template #edit-item>
+          <template #edit-option>
               Edit account
           </template>
           <template #logout-slot>
@@ -265,10 +265,10 @@ export const Items: Story = {
           <template #terms-of-use>
               Terms Of Use
           </template>
-          <template #item="{ item, index, active }">
+          <template #option="{ option, index, active }">
               <div class="flex items-center gap-xs">
                   <Icon name="account_circle" />
-                  <span :class="{'underline': active }">{{ item.label }}</span>
+                  <span :class="{'underline': active }">{{ option.label }}</span>
               </div>
           </template>
       </Profile>

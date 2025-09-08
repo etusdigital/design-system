@@ -24,12 +24,12 @@ import * as Menu from './Menu.stories';
 <template>
     <div class="h-screen flex">
         <Menu 
-            v-model="selectedItem"
+            v-model="selectedOption"
             :expanded="isExpanded"
-            :options="menuItems"
+            :options="menuOptions"
         />
         <main class="flex-1 p-base">
-            <h1>Selected: {{ selectedItem }}</h1>
+            <h1>Selected: {{ selectedOption }}</h1>
         </main>
     </div>
 </template>
@@ -37,9 +37,9 @@ import * as Menu from './Menu.stories';
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const selectedItem = ref("dashboard")
+const selectedOption = ref("dashboard")
 const isExpanded = ref(true)
-const menuItems = ref([...])
+const menuOptions = ref([...])
 </script>
 ```
 
@@ -50,7 +50,7 @@ const menuItems = ref([...])
 ### Props API
 
 #### v-model
-Controls the selected menu item value or object. Type: `any` (default: `undefined`)
+Controls the selected menu option value or object. Type: `any` (default: `undefined`)
 
 #### expanded
 Controls whether the menu is expanded to show labels. Type: `boolean` (default: `false`)
@@ -58,51 +58,51 @@ Controls whether the menu is expanded to show labels. Type: `boolean` (default: 
 <Canvas sourceState="none" of={Menu.Expanded} />
 
 #### options
-Array of menu options with navigation and display properties. Type: `Item[]` (required)
+Array of menu options with navigation and display properties. Type: `Option[]` (required)
 
 ```typescript
-type Item = {
-  label: string;       // Display text for the menu item
-  value: string;       // Unique identifier for the item
+type Option = {
+  label: string;       // Display text for the menu option
+  value: string;       // Unique identifier for the option
   icon?: string;       // Icon name to display
   path?: string;       // Navigation path/route
-  disabled?: boolean;  // Whether the item is disabled
+  disabled?: boolean;  // Whether the option is disabled
   bottom?: boolean;    // Whether to position at bottom of menu
-  options?: Item[];      // Nested menu options (for sub-menus)
+  options?: Option[];      // Nested menu options (for sub-menus)
 }
 ```
 
 #### get-object
-Returns the complete item object instead of just the value. Type: `boolean` (default: `false`)
+Returns the complete option object instead of just the value. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
 #### @update:model-value
-Triggered when a menu item is selected. Receives either the item value or complete object based on `get-object` prop.
+Triggered when a menu option is selected. Receives either the option value or complete object based on `get-object` prop.
 
 ### Slots API
 
-This component uses internal MenuOption components and doesn't expose custom slots for item rendering.
+This component uses internal MenuOption components and doesn't expose custom slots for option rendering.
 
 ### Integration with side-menu
 
-The Menu component can be integrated with SideMenu to handle nested menu options and sunavigation. When using `get-object="true"`, the selected menu item can contain nested options that are displayed in a secondary navigation panel.
+The Menu component can be integrated with SideMenu to handle nested menu options and sunavigation. When using `get-object="true"`, the selected menu option can contain nested options that are displayed in a secondary navigation panel.
 
 ```vue
 <template>
     <div class="flex h-screen">
         <Menu 
-            v-model="selectedMenuItem"
+            v-model="selectedMenuOption"
             :expanded="menuExpanded"
-            :options="mainMenuItems"
+            :options="mainMenuOptions"
             get-object
         />
         <side-menu
-            v-if="selectedMenuItem?.options"
-            :options="selectedMenuItem.options"
-            :parent-path="selectedMenuItem.path"
+            v-if="selectedMenuOption?.options"
+            :options="selectedMenuOption.options"
+            :parent-path="selectedMenuOption.path"
             :get-object="true"
         />
         <main class="flex-1 p-base">
@@ -114,7 +114,7 @@ The Menu component can be integrated with SideMenu to handle nested menu options
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const mainMenuItems = ref([
+const mainMenuOptions = ref([
     ...
     {
         label: "Projects",
@@ -142,7 +142,7 @@ const mainMenuItems = ref([
     ...
 ])
 
-const selectedMenuItem = ref(mainMenuItems.value[1])
+const selectedMenuOption = ref(mainMenuOptions.value[1])
 const menuExpanded = ref(true)
 </script>
 ```

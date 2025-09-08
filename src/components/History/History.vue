@@ -32,40 +32,40 @@ const [model, setModel] = useOptionalModel<any>(
 <template>
   <div class="history" :class="{ flex: position === 'top' || position === 'bottom' }">
     <div
-      v-for="(item, index) in options"
+      v-for="(option, index) in options"
       :key="index"
-      class="item"
+      class="option"
       :class="[
         position,
-        item.type ? item.type : type,
+        option.type ? option.type : type,
         {
-          'last-item': !options[index + 1],
-          'first-item': index == 0,
-          active: (index == 0 && !model && !disabled) || item === model,
+          'last-option': !options[index + 1],
+          'first-option': index == 0,
+          active: (index == 0 && !model && !disabled) || option === model,
           disabled: disabled,
         },
       ]"
-      @click="!disabled && setModel(item, { index })"
+      @click="!disabled && setModel(option, { index })"
     >
       <div
         class="circle"
         :class="{
-          'circle-icon': !!item.icon && !item.isIconRound,
-          'round-icon': !!item.icon && item.isIconRound,
+          'circle-icon': !!option.icon && !option.isIconRound,
+          'round-icon': !!option.icon && option.isIconRound,
         }"
       >
-        <Icon :name="item.icon" v-if="item.icon" :filled="!item.unfilled" />
+        <Icon :name="option.icon" v-if="option.icon" :filled="!option.unfilled" />
       </div>
       <div
         class="custom-border"
-        :class="{ 'have-icon': !!item.icon && !item.isIconRound }"
+        :class="{ 'have-icon': !!option.icon && !option.isIconRound }"
       />
       <div class="data-list">
         <slot
-          name="item"
-          :item="item"
+          name="option"
+          :option="option"
           :index="index"
-          :active="(index == 0 && !model && !disabled) || item === model"
+          :active="(index == 0 && !model && !disabled) || option === model"
         />
       </div>
     </div>
@@ -74,7 +74,7 @@ const [model, setModel] = useOptionalModel<any>(
 <style scoped>
 @reference "../../assets/main.css";
 
-.first-item {
+.first-option {
   .data-list {
     @apply border-none;
   }
@@ -84,27 +84,27 @@ const [model, setModel] = useOptionalModel<any>(
   }
 }
 
-.last-item {
+.last-option {
   .data-list {
     @apply border-none;
   }
 }
 
-.item.first-item.last-item {
+.option.first-option.last-option {
   .custom-border {
     @apply hidden;
   }
 }
 
-.item {
+.option {
   @apply w-full relative cursor-pointer;
 }
 
-.item.disabled {
+.option.disabled {
   @apply hover:bg-transparent cursor-default;
 }
 
-.item.disabled.primary {
+.option.disabled.primary {
   @apply hover:bg-transparent;
 
   .circle {
@@ -116,7 +116,7 @@ const [model, setModel] = useOptionalModel<any>(
   }
 }
 
-.item.disabled.info {
+.option.disabled.info {
   @apply hover:bg-transparent;
 
   .circle {
@@ -128,7 +128,7 @@ const [model, setModel] = useOptionalModel<any>(
   }
 }
 
-.item.disabled.success {
+.option.disabled.success {
   @apply hover:bg-transparent;
 
   .circle {
@@ -140,7 +140,7 @@ const [model, setModel] = useOptionalModel<any>(
   }
 }
 
-.item.disabled.warning {
+.option.disabled.warning {
   @apply hover:bg-transparent;
 
   .circle {
@@ -152,7 +152,7 @@ const [model, setModel] = useOptionalModel<any>(
   }
 }
 
-.item.disabled.danger {
+.option.disabled.danger {
   @apply hover:bg-transparent;
 
   .circle {
@@ -164,7 +164,7 @@ const [model, setModel] = useOptionalModel<any>(
   }
 }
 
-.item.disabled.neutral {
+.option.disabled.neutral {
   @apply hover:bg-transparent;
 
   .circle {
@@ -176,27 +176,27 @@ const [model, setModel] = useOptionalModel<any>(
   }
 }
 
-.item.primary {
+.option.primary {
   @apply hover:bg-primary-surface-default;
 }
 
-.item.info {
+.option.info {
   @apply hover:bg-informative-surface-default;
 }
 
-.item.success {
+.option.success {
   @apply hover:bg-success-surface-default;
 }
 
-.item.warning {
+.option.warning {
   @apply hover:bg-warning-surface-default;
 }
 
-.item.danger {
+.option.danger {
   @apply hover:bg-danger-surface-default;
 }
 
-.item.neutral {
+.option.neutral {
   @apply hover:bg-neutral-surface-highlight;
 }
 
@@ -319,7 +319,7 @@ const [model, setModel] = useOptionalModel<any>(
   }
 }
 
-.right.first-item {
+.right.first-option {
   @apply pt-[20px];
 
   .custom-border {
@@ -340,7 +340,7 @@ const [model, setModel] = useOptionalModel<any>(
   }
 }
 
-.right.last-item {
+.right.last-option {
   .custom-border {
     @apply border-r-xxs h-[22px] w-[.5px] mt-[0] ml-[5px];
   }
@@ -366,7 +366,7 @@ const [model, setModel] = useOptionalModel<any>(
   }
 }
 
-.left.first-item {
+.left.first-option {
   @apply pt-[20px];
 
   .custom-border {
@@ -387,7 +387,7 @@ const [model, setModel] = useOptionalModel<any>(
   }
 }
 
-.left.last-item {
+.left.last-option {
   .custom-border {
     @apply border-l-xxs h-[22px] w-[.5px] right-[26px];
   }
@@ -415,11 +415,11 @@ const [model, setModel] = useOptionalModel<any>(
   }
 }
 
-.top.item {
+.top.option {
   @apply pt-[20px] p-[16px];
 }
 
-.top.first-item {
+.top.first-option {
   .custom-border {
     @apply border-t-xxs ml-[26px] 2xl:mt-[0.5%];
   }
@@ -438,7 +438,7 @@ const [model, setModel] = useOptionalModel<any>(
   }
 }
 
-.top.last-item {
+.top.last-option {
   .custom-border {
     @apply border-t-xxs w-[22px] left-[-5px] 2xl:mt-[0.5%];
   }
@@ -472,7 +472,7 @@ const [model, setModel] = useOptionalModel<any>(
   }
 }
 
-.bottom.first-item {
+.bottom.first-option {
   .custom-border {
     @apply border-xxs ml-[26px] bottom-[20.5px];
   }
@@ -487,7 +487,7 @@ const [model, setModel] = useOptionalModel<any>(
   }
 }
 
-.bottom.last-item {
+.bottom.last-option {
   .custom-border {
     @apply border-xxs w-[22px] left-[-5px] bottom-[20.5px];
   }

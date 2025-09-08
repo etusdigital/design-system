@@ -48,10 +48,10 @@ Controls the currently active step. Type: `any` (default: `undefined`)
 Array of step options that can be strings or objects. Type: `any[]` (required)
 
 #### label-key
-Property name used for displaying item labels when using object arrays. Type: `string` (default: `"label"`)
+Property name used for displaying option labels when using object arrays. Type: `string` (default: `"label"`)
 
 #### value-key
-Property name used for item values when using object arrays. Type: `string` (default: `"value"`)
+Property name used for option values when using object arrays. Type: `string` (default: `"value"`)
 
 #### size
 Controls the stepper size variant. Type: `'medium' | 'large'` (default: `'medium'`)
@@ -81,7 +81,7 @@ Stepper visual style version. Type: `1 | 2` (default: `1`)
 <Canvas sourceState="none" of={Stepper.Versions} />
 
 #### get-object
-Returns the complete item object instead of just the value when true. Type: `boolean` (default: `false`)
+Returns the complete option object instead of just the value when true. Type: `boolean` (default: `false`)
 
 ---
 
@@ -91,7 +91,7 @@ Returns the complete item object instead of just the value when true. Type: `boo
 Triggered when the active step changes (v-model). Receives the new step value.
 
 #### @change-step
-Triggered when any step interaction occurs. Receives the step item and index.
+Triggered when any step interaction occurs. Receives the step option and index.
 
 ```vue
 <template>
@@ -112,7 +112,7 @@ const currentStep = ref(...)
 const steps = ref([...])
 const attr = ref(...)
 
-const handleStepChange = (item, index) => {
+const handleStepChange = (option, index) => {
     if (!isValid()) {
         toast({...})
         return

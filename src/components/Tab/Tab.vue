@@ -36,13 +36,17 @@ const emit =
     "update:modelValue": [value: any];
   }>();
 
-function changeTab(item: any) {
-  model.value = item;
-  emit("update:modelValue", item);
+function changeTab(option: any) {
+  model.value = option;
+  emit("update:modelValue", option);
 }
 
-function getValue(item: any): string {
-  return isObject(item) ? item[props.valueKey] : item;
+function getValue(option: any): string {
+  return isObject(option) ? option[props.valueKey] : option;
+}
+
+function getLabel(option: any): string {
+  return isObject(option) ? option[props.labelKey] : option;
 }
 </script>
 
@@ -55,19 +59,19 @@ function getValue(item: any): string {
   >
     <div class="flex font-bold text-sm gap-xs w-fit">
       <button
-        v-for="(item, index) in options"
+        v-for="(option, index) in options"
         :key="index"
         class="default-tab"
-        :class="{ 'active-tab': getValue(model) == getValue(item) }"
-        @click="changeTab(item)"
+        :class="{ 'active-tab': getValue(model) == getValue(option) }"
+        @click="changeTab(option)"
       >
-        <div v-if="isObject(item)" class="flex items-center gap-xxs">
-          <Icon :name="item.icon" v-if="item.icon" />
-          <h5 v-if="item[labelKey]">{{ item[labelKey] }}</h5>
+        <div v-if="isObject(option)" class="flex items-center gap-xxs">
+          <Icon :name="option.icon" v-if="option.icon" />
+          <h5 v-if="getLabel(option)">{{ getLabel(option) }}</h5>
         </div>
         <div v-else>
-          <Icon :name="item" v-if="isIcon" />
-          <h5 v-else>{{ item }}</h5>
+          <Icon :name="option" v-if="isIcon" />
+          <h5 v-else>{{ option }}</h5>
         </div>
       </button>
     </div>

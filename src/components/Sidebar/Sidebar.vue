@@ -2,13 +2,13 @@
 import { onBeforeMount, computed } from "vue";
 import { useOptionalModel } from "#composables";
 import { checkPath, isObject } from "../../utils";
-import { type Item as ItemType } from "../../utils/types/MenuItem";
-import Item from "./Item.vue";
+import { type Option as OptionType } from "../../utils/types/MenuOption";
+import Option from "./Option.vue";
 
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
-    options: ItemType[];
+    options: OptionType[];
     parentPath?: string;
     getObject?: boolean;
   }>(),
@@ -24,9 +24,9 @@ const emit = defineEmits<{
 }>();
 
 const [model] = useOptionalModel<any>(props, "modelValue", emit, "");
-const parsedItems = computed(() => [
-  props.options.filter((item) => !item.bottom),
-  props.options.filter((item) => item.bottom),
+const parsedOptions = computed(() => [
+  props.options.filter((option) => !option.bottom),
+  props.options.filter((option) => option.bottom),
 ]);
 
 const computedHeight = computed((): string => {
@@ -41,52 +41,52 @@ const computedHeight = computed((): string => {
 });
 
 onBeforeMount(() => {
-  const item = getPaths(props.options, props.parentPath).find((item) =>
-    checkPath(item.path)
+  const option = getPaths(props.options, props.parentPath).find((option) =>
+    checkPath(option.path)
   );
-  if (item) changeModel(item.value);
+  if (option) changeModel(option.value);
 });
 
 function getPaths(
-  options: ItemType[],
+  options: OptionType[],
   parentPath: string = ""
 ): { path: string; value: any }[] {
   const result: { path: string; value: any }[] = [];
 
-  for (const item of options) {
-    const currentPath = parentPath ? `${parentPath}/${item.path}` : item.path;
+  for (const option of options) {
+    const currentPath = parentPath ? `${parentPath}/${option.path}` : option.path;
 
-    if (item.items?.length) {
-      result.push(...getPaths(item.items, currentPath));
+    if (option.options?.length) {
+      result.push(...getPaths(option.options, currentPath));
     } else {
-      result.push({ path: currentPath || "", value: item.value });
+      result.push({ path: currentPath || "", value: option.value });
     }
   }
   return result;
 }
 
-function changeSelected(options: ItemType[], value: string): boolean {
+function changeSelected(options: OptionType[], value: string): boolean {
   let selected = false;
-  for (const item of options) {
-    if (item.items && item.items.length)
-      item.selected = changeSelected(item.items, value);
-    else item.selected = item.value == value;
+  for (const option of options) {
+    if (option.options && option.options.length)
+      option.selected = changeSelected(option.options, value);
+    else option.selected = option.value == value;
 
-    if (item.selected) selected = true;
+    if (option.selected) selected = true;
   }
   return selected;
 }
 
-function changeModel(item: ItemType) {
-  const value = props.getObject ? item : getValue(item);
+function changeModel(option: OptionType) {
+  const value = props.getObject ? option : getValue(option);
   model.value = value;
 
   changeSelected(props.options, value);
   emit("update:modelValue", value);
 }
 
-function getValue(item: any) {
-  return isObject(item) ? item.value : item;
+function getValue(option: any) {
+  return isObject(option) ? option.value : option;
 }
 </script>
 
@@ -94,15 +94,15 @@ function getValue(item: any) {
   <div class="sidebar">
     <div
       class="options-container"
-      v-for="(options, index) in parsedItems"
+      v-for="(options, index) in parsedOptions"
       :key="index"
     >
-      <Item
-        v-for="item in options"
+      <Option
+        v-for="option in options"
         v-model="model"
-        v-model:selected="item.selected"
-        :key="item.value"
-        :item="item"
+        v-model:selected="option.selected"
+        :key="option.value"
+        :option="option"
         :get-object="getObject"
         :parent-path="parentPath"
         @update:model-value="changeModel"

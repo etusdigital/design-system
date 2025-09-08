@@ -2,14 +2,14 @@
 import { onBeforeMount, computed, resolveComponent } from "vue";
 import { useOptionalModel } from "#composables";
 import { checkPath, isObject } from "../../utils";
-import { type Item } from "../../utils/types/MenuItem";
+import { type Option } from "../../utils/types/MenuOption";
 import MenuOption from "../../utils/components/MenuOption.vue";
 
 const props = withDefaults(
   defineProps<{
     modelValue?: any;
     expanded?: boolean;
-    options: Item[];
+    options: Option[];
     getObject?: boolean;
   }>(),
   {
@@ -24,9 +24,9 @@ const emit = defineEmits<{
 }>();
 
 const [model] = useOptionalModel<any>(props, "modelValue", emit, "");
-const parsedItems = computed(() => [
-  props.options.filter((item) => !item.bottom),
-  props.options.filter((item) => item.bottom),
+const parsedOptions = computed(() => [
+  props.options.filter((option) => !option.bottom),
+  props.options.filter((option) => option.bottom),
 ]);
 const computedHeight = computed((): string => {
   if (
@@ -40,17 +40,17 @@ const computedHeight = computed((): string => {
 });
 
 onBeforeMount(() => {
-  const item = props.options.find((item) => checkPath(item.path || ""));
-  if (item) changeModel(item);
+  const option = props.options.find((option) => checkPath(option.path || ""));
+  if (option) changeModel(option);
 });
 
-function changeModel(item: Item) {
-  model.value = props.getObject ? item : getValue(item);
+function changeModel(option: Option) {
+  model.value = props.getObject ? option : getValue(option);
   emit("update:modelValue", model.value);
 }
 
-function getValue(item: Item) {
-  return isObject(item) ? item.value : item;
+function getValue(option: Option) {
+  return isObject(option) ? option.value : option;
 }
 
 function getPath(path: string | undefined): string {
@@ -75,28 +75,28 @@ function getLinkComponent() {
   <div class="menu">
     <div
       class="options-container"
-      v-for="(options, index) in parsedItems"
+      v-for="(options, index) in parsedOptions"
       :key="index"
     >
       <component
         :is="getContainer()"
-        v-for="item in options"
-        :key="item.value"
-        :label-value="item.label"
+        v-for="option in options"
+        :key="option.value"
+        :label-value="option.label"
       >
         <component
           :is="getLinkComponent()"
           class="hover:no-underline"
-          :class="{ 'pointer-events-none': item.disabled }"
-          :to="getPath(item.path)"
-          :href="getLinkComponent() == 'a' ? getPath(item.path) : undefined"
-          @click="changeModel(item)"
+          :class="{ 'pointer-events-none': option.disabled }"
+          :to="getPath(option.path)"
+          :href="getLinkComponent() == 'a' ? getPath(option.path) : undefined"
+          @click="changeModel(option)"
         >
           <MenuOption
-            :icon="item.icon"
-            :label="expanded ? item.label : ''"
-            :selected="item.value == getValue(model)"
-            :disabled="item.disabled"
+            :icon="option.icon"
+            :label="expanded ? option.label : ''"
+            :selected="option.value == getValue(model)"
+            :disabled="option.disabled"
           />
         </component>
       </component>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, onBeforeMount, computed, useSlots } from "vue";
 
-type Header = {
+type Column = {
   label?: string;
   value: string;
   sortable?: boolean;
@@ -9,18 +9,18 @@ type Header = {
   align?: string;
 };
 
-type Options = {
-  sortBy?: string;
-  sortDesc?: boolean;
+type SortOptions = {
+  by?: string;
+  desc?: boolean;
 };
 
 const props = withDefaults(
   defineProps<{
-    headers: Header[];
-    options: any[];
-    sortOptions?: Options;
+    columns: Column[];
+    items: any[];
+    sortOptions?: SortOptions;
     page?: number;
-    optionsPerPage?: number;
+    itemsPerPage?: number;
     numberOfItems?: number;
     renderPaginationInBackEnd?: boolean;
     hideFooter?: boolean;
@@ -33,7 +33,7 @@ const props = withDefaults(
   }>(),
   {
     page: 1,
-    optionsPerPage: 10,
+    itemsPerPage: 10,
     numberOfItems: 0,
     renderPaginationInBackEnd: false,
     hideFooter: false,
@@ -48,44 +48,44 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   "update:page": [value: number];
-  "update:optionsPerPage": [value: number];
-  sortBy: [key: string, isSortDesc: boolean];
-  pageItems: [page: number, optionsPerPage: number];
+  "update:itemsPerPage": [value: number];
+  sortBy: [key: string, desc: boolean];
+  pageItems: [page: number, itemsPerPage: number];
   selectAll: [value: boolean];
 }>();
 const slots = useSlots();
 
-const sortByName = ref(props.options?.sortBy || "");
-const pagedItems = ref(props.options || []);
-const sortDesc: any = ref(getAllHeaderKeys());
-const optionsPerPageHolder = ref(props.optionsPerPage || 10);
+const sortByName = ref(props.sortOptions?.by || "");
+const pagedItems = ref(props.items || []);
+const isDesc: any = ref(getAllHeaderKeys());
+const itemsPerPageHolder = ref(props.itemsPerPage || 10);
 const pageHolder = ref(props.page || 1);
 const listPerPage = ref([5, 10, 20, 50, 100]);
 const allSelected = ref(false);
 
 const numberPage = computed((): number => {
   if (props.renderPaginationInBackEnd) {
-    return Math.ceil(props.numberOfItems / optionsPerPageHolder.value);
+    return Math.ceil(props.numberOfItems / itemsPerPageHolder.value);
   }
 
-  return Math.ceil(props.options?.length / optionsPerPageHolder.value);
+  return Math.ceil(props.items?.length / itemsPerPageHolder.value);
 });
 const min = computed((): number =>
   pageHolder.value === 1
     ? 1
-    : (pageHolder.value - 1) * optionsPerPageHolder.value + 1
+    : (pageHolder.value - 1) * itemsPerPageHolder.value + 1
 );
 const max = computed(
   (): number =>
-    (pageHolder.value - 1) * optionsPerPageHolder.value + pagedItems.value.length
+    (pageHolder.value - 1) * itemsPerPageHolder.value + pagedItems.value.length
 );
 const total = computed((): number =>
   props.renderPaginationInBackEnd
     ? props.numberOfItems
-    : props.options?.length || 0
+    : props.items?.length || 0
 );
 const colspan = computed((): number => {
-  let colspan = props.headers.length;
+  let colspan = props.columns.length;
   if (props.enableSelection) colspan++;
   if (props.enableAggregation) colspan++;
   if (slots.actions) colspan++;
@@ -96,14 +96,14 @@ onBeforeMount(() => {
   if (props.renderPaginationInBackEnd) return;
 
   if (sortByName.value) {
-    sortBy(sortByName.value, props.sortOptions?.sortDesc);
+    sortBy(sortByName.value, props.sortOptions?.desc);
   } else {
-    pageItems(props.page, props.optionsPerPage);
+    pageItems(props.page, props.itemsPerPage);
   }
 });
 
 watch(
-  () => props.optionsPerPage,
+  () => props.itemsPerPage,
   (newValue) => {
     changeItemsPerPage(newValue, false);
   }
@@ -117,21 +117,21 @@ watch(
 );
 
 watch(
-  () => props.options,
+  () => props.items,
   () => {
-    pagedItems.value = props.options;
+    pagedItems.value = props.items;
 
     if (!props.renderPaginationInBackEnd)
-      sortBy(sortByName.value, sortDesc.value[sortByName.value], false);
+      sortBy(sortByName.value, isDesc.value[sortByName.value], false);
   },
   { deep: true, immediate: true }
 );
 
 function getAllHeaderKeys(): { [key: string]: boolean } {
   const result: any = {};
-  props.headers.forEach((header: any) => {
+  props.columns.forEach((header: any) => {
     if (header.value == sortByName.value) {
-      result[header.value] = !!props.sortOptions?.sortDesc;
+      result[header.value] = !!props.sortOptions?.desc;
     } else {
       result[header.value] = false;
     }
@@ -142,38 +142,38 @@ function getAllHeaderKeys(): { [key: string]: boolean } {
 function changePage(page: number, emitEvent = true) {
   pageHolder.value = page;
   if (emitEvent) emit("update:page", page);
-  pageItems(page, optionsPerPageHolder.value);
+  pageItems(page, itemsPerPageHolder.value);
 }
 
-function changeItemsPerPage(optionsPerPage: number, emitEvent = true) {
-  optionsPerPageHolder.value = optionsPerPage || 10;
+function changeItemsPerPage(itemsPerPage: number, emitEvent = true) {
+  itemsPerPageHolder.value = itemsPerPage || 10;
   pageHolder.value = 1;
 
-  if (emitEvent) emit("update:optionsPerPage", optionsPerPage);
+  if (emitEvent) emit("update:itemsPerPage", itemsPerPage);
   emit("update:page", 1);
 
-  sortBy(sortByName.value, sortDesc.value[sortByName.value]);
+  sortBy(sortByName.value, isDesc.value[sortByName.value]);
 }
 
-function sortBy(key: string, isSortDesc = true, emitEvent = true) {
+function sortBy(key: string, isDesc = true, emitEvent = true) {
   if (props.renderPaginationInBackEnd) {
-    if (emitEvent) emit("sortBy", key, isSortDesc);
+    if (emitEvent) emit("sortBy", key, isDesc);
   } else {
     sortByName.value = key;
-    pagedItems.value = props.options?.sort((a: any, b: any) => {
+    pagedItems.value = props.items?.sort((a: any, b: any) => {
       const valueA = a[key];
       const valueB = b[key];
 
       if (typeof valueA === "string" && typeof valueB === "string") {
         const lowerA = valueA.toLowerCase();
         const lowerB = valueB.toLowerCase();
-        return isSortDesc
+        return isDesc
           ? lowerA.localeCompare(lowerB)
           : lowerB.localeCompare(lowerA);
       } else if (typeof valueA === "number" && typeof valueB === "number") {
-        return isSortDesc ? valueA - valueB : valueB - valueA;
+        return isDesc ? valueA - valueB : valueB - valueA;
       } else if (valueA instanceof Date && valueB instanceof Date) {
-        return isSortDesc
+        return isDesc
           ? valueA.getTime() - valueB.getTime()
           : valueB.getTime() - valueA.getTime();
       } else {
@@ -181,29 +181,29 @@ function sortBy(key: string, isSortDesc = true, emitEvent = true) {
         const stringB = String(valueB);
         const lowerA = stringA.toLowerCase();
         const lowerB = stringB.toLowerCase();
-        return isSortDesc
+        return isDesc
           ? lowerA.localeCompare(lowerB)
           : lowerB.localeCompare(lowerA);
       }
     });
   }
-  pageItems(pageHolder.value, optionsPerPageHolder.value);
+  pageItems(pageHolder.value, itemsPerPageHolder.value);
 }
 
-function pageItems(page: number, optionsPerPage: number) {
+function pageItems(page: number, itemsPerPage: number) {
   if (props.renderPaginationInBackEnd) {
-    emit("pageItems", page, optionsPerPage);
+    emit("pageItems", page, itemsPerPage);
   } else {
-    const startIndex = (page - 1) * optionsPerPage;
-    const endIndex = startIndex + optionsPerPage;
-    pagedItems.value = props.options?.slice(startIndex, endIndex);
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    pagedItems.value = props.items?.slice(startIndex, endIndex);
   }
 }
 
-function selectAll(value: boolean) {
-  emit("selectAll", value);
-  props.options?.map((item: any) => (item.selected = value));
-  pagedItems.value = props.options;
+function selectAll(value: boolean | null) {
+  emit("selectAll", !!value);
+  props.items?.map((item: any) => (item.selected = value));
+  pagedItems.value = props.items;
 }
 </script>
 
@@ -232,19 +232,19 @@ function selectAll(value: boolean) {
               <Checkbox v-model="allSelected" @update:model-value="selectAll" />
             </th>
             <th
-              v-for="(header, index) in headers"
+              v-for="(header, index) in columns"
               :key="index"
               class="cursor-pointer"
               :class="{
                 'first-th': index === 0 && !enableSelection && !enableAggregation,
-                'last-th': !headers[index + 1] && !$slots.actions,
+                'last-th': !columns[index + 1] && !$slots.actions,
                 'pointer-events-none': !header.sortable,
               }"
               :style="{ width: header.width ? header.width : 'fit-content' }"
               @click="
                 sortBy(
                   header.value,
-                  (sortDesc[header.value] = !sortDesc[header.value])
+                  (isDesc[header.value] = !isDesc[header.value])
                 )
               "
             >
@@ -259,7 +259,7 @@ function selectAll(value: boolean) {
                   v-if="header.sortable"
                   class="icon"
                   :class="{
-                    'rotate-180': sortDesc[header.value],
+                    'rotate-180': isDesc[header.value],
                     'icon-active': header.value == sortByName,
                   }"
                 >
@@ -323,7 +323,7 @@ function selectAll(value: boolean) {
                 :index="index"
               />
               <slot
-                v-for="header in headers"
+                v-for="header in columns"
                 :key="header.value"
                 :name="header.value"
                 :item="item"
@@ -358,12 +358,12 @@ function selectAll(value: boolean) {
           <slot name="items-per-page"> Items per page </slot>
         </p>
         <Select
-          v-model="optionsPerPageHolder"
+          v-model="itemsPerPageHolder"
           :options="listPerPage"
           absolute
           @update:model-value="changeItemsPerPage"
         >
-          {{ optionsPerPageHolder }}
+          {{ itemsPerPageHolder }}
         </Select>
       </div>
       <Pagination

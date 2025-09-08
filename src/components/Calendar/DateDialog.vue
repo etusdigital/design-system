@@ -32,8 +32,8 @@ const props = withDefaults(defineProps<{
                 'width': width
             }"
         >
-            <template  v-for="item in options">
-                <slot name="item" :item="item" />
+            <template  v-for="option in options">
+                <slot name="option" :option="option" />
             </template>
         </Card>
     </Transition>

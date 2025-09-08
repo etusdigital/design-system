@@ -39,10 +39,10 @@ Selection mode for the calendar. Type: `"date" | "period" | "compare"` (default:
 #### double-calendar
 Shows two calendar months side by side. Type: `boolean` (default: `false`)
 
-#### max-init
+#### min-date
 Earliest selectable date constraint. Type: `Date` (default: `undefined`)
 
-#### max-end
+#### max-date
 Latest selectable date constraint. Type: `Date` (default: `undefined`)
 
 ---
@@ -60,5 +60,5 @@ This component uses the internal Calendar component and doesn't expose custom sl
 - Supports single date, date range, and comparison modes via `type` prop
 - Use `double-calendar` prop to show two months side by side
 - Automatically handles locale-specific date formatting and display  
-- Date constraints can be applied using `max-init` and `max-end` props
+- Date constraints can be applied using `min-date` and `max-date` props
 - Returns `Date` for single selection, `Date[]` for ranges, or `Date[][]` for comparison mode

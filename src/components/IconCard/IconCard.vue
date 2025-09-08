@@ -18,7 +18,7 @@ withDefaults(
 <template>
   <div class="icon-card">
     <div
-      class="icon"
+      class="icon-container"
       :class="{
         'round-icon': isIconRound,
         'colored-background': color,
@@ -46,7 +46,7 @@ withDefaults(
   @apply relative min-w-20xl;
 }
 
-.icon {
+.icon-container {
   @apply flex items-center justify-center rounded-full bg-primary-interaction-default p-xxs w-fit h-fit text-neutral-foreground-negative absolute left-[-15px] top-[16px];
 
   .icon {
@@ -54,7 +54,7 @@ withDefaults(
   }
 }
 
-.icon.round-icon {
+.icon-container.round-icon {
   @apply bg-transparent text-primary-interaction-default p-none;
 
   .icon {

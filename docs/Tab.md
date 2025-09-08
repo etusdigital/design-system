@@ -33,10 +33,10 @@ Controls the currently selected tab. Type: `any` (default: `undefined`)
 Array of tab options. Can be strings or objects with label, value, and icon properties. Type: `any[]` (required)
 
 #### label-key
-Property name used for displaying item labels when using object arrays. Type: `string` (default: `"label"`)
+Property name used for displaying option labels when using object arrays. Type: `string` (default: `"label"`)
 
 #### value-key
-Property name used for item values when using object arrays. Type: `string` (default: `"value"`)
+Property name used for option values when using object arrays. Type: `string` (default: `"value"`)
 
 #### is-icon
 Displays icons instead of text labels. Type: `boolean` (default: `false`)
@@ -49,7 +49,7 @@ Removes card wrapper styling for a plain appearance. Type: `boolean` (default: `
 ### Events API
 
 #### @update:model-value
-Triggered when the selected tab changes. Receives the selected tab item.
+Triggered when the selected tab changes. Receives the selected tab option.
 
 ### Slots API
 

@@ -23,8 +23,8 @@ const props = withDefaults(
     lang?: string;
     type?: Type;
     doubleCalendar?: boolean;
-    maxInit?: Date;
-    maxEnd?: Date;
+    minDate?: Date;
+    maxDate?: Date;
   }>(),
   {
     lang: "en-US",
@@ -111,10 +111,10 @@ function checkValidModel() {
 }
 
 function updateItems(value?: number, changeWeeks = true) {
-  options.value.forEach((item: any) => {
-    if (value) item.date.setMonth(item.date.getMonth() + value);
-    if (changeWeeks) item.weeks = getArrayMonthDay(item.date);
-    item.title = getTitle(item.date);
+  options.value.forEach((option: any) => {
+    if (value) option.date.setMonth(option.date.getMonth() + value);
+    if (changeWeeks) option.weeks = getArrayMonthDay(option.date);
+    option.title = getTitle(option.date);
   });
 }
 
@@ -253,7 +253,7 @@ function changeYear(year: number) {
 <template>
   <div class="calendar">
     <div
-      v-for="(item, index) in options"
+      v-for="(option, index) in options"
       :key="index"
       class="w-fit p-sm overflow-hidden"
     >
@@ -273,7 +273,7 @@ function changeYear(year: number) {
             @blur="hidePopup"
             @click="showPopup(index)"
           >
-            {{ item.title }}
+            {{ option.title }}
           </h1>
         </Transition>
         <div
@@ -296,7 +296,7 @@ function changeYear(year: number) {
             </thead>
             <tbody>
               <tr
-                v-for="(week, index) in item.weeks.filter((w) =>
+                v-for="(week, index) in option.weeks.filter((w) =>
                   w.some((d: any) => d)
                 )"
                 :key="index"
@@ -310,8 +310,8 @@ function changeYear(year: number) {
                     :type="type"
                     :index="index"
                     :position="getPosition(day, week)"
-                    :max-init="maxInit"
-                    :max-end="maxEnd"
+                    :min-date="minDate"
+                    :max-date="maxDate"
                     @select="setModel"
                   />
                 </td>
@@ -322,17 +322,17 @@ function changeYear(year: number) {
       </main>
     </div>
     <DateDialog :model-value="show.month && !show.year" :options="months" wrap>
-      <template #item="{ item }">
+      <template #option="{ option }">
         <div
           :class="[
-            item.value === options[selectedIndex].date.getMonth()
+            option.value === options[selectedIndex].date.getMonth()
               ? 'bg-primary-interaction-default'
               : 'bg-primary-surface-highlight',
           ]"
           class="flex items-center justify-center flex-1 cursor-pointer min-w-[30%] text-neutral-foreground-negative text-sm p-sm border-xxs rounded-base hover:bg-primary-interaction-hover"
-          @click="changeMonth(item.value)"
+          @click="changeMonth(option.value)"
         >
-          {{ item.label }}
+          {{ option.label }}
         </div>
       </template>
     </DateDialog>
@@ -343,16 +343,16 @@ function changeYear(year: number) {
       max-height="70%"
       no-padding
     >
-      <template #item="{ item }">
+      <template #option="{ option }">
         <div
           class="flex items-center justify-center cursor-pointer w-full p-xxs text-sm hover:bg-primary-surface-default hover:text-primary-interaction-default"
           :class="{
             'text-primary-interaction-default bg-primary-surface-default':
-              item === options[selectedIndex].date.getFullYear(),
+              option === options[selectedIndex].date.getFullYear(),
           }"
-          @click="changeYear(item)"
+          @click="changeYear(option)"
         >
-          {{ item }}
+          {{ option }}
         </div>
       </template>
     </DateDialog>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useOptionalModel } from "#composables";
-import { type Item } from "#utils/types/DropItem";
+import { type Option } from "#utils/types/DropOption";
 
 type Profile = {
   name: string;
@@ -12,7 +12,7 @@ const props = withDefaults(
   defineProps<{
     modelValue?: any;
     title?: string;
-    options?: Item[];
+    options?: Option[];
     profile?: Profile;
     labelKey?: string;
     valueKey?: string;
@@ -31,7 +31,7 @@ const emit = defineEmits<{
   "update:modelValue": [value: any];
 }>();
 
-const [model] = useOptionalModel<Item | undefined>(
+const [model] = useOptionalModel<Option | undefined>(
   props,
   "modelValue",
   emit,

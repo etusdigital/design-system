@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useOptionalModel } from "#composables";
-import { type Item } from "../../utils/types/MenuItem";
+import { type Option as OptionType } from "../../utils/types/MenuOption";
 import MenuOption from "../../utils/components/MenuOption.vue";
 import { computed, resolveComponent } from "vue";
 import { isObject } from "../../utils";
@@ -8,7 +8,7 @@ import { isObject } from "../../utils";
 const props = withDefaults(
   defineProps<{
     modelValue?: string;
-    item: Item;
+    option: OptionType;
     getObject?: boolean;
     parentPath?: string;
     selected?: boolean;
@@ -25,83 +25,82 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   "update:modelValue": [value: any];
-  "update:selected": [value: boolean, item?: Item];
+  "update:selected": [value: boolean, option?: OptionType];
 }>();
 
 const [model] = useOptionalModel<any>(props, "modelValue", emit, "");
 
 const path = computed(() => {
   let path = props.parentPath;
-  if (props.item.path) {
-    if (!path.endsWith('/') && !props.item.path.startsWith('/')) path += '/';
-    else if (path.endsWith('/') && props.item.path.startsWith('/')) path = path.slice(0, -1);
-    path += props.item.path;
+  if (props.option.path) {
+    if (!path.endsWith('/') && !props.option.path.startsWith('/')) path += '/';
+    else if (path.endsWith('/') && props.option.path.startsWith('/')) path = path.slice(0, -1);
+    path += props.option.path;
   }
   return path;
 });
 const isSelected = computed(() => {
-  return props.item.value == getValue(model.value) || props.selected;
+  return props.option.value == getValue(model.value) || props.selected;
 });
 
-function changeModel(item: Item) {
-  if (item.items && item.items.length) {
-    item.expanded = !item.expanded;
+function changeModel(option: OptionType) {
+  if (option.options && option.options.length) {
+    option.expanded = !option.expanded;
     return;
   }
 
-  const value = props.getObject ? item : getValue(item);
+  const value = props.getObject ? option : getValue(option);
   model.value = value;
   emit("update:modelValue", value);
 }
 
-function getValue(item: Item) {
-  return isObject(item) ? item.value : item;
+function getValue(option: OptionType) {
+  return isObject(option) ? option.value : option;
 }
 
 function getLinkComponent() {
   if (typeof resolveComponent('router-link') != 'string') return 'router-link'
   else if (typeof resolveComponent('nuxt-link') != 'string') return 'nuxt-link'
-  else if (props.item.items && props.item.items.length) return 'div'
+  else if (props.option.options && props.option.options.length) return 'div'
   return 'a'
 }
 </script>
 
 <template>
   <component
-    :key="item.value"
+    :key="option.value"
     :is="getLinkComponent()"
-    class="item"
-    :class="{ selected: isSelected, 'pointer-events-none': item.disabled }"
+    class="option"
+    :class="{ selected: isSelected, 'pointer-events-none': option.disabled }"
     :to="path"
     :href="getLinkComponent() == 'a' ? path : undefined"
   >
     <MenuOption
-      class="menu-item"
-      :class="{ expanded: item.expanded, bold: bold }"
-      :label="item.label"
-      :icon="item.icon"
+      :class="{ expanded: option.expanded, bold: bold }"
+      :label="option.label"
+      :icon="option.icon"
       :selected="isSelected"
-      :disabled="item.disabled"
-      @click="changeModel(item)"
+      :disabled="option.disabled"
+      @click="changeModel(option)"
     >
       <Icon
-        v-if="item.items && item.items.length"
+        v-if="option.options && option.options.length"
         name="keyboard_arrow_down"
-        :class="{ 'rotate-180': item.expanded }"
+        :class="{ 'rotate-180': option.expanded }"
         class="transition-transform"
       />
     </MenuOption>
     <Transition name="expand">
       <div
-        v-if="item.items && item.items.length && item.expanded"
-        class="items-container"
+        v-if="option.options && option.options.length && option.expanded"
+        class="options-container"
       >
-        <Item
-          v-for="subItem in item.items"
+        <Option
+          v-for="subOption in option.options"
           v-model="model"
-          v-model:selected="subItem.selected"
-          :key="subItem.value"
-          :item="subItem"
+          v-model:selected="subOption.selected"
+          :key="subOption.value"
+          :option="subOption"
           :get-object="getObject"
           :parent-path="path"
           bold
@@ -114,27 +113,27 @@ function getLinkComponent() {
 <style scoped>
 @reference "../../assets/main.css";
 
-.item {
+.option {
   @apply rounded-base;
 }
 
-.item:hover {
+.option:hover {
   @apply no-underline bg-primary-surface-default;
 }
 
-.item.selected {
+.option.selected {
   @apply bg-primary-surface-default;
 }
 
-.menu-item.expanded {
+.menu-option.expanded {
   @apply hover:rounded-none;
 }
 
-.menu-item.selected.bold {
+.menu-option.selected.bold {
   @apply font-bold;
 }
 
-.items-container {
+.options-container {
   @apply pl-xl rounded-sm;
 }
 

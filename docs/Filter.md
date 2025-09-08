@@ -11,7 +11,7 @@
 <template>
     <Filter 
         v-model="selectedFilters"
-        :options="filterItems"
+        :options="filterOptions"
         label-value="label"
     />
 </template>
@@ -19,7 +19,7 @@
 <script setup lang="ts">
 
 const selectedFilters = ref({...})
-const filterItems = ref([...])
+const filterOptions = ref([...])
 </script>
 ```
 
@@ -32,7 +32,7 @@ Controls the selected filter values by category. Type: `SelectedFilters` (requir
 
 ```typescript
 type SelectedFilters = {
-  [categoryKey: string]: any[];  // Array of selected item indices per category
+  [categoryKey: string]: any[];  // Array of selected option indices per category
 }
 ```
 
@@ -40,10 +40,10 @@ type SelectedFilters = {
 Controls the filter dropdown expanded state. Type: `boolean` (default: `false`)
 
 #### options
-Array of filter categories with their available options. Type: `FilterItem[]` (required)
+Array of filter categories with their available options. Type: `FilterOption[]` (required)
 
 ```typescript
-type FilterItem = {
+type FilterOption = {
   [labelKey]: string | number;        // Display text for filter option
   [valueKey]: any;        // Unique value for the option
   options: any[];   // Additional custom properties
@@ -57,7 +57,7 @@ The label displayed for the filter button. Type: `string` (default: `""`)
 Property name used for displaying option labels. Type: `string` (default: `"label"`)
 
 #### value-key
-Property name used for item values in the data structure. Type: `string` (default: `"value"`)
+Property name used for option values in the data structure. Type: `string` (default: `"value"`)
 
 #### icon
 Icon displayed on the filter button. Type: `string` (default: `"filter_list"`)

@@ -10,9 +10,9 @@
 ```vue
 <template>
     <Navbar
-        v-model="selectedItem"
+        v-model="selectedOption"
         title="My Application"
-        :options="navigationItems"
+        :options="navigationOptions"
         :profile="userProfile"
     >
         <template #notifications>
@@ -30,14 +30,14 @@
 
 <script setup lang="ts">
 
-const selectedItem = ref("dashboard")
+const selectedOption = ref("dashboard")
 
 const userProfile = ref({
     name: "John Doe",
     src: "/avatar.jpg"
 })
 
-const navigationItems = ref([
+const navigationOptions = ref([
     {
         label: "Dashboard",
         value: "dashboard",
@@ -67,16 +67,16 @@ const navigationItems = ref([
 ### Props API
 
 #### v-model
-The currently selected navigation item. Type: `Item` (default: `undefined`)
+The currently selected navigation option. Type: `Option` (default: `undefined`)
 
 ```typescript
-type Item = {
-  label: string;        // Display text for the item
+type Option = {
+  label: string;        // Display text for the option
   value: string;        // Unique identifier
   icon?: string;        // Optional icon name
-  disabled?: boolean;   // Whether the item is disabled
+  disabled?: boolean;   // Whether the option is disabled
   bottom?: boolean;     // Whether to display at bottom of menu
-  options?: Item[];       // Nested suoptions
+  options?: Option[];       // Nested suoptions
 }
 ```
 
@@ -84,7 +84,7 @@ type Item = {
 Title text displayed in the navbar brand area. Type: `string` (default: `""`)
 
 #### options
-Array of navigation menu options with nested support. Type: `Item[]` (default: `undefined`)
+Array of navigation menu options with nested support. Type: `Option[]` (default: `undefined`)
 
 #### profile
 User profile information for avatar display. Type: `Profile` (default: `undefined`)
@@ -97,10 +97,10 @@ type Profile = {
 ```
 
 #### label-key
-Property name used for displaying item labels when using object arrays. Type: `string` (default: `"label"`)
+Property name used for displaying option labels when using object arrays. Type: `string` (default: `"label"`)
 
 #### value-key
-Property name used for item values when using object arrays. Type: `string` (default: `"value"`)
+Property name used for option values when using object arrays. Type: `string` (default: `"value"`)
 
 #### get-object
 Returns complete objects instead of just values when enabled. Type: `boolean` (default: `false`)
@@ -110,7 +110,7 @@ Returns complete objects instead of just values when enabled. Type: `boolean` (d
 ### Events API
 
 #### @update:model-value
-Triggered when a navigation item is selected. Receives the selected item object.
+Triggered when a navigation option is selected. Receives the selected option object.
 
 ### Slots API
 

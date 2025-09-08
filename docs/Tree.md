@@ -11,7 +11,7 @@
 <template>
     <Tree 
       v-model="selectedItems"
-      :items="treeData"
+      :options="treeData"
       :multiple="true"
       :get-object="true"
     />
@@ -25,8 +25,8 @@
 #### v-model
 The selected value(s). Can be a single item or array for multiple selection. Type: `any` (default: `undefined`)
 
-#### items
-The tree data structure with nested items. Type: `array` (required)
+#### options
+The tree data structure with nested options. Type: `array` (required)
 
 #### label-key
 The property name to use for displaying item labels. Type: `string` (default: `"label"`)
@@ -59,11 +59,11 @@ This component uses internal logic for page display and doesn't expose custom sl
 #### Hierarchical Selection (getObject: true, multiple: true)
 - Selecting a child automatically adds all parent ancestors to maintain hierarchy
 - Removing a child removes parents only if they have no other selected children
-- Selected items maintain the tree structure with only selected branches
+- Selected options maintain the tree structure with only selected branches
 
 #### Example Selection Flow:
-1. Select "Settings.txt" → Model contains: `[{Documents: {items: [{Work: {items: ["Settings.txt"]}}]}}]`
-2. Select "Code.js" → Adds to Work's items
+1. Select "Settings.txt" → Model contains: `[{Documents: {options: [{Work: {options: ["Settings.txt"]}}]}}]`
+2. Select "Code.js" → Adds to Work's options
 3. Remove "Settings.txt" → Removes only that item, keeps Work with Code.js
 4. Remove "Code.js" → Removes Work, and Documents if no other children
 

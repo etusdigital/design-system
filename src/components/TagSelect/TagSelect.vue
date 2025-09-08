@@ -75,11 +75,8 @@ const searchedItems = computed((): any[] => {
       ) {
         return item;
       }
-    } else {
-      if (item?.toLowerCase()?.includes(searchText.value.toLowerCase())) {
-        return item;
-      }
-    }
+    } else if (item?.toLowerCase()?.includes(searchText.value.toLowerCase()))
+      return item;
   });
 });
 
@@ -196,10 +193,7 @@ function checkSource(value: boolean, extra: any) {
       </template>
       <template #status>
         <div class="relative" v-if="expandedModel || !modelValue?.length">
-          <div
-            v-show="!searchText.length"
-            class="pointer-events-none w-0 h-0"
-          >
+          <div v-show="!searchText.length" class="pointer-events-none w-0 h-0">
             <span
               class="absolute text-neutral-foreground-low top-[50%] translate-y-[-50%]"
               :class="{ 'text-danger-foreground-low': isError }"
@@ -233,11 +227,7 @@ function checkSource(value: boolean, extra: any) {
               <p class="font-bold text-xs truncate">
                 {{ isObject(item) ? item[labelKey] : item }}
               </p>
-              <Icon
-                name="close"
-                @click="removeTag(index)"
-                class="close-icon"
-              />
+              <Icon name="close" @click="removeTag(index)" class="close-icon" />
             </div>
           </StatusBadge>
         </div>
@@ -275,12 +265,7 @@ function checkSource(value: boolean, extra: any) {
     </template>
     <template #actions>
       <div class="flex justify-center w-full">
-        <Button
-          @click="addTag(searchText)"
-          round
-          size="small"
-          always-open
-        >
+        <Button @click="addTag(searchText)" round size="small" always-open>
           {{ buttonLabel }}
         </Button>
       </div>

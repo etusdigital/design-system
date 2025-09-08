@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import { type Item } from "#utils/types/DropItem";
+import { type Option as OptionType } from "#utils/types/DropOption";
 import { isObject } from "../../utils";
 import Option from "../../utils/components/Option.vue";
 
 const props = withDefaults(
   defineProps<{
     modelValue: any;
-    item: Item;
+    option: OptionType;
     labelKey: string;
     valueKey: string;
     multiple: boolean;
@@ -37,112 +37,112 @@ watch(
   () => props.modelValue,
   () => {
     isSelected.value = getSelected();
-    console.log("isSelected", props.item, isSelected.value);
+    console.log("isSelected", props.option, isSelected.value);
   },
   { immediate: true, deep: true }
 );
 
-function getLabel(item: Item) {
-  return isObject(item) ? (item as any)[props.labelKey] : item;
+function getLabel(option: OptionType) {
+  return isObject(option) ? (option as any)[props.labelKey] : option;
 }
 
-function getIcon(item: Item) {
-  return isObject(item) ? (item as any).icon : "";
+function getIcon(option: OptionType) {
+  return isObject(option) ? (option as any).icon : "";
 }
 
-function getValue(item: any) {
-  return isObject(item) ? item[props.valueKey] : item;
+function getValue(option: OptionType) {
+  return isObject(option) ? (option as any)[props.valueKey] : option;
 }
 
 function getModel() {
   if (props.getObject && props.multiple)
     return (
-      props.modelValue.find((x: any) => getValue(x) === getValue(props.item))
-        ?.items || []
+      props.modelValue.find((x: any) => getValue(x) === getValue(props.option))
+        ?.options || []
     );
   else return props.modelValue;
 }
 
-function getSelected(item: Item = props.item, model = props.modelValue) {
+function getSelected(option: OptionType = props.option, model = props.modelValue) {
   if (Array.isArray(model)) {
-    const selected = model.find((x: any) => getValue(x) === getValue(item));
+    const selected = model.find((x: any) => getValue(x) === getValue(option));
 
     if (
       ((selected && props.getObject) || (!props.getObject && !selected)) &&
-      item.items?.length
+      option.options?.length
     ) {
-      if (props.getObject && selected) model = selected.items;
+      if (props.getObject && selected) model = selected.options;
 
-      const isChildSelected = item.items?.filter(
+      const isChildSelected = option.options?.filter(
         (x: any) => getSelected(x, model) === true
       );
 
-      console.log("isChildSelected", item, isChildSelected.length, model);
-      if (isChildSelected.length == item.items?.length) return true;
+      console.log("isChildSelected", option, isChildSelected.length, model);
+      if (isChildSelected.length == option.options?.length) return true;
       else if (
-        item.items?.filter((x: any) => getSelected(x, model) != false).length
+        option.options?.filter((x: any) => getSelected(x, model) != false).length
       )
         return null;
     }
 
     return !!selected;
-  } else return getValue(model) === getValue(item);
+  } else return getValue(model) === getValue(option);
 }
 
-function setModel(value: Item, add = !isSelected.value && !props.selected) {
+function setModel(value: OptionType, add = !isSelected.value && !props.selected) {
   emit("update:modelValue", value, add);
 }
 </script>
 
 <template>
-  <div class="tree-item">
+  <div class="tree-option">
     <div>
       <Option
         :aria-selected="isSelected"
-        :disabled="item.disabled || disabled"
+        :disabled="option.disabled || disabled"
         :no-hover="multiple"
         :selected="!multiple && !!isSelected"
-        class="tree-item-container"
+        class="tree-option-container"
         :tabindex="-1"
       >
         <Icon
-          v-if="item.items && item.items.length"
+          v-if="option.options && option.options.length"
           name="keyboard_arrow_right"
           :class="{ 'rotate-90': expanded }"
           class="transition-transform"
           @click="expanded = !expanded"
         />
         <div
-          class="tree-item-option"
-          :class="{ 'pointer-events-none': item.disabled || disabled }"
+          class="tree-option-option"
+          :class="{ 'pointer-events-none': option.disabled || disabled }"
           tabindex="0"
-          @click="setModel(item)"
-          @keyup.space="setModel(item)"
-          @keyup.enter="setModel(item)"
+          @click="setModel(option)"
+          @keyup.space="setModel(option)"
+          @keyup.enter="setModel(option)"
         >
           <Checkbox
             v-if="multiple"
             :model-value="selected || isSelected"
             allow-indeterminate
-            :disabled="item.disabled || disabled"
+            :disabled="option.disabled || disabled"
             class="pointer-events-none"
-            @update:model-value="setModel(item)"
+            @update:model-value="setModel(option)"
           />
-          <Icon v-if="getIcon(item)" :name="getIcon(item)" />
-          {{ getLabel(item) }}
+          <Icon v-if="getIcon(option)" :name="getIcon(option)" />
+          {{ getLabel(option) }}
         </div>
       </Option>
     </div>
     <Transition name="expand">
       <div
-        v-if="expanded && item.items && item.items.length"
-        class="tree-sub-items"
+        v-if="expanded && option.options && option.options.length"
+        class="tree-sub-options"
       >
-        <Item
-          v-for="subItem in item.items"
-          :key="subItem.value"
+        <Option
+          v-for="subOption in option.options"
+          :key="subOption.value"
           :model-value="getModel()"
-          :item="subItem"
+          :option="subOption"
           :selected="!!isSelected || selected"
           :label-key="labelKey"
           :value-key="valueKey"
@@ -159,23 +159,23 @@ function setModel(value: Item, add = !isSelected.value && !props.selected) {
 <style scoped>
 @reference "../../assets/main.css";
 
-.tree-item {
+.tree-option {
   @apply flex flex-col;
 }
 
-.tree-item-container {
+.tree-option-container {
   @apply flex items-center gap-xxs py-xxs px-xs;
 }
 
-.tree-item-option {
+.tree-option-option {
   @apply flex items-center gap-xxs flex-1;
 }
 
-.tree-item-option .icon {
+.tree-option-option .icon {
   @apply text-xl;
 }
 
-.tree-sub-items {
+.tree-sub-options {
   @apply pl-xl;
 }
 

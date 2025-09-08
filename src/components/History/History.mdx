@@ -23,16 +23,16 @@ import * as History from './History.stories.ts';
 ```vue
 <template>
     <History 
-        v-model="selectedItem"
-        :options="historyItems"
+        v-model="selectedOption"
+        :options="historyOptions"
     >
-        <template #item="{ item, index, active }">
+        <template #option="{ option, index, active }">
             <div class="p-base">
                 <p class="text-sm font-semibold mxs" :class="{ 'text-primary-default': active }">
-                    {{ item.label }}
+                    {{ option.label }}
                 </p>
                 <p class="text-xs text-neutral-foreground-medium">
-                    {{ formatDate(item.date) }}
+                    {{ formatDate(option.date) }}
                 </p>
             </div>
         </template>
@@ -42,8 +42,8 @@ import * as History from './History.stories.ts';
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const selectedItem = ref(null)
-const historyItems = ref([...])
+const selectedOption = ref(null)
+const historyOptions = ref([...])
 
 const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-US', { 
@@ -62,14 +62,14 @@ const formatDate = (date: Date) => {
 ### Props API
 
 #### v-model
-Controls the selected history item from the options array. Type: `any` (default: `null`)
+Controls the selected history option from the options array. Type: `any` (default: `null`)
 
 #### options
 Array of history options to display in the timeline. Type: `any[]` (required)
 
 ```typescript
-type HistoryItem = {
-  label: string;           // Display name for the item
+type HistoryOption = {
+  label: string;           // Display name for the option
   date?: Date;            // Timestamp for the event
   type?: "primary" | "info" | "success" | "warning" | "danger" | "neutral"; // Color theme
   icon?: string;          // Icon name to display
@@ -90,12 +90,12 @@ Position of the history timeline relative to content. Type: `"top" | "bottom" | 
 <Canvas sourceState="none" of={History.Positions} />
 
 #### type
-Default color theme for history options (overridden by item.type). Type: `"primary" | "info" | "success" | "warning" | "danger" | "neutral"` (default: `"primary"`)
+Default color theme for history options (overridden by option.type). Type: `"primary" | "info" | "success" | "warning" | "danger" | "neutral"` (default: `"primary"`)
 
 <Canvas sourceState="none" of={History.Types} />
 
 #### disabled
-Disables item selection interaction. Type: `boolean` (default: `false`)
+Disables option selection interaction. Type: `boolean` (default: `false`)
 
 <Canvas sourceState="none" of={History.Disabled} />
 
@@ -104,28 +104,28 @@ Disables item selection interaction. Type: `boolean` (default: `false`)
 ### Events API
 
 #### @update:model-value
-Triggered when a history item is selected. Receives the selected item and additional context including the index.
+Triggered when a history option is selected. Receives the selected option and additional context including the index.
 
 ### Slots API
 
-#### #item
-Custom rendering for each history item in the timeline.
+#### #option
+Custom rendering for each history option in the timeline.
 
 **Slot Props:**
-- `item`: The history item object
+- `option`: The history option object
 - `index`: Position in the options array
-- `active`: Whether this item is currently selected
+- `active`: Whether this option is currently selected
 
 ```vue
 <template>
     <History v-model="selected" :options="options">
-        <template #item="{ item, index, active }">
+        <template #option="{ option, index, active }">
             <div class="p-base border rounded" :class="{ 'border-primary-default': active }">
-                <h4 class="font-semibold">{{ item.title }}</h4>
-                <p class="text-sm text-neutral-foreground-medium">{{ item.description }}</p>
+                <h4 class="font-semibold">{{ option.title }}</h4>
+                <p class="text-sm text-neutral-foreground-medium">{{ option.description }}</p>
                 <div class="flex items-center gap-xs mt-xs">
-                    <icon :name="item.icon" />
-                    <span class="text-xs">{{ formatDate(item.date) }}</span>
+                    <icon :name="option.icon" />
+                    <span class="text-xs">{{ formatDate(option.date) }}</span>
                 </div>
             </div>
         </template>
@@ -137,8 +137,8 @@ Custom rendering for each history item in the timeline.
 - Automatic timeline connector lines between options for visual continuity
 - Support for both regular and round icon variants with customizable styling
 - Flexible positioning system (top, bottom, left, right) for different layout needs
-- Individual item type override allows mixed color themes within a single timeline
-- Click interaction for item selection with visual feedback
+- Individual option type override allows mixed color themes within a single timeline
+- Click interaction for option selection with visual feedback
 - Responsive design adapts to different screen sizes and orientations
 - Icon support with filled/unfilled variants for different visual emphasis
 - Active state management with automatic highlighting
@@ -146,4 +146,4 @@ Custom rendering for each history item in the timeline.
 - Z-index management ensures proper layering of timeline elements
 - Smooth hover effects and transitions for enhanced user experience
 - Accessibility support with proper keyboard navigation and ARIA attributes
-- Flexible item structure allows custom properties for extended functionality
+- Flexible option structure allows custom properties for extended functionality

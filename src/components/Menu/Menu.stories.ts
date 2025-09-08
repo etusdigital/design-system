@@ -6,7 +6,7 @@ export default {
   argTypes: {
     modelValue: {
       type: { summary: "any" },
-      description: "Will name of the selected item.",
+      description: "Will name of the selected option.",
     },
     options: {
       type: { summary: "array" },

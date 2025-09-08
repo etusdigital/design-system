@@ -7,7 +7,7 @@ export default {
     modelValue: {
       type: { summary: "any" },
       description:
-        'Will be an item from the "options" array at the selected index.',
+        'Will be an option from the "options" array at the selected index.',
     },
     labelValue: {
       type: { summary: "text" },
@@ -99,14 +99,14 @@ export default {
     },
     status: {
       description:
-        "This slot will be status when a item is selected. Param: item (selected item).",
+        "This slot will be status when a option is selected. Param: option (selected option).",
     },
     "clear-label": {
       description: "Will be clear button text.",
     },
-    item: {
+    option: {
       description:
-        "This slot will be displayed as an option. Params: item and index.",
+        "This slot will be displayed as an option. Params: option and index.",
     },
   },
 } satisfies Meta<typeof Select>;
@@ -251,7 +251,7 @@ export const Clearable: Story = {
   },
 };
 
-export const CustomItem: Story = {
+export const CustomOption: Story = {
   render: (args: any) => ({
     setup() {
       return { args };
@@ -260,10 +260,10 @@ export const CustomItem: Story = {
       ${defaultHtml.replace(
         "Placeholder",
         `Placeholder
-          <template #item="{ item, index }">
+          <template #option="{ option, index }">
               <div class="flex items-center gap-xs">
                   <Icon name="account_circle" />
-                  {{ item }}
+                  {{ option }}
               </div>
           </template>
       </Select>`

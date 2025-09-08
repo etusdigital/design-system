@@ -102,7 +102,7 @@ const defaultArgs = {
   getObject: false,
   version: 1,
   background: '#FFFFFF',
-  changeStep: (item: any, index: number) => {},
+  changeStep: (option: any, index: number) => {},
 };
 
 const defaultHtml = `

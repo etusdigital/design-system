@@ -43,10 +43,10 @@ const emit = defineEmits<{
 
 const [model] = useOptionalModel<string>(props, "modelValue", emit, '');
 const [isExpanded] = useOptionalModel<boolean>(props, "expanded", emit, false);
-const filteredItems = computed(() => {
+const filteredOptions = computed(() => {
   if (!model.value) return props.options;
-  return props.options?.filter((item: any) =>
-    item.toLowerCase().includes(model.value.toLowerCase())
+  return props.options?.filter((option: any) =>
+    option.toLowerCase().includes(model.value.toLowerCase())
   );
 });
 
@@ -54,8 +54,8 @@ function onFocus() {
   isExpanded.value = true;
 }
 
-function selectItem(item: string) {
-  model.value = item;
+function selectOption(option: string) {
+  model.value = option;
 }
 </script>
 
@@ -89,17 +89,17 @@ function selectItem(item: string) {
 
     <template #options>
       <Option
-        :aria-selected="model == item"
-        v-for="(item, index) in filteredItems"
+        :aria-selected="model == option"
+        v-for="(option, index) in filteredOptions"
         :key="index"
         :class="{
-          'font-bold': model == item,
+          'font-bold': model == option,
         }"
-        @click="selectItem(item)"
-        @keyup.space="selectItem(item)"
+        @click="selectOption(option)"
+        @keyup.space="selectOption(option)"
       >
-        <slot name="item" :item="item" :index="index">
-          {{ item }}
+        <slot name="option" :option="option" :index="index">
+          {{ option }}
         </slot>
       </Option>
     </template>

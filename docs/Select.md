@@ -10,7 +10,7 @@
 ```vue
 <template>
     <Select 
-        v-model="selectedItem"
+        v-model="selectedOption"
         label-value="label"
         :options="options"
     >
@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 
-const selectedItem = ref(null)
+const selectedOption = ref(null)
 const options = [...]
 </script>
 ```
@@ -30,7 +30,7 @@ const options = [...]
 ### Props API
 
 #### v-model
-Controls the selected item(s) value. Type: `any` (single) or `any[]` (multiple) (default: `null`)
+Controls the selected option(s) value. Type: `any` (single) or `any[]` (multiple) (default: `null`)
 
 #### v-model:expanded
 Controls the dropdown expanded state. Type: `boolean` (default: `false`)
@@ -45,10 +45,10 @@ Array of options to select from. Can be strings or objects. Type: `any[]` (requi
 Icon displayed on the select button. Type: `string` (default: `""`)
 
 #### label-key
-Property name used for displaying item labels when using object arrays. Type: `string` (default: `"label"`)
+Property name used for displaying option labels when using object arrays. Type: `string` (default: `"label"`)
 
 #### value-key
-Property name used for item values when using object arrays. Type: `string` (default: `"value"`)
+Property name used for option values when using object arrays. Type: `string` (default: `"value"`)
 
 #### absolute
 Controls absolute positioning of the dropdown. Type: `boolean` (default: `false`)
@@ -88,7 +88,7 @@ Returns complete objects instead of just values when enabled. Type: `boolean` (d
 ### Events API
 
 #### @update:model-value
-Triggered when the selected item(s) change. Returns value(s) based on `multiple` and `get-object` settings.
+Triggered when the selected option(s) change. Returns value(s) based on `multiple` and `get-object` settings.
 
 #### @update:expanded
 Triggered when the dropdown expanded state changes.
@@ -116,7 +116,7 @@ const options = ref([...])
 Custom placeholder text for the search input when searchable is enabled.
 
 #### #status
-Custom content for displaying the selected item (single mode only).
+Custom content for displaying the selected option (single mode only).
 
 #### #status-label
 Custom text for the status display (multi-selection mode only).
@@ -124,17 +124,17 @@ Custom text for the status display (multi-selection mode only).
 #### #clear-label
 Custom text for the clear button when clearable is enabled.
 
-#### #item
+#### #option
 Custom rendering for individual options in the dropdown.
 
 ```vue
 <template>
     <Select v-model="selected" :options="options">
         Placeholder
-        <template #item="{ item }">
+        <template #option="{ option }">
             <div class="flex items-center gap-xs">
-                <icon :name="item.icon" />
-                {{ item.label }}
+                <icon :name="option.icon" />
+                {{ option.label }}
             </div>
         </template>
     </Select>

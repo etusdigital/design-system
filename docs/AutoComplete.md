@@ -1,7 +1,7 @@
 # Name: AutoComplete
 ## Component Overview
 
-**Purpose**: An autocomplete input component that provides filtered suggestions as the user types, with customizable item rendering and form validation support.
+**Purpose**: An autocomplete input component that provides filtered suggestions as the user types, with customizable option rendering and form validation support.
 
 **Import**: Automatic - no need to import any DS components
 
@@ -81,8 +81,8 @@ Triggered when the dropdown open/close state changes.
 
 ### Slots API
 
-#### #item
-Customizes the rendering of each dropdown option. Provides `item` and `index` as slot props.
+#### #option
+Customizes the rendering of each dropdown option. Provides `option` and `index` as slot props.
 
 ```vue
 <template>
@@ -93,8 +93,8 @@ Customizes the rendering of each dropdown option. Provides `item` and `index` as
         placeholder="Placeholder"
         :options="options"
     >
-        <template #item="{ item, index }">
-            <Icon name="account_circle" /> {{ item }}
+        <template #option="{ option, index }">
+            <Icon name="account_circle" /> {{ option }}
         </template>
     </AutoComplete>
 </template>
@@ -110,6 +110,6 @@ const options = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"]
 **Important Notes:**
 - Filtering is case-insensitive and matches partial strings
 - Built on top of SelectContainer for consistent styling and behavior
-- Dropdown automatically opens on focus and closes when an item is selected
-- Use the `item` slot for rich content like icons, badges, or structured data
+- Dropdown automatically opens on focus and closes when an option is selected
+- Use the `option` slot for rich content like icons, badges, or structured data
 - Input value can be different from available options for flexible user input

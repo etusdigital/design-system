@@ -8,9 +8,9 @@ export default {
       type: { summary: "any" },
       description: "Will be the selected current value.",
     },
-    items: {
+    options: {
       type: { summary: "array" },
-      description: "Will be the items.",
+      description: "Will be the options.",
     },
     labelKey: {
       type: { summary: "text" },
@@ -39,17 +39,17 @@ type Story = StoryObj<typeof Tree>;
 
 const defaultArgs = {
   modelValue: undefined,
-  items: [
+  options: [
     {
       label: "Documents",
       value: "documents",
       icon: "inbox",
-      items: [
+      options: [
         {
           label: "Work",
           value: "work",
           icon: "settings",
-          items: [
+          options: [
             {
               label: "Settings.txt",
               value: "settings.txt",
@@ -66,7 +66,7 @@ const defaultArgs = {
           label: "Personal",
           value: "personal",
           icon: "person",
-          items: [
+          options: [
             {
               label: "Account.txt",
               value: "account.txt",
@@ -80,7 +80,7 @@ const defaultArgs = {
       label: "Downloads",
       value: "downloads",
       icon: "download",
-      items: [
+      options: [
         {
           label: "Image.jpg",
           value: "image.jpg",
@@ -92,7 +92,7 @@ const defaultArgs = {
       label: "Music",
       value: "music",
       icon: "queue_music",
-      items: [
+      options: [
         {
           label: "Music.mp3",
           value: "music.mp3",
@@ -116,7 +116,7 @@ const defaultRender = (args: any) => ({
   template: `
     <Tree
       v-model="args.modelValue"
-      :items="args.items" 
+      :options="args.options" 
       :label-key="args.labelKey" 
       :value-key="args.valueKey" 
       :get-object="args.getObject" 

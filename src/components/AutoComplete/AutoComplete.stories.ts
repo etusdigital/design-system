@@ -58,9 +58,9 @@ export default {
       type: { summary: "text" },
       description: "Will be the info message.",
     },
-    item: {
+    option: {
       description:
-        "This slot will be displayed as an option. Params: item and index.",
+        "This slot will be displayed as an option. Params: option and index.",
     },
   },
 } satisfies Meta<typeof AutoComplete>;
@@ -147,7 +147,7 @@ export const InfoMessage: Story = {
   },
 };
 
-export const CustomItem: Story = {
+export const CustomOption: Story = {
   render: (args: any) => ({
     setup() {
       return { args };
@@ -166,8 +166,8 @@ export const CustomItem: Story = {
       :error-message="args.errorMessage"
       :info-message="args.infoMessage"
     >
-      <template #item="{ item, index }">
-        <Icon name="account_circle" size="1rem" class="shrink-0 h-[1em] flex items-center" /> {{ item }}
+      <template #option="{ option, index }">
+        <Icon name="account_circle" size="1rem" class="shrink-0 h-[1em] flex items-center" /> {{ option }}
       </template>
     </AutoComplete>`,
   }),

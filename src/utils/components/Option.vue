@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = withDefaults(
+withDefaults(
   defineProps<{
     selected?: boolean;
     disabled?: boolean;
@@ -16,7 +16,12 @@ const props = withDefaults(
 </script>
 
 <template>
-  <div role="option" tabindex="0" class="option-container" :class="{ secondary, disabled, noHover, selected }">
+  <div
+    role="option"
+    tabindex="0"
+    class="option-container"
+    :class="{ secondary, disabled, noHover, selected }"
+  >
     <slot />
   </div>
 </template>

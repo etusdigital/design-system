@@ -16,14 +16,14 @@
         :options="userAccounts"
         @logout="handleLogout"
         @edit="editProfile"
-        @edit-item="editAccount"
+        @edit-option="editAccount"
         @privacy-policy-function="openPrivacyPolicy"
         @terms-of-use-fucntion="openTermsOfUse"
     >
         <template #edit-slot>
             Edit profile
         </template>
-        <template #edit-item>
+        <template #edit-option>
             Edit account
         </template>
         <template #logout-slot>
@@ -57,7 +57,7 @@ const openTermsOfUse = () => {}
 ### Props API
 
 #### v-model
-The currently selected account/profile item. Type: `any` (default: `undefined`)
+The currently selected account/profile option. Type: `any` (default: `undefined`)
 
 #### name
 The main user name displayed in the profile. Type: `string` (required)
@@ -69,10 +69,10 @@ URL of the user's profile picture image. Type: `string` (default: `""`)
 Array of account options for multi-account selection. Type: `any[]` (default: `[]`)
 
 #### label-key
-Property name for item labels in the options array. Type: `string` (default: `"label"`)
+Property name for option labels in the options array. Type: `string` (default: `"label"`)
 
 #### value-key
-Property name for item values in the options array. Type: `string` (default: `"value"`)
+Property name for option values in the options array. Type: `string` (default: `"value"`)
 
 #### absolute
 Controls absolute positioning of the dropdown. Type: `boolean` (default: `false`)
@@ -96,7 +96,7 @@ Triggered when the logout action is clicked.
 #### @edit
 Triggered when the edit profile action is clicked.
 
-#### @edit-item
+#### @edit-option
 Triggered when the edit account action is clicked.
 
 #### @privacy-policy-function
@@ -110,13 +110,13 @@ Triggered when the terms of use link is clicked.
 #### #edit-slot
 Custom content for the edit profile button.
 
-#### #edit-item
+#### #edit-option
 Custom content for the edit account button.
 
 #### #logout-slot
 Custom content for the logout button.
 
-#### #item
+#### #option
 Custom rendering for account selection options.
 
 ```vue
@@ -127,10 +127,10 @@ Custom rendering for account selection options.
         :options="accounts"
     >
         ...
-        <template #item="{ item, index, active }">
+        <template #option="{ option, index, active }">
             <div class="flex items-center gap-xs">
                 <icon name="account_circle" />
-                <span :class="{'underline': active }">{{ item.label }}</span>
+                <span :class="{'underline': active }">{{ option.label }}</span>
             </div>
         </template>
     </Profile>
