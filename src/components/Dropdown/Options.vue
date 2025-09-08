@@ -7,9 +7,9 @@ const props = defineProps<{
 }>();
 
 const parsedOptions = computed((): Option[][] => {
-  const topItems = props.options?.filter((option: Option) => !option.bottom) || [];
-  const bottomItems = props.options?.filter((option: Option) => option.bottom) || [];
-  return [topItems, bottomItems];
+  const topOptions = props.options?.filter((option: Option) => !option.bottom) || [];
+  const bottomOptions = props.options?.filter((option: Option) => option.bottom) || [];
+  return [topOptions, bottomOptions];
 });
 </script>
 

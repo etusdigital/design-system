@@ -9,7 +9,7 @@
 
 ```vue
 <template>
-    <Conector :vertical="true" class="items-center">
+    <Conector vertical class="items-center">
         <Card class="p-base">
             <Conector>
                 <Input label-value="label" placeholder="Type here" />
@@ -28,7 +28,7 @@
                 <Input label-value="label" placeholder="Type here" />
             </Conector>
         </Card>
-        <Button variant="success" round />
+        <Button variant="success" size="small" round />
     </Conector>
 </template>
 ```

@@ -33,28 +33,28 @@ function calculateButtonPosition() {
 <template>
     <div class="round-menu">
       <div
-        v-for="item, index in options"
+        v-for="option, index in options"
         :key="index"
-        class="item"
+        class="option"
         :style="isExpanded ? {
           transform:`translate3d(${positions[index]})`, 
           '-webkit-transform':`translate3d(${positions[index]})`,
         } : {}"
       >
         <Button
-          :background="item.background"
-          :icon="item.icon"
+          :background="option.background"
+          :icon="option.icon"
           round
           size="small"
-          @click="item.action()"
+          @click="option.action()"
           @mouseenter="isHovering[index] = true"
           @mouseleave="isHovering[index] = false"
           :class="{'z-[50]': isHovering[index]}"
         >
-          {{ item.label }}
+          {{ option.label }}
         </Button>
       </div>
-      <div class="item" :class="{'z-[1]': !isExpanded}">
+      <div class="option" :class="{'z-[1]': !isExpanded}">
         <Button
           :color="!isExpanded ? 'success' : 'neutral'"
           size="small"
@@ -72,7 +72,7 @@ function calculateButtonPosition() {
   @apply relative flex items-center h-fit w-fit overflow-visible;
 }
 
-.item {
+.option {
   @apply absolute hover:z-50;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
@@ -82,7 +82,7 @@ function calculateButtonPosition() {
   transition: transform ease-out 200ms, -webkit-transform ease-out 200ms;
 }
 
-.item {
+.option {
   -webkit-transition-timing-function: cubic-bezier(0.935, 0, 0.34, 1.33);
   transition-timing-function: cubic-bezier(0.935, 0, 0.34, 1.33);
 }

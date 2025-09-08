@@ -87,7 +87,7 @@ Main content area of the card, displayed below the header.
                 <h4 class="text-neutral-foreground-high text-sm font-bold">Subject: %Email Subject%</h4>
                 <p class="text-xs text-neutral-foreground-high">Links: <a class="lowercase cursor-pointer">https://cartaofeito.com/cartao-santander-sx-p1/</a></p>
             </div>
-            <div class="flex gap-xs overflow-x-auto max-w-full pxxs">
+            <div class="flex gap-xs overflow-x-auto max-w-full p-xxs">
                 <metric-card icon="science" title="Sample" type="dashed" color="info" value="10%" />
                 <metric-card icon="drafts" title="Open" value="50%" description="100.000.000" />
                 <metric-card icon="arrow_selector_tool" title="Click" value="34%" description="68.000.000" type="success" />

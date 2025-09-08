@@ -52,7 +52,7 @@ const emit = defineEmits<{
 
 const [model, setModel] = useOptionalModel<any>(props, "modelValue", emit, []);
 model.value = model.value || [];
-const [optionsModel, setItemsModel] = useOptionalModel<any>(
+const [optionsModel, setOptionsModel] = useOptionalModel<any>(
   props,
   "options",
   emit,
@@ -62,21 +62,21 @@ const [optionsModel, setItemsModel] = useOptionalModel<any>(
 const expandedModel = ref(props.expanded);
 const searchText = ref("");
 
-const searchedItems = computed((): any[] => {
+const searchedOptions = computed((): any[] => {
   if (!searchText.value) {
     return optionsModel.value;
   }
-  return optionsModel.value.filter((item: any) => {
-    if (isObject(item)) {
+  return optionsModel.value.filter((option: any) => {
+    if (isObject(option)) {
       if (
-        item[props.labelKey]
+        option[props.labelKey]
           ?.toLowerCase()
           ?.includes(searchText.value.toLowerCase())
       ) {
-        return item;
+        return option;
       }
-    } else if (item?.toLowerCase()?.includes(searchText.value.toLowerCase()))
-      return item;
+    } else if (option?.toLowerCase()?.includes(searchText.value.toLowerCase()))
+      return option;
   });
 });
 
@@ -96,7 +96,7 @@ function addTag(tag: string) {
   }
 
   optionsModel.value.push(tag);
-  setItemsModel(optionsModel.value, { index: optionsModel.value.length - 1 });
+  setOptionsModel(optionsModel.value, { index: optionsModel.value.length - 1 });
   searchText.value = "";
 }
 
@@ -127,18 +127,18 @@ function onKeyUp(e: KeyboardEvent) {
   }
 }
 
-function selectItem(item: any, index: number) {
-  if (props.disabled || isIncluded(model.value, item)) return;
-  setModel([...model.value, item], index);
+function selectOption(option: any, index: number) {
+  if (props.disabled || isIncluded(model.value, option)) return;
+  setModel([...model.value, option], index);
   expandedModel.value = false;
   emit("update:expanded", false, { source: "value-selected" });
 }
 
-function isIncluded(options: any, item: any) {
-  if (isObject(item)) {
-    return options.find((i: any) => i[props.labelKey] === item[props.labelKey]);
+function isIncluded(options: any, option: any) {
+  if (isObject(option)) {
+    return options.find((i: any) => i[props.labelKey] === option[props.labelKey]);
   }
-  return options?.includes(item);
+  return options?.includes(option);
 }
 
 function handleSlotClick(e: MouseEvent) {
@@ -218,14 +218,14 @@ function checkSource(value: boolean, extra: any) {
         </div>
         <div class="flex flex-wrap gap-xxs my-xs max-w-[40em]" v-else>
           <StatusBadge
-            color="transparent"
+            color="neutral"
             class="tag"
-            v-for="(item, index) in model"
+            v-for="(option, index) in model"
             :key="index"
           >
             <div class="tag-default py-xxs">
               <p class="font-bold text-xs truncate">
-                {{ isObject(item) ? item[labelKey] : item }}
+                {{ isObject(option) ? option[labelKey] : option }}
               </p>
               <Icon name="close" @click="removeTag(index)" class="close-icon" />
             </div>
@@ -234,12 +234,12 @@ function checkSource(value: boolean, extra: any) {
       </template>
     </SelectContent>
 
-    <template #items>
+    <template #options>
       <div
         class="text-xs italic text-neutral-foreground-low flex justify-center"
-        v-if="!searchedItems.length && searchText.length"
+        v-if="!searchedOptions.length && searchText.length"
       >
-        <slot name="no-items-found"> No result found </slot>
+        <slot name="no-options-found"> No result found </slot>
       </div>
       <div
         class="text-xs italic text-neutral-foreground-low flex justify-center"
@@ -249,16 +249,16 @@ function checkSource(value: boolean, extra: any) {
       </div>
       <template v-else>
         <Option
-          v-for="(item, index) in searchedItems"
-          :aria-selected="isIncluded(model, item)"
-          :key="`${isObject(item) ? item[labelKey] : item}`"
+          v-for="(option, index) in searchedOptions"
+          :aria-selected="isIncluded(model, option)"
+          :key="`${isObject(option) ? option[labelKey] : option}`"
           tabindex="0"
-          :class="{ 'font-bold': isIncluded(model, item) }"
-          @click="selectItem(item, index)"
-          @keyup.space="selectItem(item, index)"
+          :class="{ 'font-bold': isIncluded(model, option) }"
+          @click="selectOption(option, index)"
+          @keyup.space="selectOption(option, index)"
         >
-          <slot name="item" :item="item" :index="index">
-            {{ isObject(item) ? item[labelKey] : item }}
+          <slot name="option" :option="option" :index="index">
+            {{ isObject(option) ? option[labelKey] : option }}
           </slot>
         </Option>
       </template>

@@ -57,7 +57,7 @@ const [expandedModel, setExpandedModel] = useOptionalModel<boolean>(
 
 const model = ref<any>(props.modelValue || {});
 const optionsSearch = ref<any>({});
-const OptionExpanded = ref("");
+const optionExpanded = ref("");
 const selected = ref(getSelected());
 
 watch(() => props.modelValue, (newVal) => {
@@ -231,11 +231,11 @@ function apply() {
         <Transition name="content">
           <ul
             v-if="isActive(option)"
-            class="flex flex-col gap-xs pxxs overflow-auto custom-scroll max-h-[12em] mr-xxs mxxs"
+            class="flex flex-col gap-xs overflow-auto custom-scroll max-h-[12em] m-xxs"
           >
             <div
               v-if="searchable && !disabled"
-              class="flex items-center text-xl gap-xs pxxs border-xxs border-neutral-default mxxs px-xs"
+              class="flex items-center text-xl gap-xs py-xxs px-xs border-xxs border-neutral-default m-xxs"
             >
               <Icon
                 name="search"

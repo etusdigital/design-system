@@ -30,9 +30,9 @@ import * as Carousel from './Carousel.stories.ts';
         :disabled="false"
         :circular="false"
     >
-        <template #item="{ item, index }">
+        <template #option="{ option, index }">
             <Card class="p-base">
-                {{ item.label }}
+                {{ option.label }}
             </Card>
         </template>
     </Carousel>
@@ -85,21 +85,21 @@ Emitted when the active index changes. Payload: `number`
 
 ### Slots API
 
-#### #item
+#### #option
 Slot for rendering individual carousel options.
 
 ```vue
 <template>
     <Carousel :options="options">
-        <template #item="{ item, index }">
-            <div>{{ item.label }}</div>
+        <template #option="{ option, index }">
+            <div>{{ option.label }}</div>
         </template>
     </Carousel>
 </template>
 ```
 
 **Important Notes:**
-- Use the `#item` slot to customize how each item is rendered
+- Use the `#option` slot to customize how each option is rendered
 - Navigation arrows automatically adjust for vertical/horizontal orientation
 - Pagination indicators show current position
 - Supports both manual and automatic navigation

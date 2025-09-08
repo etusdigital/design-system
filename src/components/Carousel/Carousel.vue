@@ -26,11 +26,11 @@ const emit = defineEmits<{
 
 const model = ref(props.modelValue);
 const carouselContainer = ref<HTMLElement>();
-const carouselItemsContainer = ref<HTMLElement>();
+const carouselOptionsContainer = ref<HTMLElement>();
 const contentStyle = ref<{ width?: string; height?: string }>({});
 const transform = ref("-0px");
 const carouselInterval = ref<ReturnType<typeof setInterval>>();
-const itemSections = computed(() => {
+const optionSections = computed(() => {
   const sections = [];
   for (let i = 0; i < props.options.length; i += props.visible) {
     sections.push(props.options.slice(i, i + props.visible));
@@ -44,7 +44,7 @@ const maxIndex = computed(
 
 const gap = computed(() => {
   return parseFloat(
-    (carouselItemsContainer.value as any)
+    (carouselOptionsContainer.value as any)
       ?.computedStyleMap()
       .get("--spacing-xs")
       .toString()
@@ -170,12 +170,12 @@ function onKeyUp(e: KeyboardEvent) {
 }
 
 function calculateContentStyle() {
-  if (!carouselItemsContainer.value) {
+  if (!carouselOptionsContainer.value) {
     contentStyle.value = {};
     return;
   }
 
-  const children = carouselItemsContainer.value.children;
+  const children = carouselOptionsContainer.value.children;
   if (children.length === 0) {
     contentStyle.value = {};
     return;
@@ -225,24 +225,24 @@ function calculateContentStyle() {
       <div class="overflow-hidden shrink-0" :style="contentStyle">
         <div
           class="carousel-options"
-          ref="carouselItemsContainer"
+          ref="carouselOptionsContainer"
           :style="{
             transform: `translate${vertical ? 'Y' : 'X'}(${transform})`,
           }"
         >
           <div
-            v-for="(section, sectionIndex) in itemSections"
+            v-for="(section, sectionIndex) in optionSections"
             :key="sectionIndex"
             class="flex gap-xs"
           >
             <div
-              v-for="(item, index) in section"
+              v-for="(option, index) in section"
               :key="index"
               :inert="sectionIndex !== model"
             >
               <slot
-                name="item"
-                :item="item"
+                name="option"
+                :option="option"
                 :index="index"
               />
             </div>

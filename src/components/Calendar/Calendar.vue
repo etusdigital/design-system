@@ -10,7 +10,7 @@ import Day from "./Day.vue";
 import DateDialog from "./DateDialog.vue";
 
 type Type = "date" | "period" | "compare";
-type Item = {
+type Option = {
   title: string;
   date: Date;
   weeks: any[];
@@ -66,7 +66,7 @@ const dates = computed(() => {
     },
   ];
 });
-const options = ref(getItems());
+const options = ref(getOptions());
 
 const weekDays = computed((): string[] => {
   const date = new Date("2021-10-03T23:15:30");
@@ -96,13 +96,13 @@ watch(() => props.modelValue, checkValidModel, { immediate: true, deep: true });
 watch(() => props.type, checkValidModel);
 watch(
   () => props.lang,
-  () => updateItems()
+  () => updateOptions()
 );
 watch(
   () => props.doubleCalendar,
   () => {
-    options.value = getItems();
-    updateItems();
+    options.value = getOptions();
+    updateOptions();
   }
 );
 
@@ -110,7 +110,7 @@ function checkValidModel() {
   model.value = checkDateType(props.modelValue, props.type);
 }
 
-function updateItems(value?: number, changeWeeks = true) {
+function updateOptions(value?: number, changeWeeks = true) {
   options.value.forEach((option: any) => {
     if (value) option.date.setMonth(option.date.getMonth() + value);
     if (changeWeeks) option.weeks = getArrayMonthDay(option.date);
@@ -118,11 +118,11 @@ function updateItems(value?: number, changeWeeks = true) {
   });
 }
 
-function getItems() {
+function getOptions() {
   return dates.value.map((date) => getDateObject(date.date, date.value));
 }
 
-function getDateObject(date: Date, value = 1): Item {
+function getDateObject(date: Date, value = 1): Option {
   return {
     title: getTitle(date),
     weeks: getArrayMonthDay(date),
@@ -145,7 +145,7 @@ function getTitle(date: Date): string {
 function setNewMonth(value: number) {
   isBack.value = value === -1;
   showCalendar.value = false;
-  updateItems(value);
+  updateOptions(value);
 
   setTimeout(() => {
     showCalendar.value = true;
@@ -157,7 +157,7 @@ function hidePopup() {
     Object.keys(show.value).forEach((key) => {
       show.value[key as keyof typeof show.value] = false;
     });
-    updateItems();
+    updateOptions();
   }, 100);
 }
 
@@ -166,7 +166,7 @@ function showPopup(index: number) {
   show.value.year = show.value.month && !show.value.year;
   show.value.month = !show.value.month || show.value.year;
 
-  updateItems();
+  updateOptions();
 }
 
 function getPosition(day: Date, week: any[]) {
@@ -226,7 +226,7 @@ function changeMonth(month: number) {
 
   primary.setMonth(month);
   if (options.value.length > 1) secondary.setMonth(primary.getMonth() + toAdd);
-  updateItems();
+  updateOptions();
 }
 
 function changeYear(year: number) {
@@ -246,7 +246,7 @@ function changeYear(year: number) {
 
   primary.setFullYear(year);
   if (options.value.length > 1) secondary.setFullYear(year + toAdd);
-  updateItems();
+  updateOptions();
 }
 </script>
 

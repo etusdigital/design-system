@@ -53,7 +53,7 @@ Array of available tag options. Can be strings or objects. Type: `any[]` (defaul
 Icon displayed on the tag select input. Type: `string` (default: `""`)
 
 #### label-key
-Property name used for displaying item labels when using object arrays. Type: `string` (default: `"label"`)
+Property name used for displaying option labels when using object arrays. Type: `string` (default: `"label"`)
 
 #### absolute
 Controls absolute positioning of the dropdown. Type: `boolean` (default: `false`)
@@ -102,7 +102,7 @@ Custom content displayed when search yields no results.
 #### #empty-state
 Custom content displayed when no options are available.
 
-#### #item
+#### #option
 Custom rendering for individual options in the dropdown.
 
 **Important Notes:**

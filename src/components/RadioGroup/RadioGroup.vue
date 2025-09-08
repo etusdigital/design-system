@@ -40,7 +40,7 @@ function setModel(value: string) {
   let valueToEmit = value;
   model.value = value;
   if (props.getObject) {
-    const object = props.options.find((item: any) => getValue(item) === value);
+    const object = props.options.find((option: any) => getValue(option) === value);
     valueToEmit = object;
   }
   emit("update:modelValue", valueToEmit);
@@ -50,12 +50,12 @@ function getLabel(value: any): string {
   return isObject(value) ? value[props.labelKey] : value;
 }
 
-function getValue(item: any): any {
-  return isObject(item) ? item[props.valueKey] : item;
+function getValue(option: any): any {
+  return isObject(option) ? option[props.valueKey] : option;
 }
 
-function getDisabled(item: any): boolean {
-  return isObject(item) ? item.disabled : false;
+function getDisabled(option: any): boolean {
+  return isObject(option) ? option.disabled : false;
 }
 </script>
 
@@ -68,12 +68,12 @@ function getDisabled(item: any): boolean {
     @update:model-value="setModel"
   >
     <Radio
-      v-for="item in options"
-      :key="getValue(item)"
-      :group-value="getValue(item)"
-      :disabled="getDisabled(item)"
+      v-for="option in options"
+      :key="getValue(option)"
+      :group-value="getValue(option)"
+      :disabled="getDisabled(option)"
     >
-      {{ getLabel(item) }}
+      {{ getLabel(option) }}
     </Radio>
   </Group>
 </template>

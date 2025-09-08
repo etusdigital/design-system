@@ -22,12 +22,12 @@ import * as RoundMenu from './RoundMenu.stories.ts';
 
 ```vue
 <template>
-    <RoundMenu :options="menuItems" />
+    <RoundMenu :options="menuOptions" />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-const menuItems = ref([...])
+const menuOptions = ref([...])
 </script>
 ```
 
@@ -38,27 +38,27 @@ const menuItems = ref([...])
 ### Props API
 
 #### options
-Array of menu item objects that define the radial menu options. Type: `MenuItem[]` (required)
+Array of menu option objects that define the radial menu options. Type: `MenuOption[]` (required)
 
 ```typescript
-type MenuItem = {
-  label: string;      // Display text for the menu item
+type MenuOption = {
+  label: string;      // Display text for the menu option
   icon: string;       // Icon name for the menu button
   background: string; // Custom background color for the button
-  action: () => void; // Function to execute when item is clicked
+  action: () => void; // Function to execute when option is clicked
 }
 ```
 
 **Dynamic Positioning**: The component automatically calculates optimal positioning based on the number of options:
 - **< 7 options**: 60px radius for comfortable spacing
-- **7-9 options**: Dynamic radius based on `7 * itemCount`
-- **≥ 10 options**: Dynamic radius based on `6 * itemCount` for tighter spacing
+- **7-9 options**: Dynamic radius based on `7 * optionCount`
+- **≥ 10 options**: Dynamic radius based on `6 * optionCount` for tighter spacing
 
 ---
 
 ### Events API
 
-The component doesn't emit custom events. Interactions are handled through the `action` functions defined in each menu item.
+The component doesn't emit custom events. Interactions are handled through the `action` functions defined in each menu option.
 
 ---
 
@@ -69,9 +69,9 @@ This component uses `Button` internally and doesn't expose custom slots.
 ---
 
 **Important Notes:**
-- Items are positioned in a perfect circle using trigonometric calculations
+- Options are positioned in a perfect circle using trigonometric calculations
 - Central toggle button changes color from success (green) to neutral when expanded
-- Radius automatically adjusts based on item count for optimal UX
-- Each item maintains its own hover state and click interactions
+- Radius automatically adjusts based on option count for optimal UX
+- Each option maintains its own hover state and click interactions
 - Animation performance is optimized with hardware acceleration
 - Requires sufficient container space to accommodate the expanded radius

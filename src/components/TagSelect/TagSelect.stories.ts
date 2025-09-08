@@ -64,16 +64,16 @@ export default {
     "search-label": {
       description: "This slot will be placeholder for the search input.",
     },
-    "no-items-found": {
+    "no-options-found": {
       description:
         "This slot will be displayed when the search results in no options.",
     },
     "empty-state": {
       description: "This slot will be displayed if options is an empty array.",
     },
-    item: {
+    option: {
       description:
-        "This slot will be displayed as an option. Params: item and index.",
+        "This slot will be displayed as an option. Params: option and index.",
     },
   },
 } satisfies Meta<typeof TagSelect>;
@@ -119,7 +119,7 @@ const defaultRender = (args: any) => ({
         <template #search-label>
             Search
         </template>
-        <template #no-items-found>
+        <template #no-options-found>
             No result found
         </template>
         <template #empty-state>

@@ -6,7 +6,7 @@ export default {
   argTypes: {
     modelValue: {
       type: { summary: "any" },
-      description: "This property will be the selected item.",
+      description: "This property will be the selected option.",
     },
     options: {
       type: { summary: "array" },

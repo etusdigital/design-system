@@ -248,7 +248,7 @@ function changeExpanded(expanded: boolean) {
 }
 
 .profile-option {
-  @apply flex items-center gap-2 p-xs cursor-pointer;
+  @apply flex items-center gap-xs p-xs cursor-pointer;
 }
 
 .profile-option.action {

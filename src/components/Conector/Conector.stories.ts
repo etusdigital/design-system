@@ -42,7 +42,7 @@ export const Primary: Story = {
               <Input label-value="label" placeholder="Type here" />
           </Conector>
         </Card>
-        <Button variant="success" round />
+        <Button variant="success" size="small" round />
       </Conector>`,
   }),
   args: {

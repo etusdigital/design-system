@@ -10,7 +10,7 @@
 ```vue
 <template>
     <Tree 
-      v-model="selectedItems"
+      v-model="selectedOptions"
       :options="treeData"
       :multiple="true"
       :get-object="true"
@@ -23,22 +23,22 @@
 ### Props API
 
 #### v-model
-The selected value(s). Can be a single item or array for multiple selection. Type: `any` (default: `undefined`)
+The selected value(s). Can be a single option or array for multiple selection. Type: `any` (default: `undefined`)
 
 #### options
 The tree data structure with nested options. Type: `array` (required)
 
 #### label-key
-The property name to use for displaying item labels. Type: `string` (default: `"label"`)
+The property name to use for displaying option labels. Type: `string` (default: `"label"`)
 
 #### value-key
-The property name to use for item values/identification. Type: `string` (default: `"value"`)
+The property name to use for option values/identification. Type: `string` (default: `"value"`)
 
 #### get-object
 When true, returns complete objects in selection. When false, returns only values. Type: `boolean` (default: `false`)
 
 #### multiple
-Enables multiple item selection with hierarchical relationship management. Type: `boolean` (default: `false`)
+Enables multiple option selection with hierarchical relationship management. Type: `boolean` (default: `false`)
 
 #### disabled
 Disables the entire tree component. Type: `boolean` (default: `false`)
@@ -48,7 +48,7 @@ Disables the entire tree component. Type: `boolean` (default: `false`)
 ### Events API
 
 #### update:model-value
-Emitted when selection changes. Payload contains the selected item(s) based on `getObject` and `multiple` settings.
+Emitted when selection changes. Payload contains the selected option(s) based on `getObject` and `multiple` settings.
 
 ### Slots API
 
@@ -64,7 +64,7 @@ This component uses internal logic for page display and doesn't expose custom sl
 #### Example Selection Flow:
 1. Select "Settings.txt" → Model contains: `[{Documents: {options: [{Work: {options: ["Settings.txt"]}}]}}]`
 2. Select "Code.js" → Adds to Work's options
-3. Remove "Settings.txt" → Removes only that item, keeps Work with Code.js
+3. Remove "Settings.txt" → Removes only that option, keeps Work with Code.js
 4. Remove "Code.js" → Removes Work, and Documents if no other children
 
 **Important Notes:**

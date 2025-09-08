@@ -103,15 +103,15 @@ const component = computed((): string => {
     v-else
   >
     <div
-      v-for="item in props.steps"
-      :key="item"
+      v-for="step in props.steps"
+      :key="step"
       class="step"
       :style="{
-        background: item <= modelValue ? color : background,
+        background: step <= modelValue ? color : background,
         width: 100 / props.steps + '%',
       }"
       :class="{
-        filled: item <= modelValue,
+        filled: step <= modelValue,
         'neutral-bg': neutralBackground,
       }"
     />

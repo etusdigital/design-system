@@ -27,6 +27,10 @@ export default {
     vertical: {
       control: { type: "boolean" },
     },
+    option: {
+      description:
+        "This slot will be displayed as an option. Params: option and index.",
+    },
   },
 } satisfies Meta<typeof Carousel>;
 
@@ -93,23 +97,23 @@ const defaultHtml = `
     :interval="args.interval"
     :circular="args.circular"
   >
-    <template #item="{ item, index }">
+    <template #option="{ option, index }">
       <Card class="flex flex-col gap-sm p-base">
         <div class="flex flex-col gap-sm">
             <div class="flex flex-col gap-xxs">
               <h4 class="text-neutral-foreground-high text-sm font-bold">Subject: %Email Subject%</h4>
-              <p class="text-xs text-neutral-foreground-high">Links: <a class="lowercase cursor-pointer">{{ item.url }}</a></p>
+              <p class="text-xs text-neutral-foreground-high">Links: <a class="lowercase cursor-pointer">{{ option.url }}</a></p>
             </div>
             <div class="flex gap-xs overflow-x-auto max-w-full pb-xxs">
-                <MetricCard icon="science" title="Sample" type="dashed" color="info" :value="item.sample.value" />
-                <MetricCard icon="drafts" title="Open" :value="item.open.value" :description="item.open.description" class="min-w-[31%]" />
-                <MetricCard icon="arrow_selector_tool" title="Click" :value="item.click.value" :description="item.click.description" type="success" class="min-w-[30%]" />
-                <MetricCard icon="touch_app" title="CTOR" :value="item.ctor.value" class="min-w-[30%]" />
+                <MetricCard icon="science" title="Sample" type="dashed" color="info" :value="option.sample.value" />
+                <MetricCard icon="drafts" title="Open" :value="option.open.value" :description="option.open.description" class="min-w-[31%]" />
+                <MetricCard icon="arrow_selector_tool" title="Click" :value="option.click.value" :description="option.click.description" type="success" class="min-w-[30%]" />
+                <MetricCard icon="touch_app" title="CTOR" :value="option.ctor.value" class="min-w-[30%]" />
             </div>
             <div class="flex justify-between items-center">
               <div class="flex gap-xxs items-center text-neutral-foreground-high">
                 <Icon name="mail" size="20px" />
-                <p class="text-sm font-bold">Total delivered: {{ item.totalDelivered }}</p>
+                <p class="text-sm font-bold">Total delivered: {{ option.totalDelivered }}</p>
               </div>
               <Button size="small">More statistics</Button>
             </div>

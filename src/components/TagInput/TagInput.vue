@@ -178,15 +178,15 @@ function applyMasks(e: any) {
 <template>
   <div ref="tagInput" class="tag-input">
     <div
-      class="flex flex-row justify-between items-center mxxs"
+      class="flex flex-row justify-between items-center m-xxs"
       v-if="labelValue"
     >
       <Label :label-value="labelValue" :info-message="infoMessage" :required="required" />
-      <label
+      <span
         v-if="max !== undefined && max > 0"
         class="text-neutral-foreground-low font-bold text-xs"
       >
-        {{ tags.length }} / {{ max }}</label
+        {{ tags.length }} / {{ max }}</span
       >
     </div>
     <div
@@ -213,12 +213,12 @@ function applyMasks(e: any) {
         position="bottom"
         class="max-w-full"
       >
-        <Tag color="neutral" class="tag-padding max-w-full" :label-value="tag" closeable @close="removeTag(index)" />
-          <template #label>
-            <div class="max-w-[100%]">
-              <span class="whitespace-normal break-all">{{ tag }}</span>
-            </div>
-          </template>
+        <StatusBadge color="neutral" class="tag-padding max-w-full" :label-value="tag" closeable @close="removeTag(index)" />
+        <template #label>
+          <div class="max-w-[100%]">
+            <span class="whitespace-normal break-all">{{ tag }}</span>
+          </div>
+        </template>
       </Tooltip>
       <textarea
         rows="1"

@@ -28,35 +28,35 @@ const emit = defineEmits<{
 const [model] = useOptionalModel<any>(props, "modelValue", emit, undefined);
 const expanded = ref<any[]>([]);
 
-const parsedItems = computed(() => {
+const parsedOptions = computed(() => {
   if (!props.options?.length) return [];
 
-  const items = [...props.options];
-  let selectedIndex = items.findIndex((item) => isActive(item));
+  const options = [...props.options];
+  let selectedIndex = options.findIndex((option) => isActive(option));
   if (selectedIndex === -1) selectedIndex = 0;
 
   const result = [];
 
-  for (let i = 0; i < items.length; i++) {
+  for (let i = 0; i < options.length; i++) {
     if (
       i === 0 ||
-      i === items.length - 1 ||
+      i === options.length - 1 ||
       (selectedIndex === 0 && i < 2) ||
-      (selectedIndex === items.length - 1 && i >= items.length - 2) ||
+      (selectedIndex === options.length - 1 && i >= options.length - 2) ||
       selectedIndex - 1 === i ||
       selectedIndex + 1 === i ||
       selectedIndex === i
     ) {
-      result.push(items[i]);
+      result.push(options[i]);
     } else if (i === 1 && selectedIndex > 1) {
       result.push({
         icon: "more_horiz",
-        options: items.slice(1, selectedIndex - 1)
+        options: options.slice(1, selectedIndex - 1)
       });
-    } else if (i === items.length - 2 && selectedIndex < items.length - 2) {
+    } else if (i === options.length - 2 && selectedIndex < options.length - 2) {
       result.push({
         icon: "more_horiz",
-        options: items.slice(selectedIndex + 2, items.length - 1)
+        options: options.slice(selectedIndex + 2, options.length - 1)
       });
     }
   }
@@ -64,8 +64,8 @@ const parsedItems = computed(() => {
   return result;
 });
 
-function setModel(item: any) {
-  const value = props.getObject ? item : getValue(item);
+function setModel(option: any) {
+  const value = props.getObject ? option : getValue(option);
   expanded.value = expanded.value.map(() => false);
 
   setTimeout(() => {
@@ -78,12 +78,12 @@ function getLabel(value: any): string {
   return isObject(value) ? value[props.labelKey] : value;
 }
 
-function getValue(item: any): any {
-  return isObject(item) ? item[props.valueKey] : item;
+function getValue(option: any): any {
+  return isObject(option) ? option[props.valueKey] : option;
 }
 
-function isActive(item: any): boolean {
-  const value = getValue(item);
+function isActive(option: any): boolean {
+  const value = getValue(option);
   const selectedValue = getValue(model.value);
   return selectedValue == value;
 }
@@ -91,13 +91,13 @@ function isActive(item: any): boolean {
 
 <template>
   <div class="breadcrumb">
-    <template v-for="(item, index) in parsedItems" :key="item">
-      <div v-if="isObject(item) && item.icon == 'more_horiz'">
+    <template v-for="(option, index) in parsedOptions" :key="option">
+      <div v-if="isObject(option) && option.icon == 'more_horiz'">
         <FloatCard v-model="expanded[index]">
           <Icon name="more_horiz" class="cursor-pointer" />
             <template #card>
               <div class="more-options">
-                <Option v-for="option in item.options" :key="option" @click="setModel(option)">
+                <Option v-for="option in option.options" :key="option" @click="setModel(option)">
                   {{ getLabel(option) }}
                 </Option>
               </div>
@@ -106,13 +106,13 @@ function isActive(item: any): boolean {
       </div>
       <h5
         v-else
-        class="item"
-        :class="{ active: isActive(item) }"
-        @click="setModel(item)"
+        class="option"
+        :class="{ active: isActive(option) }"
+        @click="setModel(option)"
       >
-        {{ getLabel(item) }}
+        {{ getLabel(option) }}
       </h5>
-      <Icon v-if="index < parsedItems.length - 1" name="chevron_right" />
+      <Icon v-if="index < parsedOptions.length - 1" name="chevron_right" />
     </template>
   </div>
 </template>
@@ -124,11 +124,11 @@ function isActive(item: any): boolean {
   @apply flex items-center gap-xs;
 }
 
-.item {
+.option {
   @apply text-neutral-interaction-default cursor-pointer hover:text-primary-interaction-hover;
 }
 
-.item.active {
+.option.active {
   @apply pointer-events-none text-neutral-foreground-high;
 }
 
