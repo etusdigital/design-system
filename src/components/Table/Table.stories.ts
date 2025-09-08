@@ -83,7 +83,7 @@ export default {
       description:
         "When noShadow property is true, the card will have no shadow.",
     },
-    numberOfOptions: {
+    numberOfItems: {
       type: { name: "number" },
       table: {
         defaultValue: 0,
@@ -97,15 +97,15 @@ export default {
       },
       description: "Determine if the pagination is redened in back-end.",
     },
-    by: {
+    sortBy: {
       type: { summary: "function" },
       table: {
-        defaultValue: { summary: "(key, isSortDesc = false) =>{void}" },
+        defaultValue: { summary: "(key, isDesc = false) =>{void}" },
       },
       description:
         "This function will be the function resposible for sort items. It only will be used if renderPaginationInBackEnd = true.",
     },
-    pageOptions: {
+    pageItems: {
       type: { summary: "function" },
       table: {
         defaultValue: { summary: "(page, itemsPerPage) =>{void}" },
@@ -682,14 +682,13 @@ const defaultArgs = {
       value: "age",
       sortable: true,
       width: "10%",
-      align: "center",
     },
-    { label: "Membership", value: "memberShip", sortable: false, width: "20%" },
+    { label: "Membership", value: "memberShip", width: "20%" },
   ],
   items: items,
   sortOptions: {
     by: "",
-    sortDesc: false,
+    desc: false,
   },
   page: 1,
   itemsPerPage: 10,
@@ -828,7 +827,7 @@ export const Primary: Story = {
               </div>
           </template>
 
-          <template #options-per-page>
+          <template #items-per-page>
               Items per page
           </template>
 
@@ -845,9 +844,9 @@ export const Options: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
-    options: {
-      sortBy: "name",
-      sortDesc: true,
+    sortOptions: {
+      by: "name",
+      desc: true,
     },
   },
 };
@@ -869,7 +868,7 @@ export const Selection: Story = {
     template: `
       <Table 
         :columns="args.columns"
-        :options="args.options"
+        :items="args.items"
         :enable-selection="args.enableSelection"
       >
           <template #select="{ item }">
@@ -899,19 +898,21 @@ export const Aggregation: Story = {
     template: `
       <Table 
           :columns="args.columns"
-          :options="args.options"
+          :items="args.items"
           :enable-aggregation="args.enableAggregation"
       >
           <template #aggregation="{ item }">
               <td>
-                <div class="flex options-center justify-center p-xxs rounded-full cursor-pointer hover:bg-neutral-surface-highlight">
-                  <b-icon
-                    name="arrow_drop_down"
-                    class="transition-transform"
-                    :class="{ 'rotate-180': item.expanded }"
-                    @click="item.expanded = !item.expanded"
-                  />
-                </div>
+                <Button
+                  color="neutral"
+                  variant="plain"
+                  size="small"
+                  icon="arrow_drop_down"
+                  round
+                  class="transition-transform"
+                  :class="{ 'rotate-180': item.expanded }"
+                  @click="item.expanded = !item.expanded"
+                />
               </td>
           </template>
 
@@ -921,14 +922,14 @@ export const Aggregation: Story = {
 
           <template #childs="{ item, index }">
               <template v-if="item.expanded">
-              <tr
-                  v-for="(child, childIndex) in item.childs"
-                  :key="childIndex"
-                  class="bg-neutral-surface-highlight text-neutral-foreground-low [&>*]:py-xs [&>*]:px-lg"
-              >
-                  <td />
-                  <td v-for="header in args.columns">{{ child[header.value] }}</td>
-              </tr>
+                <tr
+                    v-for="(child, childIndex) in item.childs"
+                    :key="childIndex"
+                    class="bg-neutral-surface-highlight text-neutral-foreground-low [&>*]:py-xs [&>*]:px-lg"
+                >
+                    <td />
+                    <td v-for="header in args.columns">{{ child[header.value] }}</td>
+                </tr>
           </template>
       </Table>
     `,
@@ -981,10 +982,10 @@ export const EmptyState: Story = {
     template: `
       <Table 
         :columns="args.columns"
-        :options="args.options"
+        :items="args.items"
       >
           <template #empty-state>
-              <div class="flex options-center justify-center p-xxs rounded-full text-xl">
+              <div class="flex items-center justify-center p-xxs rounded-full text-xl">
                   <Icon name="sentiment_dissatisfied" size="1em" />
               </div>
           </template>
@@ -993,7 +994,7 @@ export const EmptyState: Story = {
   }),
   args: {
     ...defaultArgs,
-    options: [],
+    items: [],
   },
 };
 
@@ -1006,7 +1007,7 @@ export const Footer: Story = {
     template: `
       <Table 
         :columns="args.columns"
-        :options="args.options"
+        :items="args.items"
       >
           <template v-for="header in args.columns" v-slot:[header.value]="{ item, index }">
             <td>{{ item[header.value] }}</td>
@@ -1020,7 +1021,7 @@ export const Footer: Story = {
   }),
   args: {
     ...defaultArgs,
-    options: [],
+    items: [],
   },
 };
 
@@ -1033,13 +1034,13 @@ export const ItemsPerPage: Story = {
     template: `
       <Table 
         :columns="args.columns"
-        :options="args.options"
+        :items="args.items"
       >
           <template v-for="header in args.columns" v-slot:[header.value]="{ item, index }">
             <td>{{ item[header.value] }}</td>
           </template>
 
-          <template #options-per-page>
+          <template #items-per-page>
             Slot: Items per page
           </template>
       </Table>
@@ -1047,7 +1048,7 @@ export const ItemsPerPage: Story = {
   }),
   args: {
     ...defaultArgs,
-    options: [],
+    items: [],
   },
 };
 
@@ -1060,7 +1061,7 @@ export const ShowingPage: Story = {
     template: `
       <Table 
         :columns="args.columns"
-        :options="args.options"
+        :items="args.items"
       >
           <template v-for="header in args.columns" v-slot:[header.value]="{ item, index }">
             <td>{{ item[header.value] }}</td>
@@ -1074,6 +1075,6 @@ export const ShowingPage: Story = {
   }),
   args: {
     ...defaultArgs,
-    options: [],
+    items: [],
   },
 };

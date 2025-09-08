@@ -57,6 +57,7 @@ const slots = useSlots();
 
 const sortByName = ref(props.sortOptions?.by || "");
 const pagedItems = ref(props.items || []);
+console.log(pagedItems.value);
 const isDesc: any = ref(getAllHeaderKeys());
 const itemsPerPageHolder = ref(props.itemsPerPage || 10);
 const pageHolder = ref(props.page || 1);
@@ -413,7 +414,7 @@ function selectAll(value: boolean | null) {
   @apply w-full rounded-xl bg-neutral-surface-default;
 
   thead {
-    @apply border-xxs border-neutral-default;
+    @apply border-b-xxs border-b-neutral-default;
   }
 
   tbody {

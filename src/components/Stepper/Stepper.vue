@@ -174,7 +174,9 @@ function findIndex(option: any) {
 @reference "../../assets/main.css";
 
 .step-button {
-  @apply flex items-center justify-center rounded-e-xxs border-xxs h-[2.2em] w-[10em] border-neutral-default text-neutral-interaction-default pl-base ml-xs font-bold uppercase text-sm text-start relative bg-default;
+  @apply flex items-center justify-center rounded-e-xxs border-xxs h-[2.2em] w-[10em]
+          border-neutral-default text-neutral-interaction-default pl-base ml-xs font-bold
+          uppercase text-sm text-start relative bg-default cursor-pointer;
   width: 100%;
   background: v-bind(background);
 
@@ -295,7 +297,7 @@ function findIndex(option: any) {
 }
 
 .button-container {
-  @apply p-xxs rounded-full relative hover:scale-[1.2];
+  @apply relative p-xxs rounded-full cursor-pointer hover:scale-[1.2];
 }
 
 .background {
