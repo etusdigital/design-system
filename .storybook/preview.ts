@@ -1,16 +1,15 @@
-// import { provide } from 'vue';
-// import { addons } from '@storybook/addons';
+import { provide } from 'vue';
 import type { Preview } from '@storybook/vue3-vite'
 import { setup } from '@storybook/vue3'
 import '@/assets/main.css'
 import DesignSystem from '../src/index'
-// import { briusTheme, etusTheme } from "./themes";
-// import favicon from './themes/imgs/favicon.svg';
+import { briusTheme, etusTheme } from "./themes";
+import favicon from './themes/imgs/favicon.svg';
 
-// const link = document.createElement('link');
-// link.setAttribute('rel', 'shortcut icon');
-// link.setAttribute('href', favicon);
-// document.head.appendChild(link);
+const link = document.createElement('link');
+link.setAttribute('rel', 'shortcut icon');
+link.setAttribute('href', favicon);
+document.head.appendChild(link);
 
 // Load Google Material Symbols font for Icon component
 const materialSymbolsLink = document.createElement("link");
@@ -18,23 +17,19 @@ materialSymbolsLink.rel = "stylesheet";
 materialSymbolsLink.href = "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
 document.head.appendChild(materialSymbolsLink);
 
-// const withTheme = (story: any, context: any) => {
-//   const theme = context.parameters.theme || context.globals.theme;
-//   const storyTheme = theme === "etus" ? etusTheme : briusTheme;
+const withTheme = (story: any, context: any) => {
+  const theme = context.globals.theme || "etus";
+  const storyTheme = theme === "etus" ? etusTheme : briusTheme;
 
-//   addons.setConfig({
-//     theme: storyTheme,
-//   });
-
-//   return {
-//     setup() {
-//       provide("theme", storyTheme);
-//       const storyResult = story();
-//       return { storyResult };
-//     },
-//     template: `<div class="${theme}-theme"><story /></div>`,
-//   };
-// };
+  return {
+    setup() {
+      provide("theme", storyTheme);
+      const storyResult = story();
+      return { storyResult };
+    },
+    template: `<div class="${theme}-theme"><story /></div>`,
+  };
+};
 
 // Setup global components for Storybook
 setup((app) => {
@@ -42,6 +37,24 @@ setup((app) => {
 })
 
 const preview: Preview = {
+  globalTypes: {
+    theme: {
+      description: "Global theme for components",
+      toolbar: {
+        title: "Theme",
+        icon: "circlehollow",
+        items: [
+          { value: "etus", title: "Etus", icon: "circle" },
+          { value: "brius", title: "Brius", icon: "circle" },
+        ],
+        showName: true,
+        dynamicTitle: true,
+      },
+    },
+  },
+  initialGlobals: {
+    theme: "etus",
+  },
   parameters: {
     controls: {
       matchers: {
@@ -64,24 +77,8 @@ const preview: Preview = {
       // 'off' - skip a11y checks entirely
       test: 'todo'
     },
-    // globalTypes: {
-    //   theme: {
-    //     name: "Theme",
-    //     description: "Global theme for components",
-    //     defaultValue: "etus",
-    //     toolbar: {
-    //       icon: "circlehollow",
-    //       items: [
-    //         { value: "etus", icon: "circle", title: "Etus" },
-    //         { value: "brius", icon: "circle", title: "Brius" },
-    //       ],
-    //       showName: true,
-    //       dynamicTitle: true,
-    //     },
-    //   },
-    // },
-    // decorators: [withTheme],
   },
+  decorators: [withTheme],
 };
 
 export default preview;

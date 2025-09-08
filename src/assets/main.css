@@ -3,6 +3,7 @@
 
 @import "tailwindcss";
 
+@config "../../tailwind.config.cjs";
 @source inline("brius-theme p1 p2 p3 p4 caption-c1 caption-c2");
 
 @plugin "@tailwindcss/aspect-ratio";
@@ -486,298 +487,35 @@
   }
 }
 
-@theme {
-  --letter-spacing-tighter: "-0.05em";
-  --letter-spacing-tight: "-0.025em";
-  --letter-spacing-normal: "0em";
-  --letter-spacing-wide: "0.05em";
-  --letter-spacing-wider: "0.070em";
-  --letter-spacing-widest: "0.1em";
-
-  --font-sans: var(--font-sans);
-
-  --text-xxs: var(--font-size-xxs);
-  --text-xs: var(--font-size-xs);
-  --text-sm: var(--font-size-sm);
-  --text-base: var(--font-size-base);
-  --text-md: var(--font-size-md);
-  --text-lg: var(--font-size-lg);
-  --text-xl: var(--font-size-xl);
-  --text-2xl: var(--font-size-2xl);
-  --text-3xl: var(--font-size-3xl);
-  --text-4xl: var(--font-size-4xl);
-  --text-5xl: var(--font-size-5xl);
-  --text-6xl: var(--font-size-6xl);
-  --text-7xl: var(--font-size-7xl);
-  --text-8xl: var(--font-size-8xl);
-  --text-9xl: var(--font-size-9xl);
-
-  --font-weight-thin: var(--font-weight-thin);
-  --font-weight-extra-light: var(--font-weight-extra-light);
-  --font-weight-light: var(--font-weight-light);
-  --font-weight-normal: var(--font-weight-normal);
-  --font-weight-medium: var(--font-weight-medium);
-  --font-weight-semibold: var(--font-weight-semibold);
-  --font-weight-bold: var(--font-weight-bold);
-  --font-weight-extra-bold: var(--font-weight-extra-bold);
-  --font-weight-black: var(--font-weight-black);
-
-  --line-height-none: var(--line-height-none);
-  --line-height-xxs: var(--line-height-xxs);
-  --line-height-xs: var(--line-height-xs);
-  --line-height-sm: var(--line-height-sm);
-  --line-height-base: var(--line-height-base);
-  --line-height-lg: var(--line-height-lg);
-  --line-height-xl: var(--line-height-xl);
-
-  --spacing-none: var(--spacing-none);
-  --spacing-2xxs: var(--spacing-2xxs);
-  --spacing-xxs: var(--spacing-xxs);
-  --spacing-xs: var(--spacing-xs);
-  --spacing-sm: var(--spacing-sm);
-  --spacing-base: var(--spacing-base);
-  --spacing-lg: var(--spacing-lg);
-  --spacing-xl: var(--spacing-xl);
-  --spacing-2xl: var(--spacing-2xl);
-  --spacing-3xl: var(--spacing-3xl);
-  --spacing-4xl: var(--spacing-4xl);
-  --spacing-5xl: var(--spacing-5xl);
-  --spacing-6xl: var(--spacing-6xl);
-  --spacing-7xl: var(--spacing-7xl);
-  --spacing-8xl: var(--spacing-8xl);
-  --spacing-9xl: var(--spacing-9xl);
-  --spacing-10xl: var(--spacing-10xl);
-  --spacing-11xl: var(--spacing-11xl);
-  --spacing-12xl: var(--spacing-12xl);
-  --spacing-13xl: var(--spacing-13xl);
-  --spacing-14xl: var(--spacing-14xl);
-  --spacing-15xl: var(--spacing-15xl);
-  --spacing-16xl: var(--spacing-16xl);
-  --spacing-17xl: var(--spacing-17xl);
-  --spacing-18xl: var(--spacing-18xl);
-  --spacing-19xl: var(--spacing-19xl);
-  --spacing-20xl: var(--spacing-20xl);
-
-  --border-width-none: var(--border-width-none);
-  --border-width-xxs: var(--border-width-xxs);
-  --border-width-xs: var(--border-width-xs);
-  --border-width-sm: var(--border-width-sm);
-  --border-width-base: var(--border-width-base);
-
-  --border-color-neutral-default: var(--neutral-border-default);
-  --border-color-neutral-hover: var(--neutral-border-hover);
-  --border-color-neutral-pressed: var(--neutral-border-pressed);
-  --border-color-neutral-disabled: var(--neutral-border-disabled);
-  --border-color-neutral-selected: var(--neutral-border-selected);
-
-  --border-color-primary-default: var(--primary-border-default);
-  --border-color-primary-hover: var(--primary-border-hover);
-  --border-color-primary-pressed: var(--primary-border-pressed);
-  --border-color-primary-disabled: var(--primary-border-disabled);
-  --border-color-primary-selected: var(--primary-border-selected);
-
-  --border-color-informative-default: var(--informative-border-default);
-  --border-color-informative-hover: var(--informative-border-hover);
-  --border-color-informative-pressed: var(--informative-border-pressed);
-  --border-color-informative-disabled: var(--informative-border-disabled);
-  --border-color-informative-selected: var(--informative-border-selected);
-
-  --border-color-success-default: var(--success-border-default);
-  --border-color-success-hover: var(--success-border-hover);
-  --border-color-success-pressed: var(--success-border-pressed);
-  --border-color-success-disabled: var(--success-border-disabled);
-  --border-color-success-selected: var(--success-border-selected);
-
-  --border-color-warning-default: var(--warning-border-default);
-  --border-color-warning-hover: var(--warning-border-hover);
-  --border-color-warning-pressed: var(--warning-border-pressed);
-  --border-color-warning-disabled: var(--warning-border-disabled);
-  --border-color-warning-selected: var(--warning-border-selected);
-
-  --border-color-danger-default: var(--danger-border-default);
-  --border-color-danger-hover: var(--danger-border-hover);
-  --border-color-danger-pressed: var(--danger-border-pressed);
-  --border-color-danger-disabled: var(--danger-border-disabled);
-  --border-color-danger-selected: var(--danger-border-selected);
-
-  --outline-width-none: var(--border-width-none);
-  --outline-width-xxs: var(--border-width-xxs);
-  --outline-width-xs: var(--border-width-xs);
-  --outline-width-sm: var(--border-width-sm);
-  --outline-width-base: var(--border-width-base);
-
-  --outline-color-neutral-default: var(--neutral-border-default);
-  --outline-color-neutral-hover: var(--neutral-border-hover);
-  --outline-color-neutral-pressed: var(--neutral-border-pressed);
-  --outline-color-neutral-disabled: var(--neutral-border-disabled);
-  --outline-color-neutral-selected: var(--neutral-border-selected);
-
-  --outline-color-primary-default: var(--primary-border-default);
-  --outline-color-primary-hover: var(--primary-border-hover);
-  --outline-color-primary-pressed: var(--primary-border-pressed);
-  --outline-color-primary-disabled: var(--primary-border-disabled);
-  --outline-color-primary-selected: var(--primary-border-selected);
-
-  --outline-color-informative-default: var(--informative-border-default);
-  --outline-color-informative-hover: var(--informative-border-hover);
-  --outline-color-informative-pressed: var(--informative-border-pressed);
-  --outline-color-informative-disabled: var(--informative-border-disabled);
-  --outline-color-informative-selected: var(--informative-border-selected);
-
-  --outline-color-success-default: var(--success-border-default);
-  --outline-color-success-hover: var(--success-border-hover);
-  --outline-color-success-pressed: var(--success-border-pressed);
-  --outline-color-success-disabled: var(--success-border-disabled);
-  --outline-color-success-selected: var(--success-border-selected);
-
-  --outline-color-warning-default: var(--warning-border-default);
-  --outline-color-warning-hover: var(--warning-border-hover);
-  --outline-color-warning-pressed: var(--warning-border-pressed);
-  --outline-color-warning-disabled: var(--warning-border-disabled);
-  --outline-color-warning-selected: var(--warning-border-selected);
-
-  --outline-color-danger-default: var(--danger-border-default);
-  --outline-color-danger-hover: var(--danger-border-hover);
-  --outline-color-danger-pressed: var(--danger-border-pressed);
-  --outline-color-danger-disabled: var(--danger-border-disabled);
-  --outline-color-danger-selected: var(--danger-border-selected);
-
-  --radius-none: var(--border-radius-none);
-  --radius-xxs: var(--border-radius-xxs);
-  --radius-xs: var(--border-radius-xs);
-  --radius-sm: var(--border-radius-sm);
-  --radius-base: var(--border-radius-base);
-  --radius-lg: var(--border-radius-lg);
-  --radius-xl: var(--border-radius-xl);
-  --radius-2xl: var(--border-radius-2xl);
-  --radius-full: var(--border-radius-full);
-
-  --color-default: var(--neutral-background-default);
-  --color-emphasis: var(--neutral-background-emphasis);
-  --color-negative: var(--neutral-background-negative);
-
-  --color-neutral-surface-default: var(--neutral-surface-default);
-  --color-neutral-surface-highlight: var(--neutral-surface-highlight);
-  --color-neutral-surface-hover: var(--neutral-surface-hover);
-  --color-neutral-surface-disabled: var(--neutral-surface-disabled);
-
-  --color-neutral-interaction-default: var(--neutral-interaction-default);
-  --color-neutral-interaction-hover: var(--neutral-interaction-hover);
-  --color-neutral-interaction-pressed: var(--neutral-interaction-pressed);
-  --color-neutral-interaction-disabled: var(--neutral-interaction-disabled);
-
-  --color-neutral-foreground-disabled: var(--neutral-foreground-disabled);
-  --color-neutral-foreground-low: var(--neutral-foreground-low);
-  --color-neutral-foreground-high: var(--neutral-foreground-high);
-  --color-neutral-foreground-negative: var(--neutral-foreground-negative);
-
-  --color-primary-surface-default: var(--primary-surface-default);
-  --color-primary-surface-highlight: var(--primary-surface-highlight);
-  --color-primary-surface-hover: var(--primary-surface-hover);
-  --color-primary-surface-pressed: var(--primary-surface-pressed);
-
-  --color-primary-interaction-default: var(--primary-interaction-default);
-  --color-primary-interaction-hover: var(--primary-interaction-hover);
-  --color-primary-interaction-pressed: var(--primary-interaction-pressed);
-  --color-primary-interaction-selected: var(--primary-interaction-selected);
-
-  --color-primary-foreground-disabled: var(--primary-foreground-disabled);
-  --color-primary-foreground-low: var(--primary-foreground-low);
-  --color-primary-foreground-high: var(--primary-foreground-high);
-
-  --color-informative-surface-default: var(--informative-surface-default);
-  --color-informative-surface-highlight: var(--informative-surface-highlight);
-  --color-informative-surface-hover: var(--informative-surface-hover);
-  --color-informative-surface-pressed: var(--informative-surface-pressed);
-
-  --color-informative-interaction-default: var(
-    --informative-interaction-default
-  );
-  --color-informative-interaction-hover: var(--informative-interaction-hover);
-  --color-informative-interaction-pressed: var(
-    --informative-interaction-pressed
-  );
-  --color-informative-interaction-selected: var(
-    --informative-interaction-selected
-  );
-
-  --color-informative-foreground-disabled: var(
-    --informative-foreground-disabled
-  );
-  --color-informative-foreground-low: var(--informative-foreground-low);
-  --color-informative-foreground-high: var(--informative-foreground-high);
-
-  --color-success-surface-default: var(--success-surface-default);
-  --color-success-surface-highlight: var(--success-surface-highlight);
-  --color-success-surface-hover: var(--success-surface-hover);
-  --color-success-surface-pressed: var(--success-surface-pressed);
-
-  --color-success-interaction-default: var(--success-interaction-default);
-  --color-success-interaction-hover: var(--success-interaction-hover);
-  --color-success-interaction-pressed: var(--success-interaction-pressed);
-  --color-success-interaction-selected: var(--success-interaction-selected);
-
-  --color-success-foreground-disabled: var(--success-foreground-disabled);
-  --color-success-foreground-low: var(--success-foreground-low);
-  --color-success-foreground-high: var(--success-foreground-high);
-
-  --color-warning-surface-default: var(--warning-surface-default);
-  --color-warning-surface-highlight: var(--warning-surface-highlight);
-  --color-warning-surface-hover: var(--warning-surface-hover);
-  --color-warning-surface-pressed: var(--warning-surface-pressed);
-
-  --color-warning-interaction-default: var(--warning-interaction-default);
-  --color-warning-interaction-hover: var(--warning-interaction-hover);
-  --color-warning-interaction-pressed: var(--warning-interaction-pressed);
-  --color-warning-interaction-selected: var(--warning-interaction-selected);
-
-  --color-warning-foreground-disabled: var(--warning-foreground-disabled);
-  --color-warning-foreground-low: var(--warning-foreground-low);
-  --color-warning-foreground-high: var(--warning-foreground-high);
-
-  --color-danger-surface-default: var(--danger-surface-default);
-  --color-danger-surface-highlight: var(--danger-surface-highlight);
-  --color-danger-surface-hover: var(--danger-surface-hover);
-  --color-danger-surface-pressed: var(--danger-surface-pressed);
-
-  --color-danger-interaction-default: var(--danger-interaction-default);
-  --color-danger-interaction-hover: var(--danger-interaction-hover);
-  --color-danger-interaction-pressed: var(--danger-interaction-pressed);
-  --color-danger-interaction-selected: var(--danger-interaction-selected);
-
-  --color-danger-foreground-disabled: var(--danger-foreground-disabled);
-  --color-danger-foreground-low: var(--danger-foreground-low);
-  --color-danger-foreground-high: var(--danger-foreground-high);
-
-  --shadow-neutral-default: 0px 1px 3px 0px rgba(0, 0, 0, 0.1),
-    0px 1px 2px 0px rgba(0, 0, 0, 0.06);
-  --shadow-neutral-selected: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
-}
-
 @utility p1 {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-lg);
 }
+
 @utility p2 {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-lg);
 }
+
 @utility p3 {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-lg);
 }
+
 @utility p4 {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-lg);
 }
+
 @utility caption-c1 {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
 }
+
 @utility caption-c2 {
   font-size: var(--font-size-xxs);
   font-weight: var(--font-weight-normal);
