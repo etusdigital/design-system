@@ -47,7 +47,7 @@ withDefaults(
 }
 
 .icon-container {
-  @apply flex items-center justify-center rounded-full bg-primary-interaction-default p-xxs w-fit h-fit text-neutral-foreground-negative absolute left-[-15px] top-[16px];
+  @apply flex items-center justify-center rounded-full bg-primary-interaction-default py-xxs px-xs w-fit h-fit text-neutral-foreground-negative absolute -left-lg top-base;
 
   .icon {
     @apply text-xl;
@@ -55,10 +55,10 @@ withDefaults(
 }
 
 .icon-container.round-icon {
-  @apply bg-transparent text-primary-interaction-default p-none;
+  @apply bg-transparent text-primary-interaction-default p-none -left-base;
 
   .icon {
-    @apply text-3xl;
+    @apply text-4xl;
   }
 }
 
