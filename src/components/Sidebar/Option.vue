@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Option from "./Option.vue";
+import Option from "../../utils/components/Option.vue";
 
 withDefaults(
   defineProps<{
