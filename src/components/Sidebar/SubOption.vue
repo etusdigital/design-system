@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useOptionalModel } from "#composables";
-import { type Option as OptionType } from "../../utils/types/SidebarOption";
-import MenuOption from "./Option.vue";
+import { type Option as OptionType } from "../../utils/types/SidebarOption.ts";
+import Option from "./Option.vue";
 import { computed, resolveComponent } from "vue";
 import { isObject } from "../../utils";
 
@@ -77,7 +77,7 @@ function getSelected(option: OptionType = props.option) {
     @click="changeModel(option)"
     @keyup.enter="changeModel(option)"
   >
-    <MenuOption
+    <Option
       tabindex="-1"
       :class="{ expanded: option.expanded, bold: bold }"
       :label="option.label"
@@ -91,13 +91,13 @@ function getSelected(option: OptionType = props.option) {
         :class="{ 'rotate-180': option.expanded }"
         class="transition-transform"
       />
-    </MenuOption>
+    </Option>
     <Transition name="expand">
       <div
         v-if="option.options && option.options.length && option.expanded"
         class="options-container"
       >
-        <Option
+        <SubOption
           v-for="subOption in option.options"
           v-model="model"
           :key="subOption.value"
