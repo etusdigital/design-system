@@ -96,31 +96,25 @@ function changeModel(value: boolean, extra: ContainerModelExtra) {
 
     <template #content="{ minWidth }">
       <div
-        v-show="isExpanded"
+        v-if="isExpanded"
         ref="content"
-        class="content-wrapper text-xs top-full transition-[max-height] w-fit duration-100"
+        class="text-xs top-full w-fit mt-xs"
         :class="[
           {
             'absolute z-[80]': isAbsolute,
-            'max-h-fit': isExpanded,
             'left-0': !alignRight,
             'right-0': alignRight,
           },
         ]"
         :style="{ 'min-width': minWidth }"
       >
-        <div
-          class="content translate-y-[-100%] transition-translate duration-100 ease-out mt-xs"
-          :class="[{ 'translate-y-[0]': isExpanded }]"
-        >
-          <slot name="card">
-            <div
-              class="bg-neutral-surface-default shadow-neutral-selected border-xxs border-neutral-default rounded-sm"
-            >
-              <slot name="content" />
-            </div>
-          </slot>
-        </div>
+        <slot name="card">
+          <div
+            class="bg-neutral-surface-default shadow-neutral-selected border-xxs border-neutral-default rounded-sm"
+          >
+            <slot name="content" />
+          </div>
+        </slot>
       </div>
     </template>
   </Container>

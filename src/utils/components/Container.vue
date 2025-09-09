@@ -172,7 +172,7 @@ function toggle() {
         </div>
       </slot>
 
-      <Transition name="content">
+      <Transition name="expand">
         <slot name="content" :min-width="contentMinWidth" />
       </Transition>
     </div>
@@ -224,5 +224,20 @@ function toggle() {
 
 .arrow-icon.expanded {
   @apply rotate-180;
+}
+
+.expand-enter-active,
+.expand-leave-active {
+  @apply transition-all duration-300 overflow-hidden;
+}
+
+.expand-enter-from,
+.expand-leave-to {
+  @apply translate-y-[-10px] max-h-0;
+}
+
+.expand-enter-to,
+.expand-leave-from {
+  @apply translate-y-0 max-h-screen;
 }
 </style>
