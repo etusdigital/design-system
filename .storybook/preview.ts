@@ -1,15 +1,7 @@
-import { provide } from 'vue';
 import type { Preview } from '@storybook/vue3-vite'
 import { setup } from '@storybook/vue3'
 import '@/assets/main.css'
 import DesignSystem from '../src/index'
-import { briusTheme, etusTheme } from "./themes";
-import favicon from './themes/imgs/favicon.svg';
-
-const link = document.createElement('link');
-link.setAttribute('rel', 'shortcut icon');
-link.setAttribute('href', favicon);
-document.head.appendChild(link);
 
 // Load Google Material Symbols font for Icon component
 const materialSymbolsLink = document.createElement("link");
@@ -19,11 +11,9 @@ document.head.appendChild(materialSymbolsLink);
 
 const withTheme = (story: any, context: any) => {
   const theme = context.globals.theme || "etus";
-  const storyTheme = theme === "etus" ? etusTheme : briusTheme;
 
   return {
     setup() {
-      provide("theme", storyTheme);
       const storyResult = story();
       return { storyResult };
     },

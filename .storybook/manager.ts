@@ -1,15 +1,13 @@
 import { addons } from '@storybook/manager-api';
-import { etusTheme, briusTheme } from './themes';
+import { etusTheme } from './themes';
+
+const link = document.createElement('link');
+link.setAttribute('rel', 'icon');
+link.setAttribute('href', '../public/favicon.svg');
+link.setAttribute('type', 'image/svg+xml');
+document.head.appendChild(link);
 
 // Set default theme
 addons.setConfig({
     theme: etusTheme,
-});
-
-// Listen for theme changes from the toolbar
-addons.getChannel().on('GLOBALS_UPDATED', ({ globals }) => {
-    const theme = globals.theme === 'brius' ? briusTheme : etusTheme;
-    addons.setConfig({
-        theme: theme,
-    });
 });
