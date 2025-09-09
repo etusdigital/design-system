@@ -77,7 +77,6 @@ function getSelected(option: OptionType = props.option, model = props.modelValue
         (x: any) => getSelected(x, model) === true
       );
 
-      console.log("isChildSelected", option, isChildSelected.length, model);
       if (isChildSelected.length == option.options?.length) return true;
       else if (
         option.options?.filter((x: any) => getSelected(x, model) != false).length

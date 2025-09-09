@@ -26,7 +26,6 @@ export { default as Icon } from './Icon';
 export { default as IconCard } from './IconCard';
 export { default as Image } from './Image';
 export { default as Input } from './Input';
-export { default as Menu } from './Menu';
 export { default as MetricCard } from './MetricCard';
 export { default as Navbar } from './Navbar';
 export { default as Pagination } from './Pagination';

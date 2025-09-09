@@ -29,7 +29,7 @@ declare module '@vue/runtime-core' {
     Icon: typeof import('./components/Icon/Icon.vue')['default']
     IconCard: typeof import('./components/IconCard/IconCard.vue')['default']
     Input: typeof import('./components/Input/Input.vue')['default']
-    Menu: typeof import('./components/Menu/Menu.vue')['default']
+    Menu: typeof import('./components/Sidebar/Menu.vue')['default']
     MetricCard: typeof import('./components/MetricCard/MetricCard.vue')['default']
     MultiSelect: typeof import('./components/MultiSelect/MultiSelect.vue')['default']
     Navbar: typeof import('./components/Navbar/Navbar.vue')['default']

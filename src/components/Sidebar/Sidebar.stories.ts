@@ -11,11 +11,11 @@ export default {
     options: {
       type: { summary: "array" },
       description:
-        "Array of object to be used as menu options. Props(label: string, value: string, icon: string, path: string, disabled: boolean, bottom: boolean, options: Option[])",
+        "Array of object to be used as sidebar options. Props(label: string, value: string, icon: string, path: string, disabled: boolean, bottom: boolean, options: Option[])",
     },
-    parentPath: {
-      type: { summary: "string" },
-      description: "Path of the parent all options.",
+    expanded: {
+      type: { summary: "boolean" },
+      description: "If true, the sidebar will be expanded.",
     },
     getObject: {
       type: { summary: "boolean" },
@@ -23,7 +23,7 @@ export default {
         defaultValue: { summary: false },
       },
       description:
-        "If true, the selected value will be an object instead of value-key value.",
+        'If true, the selected value will be an object instead of value-key value.',
     },
   },
 } satisfies Meta<typeof Sidebar>;
@@ -33,9 +33,8 @@ type Story = StoryObj<typeof Sidebar>;
 const defaultArgs = {
   modelValue: "dashboard",
   getObject: false,
-  parentPath: "",
+  expanded: false,
   options: [
-    
     {
       label: "Dashboard",
       value: "dashboard",
@@ -50,8 +49,25 @@ const defaultArgs = {
       options: [
         {
           label: "All Projects",
-          value: "all-projects",
+          value: "rew-projects",
           path: "/all",
+          options: [
+            {
+              label: "All Projects",
+              value: "all-projects",
+              path: "/all",
+            },
+            {
+              label: "Internal",
+              value: "internal",
+              path: "/internal",
+            },
+            {
+              label: "External",
+              value: "external",
+              path: "/external",
+            },
+          ],
         },
         {
           label: "Internal",
@@ -88,22 +104,32 @@ const defaultArgs = {
   ],
 };
 
-export const Primary: Story = {
-  render: (args: any) => ({
-    components: { Sidebar },
-    setup() {
-      return { args };
-    },
-    template: `
+const defaultRender = (args: any) => ({
+  components: { Sidebar },
+  setup() {
+    return { args };
+  },
+  template: `
     <div class="h-screen">
       <Sidebar
         v-model="args.modelValue"
+        :expanded="args.expanded"
         :options="args.options"
-        :parent-path="args.parentPath"
         :get-object="args.getObject"
       />
     </div>
-      `,
-  }),
+  `,
+});
+
+export const Primary: Story = {
+  render: defaultRender,
   args: defaultArgs,
+};
+
+export const Expanded: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    expanded: true,
+  },
 };

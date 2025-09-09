@@ -3,7 +3,7 @@ import { etusTheme } from './themes';
 
 const link = document.createElement('link');
 link.setAttribute('rel', 'icon');
-link.setAttribute('href', '/favicon.svg');
+link.setAttribute('href', '../public/favicon.svg');
 link.setAttribute('type', 'image/svg+xml');
 document.head.appendChild(link);
 
