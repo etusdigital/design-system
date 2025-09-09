@@ -66,6 +66,7 @@ function closeDialog() {
 
 .dialog {
   @apply fixed z-[1003] top-[50%] left-[50%] bg-neutral-surface-default rounded-base border-xxs border-neutral-default;
+  transform: translate(-50%, -50%) scale(1);
   max-width: calc(100% - var(--spacing-xl));
   max-height: calc(100% - var(--spacing-xl));
 }
