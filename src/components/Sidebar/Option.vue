@@ -18,7 +18,7 @@ withDefaults(
 </script>
 
 <template>
-  <Option :selected="selected" :disabled="disabled" class="menu-option">
+  <Option :selected="selected" :disabled="disabled" class="sidebar-option">
     <Icon v-if="icon" :name="icon" />
     <span v-if="label" class="flex-1">{{ label }}</span>
     <slot />
@@ -28,7 +28,7 @@ withDefaults(
 <style scoped>
 @reference "../../assets/main.css";
 
-.menu-option {
+.sidebar-option {
   @apply flex items-center gap-xs p-sm rounded-base;
 }
 
