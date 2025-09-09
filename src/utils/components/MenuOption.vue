@@ -33,6 +33,6 @@ withDefaults(
 }
 
 .icon {
-  @apply text-xl;
+  @apply text-xl leading-[unset];
 }
 </style>

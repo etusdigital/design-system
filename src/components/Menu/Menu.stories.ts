@@ -116,33 +116,3 @@ export const Expanded: Story = {
     expanded: true,
   },
 };
-
-export const WithSideMenu: Story = {
-  render: (args: any) => ({
-    components: { Menu },
-    setup() {
-      return { args };
-    },
-    template: `
-      <div class="flex h-screen">
-        <Menu
-          v-model="args.modelValue"
-          :expanded="args.expanded"
-          :options="args.options"
-          get-object
-        />
-        <SideMenu
-          v-if="args.modelValue && args.modelValue.options"
-          :options="args.modelValue.options"
-          :parent-path="args.modelValue.path"
-          :get-object="args.getObject"
-        />
-      </div>
-    `
-  }),
-  args: {
-    ...defaultArgs,
-    modelValue: defaultArgs.options[1],
-    expanded: true,
-  },
-};

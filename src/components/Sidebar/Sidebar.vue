@@ -34,7 +34,9 @@ const computedHeight = computed((): string => {
     document.readyState === "complete" ||
     document.readyState === "interactive"
   ) {
-    const navBarHeight = document.querySelector(".navbar")?.clientHeight;
+    const navBarHeight = document
+      .querySelector(".navbar")
+      ?.getBoundingClientRect()?.height;
     return navBarHeight ? `calc(100vh - ${navBarHeight}px)` : "100vh";
   }
   return "100vh";
@@ -54,25 +56,28 @@ function getPaths(
   const result: { path: string; value: any }[] = [];
 
   for (const option of options) {
-    const currentPath = parentPath ? `${parentPath}/${option.path}` : option.path;
+    const currentPath = parentPath
+      ? `${parentPath}/${option.path}`
+      : option.path;
 
-    if (option.options?.length) {
+    if (option.options?.length)
       result.push(...getPaths(option.options, currentPath));
-    } else {
-      result.push({ path: currentPath || "", value: option.value });
-    }
+    else result.push({ path: currentPath || "", value: option.value });
   }
   return result;
 }
 
-function changeSelected(options: OptionType[], value: string): boolean {
+function changeSelected(options: OptionType[], value: any): boolean {
   let selected = false;
   for (const option of options) {
     if (option.options && option.options.length)
       option.selected = changeSelected(option.options, value);
     else option.selected = option.value == value;
 
-    if (option.selected) selected = true;
+    if (option.selected) {
+      selected = true;
+      break;
+    }
   }
   return selected;
 }

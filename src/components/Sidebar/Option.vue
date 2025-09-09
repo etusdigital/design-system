@@ -70,18 +70,21 @@ function getLinkComponent() {
   <component
     :key="option.value"
     :is="getLinkComponent()"
+    tabindex="0"
     class="option"
     :class="{ selected: isSelected, 'pointer-events-none': option.disabled }"
     :to="path"
     :href="getLinkComponent() == 'a' ? path : undefined"
+    @click="changeModel(option)"
+    @keyup.enter="changeModel(option)"
   >
     <MenuOption
+      tabindex="-1"
       :class="{ expanded: option.expanded, bold: bold }"
       :label="option.label"
       :icon="option.icon"
       :selected="isSelected"
       :disabled="option.disabled"
-      @click="changeModel(option)"
     >
       <Icon
         v-if="option.options && option.options.length"

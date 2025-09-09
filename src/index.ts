@@ -1,7 +1,7 @@
 import type { App } from 'vue';
 import * as components from './components';
 import event from './utils/event';
-// import 'normalize.css';
+import 'normalize.css';
 import '@/assets/main.css';
 
 export * from './composables';
