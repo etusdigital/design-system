@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { computed, resolveComponent, ref } from "vue";
 import { useOptionalModel } from "#composables";
 import { type Option as OptionType } from "../../utils/types/SidebarOption.ts";
 import Option from "./Option.vue";
-import { computed, resolveComponent } from "vue";
 import { isObject } from "../../utils";
 
 const props = withDefaults(
@@ -24,6 +24,7 @@ const emit = defineEmits<{
 }>();
 
 const [model] = useOptionalModel<any>(props, "modelValue", emit, "");
+const expanded = ref(false);
 
 const path = computed(() => {
   let path = props.parentPath;
@@ -41,7 +42,7 @@ const isSelected = computed(() => {
 
 function changeModel(option: OptionType) {
   if (option.options && option.options.length) {
-    option.expanded = !option.expanded;
+    expanded.value = !expanded.value;
     return;
   }
 
@@ -79,7 +80,7 @@ function getSelected(option: OptionType = props.option) {
   >
     <Option
       tabindex="-1"
-      :class="{ expanded: option.expanded, bold: bold }"
+      :class="{ expanded: expanded, bold: bold }"
       :label="option.label"
       :icon="option.icon"
       :selected="isSelected"
@@ -88,13 +89,13 @@ function getSelected(option: OptionType = props.option) {
       <Icon
         v-if="option.options && option.options.length"
         name="keyboard_arrow_down"
-        :class="{ 'rotate-180': option.expanded }"
+        :class="{ 'rotate-180': expanded }"
         class="transition-transform"
       />
     </Option>
     <Transition name="expand">
       <div
-        v-if="option.options && option.options.length && option.expanded"
+        v-if="option.options && option.options.length && expanded"
         class="options-container"
       >
         <SubOption
