@@ -55,9 +55,6 @@ export default {
       },
       description: "Maximum height of editor content area.",
     },
-    colorOptions: {
-      description: "Array of color options for text and background.",
-    },
   },
 } satisfies Meta<typeof RichTextEditor>;
 
@@ -76,12 +73,6 @@ const defaultArgs = {
   noBorder: false,
   minHeight: "200px",
   maxHeight: "400px",
-  colorOptions: [
-    '#000000', '#333333', '#666666', '#999999', '#cccccc', '#ffffff',
-    '#ff0000', '#ff6600', '#ffaa00', '#ffff00', '#99ff00', '#00ff00',
-    '#00ffaa', '#00ffff', '#0099ff', '#0000ff', '#6600ff', '#ff00ff',
-    '#ff0099', '#990099', '#660066', '#330066', '#003366', '#006666'
-  ],
 };
 
 const defaultHtml = `
@@ -99,7 +90,6 @@ const defaultHtml = `
 		:no-border="args.noBorder"
 		:min-height="args.minHeight"
 		:max-height="args.maxHeight"
-		:color-options="args.colorOptions"
 	/>`;
 
 const defaultRender = (args: any) => ({
@@ -114,20 +104,7 @@ export const Primary: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
-    modelValue: '<div style="font-size: 24px;">Welcome to the Rich Text Editor!</div><div>You can format text with <strong>bold</strong>, <em>italic</em>, and <u>underline</u>.</div><ul><li>Create lists</li><li>Add <a href="https://example.com" target="_blank" rel="noopener noreferrer">links with new interface</a></li><li>Upload images with FileUpload component</li><li>Format text with different sizes</li></ul><blockquote style="border-left: 4px solid #3b82f6; padding: 1rem; font-style: italic; background-color: #f8fafc;">This is a quote example</blockquote>',
-  },
-};
-
-export const WithCustomColors: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    labelValue: "Rich Text Editor with Custom Colors",
-    colorOptions: [
-      '#000000', '#ffffff', '#e74c3c', '#3498db', '#2ecc71', '#f39c12',
-      '#9b59b6', '#1abc9c', '#34495e', '#95a5a6', '#f1c40f', '#e67e22'
-    ],
-    modelValue: '<div style="color: #e74c3c;">Texto em vermelho!</div><div style="background-color: #f1c40f; color: #2c3e50;">Background amarelo com texto azul!</div><div style="color: #2ecc71;"><strong>Texto verde em negrito</strong></div>',
+    modelValue: `<div style="font-size: 24px;">Welcome to the Rich Text Editor!</div><div>You can format text with <strong>bold</strong>, <em>italic</em>, and <u>underline</u>.</div><ul><li>Create lists</li><li>Add <a href="https://example.com" target="_blank" rel="noopener noreferrer">links with new interface</a></li><li>Upload images with FileUpload component</li><li>Format text with different sizes</li></ul><blockquote style="border-left: var(--border-width-sm) solid var(--primary-border-default); padding: var(--spacing-base); font-style: italic; background-color: var(--primary-surface-default); border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;">This is a quote example</blockquote>`,
   },
 };
 
@@ -137,7 +114,8 @@ export const CompactTheme: Story = {
     ...defaultArgs,
     labelValue: "Compact Rich Text Editor",
     compact: true,
-    modelValue: "<div>This editor uses the compact theme with smaller toolbar.</div>",
+    modelValue:
+      "<div>This editor uses the compact theme with smaller toolbar.</div>",
   },
 };
 
@@ -168,7 +146,8 @@ export const Disabled: Story = {
     ...defaultArgs,
     labelValue: "Disabled Rich Text Editor",
     disabled: true,
-    modelValue: '<div style="font-size: 20px;">Disabled Editor</div><div>This content cannot be edited.</div>',
+    modelValue:
+      '<div style="font-size: 20px;">Disabled Editor</div><div>This content cannot be edited.</div>',
   },
 };
 
@@ -177,7 +156,8 @@ export const WithInfoTooltip: Story = {
   args: {
     ...defaultArgs,
     labelValue: "Rich Text Editor with Info",
-    infoMessage: "Use the toolbar to format your text. You can add headings, lists, links, and more!",
+    infoMessage:
+      "Use the toolbar to format your text. You can add headings, lists, links, and more!",
     required: true,
   },
 };
@@ -189,6 +169,7 @@ export const CustomSize: Story = {
     labelValue: "Large Rich Text Editor",
     minHeight: "300px",
     maxHeight: "600px",
-    modelValue: '<div style="font-size: 32px;">Large Editor</div><div>This editor has custom height settings.</div><div>It can contain more content and has a larger editing area.</div>',
+    modelValue:
+      '<div style="font-size: 32px;">Large Editor</div><div>This editor has custom height settings.</div><div>It can contain more content and has a larger editing area.</div>',
   },
 };

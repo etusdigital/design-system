@@ -6,10 +6,10 @@ import Option from "@/utils/components/Option.vue";
 
 const props = withDefaults(
   defineProps<{
-    modelValue?: string;
+    modelValue?: number | string;
     expanded?: boolean;
     labelValue?: string;
-    options?: string[];
+    options?: number[] | string[];
     absolute?: boolean;
     disabled?: boolean;
     isError?: boolean;
@@ -37,16 +37,16 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  "update:modelValue": [value: string];
+  "update:modelValue": [value: number | string];
   "update:expanded": [value: boolean];
 }>();
 
-const [model] = useOptionalModel<string>(props, "modelValue", emit, '');
+const [model] = useOptionalModel<number | string>(props, "modelValue", emit, '');
 const [isExpanded] = useOptionalModel<boolean>(props, "expanded", emit, false);
 const filteredOptions = computed(() => {
   if (!model.value) return props.options;
   return props.options?.filter((option: any) =>
-    option.toLowerCase().includes(model.value.toLowerCase())
+    option.toString().toLowerCase().includes(model.value?.toString().toLowerCase())
   );
 });
 
@@ -54,7 +54,7 @@ function onFocus() {
   isExpanded.value = true;
 }
 
-function selectOption(option: string) {
+function selectOption(option: number | string) {
   model.value = option;
 }
 </script>

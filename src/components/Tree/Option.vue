@@ -37,7 +37,6 @@ watch(
   () => props.modelValue,
   () => {
     isSelected.value = getSelected();
-    console.log("isSelected", props.option, isSelected.value);
   },
   { immediate: true, deep: true }
 );

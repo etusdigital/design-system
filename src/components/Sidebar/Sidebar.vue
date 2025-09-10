@@ -71,7 +71,6 @@ function changeModel(option: OptionType, root: boolean = false) {
     return;
   }
 
-  console.log(isExpanded.value);
   model.value = props.getObject ? option : getValue(option);
   emit("update:modelValue", model.value);
 }

@@ -1,22 +1,9 @@
-import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as RichTextEditor from './RichTextEditor.stories.ts';
-
-<Meta of={RichTextEditor} />
-
 # Name: Rich Text Editor
 ## Component Overview
 
 **Purpose**: A comprehensive WYSIWYG (What You See Is What You Get) rich text editor component with a full-featured toolbar for creating and editing formatted content.
 
 **Import**: Automatic - no need to import any DS components
-
-<br />
-### Playground
-
-<Canvas of={RichTextEditor.Primary} />
-<Controls />
-
----
 
 ### Basic Usage
 
@@ -30,12 +17,10 @@ import * as RichTextEditor from './RichTextEditor.stories.ts';
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+
 const editorContent = ref('')
 </script>
 ```
-
-<Canvas sourceState="none" of={RichTextEditor.Primary} />
 
 ---
 
@@ -87,12 +72,8 @@ The Rich Text Editor includes a comprehensive toolbar with the following feature
 #### Compact Theme
 Apply the `compact` prop to make the toolbar more compact:
 
-<Canvas sourceState="none" of={RichTextEditor.CompactTheme} />
-
 #### No Border Theme
 Apply the `no-border` prop to remove the editor's border:
-
-<Canvas sourceState="none" of={RichTextEditor.NoBorder} />
 
 ---
 
@@ -110,20 +91,14 @@ Placeholder text shown when editor is empty. Type: `string` (default: `"Digite s
 #### is-error
 Activates error styling mode. Type: `boolean` (default: `false`)
 
-<Canvas sourceState="none" of={RichTextEditor.WithError} />
-
 #### error-message
 Error message to display when in error state. Type: `string` (default: `""`)
 
 #### info-message
 Informational message displayed with tooltip. Type: `string` (default: `""`)
 
-<Canvas sourceState="none" of={RichTextEditor.WithInfoTooltip} />
-
 #### disabled
 Disables editor interaction. Type: `boolean` (default: `false`)
-
-<Canvas sourceState="none" of={RichTextEditor.Disabled} />
 
 #### required
 Marks the field as required. Type: `boolean` (default: `false`)
@@ -139,8 +114,6 @@ Minimum height of editor content area. Type: `string` (default: `"200px"`)
 
 #### max-height
 Maximum height of editor content area. Type: `string` (default: `"400px"`)
-
-<Canvas sourceState="none" of={RichTextEditor.CustomSize} />
 
 ---
 
@@ -175,7 +148,6 @@ Triggered when the editor loses focus.
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 
 const content = ref('<h1>My Article</h1><p>Start writing...</p>')
 

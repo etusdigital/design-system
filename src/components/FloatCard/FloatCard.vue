@@ -59,11 +59,12 @@ function closeCard() {
 function closeHandler(e: MouseEvent | WheelEvent) {
   if (!card.value) return;
 
-  const cardContent = card.value.querySelector('.float-card') as HTMLElement;
-  if (!cardContent) return;
+  let cardContent = card.value.querySelector(".float-card") as HTMLElement;
+  if (!cardContent)
+    cardContent = (card.value.firstElementChild || card.value) as HTMLElement;
 
   const isWheel = e.type === "wheel";
-  const isInsideCard = cardContent.contains(e.target as Node);
+  const isInsideCard = isClickInsideElement(e, cardContent);
 
   if (isWheel && isInsideCard) {
     const scrollableElement = findScrollableParent(
@@ -74,6 +75,25 @@ function closeHandler(e: MouseEvent | WheelEvent) {
 
     closeCard();
   } else if (!isInsideCard) closeCard();
+}
+
+function isClickInsideElement(
+  e: MouseEvent | WheelEvent,
+  element: HTMLElement
+): boolean {
+  if (!element) return false;
+
+  const rect = element.getBoundingClientRect();
+  
+  const clientX = "clientX" in e ? e.clientX : 0;
+  const clientY = "clientY" in e ? e.clientY : 0;
+
+  return (
+    clientX >= rect.left &&
+    clientX <= rect.right &&
+    clientY >= rect.top &&
+    clientY <= rect.bottom
+  );
 }
 
 function findScrollableParent(
@@ -94,14 +114,16 @@ function findScrollableParent(
 
 async function showCard() {
   await nextTick();
-  
+
   if (!content.value || !card.value) return;
 
-  let cardContent = card.value.querySelector('.float-card') as HTMLElement;
+  let cardContent = card.value.querySelector(".float-card") as HTMLElement;
   if (!cardContent) return;
 
   cardContent = (card.value.firstElementChild || card.value) as HTMLElement;
-  const rect = (content.value.firstElementChild || content.value).getBoundingClientRect();
+  const rect = (
+    content.value.firstElementChild || content.value
+  ).getBoundingClientRect();
   const viewportHeight = window.innerHeight;
   const viewportWidth = window.innerWidth;
 
