@@ -13,7 +13,6 @@ export { default as Checkbox } from './Checkbox';
 export { default as ColorPicker } from './ColorPicker';
 export { default as Conector } from './Conector';
 export { default as Confirm } from './Confirm';
-export { default as ContentScreen } from './ContentScreen';
 export { default as Crop } from './Crop';
 export { default as DatePicker } from './DatePicker';
 export { default as Dialog } from './Dialog';
