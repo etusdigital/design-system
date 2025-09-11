@@ -40,7 +40,7 @@ type ToolbarOption = {
   shortcut?: string;
   selected?: boolean;
   style?: Style;
-  disabled?: boolean;
+  disabled?: (() => boolean);
   type?: "select" | "color" | "image";
   action?: (value: string | number) => void;
 };
@@ -113,7 +113,7 @@ const options = ref<Record<string, Record<string, ToolbarOption>>>({
       icon: "undo",
       command: "undo",
       shortcut: "Ctrl+Z",
-      disabled: historyIndex.value <= 0 || !history.value.length,
+      disabled: () => historyIndex.value <= 0 || !history.value.length,
       action: undoAction,
     },
     redo: {
@@ -122,7 +122,7 @@ const options = ref<Record<string, Record<string, ToolbarOption>>>({
       icon: "redo",
       command: "redo",
       shortcut: "Ctrl+Y",
-      disabled: historyIndex.value >= history.value.length - 1,
+      disabled: () => historyIndex.value >= history.value.length - 1,
       action: redoAction,
     },
   },
@@ -618,7 +618,7 @@ function saveToHistory(content: string) {
   history.value.push(compressed);
   historyIndex.value = history.value.length - 1;
 
-  if (history.value.length <=  50) return;
+  if (history.value.length <= 50) return;
 
   history.value.shift();
   historyIndex.value--;
@@ -1412,6 +1412,9 @@ function onCopy(event: ClipboardEvent) {
 </script>
 
 <template>
+  {{ historyIndex <= 0 || !history.length }}
+  {{ historyIndex }}
+  {{ history }}
   <div :class="editorClasses">
     <Label
       v-if="labelValue"
@@ -1457,7 +1460,10 @@ function onCopy(event: ClipboardEvent) {
               v-else
               class="relative"
               :selected="item.selected"
-              :disabled="disabled || item.disabled"
+              :disabled="
+                disabled ||
+                (item.disabled && item.disabled())
+              "
               @click="
                 item.action
                   ? item.action(item.value)
