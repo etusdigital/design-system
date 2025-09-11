@@ -90,7 +90,8 @@ const defaultHtml = `
 		:no-border="args.noBorder"
 		:min-height="args.minHeight"
 		:max-height="args.maxHeight"
-	/>`;
+	/>
+  {{ args.modelValue }}`;
 
 const defaultRender = (args: any) => ({
   components: { RichTextEditor },
@@ -104,7 +105,7 @@ export const Primary: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
-    modelValue: `<div style="font-size: 24px;">Welcome to the Rich Text Editor!</div><div>You can format text with <strong>bold</strong>, <em>italic</em>, and <u>underline</u>.</div><ul><li>Create lists</li><li>Add <a href="https://example.com" target="_blank" rel="noopener noreferrer">links with new interface</a></li><li>Upload images with FileUpload component</li><li>Format text with different sizes</li></ul><blockquote style="border-left: var(--border-width-sm) solid var(--primary-border-default); padding: var(--spacing-base); font-style: italic; background-color: var(--primary-surface-default); border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;">This is a quote example</blockquote>`,
+    modelValue: `<div style="font-size: 24px;">Welcome to the Rich Text Editor!</div><div>You can format text with <strong>bold</strong>, <em>italic</em>, and <u>underline</u>.</div><ul><li>Create lists</li><li>Add <a href="https://example.com" target="_blank" rel="noopener noreferrer">links with new interface</a></li><li>Upload images with FileUpload component</li><li>Format text with different sizes</li></ul><blockquote style="border-left: var(--border-width-sm) solid var(--primary-border-default); padding: var(--spacing-base); margin: var(--spacing-xxs) 0; font-style: italic; background-color: var(--primary-surface-default); border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;">This is a quote example</blockquote>`,
   },
 };
 

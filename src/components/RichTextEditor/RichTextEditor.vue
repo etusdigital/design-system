@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch, computed, nextTick } from "vue";
+import { ref, onMounted, watch, computed, nextTick } from "vue";
 import Label from "../../utils/components/Label.vue";
 import Option from "../../utils/components/Option.vue";
 import Colors from "./Colors.vue";
+import { isValidUrl } from "#utils/index";
 
 type EditorAction =
   | "bold"
@@ -14,25 +15,50 @@ type EditorAction =
   | "justifyLeft"
   | "justifyCenter"
   | "justifyRight"
+  | "justifyFull"
   | "formatBlock"
   | "removeFormat"
   | "undo"
-  | "redo";
+  | "redo"
+  | "foreColor"
+  | "backColor";
+
+type Style =
+  | "textAlign"
+  | "fontWeight"
+  | "fontStyle"
+  | "textDecoration"
+  | "color"
+  | "backgroundColor"
+  | "textAlign";
 
 type ToolbarOption = {
   label: string;
-  value: string;
+  value: string | number;
   icon?: string;
   command: EditorAction;
+  shortcut?: string;
+  selected?: boolean;
+  style?: Style;
+  disabled?: boolean;
+  type?: "select" | "color" | "image";
+  action?: (value: string | number) => void;
 };
 
-type Color = {
+type Color = ToolbarOption & {
   value: string;
   expanded: boolean;
   style: "color" | "backgroundColor";
-  command: "foreColor" | "backColor";
-  icon: string;
-  label: string;
+};
+
+type FontSize = ToolbarOption & {
+  label?: string;
+  options: number[];
+  action: (value: number) => void;
+};
+
+type InsertElement = ToolbarOption & {
+  command?: EditorAction;
 };
 
 const props = withDefaults(
@@ -75,49 +101,187 @@ const emit = defineEmits<{
 }>();
 
 const editorRef = ref<HTMLDivElement>();
-const colors = ref<Color[]>([
-  {
-    value: "#000000",
-    expanded: false,
-    style: "color",
-    command: "foreColor",
-    icon: "format_color_text",
-    label: "Text color",
+
+const history = ref<string[]>([]);
+const historyIndex = ref(-1);
+const isRestoringHistory = ref(false);
+const options = ref<Record<string, Record<string, ToolbarOption>>>({
+  doCommands: {
+    undo: {
+      label: "Undo",
+      value: "undo",
+      icon: "undo",
+      command: "undo",
+      shortcut: "Ctrl+Z",
+      disabled: historyIndex.value <= 0 || !history.value.length,
+      action: undoAction,
+    },
+    redo: {
+      label: "Redo",
+      value: "redo",
+      icon: "redo",
+      command: "redo",
+      shortcut: "Ctrl+Y",
+      disabled: historyIndex.value >= history.value.length - 1,
+      action: redoAction,
+    },
   },
-  {
-    value: "#000000",
-    expanded: false,
-    style: "backgroundColor",
-    command: "backColor",
-    icon: "format_color_fill",
-    label: "Background color",
+  size: {
+    fontSize: {
+      value: 16,
+      options: Array.from({ length: 10 }, (_, i: number) => i * 4 + 12),
+      type: "select",
+      action: handleFontSizeUpdate,
+    } as FontSize,
   },
-]);
-const list = ref<ToolbarOption[]>([
-  {
-    label: "Bulleted list",
-    value: "insertUnorderedList",
-    icon: "format_list_bulleted",
-    command: "insertUnorderedList",
+  fontStyle: {
+    bold: {
+      label: "Bold",
+      value: "bold",
+      style: "fontWeight",
+      icon: "format_bold",
+      command: "bold",
+      shortcut: "Ctrl+B",
+      selected: false,
+    },
+    italic: {
+      label: "Italic",
+      value: "italic",
+      style: "fontStyle",
+      icon: "format_italic",
+      command: "italic",
+      shortcut: "Ctrl+I",
+      selected: false,
+    },
+    underline: {
+      label: "Underline",
+      value: "underline",
+      style: "textDecoration",
+      icon: "format_underlined",
+      command: "underline",
+      shortcut: "Ctrl+U",
+      selected: false,
+    },
+    strikeThrough: {
+      label: "Strikethrough",
+      value: "line-through",
+      style: "textDecoration",
+      icon: "strikethrough_s",
+      command: "strikeThrough",
+      shortcut: "Ctrl+K",
+      selected: false,
+    },
   },
-  {
-    label: "Numbered list",
-    value: "insertOrderedList",
-    icon: "format_list_numbered",
-    command: "insertOrderedList",
+  colors: {
+    color: {
+      value: "#000000",
+      expanded: false,
+      style: "color",
+      command: "foreColor",
+      icon: "format_color_text",
+      label: "Text color",
+      type: "color",
+      selected: false,
+    },
+    backgroundColor: {
+      value: "#000000",
+      expanded: false,
+      style: "backgroundColor",
+      command: "backColor",
+      icon: "format_color_fill",
+      label: "Background color",
+      type: "color",
+      selected: false,
+    },
+  } as Record<string, Color>,
+  lists: {
+    insertUnorderedList: {
+      label: "Bulleted list",
+      value: "insertUnorderedList",
+      icon: "format_list_bulleted",
+      command: "insertUnorderedList",
+      selected: false,
+    },
+    insertOrderedList: {
+      label: "Numbered list",
+      value: "insertOrderedList",
+      icon: "format_list_numbered",
+      command: "insertOrderedList",
+      selected: false,
+    },
   },
-]);
+  alignment: {
+    left: {
+      label: "Align left",
+      value: "justifyLeft",
+      icon: "format_align_left",
+      style: "textAlign",
+      command: "justifyLeft",
+      selected: false,
+    },
+    center: {
+      label: "Align center",
+      value: "justifyCenter",
+      icon: "format_align_center",
+      style: "textAlign",
+      command: "justifyCenter",
+      selected: false,
+    },
+    right: {
+      label: "Align right",
+      value: "justifyRight",
+      icon: "format_align_right",
+      style: "textAlign",
+      command: "justifyRight",
+      selected: false,
+    },
+    justify: {
+      label: "Justify",
+      value: "justifyFull",
+      icon: "format_align_justify",
+      style: "textAlign",
+      command: "justifyFull",
+      selected: false,
+    },
+  },
+  insertElements: {
+    link: {
+      label: "Insert link",
+      value: "link",
+      icon: "link",
+      command: "createLink",
+      action: createLink,
+    },
+    image: {
+      label: "Insert image",
+      value: "image",
+      icon: "image",
+      command: "insertImage",
+      type: "image",
+      action: insertImage,
+    },
+    blockquote: {
+      label: "Quote",
+      value: "blockquote",
+      icon: "format_quote",
+      command: "insertBlockquote",
+      selected: false,
+      action: insertBlockquote,
+    },
+  } as unknown as Record<string, InsertElement>,
+  formatting: {
+    removeFormat: {
+      label: "Remove formatting",
+      value: "removeFormat",
+      icon: "format_clear",
+      command: "removeFormat",
+    },
+  },
+});
 const customColorOptions = ref<string[]>([]);
-const currentFontSize = ref<number>(16);
 const savedSelection = ref<Range | null>(null);
 
-const fontSizeOptions = ref(
-  Array.from({ length: 10 }, (_, i: number) => i * 4 + 12)
-);
-
 const isFocused = ref(false);
-const isActive = ref<Record<string, boolean>>({});
-const isInBlockquote = ref(false);
 
 const showImageUpload = ref(false);
 const selectedImageFile = ref<File>();
@@ -165,7 +329,7 @@ watch(
     if (!editorRef.value || editorRef.value.innerHTML === newValue) return;
 
     editorRef.value.innerHTML = sanitizeHTML(newValue || "");
-    setTimeout(() => forceListStyles(), 50);
+    applyContentStyles();
   }
 );
 
@@ -173,7 +337,10 @@ onMounted(() => {
   if (!editorRef.value) return;
 
   editorRef.value.innerHTML = sanitizeHTML(props.modelValue);
-  setTimeout(() => forceListStyles(), 50);
+  applyContentStyles();
+
+  // Inicializar histórico com conteúdo inicial
+  saveToHistory(props.modelValue);
 });
 
 function sanitizeHTML(html: string): string {
@@ -215,39 +382,100 @@ function cleanNode(node: Node): Node | null {
   return cleanElement;
 }
 
-function execCommand(command: EditorAction, value?: string) {
-  if (props.disabled || !editorRef.value) return;
+function applyContentStyles() {
+  nextTick(() => {
+    if (!editorRef.value) return;
 
+    setListStyles();
+
+    const blockquotes = editorRef.value.querySelectorAll("blockquote");
+    if (blockquotes.length) addBlockquoteStyles(Array.from(blockquotes));
+  });
+}
+
+function isSelectionWithinEditor(selection?: Selection | null): boolean {
+  if (!editorRef.value || !selection || selection.rangeCount === 0)
+    return false;
+
+  try {
+    const range = selection.getRangeAt(0);
+
+    const startWithin = editorRef.value.contains(range.startContainer);
+    const endWithin = editorRef.value.contains(range.endContainer);
+    const ancestorWithin = editorRef.value.contains(
+      range.commonAncestorContainer
+    );
+
+    return startWithin && endWithin && ancestorWithin;
+  } catch (error) {
+    return false;
+  }
+}
+
+function saveCurrentSelection() {
+  try {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) return;
+    const range = selection.getRangeAt(0);
+
+    if (
+      editorRef.value &&
+      editorRef.value.contains(range.commonAncestorContainer)
+    )
+      savedSelection.value = range.cloneRange();
+  } catch (error) {
+    savedSelection.value = null;
+  }
+}
+
+function restoreSavedSelection() {
+  try {
+    const selection = window.getSelection();
+    if (!savedSelection.value || !editorRef.value || !selection) return;
+    editorRef.value.focus();
+
+    selection.removeAllRanges();
+
+    const range = savedSelection.value;
+    if (editorRef.value.contains(range.commonAncestorContainer))
+      selection.addRange(range);
+    else {
+      const newRange = document.createRange();
+      newRange.setStart(editorRef.value, 0);
+      newRange.collapse(true);
+      selection.addRange(newRange);
+    }
+  } catch (error) {
+    savedSelection.value = null;
+  }
+}
+
+function execCommand(
+  command: EditorAction,
+  property?: Style,
+  value?: string | number
+) {
+  const selection = window.getSelection();
+  if (props.disabled || !editorRef.value || !isSelectionWithinEditor(selection))
+    return;
+
+  restoreSavedSelection();
   try {
     if (!document.queryCommandSupported(command)) return;
 
-    const success = document.execCommand(command, false, value);
+    const success = document.execCommand(command, false, value?.toString());
 
-    if (!success) {
-      switch (command) {
-        case "bold":
-          applyStyleCommand("font-weight", "bold");
-          break;
-        case "italic":
-          applyStyleCommand("font-style", "italic");
-          break;
-        case "underline":
-          applyStyleCommand("text-decoration", "underline");
-          break;
-      }
-    }
-  } catch (error) {
-    console.error(error);
-  }
+    if (!success && property) applyStyleCommand(property, value || "");
+  } catch (error) {}
 
   editorRef.value?.focus();
   updateActiveStates();
 
   if (command === "insertUnorderedList" || command === "insertOrderedList")
-    setTimeout(() => forceListStyles(), 10);
+    setTimeout(() => setListStyles());
 }
 
-function applyStyleCommand(property: string, value: string) {
+function applyStyleCommand(property: Style, value: string | number) {
   try {
     const selection = window.getSelection();
     if (!selection || selection.rangeCount === 0 || !editorRef.value) return;
@@ -256,142 +484,183 @@ function applyStyleCommand(property: string, value: string) {
 
     if (range.collapsed) {
       const span = document.createElement("span");
-      span.style.setProperty(property, value);
+      span.style[property] = value.toString();
       span.textContent = "\u200B";
 
       range.insertNode(span);
       range.setStart(span, 1);
       range.collapse(true);
-      selection.removeAllRanges();
-      selection.addRange(range);
     } else {
       const contents = range.extractContents();
       const span = document.createElement("span");
-      span.style.setProperty(property, value);
+      span.style[property] = value.toString();
       span.appendChild(contents);
 
       range.insertNode(span);
       range.selectNodeContents(span);
-      selection.removeAllRanges();
-      selection.addRange(range);
     }
 
+    selection.removeAllRanges();
+    selection.addRange(range);
     onInput();
   } catch (error) {
     console.error(error);
   }
 }
 
-function applyFontSize(fontSize: number) {
+function handleFontSizeUpdate(fontSize: number) {
   if (props.disabled || !editorRef.value) return;
 
-  const selection = window.getSelection();
+  let selection = window.getSelection();
+  if (!isSelectionWithinEditor(selection)) return;
+
+  restoreSavedSelection();
+  selection = window.getSelection();
   if (!selection || selection.rangeCount === 0) return;
+  let range = selection.getRangeAt(0);
+  console.log(range);
 
-  const range = selection.getRangeAt(0);
+  const selectedElements = getSelectedElements(range);
 
-  if (selection.isCollapsed) {
-    let blockElement = range.startContainer;
+  selectedElements.forEach((element) => {
+    const hasFontSize = applyFontSize(fontSize, element);
+    if (!hasFontSize) element.style.fontSize = fontSize.toString() + "px";
+  });
 
-    while (blockElement && blockElement !== editorRef.value) {
-      if (blockElement.nodeType === Node.ELEMENT_NODE) {
-        const nodeName = (blockElement as Element).nodeName.toLowerCase();
-        if (["div", "p", "li"].includes(nodeName)) {
-          (blockElement as HTMLElement).style.fontSize =
-            fontSize.toString() + "px";
-          break;
-        }
-      }
-      const parent = blockElement.parentNode;
-      if (!parent) break;
-      blockElement = parent;
-    }
-
-    if (!blockElement || blockElement === editorRef.value) {
-      const newDiv = document.createElement("div");
-      newDiv.style.fontSize = fontSize.toString() + "px";
-      newDiv.innerHTML = "<br>";
-
-      range.insertNode(newDiv);
-
-      const newRange = document.createRange();
-      newRange.setStart(newDiv, 0);
-      newRange.collapse(true);
-      selection.removeAllRanges();
-      selection.addRange(newRange);
-    }
-  } else {
-    const contents = range.extractContents();
-    const span = document.createElement("span");
-    span.style.fontSize = fontSize.toString() + "px";
-    span.appendChild(contents);
-
-    range.insertNode(span);
-
-    range.selectNodeContents(span);
-    selection.removeAllRanges();
-    selection.addRange(range);
-  }
-
+  selection.removeAllRanges();
+  selection.addRange(range);
   editorRef.value.focus();
   onInput();
   updateActiveStates();
 }
 
-function onFontSizeChange(value: number | string) {
-  const newValue = value as number;
-  applyFontSize(newValue);
+function getSelectedElements(range: Range): HTMLElement[] {
+  const elements: HTMLElement[] = [];
+
+  if (range.collapsed) return elements;
+
+  let commonAncestor = range.commonAncestorContainer;
+
+  if (commonAncestor.nodeType === Node.TEXT_NODE)
+    commonAncestor = commonAncestor.parentElement!;
+
+  if (range.startContainer === range.endContainer) {
+    const parent = range.startContainer.parentElement;
+    if (
+      range.startContainer.nodeType === Node.TEXT_NODE &&
+      parent &&
+      parent !== editorRef.value
+    )
+      elements.push(parent);
+    else elements.push(range.startContainer as HTMLElement);
+  } else {
+    const walker = document.createTreeWalker(
+      commonAncestor,
+      NodeFilter.SHOW_ELEMENT,
+      {
+        acceptNode: (node) => {
+          if (range.intersectsNode(node)) return NodeFilter.FILTER_ACCEPT;
+          return NodeFilter.FILTER_REJECT;
+        },
+      }
+    );
+
+    let node;
+    while ((node = walker.nextNode())) {
+      if (node !== editorRef.value && node !== commonAncestor)
+        elements.push(node as HTMLElement);
+    }
+
+    if (elements.length === 0 && commonAncestor !== editorRef.value)
+      elements.push(commonAncestor as HTMLElement);
+  }
+
+  return elements;
 }
 
-function saveCurrentSelection() {
-  try {
-    const selection = window.getSelection();
-    if (selection && selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0);
-      if (
-        editorRef.value &&
-        editorRef.value.contains(range.commonAncestorContainer)
-      ) {
-        savedSelection.value = range.cloneRange();
-      }
-    }
-  } catch (error) {
-    savedSelection.value = null;
+function applyFontSize(fontSize: number, element: HTMLElement): boolean {
+  if (element.style.fontSize) {
+    element.style.fontSize = fontSize.toString() + "px";
+    return true;
   }
+
+  if (element.children.length) {
+    let hasFontSize = true;
+    Array.from(element.children).forEach(
+      (child) =>
+        (hasFontSize = applyFontSize(fontSize, child as HTMLElement)) &&
+        hasFontSize
+    );
+
+    if (!hasFontSize) {
+      element.style.fontSize = fontSize.toString() + "px";
+      return true;
+    }
+  }
+
+  return false;
 }
 
-function restoreSavedSelection() {
-  try {
-    if (savedSelection.value && editorRef.value) {
-      editorRef.value.focus();
-      const selection = window.getSelection();
-      if (selection) {
-        selection.removeAllRanges();
+function compressHTML(html: string): string {
+  return html.replace(/\s+/g, " ").replace(/>\s+</g, "><").trim();
+}
 
-        const range = savedSelection.value;
-        if (editorRef.value.contains(range.commonAncestorContainer)) {
-          selection.addRange(range);
-        } else {
-          const newRange = document.createRange();
-          newRange.setStart(editorRef.value, 0);
-          newRange.collapse(true);
-          selection.addRange(newRange);
-        }
-      }
-    }
-  } catch (error) {
-    savedSelection.value = null;
-  }
+function saveToHistory(content: string) {
+  if (isRestoringHistory.value) return;
+
+  const compressed = compressHTML(content);
+
+  if (history.value[historyIndex.value] === compressed) return;
+
+  if (historyIndex.value < history.value.length - 1)
+    history.value = history.value.slice(0, historyIndex.value + 1);
+
+  history.value.push(compressed);
+  historyIndex.value = history.value.length - 1;
+
+  if (history.value.length <=  50) return;
+
+  history.value.shift();
+  historyIndex.value--;
+}
+
+function undoAction() {
+  if (historyIndex.value <= 0 || !editorRef.value) return;
+
+  historyIndex.value--;
+  const content = history.value[historyIndex.value];
+
+  isRestoringHistory.value = true;
+  editorRef.value.innerHTML = content;
+  emit("update:modelValue", content);
+  isRestoringHistory.value = false;
+
+  editorRef.value.focus();
+  updateActiveStates();
+}
+
+function redoAction() {
+  if (historyIndex.value >= history.value.length - 1 || !editorRef.value)
+    return;
+
+  historyIndex.value++;
+  const content = history.value[historyIndex.value];
+
+  isRestoringHistory.value = true;
+  editorRef.value.innerHTML = content;
+  emit("update:modelValue", content);
+  isRestoringHistory.value = false;
+
+  editorRef.value.focus();
+  updateActiveStates();
 }
 
 function setColor(color: string, option: Color) {
-  if (props.disabled || !editorRef.value) return;
+  const selection = window.getSelection();
+  if (!selection || props.disabled || !editorRef.value) return;
 
   try {
     restoreSavedSelection();
-
-    const selection = window.getSelection();
-    if (!selection) return;
 
     if (selection.rangeCount === 0 || selection.isCollapsed) {
       let range: Range;
@@ -403,15 +672,20 @@ function setColor(color: string, option: Color) {
           selection.addRange(range);
         } catch (rangeError) {
           range = document.createRange();
-          range.setStart(editorRef.value, 0);
+          if (editorRef.value.lastChild)
+            range.setStartAfter(editorRef.value.lastChild);
+          else range.setStart(editorRef.value, 0);
+
           range.collapse(true);
         }
       } else {
         range = document.createRange();
-        if (selection.rangeCount > 0) {
-          range = selection.getRangeAt(0);
-        } else {
-          range.setStart(editorRef.value, 0);
+        if (selection.rangeCount > 0) range = selection.getRangeAt(0);
+        else {
+          if (editorRef.value.lastChild)
+            range.setStartAfter(editorRef.value.lastChild);
+          else range.setStart(editorRef.value, 0);
+
           range.collapse(true);
         }
       }
@@ -429,29 +703,24 @@ function setColor(color: string, option: Color) {
         selection.removeAllRanges();
         selection.addRange(range);
       }
-    }
-
-    if (!selection.isCollapsed && selection.rangeCount > 0) {
+    } else {
       const success = document.execCommand(option.command, false, color);
+      if (success) return;
 
-      if (!success) {
-        try {
-          const range = selection.getRangeAt(0);
-          const contents = range.extractContents();
-          const span = document.createElement("span");
+      try {
+        const range = selection.getRangeAt(0);
+        const contents = range.extractContents();
+        const span = document.createElement("span");
 
-          span.style[option.style] = color;
+        span.style[option.style] = color;
 
-          span.appendChild(contents);
-          range.insertNode(span);
+        span.appendChild(contents);
+        range.insertNode(span);
 
-          range.selectNodeContents(span);
-          selection.removeAllRanges();
-          selection.addRange(range);
-        } catch (error) {
-          console.error(error);
-        }
-      }
+        range.selectNodeContents(span);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      } catch (error) {}
     }
 
     editorRef.value.focus();
@@ -471,27 +740,15 @@ function createLink() {
 
   saveCurrentSelection();
 
-  if (selection && !selection.isCollapsed) {
+  if (selection && !selection.isCollapsed && isFocused.value)
     linkText.value = selection.toString();
-  } else {
-    linkText.value = "";
-  }
+  else linkText.value = "";
 
-  linkUrl.value = "https://";
   showLinkDialog.value = true;
-
-  nextTick(() => {
-    setTimeout(() => {
-      const urlInput = document.querySelector(
-        ".link-dialog-body input"
-      ) as HTMLInputElement;
-      urlInput?.focus();
-    }, 100);
-  });
 }
 
 function insertLink() {
-  if (!linkUrl.value.trim()) return;
+  if (!linkUrl.value.trim() || !isValidUrl(linkUrl.value.trim())) return;
 
   try {
     restoreSavedSelection();
@@ -500,13 +757,14 @@ function insertLink() {
     if (!selection || !editorRef.value) return;
 
     let range: Range;
-    if (selection.rangeCount > 0) {
-      range = selection.getRangeAt(0);
-    } else {
+    if (selection.rangeCount == 0 || !isFocused.value) {
       range = document.createRange();
-      range.setStart(editorRef.value, 0);
+      if (editorRef.value.lastChild)
+        range.setStartAfter(editorRef.value.lastChild);
+      else range.setStart(editorRef.value, 0);
+
       range.collapse(true);
-    }
+    } else range = selection.getRangeAt(0);
 
     const link = document.createElement("a");
     link.href = linkUrl.value.trim();
@@ -516,9 +774,7 @@ function insertLink() {
     const finalText = linkText.value.trim() || linkUrl.value.trim();
     link.textContent = finalText;
 
-    if (!range.collapsed) {
-      range.deleteContents();
-    }
+    if (!range.collapsed) range.deleteContents();
 
     range.insertNode(link);
 
@@ -572,25 +828,31 @@ function handleImageUpload(e: any) {
       if (!selection) return;
 
       let range: Range;
-      if (selection.rangeCount > 0) {
-        range = selection.getRangeAt(0);
-      } else {
+      if (selection.rangeCount == 0 || !isFocused.value) {
         range = document.createRange();
-        range.setStart(editorRef.value, 0);
+        if (editorRef.value.lastChild)
+          range.setStartAfter(editorRef.value.lastChild);
+        else range.setStart(editorRef.value, 0);
+
         range.collapse(true);
-      }
+      } else range = selection.getRangeAt(0);
 
       const img = document.createElement("img");
+      const borderRadius = getComputedStyle(editorRef.value).getPropertyValue(
+        "--border-radius-sm"
+      );
+      const spacing = getComputedStyle(editorRef.value).getPropertyValue(
+        "--spacing-base"
+      );
       img.src = imageUrl;
       img.alt = file.name;
       img.style.maxWidth = "100%";
       img.style.height = "auto";
-      img.style.borderRadius = "0.25rem";
-      img.style.margin = "0.5rem 0";
+      img.style.borderRadius = borderRadius;
+      img.style.margin = spacing;
 
-      if (!range.collapsed) {
-        range.deleteContents();
-      }
+      if (!range.collapsed) range.deleteContents();
+
       range.insertNode(img);
 
       range.setStartAfter(img);
@@ -613,10 +875,22 @@ function handleImageUpload(e: any) {
 function insertBlockquote() {
   if (props.disabled || !editorRef.value) return;
 
-  const selection = window.getSelection();
-  if (!selection || selection.rangeCount === 0) {
-    return;
+  let selection = window.getSelection();
+
+  if (!selection || selection.rangeCount === 0 || !isFocused.value) {
+    const span = document.createElement("span");
+    span.innerHTML = "<br>";
+    editorRef.value.appendChild(span);
+
+    const range = document.createRange();
+    range.setStart(span, 0);
+    range.collapse(true);
+    selection?.removeAllRanges();
+    selection?.addRange(range);
   }
+
+  selection = window.getSelection();
+  if (!selection) return;
 
   const execCommandSuccess = document.execCommand(
     "formatBlock",
@@ -632,7 +906,6 @@ function insertBlockquote() {
       updateActiveStates();
     }, 50);
 
-    editorRef.value.focus();
     return;
   }
 
@@ -646,16 +919,15 @@ function insertBlockquote() {
 
     if (existingBlockquote) {
       const parent = existingBlockquote.parentNode;
-      if (parent) {
-        const div = document.createElement("div");
-        div.innerHTML = existingBlockquote.innerHTML;
-        parent.replaceChild(div, existingBlockquote);
+      if (!parent) return;
+      const div = document.createElement("div");
+      div.innerHTML = existingBlockquote.innerHTML;
+      parent.replaceChild(div, existingBlockquote);
 
-        const newRange = document.createRange();
-        newRange.selectNodeContents(div);
-        selection.removeAllRanges();
-        selection.addRange(newRange);
-      }
+      const newRange = document.createRange();
+      newRange.selectNodeContents(div);
+      selection.removeAllRanges();
+      selection.addRange(newRange);
     } else {
       const blockquote = document.createElement("blockquote");
 
@@ -664,21 +936,16 @@ function insertBlockquote() {
       if (selection.isCollapsed) {
         blockquote.textContent = "Type your quote here...";
         range.insertNode(blockquote);
-
-        const newRange = document.createRange();
-        newRange.selectNodeContents(blockquote);
-        selection.removeAllRanges();
-        selection.addRange(newRange);
       } else {
         const contents = range.extractContents();
         blockquote.appendChild(contents);
         range.insertNode(blockquote);
-
-        const newRange = document.createRange();
-        newRange.selectNodeContents(blockquote);
-        selection.removeAllRanges();
-        selection.addRange(newRange);
       }
+
+      const newRange = document.createRange();
+      newRange.selectNodeContents(blockquote);
+      selection.removeAllRanges();
+      selection.addRange(newRange);
     }
 
     setTimeout(() => {
@@ -705,6 +972,9 @@ function addBlockquoteStyles(blockquotes: HTMLElement[]) {
   const spacing = getComputedStyle(editorRef.value).getPropertyValue(
     "--spacing-base"
   );
+  const spacingXxs = getComputedStyle(editorRef.value).getPropertyValue(
+    "--spacing-xxs"
+  );
   const borderRadius = getComputedStyle(editorRef.value).getPropertyValue(
     "--border-radius-sm"
   );
@@ -715,67 +985,59 @@ function addBlockquoteStyles(blockquotes: HTMLElement[]) {
     htmlBq.style.fontStyle = "italic";
     htmlBq.style.backgroundColor = backgroundColor;
     htmlBq.style.padding = spacing;
-    htmlBq.style.margin = spacing;
+    htmlBq.style.margin = `${spacingXxs} 0`;
     htmlBq.style.borderRadius = `0 ${borderRadius} ${borderRadius} 0`;
     htmlBq.style.position = "relative";
   });
 }
 
 function updateActiveStates() {
-  isActive.value = {
-    bold: document.queryCommandState("bold"),
-    italic: document.queryCommandState("italic"),
-    underline: document.queryCommandState("underline"),
-    strikeThrough: document.queryCommandState("strikeThrough"),
-    insertUnorderedList: document.queryCommandState("insertUnorderedList"),
-    insertOrderedList: document.queryCommandState("insertOrderedList"),
-    justifyLeft: document.queryCommandState("justifyLeft"),
-    justifyCenter: document.queryCommandState("justifyCenter"),
-    justifyRight: document.queryCommandState("justifyRight"),
-  };
+  Object.keys(options.value).forEach((key) => {
+    Object.values(options.value[key]).forEach((option: ToolbarOption) => {
+      if (option.hasOwnProperty("selected"))
+        option.selected = document.queryCommandState(option.command);
+    });
+  });
 
   const selection = window.getSelection();
-  if (selection && selection.rangeCount > 0 && editorRef.value) {
-    let currentNode = selection.getRangeAt(0).startContainer;
-    let fontSizeFound = false;
-    isInBlockquote.value = false;
+  if (!selection || selection.rangeCount == 0 || !editorRef.value) return;
 
-    while (currentNode && currentNode !== editorRef.value) {
-      if (currentNode.nodeType === Node.ELEMENT_NODE) {
-        const element = currentNode as HTMLElement;
-        const tagName = element.tagName.toLowerCase();
+  let currentNode = selection.getRangeAt(0).startContainer;
+  let fontSizeFound = false;
+  options.value.insertElements.blockquote.selected = false;
 
-        if (tagName === "blockquote") {
-          isInBlockquote.value = true;
-        }
+  while (currentNode && currentNode !== editorRef.value) {
+    if (currentNode.nodeType === Node.ELEMENT_NODE) {
+      const element = currentNode as HTMLElement;
+      const tagName = element.tagName.toLowerCase();
 
-        if (!fontSizeFound) {
-          const computedStyle = window.getComputedStyle(element);
-          const fontSize = computedStyle.fontSize;
+      if (tagName === "blockquote")
+        options.value.insertElements.blockquote.selected = true;
 
-          const matchingOption = fontSizeOptions.value.find(
-            (option: number) => {
-              const optionPx = option;
-              const currentPx = parseInt(fontSize);
-              return Math.abs(optionPx - currentPx) <= 1;
-            }
-          );
+      if (!fontSizeFound) {
+        const computedStyle = window.getComputedStyle(element);
+        const fontSize = computedStyle.fontSize;
 
-          if (matchingOption) {
-            currentFontSize.value = matchingOption;
-            fontSizeFound = true;
-          }
+        const matchingOption = (
+          options.value.size.fontSize as FontSize
+        ).options.find((option: number) => {
+          const optionPx = option;
+          const currentPx = parseInt(fontSize);
+          return Math.abs(optionPx - currentPx) <= 1;
+        });
+
+        if (matchingOption) {
+          options.value.size.fontSize.value = matchingOption;
+          fontSizeFound = true;
         }
       }
-      const parent = currentNode.parentNode;
-      if (!parent) break;
-      currentNode = parent;
     }
-
-    if (!fontSizeFound) {
-      currentFontSize.value = 16;
-    }
+    const parent = currentNode.parentNode;
+    if (!parent) break;
+    currentNode = parent;
   }
+
+  if (!fontSizeFound) options.value.size.fontSize.value = 16;
 }
 
 function onInput() {
@@ -783,28 +1045,30 @@ function onInput() {
 
   const content = editorRef.value.innerHTML;
   emit("update:modelValue", content);
-  updateActiveStates();
 
-  forceListStyles();
+  if (!isRestoringHistory.value) saveToHistory(content);
+
+  updateActiveStates();
 }
 
-function forceListStyles() {
+function setListStyles() {
   if (!editorRef.value) return;
 
   const lists = editorRef.value.querySelectorAll("ul, ol");
+  const spacing = getComputedStyle(editorRef.value).getPropertyValue(
+    "--spacing-base"
+  );
 
   lists.forEach((list) => {
     const htmlList = list as HTMLElement;
 
-    if (list.tagName.toLowerCase() === "ul") {
+    if (list.tagName.toLowerCase() === "ul")
       htmlList.style.listStyleType = "disc";
-      htmlList.style.paddingLeft = "2rem";
-      htmlList.style.listStylePosition = "outside";
-    } else if (list.tagName.toLowerCase() === "ol") {
+    else if (list.tagName.toLowerCase() === "ol")
       htmlList.style.listStyleType = "decimal";
-      htmlList.style.paddingLeft = "2rem";
-      htmlList.style.listStylePosition = "outside";
-    }
+
+    htmlList.style.paddingLeft = spacing;
+    htmlList.style.listStylePosition = "outside";
   });
 
   const listItems = editorRef.value.querySelectorAll("li");
@@ -816,360 +1080,251 @@ function forceListStyles() {
   });
 }
 
-function onFocus() {
-  isFocused.value = true;
-  emit("focus");
-  updateActiveStates();
+function handleListIndentation(
+  event: KeyboardEvent,
+  selection: Selection,
+  range: Range
+) {
+  if (event.key !== "Enter" && event.key !== "Backspace") return;
+
+  const currentLi =
+    range.startContainer.nodeType === Node.TEXT_NODE
+      ? range.startContainer.parentElement?.closest("li")
+      : (range.startContainer as Element)?.closest?.("li");
+
+  if (!currentLi) return;
+
+  const currentList = currentLi.closest("ul, ol");
+  if (!currentList) return;
+
+  let newRange: Range | null = null;
+  if (event.key === "Enter") {
+    event.preventDefault();
+
+    const isEmpty = currentLi.textContent?.trim() === "";
+    const isAtStart =
+      range.startContainer.nodeType === Node.TEXT_NODE &&
+      range.startOffset === 0;
+
+    if (isEmpty || (isAtStart && currentLi.textContent?.trim() === "")) {
+      const currentBlockquote = currentList.closest("blockquote");
+
+      if (currentBlockquote) {
+        currentLi.remove();
+
+        if (currentList.children.length === 0) currentList.remove();
+
+        const br = document.createElement("br");
+        currentList.nextSibling
+          ? currentList.parentNode?.insertBefore(br, currentList.nextSibling)
+          : currentBlockquote.appendChild(br);
+
+        newRange = document.createRange();
+        newRange.setStartAfter(br);
+      } else {
+        const paragraph = document.createElement("p");
+        paragraph.innerHTML = "<br>";
+        if (!currentList.parentNode) return;
+
+        currentList.parentNode.insertBefore(paragraph, currentList.nextSibling);
+
+        currentLi.remove();
+
+        if (currentList.children.length === 0) currentList.remove();
+
+        newRange = document.createRange();
+        newRange.setStart(paragraph, 0);
+      }
+    } else {
+      const newLi = document.createElement("li");
+
+      const needsTextSplit =
+        range.startContainer.nodeType === Node.TEXT_NODE &&
+        range.startOffset < range.startContainer.textContent!.length;
+
+      if (needsTextSplit) {
+        const beforeText = range.startContainer.textContent!.substring(
+          0,
+          range.startOffset
+        );
+        const afterText = range.startContainer.textContent!.substring(
+          range.startOffset
+        );
+
+        range.startContainer.textContent = beforeText;
+
+        if (afterText.trim()) newLi.textContent = afterText;
+        else newLi.innerHTML = "<br>";
+      } else newLi.innerHTML = "<br>";
+
+      currentLi.parentNode!.insertBefore(newLi, currentLi.nextSibling);
+
+      newRange = document.createRange();
+      if (newLi.firstChild && newLi.firstChild.nodeType === Node.TEXT_NODE)
+        newRange.setStart(newLi.firstChild, 0);
+      else newRange.setStart(newLi, 0);
+    }
+  } else if (event.key === "Backspace") {
+    const isAtStart = range.startOffset === 0;
+    const isEmpty = currentLi.textContent?.trim() === "";
+    if (!isEmpty && (isAtStart || range.startContainer !== currentLi)) return;
+
+    event.preventDefault();
+    currentLi.remove();
+
+    const div = document.createElement("div");
+    div.innerHTML = "<br>";
+
+    if (currentList.children.length === 0)
+      currentList.parentNode?.replaceChild(div, currentList);
+    else currentList.parentNode?.insertBefore(div, currentList.nextSibling);
+
+    newRange = document.createRange();
+    newRange.setStart(div, 0);
+  }
+
+  if (!newRange) return;
+
+  newRange.collapse(true);
+  selection.removeAllRanges();
+  selection.addRange(newRange);
+
+  return true;
 }
 
-function onBlur() {
-  isFocused.value = false;
-  emit("blur");
+function handleBlockquoteIndentation(
+  event: KeyboardEvent,
+  selection: Selection,
+  range: Range
+) {
+  if (event.key != "Backspace") return;
+
+  const currentBlockquote =
+    range.startContainer.nodeType === Node.TEXT_NODE
+      ? range.startContainer.parentElement?.closest("blockquote")
+      : (range.startContainer as Element)?.closest?.("blockquote");
+  if (!currentBlockquote) return;
+
+  const isEmpty = currentBlockquote.textContent?.trim() === "";
+
+  const blockquoteHtml = currentBlockquote.innerHTML;
+  const endsWithBrTags = Boolean(
+    blockquoteHtml.match(/<br\s*\/?>\s*(<br\s*\/?>)*\s*$/i)
+  );
+
+  let shouldRemoveBlockquote = isEmpty;
+
+  if (endsWithBrTags) {
+    if (range.startContainer === currentBlockquote) {
+      const children = Array.from(currentBlockquote.childNodes);
+      const lastMeaningfulIndex = children.reduce((lastIndex, node, index) => {
+        if (
+          (node.nodeType === Node.TEXT_NODE &&
+            node.textContent?.trim() !== "") ||
+          (node.nodeType === Node.ELEMENT_NODE &&
+            (node as Element).tagName !== "BR")
+        ) {
+          return index;
+        }
+        return lastIndex;
+      }, -1);
+
+      shouldRemoveBlockquote = range.startOffset > lastMeaningfulIndex;
+    } else if (range.startContainer.nodeType === Node.TEXT_NODE) {
+      const textContent = range.startContainer.textContent || "";
+      const afterCursor = textContent.substring(range.startOffset);
+
+      shouldRemoveBlockquote = afterCursor.trim() === "" && endsWithBrTags;
+    }
+  }
+
+  if (!shouldRemoveBlockquote) return;
+
+  event.preventDefault();
+
+  try {
+    const parent = currentBlockquote.parentNode;
+    if (!parent) return;
+
+    let div: HTMLDivElement;
+    if (isEmpty) {
+      div = document.createElement("div");
+      div.innerHTML = "<br>";
+      parent.replaceChild(div, currentBlockquote);
+    } else {
+      let cleanContent = currentBlockquote.innerHTML.replace(
+        /<br\s*\/?>\s*(<br\s*\/?>)*\s*$/i,
+        ""
+      );
+
+      currentBlockquote.innerHTML = cleanContent;
+
+      div = document.createElement("div");
+      div.innerHTML = "<br>";
+
+      parent.insertBefore(div, currentBlockquote.nextSibling);
+    }
+
+    const newRange = document.createRange();
+    newRange.setStart(div, 0);
+    newRange.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(newRange);
+  } catch (error) {}
+}
+
+function removeIndentation() {
+  try {
+    if (!editorRef.value) return;
+
+    const allIndentSpans =
+      editorRef.value.querySelectorAll('span[class*="tab"]');
+
+    if (allIndentSpans.length === 0) return;
+
+    let spanToRemove: HTMLElement | null = null;
+
+    for (let i = allIndentSpans.length - 1; i >= 0; i--) {
+      const span = allIndentSpans[i] as HTMLElement;
+
+      const spanRect = span.getBoundingClientRect();
+      if (spanRect.width > 0 && spanRect.height > 0) {
+        spanToRemove = span;
+        break;
+      }
+    }
+
+    if (spanToRemove) spanToRemove.remove();
+  } catch (error) {}
 }
 
 function onKeyDown(event: KeyboardEvent) {
   if (props.disabled) return;
 
-  if (event.key === "Enter") {
-    const selection = window.getSelection();
-    if (!selection || selection.rangeCount === 0) {
-      return;
-    }
-
-    const range = selection.getRangeAt(0);
-
-    const currentLi =
-      range.startContainer.nodeType === Node.TEXT_NODE
-        ? range.startContainer.parentElement?.closest("li")
-        : (range.startContainer as Element)?.closest?.("li");
-
-    if (currentLi) {
-      event.preventDefault();
-
-      const currentList = currentLi.closest("ul, ol");
-      if (!currentList) {
-        return;
-      }
-
-      const isEmpty = currentLi.textContent?.trim() === "";
-      const isAtStart =
-        range.startContainer.nodeType === Node.TEXT_NODE &&
-        range.startOffset === 0;
-
-      if (isEmpty || (isAtStart && currentLi.textContent?.trim() === "")) {
-        const currentBlockquote = currentList.closest("blockquote");
-
-        if (currentBlockquote) {
-          currentLi.remove();
-
-          if (currentList.children.length === 0) {
-            currentList.remove();
-
-            const br = document.createElement("br");
-            currentBlockquote.appendChild(br);
-
-            const newRange = document.createRange();
-            newRange.setStartAfter(br);
-            newRange.collapse(true);
-            selection.removeAllRanges();
-            selection.addRange(newRange);
-          } else {
-            const br = document.createElement("br");
-            currentList.parentNode?.insertBefore(br, currentList.nextSibling);
-
-            const newRange = document.createRange();
-            newRange.setStartAfter(br);
-            newRange.collapse(true);
-            selection.removeAllRanges();
-            selection.addRange(newRange);
-          }
-        } else {
-          const paragraph = document.createElement("p");
-          paragraph.innerHTML = "<br>";
-
-          if (currentList.parentNode) {
-            currentList.parentNode.insertBefore(
-              paragraph,
-              currentList.nextSibling
-            );
-
-            currentLi.remove();
-
-            if (currentList.children.length === 0) {
-              currentList.remove();
-            }
-
-            const newRange = document.createRange();
-            newRange.setStart(paragraph, 0);
-            newRange.collapse(true);
-            selection.removeAllRanges();
-            selection.addRange(newRange);
-          }
-        }
-      } else {
-        const newLi = document.createElement("li");
-
-        const needsTextSplit =
-          range.startContainer.nodeType === Node.TEXT_NODE &&
-          range.startOffset < range.startContainer.textContent!.length;
-
-        if (needsTextSplit) {
-          const beforeText = range.startContainer.textContent!.substring(
-            0,
-            range.startOffset
-          );
-          const afterText = range.startContainer.textContent!.substring(
-            range.startOffset
-          );
-
-          range.startContainer.textContent = beforeText;
-
-          if (afterText.trim()) {
-            newLi.textContent = afterText;
-          } else {
-            newLi.innerHTML = "<br>";
-          }
-        } else {
-          newLi.innerHTML = "<br>";
-        }
-
-        currentLi.parentNode!.insertBefore(newLi, currentLi.nextSibling);
-
-        const newRange = document.createRange();
-        if (newLi.firstChild) {
-          if (newLi.firstChild.nodeType === Node.TEXT_NODE) {
-            newRange.setStart(newLi.firstChild, 0);
-          } else {
-            newRange.setStart(newLi, 0);
-          }
-        } else {
-          newRange.setStart(newLi, 0);
-        }
-        newRange.collapse(true);
-        selection.removeAllRanges();
-        selection.addRange(newRange);
-      }
-
-      setTimeout(() => {
-        forceListStyles();
-        onInput();
-        updateActiveStates();
-      }, 10);
-
-      return;
-    }
-
+  if (event.ctrlKey && !event.shiftKey && event.key === "z") {
     event.preventDefault();
-
-    try {
-      const br = document.createElement("br");
-      range.deleteContents();
-      range.insertNode(br);
-
-      const nextNode = br.nextSibling;
-      if (
-        !nextNode ||
-        (nextNode.nodeType === Node.ELEMENT_NODE &&
-          (nextNode as Element).tagName.toLowerCase() === "br")
-      ) {
-        const br2 = document.createElement("br");
-        range.setStartAfter(br);
-        range.insertNode(br2);
-        range.setStartAfter(br2);
-      } else {
-        range.setStartAfter(br);
-      }
-
-      range.collapse(true);
-      selection.removeAllRanges();
-      selection.addRange(range);
-
-      onInput();
-      updateActiveStates();
-    } catch (error) {}
-
+    undoAction();
+    return;
+  } else if (
+    event.ctrlKey &&
+    ((event.shiftKey && event.key === "Z") || event.key === "y")
+  ) {
+    event.preventDefault();
+    redoAction();
     return;
   }
 
-  if (event.key === "Backspace") {
-    const selection = window.getSelection();
-    if (!selection || selection.rangeCount === 0) return;
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) return;
 
-    const range = selection.getRangeAt(0);
-
-    const currentLi =
-      range.startContainer.nodeType === Node.TEXT_NODE
-        ? range.startContainer.parentElement?.closest("li")
-        : (range.startContainer as Element)?.closest?.("li");
-
-    if (currentLi) {
-      const isAtStart = range.startOffset === 0;
-      const isEmpty = currentLi.textContent?.trim() === "";
-
-      if (isEmpty || (isAtStart && range.startContainer === currentLi)) {
-        event.preventDefault();
-
-        const currentList = currentLi.closest("ul, ol");
-        if (!currentList) {
-          return;
-        }
-
-        const currentBlockquote = currentList.closest("blockquote");
-
-        if (currentBlockquote) {
-          currentLi.remove();
-
-          if (currentList.children.length === 0) {
-            const br = document.createElement("br");
-            currentList.parentNode?.replaceChild(br, currentList);
-
-            const newRange = document.createRange();
-            newRange.setStartAfter(br);
-            newRange.collapse(true);
-            selection.removeAllRanges();
-            selection.addRange(newRange);
-          } else {
-            const br = document.createElement("br");
-            currentList.parentNode?.insertBefore(br, currentList.nextSibling);
-
-            const newRange = document.createRange();
-            newRange.setStartAfter(br);
-            newRange.collapse(true);
-            selection.removeAllRanges();
-            selection.addRange(newRange);
-          }
-        } else {
-          currentLi.remove();
-
-          const div = document.createElement("div");
-          div.innerHTML = "<br>";
-
-          if (currentList.children.length === 0) {
-            currentList.parentNode?.replaceChild(div, currentList);
-          } else {
-            currentList.parentNode?.insertBefore(div, currentList.nextSibling);
-          }
-
-          const newRange = document.createRange();
-          newRange.setStart(div, 0);
-          newRange.collapse(true);
-          selection.removeAllRanges();
-          selection.addRange(newRange);
-        }
-
-        onInput();
-        updateActiveStates();
-        return;
-      }
-    }
-
-    const currentBlockquote =
-      range.startContainer.nodeType === Node.TEXT_NODE
-        ? range.startContainer.parentElement?.closest("blockquote")
-        : (range.startContainer as Element)?.closest?.("blockquote");
-
-    if (currentBlockquote) {
-      const isEmpty = currentBlockquote.textContent?.trim() === "";
-
-      const blockquoteHtml = currentBlockquote.innerHTML;
-      const endsWithBrTags = Boolean(
-        blockquoteHtml.match(/<br\s*\/?>\s*(<br\s*\/?>)*\s*$/i)
-      );
-
-      let shouldRemoveBlockquote = false;
-
-      if (isEmpty) {
-        shouldRemoveBlockquote = true;
-      } else if (endsWithBrTags) {
-        let isAtEmptyEnd = false;
-
-        if (range.startContainer === currentBlockquote) {
-          const children = Array.from(currentBlockquote.childNodes);
-          const lastMeaningfulIndex = children.reduce(
-            (lastIndex, node, index) => {
-              if (
-                (node.nodeType === Node.TEXT_NODE &&
-                  node.textContent?.trim() !== "") ||
-                (node.nodeType === Node.ELEMENT_NODE &&
-                  (node as Element).tagName !== "BR")
-              ) {
-                return index;
-              }
-              return lastIndex;
-            },
-            -1
-          );
-
-          isAtEmptyEnd = range.startOffset > lastMeaningfulIndex;
-        } else if (range.startContainer.nodeType === Node.TEXT_NODE) {
-          const textContent = range.startContainer.textContent || "";
-          const afterCursor = textContent.substring(range.startOffset);
-
-          isAtEmptyEnd = afterCursor.trim() === "" && endsWithBrTags;
-        }
-
-        if (isAtEmptyEnd) {
-          shouldRemoveBlockquote = true;
-        }
-      }
-
-      if (shouldRemoveBlockquote) {
-        event.preventDefault();
-
-        try {
-          const parent = currentBlockquote.parentNode;
-          if (parent) {
-            if (isEmpty) {
-              const div = document.createElement("div");
-              div.innerHTML = "<br>";
-              parent.replaceChild(div, currentBlockquote);
-
-              const newRange = document.createRange();
-              newRange.setStart(div, 0);
-              newRange.collapse(true);
-              selection.removeAllRanges();
-              selection.addRange(newRange);
-            } else {
-              let cleanContent = currentBlockquote.innerHTML.replace(
-                /<br\s*\/?>\s*(<br\s*\/?>)*\s*$/i,
-                ""
-              );
-
-              currentBlockquote.innerHTML = cleanContent;
-
-              const newDiv = document.createElement("div");
-              newDiv.innerHTML = "<br>";
-
-              parent.insertBefore(newDiv, currentBlockquote.nextSibling);
-
-              const newRange = document.createRange();
-              newRange.setStart(newDiv, 0);
-              newRange.collapse(true);
-              selection.removeAllRanges();
-              selection.addRange(newRange);
-            }
-
-            editorRef.value?.focus();
-            onInput();
-            updateActiveStates();
-          }
-        } catch (error) {
-          console.error(error);
-        }
-        return;
-      }
-    }
-  }
+  const range = selection.getRangeAt(0);
+  if (handleListIndentation(event, selection, range)) return;
+  handleBlockquoteIndentation(event, selection, range);
 
   if (event.key === "Tab") {
     event.preventDefault();
 
-    const selection = window.getSelection();
-    if (!selection || selection.rangeCount === 0) return;
-
     try {
-      const range = selection.getRangeAt(0);
-
       let currentElement = range.startContainer;
       let inList = false;
 
@@ -1186,30 +1341,71 @@ function onKeyDown(event: KeyboardEvent) {
         currentElement = parent;
       }
 
-      if (inList && !event.shiftKey) {
-        document.execCommand("indent", false);
-      } else if (inList && event.shiftKey) {
-        document.execCommand("outdent", false);
-      } else {
-        const tabSpan = document.createElement("span");
-        tabSpan.style.paddingLeft = "2em";
-        tabSpan.innerHTML = "\u00A0";
+      if (inList && !event.shiftKey) document.execCommand("indent", false);
+      else if (inList && event.shiftKey) document.execCommand("outdent", false);
+      else if (!event.shiftKey) {
+        const tab = document.createElement("span");
+        tab.classList.add("tab");
+        tab.innerHTML = "\t";
 
         range.deleteContents();
-        range.insertNode(tabSpan);
+        range.insertNode(tab);
+        range.setStartAfter(tab);
+      } else removeIndentation();
+    } catch (error) {}
+  }
 
-        range.setStartAfter(tabSpan);
-        range.collapse(true);
-        selection.removeAllRanges();
-        selection.addRange(range);
-      }
-
-      onInput();
-      updateActiveStates();
-    } catch (error) {
-      console.error(error);
+  if (
+    event.key === "Enter" ||
+    event.key === "Tab" ||
+    event.key === "Backspace"
+  ) {
+    if (event.key != "Backspace") {
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
     }
 
+    onInput();
+    updateActiveStates();
+  }
+}
+
+function onFocus() {
+  isFocused.value = true;
+  emit("focus");
+  updateActiveStates();
+}
+
+function onBlur() {
+  isFocused.value = false;
+  emit("blur");
+}
+
+function onPaste(event: ClipboardEvent) {
+  if (props.disabled) return;
+
+  const selection = window.getSelection();
+  if (!isSelectionWithinEditor(selection)) {
+    event.preventDefault();
+    return;
+  }
+}
+
+function onCut(event: ClipboardEvent) {
+  if (props.disabled) return;
+
+  const selection = window.getSelection();
+  if (!isSelectionWithinEditor(selection)) {
+    event.preventDefault();
+    return;
+  }
+}
+
+function onCopy(event: ClipboardEvent) {
+  const selection = window.getSelection();
+  if (!isSelectionWithinEditor(selection)) {
+    event.preventDefault();
     return;
   }
 }
@@ -1223,198 +1419,94 @@ function onKeyDown(event: KeyboardEvent) {
       :info-message="infoMessage"
       :tooltip-min-width="tooltipMinWidth"
       :required="required"
+      class="mb-xs"
     />
 
-    <div class="toolbar" :class="{ compact: compact }">
-      <div class="toolbar-group">
-        <Tooltip label-value="Undo (Ctrl+Z)" position="bottom">
-          <Option @click="execCommand('undo')" :disabled="disabled">
-            <Icon name="undo" />
-          </Option>
-        </Tooltip>
-        <Tooltip label-value="Redo (Ctrl+Y)" position="bottom">
-          <Option @click="execCommand('redo')" :disabled="disabled">
-            <Icon name="redo" />
-          </Option>
-        </Tooltip>
-      </div>
-
-      <div class="toolbar-group">
-        <Select
-          v-model="currentFontSize"
-          :options="fontSizeOptions"
-          :disabled="disabled"
-          absolute
-          @update:model-value="onFontSizeChange"
-        />
-      </div>
-
-      <div class="toolbar-group">
-        <Tooltip label-value="Bold (Ctrl+B)" position="bottom">
-          <Option
-            :selected="isActive.bold"
-            @click="execCommand('bold')"
+    <div class="toolbar">
+      <div v-for="(option, key) in options" :key="key" class="toolbar-group">
+        <template v-for="(item, itemKey) in option" :key="itemKey">
+          <Select
+            v-if="item.type === 'select'"
+            v-model="item.value"
+            :options="(item as FontSize).options"
             :disabled="disabled"
-          >
-            <Icon name="format_bold" />
-          </Option>
-        </Tooltip>
-        <Tooltip label-value="Italic (Ctrl+I)" position="bottom">
-          <Option
-            :selected="isActive.italic"
-            @click="execCommand('italic')"
-            :disabled="disabled"
-          >
-            <Icon name="format_italic" />
-          </Option>
-        </Tooltip>
-        <Tooltip label-value="Underline (Ctrl+U)" position="bottom">
-          <Option
-            :selected="isActive.underline"
-            @click="execCommand('underline')"
-            :disabled="disabled"
-          >
-            <Icon name="format_underlined" />
-          </Option>
-        </Tooltip>
-        <Tooltip label-value="Strikethrough" position="bottom">
-          <Option
-            :selected="isActive.strikeThrough"
-            @click="execCommand('strikeThrough')"
-            :disabled="disabled"
-          >
-            <Icon name="strikethrough_s" />
-          </Option>
-        </Tooltip>
-      </div>
-
-      <div class="toolbar-group">
-        <div class="color-button-wrapper" ref="textColorPickerRef"></div>
-        <Tooltip
-          v-for="color in colors"
-          :key="color.value"
-          :label-value="color.label"
-          position="bottom"
-        >
-          <Colors
-            v-model="color.value"
-            v-model:custom="customColorOptions"
-            :expanded="color.expanded"
-            @update:model-value="(value) => setColor(value, color)"
-            @update:expanded="saveCurrentSelection"
-            @update:custom="(value) => (customColorOptions = value)"
-          >
-            <Option :disabled="disabled">
-              <Icon :name="color.icon" />
+            absolute
+            @update:model-value="(item as FontSize).action(item.value)"
+          />
+          <Tooltip position="bottom">
+            <Colors
+              v-if="item.type === 'color'"
+              v-model="(item as Color).value"
+              v-model:custom="customColorOptions"
+              :expanded="(item as Color).expanded"
+              @update:model-value="(value) => setColor(value, item as Color)"
+              @update:expanded="saveCurrentSelection"
+              @update:custom="(value) => (customColorOptions = value)"
+            >
+              <template #add-label>
+                <slot name="add-label"> Add </slot>
+              </template>
+              <template #cancel-label>
+                <slot name="cancel-label"> Cancel </slot>
+              </template>
+              <Option :disabled="disabled">
+                <Icon :name="item.icon" />
+              </Option>
+            </Colors>
+            <Option
+              v-else
+              class="relative"
+              :selected="item.selected"
+              :disabled="disabled || item.disabled"
+              @click="
+                item.action
+                  ? item.action(item.value)
+                  : execCommand(item.command, item.style, item.value)
+              "
+            >
+              <Icon :name="item.icon" />
+              <input
+                v-if="item.type === 'image'"
+                type="file"
+                ref="imageInputRef"
+                accept="image/*"
+                class="z-[1] absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                @change="handleImageUpload"
+              />
             </Option>
-          </Colors>
-        </Tooltip>
-      </div>
-
-      <div class="toolbar-group">
-        <Tooltip
-          v-for="list in list"
-          :key="list.value"
-          :label-value="list.label"
-          position="bottom"
-        >
-          <Option
-            :selected="isActive[list.value]"
-            @click="execCommand(list.command)"
-            :disabled="disabled"
-          >
-            <Icon :name="list.icon" />
-          </Option>
-        </Tooltip>
-      </div>
-
-      <div class="toolbar-group">
-        <Tooltip label-value="Align left" position="bottom">
-          <Option
-            :selected="isActive.justifyLeft"
-            @click="execCommand('justifyLeft')"
-            :disabled="disabled"
-          >
-            <Icon name="format_align_left" />
-          </Option>
-        </Tooltip>
-        <Tooltip label-value="Align center" position="bottom">
-          <Option
-            :selected="isActive.justifyCenter"
-            @click="execCommand('justifyCenter')"
-            :disabled="disabled"
-          >
-            <Icon name="format_align_center" />
-          </Option>
-        </Tooltip>
-        <Tooltip label-value="Align right" position="bottom">
-          <Option
-            :selected="isActive.justifyRight"
-            @click="execCommand('justifyRight')"
-            :disabled="disabled"
-          >
-            <Icon name="format_align_right" />
-          </Option>
-        </Tooltip>
-      </div>
-
-      <div class="toolbar-group">
-        <Tooltip label-value="Insert link" position="bottom">
-          <Option @click="createLink" :disabled="disabled">
-            <Icon name="link" />
-          </Option>
-        </Tooltip>
-        <Tooltip label-value="Insert image" position="bottom">
-          <Option class="relative" :disabled="disabled" @click="insertImage">
-            <Icon name="image" />
-            <input
-              type="file"
-              ref="imageInputRef"
-              accept="image/*"
-              class="z-[1] absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-              @change="handleImageUpload"
-            />
-          </Option>
-        </Tooltip>
-        <Tooltip label-value="Quote" position="bottom">
-          <Option
-            :disabled="disabled"
-            :selected="isInBlockquote"
-            @click="insertBlockquote"
-          >
-            <Icon name="format_quote" />
-          </Option>
-        </Tooltip>
-      </div>
-
-      <div class="toolbar-group">
-        <Tooltip label-value="Remove formatting" position="bottom">
-          <Option @click="execCommand('removeFormat')" :disabled="disabled">
-            <Icon name="format_clear" />
-          </Option>
-        </Tooltip>
+            <template #label>
+              <slot :name="`${itemKey}-label`">
+                {{ item.label }}
+              </slot>
+              <template v-if="item.shortcut"> ({{ item.shortcut }}) </template>
+            </template>
+          </Tooltip>
+        </template>
       </div>
     </div>
 
     <div
       ref="editorRef"
       class="editor-content"
+      role="textbox"
       :style="editorStyle"
       :contenteditable="!disabled"
       :placeholder="placeholder"
+      :aria-label="labelValue"
+      :aria-required="required"
+      :aria-invalid="isError"
+      :aria-describedby="
+        isError ? 'error-message' : infoMessage ? 'info-message' : undefined
+      "
       @input="onInput"
       @focus="onFocus"
       @blur="onBlur"
       @keydown="onKeyDown"
       @keyup="updateActiveStates"
       @mouseup="updateActiveStates"
-      role="textbox"
-      :aria-label="labelValue || 'Rich text editor'"
-      :aria-required="required"
-      :aria-invalid="isError"
-      :aria-describedby="
-        isError ? 'error-message' : infoMessage ? 'info-message' : undefined
-      "
+      @paste="onPaste"
+      @cut="onCut"
+      @copy="onCopy"
     />
 
     <Dialog v-model="showLinkDialog" width="50%" height="fit-content">
@@ -1451,7 +1543,7 @@ function onKeyDown(event: KeyboardEvent) {
       </div>
     </Dialog>
 
-    <small v-if="isError" id="error-message" class="error-message">
+    <small v-if="isError" class="error-message">
       {{ errorMessage }}
     </small>
   </div>
@@ -1461,7 +1553,7 @@ function onKeyDown(event: KeyboardEvent) {
 @reference "../../assets/main.css";
 
 .rich-text-editor {
-  @apply flex flex-col gap-xs;
+  @apply flex flex-col;
 }
 
 .rich-text-editor.no-border {
@@ -1469,28 +1561,20 @@ function onKeyDown(event: KeyboardEvent) {
 }
 
 .toolbar {
-  @apply flex items-center gap-xs p-sm bg-neutral-surface-default border border-neutral-default border-b-0 rounded-t-sm flex-wrap;
-}
-
-.toolbar.compact {
-  @apply p-xs gap-xxs;
+  @apply flex items-center gap-xs p-sm bg-neutral-surface-default border-xxs border-neutral-default border-b-none rounded-t-sm flex-wrap;
 }
 
 .toolbar-group {
-  @apply flex items-center gap-xxs border-r border-neutral-default pr-xs mr-xs last:border-r-0 last:pr-0 last:mr-0;
+  @apply flex items-center gap-xxs border-r-xxs border-neutral-default pr-xs mr-xs;
 }
 
 .toolbar-group:last-child {
-  @apply border-r-0 pr-0 mr-0;
-}
-
-.color-button-wrapper {
-  @apply relative;
+  @apply border-r-none pr-none mr-none;
 }
 
 .editor-content {
-  @apply min-h-[200px] max-h-[400px] overflow-y-auto p-sm bg-transparent border border-neutral-default rounded-b-sm outline-none text-neutral-foreground-high focus:border-primary-default transition-colors;
-  white-space: pre-wrap;
+  @apply min-h-14xl max-h-20xl overflow-y-auto p-sm border-xxs border-neutral-default rounded-b-sm outline-none whitespace-pre-wrap
+  text-neutral-foreground-high focus:border-primary-default transition-colors;
   word-wrap: break-word;
 }
 
@@ -1528,19 +1612,16 @@ function onKeyDown(event: KeyboardEvent) {
 
 .rich-text-editor.disabled .toolbar,
 .rich-text-editor.disabled .editor-content {
-  @apply bg-neutral-surface-disabled opacity-50 pointer-events-none;
+  @apply pointer-events-none;
 }
 
 .rich-text-editor.error .editor-content {
   @apply border-danger-default;
 }
 
-.rich-text-editor.no-border .toolbar {
-  @apply border-0 rounded-none;
-}
-
+.rich-text-editor.no-border .toolbar,
 .rich-text-editor.no-border .editor-content {
-  @apply border-0 rounded-none;
+  @apply border-none rounded-none;
 }
 
 .error-message {

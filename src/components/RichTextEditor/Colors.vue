@@ -120,14 +120,14 @@ function closeColorPicker() {
         <ColorPicker v-model="customColor" no-shadow />
         <div class="flex justify-end gap-xxs px-xs pb-xs">
           <Button variant="plain" size="small" @click="closeColorPicker"
-            >Cancel</Button
-          >
+            ><slot name="cancel-label"
+          /></Button>
           <Button
             variant="secondary"
             size="small"
             @click="setCustom(customColor)"
-            >Add Color</Button
-          >
+            ><slot name="add-label"
+          /></Button>
         </div>
       </div>
       <div class="flex flex-col gap-xxs w-fit" v-else>
