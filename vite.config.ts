@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
+import dts from 'vite-plugin-dts';
 
 // https://vite.dev/config/
 import path from 'node:path';
@@ -11,12 +12,42 @@ const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(file
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
-  plugins: [vue(), tailwindcss()],
+  plugins: [
+    vue(), 
+    tailwindcss(),
+    dts({
+      include: ['src/**/*'],
+      exclude: ['src/**/*.stories.ts', 'src/**/*.test.ts'],
+      outDir: 'lib',
+      entryRoot: 'src'
+    })
+  ],
   resolve: {
     alias: {
       '@': path.resolve(dirname, './src'),
       '#composables': path.resolve(dirname, './src/composables'),
     },
+  },
+  build: {
+    lib: {
+      entry: path.resolve(dirname, 'src/index.ts'),
+      name: 'DesignSystem',
+      formats: ['es', 'umd'],
+      fileName: (format) => `design-system.${format}.js`
+    },
+    rollupOptions: {
+      external: ['vue'],
+      output: {
+        globals: {
+          vue: 'Vue'
+        },
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name === 'style.css') return 'index.css';
+          return assetInfo.name;
+        }
+      }
+    },
+    outDir: 'lib'
   },
   test: {
     projects: [{

@@ -1,18 +1,36 @@
 {
   "name": "design-system",
-  "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "Vue 3 Design System Components with Tailwind CSS",
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/design-system-github.git"
+  },
+  "homepage": "https://your-username.github.io/design-system-github/",
+  "keywords": ["vue", "vue3", "components", "design-system", "tailwind", "typescript"],
+  "main": "./lib/design-system.umd.js",
+  "module": "./lib/design-system.es.js",
+  "types": "./lib/main.d.ts",
+  "files": [
+    "lib",
+    "README.md",
+    "package.json"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
+    "build:lib": "vue-tsc -b && vite build --mode production",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "generate-docs": "node scripts/generate-md-simple.cjs",
     "install-hooks": "node scripts/install-hooks.js",
     "local-link": "./scripts/local-link.sh",
-    "local-link-windows": "./scripts/windows-elevate.bat"
+    "local-link-windows": "./scripts/windows-elevate.bat",
+    "prepublishOnly": "npm run build:lib"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
