@@ -130,3 +130,19 @@ export const Primary: Story = {
   render: defaultRender,
   args: defaultArgs,
 };
+
+export const Multiple: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    multiple: true,
+  },
+};
+
+export const Disabled: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    disabled: true,
+  },
+};

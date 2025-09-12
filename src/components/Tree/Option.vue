@@ -2,7 +2,7 @@
 import { ref, watch } from "vue";
 import { type Option as OptionType } from "#utils/types/DropOption";
 import { isObject } from "../../utils";
-import Option from "../../utils/components/Option.vue";
+import OptionComponent from "../../utils/components/Option.vue";
 
 const props = withDefaults(
   defineProps<{
@@ -95,7 +95,7 @@ function setModel(value: OptionType, add = !isSelected.value && !props.selected)
 <template>
   <div class="tree-option">
     <div>
-      <Option
+      <OptionComponent
         :aria-selected="isSelected"
         :disabled="option.disabled || disabled"
         :no-hover="multiple"
@@ -129,7 +129,7 @@ function setModel(value: OptionType, add = !isSelected.value && !props.selected)
           <Icon v-if="getIcon(option)" :name="getIcon(option)" />
           {{ getLabel(option) }}
         </div>
-      </Option>
+      </OptionComponent>
     </div>
     <Transition name="expand">
       <div
