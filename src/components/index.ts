@@ -43,7 +43,6 @@ export { default as Skeleton } from './Skeleton';
 export { default as Slider } from './Slider';
 export { default as Spinner } from './Spinner';
 export { default as StatusBadge } from './StatusBadge';
-export { default as StepOption } from './StepOption';
 export { default as Stepper } from './Stepper';
 export { default as Switch } from './Switch';
 export { default as Tab } from './Tab';

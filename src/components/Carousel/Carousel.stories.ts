@@ -140,6 +140,7 @@ export const Interval: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
+    circular: true,
     interval: 3000,
   },
 };

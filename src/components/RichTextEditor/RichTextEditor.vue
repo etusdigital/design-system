@@ -1584,7 +1584,7 @@ function camelToKebabCase(str: string): string {
       :info-message="infoMessage"
       :tooltip-min-width="tooltipMinWidth"
       :required="required"
-      class="mb-xs"
+      class="mb-xxs"
     />
 
     <div class="toolbar">

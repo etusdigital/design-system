@@ -109,6 +109,7 @@ export const Disabled: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
+    disabled: true,
     length: 4,
   },
 };
