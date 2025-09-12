@@ -40,7 +40,7 @@ type ToolbarOption = {
   shortcut?: string;
   selected?: boolean;
   style?: Style;
-  disabled?: (() => boolean);
+  disabled?: () => boolean;
   type?: "select" | "color" | "image";
   action?: (value: string | number) => void;
 };
@@ -74,7 +74,6 @@ const props = withDefaults(
     tooltipMinWidth?: string;
     minHeight?: string;
     maxHeight?: string;
-    compact?: boolean;
     noBorder?: boolean;
   }>(),
   {
@@ -85,11 +84,10 @@ const props = withDefaults(
     disabled: false,
     isError: false,
     required: false,
-    placeholder: "Type your text...",
+    placeholder: "",
     tooltipMinWidth: "none",
     minHeight: "200px",
     maxHeight: "400px",
-    compact: false,
     noBorder: false,
   }
 );
@@ -313,7 +311,6 @@ const editorClasses = computed(() => {
   if (isFocused.value) classes += " focus";
   if (props.disabled) classes += " disabled";
   if (props.isError) classes += " error";
-  if (props.compact) classes += " compact";
   if (props.noBorder) classes += " no-border";
   return classes;
 });
@@ -339,7 +336,6 @@ onMounted(() => {
   editorRef.value.innerHTML = sanitizeHTML(props.modelValue);
   applyContentStyles();
 
-  // Inicializar histórico com conteúdo inicial
   saveToHistory(props.modelValue);
 });
 
@@ -473,6 +469,8 @@ function execCommand(
 
   if (command === "insertUnorderedList" || command === "insertOrderedList")
     setTimeout(() => setListStyles());
+  else if (command == "removeFormat")
+    setTimeout(() => removeElementFormatting());
 }
 
 function applyStyleCommand(property: Style, value: string | number) {
@@ -506,6 +504,85 @@ function applyStyleCommand(property: Style, value: string | number) {
   } catch (error) {
     console.error(error);
   }
+}
+
+function removeElementFormatting() {
+  if (props.disabled || !editorRef.value) return;
+
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) return;
+
+  const range = selection.getRangeAt(0);
+  let currentNode = range.startContainer;
+
+  if (currentNode.nodeType === Node.TEXT_NODE)
+    currentNode = currentNode.parentElement!;
+
+  let targetElement: HTMLElement | null = null;
+  while (currentNode && currentNode !== editorRef.value) {
+    if (currentNode.nodeType === Node.ELEMENT_NODE) {
+      const tagName = (currentNode as Element).tagName.toLowerCase();
+      if (["ul", "ol", "blockquote"].includes(tagName)) {
+        targetElement = currentNode as HTMLElement;
+        break;
+      }
+    }
+    currentNode = currentNode.parentNode as Node;
+  }
+
+  if (!targetElement) return;
+
+  try {
+    const parent = targetElement.parentNode;
+    if (!parent) return;
+
+    const tagName = targetElement.tagName.toLowerCase();
+
+    if (tagName === "ul" || tagName === "ol")
+      removeListFormatting(targetElement);
+    else if (tagName === "blockquote")
+      removeBlockquoteFormatting(targetElement);
+
+    editorRef.value.focus();
+    onInput();
+    updateActiveStates();
+  } catch (error) {
+    console.error("Erro ao remover formatação:", error);
+  }
+}
+
+function removeListFormatting(listElement: HTMLElement) {
+  const parent = listElement.parentNode;
+  if (!parent) return;
+
+  const listItems = Array.from(listElement.querySelectorAll("li"));
+  const fragment = document.createDocumentFragment();
+
+  listItems.forEach((li) => {
+    const div = document.createElement("div");
+    div.innerHTML = li.innerHTML;
+    fragment.appendChild(div);
+  });
+
+  parent.replaceChild(fragment, listElement);
+}
+
+function removeBlockquoteFormatting(blockquoteElement: HTMLElement) {
+  const parent = blockquoteElement.parentNode;
+  if (!parent) return;
+
+  const div = document.createElement("div");
+  div.innerHTML = blockquoteElement.innerHTML;
+
+  div.style.borderLeft = "";
+  div.style.fontStyle = "";
+  div.style.backgroundColor = "";
+  div.style.padding = "";
+  div.style.margin = "";
+  div.style.borderRadius = "";
+  div.style.position = "";
+
+  parent.replaceChild(div, blockquoteElement);
 }
 
 function handleFontSizeUpdate(fontSize: number) {
@@ -875,39 +952,8 @@ function handleImageUpload(e: any) {
 function insertBlockquote() {
   if (props.disabled || !editorRef.value) return;
 
-  let selection = window.getSelection();
-
-  if (!selection || selection.rangeCount === 0 || !isFocused.value) {
-    const span = document.createElement("span");
-    span.innerHTML = "<br>";
-    editorRef.value.appendChild(span);
-
-    const range = document.createRange();
-    range.setStart(span, 0);
-    range.collapse(true);
-    selection?.removeAllRanges();
-    selection?.addRange(range);
-  }
-
-  selection = window.getSelection();
-  if (!selection) return;
-
-  const execCommandSuccess = document.execCommand(
-    "formatBlock",
-    false,
-    "blockquote"
-  );
-  if (execCommandSuccess) {
-    setTimeout(() => {
-      if (!editorRef.value) return;
-      const blockquotes = editorRef.value?.querySelectorAll("blockquote");
-      addBlockquoteStyles(Array.from(blockquotes));
-      onInput();
-      updateActiveStates();
-    }, 50);
-
-    return;
-  }
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) return;
 
   try {
     const range = selection.getRangeAt(0);
@@ -920,6 +966,7 @@ function insertBlockquote() {
     if (existingBlockquote) {
       const parent = existingBlockquote.parentNode;
       if (!parent) return;
+
       const div = document.createElement("div");
       div.innerHTML = existingBlockquote.innerHTML;
       parent.replaceChild(div, existingBlockquote);
@@ -930,30 +977,32 @@ function insertBlockquote() {
       selection.addRange(newRange);
     } else {
       const blockquote = document.createElement("blockquote");
-
       addBlockquoteStyles([blockquote]);
 
-      if (selection.isCollapsed) {
-        blockquote.textContent = "Type your quote here...";
-        range.insertNode(blockquote);
-      } else {
+      if (range.collapsed) blockquote.innerHTML = "Type your quote here...";
+      else {
         const contents = range.extractContents();
-        blockquote.appendChild(contents);
-        range.insertNode(blockquote);
+
+        if (
+          contents.childNodes.length === 1 &&
+          contents.firstChild?.nodeType === Node.TEXT_NODE
+        ) {
+          const span = document.createElement("span");
+          span.appendChild(contents);
+          blockquote.appendChild(span);
+        } else blockquote.appendChild(contents);
       }
 
+      range.insertNode(blockquote);
       const newRange = document.createRange();
       newRange.selectNodeContents(blockquote);
       selection.removeAllRanges();
       selection.addRange(newRange);
     }
 
-    setTimeout(() => {
-      onInput();
-      updateActiveStates();
-    }, 100);
-
     editorRef.value.focus();
+    onInput();
+    updateActiveStates();
   } catch (error) {}
 }
 
@@ -1197,13 +1246,16 @@ function handleBlockquoteIndentation(
   selection: Selection,
   range: Range
 ) {
-  if (event.key != "Backspace") return;
-
   const currentBlockquote =
     range.startContainer.nodeType === Node.TEXT_NODE
       ? range.startContainer.parentElement?.closest("blockquote")
       : (range.startContainer as Element)?.closest?.("blockquote");
+
   if (!currentBlockquote) return;
+
+  if (event.key === "Enter") {
+    return;
+  } else if (event.key !== "Backspace") return;
 
   const isEmpty = currentBlockquote.textContent?.trim() === "";
 
@@ -1298,6 +1350,113 @@ function removeIndentation() {
   } catch (error) {}
 }
 
+function removeNewLineFormatting(
+  event: KeyboardEvent,
+  selection: Selection,
+  range: Range
+) {
+  if (event.key !== "Enter" || event.shiftKey) return;
+
+  const currentNode = range.startContainer;
+  let currentElement =
+    currentNode.nodeType === Node.TEXT_NODE
+      ? currentNode.parentElement
+      : (currentNode as Element);
+
+  const formatElement = currentElement?.closest("blockquote");
+  if (!formatElement) return;
+
+  const isAtStart = range.startOffset === 0;
+  const isAtEnd =
+    range.startContainer.nodeType === Node.TEXT_NODE
+      ? range.startOffset === range.startContainer.textContent?.length
+      : range.collapsed;
+
+  const allChildren = Array.from(formatElement.children);
+  const currentElementInBlockquote =
+    currentElement?.closest("p, div, br") ||
+    allChildren.find((child) => child.contains(currentNode as Node)) ||
+    formatElement.firstElementChild;
+
+  if (!currentElementInBlockquote) return;
+
+  const currentIndex = allChildren.indexOf(
+    currentElementInBlockquote as Element
+  );
+  const hasContentAbove = currentIndex > 0;
+  const hasContentBelow = currentIndex < allChildren.length - 1;
+
+  let shouldCreateLine = false;
+  let insertBefore = false;
+
+  if (isAtEnd && !hasContentBelow) {
+    shouldCreateLine = true;
+    insertBefore = false;
+  } else if (isAtStart && !hasContentAbove) {
+    shouldCreateLine = true;
+    insertBefore = true;
+  } else if (hasContentAbove || hasContentBelow) return false;
+
+  if (!shouldCreateLine) return false;
+
+  event.preventDefault();
+
+  let targetElement: Element | null = null;
+  
+  if (insertBefore) {
+    const previousElement = formatElement.previousElementSibling;
+    if (previousElement && 
+        (previousElement.tagName.toLowerCase() === 'p' || previousElement.tagName.toLowerCase() === 'div') &&
+        (!previousElement.textContent || previousElement.textContent.trim() === '')) {
+      targetElement = previousElement;
+    }
+  } else {
+    const nextElement = formatElement.nextElementSibling;
+    if (nextElement && 
+        (nextElement.tagName.toLowerCase() === 'p' || nextElement.tagName.toLowerCase() === 'div') &&
+        (!nextElement.textContent || nextElement.textContent.trim() === '')) {
+      targetElement = nextElement;
+    }
+  }
+
+  if (!targetElement) {
+    const newP = document.createElement("p");
+    const br = document.createElement("br");
+    newP.appendChild(br);
+
+    if (insertBefore) formatElement.parentNode?.insertBefore(newP, formatElement);
+    else formatElement.parentNode?.insertBefore(newP, formatElement.nextSibling);
+    
+    targetElement = newP;
+  }
+
+  const newRange = document.createRange();
+  newRange.setStart(targetElement, 0);
+  newRange.collapse(true);
+
+  selection.removeAllRanges();
+  selection.addRange(newRange);
+
+  setTimeout(() => {
+    if (editorRef.value) {
+      editorRef.value.focus();
+      const finalRange = document.createRange();
+      finalRange.setStart(targetElement!, 0);
+      finalRange.collapse(true);
+
+      const finalSelection = window.getSelection();
+      if (finalSelection) {
+        finalSelection.removeAllRanges();
+        finalSelection.addRange(finalRange);
+      }
+    }
+  }, 0);
+
+  onInput();
+  updateActiveStates();
+  return true;
+}
+
 function onKeyDown(event: KeyboardEvent) {
   if (props.disabled) return;
 
@@ -1355,6 +1514,8 @@ function onKeyDown(event: KeyboardEvent) {
     } catch (error) {}
   }
 
+  if (removeNewLineFormatting(event, selection, range)) return;
+
   if (
     event.key === "Enter" ||
     event.key === "Tab" ||
@@ -1409,12 +1570,13 @@ function onCopy(event: ClipboardEvent) {
     return;
   }
 }
+
+function camelToKebabCase(str: string): string {
+  return str.replace(/([A-Z])/g, '-$1').toLowerCase();
+}
 </script>
 
 <template>
-  {{ historyIndex <= 0 || !history.length }}
-  {{ historyIndex }}
-  {{ history }}
   <div :class="editorClasses">
     <Label
       v-if="labelValue"
@@ -1460,10 +1622,7 @@ function onCopy(event: ClipboardEvent) {
               v-else
               class="relative"
               :selected="item.selected"
-              :disabled="
-                disabled ||
-                (item.disabled && item.disabled())
-              "
+              :disabled="disabled || (item.disabled && item.disabled())"
               @click="
                 item.action
                   ? item.action(item.value)
@@ -1481,7 +1640,7 @@ function onCopy(event: ClipboardEvent) {
               />
             </Option>
             <template #label>
-              <slot :name="`${itemKey}-label`">
+              <slot :name="`${camelToKebabCase(itemKey)}-label`">
                 {{ item.label }}
               </slot>
               <template v-if="item.shortcut"> ({{ item.shortcut }}) </template>
@@ -1519,7 +1678,7 @@ function onCopy(event: ClipboardEvent) {
       <div class="flex flex-col gap-sm p-base">
         <Input
           v-model="linkUrl"
-          placeholder="Enter URL (e.g. https://example.com)"
+          placeholder="URL (e.g. https://example.com)"
           label-value="URL"
           mask="url"
           required
@@ -1529,8 +1688,6 @@ function onCopy(event: ClipboardEvent) {
 
         <Input
           v-model="linkText"
-          placeholder="Link text"
-          label-value="Link Text"
           :disabled="disabled"
           @keydown.enter="insertLink"
         />
