@@ -5,6 +5,7 @@
 Script que gera arquivos `.md` limpos a partir dos arquivos `.mdx` dos componentes, removendo todo código JSX e conteúdo específico do Storybook.
 
 ### O que remove:
+
 - Imports (React/Storybook)
 - Tags `<Meta>`
 - Seção completa `### Playground`
@@ -26,7 +27,8 @@ node scripts/generate-md-simple.js
 ```
 
 ### Output:
-- Cria pasta `docs/` 
+
+- Cria pasta `docs/`
 - Gera um arquivo `.md` para cada arquivo `.mdx` encontrado em `src/components/`
 - Mantém toda a documentação markdown original, apenas remove elementos JSX/Storybook
 
@@ -35,16 +37,19 @@ node scripts/generate-md-simple.js
 Script que instala Git hooks automaticamente para automatizar a geração de documentação.
 
 ### Instalação automática:
+
 - **Executado automaticamente** após `npm install` via script `prepare`
 - **Não requer ação manual** - funciona out-of-the-box
 - **Silencioso** - só instala se for um repositório Git
 
 ### Funcionamento:
+
 - **Pre-commit hook**: Executa `npm run generate-docs` antes de cada commit
 - Adiciona automaticamente os arquivos `.md` gerados ao commit
 - Falha o commit se a geração de docs falhar
 
 ### Fluxo completamente automatizado:
+
 1. Desenvolvedores fazem `npm install` (hooks são instalados automaticamente)
 2. Editam arquivos `.mdx` de componentes
 3. Fazem `git commit` normalmente
@@ -53,7 +58,8 @@ Script que instala Git hooks automaticamente para automatizar a geração de doc
 6. Commit prossegue com docs atualizados
 
 ### Exemplo:
+
 ```
-src/components/BButton/BButton.mdx → docs/BButton.md
-src/components/BCard/BCard.mdx → docs/BCard.md
+src/components/Button/BButton.mdx → docs/Button.md
+src/components/Card/BCard.mdx → docs/Card.md
 ```
