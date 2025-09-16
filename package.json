@@ -75,7 +75,7 @@
   "exports": {
     "./components/*": "./src/components/*/index.ts",
     "./composables/*": "./src/composables/*.ts",
-    "./styles.css": "./lib/index.css",
+    "./styles.css": "./lib/main.css",
     ".": {
       "types": "./lib/main.d.ts",
       "import": "./lib/design-system.es.js",

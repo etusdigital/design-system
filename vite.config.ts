@@ -29,25 +29,26 @@ export default defineConfig({
     },
   },
   build: {
+    outDir: 'lib',
+    cssCodeSplit: true,
     lib: {
-      entry: path.resolve(dirname, 'src/index.ts'),
+      entry: path.resolve(__dirname, 'src/index.ts'),
       name: 'DesignSystem',
-      formats: ['es', 'umd'],
-      fileName: (format) => `design-system.${format}.js`
+      formats: ['es', 'cjs', 'umd'],
+      fileName: format => `design-system.${format}.js`,
     },
     rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'src/index.ts'),
+      },
       external: ['vue'],
       output: {
+        exports: 'named',
         globals: {
-          vue: 'Vue'
+          vue: 'Vue',
         },
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'style.css') return 'index.css';
-          return assetInfo.name || 'asset';
-        }
-      }
+      },
     },
-    outDir: 'lib'
   },
   test: {
     projects: [{
