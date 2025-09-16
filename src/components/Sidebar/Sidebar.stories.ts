@@ -5,22 +5,22 @@ export default {
   component: Sidebar,
   argTypes: {
     modelValue: {
-      type: { summary: "any" },
+      type: { name: "other", value: "any" },
       description: "Will name of the selected option.",
     },
     options: {
-      type: { summary: "array" },
+      type: { name: "array", value: { name: "object", value: {} } },
       description:
         "Array of object to be used as sidebar options. Props(label: string, value: string, icon: string, path: string, disabled: boolean, bottom: boolean, options: Option[])",
     },
     expanded: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "If true, the sidebar will be expanded.",
     },
     getObject: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description:
         'If true, the selected value will be an object instead of value-key value.',

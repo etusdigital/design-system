@@ -5,30 +5,29 @@ export default {
   component: Stepper,
   argTypes: {
     modelValue: {
-      type: { summary: "any" },
       description: "Will the current step.",
       table: {
         defaultValue: { summary: undefined },
       },
     },
     options: {
-      type: { summary: "array" },
+      type: { name: "array", value: { name: "object", value: {} } },
       description: "Array of values to be used as options.",
     },
     labelKey: {
-      type: { summary: "text" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "label" },
       },
     },
     valueKey: {
-      type: { summary: "text" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "value" },
       },
     },
     size: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["medium", "large"],
       table: {
@@ -36,46 +35,46 @@ export default {
       },
     },
     disabled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description:
         "If it's true, the user will not be able to change the step.",
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     allowedSkip: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "If it's true, the user will be able to skip steps.",
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     background: {
-      type: { summary: "color" },
+      type: { name: "string" },
       description: "This property will be the stepper background.",
       table: {
         defaultValue: { summary: '--neutral-background-default' },
       },
     },
     version: {
-      type: { summary: "number" },
+      type: { name: "number" },
       description: "This property will be the stepper version.",
       control: "select",
       options: [1, 2],
       table: {
-        defaultValue: { summary: 1 },
+        defaultValue: { summary: "1" },
       },
     },
     getObject: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description:
         'If true, the selected value will be an object instead of value-key value.',
     },
-    changeStep: {
-      type: { summary: "function" },
+    onChangeStep: {
+      type: { name: "function" },
       description: "Will be the function called when the step change.",
       table: {
         defaultValue: { summary: "(index)=>{void}" },
@@ -100,9 +99,9 @@ const defaultArgs = {
   disabled: false,
   allowedSkip: false,
   getObject: false,
-  version: 1,
+  version: 1 as const,
   background: '#FFFFFF',
-  changeStep: (option: any, index: number) => {},
+  onChangeStep: (_option: any, _index: number) => {},
 };
 
 const defaultHtml = `
@@ -117,7 +116,7 @@ const defaultHtml = `
     :background="args.background"
     :version="args.version"
     :get-object="args.getObject"
-    @change-step="args.changeStep"
+    @change-step="args.onChangeStep"
   />
 `;
 
@@ -145,7 +144,7 @@ export const Sizes: Story = {
         ${["medium", "large"]
           .map((size) => {
             return defaultHtml
-              .replaceAll("args.size", `'${size}'`)
+              .replace(/args\.size/g, `'${size}'`)
           })
           .join("")}
       </div>
@@ -181,7 +180,7 @@ export const Versions: Story = {
         ${["1", "2"]
           .map((version) => {
             return defaultHtml
-              .replaceAll("args.version", `'${version}'`)
+              .replace(/args\.version/g, `'${version}'`)
           })
           .join("")}
       </div>

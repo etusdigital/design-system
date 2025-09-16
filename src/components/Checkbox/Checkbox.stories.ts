@@ -5,30 +5,30 @@ export default {
   component: Checkbox,
   argTypes: {
     modelValue: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     rhs: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "Puts the button on the right-hand side.",
     },
     allowIndeterminate: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description:
         "Allows the checkbox to be in an indeterminate state. The **null** value is treated as indeterminate.",
     },
     disabled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     default: {

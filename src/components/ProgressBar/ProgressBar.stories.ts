@@ -5,27 +5,27 @@ export default {
   component: ProgressBar,
   argTypes: {
     modelValue: {
-      type: { summary: "number" },
+      type: { name: "number" },
       table: {
-        defaultValue: { summary: 0 },
+        defaultValue: { summary: "0" },
       },
       description:
         "Thil will be the current step the user is on. If the steps is not defined, it will be the bar fill percentage in 0 to 1 scale.",
     },
     color: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "This property will be the color of the progress bar.",
     },
     icon: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "This property will be the icon shown after the loading percentage. It works only with the normal bar without animation.",
     },
     infoMessage: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "This property will be shown in a tooltip when the icon is hovered.",
     },
     type: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["primary", "info", "success", "warning", "danger", "neutral"],
       table: {
@@ -33,7 +33,7 @@ export default {
       },
     },
     size: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["small", "medium", "large"],
       table: {
@@ -41,9 +41,9 @@ export default {
       },
     },
     animationType: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
-      options: ["indeterminate", "query", null],
+      options: ["indeterminate", "query", undefined],
       table: {
         defaultValue: { summary: "" },
       },
@@ -51,15 +51,15 @@ export default {
         "This property will be the progress bar animation type.",
     },
     steps: {
-      type: { summary: "number" },
+      type: { name: "number" },
       table: {
-        defaultValue: { summary: 0 },
+        defaultValue: { summary: "0" },
       },
       description:
         "This property will be the amount of steps used to calculate the loading percentage.",
     },
     displayPercentage: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["center", "bar", null],
       table: {
@@ -68,9 +68,9 @@ export default {
       description: "Display the percentage, if the bar isn't divided."
     },
     neutralBackground: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "If this property is true, the background will be neutral.",
     },
@@ -84,8 +84,8 @@ type Story = StoryObj<typeof ProgressBar>;
 
 const defaultArgs = {
   modelValue: 0.5,
-  size: "medium",
-  type: "primary",
+  size: "medium" as const,
+  type: "primary" as const,
   color: "",
   icon: "",
   infoMessage: "",
@@ -132,7 +132,7 @@ export const Types: Story = {
       <div class="flex flex-col gap-xs">
         ${["primary", "info", "success", "warning", "danger", "neutral"]
           .map((type) => {
-            return defaultHtml.replaceAll("args.type", `'${type}'`);
+            return defaultHtml.replace(/args\.type/g, `'${type}'`);
           })
           .join("")}
       </div>
@@ -151,7 +151,7 @@ export const Sizes: Story = {
       <div class="flex flex-col gap-xs">
         ${["small", "medium", "large"]
           .map((size) => {
-            return defaultHtml.replaceAll("args.size", `'${size}'`);
+            return defaultHtml.replace(/args\.size/g, `'${size}'`);
           })
           .join("")}
       </div>
@@ -179,7 +179,7 @@ export const AnimationTypes: Story = {
       <div class="flex flex-col gap-xs">
         ${["indeterminate", "query"]
           .map((animationType) => {
-            return defaultHtml.replaceAll("args.animationType", `'${animationType}'`);
+            return defaultHtml.replace(/args\.animationType/g, `'${animationType}'`);
           })
           .join("")}
       </div>
@@ -198,7 +198,7 @@ export const DisplayPercentage: Story = {
       <div class="flex flex-col gap-xs">
         ${["center", "bar"]
           .map((displayPercentage) => {
-            return defaultHtml.replaceAll("args.displayPercentage", `'${displayPercentage}'`);
+            return defaultHtml.replace(/args\.displayPercentage/g, `'${displayPercentage}'`);
           })
           .join("")}
       </div>

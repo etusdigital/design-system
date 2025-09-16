@@ -252,7 +252,7 @@ function crop(cropArea: HTMLDivElement, parent: HTMLElement) {
       <Icon name="zoom_out" class="select-none" />
       <Slider
         v-model="zoom"
-        @update:model-value="changeZoom"
+        @update:model-value="(value) => changeZoom(value as number)"
         size="small"
         :max="2"
       />

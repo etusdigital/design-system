@@ -5,23 +5,23 @@ export default {
   component: MetricCard,
   argTypes: {
     title: {
-      type: { summary: "string" },
+      type: { name: "string" },
       description: "This prop will be the card title.",
     },
     value: {
-      type: { summary: "string | number" },
+      type: { name: "other", value: "string | number" },
       description: "This prop will be the card value.",
     },
     description: {
-      type: { summary: "string | number" },
+      type: { name: "other", value: "string | number" },
       description: "This prop will be the card description.",
     },
     icon: {
-      type: { summary: "string" },
+      type: { name: "string" },
       description: "This prop will be the card icon.",
     },
     type: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["default", "secondary", "dashed"],
       table: {
@@ -30,7 +30,7 @@ export default {
       description: "This property will be select container color.",
     },
     size: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["small", "medium", "large"],
       table: {
@@ -38,7 +38,7 @@ export default {
       },
     },
     color: {
-      type: { summary: "string" },
+      type: { name: "string" },
       control: "select",
       options: ["primary", "info", "success", "warning", "danger", "neutral"],
       table: {
@@ -46,57 +46,59 @@ export default {
       },
       description: "This prop will be the value color, if the type is card.",
     },
-		infoMessage: {
-			type: { summary: 'text' },
-			description: 'This prop will be the card info message.',
-		},
-		infoType: {
-			type: { summary: 'text' },
+    infoMessage: {
+      type: { name: "string" },
+      description: "This prop will be the card info message.",
+    },
+    infoType: {
+      type: { name: "string" },
       control: "select",
       options: ["primary", "info", "success", "warning", "danger", "neutral"],
       table: {
         defaultValue: { summary: "neutral" },
       },
-			description: 'This prop will be the info icon or text color. Works with default and card types',
-		},
-		tooltipMinWidth: {
-			type: { summary: 'text' },
-			table: {
-				defaultValue: { summary: 'none' },
-			},
-			description: "This property will be info tooltip min-width.",
-		},
-    loading: {
-      type: { summary: "boolean" },
+      description:
+        "This prop will be the info icon or text color. Works with default and card types",
+    },
+    tooltipMinWidth: {
+      type: { name: "string" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "none" },
+      },
+      description: "This property will be info tooltip min-width.",
+    },
+    loading: {
+      type: { name: "boolean" },
+      table: {
+        defaultValue: { summary: "false" },
       },
       description: "This prop will determine if the card is loading.",
     },
     noTooltip: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
-      description: "This prop will determine if the info message won't be shown inside a tooltip.",
+      description:
+        "This prop will determine if the info message won't be shown inside a tooltip.",
     },
     boldTitle: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "This prop will determine if the title will be bold.",
     },
     default: {
       description: "This slot will be shown below the card informations.",
     },
-    'title-slot': {
+    "title-slot": {
       description: "This slot will be replace the title.",
     },
-    'value-slot': {
+    "value-slot": {
       description: "This slot will be replace the value.",
     },
-    'description-slot': {
+    "description-slot": {
       description: "This slot will be replace the description.",
     },
     content: {
@@ -111,20 +113,20 @@ export default {
 type Story = StoryObj<typeof MetricCard>;
 
 const defaultArgs = {
-  title: 'Open',
-  value: '50%',
-  description: '100.000.000',
-  icon: 'drafts',
-  color: 'neutral',
-  infoMessage: '',
-  infoType: 'default',
-  tooltipMinWidth: 'none',
-  type: 'default',
-  size: 'medium',
+  title: "Open",
+  value: "50%",
+  description: "100.000.000",
+  icon: "drafts",
+  color: "neutral" as const,
+  infoMessage: "",
+  infoType: "neutral" as const,
+  tooltipMinWidth: "none",
+  type: "default" as const,
+  size: "medium" as const,
   loading: false,
   noTooltip: false,
   boldTitle: false,
-}
+};
 
 const defaultHtml = `
   <MetricCard
@@ -143,7 +145,7 @@ const defaultHtml = `
     :no-tooltip="args.noTooltip"
     :bold-title="args.boldTitle"
   />
-`
+`;
 
 const defaultRender = (args: any) => ({
   components: { MetricCard },
@@ -166,9 +168,11 @@ export const Types: Story = {
     },
     template: `
         <div class="flex gap-4">
-          ${["default", "secondary", "dashed"].map((type) => {
-            return defaultHtml.replaceAll("args.type", `'${type}'`);
-          }).join("")}
+          ${["default", "secondary", "dashed"]
+            .map((type) => {
+              return defaultHtml.replace(/args\.type/g, `'${type}'`);
+            })
+            .join("")}
         </div>
       `,
   }),
@@ -183,9 +187,11 @@ export const Colors: Story = {
     },
     template: `
         <div class="flex gap-4">
-          ${["primary", "info", "success", "warning", "danger", "neutral"].map((color) => {
-            return defaultHtml.replaceAll("args.color", `'${color}'`);
-          }).join("")}
+          ${["primary", "info", "success", "warning", "danger", "neutral"]
+            .map((color) => {
+              return defaultHtml.replace(/args\.color/g, `'${color}'`);
+            })
+            .join("")}
         </div>
       `,
   }),
@@ -200,9 +206,11 @@ export const Sizes: Story = {
     },
     template: `
         <div class="flex gap-4">
-          ${["small", "medium", "large"].map((size) => {
-            return defaultHtml.replaceAll("args.size", `'${size}'`);
-          }).join("")}
+          ${["small", "medium", "large"]
+            .map((size) => {
+              return defaultHtml.replace(/args\.size/g, `'${size}'`);
+            })
+            .join("")}
         </div>
       `,
   }),
@@ -213,7 +221,7 @@ export const InfoMessage: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
-    infoMessage: '30%',
+    infoMessage: "30%",
   },
 };
 
@@ -225,15 +233,17 @@ export const InfoTypes: Story = {
     },
     template: `
         <div class="flex gap-4">
-          ${["primary", "info", "success", "warning", "danger", "neutral"].map((type) => {
-            return defaultHtml.replaceAll("args.infoType", `'${type}'`);
-          }).join("")}
+          ${["primary", "info", "success", "warning", "danger", "neutral"]
+            .map((type) => {
+              return defaultHtml.replace(/args\.infoType/g, `'${type}'`);
+            })
+            .join("")}
         </div>
       `,
   }),
   args: {
     ...defaultArgs,
-    infoMessage: '30%',
+    infoMessage: "30%",
   },
 };
 
@@ -249,7 +259,7 @@ export const NoTooltip: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
-    infoMessage: '30%',
+    infoMessage: "30%",
     noTooltip: true,
   },
 };

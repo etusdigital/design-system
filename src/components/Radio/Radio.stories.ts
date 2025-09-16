@@ -5,26 +5,26 @@ export default {
   component: Radio,
   argTypes: {
     modelValue: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     groupValue: {
       description: "Used by the Group component.",
-      type: { summary: "any" },
+      type: { name: "other", value: "any" },
       table: {
         defaultValue: { summary: "null" },
       },
     },
     disabled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     variant: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: [
         "default",

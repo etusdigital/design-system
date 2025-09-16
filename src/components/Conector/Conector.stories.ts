@@ -5,9 +5,9 @@ export default {
   component: Conector,
   argTypes: {
     vertical: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
   },

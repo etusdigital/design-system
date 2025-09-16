@@ -5,16 +5,16 @@ export default {
   component: History,
   argTypes: {
     modelValue: {
-      type: { summary: "any" },
+      type: { name: "other", value: "any" },
       description:
         'Will be an option from the "options" array at the selected index.',
     },
     options: {
-      type: { summary: "array" },
+      type: { name: "array", value: { name: "object", value: {} } },
       description: "This property will be the historic options.",
     },
     position: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["top", "bottom", "left", "right"],
       table: {
@@ -23,7 +23,7 @@ export default {
       description: "This is the historic position.",
     },
     type: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["primary", "info", "success", "warning", "danger", "neutral"],
       table: {
@@ -33,9 +33,9 @@ export default {
         "This is historic type, only if the option doesn't have a type property.",
     },
     disabled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "Don't allow user to change the select option.",
     },
@@ -102,8 +102,8 @@ const defaultOptions = [
 const defaultArgs = {
   modelValue: null,
   options: defaultOptions.map((option) => ({ ...option, type: undefined, icon: undefined })),
-  position: "right",
-  type: "primary",
+  position: "right" as const,
+  type: "primary" as const,
   disabled: false,
 };
 
@@ -183,7 +183,7 @@ export const Positions: Story = {
         <div class="flex flex-col gap-xxs">
             ${["top", "bottom", "left", "right"]
               .map((position) => {
-                return defaultHtml.replaceAll("args.position", `'${position}'`);
+                return defaultHtml.replace(/args\.position/g, `'${position}'`);
               })
               .join("")}
         </div>
@@ -202,7 +202,7 @@ export const Types: Story = {
         <div class="flex gap-xxs">
             ${["primary", "info", "success", "warning", "danger", "neutral"]
               .map((type) => {
-                return defaultHtml.replaceAll("args.type", `'${type}'`);
+                return defaultHtml.replace(/args\.type/g, `'${type}'`);
               })
               .join("")}
         </div>

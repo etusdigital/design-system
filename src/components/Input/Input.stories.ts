@@ -5,15 +5,15 @@ export default {
   component: Input,
   argTypes: {
     modelValue: {
-      type: { summary: "any" },
+      type: { name: "other", value: "any" },
       description: "Will be the input current value.",
     },
     labelValue: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the input label.",
     },
     type: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: [
         "text",
@@ -30,39 +30,39 @@ export default {
       description: "Will be the input type.",
     },
     max: {
-      type: { summary: "number" },
+      type: { name: "number" },
       description: "Will be the maximum number of letters or input value.",
     },
     min: {
-      type: { summary: "number" },
+      type: { name: "number" },
       description: "Will be the minimum input value.",
     },
     step: {
-      type: { summary: "number" },
+      type: { name: "number" },
       description:
         "Will be the increase or decrease amount of the number input.",
     },
     errorMessage: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the input error message.",
     },
     infoMessage: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the input info message.",
     },
     placeholder: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the input placeholder.",
     },
     isError: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "Ative error mode.",
     },
     mask: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description:
         "Will be the masked applied to the input. Only triggered on input type text without min or max limit.",
       control: "select",
@@ -72,21 +72,21 @@ export default {
       },
     },
     disabled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     icon: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the input icon.",
     },
     appendIcon: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "If true, the icon will be appended to the input.",
     },
     textAlign: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["start", "center", "end"],
       table: {
@@ -95,27 +95,12 @@ export default {
       description: "This property will be input text alignment.",
     },
     tooltipMinWidth: {
-      type: { summary: "text" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "none" },
       },
       description:
         "This property will be info tooltip min-width. It doesn't work with file input",
-    },
-    focus: {
-      type: { summary: "function" },
-      table: {
-        defaultValue: { summary: "(value)=>{void}" },
-      },
-      description: "Will be the function that execute when input get focus.",
-    },
-    blur: {
-      type: { summary: "function" },
-      table: {
-        defaultValue: { summary: "(value)=>{void}" },
-      },
-      description:
-        "Will be the function that execute when input get out of focus.",
     },
     "icon-slot": {
       description: "Will be the icon slot.",
@@ -131,7 +116,7 @@ type Story = StoryObj<typeof Input>;
 const defaultArgs = {
   modelValue: null,
   labelValue: "label",
-  type: "text",
+  type: "text" as const,
   mask: undefined,
   max: undefined,
   min: undefined,
@@ -142,7 +127,7 @@ const defaultArgs = {
   isError: false,
   disabled: false,
   required: false,
-  textAlign: "start",
+  textAlign: "start" as const,
   tooltipMinWidth: "none",
   icon: "",
   appendIcon: false,
@@ -195,7 +180,7 @@ export const Types: Story = {
 		<div class="flex flex-col gap-xs">
 		${["text", "number", "search", "color", "password", "email"]
 		.map((type) => {
-			return defaultHtml.replaceAll("args.type", `'${type}'`).replaceAll("args.labelValue", `'${type}'`);
+			return defaultHtml.replace(/args\.type/g, `'${type}'`).replace(/args\.labelValue/g, `'${type}'`);
 		})
       .join("")}
 		</div>
@@ -257,7 +242,7 @@ export const TextAlign: Story = {
 		<div class="flex flex-col gap-xs">
 		${["start", "center", "end"]
 		.map((type) => {
-			return defaultHtml.replaceAll("args.textAlign", `'${type}'`).replaceAll("args.labelValue", `'${type}'`);
+			return defaultHtml.replace(/args\.textAlign/g, `'${type}'`).replace(/args\.labelValue/g, `'${type}'`);
 		})
       .join("")}
 		</div>

@@ -5,45 +5,45 @@ export default {
   component: Filter,
   argTypes: {
     modelValue: {
-      type: { summary: "any" },
+      type: { name: "other", value: "any" },
       description: "Controls the selected filter values by category.",
     },
     expanded: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     options: {
-      type: { summary: "any" },
+      type: { name: "other", value: "any" },
       description:
         'Array of filter categories with their available options. It\'s objects must contains "options" property.',
     },
     labelValue: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the filter label.",
     },
     labelKey: {
-      type: { summary: "text" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "label" },
       },
     },
     valueKey: {
-      type: { summary: "text" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "value" },
       },
     },
     icon: {
-      type: { summary: "text" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "filter_list" },
       },
       description: "This will be filter icon.",
     },
     searchLabel: {
-      type: { summary: "text" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "Search" },
       },
@@ -51,31 +51,31 @@ export default {
         "This slot will be placeholder for the input when searchable is true.",
     },
     searchable: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     disabled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     absolute: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "Makes the content dropdown have an absolute position.",
     },
     getObject: {
-      type: { summary: "function" },
+      type: { name: "function" },
       description:
         "Will be the function that returns the object with the selected options.",
     },
-    apply: {
-      type: { summary: "function" },
+    onApply: {
+      type: { name: "function" },
       table: {
         defaultValue: { summary: "()=>{void}" },
       },
@@ -144,7 +144,7 @@ const defaultArgs = {
   disabled: false,
   absolute: false,
   getObject: false,
-  apply: () => {},
+  onApply: () => {},
 };
 
 const defaultRender = (args: any) => ({
@@ -167,7 +167,7 @@ const defaultRender = (args: any) => ({
         :absolute="args.absolute"
         :search-label="args.searchLabel"
         :get-object="args.getObject"
-        @apply="args.apply" 
+        @apply="args.onApply" 
     />
   `,
 });

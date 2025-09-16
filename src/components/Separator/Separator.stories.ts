@@ -5,7 +5,7 @@ export default {
   component: Separator,
   argTypes: {
     position: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["left", "center", "right"],
       table: {
@@ -18,7 +18,7 @@ export default {
 type Story = StoryObj<typeof Separator>;
 
 const defaultArgs = {
-  position: "right",
+  position: "right" as const,
 };
 
 const defaultRender = (args: any) => ({

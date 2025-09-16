@@ -5,36 +5,36 @@ export default {
   component: Navbar,
   argTypes: {
     modelValue: {
-      type: { summary: "any" },
+      type: { name: "other", value: "any" },
       description: "Will be the array containing the value of the tags.",
     },
     title: {
-      type: { summary: "string" },
+      type: { name: "string" },
       description:
         "Will be the title of the navbar, can be used as a slot or as prop.",
     },
     options: {
-      type: { summary: "array" },
+      type: { name: "array", value: { name: "object", value: {} } },
       description:
         "Array of object to be used as menu options. Props(label: string, value: string, icon: string, disabled: boolean, bottom: boolean, options: same instruction as options)",
     },
     profile: {
-      type: { summary: "object" },
+      type: { name: "object", value: {} },
       description:
         "Object to be used as profile. Props(name: string, src: string)",
     },
     labelKey: {
-      type: { summary: "string" },
+      type: { name: "string" },
       description:
         "Will be the key of the label of the options.",
     },
     valueKey: {
-      type: { summary: "string" },
+      type: { name: "string" },
       description:
         "Will be the key of the value of the options.",
     },
     getObject: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description:
         "Will be the key of the options.",
     },

@@ -6,15 +6,15 @@ export default {
   component: Crop,
   argTypes: {
     modelValue: {
-      type: { summary: "File" },
+      type: { name: "other", value: "File" },
       description: 'This property will be the file to crop.',
     },
     src: {
-      type: { summary: "File" },
+      type: { name: "other", value: "File" },
       description: 'This property will be the image to crop.',
     },
     width: {
-      type: { summary: "text" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "360px" },
       },
@@ -22,7 +22,7 @@ export default {
         "This property will be the component width.",
     },
     height: {
-      type: { summary: "text" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "200px" },
       },

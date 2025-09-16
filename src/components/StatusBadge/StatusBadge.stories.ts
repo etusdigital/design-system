@@ -47,7 +47,7 @@ export default {
     loading: {
       type: { name: "boolean" },
       table: {
-        defaultValue: false,
+        defaultValue: { summary: "false" },
       },
       description: "Determine if the tag is loading.",
     },
@@ -73,7 +73,7 @@ type Story = StoryObj<typeof StatusBadge>;
 
 const defaultArgs = {
   labelValue: "StatusBadge component",
-  color: "primary",
+  color: "primary" as const,
   size: "medium" as const,
   type: "default" as const,
   loading: false,

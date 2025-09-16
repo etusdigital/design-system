@@ -6,19 +6,19 @@ export default {
   component: Avatar,
   argTypes: {
     name: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the avatar name.",
     },
     src: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the avatar image. SVG images are recommended.",
     },
     alt: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the avatar image alt.",
     },
     size: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["small", "medium", "large"],
       table: {
@@ -33,7 +33,7 @@ const defaultArgs = {
   name: "John Doe",
   src: photo,
   alt: "Avatar",
-  size: "medium",
+  size: "medium" as const,
 };
 
 export const Primary: Story = {

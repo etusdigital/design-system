@@ -5,16 +5,16 @@ export default {
   component: Pagination,
   argTypes: {
     modelValue: {
-      type: { summary: "number" },
+      type: { name: "number" },
       table: {
-        defaultValue: { summary: 1 },
+        defaultValue: { summary: "1" },
       },
       description: "This property will be the selected page.",
     },
     length: {
-      type: { summary: "number" },
+      type: { name: "number" },
       table: {
-        defaultValue: { summary: 1 },
+        defaultValue: { summary: "1" },
       },
       description: "This property will be the number of pages.",
     },

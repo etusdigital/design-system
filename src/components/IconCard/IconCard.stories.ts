@@ -5,24 +5,24 @@ export default {
   component: IconCard,
   argTypes: {
     title: {
-      type: { summary: "string" },
+      type: { name: "string" },
       description: "This prop will be the card title.",
     },
     icon: {
-      type: { summary: "string" },
+      type: { name: "string" },
       description: "This prop will be the card icon.",
     },
     color: {
-      type: { summary: "string" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: 'primary' },
       },
       description: "This prop will be the icon and title color.",
     },
     isIconRound: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "If this prop is true, the icon won't be surrounded by a circle with the card color.",
     },

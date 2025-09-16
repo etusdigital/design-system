@@ -6,27 +6,27 @@ export default {
   component: Image,
   argTypes: {
     src: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Image source URL",
     },
     alt: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Alternative text for the image",
     },
     width: {
-      type: { summary: "string | number" },
+      type: { name: "other", value: "string | number" },
       description: "Width of the image",
     },
     height: {
-      type: { summary: "string | number" },
+      type: { name: "other", value: "string | number" },
       description: "Height of the image",
     },
     icon: {
-      type: { summary: "string" },
+      type: { name: "string" },
       description: "Icon name",
     },
     preview: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       control: "boolean",
       description: "Enable image preview with zoom and rotation controls",
       table: {

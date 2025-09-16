@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Group from '../../utils/components/Group.vue';
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     vertical?: boolean;
   }>(),

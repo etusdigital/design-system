@@ -5,23 +5,23 @@ export default {
   component: Accordion,
   argTypes: {
     modelValue: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "The collapse state. Optional.",
     },
     duration: {
-      type: { summary: "number" },
+      type: { name: "number" },
       table: {
-        defaultValue: { summary: 150 },
+        defaultValue: { summary: "150" },
       },
       description: "The duration time in milisseconds. Optional.",
     },
     noShadow: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "If true, the collapse will not have a shadow. Optional.",
     },

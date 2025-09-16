@@ -6,7 +6,7 @@ import SelectContainer from "../../utils/components/SelectContainer.vue";
 
 const props = withDefaults(
   defineProps<{
-    modelValue?: object;
+    modelValue?: any;
     name: string;
     picture?: string;
     options?: any[];
@@ -133,7 +133,7 @@ function changeExpanded(expanded: boolean) {
           class="m-xxs truncate"
           :disabled="!name && !picture"
         >
-          <slot name="edit-slot"> Edit profile </slot>
+          <slot name="edit-label"> Edit profile </slot>
         </Button>
       </div>
       <div
@@ -218,7 +218,7 @@ function changeExpanded(expanded: boolean) {
         >
           <Icon name="logout" size="xl" />
           <p class="text-sm font-bold">
-            <slot name="logout-slot"> Logout </slot>
+            <slot name="logout-label"> Logout </slot>
           </p>
         </div>
       </div>

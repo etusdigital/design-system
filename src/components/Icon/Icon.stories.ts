@@ -5,15 +5,15 @@ export default {
   component: Icon,
   argTypes: {
     name: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "This property will be the icon name.",
     },
     size: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "This property will be the icon name.",
     },
     filled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "This property will be the icon name.",
     },
   },

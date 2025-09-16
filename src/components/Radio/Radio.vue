@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { watch, inject, computed } from "vue";
-import type { GroupState } from "../Conector";
+import type { GroupState } from "../../utils/types/Group";
 import { useOptionalModel } from "#composables";
 
 type Varinat = "default" | "onboarding";

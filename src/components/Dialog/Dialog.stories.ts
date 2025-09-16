@@ -5,27 +5,27 @@ export default {
   component: Dialog,
   argTypes: {
     modelValue: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "Determine if the dialog is displayed or not.",
     },
     width: {
-      type: { summary: "text" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "fit-content" },
       },
       description: "Determine the dialog width.",
     },
     height: {
-      type: { summary: "text" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "fit-content" },
       },
       description: "Determine the dialog height.",
     },
     noOutsideClose: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description:
         "Determine if the dialog will not close when the user click outside it.",

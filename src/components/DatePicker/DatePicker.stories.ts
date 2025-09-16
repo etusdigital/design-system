@@ -6,25 +6,25 @@ export default {
   component: DatePicker,
   argTypes: {
     modelValue: {
-      type: { summary: "Date[] | Date[][] | null" },
+      type: { name: "other", value: "Date | Date[] | Date[][] | undefined" },
       table: {
-        defaultValue: { summary: null },
+        defaultValue: { summary: "undefined" },
       },
       description: "Will be the current date or period.",
     },
     labelValue: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the date comparator label.",
     },
     lang: {
-      type: { summary: "text" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "en-US" },
       },
       description: "Will be the date input language.",
     },
     type: {
-      type: { summary: "string" },
+      type: { name: "string" },
       control: { type: "select" },
       options: ["date", "period", "compare"],
       table: {
@@ -33,84 +33,81 @@ export default {
       description: "Selection mode: single date, date range, or comparison mode.",
     },
     allowChangeType: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "Will determine if the user can change the type of the date input.",
     },
     minDate: {
-      type: { summary: "Date" },
+      type: { name: "other", value: "Date | undefined" },
       table: {
-        defaultValue: { summary: null },
+        defaultValue: { summary: "undefined" },
       },
       description: "Will be the oldest date the user can select.",
     },
     maxDate: {
-      type: { summary: "Date" },
+      type: { name: "other", value: "Date | undefined" },
       table: {
-        defaultValue: { summary: null },
+        defaultValue: { summary: "undefined" },
       },
       description: "Will be the newest date the user can select.",
     },
     options: {
-      type: { summary: "array" },
+      type: { name: "array", value: { name: "object", value: {} } },
       description: "Will the predetermined options.",
     },
     absolute: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "Makes the content dropdown have an absolute position.",
     },
     disabled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     required: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     isError: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "Activate error mode.",
     },
     errorMessage: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the error message.",
     },
     expanded: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     alignRight: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description:
         "Determine if the dropdown will be right-aligned. To work absolute needs to be true.",
     },
     separator: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description:
         "If two period are selected, this property will separate them.",
     },
     default: {
       description: "This slot will be displayed on the select area.",
-    },
-    apply: {
-      description: "This function will be called when the apply button is clicked.",
     },
     "compare-label": {
       description: "This slot will be the checkbox text.",
@@ -130,10 +127,10 @@ export default {
 type Story = StoryObj<typeof DatePicker>;
 
 const defaultArgs = {
-  modelValue: null,
+  modelValue: undefined,
   labelValue: "label",
   lang: "en-US",
-  type: "date",
+  type: "date" as const,
   allowChangeType: false,
   minDate: undefined,
   maxDate: undefined,

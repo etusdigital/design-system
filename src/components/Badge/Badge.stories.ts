@@ -35,7 +35,7 @@ export default {
     loading: {
       type: { name: "boolean" },
       table: {
-        defaultValue: false,
+        defaultValue: { summary: "false" },
       },
       description: "Determine if the tag is loading.",
     },

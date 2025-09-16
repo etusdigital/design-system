@@ -97,8 +97,8 @@ function isActive(option: any): boolean {
           <Icon name="more_horiz" class="cursor-pointer" />
             <template #card>
               <div class="more-options">
-                <Option v-for="option in option.options" :key="option" @click="setModel(option)">
-                  {{ getLabel(option) }}
+                <Option v-for="subOption in option.options" :key="subOption" @click="setModel(subOption)">
+                  {{ getLabel(subOption) }}
                 </Option>
               </div>
             </template>

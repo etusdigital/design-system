@@ -5,16 +5,15 @@ export default {
   component: Profile,
   argTypes: {
     modelValue: {
-      type: { summary: "any" },
-      description:
-        'This will be the selected account.',
+      type: { name: "other", value: "any" },
+      description: "This will be the selected account.",
     },
     name: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "This property will be the main user name.",
     },
     picture: {
-      type: { summary: "text" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "person-circle" },
       },
@@ -22,116 +21,77 @@ export default {
         "This property will be shown when viewing more user information.",
     },
     options: {
-      type: { summary: "array" },
+      type: { name: "array", value: { name: "object", value: {} } },
       table: {
-        defaultValue: { summary: [] },
+        defaultValue: { summary: "[]" },
       },
       description: "If the user have multiple account pass them here.",
     },
     labelKey: {
-      type: { summary: "text" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "label" },
       },
       description: "This the key to get account name in accounts array.",
     },
     valueKey: {
-      type: { summary: "text" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "value" },
       },
       description: "This the key to get account value in accounts array.",
     },
     disabled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     absolute: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "Makes the content dropdown have an absolute position.",
     },
     getObject: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
-    privacyPolicyFunction: {
-      type: { summary: "function" },
-      table: {
-        defaultValue: { summary: "()=>{void}" },
-      },
-      description: "This function will send user to privacy political page",
-    },
-    edit: {
-      type: { summary: "function" },
-      table: {
-        defaultValue: { summary: "()=>{void}" },
-      },
-      description:
-        "This function will executed when button edit profile is pressed.",
-    },
-    editOption: {
-      type: { summary: "function" },
-      table: {
-        defaultValue: { summary: "()=>{void}" },
-      },
-      description:
-        "This function will executed when button edit option is pressed.",
-    },
-    termsOfUseFucntion: {
-      type: { summary: "function" },
-      table: {
-        defaultValue: { summary: "()=>{void}" },
-      },
-      description: "This function will send user to terms of use page",
-    },
-    logout: {
-      type: { summary: "function" },
-      table: {
-        defaultValue: { summary: "()=>{void}" },
-      },
-      description:
-        "This function will executed when button logout is pressed.",
-    },
-    'logout-slot': {
-      type: { summary: "slot" },
+    "logout-label": {
       table: {
         defaultValue: { summary: "Logout" },
       },
       description:
         "This slot is the logout button text and function that execute when this it's clicked.",
     },
-    'edit-slot': {
-      type: { summary: "slot" },
+    "edit-label": {
       table: {
         defaultValue: { summary: "Edit Profile" },
       },
       description:
         "This slot is the edit profile button text and function that execute when this it's clicked.",
     },
-    'edit-option': {
+    "edit-option": {
       table: {
         defaultValue: { summary: "Edit Account" },
       },
-      description: "This slot is the edit account button text and function that execute when this it's clicked.",
+      description:
+        "This slot is the edit account button text and function that execute when this it's clicked.",
     },
     option: {
       description:
         "This slot will be displayed as an account option. Params: option, index and active.",
     },
-    'privacy-policy': {
+    "privacy-policy": {
       table: {
         defaultValue: { summary: "Privacy Policy" },
       },
       description: "This slot is the privacy policy text.",
     },
-    'terms-of-use': {
+    "terms-of-use": {
       table: {
         defaultValue: { summary: "Terms of Use" },
       },

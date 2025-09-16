@@ -5,21 +5,21 @@ export default {
   component: Calendar,
   argTypes: {
     modelValue: {
-      type: { summary: "Date | Date[] | null" },
+      type: { name: "other", value: "Date | Date[] | Date[][] | undefined" },
       table: {
-        defaultValue: { summary: null },
+        defaultValue: { summary: "undefined" },
       },
       description: "Will be the current date or period.",
     },
     lang: {
-      type: { summary: "text" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "en-US" },
       },
       description: "Will be the date input language.",
     },
     type: {
-      type: { summary: "string" },
+      type: { name: "string" },
       control: { type: "select" },
       options: ["date", "period", "compare"],
       table: {
@@ -28,23 +28,23 @@ export default {
       description: "Selection mode: single date, date range, or comparison mode.",
     },
     doubleCalendar: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "Shows two calendar months side by side.",
     },
     minDate: {
-      type: { summary: "Date" },
+      type: { name: "other", value: "Date | undefined" },
       table: {
-        defaultValue: { summary: null },
+        defaultValue: { summary: "null" },
       },
       description: "Will be the oldest date the user can select.",
     },
     maxDate: {
-      type: { summary: "Date" },
+      type: { name: "other", value: "Date | undefined" },
       table: {
-        defaultValue: { summary: null },
+        defaultValue: { summary: "null" },
       },
       description: "Will be the newest date the user can select.",
     },
@@ -54,9 +54,9 @@ export default {
 type Story = StoryObj<typeof Calendar>;
 
 const defaultArgs = {
-  modelValue: null,
+  modelValue: undefined,
   lang: "en-US",
-  type: "date",
+  type: "date" as const,
   doubleCalendar: false,
   minDate: undefined,
   maxDate: undefined,
@@ -96,7 +96,7 @@ export const Period: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
-    type: "period",
+    type: "period" as const,
   },
 };
 

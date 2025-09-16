@@ -5,34 +5,22 @@ export default {
   component: ActionCard,
   argTypes: {
     icon: {
-      type: { summary: "string" },
+      type: { name: "string" },
       description: "This prop will be the card icon.",
     },
     color: {
-      type: { summary: "string" },
+      type: { name: "string" },
       table: {
-        defaultValue: { summary: 'primary' },
+        defaultValue: { summary: "primary" },
       },
       description: "This prop will be the title background color.",
     },
     hideDrag: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "If this prop is true, the drag icon  won't be shown.",
-    },
-    dragstart: {
-      description: "This function will be emitted when the user start to drag dragging icon.",
-    },
-    dragging: {
-      description: "This function will be emitted when the user is dragging dragging icon.",
-    },
-    dragend: {
-      description: "This function will be emitted when the user stop dragging dragging icon.",
-    },
-    delete: {
-      description: "This function will be emitted when the delete icon is clicked.",
     },
     default: {
       description: "This slot will be the title.",
@@ -46,10 +34,10 @@ export default {
 type Story = StoryObj<typeof ActionCard>;
 
 const defaultArgs = {
-  icon: 'send',
-  color: '',
-  hideDrag: false
-}
+  icon: "send",
+  color: "",
+  hideDrag: false,
+};
 
 const defaultRender = (args: any) => ({
   components: { ActionCard },
@@ -61,7 +49,7 @@ const defaultRender = (args: any) => ({
         Label
       </ActionCard>
     `,
-})
+});
 
 export const Primary: Story = {
   render: defaultRender,

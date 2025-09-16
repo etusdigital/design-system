@@ -5,42 +5,42 @@ export default {
   component: Tab,
   argTypes: {
     modelValue: {
-      type: { name: "any" },
+      type: { name: "other", value: "any" },
       description: "Will the current tab.",
       table: {
         defaultValue: { summary: undefined },
       },
     },
     options: {
-      type: { summary: "array" },
+      type: { name: "array", value: { name: "object", value: {} } },
       description: "Array of values to be used as options.",
     },
     labelKey: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Property name used for displaying option labels when using object arrays.",
       table: {
         defaultValue: { summary: "label" },
       },
     },
     valueKey: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Property name used for displaying option values when using object arrays.",
       table: {
         defaultValue: { summary: "value" },
       },
     },
     isIcon: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "Show icons instead of words.",
       table: {
-        defaultValue: false,
+        defaultValue: { summary: "false" },
       },
     },
     notCard: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "No card will wrapper the options.",
       table: {
-        defaultValue: false,
+        defaultValue: { summary: "false" },
       },
     },
   },

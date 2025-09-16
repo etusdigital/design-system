@@ -5,15 +5,15 @@ export default {
   component: Alert,
   argTypes: {
     title: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the alert title.",
     },
     message: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the alert message.",
     },
     type: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["info", "success", "warning", "danger", "neutral"],
       table: {
@@ -21,7 +21,7 @@ export default {
       },
     },
     size: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["small", "medium", "large"],
       table: {
@@ -29,12 +29,12 @@ export default {
       },
     },
     icon: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description:
         "This will be the icon shown, when not passed the alert icon will be the type icon.",
     },
     iconPosition: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["start", "center", "end"],
       table: {
@@ -44,21 +44,21 @@ export default {
         "This will be the icon position shown, when not passed the alert icon will be the type icon.",
     },
     expandable: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     closable: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     hideIcon: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     default: {
@@ -77,10 +77,10 @@ const defaultArgs = {
   title: "Demo Title",
   message:
     "Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a massa praesent ultricies.",
-  type: "info",
-  size: "medium",
+  type: "info" as const,
+  size: "medium" as const,
   icon: "",
-  iconPosition: "start",
+  iconPosition: "start" as const,
   expandable: false,
   closable: false,
   hideIcon: false,
@@ -132,7 +132,7 @@ export const Types: Story = {
       <div class="flex gap-xs">
       ${["info", "success", "warning", "danger", "neutral"]
         .map((type) => {
-          return defaultHtml.replaceAll("args.type", `'${type}'`);
+          return defaultHtml.replace(/args\.type/g, `'${type}'`);
         })
         .join("")}
       </div>
@@ -154,7 +154,7 @@ export const Sizes: Story = {
       <div class="flex gap-xs">
         ${["small", "medium", "large"]
         .map((type) => {
-          return defaultHtml.replaceAll("args.size", `'${type}'`);
+          return defaultHtml.replace(/args\.size/g, `'${type}'`);
         })
         .join("")}
       </div>
@@ -173,7 +173,7 @@ export const IconPositions: Story = {
       <div class="flex gap-xs">
       ${["start", "center", "end"]
         .map((type) => {
-          return defaultHtml.replaceAll("args.iconPosition", `'${type}'`);
+          return defaultHtml.replace(/args\.iconPosition/g, `'${type}'`);
         })
         .join("")}
       </div>

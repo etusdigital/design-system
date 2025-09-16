@@ -5,57 +5,57 @@ export default {
   component: AutoComplete,
   argTypes: {
     modelValue: {
-      type: { summary: "string" },
+      type: { name: "string" },
 			description: 'Will be the input current value.',
     },
     expanded: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: 'Will be the input current value.',
     },
     labelValue: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the select label.",
     },
     options: {
-      type: { summary: "array" },
+      type: { name: "array", value: { name: "object", value: {} } },
       description:
         'Array of values to be used as options.',
     },
     placeholder: {
-      type: { summary: "text" },
+      type: { name: "string" },
     },
     required: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "Makes the select container required.",
     },
     disabled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     isError: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "Activate error mode.",
     },
     absolute: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: true },
+        defaultValue: { summary: "true" },
       },
     },
     errorMessage: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the error message.",
     },
     infoMessage: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the info message.",
     },
     option: {

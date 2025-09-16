@@ -6,33 +6,33 @@ export default {
   component: PINInput,
   argTypes: {
     modelValue: {
-      type: { summary: "string" },
+      type: { name: "string" },
       description: "The current value of the PIN input.",
     },
     length: {
-      type: { summary: "number" },
+      type: { name: "number" },
       description: "Number of input fields to display.",
       table: {
         defaultValue: { summary: "6" },
       },
     },
     disabled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "Disables the PIN input fields.",
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     placeholder: {
-      type: { summary: "string" },
+      type: { name: "string" },
       description: "Placeholder text for each input field.",
     },
     separator: {
-      type: { summary: "string" },
+      type: { name: "string" },
       description: "Separator character between input fields.",
     },
     type: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["text", "password"],
       table: {
@@ -41,26 +41,18 @@ export default {
       description: "Input field type.",
     },
     mask: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "Whether to mask the input values.",
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     otp: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "Whether this is an OTP input.",
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
-    },
-    "update:modelValue": {
-      type: { summary: "function" },
-      description: "Emitted when the PIN value changes.",
-    },
-    complete: {
-      type: { summary: "function" },
-      description: "Emitted when all PIN fields are filled.",
     },
   },
 } satisfies Meta<typeof PINInput>;
@@ -141,7 +133,7 @@ export const Length: Story = {
       return { args, value4, value8 };
     },
     template: `<div class="flex flex-col gap-xs">${[4, 8].map((length) => `
-      ${defaultHtml.replaceAll('args.modelValue', `value${length}`).replaceAll('args.length', `${length}`)}
+      ${defaultHtml.replace(/args\.modelValue/g, `value${length}`).replace(/args\.length/g, `${length}`)}
     `).join('')}</div>`,
   }),
   args: defaultArgs,

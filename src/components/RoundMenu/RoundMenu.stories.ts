@@ -5,7 +5,7 @@ export default {
   component: RoundMenu,
   argTypes: {
     options: {
-      type: { summary: "array" },
+      type: { name: "array", value: { name: "object", value: {} } },
       table: {
         defaultValue: { summary: "[]" },
       },

@@ -5,10 +5,10 @@ export default {
   component: ColorPicker,
   argTypes: {
     modelValue: {
-      type: { summary: "text" },
+      type: { name: "string" },
     },
     type: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["hexa", "hsla", "hwb", "hsva", "rgba"],
       table: {
@@ -17,9 +17,9 @@ export default {
       description: "This property will be the color type.",
     },
     noShadow: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description:
         "When noShadow property is true, the card will have no shadow.",
@@ -31,7 +31,7 @@ type Story = StoryObj<typeof ColorPicker>;
 
 const defaultArgs = {
   modelValue: "",
-  type: "hexa",
+  type: "hexa" as const,
   noShadow: false,
 };
 

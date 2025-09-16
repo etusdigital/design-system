@@ -5,31 +5,31 @@ export default {
   component: Breadcrumb,
   argTypes: {
     modelValue: {
-      type: { summary: "any" },
+      type: { name: "other", value: "any" },
       description: "This property will be the selected option.",
     },
     options: {
-      type: { summary: "array" },
+      type: { name: "array", value: { name: "object", value: {} } },
       description: "This property will be the number of pages.",
     },
     labelKey: {
-      type: { summary: "string" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "label" },
       },
       description: "This property will be the key of the label.",
     },
     valueKey: {
-      type: { summary: "string" },
+      type: { name: "string" },
       table: {
         defaultValue: { summary: "value" },
       },
       description: "This property will be the key of the value.",
     },
     getObject: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description:
         "If true, the selected value will be an object instead of value-key value.",

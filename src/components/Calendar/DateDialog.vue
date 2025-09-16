@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
     modelValue?: boolean;
     options: any[];
     vertical?: boolean;
@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<{
 
 <template>
     <Transition name="appear">
-        <Card 
+        <Card
             v-if="modelValue"
             class="absolute z-[1] transition-transform top-[17%] left-[50%] -translate-x-1/2
                 flex items-center justify-center"

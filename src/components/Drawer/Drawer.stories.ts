@@ -101,7 +101,7 @@ export const Positions: Story = {
         return `<Button  @click="() => { args.position = '${position}'; args.modelValue = !args.modelValue }">Show ${position} Drawer</Button>`;
       })
       .join("")}</div>
-    ${defaultHtml.replaceAll('<Button  @click="args.modelValue = !args.modelValue">Show Drawer</Button>', "")}`,
+    ${defaultHtml.replace(/<Button  @click="args\.modelValue = !args\.modelValue">Show Drawer<\/Button>/g, "")}`,
   }),
   args: {
     ...defaultArgs,

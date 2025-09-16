@@ -5,31 +5,31 @@ export default {
   component: FileUpload,
   argTypes: {
     modelValue: {
-      type: { summary: "any" },
+      type: { name: "other", value: "File | File[] | undefined" },
       description:
         "Will be the uploaded file(s). Can be a single File or File[] if multiple is true.",
     },
     labelValue: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the file upload label.",
     },
     errorMessage: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the file upload error message.",
     },
     placeholder: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the file upload placeholder text.",
     },
     isError: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "Ative error mode.",
     },
     size: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be file upload size.",
       control: "select",
       options: ["extra-small", "small", "medium", "large", "extra-large"],
@@ -38,9 +38,9 @@ export default {
       },
     },
     disabled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "Disables the file upload functionality.",
     },
@@ -68,7 +68,7 @@ const defaultArgs = {
   errorMessage: "",
   placeholder: "or drag and drop it here",
   isError: false,
-  size: "medium",
+  size: "medium" as const,
   disabled: false,
   infoMessage: "",
   accept: undefined,
@@ -170,7 +170,7 @@ export const Sizes: Story = {
       <div class="flex flex-col gap-xs">
         ${["extra-small", "small", "medium", "large", "extra-large"]
         .map((type) => {
-          return defaultHtml.replaceAll("args.size", `'${type}'`).replaceAll("args.labelValue", `'${type}'`);
+          return defaultHtml.replace(/args\.size/g, `'${type}'`).replace(/args\.labelValue/g, `'${type}'`);
         })
         .join("")}
       </div>

@@ -3,7 +3,7 @@ import { onBeforeUnmount, onMounted, ref } from "vue";
 import Card from "../Card/Card.vue";
 import Icon from "../Icon/Icon.vue";
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     icon?: string;
     color?: string;

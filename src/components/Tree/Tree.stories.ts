@@ -5,31 +5,31 @@ export default {
   component: Tree,
   argTypes: {
     modelValue: {
-      type: { summary: "any" },
+      type: { name: "other", value: "any" },
       description: "Will be the selected current value.",
     },
     options: {
-      type: { summary: "array" },
+      type: { name: "array", value: { name: "object", value: {} } },
       description: "Will be the options.",
     },
     labelKey: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the label key.",
     },
     valueKey: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the value key.",
     },
     getObject: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "Will be the get object.",
     },
     disabled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "Will be the disabled.",
     },
     multiple: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "Will be the multiple.",
     },
   },

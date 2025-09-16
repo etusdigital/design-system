@@ -8,7 +8,7 @@ export default {
       description: "Controls the visibility state of the floating card.",
     },
     mode: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["click", "hover"],
       table: {

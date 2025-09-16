@@ -6,7 +6,7 @@ export default {
   component: TagInput,
   argTypes: {
     modelValue: {
-      type: { name: "any" },
+      type: { name: "other", value: "any" },
       description: "Will be the array containing the value of the tags.",
     },
     labelValue: {
@@ -28,14 +28,14 @@ export default {
     isError: {
       type: { name: "boolean" },
       table: {
-        defaultValue: false,
+        defaultValue: { summary: "false" },
       },
       description: "Activate error mode.",
     },
     allowDuplicate: {
       type: { name: "boolean" },
       table: {
-        defaultValue: false,
+        defaultValue: { summary: "false" },
       },
       description: "Disable the input of duplicated values.",
     },
@@ -46,13 +46,13 @@ export default {
     required: {
       type: { name: "boolean" },
       table: {
-        defaultValue: false,
+        defaultValue: { summary: "false" },
       },
     },
     disabled: {
       type: { name: "boolean" },
       table: {
-        defaultValue: false,
+        defaultValue: { summary: "false" },
       },
     },
     mask: {

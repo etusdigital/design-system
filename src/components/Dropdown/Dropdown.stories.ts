@@ -5,55 +5,55 @@ export default {
   component: Dropdown,
   argTypes: {
     modelValue: {
-      type: { summary: "any" },
+      type: { name: "other", value: "any" },
       description: "Will be the selected current value.",
     },
     expanded: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "Will be the expanded state.",
     },
     labelValue: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the select label.",
     },
     options: {
-      type: { summary: "array" },
+      type: { name: "array", value: { name: "object", value: {} } },
       description:
         "Array of object to be used as menu options. Props(label: string, value: string, icon: string, disabled: boolean, bottom: boolean, options: same instruction as options)",
     },
     disabled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     isError: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "Activate error mode.",
     },
     absolute: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: true },
+        defaultValue: { summary: "true" },
       },
     },
     errorMessage: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the error message.",
     },
     infoMessage: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description: "Will be the info message.",
     },
     getObject: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "Will be the get object.",
     },
     searchable: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       description: "Will be the searchable mode.",
     },
     default: {

@@ -155,7 +155,7 @@ export const TextAlign: Story = {
 	<div class="flex flex-col gap-xs">
 		${["start", "center", "end"]
 			.map((type) => {
-				return defaultHtml.replaceAll("args.textAlign", `'${type}'`).replaceAll("args.labelValue", `'${type}'`);
+				return defaultHtml.replace(/args\.textAlign/g, `'${type}'`).replace(/args\.labelValue/g, `'${type}'`);
 			})
 		.join("")}
 	</div>

@@ -5,15 +5,15 @@ export default {
   component: Slider,
   argTypes: {
     modelValue: {
-      type: { summary: "number | number[]" },
+      type: { name: "other", value: "number | number[]" },
       table: {
-        defaultValue: { summary: 0 },
+        defaultValue: { summary: "0" },
       },
       description:
         'This property will be the slider fill percentage or the equivalent number in "max" scale. Max: 1 and Min: 0, if max isn\'t specified. If isRange is true, it will be an array of two numbers.',
     },
     size: {
-      type: { summary: "text" },
+      type: { name: "string" },
       control: "select",
       options: ["small", "medium", "large"],
       table: {
@@ -21,64 +21,64 @@ export default {
       },
     },
     isRange: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description:
         "If this property is true, the slider will be a range slider.",
     },
     max: {
-      type: { summary: "number" },
+      type: { name: "number" },
       description:
         "If the max is specified, the modelValue will be multiply by it.",
     },
     unit: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description:
         "This property will be the unit shown in tooltip with the modelValue.",
     },
     color: {
-      type: { summary: "text" },
+      type: { name: "string" },
       description:
         "This property will be the slider color, if it's not set, the color will be the default one.",
     },
     showTooltip: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description:
         "When this property is true, a tooltip showing the modelValue will appear in the slider thumb top or right.",
     },
     vertical: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description:
         "The vertical property requires a external div with a specified height.",
     },
     disabled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     fillColors: {
-      type: { summary: "array" },
+      type: { name: "array", value: { name: "string" } },
       description:
         "When this property is settled, the fill area will be divided between the passed colors.",
     },
     steps: {
-      type: { summary: "array" },
+      type: { name: "array", value: { name: "number" } },
       description:
       "When this property is settled, marks will be place in the passed positions (Scale: 0-1) and modelValue can only have the passed values.",
     },
     neutralBackground: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
       description: "If this property is true, the slider will have a neutral background.",
     },
@@ -89,7 +89,7 @@ type Story = StoryObj<typeof Slider>;
 
 const defaultArgs = {
   modelValue: 0,
-  size: "medium",
+  size: "medium" as const,
   isRange: false,
   max: 0,
   unit: "",
@@ -144,7 +144,7 @@ export const Sizes: Story = {
       <div class="flex flex-col gap-base">
         ${["small", "medium", "large"]
           .map((size) => {
-            return defaultHtml.replaceAll("args.size", `'${size}'`);
+            return defaultHtml.replace(/args\.size/g, `'${size}'`);
           })
           .join("")}
       </div>

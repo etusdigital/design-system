@@ -5,57 +5,57 @@ export default {
   component: Table,
   argTypes: {
     columns: {
-      type: { name: "array" },
+      type: { name: "array", value: { name: "object", value: {} } },
       description: "This property will be the table header.",
     },
     items: {
-      type: { name: "array" },
+      type: { name: "array", value: { name: "object", value: {} } },
       description:
         "This property will be selected page items displayed in the table.",
     },
     sortOptions: {
-      type: { name: "object" },
+      type: { name: "object", value: {} },
       description: "This property will be the sort settings.",
     },
     page: {
       type: { name: "number" },
       table: {
-        defaultValue: 1,
+        defaultValue: { summary: "1" },
       },
       description: "This property will be the current page.",
     },
     itemsPerPage: {
       type: { name: "number" },
       table: {
-        defaultValue: 10,
+        defaultValue: { summary: "10" },
       },
       description: "This property will be the number of items in 1 page.",
     },
     loading: {
       type: { name: "boolean" },
       table: {
-        defaultValue: false,
+        defaultValue: { summary: "false" },
       },
       description: "Determine the data is loading.",
     },
     enableSelection: {
       type: { name: "boolean" },
       table: {
-        defaultValue: false,
+        defaultValue: { summary: "false" },
       },
       description: "Determine if the user can select all items.",
     },
     enableAggregation: {
       type: { name: "boolean" },
       table: {
-        defaultValue: false,
+        defaultValue: { summary: "false" },
       },
       description: "Determine if the table has a space for aggregations.",
     },
     isHeaderFixed: {
       type: { name: "boolean" },
       table: {
-        defaultValue: false,
+        defaultValue: { summary: "false" },
       },
       description:
         "Determine if the table header will be fixed and if the table will have y scroll.",
@@ -63,7 +63,7 @@ export default {
     hasHover: {
       type: { name: "boolean" },
       table: {
-        defaultValue: false,
+        defaultValue: { summary: "false" },
       },
       description:
         "When hasHover property is true, the row will have a hover effect.",
@@ -71,14 +71,14 @@ export default {
     hideFooter: {
       type: { name: "boolean" },
       table: {
-        defaultValue: false,
+        defaultValue: { summary: "false" },
       },
       description: "Determine if the default footer is shown.",
     },
     noShadow: {
       type: { name: "boolean" },
       table: {
-        defaultValue: false,
+        defaultValue: { summary: "false" },
       },
       description:
         "When noShadow property is true, the card will have no shadow.",
@@ -86,44 +86,16 @@ export default {
     numberOfItems: {
       type: { name: "number" },
       table: {
-        defaultValue: 0,
+        defaultValue: { summary: "0" },
       },
       description: "This property will be the total of items in general.",
     },
     renderPaginationInBackEnd: {
       type: { name: "boolean" },
       table: {
-        defaultValue: false,
+        defaultValue: { summary: "false" },
       },
       description: "Determine if the pagination is redened in back-end.",
-    },
-    sortBy: {
-      type: { summary: "function" },
-      table: {
-        defaultValue: { summary: "(key, isDesc = false) =>{void}" },
-      },
-      description:
-        "This function will be the function resposible for sort items. It only will be used if renderPaginationInBackEnd = true.",
-    },
-    pageItems: {
-      type: { summary: "function" },
-      table: {
-        defaultValue: { summary: "(page, itemsPerPage) =>{void}" },
-      },
-      description:
-        "This function will be the function resposible for page items. It only will be used if renderPaginationInBackEnd = true.",
-    },
-    selectAll: {
-      type: { summary: "function" },
-      table: {
-        defaultValue: { summary: "(page, itemsPerPage) =>{void}" },
-      },
-      description:
-        "This function will be called if all items called. It only will be used if enableSelection = true",
-    },
-    "header.value": {
-      description:
-        "For each header value, there will be a slot that will be displayed in the respective column in each row. Params: item and index.",
     },
     actions: {
       description:

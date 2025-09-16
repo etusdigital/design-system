@@ -5,22 +5,22 @@ export default {
   component: Toggle,
   argTypes: {
     modelValue: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     groupValue: {
       description: "Used by the Group component.",
-      type: { summary: "any" },
+      type: { name: "other", value: "any" },
       table: {
         defaultValue: { summary: "null" },
       },
     },
     disabled: {
-      type: { summary: "boolean" },
+      type: { name: "boolean" },
       table: {
-        defaultValue: { summary: false },
+        defaultValue: { summary: "false" },
       },
     },
     type: {
@@ -42,7 +42,7 @@ const defaultArgs = {
   modelValue: false,
   groupValue: null,
   disabled: false,
-  type: "default",
+  type: "default" as const,
 };
 
 const defaultHtml = `
