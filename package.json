@@ -76,6 +76,7 @@
     "./components/*": "./src/components/*/index.ts",
     "./composables/*": "./src/composables/*.ts",
     "./styles.css": "./lib/main.css",
+    "./tailwind.config.cjs": "./lib/tailwind.config.cjs",
     ".": {
       "types": "./lib/main.d.ts",
       "import": "./lib/design-system.es.js",

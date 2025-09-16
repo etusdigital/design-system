@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import dts from 'vite-plugin-dts';
+import { copyFileSync } from 'fs';
 
 // https://vite.dev/config/
 import path from 'node:path';
@@ -10,11 +11,23 @@ import { fileURLToPath } from 'node:url';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
+const copyTailwindConfig = () => ({
+  name: 'copy-tailwind-config',
+  writeBundle() {
+    try {
+      copyFileSync('tailwind.config.cjs', 'lib/tailwind.config.cjs');
+    } catch (error) {
+      console.warn('Could not copy tailwind.config.cjs:', error);
+    }
+  }
+});
+
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   plugins: [
     vue(), 
     tailwindcss(),
+    copyTailwindConfig(),
     dts({
       include: ['src/**/*'],
       exclude: ['src/**/*.stories.ts', 'src/**/*.test.ts'],
