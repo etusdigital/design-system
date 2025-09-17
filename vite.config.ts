@@ -4,6 +4,8 @@ import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import dts from 'vite-plugin-dts';
 import { copyFileSync } from 'fs';
+import typescript2 from 'rollup-plugin-typescript2';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 // https://vite.dev/config/
 import path from 'node:path';
@@ -25,20 +27,42 @@ const copyTailwindConfig = () => ({
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   plugins: [
-    vue(), 
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag: string) => {
+            return tag == 'ion-icon';
+          },
+        },
+      },
+    }), 
     tailwindcss(),
     copyTailwindConfig(),
     dts({
-      include: ['src/**/*'],
-      exclude: ['src/**/*.stories.ts', 'src/**/*.test.ts'],
-      outDir: 'lib',
-      entryRoot: 'src'
-    })
+      insertTypesEntry: true,
+      cleanVueFileName: true,
+    }),
+    typescript2({
+      check: false,
+      include: ['src/**/*.ts'],
+      tsconfigOverride: {
+        compilerOptions: {
+          outDir: 'lib',
+          skipLibCheck: true,
+          sourceMap: true,
+          declaration: true,
+          declarationMap: true,
+        },
+      },
+      exclude: ['vite.config.ts'],
+    }),
   ],
   resolve: {
     alias: {
       '@': path.resolve(dirname, './src'),
       '#composables': path.resolve(dirname, './src/composables'),
+      'vue': 'vue/dist/vue.esm-bundler.js',
+      '#': path.resolve(dirname, './src')
     },
   },
   build: {
@@ -60,7 +84,16 @@ export default defineConfig({
         globals: {
           vue: 'Vue',
         },
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name === 'main.css') return 'index.css';
+          return assetInfo.name || 'assets/[name]-[hash][extname]';
+        },
       },
+      plugins: [
+        nodeResolve({
+          extensions: ['.ts', '.vue'],
+        }),
+      ],
     },
   },
   test: {
