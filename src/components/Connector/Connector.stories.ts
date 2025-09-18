@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import Conector from "./Conector.vue";
+import Connector from "./Connector.vue";
 
 export default {
-  component: Conector,
+  component: Connector,
   argTypes: {
     vertical: {
       type: { name: "boolean" },
@@ -11,20 +11,20 @@ export default {
       },
     },
   },
-} satisfies Meta<typeof Conector>;
+} satisfies Meta<typeof Connector>;
 
-type Story = StoryObj<typeof Conector>;
+type Story = StoryObj<typeof Connector>;
 
 export const Primary: Story = {
   render: (args: any) => ({
-    components: { Conector },
+    components: { Connector },
     setup() {
       return { args };
     },
     template:
-      `<Conector v-model="args.modelValue" :vertical="args.vertical" :disabled="args.disabled" class="items-center">
+      `<Connector v-model="args.modelValue" :vertical="args.vertical" :disabled="args.disabled" class="items-center">
         <Card class="p-base">
-          <Conector>
+          <Connector>
               <Input label-value="label" placeholder="Type here" />
               <Select
                   label-value="label"
@@ -40,10 +40,10 @@ export const Primary: Story = {
                   Select
               </Select>
               <Input label-value="label" placeholder="Type here" />
-          </Conector>
+          </Connector>
         </Card>
         <Button variant="success" size="small" round />
-      </Conector>`,
+      </Connector>`,
   }),
   args: {
     vertical: true,

@@ -1,9 +1,9 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as Conector from './Conector.stories.ts';
+import * as Connector from './Connector.stories.ts';
 
-<Meta of={Conector} />
+<Meta of={Connector} />
 
-# Name: Conector
+# Name: Connector
 ## Component Overview
 
 **Purpose**: A visual connector component that adds connecting lines between grouped elements to show relationships and flow.
@@ -13,7 +13,7 @@ import * as Conector from './Conector.stories.ts';
 <br />
 ### Playground
 
-<Canvas of={Conector.Primary} />
+<Canvas of={Connector.Primary} />
 <Controls />
 
 ---
@@ -22,9 +22,9 @@ import * as Conector from './Conector.stories.ts';
 
 ```vue
 <template>
-    <Conector vertical class="items-center">
+    <Connector vertical class="items-center">
         <Card class="p-base">
-            <Conector>
+            <Connector>
                 <Input label-value="label" placeholder="Type here" />
                 <Select
                     label-value="label"
@@ -39,14 +39,14 @@ import * as Conector from './Conector.stories.ts';
                     Select
                 </Select>
                 <Input label-value="label" placeholder="Type here" />
-            </Conector>
+            </Connector>
         </Card>
         <Button variant="success" size="small" round />
-    </Conector>
+    </Connector>
 </template>
 ```
 
-<Canvas sourceState="none" of={Conector.Primary} />
+<Canvas sourceState="none" of={Connector.Primary} />
 
 ---
 
@@ -59,7 +59,7 @@ Arranges connector lines vertically instead of horizontally. Type: `boolean` (de
 
 ### Events API
 
-Conector does not emit any custom events. It's a simple conector component that passes through standard DOM events from the underlying div element.
+Connector does not emit any custom events. It's a simple connector component that passes through standard DOM events from the underlying div element.
 
 ---
 
@@ -70,9 +70,9 @@ Contains the elements to be connected with visual lines.
 
 ```vue
 <template>
-    <Conector>
+    <Connector>
         Slot: default
-    </Conector>
+    </Connector>
 </template>
 ```
 
