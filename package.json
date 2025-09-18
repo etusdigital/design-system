@@ -1,6 +1,6 @@
 {
-  "name": "design-system",
-  "version": "1.0.0",
+  "name": "@BRIUS/design-system",
+  "version": "3.0.0",
   "type": "module",
   "description": "Vue 3 Design System Components with Tailwind CSS",
   "author": "Your Name",
@@ -82,14 +82,14 @@
     "#utils/*": "./src/utils/*.ts"
   },
   "exports": {
-    "./components/*": "./src/components/*/index.ts",
-    "./composables/*": "./src/composables/*.ts",
-    "./styles.css": "./lib/index.css",
-    "./tailwind.config.cjs": "./lib/tailwind.config.cjs",
     ".": {
       "types": "./lib/main.d.ts",
       "import": "./lib/design-system.es.js",
       "require": "./lib/design-system.umd.js"
-    }
+    },
+    "./components/*": "./src/components/*/index.ts",
+    "./composables/*": "./src/composables/*.ts",
+    "./styles.css": "./lib/index.css",
+    "./tailwind.config.cjs": "./lib/tailwind.config.cjs"
   }
 }
