@@ -3,15 +3,12 @@ import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import dts from 'vite-plugin-dts';
-import { copyFileSync } from 'fs';
+import { copyFileSync, writeFileSync } from 'fs';
+import { resolve } from 'path';
 import typescript2 from 'rollup-plugin-typescript2';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
-
-// https://vite.dev/config/
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
-const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
 
 const copyTailwindConfig = () => ({
   name: 'copy-tailwind-config',
@@ -24,6 +21,23 @@ const copyTailwindConfig = () => ({
   }
 });
 
+const generateMainDts = () => ({
+  name: 'generate-main-dts',
+  writeBundle() {
+    try {
+      const mainDtsContent = `
+        export * from './index'
+        import DesignSystem from './index'
+        export default DesignSystem
+      `;
+      writeFileSync(resolve('lib/main.d.ts'), mainDtsContent);
+    } catch (error) {
+      console.warn('Could not generate main.d.ts:', error);
+    }
+  }
+});
+
+// https://vite.dev/config/
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   plugins: [
@@ -38,9 +52,13 @@ export default defineConfig({
     }), 
     tailwindcss(),
     copyTailwindConfig(),
+    generateMainDts(),
     dts({
       insertTypesEntry: true,
       cleanVueFileName: true,
+      outDir: 'lib',
+      include: ['src/**/*'],
+      exclude: ['src/**/*.stories.ts', 'src/**/*.test.ts', 'vite.config.ts'],
     }),
     typescript2({
       check: false,
@@ -59,10 +77,10 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': path.resolve(dirname, './src'),
-      '#composables': path.resolve(dirname, './src/composables'),
+      '@': path.resolve(__dirname, './src'),
+      '#composables': path.resolve(__dirname, './src/composables'),
       'vue': 'vue/dist/vue.esm-bundler.js',
-      '#': path.resolve(dirname, './src')
+      '#': path.resolve(__dirname, './src')
     },
   },
   build: {
@@ -103,7 +121,7 @@ export default defineConfig({
       // The plugin will run tests for the stories defined in your Storybook config
       // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
       storybookTest({
-        configDir: path.join(dirname, '.storybook')
+        configDir: path.join(__dirname, '.storybook')
       })],
       test: {
         name: 'storybook',
