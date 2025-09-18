@@ -463,12 +463,13 @@ export function blendColors(
 }
 
 export function checkPath(path: string) {
-  const currrentPath = window.location.pathname.split("/");
+  const currrentPath = window.location.pathname.replace(/\/$/, "").split("/");
   const itemPath = path.replace(/\/+$/, "").split("/");
   for (let i = 0; i < itemPath.length; i++) {
     if (currrentPath[i] !== itemPath[i]) return false;
   }
-  return true;
+
+  return currrentPath.length === itemPath.length;
 }
 
 export const dateOptions = [
