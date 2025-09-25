@@ -161,7 +161,7 @@ export const Required: Story = {
 };
 
 export const Sizes: Story = {
-  render: (args) => ({
+  render: (args: any) => ({
     components: { FileUpload },
     setup() {
       return { args };
@@ -169,10 +169,12 @@ export const Sizes: Story = {
     template: `
       <div class="flex flex-col gap-xs">
         ${["extra-small", "small", "medium", "large", "extra-large"]
-        .map((type) => {
-          return defaultHtml.replace(/args\.size/g, `'${type}'`).replace(/args\.labelValue/g, `'${type}'`);
-        })
-        .join("")}
+          .map((type) => {
+            return defaultHtml
+              .replace(/args\.size/g, `'${type}'`)
+              .replace(/args\.labelValue/g, `'${type}'`);
+          })
+          .join("")}
       </div>
     `,
   }),

@@ -1,15 +1,15 @@
 {
-  "name": "@BRIUS/design-system",
+  "name": "@etus/design-system",
   "version": "3.0.0",
   "type": "module",
   "description": "Vue 3 Design System Components with Tailwind CSS",
-  "author": "Your Name",
+  "author": "Etus Digital",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/design-system-github.git"
+    "url": "git+https://github.com/etusdigital/design-system.git"
   },
-  "homepage": "https://your-username.github.io/design-system-github/",
+  "homepage": "https://etusdigital.github.io/design-system/",
   "keywords": [
     "vue",
     "vue3",
@@ -29,7 +29,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "build:lib": "vue-tsc -b && vite build --mode production",
+    "build:lib": "vue-tsc -b tsconfig.lib.json && vite build --mode production",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -62,6 +62,7 @@
     "@storybook/addon-docs": "9.1.3",
     "@storybook/addon-vitest": "9.1.3",
     "@storybook/theming": "^8.6.14",
+    "@storybook/vue3": "9.1.3",
     "@storybook/vue3-vite": "9.1.3",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitest/browser": "^3.2.4",

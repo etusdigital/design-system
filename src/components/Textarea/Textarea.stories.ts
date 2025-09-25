@@ -146,18 +146,20 @@ export const Required: Story = {
 };
 
 export const TextAlign: Story = {
-  render: (args) => ({
+  render: (args: any) => ({
     components: { Textarea },
     setup() {
       return { args };
     },
-    template:  `
+    template: `
 	<div class="flex flex-col gap-xs">
 		${["start", "center", "end"]
-			.map((type) => {
-				return defaultHtml.replace(/args\.textAlign/g, `'${type}'`).replace(/args\.labelValue/g, `'${type}'`);
-			})
-		.join("")}
+      .map((type) => {
+        return defaultHtml
+          .replace(/args\.textAlign/g, `'${type}'`)
+          .replace(/args\.labelValue/g, `'${type}'`);
+      })
+      .join("")}
 	</div>
   `,
   }),

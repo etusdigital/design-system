@@ -1,12 +1,10 @@
-import type { App, Plugin } from 'vue';
-import Conector from './Conector.vue';
+import type { App, Plugin } from "vue";
+import Connector from "./Connector.vue";
 
 export default {
-    install(Vue: App) {
-        Vue.component('Conector', Conector);
-    },
+  install(Vue: App) {
+    Vue.component("Connector", Connector);
+  },
 } as Plugin;
 
-export {
-    Conector,
-}
+export { Connector };

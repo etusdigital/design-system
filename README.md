@@ -5,9 +5,11 @@ Vue 3 Design System Components with Tailwind CSS
 ## 📦 Installation
 
 ```bash
-npm install design-system
+npm install @etus/design-system
 # or
-yarn add design-system
+pnpm install @etus/design-system
+# or
+yarn add @etus/design-system
 ```
 
 ## 🚀 Quick Start
@@ -15,33 +17,33 @@ yarn add design-system
 ### Global Registration (Recommended)
 
 ```js
-import { createApp } from 'vue'
-import App from './App.vue'
-import DesignSystem from 'design-system'
-import 'design-system/styles.css'
+import { createApp } from "vue";
+import App from "./App.vue";
+import DesignSystem from "design-system";
+import "design-system/styles.css";
 
-const app = createApp(App)
-app.use(DesignSystem)
-app.mount('#app')
+const app = createApp(App);
+app.use(DesignSystem);
+app.mount("#app");
 ```
 
 ### Individual Component Import
 
 ```js
-import { Button, Alert, Card } from 'design-system'
+import { Button, Alert, Card } from "design-system";
 
 export default {
   components: {
     Button,
     Alert,
-    Card
-  }
-}
+    Card,
+  },
+};
 ```
 
 ## 📖 Documentation
 
-Visit our [Storybook documentation](https://your-username.github.io/design-system-github/) to see all available components and their usage examples.
+Visit our [Storybook documentation](https://etusdigital.github.io/design-system/) to see all available components and their usage examples.
 
 ## 🎨 Available Components
 
