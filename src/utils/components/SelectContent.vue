@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, watch, nextTick } from "vue";
 import { useOptionalModel } from "#composables";
 import { type ContainerModelExtra } from "../types/ContainerModelExtra";
 
@@ -30,17 +31,26 @@ const emit = defineEmits<{
   "update:expanded": [value: boolean, extra: SelectExpandedExtra];
 }>();
 
-const [model] = useOptionalModel<string>(
-  props,
-  "modelValue",
-  emit,
-  ""
-);
+const [model] = useOptionalModel<string>(props, "modelValue", emit, "");
 const [expandedModel, setExpandedModel] = useOptionalModel<boolean>(
   props,
   "expanded",
   emit,
   false
+);
+const inputRef = ref<HTMLInputElement>();
+
+watch(
+  () => props.expanded,
+  () => {
+    if (!props.expanded || props.disabled) return;
+
+    nextTick(() => {
+      if (!inputRef.value) return;
+
+      inputRef.value.focus();
+    });
+  }
 );
 </script>
 
@@ -52,7 +62,7 @@ const [expandedModel, setExpandedModel] = useOptionalModel<boolean>(
     :class="{ 'text-primary-interaction-default': expandedModel }"
   />
   <span
-    class="flex items-center gap-xs truncate"
+    class="flex items-center gap-xs truncate leading-xxs"
     :class="{ 'text-neutral-foreground-low': !options }"
   >
     <div
@@ -63,14 +73,13 @@ const [expandedModel, setExpandedModel] = useOptionalModel<boolean>(
     >
       <Icon name="search" class="icon" />
       <div v-show="!model.length" class="relative pointer-events-none">
-        <span
-          class="search-placeholder"
-        >
+        <span class="search-placeholder">
           <slot name="search-label">Search</slot>
         </span>
       </div>
       <input
         v-model="model"
+        ref="inputRef"
         type="search"
         class="search"
         :disabled="disabled"

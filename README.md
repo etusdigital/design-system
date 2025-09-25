@@ -1,20 +1,20 @@
 # Design System
 
-Vue 3 Design System Components with Tailwind CSS
+Vue 3 Design System Components with Tailwind CSS 4
 
 ## 📦 Installation
 
 ```bash
 npm install @etus/design-system
 # or
-pnpm install @etus/design-system
-# or
 yarn add @etus/design-system
+# or
+pnpm install @etus/design-system
 ```
 
 ## 🚀 Quick Start
 
-### Global Registration (Recommended)
+### Global Registration
 
 ```js
 import { createApp } from "vue";
@@ -27,32 +27,16 @@ app.use(DesignSystem);
 app.mount("#app");
 ```
 
-### Individual Component Import
+### Tailwind Setup
 
-```js
-import { Button, Alert, Card } from "design-system";
-
-export default {
-  components: {
-    Button,
-    Alert,
-    Card,
-  },
-};
+```css
+@import 'tailwindcss';
+@config '@etus/design-system/tailwind.config.cjs';
 ```
 
 ## 📖 Documentation
 
 Visit our [Storybook documentation](https://etusdigital.github.io/design-system/) to see all available components and their usage examples.
-
-## 🎨 Available Components
-
-- **Layout**: Card, Container, Sidebar, Navbar
-- **Forms**: Button, Input, Select, Checkbox, Radio, Switch
-- **Data Display**: Table, Badge, Avatar, Progress Bar
-- **Feedback**: Alert, Toast, Dialog, Spinner
-- **Navigation**: Breadcrumb, Pagination, Tab, Stepper
-- **And many more...**
 
 ## 🛠️ Development
 
