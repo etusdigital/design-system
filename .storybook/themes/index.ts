@@ -1,4 +1,3 @@
-import briusTheme from './briusTheme';
-import etusTheme from './etusTheme';
+import etusTheme from "./etusTheme";
 
-export { briusTheme, etusTheme };
+export { etusTheme };

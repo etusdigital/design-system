@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# Generate documentation from MDX files before commit
+echo "🔄 Generating documentation from MDX files..."
+
+# Run the documentation generation script
+npm run generate-docs
+
+# Check if the script was successful
+if [ $? -eq 0 ]; then
+    echo "✅ Documentation generated successfully"
+    
+    # Add generated docs to the commit
+    git add docs/*.md
+    
+    echo "📁 Added generated docs to commit"
+else
+    echo "❌ Documentation generation failed"
+    exit 1
+fi
+
+echo "🎉 Pre-commit hook completed"
