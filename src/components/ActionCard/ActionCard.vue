@@ -78,7 +78,7 @@ function getEvent(event: Event): Event {
     <Card class="rounded-base [&>*]:px-xl">
       <header
         class="flex items-center gap-xs bg-primary-interaction-default text-neutral-foreground-negative rounded-base py-sm"
-        :class="{ 'rounded-none': $slots.card }"
+        :class="{ 'rounded-b-none': $slots.card }"
         :style="{ background: color }"
       >
         <Icon :name="icon" v-if="icon" />
