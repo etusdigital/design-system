@@ -243,7 +243,7 @@ function changeExpanded(expanded: boolean) {
   @apply p-2xl;
 }
 
-:deep(.avatar.large span) {
+::deep(.avatar.large span) {
   @apply text-3xl;
 }
 
