@@ -206,7 +206,7 @@ function onKeyDown(event: KeyboardEvent) {
   @apply max-w-full h-auto;
 }
 
-::deep(.image-preview-overlay.background-div) {
+:deep(.image-preview-overlay.background-div) {
   @apply absolute w-full h-full cursor-pointer;
 }
 
