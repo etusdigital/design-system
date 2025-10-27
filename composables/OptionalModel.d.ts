@@ -1,0 +1,2 @@
+export declare function useOptionalModel(props: any, propKey: any, emit: any, defaultValue: any): (import("vue").WritableComputedRef<any, any> | ((value: any, extra: any) => void))[];
+//# sourceMappingURL=OptionalModel.d.ts.map

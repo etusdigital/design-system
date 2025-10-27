@@ -1,0 +1,118 @@
+declare const _default: import("vue").DefineComponent<import("vue").ExtractPropTypes<{
+    modelValue: {
+        default: any;
+    };
+    expanded: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    labelValue: {
+        default: string;
+    };
+    options: {};
+    absolute: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    disabled: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    isError: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    errorMessage: {
+        default: string;
+    };
+    infoMessage: {
+        default: string;
+    };
+    required: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    maxHeight: {
+        default: string;
+    };
+    minWidth: {
+        default: string;
+    };
+    getObject: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    searchable: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+}>, (_ctx: any, _cache: any) => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
+    [key: string]: any;
+}>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "update:expanded")[], "update:modelValue" | "update:expanded", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+    modelValue: {
+        default: any;
+    };
+    expanded: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    labelValue: {
+        default: string;
+    };
+    options: {};
+    absolute: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    disabled: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    isError: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    errorMessage: {
+        default: string;
+    };
+    infoMessage: {
+        default: string;
+    };
+    required: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    maxHeight: {
+        default: string;
+    };
+    minWidth: {
+        default: string;
+    };
+    getObject: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    searchable: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+}>> & Readonly<{
+    "onUpdate:modelValue"?: (...args: any[]) => any;
+    "onUpdate:expanded"?: (...args: any[]) => any;
+}>, {
+    modelValue: any;
+    required: boolean;
+    expanded: boolean;
+    labelValue: string;
+    absolute: boolean;
+    disabled: boolean;
+    isError: boolean;
+    errorMessage: string;
+    infoMessage: string;
+    maxHeight: string;
+    minWidth: string;
+    getObject: boolean;
+    searchable: boolean;
+}, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
+export default _default;
+//# sourceMappingURL=Dropdown.vue?vue&type=script&setup=true&lang.d.ts.map

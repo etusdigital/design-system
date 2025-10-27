@@ -1,0 +1,107 @@
+declare const _default: import("vue").DefineComponent<import("vue").ExtractPropTypes<{
+    modelValue: {
+        default: any;
+    };
+    expanded: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    labelValue: {
+        default: string;
+    };
+    options: {};
+    absolute: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    disabled: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    isError: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    errorMessage: {
+        default: string;
+    };
+    infoMessage: {
+        default: string;
+    };
+    required: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    placeholder: {
+        default: string;
+    };
+    maxHeight: {
+        default: string;
+    };
+    minWidth: {
+        default: string;
+    };
+}>, (_ctx: any, _cache: any) => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
+    [key: string]: any;
+}>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "update:expanded")[], "update:modelValue" | "update:expanded", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+    modelValue: {
+        default: any;
+    };
+    expanded: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    labelValue: {
+        default: string;
+    };
+    options: {};
+    absolute: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    disabled: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    isError: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    errorMessage: {
+        default: string;
+    };
+    infoMessage: {
+        default: string;
+    };
+    required: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    placeholder: {
+        default: string;
+    };
+    maxHeight: {
+        default: string;
+    };
+    minWidth: {
+        default: string;
+    };
+}>> & Readonly<{
+    "onUpdate:modelValue"?: (...args: any[]) => any;
+    "onUpdate:expanded"?: (...args: any[]) => any;
+}>, {
+    modelValue: any;
+    required: boolean;
+    expanded: boolean;
+    labelValue: string;
+    absolute: boolean;
+    disabled: boolean;
+    isError: boolean;
+    errorMessage: string;
+    infoMessage: string;
+    placeholder: string;
+    maxHeight: string;
+    minWidth: string;
+}, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
+export default _default;
+//# sourceMappingURL=AutoComplete.vue?vue&type=script&setup=true&lang.d.ts.map
