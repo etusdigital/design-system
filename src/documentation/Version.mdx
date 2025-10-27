@@ -1,70 +1,144 @@
-# Version - 2.1.18
+# Version - 3.0.0
 
 # Breaking changes
-The following components have been updated to version 2.0.0 and have breaking changes:
+The following components have been updated to version 3.0.0 and have breaking changes:
 
-## BAlert
+## Component Naming Convention Changes
+All components now remove the "B" prefix and use clean component names:
+
+### Component Name Changes
+- BActionCard -> ActionCard
+- BAlert -> Alert
+- BAutoComplete -> AutoComplete
+- BAvatar -> Avatar
+- BBreadcrumb -> Breadcrumb
+- BButton -> Button
+- BCard -> Card
+- BCheckbox -> Checkbox
+- BColorPicker -> ColorPicker
+- BConfirm -> Confirm
+- BCrop -> Crop
+- BDatePicker -> DatePicker
+- BDialog -> Dialog
+- BDropdown -> Dropdown
+- BFilter -> Filter
+- BFloatCard -> FloatCard
+- BHistory -> History
+- BIcon -> Icon
+- BIconCard -> IconCard
+- BInput -> Input
+- BMetricCard -> MetricCard
+- BNavbar -> Navbar
+- BPagination -> Pagination
+- BProfile -> Profile
+- BProgressBar -> ProgressBar
+- BRadio -> Radio
+- BRoundMenu -> RoundMenu
+- BSelect -> Select
+- BSidebar -> Sidebar
+- BSkeleton -> Skeleton
+- BSlider -> Slider
+- BSpinner -> Spinner
+- BStepper -> Stepper
+- BTab -> Tab
+- BTable -> Table
+- BTagInput -> TagInput
+- BTagSelect -> TagSelect
+- BToast -> Toast
+- BToggle -> Toggle
+- BTooltip -> Tooltip
+
+### New Components Added
+- Accordion - Collapsible content component (replaces BCollapse)
+- Badge - Badge component for status and labels
+- Calendar - Full calendar component (standalone from DatePicker)
+- Carousel - Image/content carousel component
+- Connector - Visual connector component
+- Drawer - Slide-out panel component (replaces some BSidebar functionality)
+- FileUpload - File upload component
+- Image - Enhanced image component
+- PINInput - PIN/OTP input component
+- RadioGroup - Radio button grouping component (enhances BRadioButton)
+- RichTextEditor - Rich text editing component
+- Separator - Visual separator component (replaces BDivider)
+- StatusBadge - Status badge component (enhances BTag)
+- Switch - Toggle switch component (variant of BToggle)
+- Textarea - Standalone textarea component (extracted from BInput)
+- ToggleGroup - Toggle button group component
+- Tree - Hierarchical tree component
+
+### Components Removed
+- BCollapse - Replaced with Accordion
+- BContentScreen - Removed (layout logic moved to application level)
+- BDate - Removed (functionality integrated into DatePicker)
+- BDateComparator - Removed
+- BDateComparatorFilter - Removed
+- BDateFilter - Removed
+- BDivider - Replaced with Separator
+- BExpandableContainer - Replaced with Accordion
+- BGroup - Removed (replaced by native CSS grid/flexbox patterns)
+- BMenu - Removed (functionality integrated into Navbar/Dropdown)
+- BMultiSelect - Functionality integrated into Select
+- BRadioButton - Enhanced and renamed to RadioGroup
+- BRangeSlider - Functionality integrated into Slider
+- BRoundButton - Removed (functionality integrated into Button)
+- BSelectContainer - Removed (functionality integrated into Select)
+- BSideMenu - Replaced with Sidebar/Drawer
+- BSmartSelect - Functionality integrated into Select
+- BStepOption - Functionality integrated into Stepper
+- BTag - Enhanced and split into Badge/StatusBadge
+
+## Component-Specific Changes
+
+## Alert
   - error type was removed and replaced with danger type
 
-## BButton
+## Button
   - variant prop removed and replaced with color prop
-  - color prop accepts the following values: "primary", "info", "success", "warning", "danger"
+  - color prop accepts the following values: "primary", "info", "success", "warning", "danger", "neutral"
   - the new variant prop accepts the following values: "default", "secondary", "plain", "reverse"
   - small variant removed
   - size prop was added to change the size of the button
   - size prop accepts the following values: "small", "medium", "large"
 
-## BCollapse
-  - the slot content was removed and replaced with default
+## Filter (previously BFilter)
+  - the prop items was renamed to options
+  - enhanced with better search functionality
+  - added support for nested filter categories
 
-## BDateFilter
-  - the prop name inside the options prop was removed and replaced with label
-
-## BDateComparatorFilter
-  - the prop name inside the options prop was removed and replaced with label
-
-## BHistoric -> BHistory
+## History (previously BHistory/BHistoric)
   - now the type prop accepts the following values: "primary", "info", "success", "warning", "danger", "neutral"
 
-## BInput
+## Input
   - the prop inputType was removed and replaced with type
   - the prop inputMask was removed and replaced with mask
+  - textarea functionality moved to separate Textarea component
 
-## BMenu
-  - the prop name inside the items prop was removed and replaced with label
-
-## BMetric
+## MetricCard (previously BMetricCard)
   - now the type prop accepts the following values: "default", "success", "danger", "sample", "card"
   - now the info type accepts the following values: "default", "sample", "primary", "info", "success", "warning", "danger"
 
-## BRoundButton
-  - color prop removed and replaced with background prop
-  - the new color prop accepts the following values: "primary", "info", "success", "warning", "danger"
-  - variant prop removed and replaced with color prop
-  - the new variant prop accepts the following values: "default", "secondary", "plain", "reverse"
-
-## BSelect
+## Select
   - color prop removed
   - secondary prop was added to change the style of the component
+  - multi-select functionality integrated (no separate MultiSelect component)
 
-## BSelectContainer
-  - color prop removed
-  - secondary prop was added to change the style of the component
-
-## BStepper
+## Stepper
+  - the prop items was renamed to options
   - thin size was removed and replaced with medium size
-  - the prop text inside the items prop was removed and replaced with label
+  - the prop text inside the options was removed and replaced with label
+  - added get-object prop for returning full option objects
 
-## BTab
+## Tab
   - color prop removed and replaced with background prop
   - the prop text inside the items prop was removed and replaced with label
 
-## BTable
+## Table
   - the prop text inside the header was removed and replaced with label
 
-## BTagInput
+## TagInput
   - the prop inputMask was removed and replaced with mask
-  - the prop tagList was removed and replaced with modelValue
+  - the prop tagList was removed and replaced with v-model
 
-## BToast
+## Toast
   - error type was removed and replaced with danger type

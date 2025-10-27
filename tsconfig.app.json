@@ -1,19 +1,20 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["src/**/*.ts", "src/**/*.vue", "src/components/index.mdx"],
-  "exclude": ["lib/**/*", "src/**/__tests__/*", "src/**/*.stories.ts"],
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "Node",
-    "skipLibCheck": true,
-    "declaration": true,
-    "allowJs": false,
-    "declarationDir": "lib",
-    "outDir": "lib",
-    "composite": true,
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
     "paths": {
-      "#*": ["./src/*"]
+      "@/*": ["src/*"],
+      "#composables": ["src/composables"]
     }
-  }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/global.d.ts"]
 }
