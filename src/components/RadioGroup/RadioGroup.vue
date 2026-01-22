@@ -73,7 +73,9 @@ function getDisabled(option: any): boolean {
       :group-value="getValue(option)"
       :disabled="getDisabled(option)"
     >
-      {{ getLabel(option) }}
+      <slot :option="getValue(option)">
+        {{ getLabel(option) }}
+      </slot>
     </Radio>
   </Group>
 </template>
