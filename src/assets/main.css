@@ -486,37 +486,3 @@
     }
   }
 }
-
-@utility p1 {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-normal);
-  line-height: var(--line-height-lg);
-}
-
-@utility p2 {
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-normal);
-  line-height: var(--line-height-lg);
-}
-
-@utility p3 {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-normal);
-  line-height: var(--line-height-lg);
-}
-
-@utility p4 {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-normal);
-  line-height: var(--line-height-lg);
-}
-
-@utility caption-c1 {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-}
-
-@utility caption-c2 {
-  font-size: var(--font-size-xxs);
-  font-weight: var(--font-weight-normal);
-}

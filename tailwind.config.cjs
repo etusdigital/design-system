@@ -282,7 +282,27 @@ module.exports = {
     require("@tailwindcss/aspect-ratio"),
     require("@tailwindcss/typography"),
     require("@tailwindcss/forms"),
-    plugin(function ({ addVariant, e, postcss }) {
+    plugin(function ({ addVariant, e, postcss, addComponents }) {
+      addComponents({
+        ".p1": {
+          "@apply text-2xl font-normal leading-lg": {},
+        },
+        ".p2": {
+          "@apply text-base font-normal leading-lg": {},
+        },
+        ".p3": {
+          "@apply text-sm font-normal leading-lg": {},
+        },
+        ".p4": {
+          "@apply text-xs font-normal leading-lg": {},
+        },
+        ".caption-c1": {
+          "@apply text-xs font-medium": {},
+        },
+        ".caption-c2": {
+          "@apply text-xxs font-normal": {},
+        },
+      });
       addVariant("firefox", ({ container, separator }) => {
         const isFirefoxRule = postcss.atRule({
           name: "-moz-document",
@@ -298,4 +318,5 @@ module.exports = {
       });
     }),
   ],
+  safelist: ["brius-theme", "p1", "p2", "p3", "p4", "caption-c1", "caption-c2"],
 };
