@@ -385,6 +385,10 @@ function selectAll(value: boolean | null) {
 <style scoped>
 @reference "../../assets/main.css";
 
+.table {
+  @apply min-w-full max-w-full;
+}
+
 .table-content {
   @apply min-w-full max-w-full overflow-x-auto rounded-xl bg-neutral-surface-default border-xxs border-neutral-default shadow-neutral-selected;
 }
