@@ -82,30 +82,23 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       
-    # - uses: actions/setup-node@v4
-    #   with:
-    #     node-version: '20'
-    #     registry-url: 'https://registry.npmjs.org'
-        
-    # - name: Download lib artifacts
-    #   uses: actions/download-artifact@v4
-    #   with:
-    #     name: lib-build
-    #     path: lib/
-        
-    # - name: Publish to NPM
-    #   run: npm publish --ignore-scripts
-    #   env:
-    #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
     - uses: actions/setup-node@v4
       with:
-        node-version: '24'
+        node-version: '20'
         registry-url: 'https://registry.npmjs.org'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
-    - run: npm publish
+        cache: 'yarn'
+        
+    - name: Download lib artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: lib-build
+        path: lib/
+        
+    - run: yarn install --frozen-lockfile
+    - run: yarn build:lib
+    - run: npm publish --ignore-scripts
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   manual-release:
     runs-on: ubuntu-latest
