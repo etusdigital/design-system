@@ -89,10 +89,6 @@ jobs:
         cache: 'yarn'
         scope: '@etus'
         
-    - name: Configure npm authentication
-      run: |
-        echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-        
     - name: Download lib artifacts
       uses: actions/download-artifact@v4
       with:
