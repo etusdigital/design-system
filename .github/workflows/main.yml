@@ -97,7 +97,15 @@ jobs:
         
     - run: yarn install --frozen-lockfile
     - run: yarn build:lib
-    - run: npm publish --ignore-scripts
+    
+    - name: Verify npm version for OIDC support
+      run: |
+        npm --version
+        # Trusted publishing requires npm 11.5.1+
+        # npm CLI automatically detects OIDC in GitHub Actions environment
+        
+    - name: Publish to npm using OIDC
+      run: npm publish --ignore-scripts --access public
 
   manual-release:
     runs-on: ubuntu-latest
