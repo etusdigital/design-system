@@ -87,6 +87,11 @@ jobs:
         node-version: '20'
         registry-url: 'https://registry.npmjs.org'
         cache: 'yarn'
+        scope: '@etus'
+        
+    - name: Configure npm authentication
+      run: |
+        echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
         
     - name: Download lib artifacts
       uses: actions/download-artifact@v4
@@ -97,8 +102,6 @@ jobs:
     - run: yarn install --frozen-lockfile
     - run: yarn build:lib
     - run: npm publish --ignore-scripts
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   manual-release:
     runs-on: ubuntu-latest
