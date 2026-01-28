@@ -85,14 +85,17 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '20'
-        registry-url: 'https://registry.npmjs.org'
         cache: 'yarn'
-        scope: '@etus'
         
     - name: Configure npm authentication
       run: |
+        if [ -z "${{ secrets.NPM_TOKEN }}" ]; then
+          echo "Error: NPM_TOKEN secret is not set"
+          exit 1
+        fi
         echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
         echo "@etus:registry=https://registry.npmjs.org/" >> ~/.npmrc
+        echo "//registry.npmjs.org/:always-auth=true" >> ~/.npmrc
         
     - name: Download lib artifacts
       uses: actions/download-artifact@v4
@@ -103,8 +106,11 @@ jobs:
     - run: yarn install --frozen-lockfile
     - run: yarn build:lib
     
+    - name: Verify npm authentication
+      run: npm whoami --registry=https://registry.npmjs.org/
+      
     - name: Publish to npm
-      run: npm publish --ignore-scripts --access public
+      run: npm publish --ignore-scripts --access public --registry=https://registry.npmjs.org/
 
   manual-release:
     runs-on: ubuntu-latest
