@@ -78,8 +78,6 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
-    # OIDC authentication is automatically configured by setup-node@v4
-    # Requires Trusted Publishing to be set up at: https://www.npmjs.com/settings/[username]/automation
     
     steps:
     - uses: actions/checkout@v4
@@ -91,6 +89,11 @@ jobs:
         cache: 'yarn'
         scope: '@etus'
         
+    - name: Configure npm authentication
+      run: |
+        echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+        echo "@etus:registry=https://registry.npmjs.org/" >> ~/.npmrc
+        
     - name: Download lib artifacts
       uses: actions/download-artifact@v4
       with:
@@ -100,8 +103,8 @@ jobs:
     - run: yarn install --frozen-lockfile
     - run: yarn build:lib
     
-    - name: Publish to npm using OIDC
-      run: npm publish --ignore-scripts --access public --provenance
+    - name: Publish to npm
+      run: npm publish --ignore-scripts --access public
 
   manual-release:
     runs-on: ubuntu-latest
