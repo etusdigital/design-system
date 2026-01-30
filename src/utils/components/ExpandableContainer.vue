@@ -52,7 +52,6 @@ const [model, setModel] = useOptionalModel<boolean>(
   emit,
   false
 );
-const content = ref<HTMLDivElement>();
 
 const isExpanded = computed((): boolean =>
   props.disabled ? false : model.value

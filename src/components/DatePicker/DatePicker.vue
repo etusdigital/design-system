@@ -214,7 +214,7 @@ function changeType() {
       <slot v-else />
     </h5>
     <template #content>
-      <div class="flex">
+      <div class="flex content">
         <div
           class="flex flex-col justify-between border-r-xxs border-neutral-default w-fit truncate rounded-l-sm overflow-hidden p-xs"
           v-if="type !== 'date' && options.length"
