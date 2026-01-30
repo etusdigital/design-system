@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import type { ContainerModelExtra } from "../types/ContainerModelExtra.ts";
 import Container from "./Container.vue";
 import { useOptionalModel } from "#composables";
@@ -96,7 +96,6 @@ function changeModel(value: boolean, extra: ContainerModelExtra) {
     <template #content="{ minWidth }">
       <div
         v-if="isExpanded"
-        ref="content"
         class="text-xs top-full w-fit mt-xs"
         :class="[
           {
