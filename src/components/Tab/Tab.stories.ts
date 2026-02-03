@@ -43,6 +43,14 @@ export default {
         defaultValue: { summary: "false" },
       },
     },
+    getObject: {
+      type: { name: "boolean" },
+      table: {
+        defaultValue: { summary: "false" },
+      },
+      description:
+        "If true, the selected value will be an object instead of value-key value.",
+    },
   },
 } satisfies Meta<typeof Tab>;
 
@@ -55,6 +63,7 @@ const defaultArgs = {
   valueKey: 'value',
   isIcon: false,
   notCard: false,
+  getObject: false,
 };
 
 const defaultRender = (args: any) => ({
@@ -71,6 +80,7 @@ const defaultRender = (args: any) => ({
         :value-key="args.valueKey"
         :is-icon="args.isIcon"
         :not-card="args.notCard"
+        :get-object="args.getObject"
     />
   `,
 });

@@ -32,6 +32,7 @@ const props = withDefaults(
     expanded?: boolean;
     alignRight?: boolean;
     options?: OptionType[] | any;
+    hideActions?: boolean;
   }>(),
   {
     lang: "en-US",
@@ -47,6 +48,7 @@ const props = withDefaults(
     expanded: false,
     alignRight: false,
     options: dateOptions,
+    hideActions: false,
   }
 );
 
@@ -55,6 +57,7 @@ const emit = defineEmits<{
   "update:expanded": [value: boolean];
   "update:type": [value: Type];
   apply: [value: Date | Date[] | Date[][]];
+  clear: [];
 }>();
 
 const model = ref<Date[] | Date[][]>([]);
@@ -166,6 +169,7 @@ function changeDate(option: OptionType) {
 
 function clear() {
   setModel(undefined);
+  emit("clear");
   optionSelected.value = "";
   formatedDate.value = "";
 }
@@ -250,6 +254,7 @@ function changeType() {
           />
           <div
             class="flex items-center justify-end gap-xs w-full border-t-xxs border-neutral-default p-sm"
+            v-if="!hideActions"
           >
             <slot name="actions">
               <Button size="small" variant="plain" @click="clear">

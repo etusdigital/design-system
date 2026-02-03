@@ -10,6 +10,7 @@ const props = withDefaults(
     valueKey?: string;
     isIcon?: boolean;
     notCard?: boolean;
+    getObject?: boolean;
   }>(),
   {
     modelValue: undefined,
@@ -17,6 +18,7 @@ const props = withDefaults(
     valueKey: 'value',
     isIcon: false,
     notCard: false,
+    getObject: false,
   }
 );
 
@@ -37,7 +39,7 @@ const emit =
   }>();
 
 function changeTab(option: any) {
-  model.value = option;
+  model.value = props.getObject ? option : getValue(option);
   emit("update:modelValue", option);
 }
 

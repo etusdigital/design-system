@@ -20,13 +20,53 @@ import * as DatePicker from './DatePicker.stories.ts';
 
 ### Basic Usage
 
+#### Single Date Selection
 ```vue
 <template>
     <DatePicker 
-        v-model="selectedDates"
-        label-value="label"
+        v-model="selectedDate"
+        type="date"
+        label-value="Select Date"
     >
-        Date Filter
+        Choose a date
+    </DatePicker>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const selectedDate = ref<Date | undefined>(undefined)
+</script>
+```
+
+#### Date Range Selection
+```vue
+<template>
+    <DatePicker 
+        v-model="selectedRange"
+        type="period"
+        label-value="Date Range"
+    >
+        Select date range
+    </DatePicker>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const selectedRange = ref<Date[] | undefined>(undefined)
+</script>
+```
+
+#### Comparison Mode
+```vue
+<template>
+    <DatePicker 
+        v-model="comparisonDates"
+        v-model:type="dateType"
+        type="compare"
+        label-value="Compare Periods"
+        allow-change-type
+    >
+        Compare periods
         <template #clear-label>
             Clear
         </template>
@@ -41,7 +81,8 @@ import * as DatePicker from './DatePicker.stories.ts';
 
 <script setup lang="ts">
 import { ref } from 'vue'
-const selectedDates = ref(null)
+const comparisonDates = ref<Date[][] | undefined>(undefined)
+const dateType = ref<'date' | 'period' | 'compare'>('compare')
 </script>
 ```
 
@@ -52,10 +93,18 @@ const selectedDates = ref(null)
 ### Props API
 
 #### v-model
-Controls the selected date or date ranges. Type: `Date[] | Date[][] | null` (default: `null`)
+Controls the selected date or date ranges. The type depends on the `type` prop:
+- When `type="date"`: `Date | undefined` (single date)
+- When `type="period"`: `Date[] | undefined` (date range with start and end)
+- When `type="compare"`: `Date[][] | undefined` (two date ranges for comparison)
+
+Type: `Date | Date[] | Date[][] | undefined` (default: `undefined`)
 
 #### v-model:expanded
 Controls the filter dropdown open/close state. Type: `boolean` (default: `false`)
+
+#### v-model:type
+Controls the selection mode. Type: `'date' | 'period' | 'compare'` (default: `'date'`)
 
 #### label-value
 Label displayed above the filter component. Type: `string` (default: `""`)
@@ -74,23 +123,33 @@ Selection mode for the date picker. Type: `'date' | 'period' | 'compare'` (defau
 
 <Canvas sourceState="none" of={DatePicker.Compare} />
 
+#### is-compare
+Legacy prop for comparison mode (use `type="compare"` instead). Type: `boolean` (default: `false`)
+
 #### allow-change-type
 Allows users to switch between different selection modes. Type: `boolean` (default: `false`)
 
 <Canvas sourceState="none" of={DatePicker.AllowChangeType} />
 
 #### min-date
-Earliest selectable date constraint. Type: `Date` (default: `undefined`)
+Earliest selectable date constraint. Type: `Date | undefined` (default: `undefined`)
 
 <Canvas sourceState="none" of={DatePicker.MinDate} />
 
 #### max-date
-Latest selectable date constraint. Type: `Date` (default: `undefined`)
+Latest selectable date constraint. Type: `Date | undefined` (default: `undefined`)
 
 <Canvas sourceState="none" of={DatePicker.MaxDate} />
 
 #### options
-Array of predefined date range options. Type: `OptionType[]` (default: predefined options)
+Array of predefined date range options. Each option should have:
+- `label`: string - Display text
+- `value`: string - Unique identifier
+- `calculate`: () => Date[] - Function that returns the date range
+- `selected?`: boolean - Whether this option is pre-selected
+- `disabled?`: boolean - Whether this option is disabled
+
+Type: `OptionType[]` (default: predefined options)
 
 #### absolute
 Uses absolute positioning for the dropdown. Type: `boolean` (default: `false`)
@@ -121,25 +180,34 @@ Aligns the dropdown to the right (requires absolute=true). Type: `boolean` (defa
 <Canvas sourceState="none" of={DatePicker.AlignRight} />
 
 #### separator
-Custom separator text for comparison mode. Type: `string` (default: auto-detected based on language)
+Custom separator text for comparison mode. Type: `string` (default: auto-detected based on language - "and" for English, "e" for Portuguese)
 
 <Canvas sourceState="none" of={DatePicker.Separator} />
+
+#### hide-actions
+Hides the default Clear and Apply buttons. Use with the `#actions` slot for custom actions. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
 #### @update:model-value
-Triggered when the selected date or date ranges change.
+Triggered when the selected date or date ranges change. Emits the new value based on the current `type`:
+- `Date` when `type="date"`
+- `Date[]` when `type="period"`
+- `Date[][]` when `type="compare"`
 
 #### @update:expanded
-Triggered when the dropdown open/close state changes.
+Triggered when the dropdown open/close state changes. Emits the new expanded state (`boolean`).
 
 #### @update:type
-Triggered when the selection mode changes (when allow-change-type is enabled).
+Triggered when the selection mode changes (when `allow-change-type` is enabled). Emits the new type: `'date' | 'period' | 'compare'`.
 
 #### @apply
-Triggered when the Apply button is clicked.
+Triggered when the Apply button is clicked. Emits the current model value: `Date | Date[] | Date[][]`.
+
+#### @clear
+Triggered when the Clear button is clicked. This event is emitted before the model value is cleared.
 
 ### Slots API
 
@@ -184,9 +252,14 @@ const handleSave = () => {}
 ```
 
 **Important Notes:**
-- Combines predefined quick options with custom date selection for maximum flexibility
-- Supports single date, date range, and comparison modes with visual distinction
-- Built-in localization support with automatic separator detection
-- Integrates seamlessly with form validation and error handling
-- Customizable action buttons and text through comprehensive slot system
-- Optimized for dashboard and analytics use cases with apply/clear workflow
+- **Type-based value handling**: The `v-model` type changes based on the `type` prop:
+  - `type="date"` → returns `Date`
+  - `type="period"` → returns `Date[]`
+  - `type="compare"` → returns `Date[][]`
+- **Predefined options**: Quick-select options (Today, Yesterday, Last 7 days, etc.) are available when `type` is not `"date"`. These options calculate dates automatically.
+- **Comparison mode**: When `type="compare"`, users can select two separate date ranges for side-by-side comparison.
+- **Localization**: Automatic language detection for date formatting and separator text ("and" vs "e").
+- **Form integration**: Supports `required`, `disabled`, `is-error`, and `error-message` props for seamless form validation.
+- **Custom actions**: Use `hide-actions` prop with the `#actions` slot to completely customize the action buttons area.
+- **Expandable container**: Built on top of `ExpandableContainer` component, providing consistent dropdown behavior across the design system.
+- **Apply/Clear workflow**: The component uses an apply/clear pattern where changes are confirmed with the Apply button, optimized for dashboard and analytics use cases.

@@ -76,6 +76,13 @@ export default {
         defaultValue: { summary: "false" },
       },
     },
+    hideActions: {
+      type: { name: "boolean" },
+      table: {
+        defaultValue: { summary: "false" },
+      },
+      description: "Hides the default Clear and Apply buttons.",
+    },
     isError: {
       type: { name: "boolean" },
       table: {
@@ -136,6 +143,7 @@ const defaultArgs = {
   maxDate: undefined,
   disabled: false,
   required: false,
+  hideActions: false,
   isError: false,
   errorMessage: "",
   absolute: false,
@@ -203,6 +211,7 @@ const defaultHtml = `
           :options="args.options"
           :disabled="args.disabled"
           :required="args.required"
+          :hide-actions="args.hideActions"
           :is-error="args.isError"
           :error-message="args.errorMessage"
           :absolute="args.absolute"
