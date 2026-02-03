@@ -197,8 +197,9 @@ function changeType() {
     <div
       class="flex items-center text-lg h-xl text-neutral-interaction-default"
       :class="{
-        'text-primary-interaction-default': isExpanded,
-        'text-danger-interaction-default': isError,
+        expanded: isExpanded,
+        error: isError,
+        disabled: disabled,
       }"
     >
       <Icon name="calendar_month" size="lg" />
@@ -270,3 +271,19 @@ function changeType() {
     </template>
   </ExpandableContainer>
 </template>
+
+<style scoped>
+@reference "../../assets/main.css";
+
+.expanded .icon {
+  @apply text-primary-interaction-default;
+}
+
+.disabled .icon {
+  @apply text-neutral-interaction-disabled;
+}
+
+.error .icon {
+  @apply text-danger-interaction-default;
+}
+</style>

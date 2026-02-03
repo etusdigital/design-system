@@ -185,6 +185,7 @@ function checkSource(value: boolean, extra: any) {
       :disabled="disabled"
       :icon="icon"
       :options="options"
+      :is-error="isError"
       @click="handleSlotClick"
       @update:expanded="changeExpanded"
     >

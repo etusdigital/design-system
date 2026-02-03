@@ -15,6 +15,7 @@ const props = withDefaults(
     expanded?: boolean;
     searchable?: boolean;
     disabled?: boolean;
+    isError?: boolean;
     secondary?: boolean;
   }>(),
   {
@@ -23,6 +24,7 @@ const props = withDefaults(
     searchable: false,
     disabled: false,
     secondary: false,
+    isError: false,
   }
 );
 
@@ -59,7 +61,7 @@ watch(
     v-if="icon"
     :name="icon"
     class="icon shrink-0"
-    :class="{ 'text-primary-interaction-default': expandedModel }"
+    :class="{ expanded: expandedModel, disabled, error: isError }"
   />
   <span
     class="flex items-center gap-xs truncate leading-xxs"
@@ -71,7 +73,7 @@ watch(
       :class="{ secondary, hidden: !expandedModel }"
       @click="setExpandedModel(true, { source: 'click' })"
     >
-      <Icon name="search" class="icon" />
+      <Icon name="search" class="icon" :class="{ expanded: expandedModel, disabled, error: isError }" />
       <div v-show="!model.length" class="relative pointer-events-none">
         <span class="search-placeholder">
           <slot name="search-label">Search</slot>
@@ -105,6 +107,18 @@ watch(
 
 .secondary .icon.icon {
   @apply text-neutral-foreground-negative;
+}
+
+.icon.icon.expanded {
+  @apply text-primary-interaction-default;
+}
+
+.icon.icon.disabled {
+  @apply text-neutral-interaction-disabled;
+}
+
+.icon.icon.error {
+  @apply text-danger-interaction-default;
 }
 
 .search-placeholder {

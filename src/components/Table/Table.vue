@@ -386,7 +386,7 @@ function selectAll(value: boolean | null) {
 @reference "../../assets/main.css";
 
 .table {
-  @apply min-w-full max-w-full;
+  @apply block w-full max-w-full;
 }
 
 .table-content {

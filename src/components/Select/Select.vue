@@ -233,6 +233,7 @@ function clearModel() {
       :secondary="secondary"
       :options="options"
       :searchable="searchable"
+      :is-error="isError"
       @update:expanded="changeExpanded"
     >
       <template #search-label v-if="$slots['search-label']">
