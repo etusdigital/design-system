@@ -16,6 +16,10 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
+    isError: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
     secondary: {
         type: BooleanConstructor;
         default: boolean;
@@ -40,6 +44,10 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
+    isError: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
     secondary: {
         type: BooleanConstructor;
         default: boolean;
@@ -52,6 +60,7 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     modelValue: string;
     expanded: boolean;
     searchable: boolean;
+    isError: boolean;
     secondary: boolean;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 export default _default;
