@@ -121,6 +121,17 @@ declare const _default: {
                 };
             };
         };
+        hideActions: {
+            type: {
+                name: string;
+            };
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
         isError: {
             type: {
                 name: string;
@@ -203,6 +214,7 @@ export declare const Primary: {
         maxDate: any;
         disabled: boolean;
         required: boolean;
+        hideActions: boolean;
         isError: boolean;
         errorMessage: string;
         absolute: boolean;
@@ -243,6 +255,7 @@ export declare const Lang: {
         maxDate: any;
         disabled: boolean;
         required: boolean;
+        hideActions: boolean;
         isError: boolean;
         errorMessage: string;
         absolute: boolean;
@@ -281,6 +294,7 @@ export declare const AllowChangeType: {
         maxDate: any;
         disabled: boolean;
         required: boolean;
+        hideActions: boolean;
         isError: boolean;
         errorMessage: string;
         absolute: boolean;
@@ -320,6 +334,7 @@ export declare const Period: {
         maxDate: any;
         disabled: boolean;
         required: boolean;
+        hideActions: boolean;
         isError: boolean;
         errorMessage: string;
         absolute: boolean;
@@ -359,6 +374,7 @@ export declare const Compare: {
         maxDate: any;
         disabled: boolean;
         required: boolean;
+        hideActions: boolean;
         isError: boolean;
         errorMessage: string;
         absolute: boolean;
@@ -398,6 +414,7 @@ export declare const MinDate: {
         maxDate: any;
         disabled: boolean;
         required: boolean;
+        hideActions: boolean;
         isError: boolean;
         errorMessage: string;
         absolute: boolean;
@@ -437,6 +454,7 @@ export declare const MaxDate: {
         minDate: any;
         disabled: boolean;
         required: boolean;
+        hideActions: boolean;
         isError: boolean;
         errorMessage: string;
         absolute: boolean;
@@ -477,6 +495,7 @@ export declare const Absolute: {
         maxDate: any;
         disabled: boolean;
         required: boolean;
+        hideActions: boolean;
         isError: boolean;
         errorMessage: string;
         expanded: boolean;
@@ -515,6 +534,7 @@ export declare const Disabled: {
         minDate: any;
         maxDate: any;
         required: boolean;
+        hideActions: boolean;
         isError: boolean;
         errorMessage: string;
         absolute: boolean;
@@ -554,6 +574,7 @@ export declare const Required: {
         minDate: any;
         maxDate: any;
         disabled: boolean;
+        hideActions: boolean;
         isError: boolean;
         errorMessage: string;
         absolute: boolean;
@@ -595,6 +616,7 @@ export declare const IsError: {
         maxDate: any;
         disabled: boolean;
         required: boolean;
+        hideActions: boolean;
         absolute: boolean;
         expanded: boolean;
         alignRight: boolean;
@@ -633,6 +655,7 @@ export declare const AlignRight: {
         maxDate: any;
         disabled: boolean;
         required: boolean;
+        hideActions: boolean;
         isError: boolean;
         errorMessage: string;
         absolute: boolean;
@@ -672,6 +695,7 @@ export declare const Separator: {
         maxDate: any;
         disabled: boolean;
         required: boolean;
+        hideActions: boolean;
         isError: boolean;
         errorMessage: string;
         absolute: boolean;

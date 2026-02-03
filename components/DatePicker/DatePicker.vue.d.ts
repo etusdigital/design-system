@@ -54,9 +54,13 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
             calculate: () => any[];
         }[];
     };
+    hideActions: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
 }>, (_ctx: any, _cache: any) => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
     [key: string]: any;
-}>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "update:expanded" | "update:type" | "apply")[], "update:modelValue" | "update:expanded" | "update:type" | "apply", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "update:expanded" | "update:type" | "apply" | "clear")[], "update:modelValue" | "update:expanded" | "update:type" | "apply" | "clear", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {};
     labelValue: {
         default: string;
@@ -112,11 +116,16 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
             calculate: () => any[];
         }[];
     };
+    hideActions: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
 }>> & Readonly<{
     "onUpdate:modelValue"?: (...args: any[]) => any;
     "onUpdate:expanded"?: (...args: any[]) => any;
     "onUpdate:type"?: (...args: any[]) => any;
     onApply?: (...args: any[]) => any;
+    onClear?: (...args: any[]) => any;
 }>, {
     type: string;
     required: boolean;
@@ -135,6 +144,7 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         label: string;
         calculate: () => any[];
     }[];
+    hideActions: boolean;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 export default _default;
 //# sourceMappingURL=DatePicker.vue?vue&type=script&setup=true&lang.d.ts.map
