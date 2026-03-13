@@ -12,12 +12,12 @@ Requirements for the complete Vue-to-React migration. Each maps to roadmap phase
 - [x] **FOUND-01**: Project configured with React 19 + TypeScript (tsconfig updated with `jsx: react-jsx`)
 - [x] **FOUND-02**: Vite config updated — `@vitejs/plugin-react-swc` replaces `@vitejs/plugin-vue`
 - [x] **FOUND-03**: Package.json updated — Vue deps removed, React deps added, peerDependencies set
-- [ ] **FOUND-04**: `useControllable` hook implemented (replaces `useOptionalModel` composable)
-- [ ] **FOUND-05**: `forwardRef` pattern established for form input components
-- [ ] **FOUND-06**: MDI icons migrated — `mdi-vue` replaced with `@mdi/react`, Icon wrapper component created
+- [x] **FOUND-04**: `useControllable` hook implemented (replaces `useOptionalModel` composable)
+- [x] **FOUND-05**: `forwardRef` pattern established for form input components
+- [x] **FOUND-06**: MDI icons migrated — `mdi-vue` replaced with `@mdi/react`, Icon wrapper component created
 - [x] **FOUND-07**: All 57 component `index.ts` files converted from Vue plugin exports to named exports
 - [x] **FOUND-08**: CSS scoping strategy decided and documented (Tailwind classes + component CSS files)
-- [ ] **FOUND-09**: Transition/animation utility established (CSS class toggling or react-transition-group)
+- [x] **FOUND-09**: Transition/animation utility established (CSS class toggling or react-transition-group)
 - [x] **FOUND-10**: Storybook migrated from `@storybook/vue3-vite` to `@storybook/react-vite`
 - [x] **FOUND-11**: Vitest configured with jsdom + React Testing Library
 - [x] **FOUND-12**: Main entry `src/index.ts` updated to export all React components

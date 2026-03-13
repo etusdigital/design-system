@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-foundation-01-03-PLAN.md
-last_updated: "2026-03-13T18:51:46.814Z"
+stopped_at: Completed 01-foundation-01-04-PLAN.md
+last_updated: "2026-03-13T18:59:23.873Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 4
-  completed_plans: 3
+  completed_plans: 4
   percent: 0
 ---
 
@@ -53,6 +53,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01-foundation P01 | 3 | 2 tasks | 4 files |
 | Phase 01-foundation P02 | 2 | 2 tasks | 5 files |
 | Phase 01-foundation P03 | 15 | 2 tasks | 2 files |
+| Phase 01-foundation P04 | 6 | 2 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -68,6 +69,9 @@ Recent decisions affecting current work:
 - [Phase 01-foundation]: Storybook preview.tsx (JSX extension) required for React decorator; Material Symbols font removed from DOM injection (loaded via main.css @import)
 - [Phase 01-foundation]: Task 1 stub TSX conversion was already in HEAD from plan 01-02 Storybook migration; no duplicate work needed for plan 01-03
 - [Phase 01-foundation]: src/index.ts: CSS side-effect import preserved, Vue plugin install and OptionsConfirm/OptionsToast interfaces removed; re-exports via export * from './components'
+- [Phase 01-foundation]: Icon uses Material Symbols font span per CONTEXT.md locked decision — NOT @mdi/react
+- [Phase 01-foundation]: useControllable dev warning uses always-called useEffect with conditional body (rules-of-hooks compliant)
+- [Phase 01-foundation]: Vitest unit project needs globals:true for @testing-library/jest-dom setup; tsconfig.app.json needs @testing-library/jest-dom in types field
 
 ### Pending Todos
 
@@ -82,6 +86,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-13T18:51:46.812Z
-Stopped at: Completed 01-foundation-01-03-PLAN.md
+Last session: 2026-03-13T18:59:23.871Z
+Stopped at: Completed 01-foundation-01-04-PLAN.md
 Resume file: None

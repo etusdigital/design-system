@@ -10,7 +10,7 @@ A full in-place migration of 60+ Vue 3 components to React, proceeding in strict
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
-- [ ] **Phase 1: Foundation** - Tooling, hooks, and infrastructure that every component depends on
+- [x] **Phase 1: Foundation** - Tooling, hooks, and infrastructure that every component depends on (completed 2026-03-13)
 - [ ] **Phase 2: Atomic Components** - 20 leaf components with no stateful or overlay dependencies
 - [ ] **Phase 3: Form Components** - 12 controlled/uncontrolled form inputs using `useControllable`
 - [ ] **Phase 4: Internal Components** - 8 shared utility components and portal infrastructure
@@ -32,7 +32,7 @@ A full in-place migration of 60+ Vue 3 components to React, proceeding in strict
   3. `useControllable` hook supports both controlled (`value` + `onChange`) and uncontrolled (`defaultValue`) modes, verified by a Vitest test
   4. An Icon component renders an MDI icon via `@mdi/react` with the same visual output as the Vue `mdi-vue` version
   5. All 57 component `index.ts` files export named React components (no Vue plugin objects remain)
-**Plans:** 3/4 plans executed
+**Plans:** 4/4 plans complete
 
 Plans:
 - [ ] 01-01-PLAN.md — Swap build infrastructure from Vue to React (package.json, tsconfig, vite.config.ts)
@@ -137,7 +137,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 3/4 | In Progress|  |
+| 1. Foundation | 4/4 | Complete   | 2026-03-13 |
 | 2. Atomic Components | 0/TBD | Not started | - |
 | 3. Form Components | 0/TBD | Not started | - |
 | 4. Internal Components | 0/TBD | Not started | - |
