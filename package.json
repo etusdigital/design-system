@@ -97,7 +97,7 @@
       "require": "./lib/design-system.umd.js"
     },
     "./components/*": "./src/components/*/index.ts",
-    "./composables/*": "./src/composables/*.ts",
+    "./hooks/*": "./src/hooks/*.ts",
     "./styles.css": "./lib/index.css",
     "./tailwind.config.cjs": "./lib/tailwind.config.cjs"
   }

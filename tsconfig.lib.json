@@ -29,6 +29,7 @@
     "src/**/*.stories.tsx",
     "src/**/*.test.ts",
     "src/**/*.test.tsx",
+    "src/composables/**",
     "node_modules",
     "lib"
   ]
