@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-foundation-01-01-PLAN.md
-last_updated: "2026-03-13T18:45:53.832Z"
+stopped_at: Completed 01-foundation-01-02-PLAN.md
+last_updated: "2026-03-13T18:49:57.962Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
   completed_phases: 0
   total_plans: 4
-  completed_plans: 1
+  completed_plans: 2
   percent: 0
 ---
 
@@ -51,6 +51,7 @@ Progress: [░░░░░░░░░░] 0%
 
 *Updated after each plan completion*
 | Phase 01-foundation P01 | 3 | 2 tasks | 4 files |
+| Phase 01-foundation P02 | 2 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -62,6 +63,8 @@ Recent decisions affecting current work:
 - All pending in PROJECT.md — no execution decisions yet
 - [Phase 01-foundation]: Removed rollup-plugin-typescript2 from vite.config.ts plugins (kept in devDeps); vite-plugin-dts alone is sufficient for type generation
 - [Phase 01-foundation]: Used --legacy-peer-deps due to pre-existing @storybook/theming@8.x vs storybook@9.1.3 conflict (not introduced by Vue->React migration)
+- [Phase 01-foundation]: CSS scoping strategy locked: Tailwind + component CSS + clsx for conditionals + className prop on every component
+- [Phase 01-foundation]: Storybook preview.tsx (JSX extension) required for React decorator; Material Symbols font removed from DOM injection (loaded via main.css @import)
 
 ### Pending Todos
 
@@ -76,6 +79,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-13T18:45:53.830Z
-Stopped at: Completed 01-foundation-01-01-PLAN.md
+Last session: 2026-03-13T18:49:57.960Z
+Stopped at: Completed 01-foundation-01-02-PLAN.md
 Resume file: None
