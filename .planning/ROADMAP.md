@@ -50,7 +50,16 @@ Plans:
   2. Button, Badge, Avatar, and Tooltip accept the same prop names as the Vue version (no API renames)
   3. Components using icons (Button with icon prop, Icon, IconCard) display MDI icons correctly via the new Icon wrapper
   4. All atomic components are importable as named exports from the package entry point
-**Plans**: TBD
+**Plans:** 7 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Migrate Spinner, Skeleton, Card, Separator, Avatar (zero-dep presentational)
+- [ ] 02-02-PLAN.md — Migrate Tooltip (portal + positioning + useTransition)
+- [ ] 02-03-PLAN.md — Migrate Badge, StatusBadge, Button (Spinner/Icon dependents + blendColors)
+- [ ] 02-04-PLAN.md — Migrate FloatCard, Alert, Connector (portal + ResizeObserver + inline Group)
+- [ ] 02-05-PLAN.md — Migrate ProgressBar, ActionCard, IconCard (Tooltip/Card/Icon dependents)
+- [ ] 02-06-PLAN.md — Migrate MetricCard, Breadcrumb (multi-dependency cards + useControllable)
+- [ ] 02-07-PLAN.md — Migrate Image, Profile (portal + inline SelectContainer), verify Icon integration
 
 ### Phase 3: Form Components
 **Goal**: All 12 form inputs work in both controlled and uncontrolled modes, with ref forwarding enabled for form library integration
@@ -139,7 +148,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/5 | Gap closure needed | - |
-| 2. Atomic Components | 0/TBD | Not started | - |
+| 2. Atomic Components | 0/7 | Planned | - |
 | 3. Form Components | 0/TBD | Not started | - |
 | 4. Internal Components | 0/TBD | Not started | - |
 | 5. Providers | 0/TBD | Not started | - |
