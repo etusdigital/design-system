@@ -21,7 +21,8 @@
     "paths": {
       "@/*": ["src/*"],
       "#composables": ["src/hooks"]
-    }
+    },
+    "types": ["@testing-library/jest-dom"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/global.d.ts"]
 }

@@ -94,11 +94,10 @@ describe('useControllable', () => {
     });
 
     it('warns when switching from uncontrolled to controlled', () => {
-      let controlled: string | undefined = undefined;
       const { rerender } = renderHook(
         ({ value }: { value?: string }) =>
           useControllable({ value }),
-        { initialProps: { value: undefined } }
+        { initialProps: { value: undefined } as { value?: string } }
       );
       // Initially uncontrolled
       rerender({ value: 'now-controlled' });
@@ -111,7 +110,7 @@ describe('useControllable', () => {
       const { rerender } = renderHook(
         ({ value }: { value?: string }) =>
           useControllable({ value }),
-        { initialProps: { value: 'initially-controlled' } }
+        { initialProps: { value: 'initially-controlled' } as { value?: string } }
       );
       rerender({ value: undefined });
       expect(console.warn).toHaveBeenCalledWith(
