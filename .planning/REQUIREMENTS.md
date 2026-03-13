@@ -9,9 +9,9 @@ Requirements for the complete Vue-to-React migration. Each maps to roadmap phase
 
 ### Foundation
 
-- [ ] **FOUND-01**: Project configured with React 19 + TypeScript (tsconfig updated with `jsx: react-jsx`)
-- [ ] **FOUND-02**: Vite config updated — `@vitejs/plugin-react-swc` replaces `@vitejs/plugin-vue`
-- [ ] **FOUND-03**: Package.json updated — Vue deps removed, React deps added, peerDependencies set
+- [x] **FOUND-01**: Project configured with React 19 + TypeScript (tsconfig updated with `jsx: react-jsx`)
+- [x] **FOUND-02**: Vite config updated — `@vitejs/plugin-react-swc` replaces `@vitejs/plugin-vue`
+- [x] **FOUND-03**: Package.json updated — Vue deps removed, React deps added, peerDependencies set
 - [ ] **FOUND-04**: `useControllable` hook implemented (replaces `useOptionalModel` composable)
 - [ ] **FOUND-05**: `forwardRef` pattern established for form input components
 - [ ] **FOUND-06**: MDI icons migrated — `mdi-vue` replaced with `@mdi/react`, Icon wrapper component created
