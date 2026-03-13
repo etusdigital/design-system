@@ -1,0 +1,33 @@
+@reference "../../assets/main.css";
+
+.breadcrumb {
+  @apply flex items-center gap-xs;
+}
+
+.itemWrapper {
+  @apply flex items-center gap-xs;
+}
+
+.option {
+  @apply text-neutral-interaction-default cursor-pointer hover:text-primary-interaction-hover;
+}
+
+.option.active {
+  @apply pointer-events-none text-neutral-foreground-high;
+}
+
+.moreOptions {
+  @apply overflow-auto min-w-9xl max-h-9xl p-xxs;
+}
+
+.moreOptions > * {
+  @apply p-xs;
+}
+
+.subOption {
+  @apply cursor-pointer hover:bg-neutral-surface-hover rounded-base;
+}
+
+.moreIcon {
+  @apply cursor-pointer;
+}
