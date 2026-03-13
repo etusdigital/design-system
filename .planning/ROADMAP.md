@@ -32,7 +32,13 @@ A full in-place migration of 60+ Vue 3 components to React, proceeding in strict
   3. `useControllable` hook supports both controlled (`value` + `onChange`) and uncontrolled (`defaultValue`) modes, verified by a Vitest test
   4. An Icon component renders an MDI icon via `@mdi/react` with the same visual output as the Vue `mdi-vue` version
   5. All 57 component `index.ts` files export named React components (no Vue plugin objects remain)
-**Plans**: TBD
+**Plans:** 4 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Swap build infrastructure from Vue to React (package.json, tsconfig, vite.config.ts)
+- [ ] 01-02-PLAN.md — Migrate Storybook to React, configure Vitest unit tests with jsdom + RTL
+- [ ] 01-03-PLAN.md — Convert all 57 component index.ts files and main entry point
+- [ ] 01-04-PLAN.md — Create shared hooks (useControllable, useTransition), Icon component, forwardRef pattern
 
 ### Phase 2: Atomic Components
 **Goal**: All 20 leaf components render correctly in React with the same props and visual output as their Vue counterparts
@@ -131,7 +137,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/TBD | Not started | - |
+| 1. Foundation | 0/4 | Planning complete | - |
 | 2. Atomic Components | 0/TBD | Not started | - |
 | 3. Form Components | 0/TBD | Not started | - |
 | 4. Internal Components | 0/TBD | Not started | - |
