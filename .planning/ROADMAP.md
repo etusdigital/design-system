@@ -50,9 +50,10 @@ Plans:
   2. Button, Badge, Avatar, and Tooltip accept the same prop names as the Vue version (no API renames)
   3. Components using icons (Button with icon prop, Icon, IconCard) display MDI icons correctly via the new Icon wrapper
   4. All atomic components are importable as named exports from the package entry point
-**Plans:** 7 plans
+**Plans:** 8 plans
 
 Plans:
+- [ ] 02-00-PLAN.md — Wave 0: Create 19 stub test files for all atomic components (Nyquist compliance)
 - [ ] 02-01-PLAN.md — Migrate Spinner, Skeleton, Card, Separator, Avatar (zero-dep presentational)
 - [ ] 02-02-PLAN.md — Migrate Tooltip (portal + positioning + useTransition)
 - [ ] 02-03-PLAN.md — Migrate Badge, StatusBadge, Button (Spinner/Icon dependents + blendColors)
@@ -148,7 +149,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/5 | Gap closure needed | - |
-| 2. Atomic Components | 0/7 | Planned | - |
+| 2. Atomic Components | 0/8 | Planned | - |
 | 3. Form Components | 0/TBD | Not started | - |
 | 4. Internal Components | 0/TBD | Not started | - |
 | 5. Providers | 0/TBD | Not started | - |

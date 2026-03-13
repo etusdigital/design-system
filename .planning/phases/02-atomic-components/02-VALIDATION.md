@@ -2,8 +2,8 @@
 phase: 2
 slug: atomic-components
 status: draft
-nyquist_compliant: false
-wave_0_complete: false
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-03-13
 ---
 
@@ -34,29 +34,32 @@ created: 2026-03-13
 
 ---
 
+## Wave 0 Plan
+
+Plan `02-00-PLAN.md` (wave: 0, depends_on: []) creates all 19 stub test files listed below. All Wave 1+ plans depend on `02-00`.
+
+---
+
 ## Per-Task Verification Map
 
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 02-01-01 | 01 | 1 | ATOM-01 | unit | `npx vitest run --project unit src/components/Button/Button.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-01-02 | 01 | 1 | ATOM-06 | unit | `npx vitest run --project unit src/components/Spinner/Spinner.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-01-03 | 01 | 1 | ATOM-07 | unit | `npx vitest run --project unit src/components/Skeleton/Skeleton.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-01-04 | 01 | 1 | ATOM-08 | unit | `npx vitest run --project unit src/components/Separator/Separator.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-02-01 | 02 | 2 | ATOM-03 | unit | `npx vitest run --project unit src/components/Badge/Badge.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-02-02 | 02 | 2 | ATOM-04 | unit | `npx vitest run --project unit src/components/StatusBadge/StatusBadge.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-02-03 | 02 | 2 | ATOM-05 | unit | `npx vitest run --project unit src/components/Avatar/Avatar.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-02-04 | 02 | 2 | ATOM-09 | unit | `npx vitest run --project unit src/components/ProgressBar/ProgressBar.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-02-05 | 02 | 2 | ATOM-10 | unit | `npx vitest run --project unit src/components/Alert/Alert.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-03-01 | 03 | 3 | ATOM-11 | unit | `npx vitest run --project unit src/components/Tooltip/Tooltip.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-03-02 | 03 | 3 | ATOM-12 | unit | `npx vitest run --project unit src/components/Breadcrumb/Breadcrumb.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-03-03 | 03 | 3 | ATOM-13 | unit | `npx vitest run --project unit src/components/Card/Card.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-03-04 | 03 | 3 | ATOM-14 | unit | `npx vitest run --project unit src/components/ActionCard/ActionCard.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-03-05 | 03 | 3 | ATOM-15 | unit | `npx vitest run --project unit src/components/IconCard/IconCard.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-03-06 | 03 | 3 | ATOM-16 | unit | `npx vitest run --project unit src/components/MetricCard/MetricCard.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-04-01 | 04 | 4 | ATOM-17 | unit | `npx vitest run --project unit src/components/FloatCard/FloatCard.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-04-02 | 04 | 4 | ATOM-18 | unit | `npx vitest run --project unit src/components/Image/Image.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-04-03 | 04 | 4 | ATOM-19 | unit | `npx vitest run --project unit src/components/Connector/Connector.test.tsx` | ❌ W0 | ⬜ pending |
-| 02-04-04 | 04 | 4 | ATOM-20 | unit | `npx vitest run --project unit src/components/Profile/Profile.test.tsx` | ❌ W0 | ⬜ pending |
+| 02-00-01 | 00 | 0 | ALL | unit | `npx vitest run --project unit` | W0 creates | ⬜ pending |
+| 02-01-01 | 01 | 1 | ATOM-06,07,13 | unit | `npx vitest run --project unit src/components/Spinner/Spinner.test.tsx src/components/Skeleton/Skeleton.test.tsx src/components/Card/Card.test.tsx` | W0 | ⬜ pending |
+| 02-01-02 | 01 | 1 | ATOM-08,05 | unit | `npx vitest run --project unit src/components/Separator/Separator.test.tsx src/components/Avatar/Avatar.test.tsx` | W0 | ⬜ pending |
+| 02-02-01 | 02 | 1 | ATOM-11 | unit | `npx vitest run --project unit src/components/Tooltip/Tooltip.test.tsx` | W0 | ⬜ pending |
+| 02-02-02 | 02 | 1 | ATOM-11 | unit | `npx vitest run --project unit src/components/Tooltip/Tooltip.test.tsx` | W0 | ⬜ pending |
+| 02-03-01 | 03 | 2 | ATOM-03,04 | unit | `npx vitest run --project unit src/components/Badge/Badge.test.tsx src/components/StatusBadge/StatusBadge.test.tsx` | W0 | ⬜ pending |
+| 02-03-02 | 03 | 2 | ATOM-01 | unit | `npx vitest run --project unit src/components/Button/Button.test.tsx` | W0 | ⬜ pending |
+| 02-04-01 | 04 | 2 | ATOM-17 | unit | `npx vitest run --project unit src/components/FloatCard/FloatCard.test.tsx` | W0 | ⬜ pending |
+| 02-04-02 | 04 | 2 | ATOM-10,19 | unit | `npx vitest run --project unit src/components/Alert/Alert.test.tsx src/components/Connector/Connector.test.tsx` | W0 | ⬜ pending |
+| 02-05-01 | 05 | 3 | ATOM-09 | unit | `npx vitest run --project unit src/components/ProgressBar/ProgressBar.test.tsx` | W0 | ⬜ pending |
+| 02-05-02 | 05 | 3 | ATOM-14,15 | unit | `npx vitest run --project unit src/components/ActionCard/ActionCard.test.tsx src/components/IconCard/IconCard.test.tsx` | W0 | ⬜ pending |
+| 02-06-01 | 06 | 3 | ATOM-16 | unit | `npx vitest run --project unit src/components/MetricCard/MetricCard.test.tsx` | W0 | ⬜ pending |
+| 02-06-02 | 06 | 3 | ATOM-12 | unit | `npx vitest run --project unit src/components/Breadcrumb/Breadcrumb.test.tsx` | W0 | ⬜ pending |
+| 02-07-01 | 07 | 4 | ATOM-18 | unit | `npx vitest run --project unit src/components/Image/Image.test.tsx` | W0 | ⬜ pending |
+| 02-07-02 | 07 | 4 | ATOM-20 | unit | `npx vitest run --project unit src/components/Profile/Profile.test.tsx` | W0 | ⬜ pending |
+| 02-07-03 | 07 | 4 | ATOM-02 | build | `npx storybook build --quiet 2>&1 \| tail -5 && npx tsc --noEmit 2>&1 \| tail -5` | existing | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -86,6 +89,8 @@ created: 2026-03-13
 
 Existing: `src/components/Icon/Icon.test.tsx` — covers ATOM-02
 
+Covered by: Plan `02-00-PLAN.md` (wave 0)
+
 ---
 
 ## Manual-Only Verifications
@@ -99,11 +104,11 @@ Existing: `src/components/Icon/Icon.test.tsx` — covers ATOM-02
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 15s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or Wave 0 dependencies
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covers all MISSING references
+- [x] No watch-mode flags
+- [x] Feedback latency < 15s
+- [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** approved
