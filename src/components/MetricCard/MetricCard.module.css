@@ -1,0 +1,234 @@
+@reference "../../assets/main.css";
+
+.metricCard {
+  @apply flex flex-col gap-xs p-sm text-neutral-interaction-default bg-neutral-surface-default border-xs border-neutral-default shadow-none;
+}
+
+.headerRow {
+  @apply flex gap-xxs items-center;
+}
+
+.contentRow {
+  @apply flex items-end gap-xs;
+}
+
+/* Color variants */
+.primary {
+  @apply text-primary-foreground-low border-primary-default bg-primary-surface-default;
+}
+
+.primary .infoLabel {
+  @apply text-primary-interaction-default;
+}
+
+.info, .informative {
+  @apply text-informative-foreground-low border-informative-default bg-informative-surface-default;
+}
+
+.info .infoLabel, .informative .infoLabel {
+  @apply text-informative-interaction-default;
+}
+
+.success {
+  @apply text-success-foreground-low border-success-default bg-success-surface-default;
+}
+
+.success .infoLabel {
+  @apply text-success-interaction-default;
+}
+
+.warning {
+  @apply text-warning-foreground-low border-warning-default bg-warning-surface-default;
+}
+
+.warning .infoLabel {
+  @apply text-warning-interaction-default;
+}
+
+.danger {
+  @apply text-danger-foreground-low border-danger-default bg-danger-surface-default;
+}
+
+.danger .infoLabel {
+  @apply text-danger-interaction-default;
+}
+
+/* Type variants */
+.dashed {
+  @apply border-dashed bg-transparent;
+}
+
+.secondary {
+  @apply shadow-neutral-default text-neutral-interaction-default bg-transparent border-none;
+}
+
+.secondary .cardTitle {
+  @apply font-bold;
+}
+
+.secondary.primary .cardValue {
+  @apply text-primary-interaction-default;
+}
+
+.secondary.info .cardValue, .secondary.informative .cardValue {
+  @apply text-informative-interaction-default;
+}
+
+.secondary.success .cardValue {
+  @apply text-success-interaction-default;
+}
+
+.secondary.warning .cardValue {
+  @apply text-warning-interaction-default;
+}
+
+.secondary.danger .cardValue {
+  @apply text-danger-interaction-default;
+}
+
+/* Info label colors */
+.info-primary {
+  @apply text-primary-interaction-default;
+}
+
+.info-informative, .info-info {
+  @apply text-informative-interaction-default;
+}
+
+.info-success {
+  @apply text-success-interaction-default;
+}
+
+.info-warning {
+  @apply text-warning-interaction-default;
+}
+
+.info-danger {
+  @apply text-danger-interaction-default;
+}
+
+.info-neutral {
+  @apply text-neutral-interaction-default;
+}
+
+/* Size variants */
+.small {
+  @apply px-sm py-xs gap-0;
+}
+
+.small .cardTitle {
+  @apply text-xxs;
+}
+
+.small .cardValue {
+  @apply text-lg;
+}
+
+.small .cardDescription, .small .icon {
+  @apply text-xs;
+}
+
+.small .infoIcon {
+  @apply text-base;
+}
+
+.small .infoText {
+  @apply text-xxs;
+}
+
+.small .skeleton.header {
+  @apply h-sm;
+}
+
+.small .skeleton.contentSkeleton {
+  @apply h-base;
+}
+
+.medium .cardTitle {
+  @apply text-xs;
+}
+
+.medium .cardValue {
+  @apply text-xl;
+}
+
+.medium .cardDescription, .medium .icon {
+  @apply text-sm;
+}
+
+.medium .infoIcon {
+  @apply text-lg;
+}
+
+.medium .infoText {
+  @apply text-xxs;
+}
+
+.medium .skeleton.header {
+  @apply h-sm;
+}
+
+.medium .skeleton.contentSkeleton {
+  @apply h-base;
+}
+
+.large .cardTitle {
+  @apply text-sm;
+}
+
+.large .cardValue {
+  @apply text-2xl;
+}
+
+.large .cardDescription {
+  @apply text-sm;
+}
+
+.large .icon {
+  @apply text-base;
+}
+
+.large .infoIcon {
+  @apply text-xl;
+}
+
+.large .infoText {
+  @apply text-xs;
+}
+
+.large .skeleton.header {
+  @apply h-sm;
+}
+
+.large .skeleton.contentSkeleton {
+  @apply h-lg;
+}
+
+/* Shared styles */
+.infoIcon {
+  @apply flex items-center;
+}
+
+.infoText {
+  @apply font-bold ml-xxs;
+}
+
+.infoLabel {
+  @apply text-neutral-interaction-default;
+}
+
+.cardValue {
+  @apply font-bold;
+}
+
+.bold {
+  @apply font-bold;
+}
+
+.skeleton.header {
+  @apply w-[30%] h-xs;
+}
+
+.skeleton.contentSkeleton {
+  @apply w-full min-w-9xl;
+}
