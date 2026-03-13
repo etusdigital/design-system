@@ -1,0 +1,121 @@
+@reference "../../assets/main.css";
+
+.button {
+  @apply p3 font-semibold leading-base rounded-base relative inline-flex cursor-pointer items-center justify-center tracking-wider capitalize select-none active:scale-95 border-xs text-neutral-foreground-negative;
+}
+
+.button :global(.spinner) {
+  @apply absolute;
+}
+
+.button:global(.small) {
+  @apply py-xs px-base;
+}
+
+.button:global(.small) :global(.spinner) {
+  @apply text-xs;
+}
+
+.button:global(.medium) {
+  @apply py-sm px-base;
+}
+
+.button:global(.large) {
+  @apply py-base px-xl;
+}
+
+.progress {
+  @apply absolute overflow-hidden top-0 left-0 bottom-0 rounded-l-sm transition-[width] ease-out duration-300;
+}
+
+.progressComplete {
+  @apply rounded-r-sm;
+}
+
+.button:global(.default) .progress {
+  @apply bg-neutral-surface-default opacity-60;
+}
+
+.buttonLabel {
+  @apply inline-flex items-center justify-center gap-x-xs cursor-[inherit];
+}
+
+.label {
+  @apply inline-flex items-center justify-center gap-x-xs;
+}
+
+.invisible {
+  @apply invisible;
+}
+
+.pointerEventsNone {
+  @apply pointer-events-none;
+}
+
+.disabled {
+  @apply pointer-events-none;
+}
+
+.round {
+  @apply rounded-full p-xxs;
+}
+
+.round .buttonLabel {
+  @apply gap-x-none;
+}
+
+.round .label {
+  @apply opacity-0 scale-0 max-w-none overflow-hidden transition-all duration-300 origin-left whitespace-nowrap;
+}
+
+.alwaysOpen {
+  @apply w-fit max-w-[none];
+}
+
+.hovered .label,
+.alwaysOpen .label {
+  @apply opacity-100 scale-100 max-w-14xl mr-base;
+}
+
+.round:global(.small) {
+  @apply text-xs py-none;
+}
+
+.round:global(.small).hovered .buttonLabel,
+.round:global(.small).alwaysOpen .buttonLabel {
+  @apply gap-x-xxs;
+}
+
+.round:global(.small) :global(.icon) {
+  @apply text-xl;
+}
+
+.round:global(.medium) {
+  @apply text-base leading-lg py-none;
+}
+
+.round:global(.medium).hovered .buttonLabel,
+.round:global(.medium).alwaysOpen .buttonLabel {
+  @apply gap-x-xxs;
+}
+
+.round:global(.medium) :global(.icon) {
+  @apply text-3xl;
+}
+
+.round:global(.large) {
+  @apply text-xl leading-xl;
+}
+
+.round:global(.large) .hovered .buttonLabel,
+.round:global(.large) .alwaysOpen .buttonLabel {
+  @apply gap-x-sm;
+}
+
+.round:global(.large) :global(.icon) {
+  @apply text-5xl;
+}
+
+.spinner {
+  @apply absolute;
+}
