@@ -1,11 +1,10 @@
 /// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
-import vue from '@vitejs/plugin-vue';
+import react from '@vitejs/plugin-react-swc';
 import dts from 'vite-plugin-dts';
 import { copyFileSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
-import typescript2 from 'rollup-plugin-typescript2';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import path from 'node:path';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
@@ -41,45 +40,21 @@ const generateMainDts = () => ({
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   plugins: [
-    vue({
-      template: {
-        compilerOptions: {
-          isCustomElement: (tag: string) => {
-            return tag == 'ion-icon';
-          },
-        },
-      },
-    }), 
+    react(),
     tailwindcss(),
     copyTailwindConfig(),
     generateMainDts(),
     dts({
       insertTypesEntry: true,
-      cleanVueFileName: true,
       outDir: 'lib',
       include: ['src/**/*'],
-      exclude: ['src/**/*.stories.ts', 'src/**/*.test.ts', 'vite.config.ts'],
-    }),
-    typescript2({
-      check: false,
-      include: ['src/**/*.ts'],
-      tsconfigOverride: {
-        compilerOptions: {
-          outDir: 'lib',
-          skipLibCheck: true,
-          sourceMap: true,
-          declaration: true,
-          declarationMap: true,
-        },
-      },
-      exclude: ['vite.config.ts'],
+      exclude: ['src/**/*.stories.ts', 'src/**/*.stories.tsx', 'src/**/*.test.ts', 'src/**/*.test.tsx', 'vite.config.ts'],
     }),
   ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '#composables': path.resolve(__dirname, './src/composables'),
-      'vue': 'vue/dist/vue.esm-bundler.js',
+      '#composables': path.resolve(__dirname, './src/hooks'),
       '#': path.resolve(__dirname, './src')
     },
   },
@@ -96,11 +71,12 @@ export default defineConfig({
       input: {
         main: path.resolve(__dirname, 'src/index.ts'),
       },
-      external: ['vue'],
+      external: ['react', 'react-dom'],
       output: {
         exports: 'named',
         globals: {
-          vue: 'Vue',
+          react: 'React',
+          'react-dom': 'ReactDOM',
         },
         assetFileNames: (assetInfo) => {
           if (assetInfo.name === 'main.css') return 'index.css';
@@ -109,7 +85,7 @@ export default defineConfig({
       },
       plugins: [
         nodeResolve({
-          extensions: ['.ts', '.vue'],
+          extensions: ['.ts', '.tsx'],
         }),
       ],
     },
