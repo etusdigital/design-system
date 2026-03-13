@@ -1,0 +1,188 @@
+@reference "../../assets/main.css";
+
+.progressBar,
+.stepBar .step {
+  @apply flex items-center rounded-lg bg-primary-surface-highlight justify-start relative;
+}
+
+.small {
+  @apply h-xs;
+}
+
+.small .progressLabel {
+  @apply text-xxs;
+}
+
+.small .progressIcon .icon {
+  @apply text-base;
+}
+
+.medium {
+  @apply h-sm;
+}
+
+.medium .progressLabel {
+  @apply text-xs;
+}
+
+.medium .progressIcon .icon {
+  @apply text-2xl;
+}
+
+.large {
+  @apply h-base;
+}
+
+.large .progressLabel {
+  @apply text-sm;
+}
+
+.large .progressIcon .icon {
+  @apply text-4xl;
+}
+
+.progressHolder {
+  @apply flex items-center overflow-hidden w-full rounded-base;
+}
+
+.progressLabel {
+  @apply h-fit w-full flex flex-row justify-center text-neutral-foreground-negative;
+}
+
+.progressFill {
+  @apply flex items-center justify-center bg-primary-foreground-low rounded-lg overflow-hidden;
+  transition: width 0.5s ease-in-out;
+}
+
+.stepBar .step {
+  transition: background-color 0.5s linear;
+}
+
+.stepBar .step.filled {
+  @apply bg-primary-foreground-low;
+}
+
+.progressBar.neutralBg,
+.step.neutralBg {
+  @apply bg-neutral-surface-disabled;
+}
+
+.progressIcon {
+  @apply flex items-center absolute text-primary-foreground-low;
+}
+
+/* Type variants */
+.info {
+  @apply bg-informative-surface-highlight;
+}
+
+.info .progressFill {
+  @apply bg-informative-foreground-low;
+}
+
+.info .stepBar .step.filled {
+  @apply bg-informative-foreground-low;
+}
+
+.info .progressIcon {
+  @apply text-informative-foreground-low;
+}
+
+.success {
+  @apply bg-success-surface-highlight;
+}
+
+.success .progressFill {
+  @apply bg-success-foreground-low;
+}
+
+.success .stepBar .step.filled {
+  @apply bg-success-foreground-low;
+}
+
+.success .progressIcon {
+  @apply text-success-foreground-low;
+}
+
+.warning {
+  @apply bg-warning-surface-highlight;
+}
+
+.warning .progressFill {
+  @apply bg-warning-foreground-low;
+}
+
+.warning .stepBar .step.filled {
+  @apply bg-warning-foreground-low;
+}
+
+.warning .progressIcon {
+  @apply text-warning-foreground-low;
+}
+
+.danger {
+  @apply bg-danger-surface-highlight;
+}
+
+.danger .progressFill {
+  @apply bg-danger-foreground-low;
+}
+
+.danger .stepBar .step.filled {
+  @apply bg-danger-foreground-low;
+}
+
+.danger .progressIcon {
+  @apply text-danger-foreground-low;
+}
+
+.neutral {
+  @apply bg-neutral-surface-highlight;
+}
+
+.neutral .progressFill {
+  @apply bg-neutral-foreground-low;
+}
+
+.neutral .stepBar .step.filled {
+  @apply bg-neutral-foreground-low;
+}
+
+.neutral .progressIcon {
+  @apply text-neutral-foreground-low;
+}
+
+/* Animations */
+.progressFill.indeterminate {
+  animation: indeterminate 2s ease-in-out infinite;
+  transform-origin: 100%;
+}
+
+.progressFill.query {
+  animation: query 2.7s ease-in-out infinite;
+  transform-origin: 100%;
+}
+
+@keyframes query {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(200%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  60% {
+    transform: translateX(200%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
