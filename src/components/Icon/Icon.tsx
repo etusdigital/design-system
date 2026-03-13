@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import './Icon.css';
 
 export interface IconProps {
   name?: string;
