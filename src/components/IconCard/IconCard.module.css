@@ -1,0 +1,33 @@
+@reference "../../assets/main.css";
+
+.iconCard {
+  @apply relative min-w-20xl;
+}
+
+.iconContainer {
+  @apply flex items-center justify-center rounded-full bg-primary-interaction-default py-xxs px-xs w-fit h-fit text-neutral-foreground-negative absolute -left-lg top-base;
+}
+
+.iconContainer .icon {
+  @apply text-xl;
+}
+
+.iconContainer.roundIcon {
+  @apply bg-transparent text-primary-interaction-default p-none -left-base;
+}
+
+.iconContainer.roundIcon .icon {
+  @apply text-4xl;
+}
+
+.cardTitle {
+  @apply text-primary-interaction-default font-bold text-base;
+}
+
+.coloredBackground {
+  /* background is set via inline style from blendColors */
+}
+
+.coloredText {
+  /* color is set via inline style */
+}
