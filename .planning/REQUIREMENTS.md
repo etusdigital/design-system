@@ -24,26 +24,26 @@ Requirements for the complete Vue-to-React migration. Each maps to roadmap phase
 
 ### Atomic Components
 
-- [ ] **ATOM-01**: Button component migrated to React TSX with same props and visual output
+- [x] **ATOM-01**: Button component migrated to React TSX with same props and visual output
 - [ ] **ATOM-02**: Icon component migrated to React TSX
-- [ ] **ATOM-03**: Badge component migrated to React TSX
-- [ ] **ATOM-04**: StatusBadge component migrated to React TSX
-- [ ] **ATOM-05**: Avatar component migrated to React TSX
-- [ ] **ATOM-06**: Spinner component migrated to React TSX
-- [ ] **ATOM-07**: Skeleton component migrated to React TSX
-- [ ] **ATOM-08**: Separator component migrated to React TSX
-- [ ] **ATOM-09**: ProgressBar component migrated to React TSX
-- [ ] **ATOM-10**: Alert component migrated to React TSX
-- [ ] **ATOM-11**: Tooltip component migrated to React TSX
-- [ ] **ATOM-12**: Breadcrumb component migrated to React TSX
-- [ ] **ATOM-13**: Card component migrated to React TSX
-- [ ] **ATOM-14**: ActionCard component migrated to React TSX
-- [ ] **ATOM-15**: IconCard component migrated to React TSX
-- [ ] **ATOM-16**: MetricCard component migrated to React TSX
-- [ ] **ATOM-17**: FloatCard component migrated to React TSX
-- [ ] **ATOM-18**: Image component migrated to React TSX
-- [ ] **ATOM-19**: Connector component migrated to React TSX
-- [ ] **ATOM-20**: Profile component migrated to React TSX
+- [x] **ATOM-03**: Badge component migrated to React TSX
+- [x] **ATOM-04**: StatusBadge component migrated to React TSX
+- [x] **ATOM-05**: Avatar component migrated to React TSX
+- [x] **ATOM-06**: Spinner component migrated to React TSX
+- [x] **ATOM-07**: Skeleton component migrated to React TSX
+- [x] **ATOM-08**: Separator component migrated to React TSX
+- [x] **ATOM-09**: ProgressBar component migrated to React TSX
+- [x] **ATOM-10**: Alert component migrated to React TSX
+- [x] **ATOM-11**: Tooltip component migrated to React TSX
+- [x] **ATOM-12**: Breadcrumb component migrated to React TSX
+- [x] **ATOM-13**: Card component migrated to React TSX
+- [x] **ATOM-14**: ActionCard component migrated to React TSX
+- [x] **ATOM-15**: IconCard component migrated to React TSX
+- [x] **ATOM-16**: MetricCard component migrated to React TSX
+- [x] **ATOM-17**: FloatCard component migrated to React TSX
+- [x] **ATOM-18**: Image component migrated to React TSX
+- [x] **ATOM-19**: Connector component migrated to React TSX
+- [x] **ATOM-20**: Profile component migrated to React TSX
 
 ### Form Components
 
