@@ -1,4 +1,10 @@
-// TODO: Migrate from Skeleton.vue in Phase 2+
-export function Skeleton(props: Record<string, unknown>) {
-  return <div data-component="Skeleton" {...props} />;
+import clsx from 'clsx';
+import styles from './Skeleton.module.css';
+
+export interface SkeletonProps {
+  className?: string;
+}
+
+export function Skeleton({ className }: SkeletonProps = {}) {
+  return <div className={clsx(styles.skeleton, className)} />;
 }
