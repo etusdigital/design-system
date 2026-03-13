@@ -1,4 +1,18 @@
-// TODO: Migrate from Separator.vue in Phase 2+
-export function Separator(props: Record<string, unknown>) {
-  return <div data-component="Separator" {...props} />;
+import clsx from 'clsx';
+import styles from './Separator.module.css';
+
+export interface SeparatorProps {
+  position?: 'left' | 'center' | 'right';
+  children?: React.ReactNode;
+  className?: string;
+}
+
+export function Separator({ position = 'right', children, className }: SeparatorProps = {}) {
+  return (
+    <div className={clsx(styles.separator, className)}>
+      {position !== 'right' && <div className={styles.separatorLine} />}
+      {children}
+      {position !== 'left' && <div className={styles.separatorLine} />}
+    </div>
+  );
 }
