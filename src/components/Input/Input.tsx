@@ -12,8 +12,8 @@ export interface InputProps {
   defaultValue?: string;
   onChange?: (value: string) => void;
   labelValue?: string;
-  type?: 'text' | 'number' | 'password' | 'search' | 'file' | 'email' | 'url' | 'domain' | 'color';
-  mask?: string;
+  type?: 'text' | 'number' | 'password' | 'search' | 'email' | 'url' | 'domain' | 'color';
+  mask?: 'cpf' | 'cnpj' | 'cep';
   max?: number;
   min?: number;
   step?: number;
@@ -83,7 +83,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
   const [isFocused, setIsFocused] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [fileName, setFileName] = useState('');
+  const [validationError, setValidationError] = useState<string>('');
 
   const internalRef = useRef<HTMLInputElement>(null);
 
@@ -109,20 +109,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
     if (type === 'password') return showPassword ? 'text' : 'password';
     if (type === 'number') return 'text'; // custom arrows, hide native spinners
     if (type === 'search' || type === 'email' || type === 'url' || type === 'domain' || type === 'color') return 'text';
-    if (type === 'file') return 'file';
     return type;
   })();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (type === 'file') {
-      const files = e.target.files;
-      if (files && files.length > 0) {
-        setFileName(files[0].name);
-        onChange?.(files[0].name);
-      }
-      return;
-    }
-
     let newValue = e.target.value;
 
     // Apply mask
@@ -158,8 +148,15 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
     // Validate on blur
     const val = currentValue ?? '';
     if (type === 'email') setHasError(!isValidEmail(val));
-    else if (type === 'domain') setHasError(!isValidDomain(val));
-    else if (type === 'url') setHasError(!isValidUrl(val));
+    else if (type === 'domain') {
+      const valid = !val || isValidDomain(val);
+      setHasError(!valid);
+      setValidationError(val && !valid ? 'Invalid domain' : '');
+    } else if (type === 'url') {
+      const valid = !val || isValidUrl(val);
+      setHasError(!valid);
+      setValidationError(val && !valid ? 'Invalid URL' : '');
+    }
 
     onBlur?.();
   }
@@ -216,18 +213,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
           ) : null}
 
           {/* Native input */}
-          {type === 'file' ? (
-            <input
-              ref={mergedRef}
-              type="file"
-              className="hidden"
-              disabled={disabled}
-              onChange={handleChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-            />
-          ) : (
-            <input
+          <input
               ref={mergedRef}
               type={resolvedType}
               className={clsx(styles.inputContent, textAlign && styles[textAlign])}
@@ -239,17 +225,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
               disabled={disabled}
               spellCheck={false}
             />
-          )}
-
-          {/* File display */}
-          {type === 'file' && (
-            <span
-              className={clsx(styles.inputContent, 'cursor-pointer')}
-              onClick={() => internalRef.current?.click()}
-            >
-              {fileName || placeholder || 'Choose file...'}
-            </span>
-          )}
 
           {/* Append icon area */}
           {type === 'password' ? (
@@ -267,7 +242,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
 
         {/* Number arrows (outside input container — matching Vue source) */}
         {type === 'number' && (
-          <div className={clsx(styles.numberArrows, 'ml-xxs mt-xxs')}>
+          <div className={clsx(styles.numberArrows, 'ml-xxs')}>
             <Icon
               name="arrow_drop_up"
               className="text-2xl h-[.7em] cursor-pointer text-neutral-interaction-default"
@@ -283,8 +258,8 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
       </div>
 
       {/* Error message */}
-      {errorMessage && showError && (
-        <p className={styles.errorMessage}>{errorMessage}</p>
+      {(errorMessage || validationError) && (showError || !!validationError) && (
+        <p className={styles.errorMessage}>{errorMessage || validationError}</p>
       )}
     </div>
   );

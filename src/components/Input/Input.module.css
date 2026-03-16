@@ -5,23 +5,23 @@
 }
 
 .inputContainer {
-  @apply flex items-center gap-xs py-xs px-sm min-h-[24px] rounded-sm outline outline-1 outline-neutral-border-default bg-white transition-[outline-color] duration-100;
+  @apply flex items-center gap-xs py-xs px-sm min-h-[24px] rounded-sm outline outline-1 outline-neutral-default bg-neutral-surface-default transition-[outline-color] duration-100;
 }
 
 .focused {
-  @apply outline-primary-border-default;
+  @apply outline-primary-default;
 }
 
 .error {
-  @apply outline-danger-border-default;
+  @apply outline-danger-default;
 }
 
 .disabled {
-  @apply outline-neutral-border-disabled bg-neutral-surface-disabled pointer-events-none;
+  @apply outline-neutral-disabled bg-neutral-surface-disabled pointer-events-none;
 }
 
 .inputContent {
-  @apply flex-1 bg-transparent outline-none text-sm text-neutral-foreground-high placeholder:text-neutral-foreground-low min-w-0;
+  @apply flex-1 bg-transparent outline-none border-0 text-sm text-neutral-foreground-high placeholder:text-neutral-foreground-low min-w-0;
 }
 
 .left {

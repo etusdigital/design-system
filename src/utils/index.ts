@@ -417,6 +417,11 @@ export function applyMask(
       value = value.slice(0, 8);
       value = value.replace(/(\d{5})(\d)/, "$1-$2"); // Add hyphen after 5º digit
       break;
+    case "domain":
+    case "url":
+    case "email":
+      // No character masking — validated on blur
+      break;
   }
 
   return value;
