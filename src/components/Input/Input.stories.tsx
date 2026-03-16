@@ -7,12 +7,12 @@ export default {
   argTypes: {
     type: {
       control: 'select',
-      options: ['text', 'number', 'search', 'color', 'password', 'file', 'email', 'url', 'domain'],
+      options: ['text', 'number', 'search', 'color', 'password', 'email', 'url', 'domain'],
       description: 'Input type variant',
     },
     mask: {
       control: 'select',
-      options: ['cpf', 'cnpj', 'cep', 'domain', 'url'],
+      options: ['cpf', 'cnpj', 'cep'],
       description: 'Mask applied to the input (text type only)',
     },
     textAlign: {
@@ -24,87 +24,87 @@ export default {
 
 type Story = StoryObj<typeof Input>;
 
-export const Default: Story = {
+export const Primary: Story = {
   args: {
     placeholder: 'Enter text...',
   },
 };
 
-export const WithLabel: Story = {
+export const Types: Story = {
+  render: (args: any) => (
+    <div className="flex flex-col gap-xs">
+      {['text', 'number', 'search', 'color', 'password', 'email', 'url', 'domain'].map((type) => (
+        <Input key={type} {...args} type={type} labelValue={type} />
+      ))}
+    </div>
+  ),
+};
+
+export const MaxLetters: Story = {
   args: {
-    labelValue: 'Email',
-    placeholder: 'Enter your email',
+    labelValue: 'Max Letters',
+    max: 20,
     type: 'text',
   },
 };
 
-export const WithMask: Story = {
+export const IsError: Story = {
   args: {
-    labelValue: 'CPF',
-    mask: 'cpf',
-    placeholder: '000.000.000-00',
-    type: 'text',
-  },
-};
-
-export const NumberType: Story = {
-  args: {
-    labelValue: 'Quantity',
-    type: 'number',
-    min: 0,
-    max: 100,
-    step: 1,
-    defaultValue: '0',
-  },
-};
-
-export const PasswordType: Story = {
-  args: {
-    labelValue: 'Password',
-    type: 'password',
-    placeholder: 'Enter password',
-  },
-};
-
-export const SearchType: Story = {
-  args: {
-    labelValue: 'Search',
-    type: 'search',
-    placeholder: 'Search...',
-  },
-};
-
-export const WithError: Story = {
-  args: {
-    labelValue: 'Email',
-    type: 'email',
+    labelValue: 'Is Error',
+    errorMessage: 'This is an error message',
     isError: true,
-    errorMessage: 'Invalid email address',
-    placeholder: 'Enter email',
+    type: 'text',
   },
 };
 
-export const WithCounter: Story = {
+export const InfoMessage: Story = {
   args: {
-    labelValue: 'Bio',
+    labelValue: 'Info Message',
+    infoMessage: 'This is an info message',
     type: 'text',
-    max: 100,
-    placeholder: 'Enter bio...',
   },
 };
 
 export const Disabled: Story = {
   args: {
-    labelValue: 'Disabled Input',
+    labelValue: 'Disabled',
     disabled: true,
-    placeholder: 'Cannot type here',
+    type: 'text',
   },
 };
 
-export const WithInfoMessage: Story = {
+export const Required: Story = {
   args: {
-    labelValue: 'Username',
-    infoMessage: 'Must be at least 3 characters',
-    placeholder: 'Enter username',
+    labelValue: 'Required',
+    required: true,
+    type: 'text',
+  },
+};
+
+export const TextAlign: Story = {
+  render: (args: any) => (
+    <div className="flex flex-col gap-xs">
+      {['left', 'center', 'right'].map((textAlign) => (
+        <Input key={textAlign} {...args} textAlign={textAlign} labelValue={textAlign} />
+      ))}
+    </div>
+  ),
+};
+
+export const DomainType: Story = {
+  args: {
+    type: 'domain',
+    label: 'Domain',
+    labelValue: 'Domain',
+    placeholder: 'example.com',
+  },
+};
+
+export const UrlType: Story = {
+  args: {
+    type: 'url',
+    label: 'URL',
+    labelValue: 'URL',
+    placeholder: 'https://example.com',
   },
 };

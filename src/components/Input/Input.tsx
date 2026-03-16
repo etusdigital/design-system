@@ -5,6 +5,7 @@ import { useControllable } from '../../hooks/useControllable';
 import { Label } from '../../utils/components/Label';
 import { Icon } from '../Icon/Icon';
 import { applyMask, isValidEmail, isValidDomain, isValidUrl } from '../../utils/index';
+import './Input.css';
 import styles from './Input.module.css';
 
 export interface InputProps {
