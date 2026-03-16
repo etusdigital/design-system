@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import React from 'react';
 import { Slider } from './index';
+import * as useControllableModule from '../../hooks/useControllable';
 
 describe('Slider', () => {
   afterEach(() => {
@@ -59,6 +60,42 @@ describe('Slider', () => {
     const slider = container.firstChild as HTMLElement;
     const cursors = slider.querySelectorAll('[class*="cursor"]');
     expect(cursors.length).toBe(2);
+  });
+
+  it('passes defaultValue to useControllable', () => {
+    const useControllableSpy = vi.spyOn(useControllableModule, 'useControllable');
+
+    render(<Slider defaultValue={0.5} />);
+
+    expect(useControllableSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        defaultValue: 0.5,
+      })
+    );
+  });
+
+  it('passes range defaultValue to useControllable', () => {
+    const useControllableSpy = vi.spyOn(useControllableModule, 'useControllable');
+
+    render(<Slider isRange defaultValue={[0.2, 0.8]} />);
+
+    expect(useControllableSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        defaultValue: [0.2, 0.8],
+      })
+    );
+  });
+
+  it('falls back to 0 when no defaultValue provided', () => {
+    const useControllableSpy = vi.spyOn(useControllableModule, 'useControllable');
+
+    render(<Slider />);
+
+    expect(useControllableSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        defaultValue: 0,
+      })
+    );
   });
 
   it('applies disabled class when disabled', () => {
