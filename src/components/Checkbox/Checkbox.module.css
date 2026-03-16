@@ -1,0 +1,25 @@
+@reference "../../assets/main.css";
+
+.checkbox {
+  @apply inline-flex items-center gap-xs cursor-pointer select-none text-base;
+}
+
+.rhs {
+  @apply flex-row-reverse;
+}
+
+.disabled {
+  @apply pointer-events-none opacity-50;
+}
+
+.box {
+  @apply flex items-center justify-center h-[1em] w-[1em] rounded-xs border border-primary-default transition-all duration-150 ease-out;
+}
+
+.active {
+  @apply bg-primary-interaction-selected border-primary-interaction-selected text-white;
+}
+
+.indeterminate {
+  @apply bg-primary-interaction-selected border-primary-interaction-selected text-white;
+}
