@@ -1,0 +1,21 @@
+@reference "../../assets/main.css";
+
+.pinInput {
+  @apply flex gap-xs items-center;
+}
+
+.field {
+  @apply w-[48px] h-[48px] text-center text-sm rounded-sm outline outline-1 outline-neutral-border-default bg-white transition-[outline-color] duration-100 focus:outline-primary-border-default;
+}
+
+.filled {
+  @apply outline-primary-border-default bg-primary-surface-default;
+}
+
+.separator {
+  @apply text-neutral-foreground-low text-lg mx-xxs;
+}
+
+.disabled {
+  @apply outline-neutral-border-disabled bg-neutral-surface-disabled pointer-events-none;
+}
