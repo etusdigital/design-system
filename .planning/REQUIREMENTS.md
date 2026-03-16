@@ -50,8 +50,8 @@ Requirements for the complete Vue-to-React migration. Each maps to roadmap phase
 - [ ] **FORM-01**: Input component migrated with controlled/uncontrolled support and forwardRef
 - [ ] **FORM-02**: Textarea component migrated with controlled/uncontrolled support and forwardRef
 - [x] **FORM-03**: Checkbox component migrated with controlled/uncontrolled support
-- [ ] **FORM-04**: Radio component migrated with controlled/uncontrolled support
-- [ ] **FORM-05**: RadioGroup component migrated with controlled/uncontrolled support
+- [x] **FORM-04**: Radio component migrated with controlled/uncontrolled support
+- [x] **FORM-05**: RadioGroup component migrated with controlled/uncontrolled support
 - [x] **FORM-06**: Switch component migrated with controlled/uncontrolled support
 - [x] **FORM-07**: Toggle component migrated with controlled/uncontrolled support
 - [x] **FORM-08**: ToggleGroup component migrated with controlled/uncontrolled support
