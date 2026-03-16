@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 03-form-components-03-04-PLAN.md
-last_updated: "2026-03-16T18:27:46.965Z"
+stopped_at: Completed 03-form-components-03-05-PLAN.md
+last_updated: "2026-03-16T18:27:56.812Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
@@ -90,6 +90,8 @@ Recent decisions affecting current work:
 - [Phase 03-form-components]: Smoke test pattern: import from ./index, render without crashing, assert document.body.toBeTruthy() — same as Phase 2 02-00 pattern
 - [Phase 03-form-components]: Input type=color deferred to Phase 6; renders as text with TODO comment
 - [Phase 03-form-components]: Input merged callback ref pattern exposes native HTMLInputElement via forwardRef
+- [Phase 03-form-components]: Textarea max prop slices value in onChange rather than using maxlength attribute, ensuring controlled onChange receives truncated value
+- [Phase 03-form-components]: PINInput clear() test requires act() wrapper because setValues triggers state update outside React event system
 
 ### Pending Todos
 
@@ -104,6 +106,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-16T18:27:28.347Z
-Stopped at: Completed 03-form-components-03-04-PLAN.md
+Last session: 2026-03-16T18:27:56.809Z
+Stopped at: Completed 03-form-components-03-05-PLAN.md
 Resume file: None
