@@ -46,7 +46,7 @@
 }
 
 .small .typeIcon,
-.small .icon {
+.small :global(.icon) {
   @apply text-xl;
 }
 
@@ -59,7 +59,7 @@
 }
 
 .medium .typeIcon,
-.medium .icon {
+.medium :global(.icon) {
   @apply text-2xl;
 }
 
@@ -72,7 +72,7 @@
 }
 
 .large .typeIcon,
-.large .icon {
+.large :global(.icon) {
   @apply text-2xl;
 }
 

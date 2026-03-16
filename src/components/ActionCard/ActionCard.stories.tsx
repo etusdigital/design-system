@@ -58,7 +58,7 @@ export const HideDrag: Story = {
   },
 };
 
-export const WithCard: Story = {
+export const Card: Story = {
   render: (args) => (
     <ActionCard className="w-fit" icon="mail" color={args.color} hideDrag={args.hideDrag}>
       <div className="flex justify-between items-center text-white w-full">

@@ -9,7 +9,7 @@
 }
 
 .imagePreviewOverlay {
-  @apply absolute inset-0 w-full h-full cursor-pointer opacity-0 transition-opacity duration-150;
+  @apply absolute inset-0 w-full h-full cursor-pointer opacity-0 transition-opacity duration-300 bg-black/50;
 }
 
 .imagePreviewOverlayVisible {

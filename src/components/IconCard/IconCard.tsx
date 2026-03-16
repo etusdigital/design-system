@@ -38,7 +38,6 @@ export function IconCard({
     }
   });
 
-  // Color-derived styles: color for text, blendColors for background
   const coloredBackground = color ? blendColors(color) : '';
 
   return (

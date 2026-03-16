@@ -85,6 +85,21 @@ export const Sizes: Story = {
   ),
 };
 
+export const IconPositions: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      {(['start', 'center', 'end'] as const).map((iconPosition) => (
+        <Alert
+          key={iconPosition}
+          title={defaultArgs.title}
+          message={defaultArgs.message}
+          iconPosition={iconPosition}
+        />
+      ))}
+    </div>
+  ),
+};
+
 export const Expandable: Story = {
   args: {
     ...defaultArgs,

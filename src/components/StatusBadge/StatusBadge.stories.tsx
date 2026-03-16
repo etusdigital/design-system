@@ -43,3 +43,52 @@ export const Colors: Story = {
     </div>
   ),
 };
+
+export const Sizes: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+      {(['small', 'medium', 'large'] as const).map((size) => (
+        <StatusBadge key={size} labelValue={size} size={size} />
+      ))}
+    </div>
+  ),
+};
+
+export const Types: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+      {(['default', 'secondary', 'heavy'] as const).map((type) => (
+        <StatusBadge key={type} labelValue={type} type={type} />
+      ))}
+    </div>
+  ),
+};
+
+export const Loading: Story = {
+  args: {
+    labelValue: 'Loading',
+    loading: true,
+  },
+};
+
+export const WithIcon: Story = {
+  args: {
+    labelValue: 'With Icon',
+    icon: 'star',
+  },
+};
+
+export const IsAppendedIcon: Story = {
+  args: {
+    labelValue: 'Is Appended Icon',
+    icon: 'star',
+    isAppendedIcon: true,
+  },
+};
+
+export const Closeable: Story = {
+  args: {
+    labelValue: 'Closeable',
+    closeable: true,
+  },
+};

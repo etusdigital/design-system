@@ -34,7 +34,6 @@ export function ProgressBar({
   iconSlot,
   className,
 }: ProgressBarProps) {
-  // Compute progress width
   const computeProgressWidth = (): string => {
     let val = value * 100;
     if (steps) val = (value / steps) * 100;
@@ -86,7 +85,6 @@ export function ProgressBar({
     );
   }
 
-  // Bar mode
   return (
     <div
       className={clsx(
@@ -115,6 +113,7 @@ export function ProgressBar({
         infoMessage ? (
           <Tooltip
             className={styles.progressIcon}
+            style={{ left: progressWidth, color }}
             labelValue={infoMessage}
             position="bottom"
           >

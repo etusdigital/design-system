@@ -1,5 +1,5 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as Connector from './Connector.stories.ts';
+import * as Connector from './Connector.stories.tsx';
 
 <Meta of={Connector} />
 
@@ -54,6 +54,8 @@ import * as Connector from './Connector.stories.ts';
 
 #### vertical
 Arranges connector lines vertically instead of horizontally. Type: `boolean` (default: `false`)
+
+<Canvas sourceState="none" of={Connector.Vertical} />
 
 ---
 

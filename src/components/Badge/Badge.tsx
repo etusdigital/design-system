@@ -34,13 +34,17 @@ export function Badge({
   const prependIcon = !isAppendedIcon ? icon : '';
   const appendedIcon = closeable ? 'close' : isAppendedIcon ? icon : '';
 
-  const background = color && typeof document !== 'undefined' ? blendColors(color) : '';
+  const computedBackground = (() => {
+    if (type === 'secondary') return 'transparent';
+    if (type === 'heavy') return color;
+    return blendColors(color);
+  })();
 
   const customStyle: React.CSSProperties = color
     ? {
         color,
         borderColor: color,
-        background: type === 'secondary' ? 'transparent' : type === 'heavy' ? color : background,
+        background: computedBackground,
       }
     : {};
 
@@ -61,7 +65,7 @@ export function Badge({
           </p>
           {appendedIcon && (
             <span
-              className={clsx(closeable && styles.clickable)}
+              className={clsx(closeable && styles.clickable, 'leading-none')}
               onClick={closeable ? onClose : undefined}
             >
               <Icon name={appendedIcon} className={styles.colored} />

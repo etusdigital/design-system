@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { FloatCard } from './FloatCard';
+import { Button } from '../Button/Button';
 
 const meta = {
   component: FloatCard,
@@ -19,7 +20,7 @@ type Story = StoryObj<typeof FloatCard>;
 export const Primary: Story = {
   args: {
     mode: 'click',
-    children: <button>Click to show card</button>,
+    children: <Button>Click to show card</Button>,
     card: (
       <div style={{ padding: '1rem' }}>
         <h4 style={{ marginBottom: '0.5rem' }}>Floating Card</h4>
@@ -34,7 +35,7 @@ export const Primary: Story = {
 export const HoverMode: Story = {
   args: {
     mode: 'hover',
-    children: <button>Hover to show card</button>,
+    children: <Button>Hover to show card</Button>,
     card: (
       <div style={{ padding: '1rem' }}>
         <p>Hovering content</p>

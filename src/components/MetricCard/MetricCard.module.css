@@ -12,7 +12,6 @@
   @apply flex items-end gap-xs;
 }
 
-/* Color variants */
 .primary {
   @apply text-primary-foreground-low border-primary-default bg-primary-surface-default;
 }
@@ -53,7 +52,6 @@
   @apply text-danger-interaction-default;
 }
 
-/* Type variants */
 .dashed {
   @apply border-dashed bg-transparent;
 }
@@ -86,7 +84,10 @@
   @apply text-danger-interaction-default;
 }
 
-/* Info label colors */
+.infoLabel {
+  @apply text-neutral-interaction-default;
+}
+
 .info-primary {
   @apply text-primary-interaction-default;
 }
@@ -111,7 +112,6 @@
   @apply text-neutral-interaction-default;
 }
 
-/* Size variants */
 .small {
   @apply px-sm py-xs gap-0;
 }
@@ -124,7 +124,7 @@
   @apply text-lg;
 }
 
-.small .cardDescription, .small .icon {
+.small .cardDescription, .small :global(.icon) {
   @apply text-xs;
 }
 
@@ -152,7 +152,7 @@
   @apply text-xl;
 }
 
-.medium .cardDescription, .medium .icon {
+.medium .cardDescription, .medium :global(.icon) {
   @apply text-sm;
 }
 
@@ -184,7 +184,7 @@
   @apply text-sm;
 }
 
-.large .icon {
+.large :global(.icon) {
   @apply text-base;
 }
 
@@ -204,17 +204,12 @@
   @apply h-lg;
 }
 
-/* Shared styles */
 .infoIcon {
   @apply flex items-center;
 }
 
 .infoText {
   @apply font-bold ml-xxs;
-}
-
-.infoLabel {
-  @apply text-neutral-interaction-default;
 }
 
 .cardValue {

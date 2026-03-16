@@ -1,5 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { MetricCard } from './MetricCard';
+import { Tooltip } from '../Tooltip/Tooltip';
+import { Icon } from '../Icon/Icon';
+import { Button } from '../Button/Button';
+import { StatusBadge } from '../StatusBadge/StatusBadge';
 
 const meta = {
   component: MetricCard,
@@ -82,10 +86,28 @@ export const Sizes: Story = {
   ),
 };
 
-export const WithInfo: Story = {
+export const InfoTypes: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '1rem', alignItems: 'start' }}>
+      {(['primary', 'info', 'success', 'warning', 'danger', 'neutral'] as const).map((infoType) => (
+        <MetricCard key={infoType} {...defaultArgs} infoType={infoType} infoMessage="30% increase from last month" />
+      ))}
+    </div>
+  ),
+};
+
+export const InfoMessage: Story = {
   args: {
     ...defaultArgs,
     infoMessage: '30% increase from last month',
+  },
+};
+
+export const NoTooltip: Story = {
+  args: {
+    ...defaultArgs,
+    infoMessage: '30%',
+    noTooltip: true,
   },
 };
 
@@ -101,4 +123,38 @@ export const BoldTitle: Story = {
     ...defaultArgs,
     boldTitle: true,
   },
+};
+
+export const Slots: Story = {
+  render: () => (
+    <MetricCard
+          className="w-fit"
+          title="Your June recipe"
+          value="$100,000.00"
+          color="primary"
+          type="secondary"
+          size="large"
+          boldTitle
+        >
+          <MetricCard.DescriptionSlot>
+            <div className="flex items-center h-full pt-xs">
+              <Tooltip labelValue="info">
+                <Icon name="info" className="text-neutral-interaction-default" />
+              </Tooltip>
+            </div>
+          </MetricCard.DescriptionSlot>
+          <div className="flex flex-col gap-sm mt-sm">
+            <div className="flex items-center gap-xs text-neutral-foreground-high">
+                <Icon name="calendar_month" />
+                <p className="text-sm">Payment will be made by 04/30/2024</p>
+            </div>
+            <div className="flex gap-xs self-end">
+              <StatusBadge labelValue="Processing payment" size="small" />
+              <Button variant="secondary" size="small">
+                View Details
+              </Button>
+            </div>
+          </div>
+        </MetricCard>
+  ),
 };

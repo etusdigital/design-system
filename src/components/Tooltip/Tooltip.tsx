@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, Children, isValidElement } from 'react';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import { useTransition } from '../../hooks/useTransition';
@@ -9,6 +9,11 @@ export interface TooltipProps {
   position?: 'top' | 'bottom' | 'left' | 'right';
   children?: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
+}
+
+function TooltipLabel({ children }: { children?: React.ReactNode }) {
+  return <>{children}</>;
 }
 
 export function Tooltip({
@@ -16,7 +21,22 @@ export function Tooltip({
   position = 'right',
   children,
   className,
+  style,
 }: TooltipProps) {
+  // Extract Tooltip.Label from children
+  let labelSlotContent: React.ReactNode = null;
+  const triggerChildren: React.ReactNode[] = [];
+
+  Children.forEach(children, (child) => {
+    if (isValidElement(child) && child.type === TooltipLabel) {
+      labelSlotContent = child.props.children;
+    } else {
+      triggerChildren.push(child);
+    }
+  });
+
+  const tooltipBody = labelSlotContent || labelValue;
+
   const [isHovering, setIsHovering] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
@@ -85,6 +105,7 @@ export function Tooltip({
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       className={className}
+      style={style}
     >
       {isMounted &&
         createPortal(
@@ -97,19 +118,13 @@ export function Tooltip({
             )}
           >
             <div className={styles.tooltipTriangle} />
-            <div className={styles.tooltipContent}>{labelValue}</div>
+            <div className={styles.tooltipContent}>{tooltipBody}</div>
           </div>,
           document.body
         )}
-      {children}
+      {triggerChildren}
     </div>
   );
 }
 
-Tooltip.Label = function TooltipLabel({
-  children,
-}: {
-  children?: React.ReactNode;
-}) {
-  return <>{children}</>;
-};
+Tooltip.Label = TooltipLabel;

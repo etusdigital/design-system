@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { Children, isValidElement } from 'react';
 import { Card } from '../Card/Card';
 import { Icon } from '../Icon/Icon';
 import { Tooltip } from '../Tooltip/Tooltip';
@@ -30,6 +31,10 @@ export interface MetricCardProps {
   className?: string;
 }
 
+function MetricCardDescriptionSlot({ children }: { children?: React.ReactNode }) {
+  return <>{children}</>;
+}
+
 export function MetricCard({
   title = '',
   description = '',
@@ -39,7 +44,7 @@ export function MetricCard({
   type = 'default',
   size = 'medium',
   infoMessage = '',
-  infoType = 'primary',
+  infoType = 'neutral',
   tooltipMinWidth = 'none',
   loading = false,
   noTooltip = false,
@@ -52,6 +57,20 @@ export function MetricCard({
   children,
   className,
 }: MetricCardProps) {
+  // Extract DescriptionSlot from children
+  const extractedDescriptionSlot: React.ReactNode[] = [];
+  const remainingChildren: React.ReactNode[] = [];
+
+  Children.forEach(children, (child) => {
+    if (isValidElement(child) && child.type === MetricCardDescriptionSlot) {
+      extractedDescriptionSlot.push(child);
+    } else {
+      remainingChildren.push(child);
+    }
+  });
+
+  const resolvedDescriptionSlot = descriptionSlot || (extractedDescriptionSlot.length > 0 ? extractedDescriptionSlot : null);
+
   const showHeader = (title || icon || titleSlot) && !loading;
 
   return (
@@ -82,14 +101,14 @@ export function MetricCard({
         contentSlot || (
           <div className={styles.contentRow}>
             {valueSlot || <p className={styles.cardValue}>{value}</p>}
-            {descriptionSlot || <p className={styles.cardDescription}>{description}</p>}
+            {resolvedDescriptionSlot || <p className={styles.cardDescription}>{description}</p>}
           </div>
         )
       ) : (
         <Skeleton className={clsx(styles.skeleton, styles.contentSkeleton)} />
       )}
 
-      {!loading && children}
+      {!loading && remainingChildren}
     </Card>
   );
 }
@@ -101,3 +120,5 @@ MetricCard.TitleSlot = function MetricCardTitleSlot({ children }: { children?: R
 MetricCard.Content = function MetricCardContent({ children }: { children?: React.ReactNode }) {
   return <>{children}</>;
 };
+
+MetricCard.DescriptionSlot = MetricCardDescriptionSlot;

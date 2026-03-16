@@ -85,15 +85,38 @@ export const Loading: Story = {
 };
 
 export const Round: Story = {
-  args: {
-    round: true,
-    color: 'primary',
-  },
+  render: () => (
+    <Button round>
+      Round Button
+    </Button>
+  ),
 };
 
 export const WithIcon: Story = {
   args: {
     children: 'Settings',
     icon: 'settings',
+  },
+};
+
+export const AlwaysOpen: Story = {
+  render: () => (
+    <Button round alwaysOpen>
+      Round Button
+    </Button>
+  ),
+};
+
+export const Progress: Story = {
+  args: {
+    children: 'Button',
+    progress: 0.5,
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    children: 'Button',
+    disabled: true,
   },
 };

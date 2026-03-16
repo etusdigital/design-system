@@ -155,11 +155,9 @@ export function Image({
           className={clsx(styles.imagePreviewOverlay, isHovering && styles.imagePreviewOverlayVisible)}
           onClick={showPreview}
         >
-          {isHovering && (
-            <div className={styles.imagePreviewOverlayContent}>
-              <Icon name={icon} />
-            </div>
-          )}
+          <div className={styles.imagePreviewOverlayContent}>
+            <Icon name={icon} />
+          </div>
         </div>
       )}
 

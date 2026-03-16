@@ -13,7 +13,7 @@
   @apply text-xxs;
 }
 
-.small .progressIcon .icon {
+.small .progressIcon :global(.icon) {
   @apply text-base;
 }
 
@@ -25,7 +25,7 @@
   @apply text-xs;
 }
 
-.medium .progressIcon .icon {
+.medium .progressIcon :global(.icon) {
   @apply text-2xl;
 }
 
@@ -37,7 +37,7 @@
   @apply text-sm;
 }
 
-.large .progressIcon .icon {
+.large .progressIcon :global(.icon) {
   @apply text-4xl;
 }
 
