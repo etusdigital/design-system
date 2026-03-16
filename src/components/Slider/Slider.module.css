@@ -78,13 +78,6 @@
   /* border color applied via inline style */
 }
 
-/* Tooltip above cursor */
-.tooltip {
-  @apply absolute bottom-full mb-1 bg-neutral-foreground-high text-white text-xs px-2 py-1 rounded whitespace-nowrap;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
 /* Step markers */
 .stepsContainer {
   @apply relative w-full mt-2;
@@ -99,15 +92,11 @@
 }
 
 .stepMarker {
-  @apply h-[1.875em] w-[0.3125em] bg-primary-surface-highlight;
+  @apply h-[0.75em] w-[0.125em] bg-primary-surface-highlight rounded-full;
 }
 
 .stepMarkerActive {
   @apply bg-primary-interaction-default;
-}
-
-.stepLabel {
-  @apply text-xs mt-1 whitespace-nowrap;
 }
 
 /* Vertical adjustments */

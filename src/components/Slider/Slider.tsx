@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
+import { Tooltip } from '../Tooltip';
 import styles from './Slider.module.css';
 
 export interface SliderProps {
   value?: number | [number, number];
-  defaultValue?: number | [number, number];
   onChange?: (value: number | [number, number]) => void;
   size?: 'small' | 'medium' | 'large';
   max?: number;
@@ -25,7 +25,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
   function Slider(props, ref) {
     const {
       value,
-      defaultValue,
       onChange,
       size = 'medium',
       max = 0,
@@ -44,7 +43,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     // Normalize value to number | [number, number] for useControllable
     const [currentValue, setValue] = useControllable<number | [number, number]>({
       value,
-      defaultValue: defaultValue ?? (isRange ? [0, 0] : 0),
+      defaultValue: isRange ? [0, 0] : 0,
       onChange,
     });
 
@@ -290,24 +289,9 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       return () => clearTimeout(timer);
     }, [currentValue, size, vertical]);
 
-    // Handle track click to jump cursor
-    const handleTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
-      if (disabled) return;
-      const container = containerRef.current;
-      if (!container) return;
-
-      // Find the closest cursor index and move it
-      const activeIndex = isRange ? 0 : 0; // default to first cursor
-      startDragging(activeIndex);
-      updateCursorHandler(e.clientX, e.clientY);
-      // Stop immediately after click
-      setTimeout(() => stopDraggingHandler(), 0);
-    };
-
     // Tooltip display value
     const getTooltipText = (rawValue: number): string => {
-      const effectiveMax = max || 100;
-      const displayUnit = max ? unit : unit || '%';
+      const displayUnit = unit || '%';
       return `${rawValue.toFixed(1)}${displayUnit}`;
     };
 
@@ -347,7 +331,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     }
 
     // Cursor dynamic style
-    const getCursorStyle = (index: number): React.CSSProperties => {
+    const getCursorStyle = (_: number): React.CSSProperties => {
       const style: React.CSSProperties = {};
       if (color && !disabled) {
         style.borderColor = color;
@@ -425,30 +409,50 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 
         {/* Cursors */}
         {Array.from({ length: cursorCount }).map((_, index) => (
-          <div
-            key={index}
-            ref={(el) => { cursorRefs.current[index] = el; }}
-            className={clsx(
-              styles.cursor,
-              isDragging[index] && styles.dragging,
-              color && styles.coloredCursor
-            )}
-            style={getCursorStyle(index)}
-            onMouseDown={(e) => {
-              e.stopPropagation();
-              startDragging(index);
-            }}
-            onTouchStart={(e) => {
-              e.stopPropagation();
-              startDragging(index);
-            }}
-          >
-            {showTooltip && (
-              <div className={styles.tooltip}>
-                {getTooltipText(modelArray[index])}{unit}
-              </div>
-            )}
-          </div>
+          showTooltip ? (
+            <Tooltip
+              key={index}
+              labelValue={getTooltipText(modelArray[index])}
+              position={vertical ? 'right' : 'top'}
+            >
+              <div
+                ref={(el) => { cursorRefs.current[index] = el; }}
+                className={clsx(
+                  styles.cursor,
+                  isDragging[index] && styles.dragging,
+                  color && styles.coloredCursor
+                )}
+                style={getCursorStyle(index)}
+                onMouseDown={(e) => {
+                  e.stopPropagation();
+                  startDragging(index);
+                }}
+                onTouchStart={(e) => {
+                  e.stopPropagation();
+                  startDragging(index);
+                }}
+              />
+            </Tooltip>
+          ) : (
+            <div
+              key={index}
+              ref={(el) => { cursorRefs.current[index] = el; }}
+              className={clsx(
+                styles.cursor,
+                isDragging[index] && styles.dragging,
+                color && styles.coloredCursor
+              )}
+              style={getCursorStyle(index)}
+              onMouseDown={(e) => {
+                e.stopPropagation();
+                startDragging(index);
+              }}
+              onTouchStart={(e) => {
+                e.stopPropagation();
+                startDragging(index);
+              }}
+            />
+          )
         ))}
 
         {/* Step markers */}
@@ -459,7 +463,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             style={getStepStyle(step)}
           >
             <div className={clsx(styles.stepMarker, isStepActive(step) && styles.stepMarkerActive)} />
-            {step.label && <span className={styles.stepLabel}>{step.label}</span>}
           </div>
         ))}
       </div>
