@@ -316,12 +316,12 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     // Check if a step is within the fill range
     const isStepActive = (step: { label: string; value: number }): boolean => {
       const pct = max ? step.value / max : step.value;
-      const pcts = isRange
-        ? [toPercentage(modelArray[0]), toPercentage(modelArray[1])]
-        : [toPercentage(modelArray[0])];
-      const minPct = Math.min(...pcts);
-      const maxPct = Math.max(...pcts);
-      return pct >= minPct && pct <= maxPct;
+      if (isRange) {
+        const minPct = Math.min(toPercentage(modelArray[0]), toPercentage(modelArray[1]));
+        const maxPct = Math.max(toPercentage(modelArray[0]), toPercentage(modelArray[1]));
+        return pct >= minPct && pct <= maxPct;
+      }
+      return pct >= 0 && pct <= toPercentage(modelArray[0]);
     };
 
     // Fill bar dynamic style (color/fillColors)
