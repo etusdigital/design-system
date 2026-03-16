@@ -1,0 +1,64 @@
+@reference "../../assets/main.css";
+
+.input {
+  @apply flex flex-col gap-xxs h-fit;
+}
+
+.inputContainer {
+  @apply flex items-center gap-xs py-xs px-sm min-h-[24px] rounded-sm outline outline-1 outline-neutral-border-default bg-white transition-[outline-color] duration-100;
+}
+
+.focused {
+  @apply outline-primary-border-default;
+}
+
+.error {
+  @apply outline-danger-border-default;
+}
+
+.disabled {
+  @apply outline-neutral-border-disabled bg-neutral-surface-disabled pointer-events-none;
+}
+
+.inputContent {
+  @apply flex-1 bg-transparent outline-none text-sm text-neutral-foreground-high placeholder:text-neutral-foreground-low min-w-0;
+}
+
+.left {
+  @apply text-left;
+}
+
+.center {
+  @apply text-center;
+}
+
+.right {
+  @apply text-right;
+}
+
+.labelRow {
+  @apply flex justify-between items-center;
+}
+
+.counter {
+  @apply text-sm font-bold text-neutral-foreground-low;
+}
+
+.errorMessage {
+  @apply text-sm text-danger-foreground-low text-start mt-xxs;
+}
+
+.numberArrows {
+  @apply flex flex-col items-center;
+}
+
+/* Hide native number spinners */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
