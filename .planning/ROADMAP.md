@@ -72,7 +72,7 @@ Plans:
   3. Every form component works in uncontrolled mode: passing only `defaultValue` manages state internally
   4. Checkbox, Radio, Switch, and Toggle visually match their Vue counterparts in both checked and unchecked states
   5. PINInput, TagInput, and FileUpload accept the same prop names and fire the same change events as the Vue versions
-**Plans:** 7/8 plans executed
+**Plans:** 11 plans (7 executed + 3 gap closure)
 
 Plans:
 - [ ] 03-00-PLAN.md — Wave 0: Create 12 stub test files for all form components (Nyquist compliance)
@@ -83,6 +83,9 @@ Plans:
 - [ ] 03-05-PLAN.md — Migrate Textarea + PINInput (forwardRef + useImperativeHandle)
 - [ ] 03-06-PLAN.md — Migrate Slider (complex: drag, range, vertical, steps, touch)
 - [ ] 03-07-PLAN.md — Migrate TagInput + FileUpload (advanced inputs with Phase 2 deps)
+- [ ] 03-08-PLAN.md — Gap closure: RadioGroup story interactivity + ToggleGroup border collapse
+- [ ] 03-09-PLAN.md — Gap closure: Input inner border, number arrows, domain/url validation
+- [ ] 03-10-PLAN.md — Gap closure: Slider DS Tooltip + simplified step tick marks
 
 ### Phase 4: Internal Components
 **Goal**: All shared utility components and the portal infrastructure are available for composite and provider components to build on
@@ -160,7 +163,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/5 | Gap closure needed | - |
 | 2. Atomic Components | 1/8 | In Progress|  |
-| 3. Form Components | 7/8 | In Progress|  |
+| 3. Form Components | 7/11 | UAT gap closure | - |
 | 4. Internal Components | 0/TBD | Not started | - |
 | 5. Providers | 0/TBD | Not started | - |
 | 6. Composite Components | 0/TBD | Not started | - |
