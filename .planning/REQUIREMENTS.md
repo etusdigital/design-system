@@ -62,13 +62,13 @@ Requirements for the complete Vue-to-React migration. Each maps to roadmap phase
 
 ### Internal Components
 
-- [ ] **INTL-01**: Label utility component migrated to React TSX
-- [ ] **INTL-02**: Overlay utility component migrated with createPortal
+- [x] **INTL-01**: Label utility component migrated to React TSX
+- [x] **INTL-02**: Overlay utility component migrated with createPortal
 - [ ] **INTL-03**: Container utility component migrated to React TSX
 - [ ] **INTL-04**: SelectContainer utility component migrated to React TSX
 - [ ] **INTL-05**: SelectContent utility component migrated to React TSX
-- [ ] **INTL-06**: Option utility component migrated to React TSX
-- [ ] **INTL-07**: Group utility component migrated to React TSX
+- [x] **INTL-06**: Option utility component migrated to React TSX
+- [x] **INTL-07**: Group utility component migrated to React TSX
 - [ ] **INTL-08**: ExpandableContainer utility component migrated to React TSX
 
 ### Providers
