@@ -12,7 +12,7 @@ A full in-place migration of 60+ Vue 3 components to React, proceeding in strict
 
 - [ ] **Phase 1: Foundation** - Tooling, hooks, and infrastructure that every component depends on
 - [ ] **Phase 2: Atomic Components** - 20 leaf components with no stateful or overlay dependencies
-- [ ] **Phase 3: Form Components** - 12 controlled/uncontrolled form inputs using `useControllable`
+- [x] **Phase 3: Form Components** - 12 controlled/uncontrolled form inputs using `useControllable` (completed 2026-03-16)
 - [ ] **Phase 4: Internal Components** - 8 shared utility components and portal infrastructure
 - [ ] **Phase 5: Providers** - Context providers replacing Vue global properties (`$confirm`, `$toast`)
 - [ ] **Phase 6: Composite Components** - 17 overlay and interactive components depending on Phases 4 and 5
@@ -72,7 +72,7 @@ Plans:
   3. Every form component works in uncontrolled mode: passing only `defaultValue` manages state internally
   4. Checkbox, Radio, Switch, and Toggle visually match their Vue counterparts in both checked and unchecked states
   5. PINInput, TagInput, and FileUpload accept the same prop names and fire the same change events as the Vue versions
-**Plans:** 13 plans (9 executed + 4 gap closure)
+**Plans:** 13/13 plans complete
 
 Plans:
 - [ ] 03-00-PLAN.md — Wave 0: Create 12 stub test files for all form components (Nyquist compliance)
@@ -165,7 +165,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/5 | Gap closure needed | - |
 | 2. Atomic Components | 1/8 | In Progress|  |
-| 3. Form Components | 9/13 | In Progress|  |
+| 3. Form Components | 13/13 | Complete   | 2026-03-16 |
 | 4. Internal Components | 0/TBD | Not started | - |
 | 5. Providers | 0/TBD | Not started | - |
 | 6. Composite Components | 0/TBD | Not started | - |
