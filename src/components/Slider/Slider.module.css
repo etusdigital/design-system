@@ -1,0 +1,145 @@
+@reference "../../assets/main.css";
+
+.slider {
+  @apply flex justify-start w-full rounded-base relative bg-primary-surface-highlight h-[.5em] select-none;
+}
+
+.small {
+  @apply text-xs;
+}
+
+.medium {
+  @apply text-base;
+}
+
+.large {
+  @apply text-xl;
+}
+
+.horizontal {
+  /* horizontal is the default layout */
+}
+
+.vertical {
+  @apply w-[.5em] h-full flex-col items-end;
+}
+
+.disabled {
+  @apply pointer-events-none opacity-50;
+}
+
+.stepSlider {
+  @apply rounded-none;
+}
+
+.neutralBg {
+  @apply bg-neutral-surface-disabled;
+}
+
+/* Track (the slider bar itself is the container in this implementation) */
+.track {
+  @apply relative h-[.5em] w-full rounded-base bg-primary-surface-highlight;
+}
+
+/* Fill bar */
+.fillBar {
+  @apply absolute h-full rounded-base bg-primary-interaction-default overflow-hidden flex;
+  bottom: 50%;
+  transform: translateY(50%);
+  left: 0;
+}
+
+.fillBarVertical {
+  @apply flex-col-reverse;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: auto;
+  bottom: 0;
+}
+
+.haveFillColors {
+  @apply bg-transparent;
+}
+
+/* Cursor / thumb */
+.cursor {
+  @apply absolute w-[1.25em] h-[1.25em] rounded-full border-2 border-primary-interaction-default bg-white cursor-grab z-[1] select-none;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -50px;
+}
+
+.dragging {
+  @apply cursor-grabbing;
+}
+
+.coloredCursor {
+  /* border color applied via inline style */
+}
+
+/* Tooltip above cursor */
+.tooltip {
+  @apply absolute bottom-full mb-1 bg-neutral-foreground-high text-white text-xs px-2 py-1 rounded whitespace-nowrap;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Step markers */
+.stepsContainer {
+  @apply relative w-full mt-2;
+}
+
+.step {
+  @apply absolute bg-primary-surface-highlight rounded-base;
+}
+
+.stepActive {
+  @apply bg-primary-interaction-default;
+}
+
+.stepMarker {
+  @apply h-[1.875em] w-[0.3125em] bg-primary-surface-highlight;
+}
+
+.stepMarkerActive {
+  @apply bg-primary-interaction-default;
+}
+
+.stepLabel {
+  @apply text-xs mt-1 whitespace-nowrap;
+}
+
+/* Vertical adjustments */
+.vertical .cursor {
+  top: auto;
+  transform: translateX(-50%);
+  left: 50%;
+  bottom: 0;
+}
+
+.vertical .fillBar {
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 100%;
+  height: auto;
+}
+
+.vertical .step {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Disabled state */
+.disabled .cursor {
+  @apply border-neutral-interaction-disabled;
+}
+
+.disabled .fillBar {
+  @apply bg-neutral-interaction-disabled;
+}
+
+.disabled .stepActive {
+  @apply bg-neutral-interaction-disabled;
+}

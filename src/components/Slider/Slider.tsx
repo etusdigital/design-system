@@ -1,4 +1,470 @@
-// TODO: Migrate from Slider.vue in Phase 2+
-export function Slider(props: Record<string, unknown>) {
-  return <div data-component="Slider" {...props} />;
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import clsx from 'clsx';
+import { useControllable } from '../../hooks/useControllable';
+import styles from './Slider.module.css';
+
+export interface SliderProps {
+  value?: number | [number, number];
+  defaultValue?: number | [number, number];
+  onChange?: (value: number | [number, number]) => void;
+  size?: 'small' | 'medium' | 'large';
+  max?: number;
+  unit?: string;
+  color?: string;
+  showTooltip?: boolean;
+  disabled?: boolean;
+  vertical?: boolean;
+  fillColors?: string[];
+  isRange?: boolean;
+  steps?: Array<{ label: string; value: number }>;
+  neutralBackground?: boolean;
+  className?: string;
 }
+
+export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
+  function Slider(props, ref) {
+    const {
+      value,
+      defaultValue,
+      onChange,
+      size = 'medium',
+      max = 0,
+      unit = '',
+      color = '',
+      showTooltip = false,
+      disabled = false,
+      vertical = false,
+      fillColors,
+      isRange = false,
+      steps,
+      neutralBackground = false,
+      className,
+    } = props;
+
+    // Normalize value to number | [number, number] for useControllable
+    const [currentValue, setValue] = useControllable<number | [number, number]>({
+      value,
+      defaultValue: defaultValue ?? (isRange ? [0, 0] : 0),
+      onChange,
+    });
+
+    // Dragging state: one flag per cursor (single=1, range=2)
+    const [isDragging, setIsDragging] = useState<boolean[]>([false, false]);
+
+    // Refs
+    const containerRef = useRef<HTMLDivElement>(null);
+    const fillBarRef = useRef<HTMLDivElement>(null);
+    const cursorRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+    // Refs for drag handlers to avoid stale closures
+    const isDraggingRef = useRef<boolean[]>([false, false]);
+    const currentValueRef = useRef<number | [number, number] | undefined>(currentValue);
+    const updateCursorRef = useRef<(e: MouseEvent) => void>(() => {});
+    const stopDraggingRef = useRef<() => void>(() => {});
+    const updateCursorTouchRef = useRef<(e: TouchEvent) => void>(() => {});
+
+    // Merge forwarded ref with internal containerRef
+    const mergedRef = useCallback(
+      (node: HTMLDivElement | null) => {
+        (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        }
+      },
+      [ref]
+    );
+
+    // Keep currentValueRef in sync
+    useEffect(() => {
+      currentValueRef.current = currentValue;
+    }, [currentValue]);
+
+    // Helper: get internal model as [number, number] array
+    function getModelArray(val: number | [number, number] | undefined): [number, number] {
+      if (val === undefined) return [0, 0];
+      if (Array.isArray(val)) return [val[0], val[1]];
+      return [val, val];
+    }
+
+    // Get percentage value for a raw value given max
+    function toPercentage(rawValue: number): number {
+      if (!max || max === 0) return Math.min(1, Math.max(0, rawValue));
+      return Math.min(1, Math.max(0, rawValue / max));
+    }
+
+    // Convert a percentage back to raw value
+    function fromPercentage(pct: number): number {
+      if (!max || max === 0) return pct;
+      return pct * max;
+    }
+
+    // Snap to nearest step if steps defined
+    function getStepPercentage(pct: number): number {
+      if (!steps || !steps.length) return pct;
+      const stepValues = steps.map((s) => (max ? s.value / max : s.value));
+      return stepValues.reduce((prev, curr) =>
+        Math.abs(curr - pct) < Math.abs(prev - pct) ? curr : prev
+      );
+    }
+
+    // Calculate cursor positions and fill bar from current value
+    const calculateCursor = useCallback(() => {
+      const container = containerRef.current;
+      const fillBar = fillBarRef.current;
+      if (!container) return;
+
+      const modelArray = getModelArray(currentValueRef.current);
+      const percentages = isRange
+        ? [toPercentage(modelArray[0]), toPercentage(modelArray[1])]
+        : [toPercentage(modelArray[0])];
+
+      const cursors = cursorRefs.current;
+
+      // Position each cursor
+      cursors.forEach((cursor, index) => {
+        if (!cursor) return;
+        const pct = percentages[index] ?? 0;
+
+        if (vertical) {
+          const height = container.clientHeight;
+          const bottom = Math.min(height, Math.max(0, height * pct));
+          const borderWidthStr = getComputedStyle(cursor).getPropertyValue('--border-width-xs');
+          const borderWidth = parseFloat(borderWidthStr) / 2 || 0;
+          cursor.style.bottom =
+            modelArray[index] < (max * 0.99 || 0.99) || (steps && steps.length)
+              ? bottom - cursor.clientHeight / 3 - borderWidth + 'px'
+              : bottom - cursor.clientHeight - borderWidth + 'px';
+          cursor.style.left = '50%';
+        } else {
+          const width = container.clientWidth;
+          const left = Math.min(width, Math.max(0, width * pct));
+          const borderWidthStr = getComputedStyle(cursor).getPropertyValue('--border-width-xs');
+          const borderWidth = parseFloat(borderWidthStr) / 2 || 0;
+          cursor.style.left =
+            modelArray[index] < (max * 0.99 || 0.99) || (steps && steps.length)
+              ? left - cursor.clientWidth / 3 - borderWidth + 'px'
+              : left - cursor.clientWidth - borderWidth + 'px';
+          cursor.style.bottom = '50%';
+        }
+      });
+
+      // Position fill bar
+      if (!fillBar) return;
+
+      if (vertical) {
+        const sliderHeight = container.clientHeight;
+        const cursorHeights = cursors.map((c) => (c ? c.clientHeight / 2 : 0));
+        const tops = cursors.map((c) => (c ? c.offsetTop : 0));
+        const bottoms = tops.map(
+          (top, i) => sliderHeight - top - cursorHeights[i]
+        );
+        const minBottom = isRange ? Math.min(...bottoms) : 0;
+        const maxBottom = Math.max(0, Math.max(...bottoms));
+
+        fillBar.style.bottom = minBottom + 'px';
+        fillBar.style.height = Math.abs(maxBottom - minBottom) + 'px';
+        fillBar.style.left = '50%';
+        fillBar.style.width = '100%';
+      } else {
+        const validCursors = cursors.filter(Boolean) as HTMLDivElement[];
+        if (!validCursors.length) return;
+        const lefts = validCursors.map((c) => c.offsetLeft + c.clientWidth / 3);
+        const minLeft = isRange ? Math.min(...lefts) : 0;
+        const maxLeft = Math.max(...lefts);
+
+        fillBar.style.left = minLeft + 'px';
+        fillBar.style.width =
+          Math.abs(maxLeft - minLeft) + validCursors[0].clientWidth / 6 + 'px';
+        fillBar.style.bottom = '50%';
+        fillBar.style.height = '100%';
+      }
+    }, [isRange, vertical, max, steps]);
+
+    // Drag: start dragging cursor at index
+    const startDragging = useCallback((index: number) => {
+      const newDragging = [false, false];
+      newDragging[index] = true;
+      isDraggingRef.current = newDragging;
+      setIsDragging([...newDragging]);
+    }, []);
+
+    // Update cursor position from mouse/touch event
+    const updateCursorHandler = useCallback(
+      (clientX: number, clientY: number) => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        isDraggingRef.current.forEach((dragging, index) => {
+          if (!dragging) return;
+          const cursor = cursorRefs.current[index];
+          if (!cursor) return;
+
+          let pct: number;
+          if (vertical) {
+            const rect = container.getBoundingClientRect();
+            const height = container.clientHeight - cursor.clientHeight;
+            const offsetY =
+              clientY - cursor.clientHeight / 2 - rect.top;
+            const maxY = height;
+            const clampedY = Math.min(maxY, Math.max(0, maxY - offsetY));
+            pct = getStepPercentage(clampedY / (height || 1));
+          } else {
+            const rect = container.getBoundingClientRect();
+            const width = container.clientWidth - cursor.clientWidth;
+            const offsetX =
+              clientX - cursor.clientWidth / 2 - rect.left;
+            const clampedX = Math.min(width, Math.max(0, offsetX));
+            pct = getStepPercentage(clampedX / (width || 1));
+          }
+
+          const rawValue = fromPercentage(pct);
+          const modelArray = getModelArray(currentValueRef.current);
+
+          let newValue: number | [number, number];
+          if (isRange) {
+            const arr: [number, number] = [...modelArray] as [number, number];
+            arr[index] = rawValue;
+            newValue = arr;
+          } else {
+            newValue = rawValue;
+          }
+
+          currentValueRef.current = newValue;
+          setValue(newValue);
+          // Recalculate cursor position immediately
+          setTimeout(() => calculateCursor(), 0);
+        });
+      },
+      [isRange, vertical, max, steps, setValue, calculateCursor]
+    );
+
+    // Stop dragging
+    const stopDraggingHandler = useCallback(() => {
+      isDraggingRef.current = [false, false];
+      setIsDragging([false, false]);
+    }, []);
+
+    // Keep refs in sync with current handlers to avoid stale closures
+    useEffect(() => {
+      updateCursorRef.current = (e: MouseEvent) =>
+        updateCursorHandler(e.clientX, e.clientY);
+      stopDraggingRef.current = stopDraggingHandler;
+      updateCursorTouchRef.current = (e: TouchEvent) => {
+        if (e.touches[0]) {
+          updateCursorHandler(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      };
+    });
+
+    // Register window event listeners once on mount
+    useEffect(() => {
+      const handleMouseMove = (e: MouseEvent) => updateCursorRef.current(e);
+      const handleMouseUp = () => stopDraggingRef.current();
+      const handleTouchMove = (e: TouchEvent) => updateCursorTouchRef.current(e);
+      const handleTouchEnd = () => stopDraggingRef.current();
+
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+      window.addEventListener('touchmove', handleTouchMove);
+      window.addEventListener('touchend', handleTouchEnd);
+
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+        window.removeEventListener('touchmove', handleTouchMove);
+        window.removeEventListener('touchend', handleTouchEnd);
+      };
+    }, []);
+
+    // Initial calculation on mount (port Vue's setTimeout 200ms)
+    useEffect(() => {
+      const timer = setTimeout(() => calculateCursor(), 200);
+      return () => clearTimeout(timer);
+    }, []);
+
+    // Recalculate when value, size, or vertical changes
+    useEffect(() => {
+      const timer = setTimeout(() => calculateCursor(), 100);
+      return () => clearTimeout(timer);
+    }, [currentValue, size, vertical]);
+
+    // Handle track click to jump cursor
+    const handleTrackClick = (e: React.MouseEvent<HTMLDivElement>) => {
+      if (disabled) return;
+      const container = containerRef.current;
+      if (!container) return;
+
+      // Find the closest cursor index and move it
+      const activeIndex = isRange ? 0 : 0; // default to first cursor
+      startDragging(activeIndex);
+      updateCursorHandler(e.clientX, e.clientY);
+      // Stop immediately after click
+      setTimeout(() => stopDraggingHandler(), 0);
+    };
+
+    // Tooltip display value
+    const getTooltipText = (rawValue: number): string => {
+      const effectiveMax = max || 100;
+      const displayUnit = max ? unit : unit || '%';
+      return `${rawValue.toFixed(1)}${displayUnit}`;
+    };
+
+    // Compute cursors count: range=2, single=1
+    const cursorCount = isRange ? 2 : 1;
+
+    // Get display value for cursor tooltip
+    const modelArray = getModelArray(currentValue);
+
+    // Step style for a step marker
+    const getStepStyle = (step: { label: string; value: number }) => {
+      const pct = max ? step.value / max : step.value;
+      const style: React.CSSProperties = {};
+      if (vertical) {
+        style.bottom = pct * 100 + '%';
+      } else {
+        style.left = pct * 100 + '%';
+      }
+      return style;
+    };
+
+    // Check if a step is within the fill range
+    const isStepActive = (step: { label: string; value: number }): boolean => {
+      const pct = max ? step.value / max : step.value;
+      const pcts = isRange
+        ? [toPercentage(modelArray[0]), toPercentage(modelArray[1])]
+        : [toPercentage(modelArray[0])];
+      const minPct = Math.min(...pcts);
+      const maxPct = Math.max(...pcts);
+      return pct >= minPct && pct <= maxPct;
+    };
+
+    // Fill bar dynamic style (color/fillColors)
+    const fillBarStyle: React.CSSProperties = {};
+    if (color && !(fillColors && fillColors.length) && !disabled) {
+      fillBarStyle.backgroundColor = color;
+    }
+
+    // Cursor dynamic style
+    const getCursorStyle = (index: number): React.CSSProperties => {
+      const style: React.CSSProperties = {};
+      if (color && !disabled) {
+        style.borderColor = color;
+      }
+      return style;
+    };
+
+    return (
+      <div
+        ref={mergedRef}
+        className={clsx(
+          styles.slider,
+          styles[size],
+          vertical ? styles.vertical : styles.horizontal,
+          disabled && styles.disabled,
+          steps && steps.length && styles.stepSlider,
+          neutralBackground && styles.neutralBg,
+          className
+        )}
+        aria-disabled={disabled}
+        onMouseDown={(e) => {
+          if (disabled) return;
+          // Find closest cursor on track mousedown
+          const container = containerRef.current;
+          if (!container) return;
+
+          let closestIndex = 0;
+          if (isRange && cursorRefs.current.length > 1) {
+            let closestDist = Infinity;
+            cursorRefs.current.forEach((cursor, idx) => {
+              if (!cursor) return;
+              if (vertical) {
+                const rect = container.getBoundingClientRect();
+                const cursorBottom = container.clientHeight - cursor.offsetTop - cursor.clientHeight / 2;
+                const dist = Math.abs(
+                  (container.clientHeight - (e.clientY - rect.top)) - cursorBottom
+                );
+                if (dist < closestDist) {
+                  closestDist = dist;
+                  closestIndex = idx;
+                }
+              } else {
+                const dist = Math.abs(cursor.offsetLeft - (e.clientX - container.getBoundingClientRect().left));
+                if (dist < closestDist) {
+                  closestDist = dist;
+                  closestIndex = idx;
+                }
+              }
+            });
+          }
+          startDragging(closestIndex);
+          updateCursorHandler(e.clientX, e.clientY);
+        }}
+        onTouchStart={(e) => {
+          if (disabled) return;
+          if (e.touches[0]) {
+            updateCursorHandler(e.touches[0].clientX, e.touches[0].clientY);
+          }
+        }}
+      >
+        {/* Fill bar */}
+        <div
+          ref={fillBarRef}
+          className={clsx(
+            styles.fillBar,
+            vertical && styles.fillBarVertical,
+            fillColors && fillColors.length && styles.haveFillColors
+          )}
+          style={fillBarStyle}
+        >
+          {fillColors && fillColors.map((c, i) => (
+            <div key={i} style={{ background: c, width: '100%', height: '100%' }} />
+          ))}
+        </div>
+
+        {/* Cursors */}
+        {Array.from({ length: cursorCount }).map((_, index) => (
+          <div
+            key={index}
+            ref={(el) => { cursorRefs.current[index] = el; }}
+            className={clsx(
+              styles.cursor,
+              isDragging[index] && styles.dragging,
+              color && styles.coloredCursor
+            )}
+            style={getCursorStyle(index)}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+              startDragging(index);
+            }}
+            onTouchStart={(e) => {
+              e.stopPropagation();
+              startDragging(index);
+            }}
+          >
+            {showTooltip && (
+              <div className={styles.tooltip}>
+                {getTooltipText(modelArray[index])}{unit}
+              </div>
+            )}
+          </div>
+        ))}
+
+        {/* Step markers */}
+        {steps && steps.map((step, i) => (
+          <div
+            key={i}
+            className={clsx(styles.step, isStepActive(step) && styles.stepActive)}
+            style={getStepStyle(step)}
+          >
+            <div className={clsx(styles.stepMarker, isStepActive(step) && styles.stepMarkerActive)} />
+            {step.label && <span className={styles.stepLabel}>{step.label}</span>}
+          </div>
+        ))}
+      </div>
+    );
+  }
+);
+
+Slider.displayName = 'Slider';
