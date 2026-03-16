@@ -1,0 +1,29 @@
+@reference "../../assets/main.css";
+
+.switch {
+  @apply inline-flex items-center gap-xs cursor-pointer select-none text-base;
+}
+
+.rhs {
+  @apply flex-row-reverse;
+}
+
+.disabled {
+  @apply pointer-events-none opacity-50;
+}
+
+.track {
+  @apply flex items-center w-[2em] h-[1.16em] rounded-full bg-neutral-interaction-default transition-all duration-150 ease-out text-white;
+}
+
+.active {
+  @apply bg-primary-interaction-default;
+}
+
+.thumb {
+  @apply w-[.85em] h-[.85em] rounded-full bg-current ml-[.125em] transition-all duration-150 ease-out;
+}
+
+.thumbActive {
+  @apply ml-[1em];
+}

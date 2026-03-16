@@ -1,0 +1,51 @@
+@reference "../../assets/main.css";
+
+.toggleGroup {
+  @apply inline-flex;
+}
+
+.vertical {
+  @apply flex-col;
+}
+
+/* Default type: connected pill layout — border collapse between siblings */
+.default > * {
+  @apply border-r-0;
+}
+
+.default > *:last-child {
+  @apply border-r border-current;
+}
+
+.default:not(.vertical) > *:first-child {
+  @apply rounded-l-sm;
+}
+
+.default:not(.vertical) > *:last-child {
+  @apply rounded-r-sm;
+}
+
+.default.vertical > * {
+  @apply border-r border-current border-b-0;
+}
+
+.default.vertical > *:last-child {
+  @apply border-b border-current;
+}
+
+.default.vertical > *:first-child {
+  @apply rounded-t-sm;
+}
+
+.default.vertical > *:last-child {
+  @apply rounded-b-sm;
+}
+
+/* Secondary type: independent rounded buttons with gap */
+.secondary {
+  @apply gap-xs flex-wrap;
+}
+
+.secondaryVertical {
+  @apply flex-col gap-xs;
+}
