@@ -25,3 +25,7 @@
 .disabled {
   @apply pointer-events-none opacity-50;
 }
+
+.inGroup {
+  @apply rounded-none;
+}
