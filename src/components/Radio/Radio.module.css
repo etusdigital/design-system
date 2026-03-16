@@ -1,0 +1,47 @@
+@reference "../../assets/main.css";
+
+.radio {
+  @apply inline-flex items-center gap-xs cursor-pointer select-none text-xs text-primary-interaction-default;
+}
+
+.default {
+  /* default variant — sizing comes from text-xs on parent */
+}
+
+.onboarding .outerCircle {
+  @apply text-xl;
+}
+
+.onboarding .radioLabel,
+.onboarding .radioText {
+  @apply text-sm;
+}
+
+.selected {
+  @apply text-primary-interaction-selected;
+}
+
+.selected .outerCircle {
+  @apply border-current;
+}
+
+.disabled {
+  @apply pointer-events-none opacity-50;
+}
+
+.outerCircle {
+  @apply bg-neutral-surface-default inline-flex justify-center items-center box-border w-[1em] h-[1em] border border-primary-default rounded-full text-base;
+}
+
+.innerCircle {
+  @apply inline-block w-[.5em] h-[.5em] scale-0 rounded-full bg-current transition-transform ease-out;
+}
+
+.innerCircleActive {
+  @apply scale-100;
+}
+
+.radioLabel,
+.radioText {
+  @apply text-neutral-interaction-default text-xs;
+}
