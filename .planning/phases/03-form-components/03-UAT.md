@@ -1,5 +1,5 @@
 ---
-status: complete
+status: diagnosed
 phase: 03-form-components
 source: [03-01-SUMMARY.md, 03-02-SUMMARY.md, 03-03-SUMMARY.md, 03-04-SUMMARY.md, 03-05-SUMMARY.md, 03-06-SUMMARY.md, 03-07-SUMMARY.md]
 started: 2026-03-16T20:00:00Z
@@ -87,57 +87,90 @@ skipped: 0
   reason: "User reported: My click dont change the selected value"
   severity: major
   test: 3
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "Stories pass static value prop without onChange, freezing selection in controlled mode. useControllable skips internal state and onChange is undefined — no state update occurs."
+  artifacts:
+    - path: "src/components/RadioGroup/RadioGroup.stories.tsx"
+      issue: "Primary, Vertical, StringOptions stories all pass value without onChange"
+  missing:
+    - "Change value to defaultValue in interactive stories so useControllable owns internal state"
+  debug_session: ".planning/debug/radio-group-click-no-change.md"
 
 - truth: "ToggleGroup default variant shows connected pill strip with shared borders and rounded first/last corners"
   status: failed
   reason: "User reported: borders messed up — double borders between items, missing rounded corners on first/last in horizontal and vertical layouts"
   severity: cosmetic
   test: 4
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "Toggle.module.css applies full 4-side border unconditionally. ToggleGroup.module.css border-collapse only removes border-right, leaving border-left active on all items. Vertical rule incorrectly re-applies border-r. Rounded corners may lose to @tailwindcss/forms cascade."
+  artifacts:
+    - path: "src/components/ToggleGroup/ToggleGroup.module.css"
+      issue: ".default > * removes only border-right; vertical rule conflicts; rounded corners compete with forms plugin"
+    - path: "src/components/Toggle/Toggle.module.css"
+      issue: ".toggle always applies border border-current on all 4 sides"
+  missing:
+    - "Use adjacent sibling selector (> * + *) to remove border-left (horizontal) or border-top (vertical) instead"
+    - "Add explicit rounded-none on .default > * then restore on first/last-child"
+    - "Remove conflicting border-r border-current from .default.vertical > *"
+  debug_session: ".planning/debug/togglegroup-border-bug.md"
 
 - truth: "Input respects global focus reset CSS (no inner border) and number type arrows are centered and functional"
   status: failed
   reason: "User reported: weird border inside component not following main.css focus reset; number arrows not centered and non-functional"
   severity: major
   test: 5
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "1) .inputContent missing border-0 — @tailwindcss/forms injects border-width:1px on inputs. 2) Number arrows wrapper has mt-xxs breaking vertical centering."
+  artifacts:
+    - path: "src/components/Input/Input.module.css"
+      issue: ".inputContent missing border-0 to neutralize @tailwindcss/forms 1px border"
+    - path: "src/components/Input/Input.tsx"
+      issue: "Line 237: mt-xxs on arrows wrapper breaks flex centering"
+  missing:
+    - "Add border-0 to .inputContent @apply"
+    - "Remove mt-xxs from number arrows wrapper className"
+  debug_session: ".planning/debug/input-border-and-number-arrows.md"
 
 - truth: "Domain and URL input types perform validation"
   status: failed
   reason: "User reported: domain and url mask does not do anything"
   severity: minor
   test: 6
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "1) Blur validation runs but errorMessage is never passed in stories, so no visible feedback. 2) applyMask has no case 'domain' or case 'url' implementations. 3) Mask guard type === 'text' excludes domain/url types."
+  artifacts:
+    - path: "src/components/Input/Input.tsx"
+      issue: "Line 253: error paragraph gated on errorMessage which is never set for domain/url; line 118: mask guard excludes non-text types"
+    - path: "src/utils/index.ts"
+      issue: "Lines 392-423: applyMask switch has no case for domain or url"
+  missing:
+    - "Auto-generate default errorMessage for domain/url types when none provided"
+    - "Add case 'domain' and case 'url' to applyMask or remove from type signature"
+    - "Add domain/url stories with errorMessage"
+  debug_session: ".planning/debug/input-domain-url-validation.md"
 
 - truth: "Slider tooltip uses design system Tooltip component and steps render as simple tick marks without labels"
   status: failed
   reason: "User reported: tooltip should use design system Tooltip with hover; steps should be simple tick marks without percentage labels"
   severity: major
   test: 9
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "1) Slider uses raw <div className={styles.tooltip}> instead of DS Tooltip component — no hover mechanic, no portal. 2) Step markers use oversized h-[1.875em] w-[0.3125em] with unconditional label spans."
+  artifacts:
+    - path: "src/components/Slider/Slider.tsx"
+      issue: "Lines 429-433: raw div tooltip; lines 437-447: oversized step markers with labels"
+    - path: "src/components/Slider/Slider.module.css"
+      issue: ".tooltip hardcodes bottom-full; .stepMarker is h-[1.875em] — too tall"
+  missing:
+    - "Import and use DS Tooltip component wrapping cursor with position='top' (horizontal) or position='right' (vertical)"
+    - "Collapse step render to single thin tick element, remove label spans"
+    - "Remove .tooltip CSS class (DS Tooltip handles its own styling)"
+  debug_session: ".planning/debug/slider-tooltip-steps.md"
 
 - truth: "Vertical slider tooltip appears to the right of the thumb"
   status: failed
   reason: "User reported: tooltip of vertical slider must be on the right side"
   severity: cosmetic
   test: 10
-  root_cause: ""
-  artifacts: []
-  missing: []
-  debug_session: ""
+  root_cause: "Covered by test 9 fix — using DS Tooltip with position='right' for vertical orientation resolves this automatically."
+  artifacts:
+    - path: "src/components/Slider/Slider.tsx"
+      issue: "No vertical-specific tooltip positioning"
+  missing:
+    - "Pass position='right' to DS Tooltip when vertical prop is true"
+  debug_session: ".planning/debug/slider-tooltip-steps.md"
