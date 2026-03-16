@@ -1,0 +1,37 @@
+@reference "../../assets/main.css";
+
+.textarea {
+  @apply flex flex-col gap-xxs h-fit;
+}
+
+.labelRow {
+  @apply flex justify-between items-center;
+}
+
+.counter {
+  @apply text-sm text-neutral-foreground-low font-bold;
+}
+
+.textareaContainer {
+  @apply flex py-xs px-sm rounded-sm outline outline-1 outline-neutral-border-default bg-white transition-[outline-color] duration-100;
+}
+
+.focused {
+  @apply outline-primary-border-default;
+}
+
+.error {
+  @apply outline-danger-border-default;
+}
+
+.disabled {
+  @apply outline-neutral-border-disabled bg-neutral-surface-disabled pointer-events-none;
+}
+
+.textareaContent {
+  @apply flex-1 bg-transparent outline-none text-sm text-neutral-foreground-high placeholder:text-neutral-foreground-low resize-y min-h-[60px];
+}
+
+.errorMessage {
+  @apply text-sm text-danger-foreground-low text-start;
+}
