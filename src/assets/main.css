@@ -459,6 +459,22 @@
   }
 
   :root {
+    [type="text"],
+    input:where(:not([type])),
+    [type="email"],
+    [type="url"],
+    [type="password"],
+    [type="number"],
+    [type="date"],
+    [type="datetime-local"],
+    [type="month"],
+    [type="search"],
+    [type="tel"],
+    [type="time"],
+    [type="week"],
+    [multiple],
+    textarea,
+    select,
     [type="text"]:focus,
     input:where(:not([type])):focus,
     [type="email"]:focus,
@@ -483,6 +499,7 @@
       --tw-ring-shadow: 0;
       box-shadow: none;
       border-width: 0;
+      padding: 0;
     }
   }
 }

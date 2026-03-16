@@ -1,9 +1,9 @@
-import { useState, useRef, useEffect, Children, isValidElement } from 'react';
-import clsx from 'clsx';
-import { Label } from '../../utils/components/Label';
-import styles from './FileUpload.module.css';
+import { useState, useRef, useEffect, Children, isValidElement } from "react";
+import clsx from "clsx";
+import { Label } from "../../utils/components/Label";
+import styles from "./FileUpload.module.css";
 
-export type FileUploadSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type FileUploadSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 export interface FileUploadProps {
   value?: File | File[] | null;
@@ -37,27 +37,27 @@ const SVG_SIZE_MAP: Record<FileUploadSize, number> = {
 };
 
 const ICON_SIZE_MAP: Record<FileUploadSize, string> = {
-  xs: 'text-4xl',
-  sm: 'text-6xl',
-  md: 'text-7xl',
-  lg: 'text-8xl',
-  xl: 'text-9xl',
+  xs: "text-4xl",
+  sm: "text-6xl",
+  md: "text-7xl",
+  lg: "text-8xl",
+  xl: "text-9xl",
 };
 
 const TRASH_SIZE_MAP: Record<FileUploadSize, string> = {
-  xs: 'text-base',
-  sm: 'text-lg',
-  md: 'text-xl',
-  lg: 'text-2xl',
-  xl: 'text-3xl',
+  xs: "text-base",
+  sm: "text-lg",
+  md: "text-xl",
+  lg: "text-2xl",
+  xl: "text-3xl",
 };
 
 const FILENAME_SIZE_MAP: Record<FileUploadSize, string> = {
-  xs: 'text-xs',
-  sm: 'text-sm',
-  md: 'text-base',
-  lg: 'text-lg',
-  xl: 'text-xl',
+  xs: "text-xs",
+  sm: "text-sm",
+  md: "text-base",
+  lg: "text-lg",
+  xl: "text-xl",
 };
 
 export function FileUpload({
@@ -67,19 +67,17 @@ export function FileUpload({
   labelValue,
   errorMessage,
   infoMessage,
-  size = 'md',
+  size = "md",
   disabled = false,
   isError = false,
-  required = false,
-  placeholder = 'or drag and drop it here',
-  tooltipMinWidth,
+  placeholder = "or drag and drop it here",
   accept,
   multiple = false,
   children,
   className,
 }: FileUploadProps) {
   const [currentFile, setCurrentFile] = useState<File | File[] | null>(
-    value !== undefined ? value : (defaultValue ?? null)
+    value !== undefined ? value : (defaultValue ?? null),
   );
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -102,7 +100,7 @@ export function FileUpload({
     if (currentFile && !Array.isArray(currentFile)) {
       return currentFile.name;
     }
-    return '';
+    return "";
   })();
 
   function onChangeFile(files: FileList | null) {
@@ -121,7 +119,7 @@ export function FileUpload({
     setCurrentFile(null);
     onChange?.(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = "";
     }
   }
 
@@ -140,22 +138,13 @@ export function FileUpload({
 
   return (
     <div className={className}>
-      {labelValue && (
-        <Label
-          labelValue={labelValue}
-          infoMessage={infoMessage}
-          tooltipMinWidth={tooltipMinWidth}
-          required={required}
-        />
-      )}
-
       <div
         className={clsx(
           styles.file,
           styles[size],
           isDragging && styles.dragging,
           disabled && styles.disabled,
-          isError && styles.error
+          isError && styles.error,
         )}
         onDragEnter={(e) => {
           e.preventDefault();
@@ -169,16 +158,17 @@ export function FileUpload({
           if (!disabled) onChangeFile(e.dataTransfer.files);
         }}
       >
-        {/* Hidden file input — always present so click anywhere on drop zone opens picker */}
-        <input
-          ref={fileInputRef}
-          type="file"
-          className={styles.hiddenInput}
-          accept={accept}
-          multiple={multiple}
-          disabled={disabled}
-          onChange={(e) => onChangeFile(e.target.files)}
-        />
+        {!hasFile && (
+          <input
+            ref={fileInputRef}
+            type="file"
+            className={styles.hiddenInput}
+            accept={accept}
+            multiple={multiple}
+            disabled={disabled}
+            onChange={(e) => onChangeFile(e.target.files)}
+          />
+        )}
 
         {!hasFile && (
           <>
@@ -219,7 +209,7 @@ export function FileUpload({
 
             <div className="flex flex-col items-center gap-xs">
               <p className="cursor-pointer text-primary-foreground-low">
-                {labelValue || 'Select a file'}
+                {labelValue || "Select a file"}
               </p>
               <p className="text-neutral-foreground-low">{placeholder}</p>
             </div>
@@ -229,14 +219,17 @@ export function FileUpload({
         {hasFile && (
           <div
             className={clsx(
-              'flex gap-sm items-center justify-center',
-              isDragging && styles.blurred
+              "flex gap-sm items-center justify-center",
+              isDragging && styles.blurred,
             )}
           >
             {previewChild ?? (
               <div className="flex flex-col items-center gap-xs">
                 <span
-                  className={clsx('material-symbols-rounded text-neutral-foreground-low', iconSizeClass)}
+                  className={clsx(
+                    "material-symbols-rounded text-neutral-foreground-low",
+                    iconSizeClass,
+                  )}
                 >
                   draft
                 </span>
@@ -244,7 +237,7 @@ export function FileUpload({
                   <p
                     className={clsx(
                       fileNameSizeClass,
-                      'text-neutral-foreground-low truncate max-w-[96px]'
+                      "text-neutral-foreground-low truncate max-w-[96px]",
                     )}
                   >
                     {fileName}
@@ -252,8 +245,8 @@ export function FileUpload({
                   {!disabled && (
                     <span
                       className={clsx(
-                        'material-symbols-rounded cursor-pointer text-neutral-interaction-default hover:text-danger-interaction-default',
-                        trashSizeClass
+                        "material-symbols-rounded cursor-pointer text-neutral-interaction-default hover:text-danger-interaction-default",
+                        trashSizeClass,
                       )}
                       onClick={deleteFile}
                       aria-label="Remove file"
@@ -271,9 +264,7 @@ export function FileUpload({
       {isError && errorMessage && (
         <p className={styles.errorMessage}>{errorMessage}</p>
       )}
-      {infoMessage && (
-        <p className={styles.infoMessage}>{infoMessage}</p>
-      )}
+      {infoMessage && <p className={styles.infoMessage}>{infoMessage}</p>}
     </div>
   );
 }

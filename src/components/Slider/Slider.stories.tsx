@@ -10,9 +10,6 @@ export default {
       description:
         'Controlled value (0–1 if no max, or 0–max if max is set). For isRange, pass [number, number].',
     },
-    defaultValue: {
-      description: 'Uncontrolled default value.',
-    },
     size: {
       control: 'select',
       options: ['small', 'medium', 'large'],
@@ -49,44 +46,42 @@ export default {
 
 type Story = StoryObj<typeof Slider>;
 
-export const Default: Story = {
+export const Primary: Story = {
   args: {
-    defaultValue: 0.5,
+    value: 0.5,
     size: 'medium',
   },
 };
 
-export const Small: Story = {
-  args: {
-    defaultValue: 0.3,
-    size: 'small',
-  },
+export const Sizes: Story = {
+  render: (args: any) => (
+    <div className="flex flex-col gap-xs">
+      {['small', 'medium', 'large'].map((size) => (
+        <Slider key={size} {...args} size={size} />
+      ))}
+    </div>
+  ),
 };
 
-export const Large: Story = {
+export const IsRange: Story = {
   args: {
-    defaultValue: 0.7,
-    size: 'large',
-  },
-};
-
-export const WithSteps: Story = {
-  args: {
-    defaultValue: 0.5,
-    steps: [
-      { label: '0%', value: 0 },
-      { label: '25%', value: 0.25 },
-      { label: '50%', value: 0.5 },
-      { label: '75%', value: 0.75 },
-      { label: '100%', value: 1 },
-    ],
-  },
-};
-
-export const Range: Story = {
-  args: {
-    defaultValue: [0.2, 0.8],
+    value: [0.2, 0.8],
     isRange: true,
+  },
+};
+
+export const ShowTooltip: Story = {
+  args: {
+    value: 0.5,
+    showTooltip: true,
+    unit: '%',
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    value: 0.5,
+    disabled: true,
   },
 };
 
@@ -99,55 +94,42 @@ export const Vertical: Story = {
     ),
   ],
   args: {
-    defaultValue: 0.5,
+    value: 0.5,
+    showTooltip: true,
     vertical: true,
-  },
-};
-
-export const CustomColor: Story = {
-  args: {
-    defaultValue: 0.6,
-    color: '#FF9654',
   },
 };
 
 export const FillColors: Story = {
   args: {
-    defaultValue: 0.5,
+    value: 0.5,
     fillColors: ['#00CEFC', '#50358A', '#FF9654'],
   },
 };
 
-export const WithTooltip: Story = {
+export const WithSteps: Story = {
   args: {
-    defaultValue: 0.5,
-    showTooltip: true,
-    unit: '%',
+    value: 0.5,
+    steps: [
+      { label: '0%', value: 0 },
+      { label: '25%', value: 0.25 },
+      { label: '50%', value: 0.5 },
+      { label: '75%', value: 0.75 },
+      { label: '100%', value: 1 },
+    ],
   },
 };
 
-export const Disabled: Story = {
+export const CustomColor: Story = {
   args: {
-    defaultValue: 0.5,
-    disabled: true,
+    value: 0.6,
+    color: '#FF9654',
   },
 };
 
 export const NeutralBackground: Story = {
   args: {
-    defaultValue: 0.4,
+    value: 0.4,
     neutralBackground: true,
-  },
-};
-
-export const Controlled: Story = {
-  render: () => {
-    const [val, setVal] = useState<number>(0.3);
-    return (
-      <div>
-        <Slider value={val} onChange={(v) => setVal(v as number)} />
-        <p style={{ marginTop: '1em' }}>Value: {val.toFixed(2)}</p>
-      </div>
-    );
   },
 };

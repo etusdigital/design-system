@@ -32,10 +32,10 @@ Controls the input value. Type: `any` (default: `undefined`)
 The label displayed above the input. Type: `string` (default: `""`)
 
 #### type
-Input type determining behavior and validation. Type: `'text' | 'number' | 'search' | 'color' | 'password' | 'file' | 'email'` (default: `"text"`)
+Input type determining behavior and validation. Type: `'text' | 'number' | 'search' | 'color' | 'password' | 'email' | 'domain' | 'url'` (default: `"text"`)
 
 #### mask
-Input mask for automatic formatting. Type: `'cpf' | 'cnpj' | 'cep' | 'domain' | 'url'` (default: `undefined`)
+Input mask for automatic formatting. Type: `'cpf' | 'cnpj' | 'cep'` (default: `undefined`)
 
 #### max
 Maximum value for numbers or character limit for text. Type: `number` (default: `undefined`)

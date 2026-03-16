@@ -1,0 +1,9 @@
+@reference "../../assets/main.css";
+
+.material-symbols-rounded.icon {
+  @apply text-lg leading-[.7em];
+}
+
+.arrow-icon.icon {
+  @apply text-2xl cursor-pointer text-neutral-interaction-default;
+}

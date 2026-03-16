@@ -9,7 +9,7 @@
 }
 
 .container {
-  @apply flex flex-wrap gap-1 items-center border border-neutral-border-default rounded-base py-xs px-sm bg-neutral-surface-default transition-colors cursor-text;
+  @apply flex flex-wrap gap-1 items-center border border-neutral-default rounded-base py-xs px-sm bg-neutral-surface-default transition-colors cursor-text;
 }
 
 .focused {
@@ -17,12 +17,12 @@
 }
 
 .error {
-  @apply border-danger-border-default;
+  @apply border-danger-default;
   animation: shake 0.5s;
 }
 
 .disabled {
-  @apply border-neutral-border-disabled bg-neutral-surface-disabled pointer-events-none;
+  @apply border-neutral-disabled bg-neutral-surface-disabled pointer-events-none;
 }
 
 .textarea {

@@ -246,12 +246,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
           <div className={clsx(styles.numberArrows, 'ml-xxs')}>
             <Icon
               name="arrow_drop_up"
-              className="text-2xl h-[.7em] cursor-pointer text-neutral-interaction-default"
+              className="arrow-icon"
               onClick={increment}
             />
             <Icon
               name="arrow_drop_down"
-              className="text-2xl h-[.7em] cursor-pointer text-neutral-interaction-default"
+              className="arrow-icon"
               onClick={decrement}
             />
           </div>

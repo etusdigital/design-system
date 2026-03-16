@@ -65,7 +65,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof TagInput>;
 
-export const Default: Story = {
+export const Primary: Story = {
   args: {
     labelValue: 'Tags',
     placeholder: 'Press Enter to add a tag',
@@ -119,7 +119,7 @@ export const AllowDuplicate: Story = {
   },
 };
 
-export const MaxTags: Story = {
+export const Max: Story = {
   args: {
     labelValue: 'Tags',
     max: 5,

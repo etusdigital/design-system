@@ -1,5 +1,5 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as Slider from './Slider.stories.ts';
+import * as Slider from './Slider.stories.tsx';
 
 <Meta of={Slider} />
 
@@ -82,7 +82,7 @@ Array of colors for dividing the fill area between multiple segments. Type: `any
 #### steps
 Array of step positions (scale 0-1) where marks are placed and values snap to. Type: `any[]` (default: `[]`)
 
-<Canvas sourceState="none" of={Slider.Steps} />
+<Canvas sourceState="none" of={Slider.WithSteps} />
 
 #### neutral-background
 Applies neutral background styling to the slider track. Type: `boolean` (default: `false`)

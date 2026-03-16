@@ -1,7 +1,7 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as FileUpload from './FileUpload.stories.ts';
+import * as FileUploadStories from './FileUpload.stories';
 
-<Meta of={FileUpload} />
+<Meta of={FileUploadStories} />
 
 # Name: FileUpload
 ## Component Overview
@@ -13,7 +13,7 @@ import * as FileUpload from './FileUpload.stories.ts';
 <br />
 ### Playground
 
-<Canvas of={FileUpload.Primary} />
+<Canvas of={FileUploadStories.Default} />
 <Controls />
 
 ---
@@ -35,7 +35,7 @@ const uploadedFile = ref<File>()
 </script>
 ```
 
-<Canvas sourceState="none" of={FileUpload.Primary} />
+<Canvas sourceState="none" of={FileUploadStories.Default} />
 
 ---
 
@@ -66,17 +66,17 @@ const image = ref<File>()
 </script>
 ```
 
-<Canvas sourceState="none" of={FileUpload.Accept} />
+<Canvas sourceState="none" of={FileUploadStories.Accept} />
 
 #### multiple
 Allows multiple file selection. Type: `boolean` (default: `false`)
 
-<Canvas sourceState="none" of={FileUpload.Multiple} />
+<Canvas sourceState="none" of={FileUploadStories.Multiple} />
 
 #### is-error
 Activates error styling mode. Type: `boolean` (default: `false`)
 
-<Canvas sourceState="none" of={FileUpload.IsError} />
+<Canvas sourceState="none" of={FileUploadStories.IsError} />
 
 #### error-message
 Error message to display when in error state. Type: `string` (default: `""`)
@@ -84,17 +84,17 @@ Error message to display when in error state. Type: `string` (default: `""`)
 #### info-message
 Informational message displayed with tooltip. Type: `string` (default: `""`)
 
-<Canvas sourceState="none" of={FileUpload.InfoMessage} />
+<Canvas sourceState="none" of={FileUploadStories.InfoMessage} />
 
 #### size
 File upload component size. Type: `'extra-small' | 'small' | 'medium' | 'large' | 'extra-large'` (default: `"medium"`)
 
-<Canvas sourceState="none" of={FileUpload.Sizes} />
+<Canvas sourceState="none" of={FileUploadStories.ExtraSmall} />
 
 #### disabled
 Disables file upload interaction. Type: `boolean` (default: `false`)
 
-<Canvas sourceState="none" of={FileUpload.Disabled} />
+<Canvas sourceState="none" of={FileUploadStories.Disabled} />
 
 #### placeholder
 Placeholder text for the file upload area. Type: `string` (default: `"or drag and drop it here"`)

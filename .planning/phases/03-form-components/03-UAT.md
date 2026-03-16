@@ -1,9 +1,9 @@
 ---
-status: diagnosed
+status: complete
 phase: 03-form-components
-source: [03-01-SUMMARY.md, 03-02-SUMMARY.md, 03-03-SUMMARY.md, 03-04-SUMMARY.md, 03-05-SUMMARY.md, 03-06-SUMMARY.md, 03-07-SUMMARY.md]
-started: 2026-03-16T20:00:00Z
-updated: 2026-03-16T20:45:00Z
+source: [03-08-SUMMARY.md, 03-09-SUMMARY.md, 03-10-SUMMARY.md]
+started: 2026-03-16T21:30:00Z
+updated: 2026-03-16T21:45:00Z
 ---
 
 ## Current Test
@@ -12,165 +12,60 @@ updated: 2026-03-16T20:45:00Z
 
 ## Tests
 
-### 1. Checkbox toggle and three-state cycle
-expected: In Storybook, open Checkbox > Primary story. Clicking the checkbox toggles between checked and unchecked. Open the AllowIndeterminate story — clicking cycles through: checked → indeterminate (dash icon) → unchecked → checked. The label text appears next to the checkbox. The Disabled story shows a non-interactive checkbox with reduced opacity.
+### 1. RadioGroup selection on click
+expected: In Storybook, open RadioGroup > Primary story. Click a different radio option — the selection changes visually (filled inner circle moves to the clicked item). Try the Vertical and StringOptions stories too — clicking updates the selected value in each.
 result: pass
 
-### 2. Switch sliding toggle
-expected: In Storybook, open Switch > Primary story. Clicking the switch toggles on/off with a visible sliding thumb animation. The label appears next to the switch. The RHS story places the label on the left side. The Disabled story shows a non-interactive switch with reduced opacity.
+### 2. ToggleGroup connected pill layout (horizontal)
+expected: In Storybook, open ToggleGroup > Default story. Toggles are connected as a pill strip — single borders between items (no double borders), first item has left rounded corners, last item has right rounded corners. Clicking a toggle selects it.
 result: pass
 
-### 3. RadioGroup selection exclusivity
-expected: In Storybook, open RadioGroup stories. Clicking one radio selects it and deselects any previously selected radio in the group. Only one option can be selected at a time. The selected radio shows a filled inner circle. In the Radio > Onboarding story, the radio uses a card-like onboarding variant style.
-result: issue
-reported: "My click dont change the selected value"
-severity: major
+### 3. ToggleGroup connected pill layout (vertical)
+expected: In Storybook, open ToggleGroup > Vertical story with default type. No double borders between items — single shared border. First item has top rounded corners, last item has bottom rounded corners.
+result: pass
 
-### 4. ToggleGroup connected pill layout
-expected: In Storybook, open ToggleGroup stories. Default variant shows toggles connected as a pill strip (no gaps between buttons, shared borders). Clicking one toggle selects it (highlighted) and deselects others. Secondary variant shows toggles with spacing between them, each independently rounded.
+### 4. Input no inner border
+expected: In Storybook, open any Input story (e.g., Primary). The input field has no visible inner border artifact — clean single border on the wrapper only, matching the global focus reset CSS.
+result: pass
+
+### 5. Input number arrows centered and functional
+expected: In Storybook, open Input > NumberType story. The up/down arrows are vertically centered within the input. Clicking the up arrow increments the value, clicking down decrements it.
+result: pass
+
+### 6. Input domain/url validation on blur
+expected: In Storybook, open Input > DomainType story. Type an invalid value (e.g., "notadomain"), then tab away (blur). An error message "Invalid domain" appears below the input. Clear and type a valid domain (e.g., "example.com"), blur — error disappears. Same behavior for UrlType story with "Invalid URL" message.
+result: pass
+
+### 7. Slider tooltip uses DS Tooltip (horizontal)
+expected: In Storybook, open Slider > Default story. Hover over the slider thumb — a tooltip appears ABOVE the thumb showing the current value, using the design system Tooltip component (consistent styling with other DS tooltips). The tooltip appears on hover, not permanently visible.
+result: pass
+
+### 8. Slider tooltip position (vertical)
+expected: In Storybook, open Slider > Vertical story. Hover over the slider thumb — the tooltip appears to the RIGHT of the thumb (not above or below).
+result: pass
+
+### 9. Slider step markers as thin ticks
+expected: In Storybook, open a Slider story with steps configured. Steps render as small thin tick marks along the track — no text labels or percentage numbers below the ticks.
 result: issue
-reported: "The borders in this component is all messed up in the default type — double borders between items, missing rounded corners on first/last in horizontal; same double-border issue in vertical layout"
+reported: "The marks are not following the correct colors — active step markers (before the thumb, in the filled area) should be darker matching the fill color, inactive markers (after the thumb) should be lighter. Currently all markers are the same light mint/teal color regardless of position."
 severity: cosmetic
-
-### 5. Input type variants and interactions
-expected: In Storybook, open Input stories. The password type shows a visibility toggle icon — clicking it reveals/hides the text. The number type shows up/down arrow buttons for incrementing/decrementing. The search type shows a search icon. A label with character counter appears above the input when configured. Error state shows a red border and error message below.
-result: issue
-reported: "Input has a weird border inside the component — not following the global focus reset CSS in main.css (border-width: 0). Also the arrows in the type number are not in the center and do not work"
-severity: major
-
-### 6. Input mask formatting
-expected: In Storybook, find an Input story with mask prop (e.g., CPF or CNPJ). Typing digits auto-formats with dots and dashes (e.g., CPF: 123.456.789-00). The mask applies as you type, inserting separators at the correct positions.
-result: issue
-reported: "The mask applies correctly, but the domain and url mask does not do anything"
-severity: minor
-
-### 7. Textarea character counter and error
-expected: In Storybook, open Textarea stories. When a max prop is set, a character counter (e.g., "15/100") appears next to the label. Typing beyond the max truncates the input. Error state shows a red border with an error message below the textarea.
-result: pass
-
-### 8. PINInput auto-advance and paste
-expected: In Storybook, open PINInput stories. Typing a digit in one cell auto-advances focus to the next cell. Pressing Backspace on an empty cell moves focus to the previous cell. Pasting a multi-digit string (e.g., "123456") distributes digits across all cells. The separator story shows dashes between groups of cells.
-result: pass
-
-### 9. Slider drag and range mode
-expected: In Storybook, open Slider > Default story. Clicking/dragging the thumb moves it along the track, updating the fill bar. The Range story shows two thumbs that can be dragged independently to define a range. The tooltip shows the current value while dragging. The Disabled story shows a non-interactive slider.
-result: issue
-reported: "The tooltip must use the design system Tooltip component with hover mechanic, not a custom inline tooltip. The steps should render as simple tick marks without labels (like the reference image), not with large step markers and percentage labels below"
-severity: major
-
-### 10. Slider vertical and steps
-expected: In Storybook, open Slider > Vertical story — the slider renders vertically (top to bottom). The Disabled story shows a non-interactive slider.
-result: issue
-reported: "The tooltip of the vertical slider must be on the right side of the thumb, not above/below"
-severity: cosmetic
-
-### 11. TagInput keyboard and validation
-expected: In Storybook, open TagInput stories. Typing text and pressing Enter adds a tag (badge) below/inside the input. Pressing Backspace when the input is empty removes the last tag. Duplicate tags are rejected with a shake animation on the input. If a max tag limit is set, additional tags cannot be added once the limit is reached.
-result: pass
-
-### 12. FileUpload click and drag-and-drop
-expected: In Storybook, open FileUpload stories. Clicking the drop zone opens the native file picker. After selecting a file, the file name appears in the component. A delete button allows removing the selected file. Dragging a file over the drop zone shows a visual highlight (dragging state).
-result: pass
 
 ## Summary
 
-total: 12
-passed: 6
-issues: 6
+total: 9
+passed: 8
+issues: 1
 pending: 0
 skipped: 0
 
 ## Gaps
 
-- truth: "Clicking a radio in RadioGroup changes the selected value"
+- truth: "Step tick marks change color based on active/inactive state — darker in the filled area, lighter in the unfilled area"
   status: failed
-  reason: "User reported: My click dont change the selected value"
-  severity: major
-  test: 3
-  root_cause: "Stories pass static value prop without onChange, freezing selection in controlled mode. useControllable skips internal state and onChange is undefined — no state update occurs."
-  artifacts:
-    - path: "src/components/RadioGroup/RadioGroup.stories.tsx"
-      issue: "Primary, Vertical, StringOptions stories all pass value without onChange"
-  missing:
-    - "Change value to defaultValue in interactive stories so useControllable owns internal state"
-  debug_session: ".planning/debug/radio-group-click-no-change.md"
-
-- truth: "ToggleGroup default variant shows connected pill strip with shared borders and rounded first/last corners"
-  status: failed
-  reason: "User reported: borders messed up — double borders between items, missing rounded corners on first/last in horizontal and vertical layouts"
+  reason: "User reported: marks are not following the correct colors — active markers should be darker, inactive lighter. All markers are the same color."
   severity: cosmetic
-  test: 4
-  root_cause: "Toggle.module.css applies full 4-side border unconditionally. ToggleGroup.module.css border-collapse only removes border-right, leaving border-left active on all items. Vertical rule incorrectly re-applies border-r. Rounded corners may lose to @tailwindcss/forms cascade."
-  artifacts:
-    - path: "src/components/ToggleGroup/ToggleGroup.module.css"
-      issue: ".default > * removes only border-right; vertical rule conflicts; rounded corners compete with forms plugin"
-    - path: "src/components/Toggle/Toggle.module.css"
-      issue: ".toggle always applies border border-current on all 4 sides"
-  missing:
-    - "Use adjacent sibling selector (> * + *) to remove border-left (horizontal) or border-top (vertical) instead"
-    - "Add explicit rounded-none on .default > * then restore on first/last-child"
-    - "Remove conflicting border-r border-current from .default.vertical > *"
-  debug_session: ".planning/debug/togglegroup-border-bug.md"
-
-- truth: "Input respects global focus reset CSS (no inner border) and number type arrows are centered and functional"
-  status: failed
-  reason: "User reported: weird border inside component not following main.css focus reset; number arrows not centered and non-functional"
-  severity: major
-  test: 5
-  root_cause: "1) .inputContent missing border-0 — @tailwindcss/forms injects border-width:1px on inputs. 2) Number arrows wrapper has mt-xxs breaking vertical centering."
-  artifacts:
-    - path: "src/components/Input/Input.module.css"
-      issue: ".inputContent missing border-0 to neutralize @tailwindcss/forms 1px border"
-    - path: "src/components/Input/Input.tsx"
-      issue: "Line 237: mt-xxs on arrows wrapper breaks flex centering"
-  missing:
-    - "Add border-0 to .inputContent @apply"
-    - "Remove mt-xxs from number arrows wrapper className"
-  debug_session: ".planning/debug/input-border-and-number-arrows.md"
-
-- truth: "Domain and URL input types perform validation"
-  status: failed
-  reason: "User reported: domain and url mask does not do anything"
-  severity: minor
-  test: 6
-  root_cause: "1) Blur validation runs but errorMessage is never passed in stories, so no visible feedback. 2) applyMask has no case 'domain' or case 'url' implementations. 3) Mask guard type === 'text' excludes domain/url types."
-  artifacts:
-    - path: "src/components/Input/Input.tsx"
-      issue: "Line 253: error paragraph gated on errorMessage which is never set for domain/url; line 118: mask guard excludes non-text types"
-    - path: "src/utils/index.ts"
-      issue: "Lines 392-423: applyMask switch has no case for domain or url"
-  missing:
-    - "Auto-generate default errorMessage for domain/url types when none provided"
-    - "Add case 'domain' and case 'url' to applyMask or remove from type signature"
-    - "Add domain/url stories with errorMessage"
-  debug_session: ".planning/debug/input-domain-url-validation.md"
-
-- truth: "Slider tooltip uses design system Tooltip component and steps render as simple tick marks without labels"
-  status: failed
-  reason: "User reported: tooltip should use design system Tooltip with hover; steps should be simple tick marks without percentage labels"
-  severity: major
   test: 9
-  root_cause: "1) Slider uses raw <div className={styles.tooltip}> instead of DS Tooltip component — no hover mechanic, no portal. 2) Step markers use oversized h-[1.875em] w-[0.3125em] with unconditional label spans."
-  artifacts:
-    - path: "src/components/Slider/Slider.tsx"
-      issue: "Lines 429-433: raw div tooltip; lines 437-447: oversized step markers with labels"
-    - path: "src/components/Slider/Slider.module.css"
-      issue: ".tooltip hardcodes bottom-full; .stepMarker is h-[1.875em] — too tall"
-  missing:
-    - "Import and use DS Tooltip component wrapping cursor with position='top' (horizontal) or position='right' (vertical)"
-    - "Collapse step render to single thin tick element, remove label spans"
-    - "Remove .tooltip CSS class (DS Tooltip handles its own styling)"
-  debug_session: ".planning/debug/slider-tooltip-steps.md"
-
-- truth: "Vertical slider tooltip appears to the right of the thumb"
-  status: failed
-  reason: "User reported: tooltip of vertical slider must be on the right side"
-  severity: cosmetic
-  test: 10
-  root_cause: "Covered by test 9 fix — using DS Tooltip with position='right' for vertical orientation resolves this automatically."
-  artifacts:
-    - path: "src/components/Slider/Slider.tsx"
-      issue: "No vertical-specific tooltip positioning"
-  missing:
-    - "Pass position='right' to DS Tooltip when vertical prop is true"
-  debug_session: ".planning/debug/slider-tooltip-steps.md"
+  root_cause: ""
+  artifacts: []
+  missing: []
+  debug_session: ""

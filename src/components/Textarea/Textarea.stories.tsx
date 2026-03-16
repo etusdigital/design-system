@@ -90,3 +90,13 @@ export const Required: Story = {
     required: true,
   },
 };
+
+export const TextAlign: Story = {
+  render: (args: any) => (
+    <div className="flex gap-xs">
+      {['left', 'center', 'right'].map((textAlign) => (
+        <Textarea key={textAlign} {...args} textAlign={textAlign} labelValue={textAlign} />
+      ))}
+    </div>
+  ),
+};

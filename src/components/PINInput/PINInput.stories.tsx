@@ -28,7 +28,7 @@ const meta = {
     },
     type: {
       control: 'select',
-      options: ['text', 'password'],
+      options: ['text', 'number','password'],
       table: { defaultValue: { summary: 'text' } },
       description: 'Input field type.',
     },
@@ -43,7 +43,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof PINInput>;
 
-export const Default: Story = {
+export const Primary: Story = {
+  args: {
+    length: 6,
+  },
+};
+
+export const Length: Story = {
   args: {
     length: 6,
   },
@@ -56,11 +62,14 @@ export const WithSeparator: Story = {
   },
 };
 
-export const Password: Story = {
-  args: {
-    length: 4,
-    type: 'password',
-  },
+export const Types: Story = {
+  render: (args: any) => (
+    <div className="flex flex-col gap-xs">
+      {['text', 'number', 'password'].map((type) => (
+        <PINInput key={type} {...args} type={type} />
+      ))}
+    </div>
+  ),
 };
 
 export const OTP: Story = {

@@ -13,19 +13,19 @@
 }
 
 .textareaContainer {
-  @apply flex py-xs px-sm rounded-sm outline outline-1 outline-neutral-border-default bg-white transition-[outline-color] duration-100;
+  @apply flex py-xs px-sm rounded-sm outline outline-1 outline-neutral-default bg-white transition-[outline-color] duration-100;
 }
 
 .focused {
-  @apply outline-primary-border-default;
+  @apply outline-primary-default;
 }
 
 .error {
-  @apply outline-danger-border-default;
+  @apply outline-danger-default;
 }
 
 .disabled {
-  @apply outline-neutral-border-disabled bg-neutral-surface-disabled pointer-events-none;
+  @apply outline-neutral-disabled bg-neutral-surface-disabled pointer-events-none;
 }
 
 .textareaContent {

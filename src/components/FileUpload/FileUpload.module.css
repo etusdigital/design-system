@@ -1,7 +1,7 @@
 @reference "../../assets/main.css";
 
 .file {
-  @apply relative flex flex-col items-center justify-center gap-xs border border-dashed border-neutral-border-default rounded-sm py-xs px-sm text-center cursor-pointer w-full;
+  @apply relative flex flex-col items-center justify-center gap-xs border border-dashed border-neutral-default rounded-sm py-xs px-sm text-center cursor-pointer w-full;
 }
 
 .dragging {
@@ -13,7 +13,7 @@
 }
 
 .error {
-  @apply border-danger-border-default;
+  @apply border-danger-default;
 }
 
 .hiddenInput {

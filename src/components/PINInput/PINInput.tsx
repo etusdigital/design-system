@@ -16,8 +16,7 @@ interface PINInputProps {
   disabled?: boolean;
   placeholder?: string;
   separator?: number;
-  type?: 'text' | 'password';
-  mask?: string;
+  type?: 'text' | 'number' | 'password';
   otp?: boolean;
   className?: string;
 }
@@ -156,7 +155,7 @@ export const PINInput = React.forwardRef<PINInputHandle, PINInputProps>(
               onKeyDown={(e) => handleKeyDown(e, index)}
               onPaste={(e) => handlePaste(e, index)}
               onFocus={handleFocus}
-              type={type === 'password' ? 'password' : 'text'}
+              type={type}
               inputMode="numeric"
               maxLength={1}
               placeholder={placeholder}

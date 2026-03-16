@@ -1,4 +1,6 @@
 import { Tooltip } from '../../components/Tooltip';
+import { Icon } from '../../components/Icon';
+import '../styles/Label.css';
 
 export interface LabelProps {
   labelValue?: string;
@@ -27,15 +29,13 @@ export function Label({
         <Tooltip className="ml-xxs">
           <Tooltip.Label>
             <p
-              className="p-1 text-neutral-foreground-negative"
+              className="p-xxs text-neutral-foreground-negative"
               style={tooltipMinWidth ? { minWidth: tooltipMinWidth } : undefined}
             >
               {infoMessage}
             </p>
           </Tooltip.Label>
-          <span className="material-symbols-rounded text-lg text-primary-foreground-low">
-            info
-          </span>
+          <Icon name="info" className="info-icon" />
         </Tooltip>
       )}
     </h5>

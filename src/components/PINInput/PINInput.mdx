@@ -1,5 +1,5 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as PINInputStories from './PINInput.stories.ts';
+import * as PINInputStories from './PINInput.stories.tsx';
 
 <Meta of={PINInputStories} />
 
@@ -14,7 +14,7 @@ import * as PINInputStories from './PINInput.stories.ts';
 <br />
 ### Playground
 
-<Canvas of={PINInputStories.Default} />
+<Canvas of={PINInputStories.Primary} />
 <Controls />
 
 ---
@@ -41,7 +41,7 @@ const handleComplete = (value: string) => {
 </script>
 ```
 
-<Canvas sourceState="none" of={PINInputStories.Default} />
+<Canvas sourceState="none" of={PINInputStories.Primary} />
 
 ---
 
@@ -66,15 +66,12 @@ Placeholder text for each input field. Type: `string` (default: `""`)
 #### separator
 Character or string to display between input fields. Type: `string` (default: `""`)
 
-<Canvas sourceState="none" of={PINInputStories.Separator} />
+<Canvas sourceState="none" of={PINInputStories.WithSeparator} />
 
 #### type
-Input field type - use 'password' to mask the entered values. Type: `'text' | 'password'` (default: `"text"`)
+Input field type - use 'password' to mask the entered values. Type: `'text' | 'number' | 'password'` (default: `"text"`)
 
-<Canvas sourceState="none" of={PINInputStories.Password} />
-
-#### mask
-Whether to mask the input values (alternative to password type). Type: `boolean` (default: `false`)
+<Canvas sourceState="none" of={PINInputStories.Types} />
 
 #### otp
 Indicates this is an OTP input for accessibility and autocomplete. Type: `boolean` (default: `false`)

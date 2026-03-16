@@ -135,9 +135,7 @@ export function Alert({
             </div>
           )}
           {closable && (
-            <div onClick={onClose} className={styles.clickable}>
-              <Icon name="close" />
-            </div>
+            <Icon name="close" onClick={onClose} className={styles.clickable} />
           )}
         </div>
       )}

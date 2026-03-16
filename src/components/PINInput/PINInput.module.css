@@ -5,11 +5,11 @@
 }
 
 .field {
-  @apply w-[48px] h-[48px] text-center text-sm rounded-sm outline outline-1 outline-neutral-border-default bg-white transition-[outline-color] duration-100 focus:outline-primary-border-default;
+  @apply w-[48px] h-[48px] text-center text-sm rounded-sm outline outline-xxs outline-neutral-default bg-neutral-surface-default transition-[outline-color] duration-100 focus:outline-primary-default;
 }
 
 .filled {
-  @apply outline-primary-border-default bg-primary-surface-default;
+  @apply outline-primary-default bg-primary-surface-default;
 }
 
 .separator {
@@ -17,5 +17,15 @@
 }
 
 .disabled {
-  @apply outline-neutral-border-disabled bg-neutral-surface-disabled pointer-events-none;
+  @apply outline-neutral-disabled bg-neutral-surface-disabled pointer-events-none;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
 }

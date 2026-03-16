@@ -47,10 +47,7 @@ Placeholder text for each input field. Type: `string` (default: `""`)
 Character or string to display between input fields. Type: `string` (default: `""`)
 
 #### type
-Input field type - use 'password' to mask the entered values. Type: `'text' | 'password'` (default: `"text"`)
-
-#### mask
-Whether to mask the input values (alternative to password type). Type: `boolean` (default: `false`)
+Input field type - use 'password' to mask the entered values. Type: `'text' | 'number' | 'password'` (default: `"text"`)
 
 #### otp
 Indicates this is an OTP input for accessibility and autocomplete. Type: `boolean` (default: `false`)
