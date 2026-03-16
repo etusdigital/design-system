@@ -72,7 +72,7 @@ Plans:
   3. Every form component works in uncontrolled mode: passing only `defaultValue` manages state internally
   4. Checkbox, Radio, Switch, and Toggle visually match their Vue counterparts in both checked and unchecked states
   5. PINInput, TagInput, and FileUpload accept the same prop names and fire the same change events as the Vue versions
-**Plans:** 3/8 plans executed
+**Plans:** 4/8 plans executed
 
 Plans:
 - [ ] 03-00-PLAN.md — Wave 0: Create 12 stub test files for all form components (Nyquist compliance)
@@ -160,7 +160,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/5 | Gap closure needed | - |
 | 2. Atomic Components | 1/8 | In Progress|  |
-| 3. Form Components | 3/8 | In Progress|  |
+| 3. Form Components | 4/8 | In Progress|  |
 | 4. Internal Components | 0/TBD | Not started | - |
 | 5. Providers | 0/TBD | Not started | - |
 | 6. Composite Components | 0/TBD | Not started | - |
