@@ -1,9 +1,9 @@
 ---
-status: diagnosed
+status: resolved
 phase: 03-form-components
 source: [03-08-SUMMARY.md, 03-09-SUMMARY.md, 03-10-SUMMARY.md]
 started: 2026-03-16T21:30:00Z
-updated: 2026-03-16T21:45:00Z
+updated: 2026-03-16T19:20:00Z
 ---
 
 ## Current Test
@@ -44,31 +44,30 @@ result: pass
 expected: In Storybook, open Slider > Vertical story. Hover over the slider thumb — the tooltip appears to the RIGHT of the thumb (not above or below).
 result: pass
 
-### 9. Slider step markers as thin ticks
-expected: In Storybook, open a Slider story with steps configured. Steps render as small thin tick marks along the track — no text labels or percentage numbers below the ticks.
-result: issue
-reported: "The marks are not following the correct colors — active step markers (before the thumb, in the filled area) should be darker matching the fill color, inactive markers (after the thumb) should be lighter. Currently all markers are the same light mint/teal color regardless of position."
-severity: cosmetic
+### 9. Slider step markers colors and reactivity
+expected: Step marks in the filled area match the fill color (primary, custom color, or fillColors segment). Inactive marks are gray. Dragging updates which marks are active in real-time.
+result: pass (re-tested after fix)
 
 ## Summary
 
 total: 9
-passed: 8
-issues: 1
+passed: 9
+issues: 0
 pending: 0
 skipped: 0
 
 ## Gaps
 
 - truth: "Step tick marks change color based on active/inactive state — darker in the filled area, lighter in the unfilled area"
-  status: failed
+  status: resolved
   reason: "User reported: marks are not following the correct colors — active markers should be darker, inactive lighter. All markers are the same color."
   severity: cosmetic
   test: 9
-  root_cause: "isStepActive() checks pct >= minPct && pct <= maxPct, but for single-value sliders minPct === maxPct (both are cursor position). Fill goes from 0 to cursor, so steps at 0 and 0.25 should be active when cursor is at 0.5, but the >= minPct check excludes them. Fix: for non-range sliders, check pct <= maxPct (0 to cursor)."
+  root_cause: "Three issues: (1) CSS used same primary palette for active/inactive making them indistinguishable, (2) no inline style support for color/fillColors props on markers, (3) controlled mode didn't trigger re-renders during drag so markers stayed frozen"
   artifacts:
     - path: "src/components/Slider/Slider.tsx"
-      issue: "Line 317-325: isStepActive uses pct >= minPct which equals cursor position for single sliders, excluding all steps before cursor"
-  missing:
-    - "Change isStepActive to use pct >= 0 && pct <= maxPct for single sliders (or pct >= minPct && pct <= maxPct for range sliders)"
+      issue: "Added dragValue state for re-renders during drag, getStepMarkerStyle with fillColors segment calculation"
+    - path: "src/components/Slider/Slider.module.css"
+      issue: "Changed inactive markers to neutral-surface-disabled, added stepMarkerNeutral class"
+  missing: []
   debug_session: ""

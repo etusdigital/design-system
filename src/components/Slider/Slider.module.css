@@ -16,10 +16,6 @@
   @apply text-xl;
 }
 
-.horizontal {
-  /* horizontal is the default layout */
-}
-
 .vertical {
   @apply w-[.5em] h-full flex-col items-end;
 }
@@ -74,10 +70,6 @@
   @apply cursor-grabbing;
 }
 
-.coloredCursor {
-  /* border color applied via inline style */
-}
-
 /* Step markers */
 .stepsContainer {
   @apply relative w-full mt-2;
@@ -87,16 +79,24 @@
   @apply absolute bg-primary-surface-highlight rounded-base;
 }
 
-.stepActive {
+.stepActive, .stepActive.stepNeutral {
   @apply bg-primary-interaction-default;
 }
 
+.stepNeutral {
+  @apply bg-neutral-surface-disabled;
+}
+
 .stepMarker {
-  @apply h-[0.75em] w-[0.125em] bg-primary-surface-highlight rounded-full;
+  @apply h-[1.25em] w-[0.35em] -translate-y-1/2 bg-primary-surface-highlight rounded-full;
 }
 
 .stepMarkerActive {
   @apply bg-primary-interaction-default;
+}
+
+.stepMarkerNeutral {
+  @apply bg-neutral-surface-disabled;
 }
 
 /* Vertical adjustments */
@@ -115,12 +115,16 @@
   height: auto;
 }
 
-.vertical .step {
-  left: 50%;
-  transform: translateX(-50%);
+
+.vertical .stepMarker {
+  @apply h-[0.35em] w-[1.25em] translate-y-none translate-x-3/5;
 }
 
 /* Disabled state */
+.disabled {
+  @apply bg-neutral-surface-disabled;
+}
+
 .disabled .cursor {
   @apply border-neutral-interaction-disabled;
 }

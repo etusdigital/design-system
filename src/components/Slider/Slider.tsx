@@ -7,7 +7,6 @@ import styles from './Slider.module.css';
 export interface SliderProps {
   value?: number | [number, number];
   onChange?: (value: number | [number, number]) => void;
-  defaultValue?: number | [number, number];
   size?: 'small' | 'medium' | 'large';
   max?: number;
   unit?: string;
@@ -27,7 +26,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     const {
       value,
       onChange,
-      defaultValue,
       size = 'medium',
       max = 0,
       unit = '',
@@ -45,12 +43,15 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     // Normalize value to number | [number, number] for useControllable
     const [currentValue, setValue] = useControllable<number | [number, number]>({
       value,
-      defaultValue: defaultValue ?? (isRange ? [0, 0] : 0),
+      defaultValue: isRange ? [0, 0] : 0,
       onChange,
     });
 
     // Dragging state: one flag per cursor (single=1, range=2)
     const [isDragging, setIsDragging] = useState<boolean[]>([false, false]);
+
+    // Visual value during drag — forces re-render for step markers in controlled mode
+    const [dragValue, setDragValue] = useState<number | [number, number] | undefined>(undefined);
 
     // Refs
     const containerRef = useRef<HTMLDivElement>(null);
@@ -234,6 +235,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 
           currentValueRef.current = newValue;
           setValue(newValue);
+          setDragValue(newValue); // force re-render for step markers
           // Recalculate cursor position immediately
           setTimeout(() => calculateCursor(), 0);
         });
@@ -245,6 +247,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     const stopDraggingHandler = useCallback(() => {
       isDraggingRef.current = [false, false];
       setIsDragging([false, false]);
+      setDragValue(undefined);
     }, []);
 
     // Keep refs in sync with current handlers to avoid stale closures
@@ -300,8 +303,9 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     // Compute cursors count: range=2, single=1
     const cursorCount = isRange ? 2 : 1;
 
-    // Get display value for cursor tooltip
-    const modelArray = getModelArray(currentValue);
+    // Use drag value during drag for step marker reactivity, otherwise controlled/internal value
+    const effectiveValue = dragValue ?? currentValue;
+    const modelArray = getModelArray(effectiveValue);
 
     // Step style for a step marker
     const getStepStyle = (step: { label: string; value: number }) => {
@@ -324,6 +328,31 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         return pct >= minPct && pct <= maxPct;
       }
       return pct >= 0 && pct <= toPercentage(modelArray[0]);
+    };
+
+    // Inline style for active step markers (respects color and fillColors props)
+    const getStepMarkerStyle = (step: { label: string; value: number }, active: boolean): React.CSSProperties => {
+      if (!active || disabled) return {};
+      if (fillColors && fillColors.length) {
+        // Determine which fill color segment this step sits on
+        const stepPct = max ? step.value / max : step.value;
+        const fillStart = isRange ? Math.min(toPercentage(modelArray[0]), toPercentage(modelArray[1])) : 0;
+        const fillEnd = isRange
+          ? Math.max(toPercentage(modelArray[0]), toPercentage(modelArray[1]))
+          : toPercentage(modelArray[0]);
+        const fillSpan = fillEnd - fillStart;
+        if (fillSpan <= 0) return {};
+        const fraction = (stepPct - fillStart) / fillSpan;
+        const segmentIndex = Math.min(
+          fillColors.length - 1,
+          Math.max(0, Math.floor(fraction * fillColors.length))
+        );
+        return { backgroundColor: fillColors[segmentIndex] };
+      }
+      if (color) {
+        return { backgroundColor: color };
+      }
+      return {};
     };
 
     // Fill bar dynamic style (color/fillColors)
@@ -458,15 +487,29 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         ))}
 
         {/* Step markers */}
-        {steps && steps.map((step, i) => (
-          <div
-            key={i}
-            className={clsx(styles.step, isStepActive(step) && styles.stepActive)}
-            style={getStepStyle(step)}
-          >
-            <div className={clsx(styles.stepMarker, isStepActive(step) && styles.stepMarkerActive)} />
-          </div>
-        ))}
+        {steps && steps.map((step, i) => {
+          const active = isStepActive(step);
+          return (
+            <div
+              key={i}
+              className={clsx(
+                styles.step,
+                active && styles.stepActive,
+                neutralBackground && styles.stepNeutral
+              )}
+              style={{ ...getStepStyle(step), ...getStepMarkerStyle(step, active) }}
+            >
+              <div
+                className={clsx(
+                  styles.stepMarker,
+                  active && styles.stepMarkerActive,
+                  neutralBackground && !active && styles.stepMarkerNeutral
+                )}
+                style={getStepMarkerStyle(step, active)}
+              />
+            </div>
+          );
+        })}
       </div>
     );
   }

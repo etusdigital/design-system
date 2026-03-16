@@ -1,10 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
 import { Slider } from './Slider';
 
 export default {
   component: Slider,
-  title: 'Form/Slider',
   argTypes: {
     value: {
       description:
@@ -55,7 +53,7 @@ export const Primary: Story = {
 
 export const Sizes: Story = {
   render: (args: any) => (
-    <div className="flex flex-col gap-xs">
+    <div className="flex flex-col gap-lg">
       {['small', 'medium', 'large'].map((size) => (
         <Slider key={size} {...args} size={size} />
       ))}
@@ -95,7 +93,6 @@ export const Vertical: Story = {
   ],
   args: {
     value: 0.5,
-    showTooltip: true,
     vertical: true,
   },
 };
