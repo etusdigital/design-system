@@ -7,6 +7,7 @@ import styles from './Slider.module.css';
 export interface SliderProps {
   value?: number | [number, number];
   onChange?: (value: number | [number, number]) => void;
+  defaultValue?: number | [number, number];
   size?: 'small' | 'medium' | 'large';
   max?: number;
   unit?: string;
@@ -26,6 +27,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     const {
       value,
       onChange,
+      defaultValue,
       size = 'medium',
       max = 0,
       unit = '',
@@ -43,7 +45,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     // Normalize value to number | [number, number] for useControllable
     const [currentValue, setValue] = useControllable<number | [number, number]>({
       value,
-      defaultValue: isRange ? [0, 0] : 0,
+      defaultValue: defaultValue ?? (isRange ? [0, 0] : 0),
       onChange,
     });
 
