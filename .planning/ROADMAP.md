@@ -13,7 +13,7 @@ A full in-place migration of 60+ Vue 3 components to React, proceeding in strict
 - [ ] **Phase 1: Foundation** - Tooling, hooks, and infrastructure that every component depends on
 - [ ] **Phase 2: Atomic Components** - 20 leaf components with no stateful or overlay dependencies
 - [x] **Phase 3: Form Components** - 12 controlled/uncontrolled form inputs using `useControllable` (completed 2026-03-16)
-- [ ] **Phase 4: Internal Components** - 8 shared utility components and portal infrastructure
+- [x] **Phase 4: Internal Components** - 8 shared utility components and portal infrastructure (completed 2026-03-16)
 - [ ] **Phase 5: Providers** - Context providers replacing Vue global properties (`$confirm`, `$toast`)
 - [ ] **Phase 6: Composite Components** - 17 overlay and interactive components depending on Phases 4 and 5
 - [ ] **Phase 7: Complex Components** - 6 high-risk specialized components (Table, Tree, RichTextEditor, etc.)
@@ -98,7 +98,7 @@ Plans:
   2. Label component correctly associates with a form input via `htmlFor`/`id` when used in a form layout
   3. SelectContainer and SelectContent provide the correct layout and z-index for a dropdown-style UI
   4. ExpandableContainer animates open/close using the chosen CSS scoping strategy without layout shifts
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [ ] 04-01-PLAN.md — Test stubs + useClickOutside hook + Option, Overlay, Group (independent leaves)
@@ -171,7 +171,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 1. Foundation | 4/5 | Gap closure needed | - |
 | 2. Atomic Components | 1/8 | In Progress|  |
 | 3. Form Components | 13/13 | Complete   | 2026-03-16 |
-| 4. Internal Components | 2/3 | In Progress|  |
+| 4. Internal Components | 3/3 | Complete   | 2026-03-16 |
 | 5. Providers | 0/TBD | Not started | - |
 | 6. Composite Components | 0/TBD | Not started | - |
 | 7. Complex Components | 0/TBD | Not started | - |

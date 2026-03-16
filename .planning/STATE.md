@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 04-internal-components/04-02-PLAN.md
-last_updated: "2026-03-16T23:14:15.765Z"
+stopped_at: Completed 04-internal-components/04-03-PLAN.md
+last_updated: "2026-03-16T23:19:45.785Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 29
-  completed_plans: 28
+  completed_plans: 29
   percent: 0
 ---
 
@@ -70,6 +70,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03-form-components P12 | 3m | 2 tasks | 2 files |
 | Phase 04-internal-components P01 | 3m | 2 tasks | 16 files |
 | Phase 04-internal-components P02 | 5m | 1 tasks | 3 files |
+| Phase 04-internal-components P03 | 3m | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -117,6 +118,9 @@ Recent decisions affecting current work:
 - [Phase 04-internal-components]: GroupContext value field is currentValue ?? null to preserve null for unselected state
 - [Phase 04-internal-components]: RAF/cAF polyfill must be at module level in tests — vi.useRealTimers() removes beforeEach assignments
 - [Phase 04-internal-components]: closeFromBlur separate from useControllable onChange — calls onChange?(false, {source:'blur'}) directly to pass correct ContainerModelExtra
+- [Phase 04-internal-components]: SelectContainer content-wrapper unmounted when collapsed (renderContent returns null) vs Vue v-show; visual behavior identical
+- [Phase 04-internal-components]: isExpandedRef mutable ref pattern for observer callbacks avoids stale closure without re-registering observers
+- [Phase 04-internal-components]: sc-icon CSS class in SelectContent replaces Vue .icon.icon double-class specificity; sc- prefix for SelectContainer CSS classes
 
 ### Pending Todos
 
@@ -131,6 +135,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-16T23:14:15.762Z
-Stopped at: Completed 04-internal-components/04-02-PLAN.md
+Last session: 2026-03-16T23:19:45.782Z
+Stopped at: Completed 04-internal-components/04-03-PLAN.md
 Resume file: None
