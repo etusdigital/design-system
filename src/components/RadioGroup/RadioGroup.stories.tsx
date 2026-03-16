@@ -42,7 +42,7 @@ const defaultOptions = [
 
 export const Primary: Story = {
   args: {
-    value: 1,
+    defaultValue: 1,
     vertical: false,
     disabled: false,
     options: defaultOptions,
@@ -54,7 +54,7 @@ export const Primary: Story = {
 
 export const Vertical: Story = {
   args: {
-    value: 2,
+    defaultValue: 2,
     vertical: true,
     disabled: false,
     options: defaultOptions,
@@ -63,7 +63,7 @@ export const Vertical: Story = {
 
 export const Disabled: Story = {
   args: {
-    value: 1,
+    defaultValue: 1,
     disabled: true,
     options: defaultOptions,
   },
@@ -71,7 +71,7 @@ export const Disabled: Story = {
 
 export const StringOptions: Story = {
   args: {
-    value: 'apple',
+    defaultValue: 'apple',
     options: ['apple', 'banana', 'cherry'],
   },
 };
