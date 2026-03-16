@@ -1,0 +1,10 @@
+@reference "../../assets/main.css";
+
+.overlay-backdrop {
+  @apply fixed w-screen h-screen inset-0 flex items-center justify-center bg-negative opacity-0;
+  transition: opacity 0.5s ease;
+}
+
+.overlay-backdrop.active {
+  opacity: 0.6;
+}

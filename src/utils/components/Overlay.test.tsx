@@ -1,11 +1,67 @@
 import { render } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
-// TODO: expand after migration — Overlay.tsx will be created in Task 2
-// import { Overlay } from './Overlay';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { Overlay } from './Overlay';
+
+// Mock createPortal to render inline during tests
+vi.mock('react-dom', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('react-dom')>();
+  return {
+    ...actual,
+    createPortal: (node: React.ReactNode) => node,
+  };
+});
+
+// Polyfill RAF/cAF at module level — jsdom does not provide them
+// and vi.useRealTimers() removes them from beforeEach assignments.
+if (typeof globalThis.requestAnimationFrame === 'undefined') {
+  globalThis.requestAnimationFrame = (cb: FrameRequestCallback) =>
+    setTimeout(() => cb(0), 0) as unknown as number;
+}
+if (typeof globalThis.cancelAnimationFrame === 'undefined') {
+  globalThis.cancelAnimationFrame = (id: number) => clearTimeout(id);
+}
 
 describe('Overlay', () => {
-  it('smoke stub — component not yet migrated', () => {
-    // Placeholder until Overlay.tsx is created in Task 2
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('renders without crashing', () => {
+    render(<Overlay />);
     expect(document.body).toBeTruthy();
+  });
+
+  it('does not render backdrop when modelValue=false', () => {
+    const { container } = render(<Overlay modelValue={false} />);
+    expect(container.querySelector('.overlay-backdrop')).toBeNull();
+  });
+
+  it('renders backdrop when modelValue=true', () => {
+    const { container } = render(<Overlay modelValue={true} />);
+    // isMounted becomes true immediately when modelValue=true
+    expect(container.querySelector('.overlay-backdrop')).toBeInTheDocument();
+  });
+
+  it('renders children alongside backdrop', () => {
+    const { getByText } = render(
+      <Overlay modelValue={true}>
+        <span>Child content</span>
+      </Overlay>
+    );
+    expect(getByText('Child content')).toBeInTheDocument();
+  });
+
+  it('calls onClick when backdrop is clicked', () => {
+    const handleClick = vi.fn();
+    const { container } = render(<Overlay modelValue={true} onClick={handleClick} />);
+
+    const backdrop = container.querySelector('.overlay-backdrop');
+    backdrop?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    expect(handleClick).toHaveBeenCalled();
   });
 });
