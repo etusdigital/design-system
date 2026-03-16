@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 04-internal-components/04-01-PLAN.md
-last_updated: "2026-03-16T23:11:03.283Z"
+stopped_at: Completed 04-internal-components/04-02-PLAN.md
+last_updated: "2026-03-16T23:14:15.765Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
   completed_phases: 3
   total_plans: 29
-  completed_plans: 27
+  completed_plans: 28
   percent: 0
 ---
 
@@ -69,6 +69,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03-form-components P11 | 1m | 1 tasks | 1 files |
 | Phase 03-form-components P12 | 3m | 2 tasks | 2 files |
 | Phase 04-internal-components P01 | 3m | 2 tasks | 16 files |
+| Phase 04-internal-components P02 | 5m | 1 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -115,6 +116,7 @@ Recent decisions affecting current work:
 - [Phase 04-internal-components]: useClickOutside uses mousedown (not click) per RESEARCH.md locked decision
 - [Phase 04-internal-components]: GroupContext value field is currentValue ?? null to preserve null for unselected state
 - [Phase 04-internal-components]: RAF/cAF polyfill must be at module level in tests — vi.useRealTimers() removes beforeEach assignments
+- [Phase 04-internal-components]: closeFromBlur separate from useControllable onChange — calls onChange?(false, {source:'blur'}) directly to pass correct ContainerModelExtra
 
 ### Pending Todos
 
@@ -129,6 +131,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-16T23:11:03.281Z
-Stopped at: Completed 04-internal-components/04-01-PLAN.md
+Last session: 2026-03-16T23:14:15.762Z
+Stopped at: Completed 04-internal-components/04-02-PLAN.md
 Resume file: None
