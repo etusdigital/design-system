@@ -1,5 +1,5 @@
 ---
-status: complete
+status: diagnosed
 phase: 03-form-components
 source: [03-08-SUMMARY.md, 03-09-SUMMARY.md, 03-10-SUMMARY.md]
 started: 2026-03-16T21:30:00Z
@@ -65,7 +65,10 @@ skipped: 0
   reason: "User reported: marks are not following the correct colors — active markers should be darker, inactive lighter. All markers are the same color."
   severity: cosmetic
   test: 9
-  root_cause: ""
-  artifacts: []
-  missing: []
+  root_cause: "isStepActive() checks pct >= minPct && pct <= maxPct, but for single-value sliders minPct === maxPct (both are cursor position). Fill goes from 0 to cursor, so steps at 0 and 0.25 should be active when cursor is at 0.5, but the >= minPct check excludes them. Fix: for non-range sliders, check pct <= maxPct (0 to cursor)."
+  artifacts:
+    - path: "src/components/Slider/Slider.tsx"
+      issue: "Line 317-325: isStepActive uses pct >= minPct which equals cursor position for single sliders, excluding all steps before cursor"
+  missing:
+    - "Change isStepActive to use pct >= 0 && pct <= maxPct for single sliders (or pct >= minPct && pct <= maxPct for range sliders)"
   debug_session: ""
