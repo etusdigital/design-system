@@ -98,7 +98,12 @@ Plans:
   2. Label component correctly associates with a form input via `htmlFor`/`id` when used in a form layout
   3. SelectContainer and SelectContent provide the correct layout and z-index for a dropdown-style UI
   4. ExpandableContainer animates open/close using the chosen CSS scoping strategy without layout shifts
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Test stubs + useClickOutside hook + Option, Overlay, Group (independent leaves)
+- [ ] 04-02-PLAN.md — Container (complex: useControllable + MutationObserver + useClickOutside + Label)
+- [ ] 04-03-PLAN.md — ExpandableContainer + SelectContent + SelectContainer (dropdown chain)
 
 ### Phase 5: Providers
 **Goal**: Global services (`useConfirm`, `useToast`) are available to any component in the tree via React context, replacing Vue's `$confirm` and `$toast` global properties
@@ -166,7 +171,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 1. Foundation | 4/5 | Gap closure needed | - |
 | 2. Atomic Components | 1/8 | In Progress|  |
 | 3. Form Components | 13/13 | Complete   | 2026-03-16 |
-| 4. Internal Components | 0/TBD | Not started | - |
+| 4. Internal Components | 0/3 | Planning complete | - |
 | 5. Providers | 0/TBD | Not started | - |
 | 6. Composite Components | 0/TBD | Not started | - |
 | 7. Complex Components | 0/TBD | Not started | - |
