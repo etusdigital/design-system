@@ -1,0 +1,37 @@
+@reference "../../assets/main.css";
+
+.search {
+  @apply h-full w-full pl-xxs p-0 m-0 border-none shadow-none outline-none text-xs;
+}
+
+.secondary .search {
+  @apply bg-primary-interaction-default text-neutral-foreground-negative placeholder:text-neutral-foreground-negative;
+}
+
+.sc-icon {
+  @apply text-neutral-interaction-default text-base shrink-0;
+}
+
+.secondary .sc-icon {
+  @apply text-neutral-foreground-negative;
+}
+
+.sc-icon.expanded {
+  @apply text-primary-interaction-default;
+}
+
+.sc-icon.disabled {
+  @apply text-neutral-interaction-disabled;
+}
+
+.sc-icon.error {
+  @apply text-danger-interaction-default;
+}
+
+.search-placeholder {
+  @apply absolute text-neutral-foreground-low left-[.5em] top-[50%] translate-y-[-50%];
+}
+
+.secondary .search-placeholder {
+  @apply text-neutral-foreground-negative;
+}
