@@ -147,7 +147,7 @@ Plans:
 - [ ] 06-09-PLAN.md — Migrate ColorPicker + wire Input type="color" (highest risk)
 - [x] 06-10-PLAN.md — Gap closure: Remove Input.mdx blocker + convert Drawer/Accordion/Tab stories to TSX
 - [ ] 06-11-PLAN.md — Gap closure: Convert Pagination/Stepper/Carousel/RoundMenu stories to TSX
-- [ ] 06-12-PLAN.md — Gap closure: Convert Select/AutoComplete/TagSelect stories to TSX
+- [x] 06-12-PLAN.md — Gap closure: Convert Select/AutoComplete/TagSelect stories to TSX
 - [x] 06-13-PLAN.md — Gap closure: Convert Dropdown/Filter/Calendar stories to TSX
 - [ ] 06-14-PLAN.md — Gap closure: Convert DatePicker/Navbar/ColorPicker stories to TSX
 
@@ -196,7 +196,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9
 | 3. Form Components | 13/13 | Complete   | 2026-03-16 |
 | 4. Internal Components | 3/3 | Complete   | 2026-03-16 |
 | 5. Providers | 4/4 | Complete   | 2026-03-17 |
-| 6. Composite Components | 14/15 | In Progress|  |
+| 6. Composite Components | 15/15 | Complete   | 2026-03-17 |
 | 7. Complex Components | 0/TBD | Not started | - |
 | 8. Build & Distribution | 0/TBD | Not started | - |
 | 9. Documentation & Testing | 0/TBD | Not started | - |
