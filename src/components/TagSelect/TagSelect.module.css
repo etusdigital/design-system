@@ -1,0 +1,4 @@
+@reference "../../assets/main.css";
+
+.tagContainer { @apply flex flex-wrap gap-xxs; }
+.deleteIcon { @apply text-xs cursor-pointer ml-xxs; }
