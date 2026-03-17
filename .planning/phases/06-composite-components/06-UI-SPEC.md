@@ -29,11 +29,10 @@ Source: `tailwind.config.cjs`, `src/assets/main.css`, Phase 1 locked decisions.
 
 ## Spacing Scale
 
-All spacing values are defined as CSS custom properties and mapped in `tailwind.config.cjs`. Use Tailwind spacing tokens exclusively.
+All spacing values are defined as CSS custom properties and mapped in `tailwind.config.cjs`. Use Tailwind spacing tokens exclusively. All spacing tokens resolve to multiples of 4px.
 
 | Token | CSS Variable | Resolved Value | Usage |
 |-------|-------------|----------------|-------|
-| 2xxs | `--spacing-2xxs` | 2px | Micro gaps (tick marks, inline badges) |
 | xxs | `--spacing-xxs` | 4px | Icon gaps, inline padding, small element gaps |
 | xs | `--spacing-xs` | 8px | Compact element spacing, scrollbar dimensions |
 | sm | `--spacing-sm` | 12px | Default inner padding for interactive items, card padding |
@@ -44,6 +43,14 @@ All spacing values are defined as CSS custom properties and mapped in `tailwind.
 | 3xl | `--spacing-3xl` | 48px | Major section breaks |
 | 4xl | `--spacing-4xl` | 56px | Page-level spacing |
 | 5xl | `--spacing-5xl` | 64px | Large page sections |
+
+### Border-Width Tokens (not spacing)
+
+The following token resolves to a sub-4px value and is used exclusively as a border width. It is documented here separately and must NOT be used for spacing, padding, or margin.
+
+| Token | CSS Variable | Resolved Value | Usage |
+|-------|-------------|----------------|-------|
+| — | `--spacing-2xxs` | 2px | Border widths only (e.g. `border-xxs` utility — Drawer border, Accordion card border, SelectContainer border, Calendar day cell selected border, RoundMenu item border) |
 
 Exceptions:
 - Drawer/Dialog max-width/max-height: `calc(100% - var(--spacing-xl))` — overlay safety margin
@@ -59,15 +66,17 @@ All sizes, weights, and line heights reference CSS custom properties from `main.
 
 | Role | Tailwind Class | Size | Weight | Line Height | Usage |
 |------|---------------|------|--------|-------------|-------|
-| Label / Caption | `text-xs font-medium` (`.caption-c1`) | 12px | 500 (medium) | — | Option labels, tag text, tab labels, pagination numbers, step labels |
+| Label / Caption | `text-xs font-normal` (`.caption-c1`) | 12px | 400 (normal) | — | Option labels, tag text, tab labels, pagination numbers, step labels, ColorPicker type toggles |
 | Body / Default | `text-sm font-normal` (`.p3`) | 14px | 400 (normal) | 120% (`leading-lg`) | Dropdown option text, accordion body, filter items, navbar items |
 | Sub-heading | `text-base font-semibold` | 16px | 600 (semibold) | 105% (`leading-xs`) | Accordion header text, drawer section headings, dialog titles |
-| Heading | `text-xl font-bold` | 20px | 700 (bold) | 110% (`leading-sm`) | Navbar title, DatePicker heading, Calendar month/year display |
+| Heading | `text-xl font-semibold` | 20px | 600 (semibold) | 110% (`leading-sm`) | Navbar title, DatePicker heading, Calendar month/year display |
+
+**Declared font weights: 400 (normal) and 600 (semibold) only.** Medium (500) is absorbed into 400; bold (700) is replaced by 600.
 
 Notes:
 - `.p3` (`text-sm font-normal leading-lg`) is the dominant body text class for composites — already in safelist
-- `.caption-c1` (`text-xs font-medium`) is used for tab labels, page numbers, and compact interactive items
-- Color type indicators in ColorPicker use `text-xs` at `font-normal` (caption-c2 style) for the input type toggles
+- `.caption-c1` (`text-xs font-normal`) is used for tab labels, page numbers, and compact interactive items
+- Color type indicators in ColorPicker use `text-xs font-normal` for the input type toggles
 - Material Symbols icon size within composites: `text-lg` (18px) for chevrons/arrows, `text-xl` (20px) for action icons, `text-2xl` (24px) for navigation
 
 Source: `tailwind.config.cjs` plugin section, `src/assets/main.css` base styles.
@@ -162,6 +171,8 @@ Source: `src/assets/main.css` color tokens, `src/components/Tab/Tab.vue` `.activ
 - Day cell — disabled: `text-neutral-foreground-disabled cursor-not-allowed`
 - Slide-fade transition on month change: `useTransition` + CSS classes `slide-fade-left` / `slide-fade-right`, `transition all 0.3s ease`
 - Navigation arrows: Material Symbols `chevron_left` / `chevron_right` at `text-lg`, `text-neutral-interaction-default`
+  - Previous month button: `aria-label="Previous month"`
+  - Next month button: `aria-label="Next month"`
 - Month/Year picker dialog (`Calendar.DateDialog`): same card styling as SelectContent
 
 ### DatePicker
@@ -177,6 +188,8 @@ Source: `src/assets/main.css` color tokens, `src/components/Tab/Tab.vue` `.activ
 - Slide transition: `transform translateX` / `translateY`, `transition 0.3s ease` per slide via CSS
 - Autoplay indicator: none (no visual indicator per Vue source)
 - Navigation arrows (if enabled): Material Symbols `chevron_left` / `chevron_right`, positioned absolutely, `text-2xl`
+  - Previous slide button: `aria-label="Previous slide"`
+  - Next slide button: `aria-label="Next slide"`
 
 ### Filter
 
@@ -192,6 +205,8 @@ Source: `src/assets/main.css` color tokens, `src/components/Tab/Tab.vue` `.activ
 - Inactive page: `text-neutral-foreground-low hover:bg-neutral-surface-hover`
 - Ellipsis (−1 sentinel): rendered as `...` text, `text-neutral-foreground-disabled`, not interactive
 - Prev/Next buttons: Material Symbols `chevron_left` / `chevron_right` icons
+  - Previous page button: `aria-label="Previous page"`
+  - Next page button: `aria-label="Next page"`
 
 ### Navbar
 
@@ -241,13 +256,13 @@ Source: `src/assets/main.css` color tokens, `src/components/Tab/Tab.vue` `.activ
 |---------|------|
 | Primary CTA — Select placeholder | "Select an option" (default, overridable via `labelValue` prop) |
 | Primary CTA — AutoComplete placeholder | "Search..." (follows Vue source — Input placeholder) |
-| Primary CTA — Filter apply | `applyLabel` prop (string), default: "Apply" |
-| Primary CTA — Filter clear | `clearLabel` prop (string), default: "Clear" |
-| Primary CTA — DatePicker apply | `applyLabel` prop, default: "Apply" |
-| Primary CTA — DatePicker clear | `clearLabel` prop, default: "Clear" |
-| Primary CTA — DatePicker compare | `compareLabel` prop, default: "Compare" |
+| Primary CTA — Filter apply | `applyLabel` prop (string), default: "Apply filters" |
+| Primary CTA — Filter clear | `clearLabel` prop (string), default: "Clear selection" |
+| Primary CTA — DatePicker apply | `applyLabel` prop, default: "Apply filters" |
+| Primary CTA — DatePicker clear | `clearLabel` prop, default: "Clear selection" |
+| Primary CTA — DatePicker compare | `compareLabel` prop, default: "Compare dates" |
 | Empty state — Select no options | "No options available" — rendered as disabled Option item |
-| Empty state — AutoComplete no results | "No results found" — rendered below search input in dropdown |
+| Empty state — AutoComplete no results | "No options match your search — try a different term" — rendered below search input in dropdown |
 | Empty state — Pagination (length < 1) | No pagination rendered (component returns null) |
 | Empty state — Calendar (no selection) | No empty state — Calendar always renders the current month grid |
 | Error state — Select validation | Uses `errorMessage` prop text (passed-through string); field border switches to `border-danger-default` |
