@@ -28,8 +28,11 @@ const ConfirmContext = createContext<ConfirmContextValue | null>(null);
 
 // ── ConfirmProvider ───────────────────────────────────────────────────────────
 
+const DIALOG_TRANSITION_MS = 500;
+
 export function ConfirmProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<ConfirmState | null>(null);
+  const [open, setOpen] = useState(false);
   const resolverRef = useRef<((v: boolean) => void) | null>(null);
 
   function confirm(options: ConfirmOptions): Promise<boolean> {
@@ -41,25 +44,21 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
         acceptLabel: options.acceptLabel ?? 'Confirm',
         cancelLabel: options.cancelLabel ?? 'Cancel',
       });
+      setOpen(true);
     });
   }
 
-  function accept() {
-    resolverRef.current?.(true);
+  function close(result: boolean) {
+    resolverRef.current?.(result);
     resolverRef.current = null;
-    setState(null);
-  }
-
-  function cancel() {
-    resolverRef.current?.(false);
-    resolverRef.current = null;
-    setState(null);
+    setOpen(false);
+    setTimeout(() => setState(null), DIALOG_TRANSITION_MS);
   }
 
   return (
     <ConfirmContext.Provider value={{ confirm }}>
       {children}
-      <Dialog value={state !== null} noOutsideClose className="confirm">
+      <Dialog value={open} noOutsideClose className="confirm">
         {state && (
           <div className="flex flex-col p-xl gap-sm">
             {state.title && (
@@ -69,8 +68,8 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
               <p className="text-sm text-neutral-foreground-low">{state.message}</p>
             )}
             <div className="flex justify-end w-full gap-xs mt-sm">
-              <Button variant="plain" onClick={cancel}>{state.cancelLabel}</Button>
-              <Button onClick={accept}>{state.acceptLabel}</Button>
+              <Button variant="plain" onClick={() => close(false)}>{state.cancelLabel}</Button>
+              <Button onClick={() => close(true)}>{state.acceptLabel}</Button>
             </div>
           </div>
         )}
