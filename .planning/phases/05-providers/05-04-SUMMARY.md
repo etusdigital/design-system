@@ -32,11 +32,15 @@ key-files:
     - src/components/Toast/Toast.stories.tsx
     - src/components/Confirm/Confirm.stories.tsx
   modified:
-    - src/components/Dialog/Dialog.stories.ts (deleted — Vue3 format)
+    - src/components/Confirm/Confirm.tsx
+  deleted:
+    - src/components/Dialog/Dialog.stories.ts
 
 key-decisions:
   - "Helper components (ToastTypesTrigger, ConfirmTrigger) used for hook access in story render functions — avoids hooks-in-render-function linting issues"
   - "ConfirmTrigger tracks result state (pending/accepted/cancelled) for visual feedback in stories"
+  - "ConfirmProvider uses separate open state from content state to allow exit animation before content unmount"
+  - "Cleanup timer ref prevents stale timeout from breaking Confirm reopen animation"
 
 patterns-established:
   - "Provider stories: wrap Story in provider via decorators array, create helper component for hook-based interactions"
@@ -57,8 +61,8 @@ completed: 2026-03-17
 - **Duration:** ~2 min
 - **Started:** 2026-03-17T16:32:59Z
 - **Completed:** 2026-03-17T16:34:34Z
-- **Tasks:** 1 of 2 completed (Task 2 is human-verify checkpoint)
-- **Files modified:** 4 (3 created, 1 deleted)
+- **Tasks:** 2/2 complete
+- **Files modified:** 5 (3 created, 1 modified, 1 deleted)
 
 ## Accomplishments
 
@@ -69,6 +73,9 @@ completed: 2026-03-17
 ## Task Commits
 
 1. **Task 1: Convert Dialog stories to React TSX, create Toast/Confirm stories** - `da1b4e1` (feat)
+2. **Fix: Confirm exit animation** - `57050ca` (fix)
+3. **Fix: Confirm reopen race condition** - `4489410` (fix)
+4. **Task 2: Visual verification in Storybook** - Human-approved
 
 ## Files Created/Modified
 
@@ -76,6 +83,7 @@ completed: 2026-03-17
 - `src/components/Dialog/Dialog.stories.ts` - DELETED (was Vue3 format)
 - `src/components/Toast/Toast.stories.tsx` - React Storybook stories for Toast; ToastProvider decorator; helper components for Types, Positions, Persistent, WithAction stories
 - `src/components/Confirm/Confirm.stories.tsx` - React Storybook stories for Confirm; ConfirmProvider decorator; ConfirmTrigger helper tracking result state; Primary and CustomLabels stories
+- `src/components/Confirm/Confirm.tsx` - Fixed exit animation (separate open/content state) and reopen race condition (cleanup timer ref)
 
 ## Decisions Made
 
@@ -84,21 +92,22 @@ completed: 2026-03-17
 
 ## Deviations from Plan
 
-None - plan executed exactly as written.
+- Confirm.tsx required two bug fixes discovered during visual verification:
+  1. Missing exit animation — content unmounted before Dialog could animate out (separated open/content state)
+  2. Race condition on rapid reopen — stale timeout from previous close cleared content (added cleanup timer ref)
 
 ## Issues Encountered
 
-None.
+None remaining — both animation bugs fixed and verified by user.
 
 ## User Setup Required
 
-None - no external service configuration required.
+None.
 
 ## Next Phase Readiness
 
-- All three provider components now have Storybook coverage for visual verification
-- Task 2 checkpoint requires human visual verification in Storybook before plan is fully complete
-- After Task 2 approval, Phase 05 providers is complete
+- All Phase 05 provider components have Storybook coverage
+- Phase 05 is complete — ready for verification
 
 ---
 *Phase: 05-providers*
