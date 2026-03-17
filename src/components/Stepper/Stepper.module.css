@@ -1,0 +1,23 @@
+@reference "../../assets/main.css";
+
+.stepper { @apply flex items-start w-full; }
+
+.step { @apply flex flex-col items-center cursor-pointer; }
+.step.noClick { @apply cursor-default; }
+
+.circle {
+  @apply rounded-full flex items-center justify-center;
+}
+.circle.medium { width: 32px; height: 32px; }
+.circle.large { width: 40px; height: 40px; }
+
+.circle.active { @apply bg-primary-interaction-default text-neutral-foreground-negative; }
+.circle.past { @apply bg-primary-surface-highlight; }
+.circle.skipped { @apply bg-warning-surface-default; }
+.circle.default { @apply bg-neutral-surface-highlight text-neutral-foreground-disabled; }
+
+.label { @apply text-xs font-normal mt-xxs text-center; }
+
+.connector { @apply flex-1 self-center; height: 2px; }
+.connector.active, .connector.past { @apply bg-primary-surface-highlight; }
+.connector.default { @apply bg-neutral-surface-highlight; }
