@@ -82,6 +82,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 06 P14 | 2 | 2 tasks | 9 files |
 | Phase 06-composite-components P11 | 2min | 2 tasks | 8 files |
 | Phase 06-composite-components P12 | 8m | 2 tasks | 6 files |
+| Phase 06-composite-components P10 | 8m | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -156,6 +157,8 @@ Recent decisions affecting current work:
 - [Phase 06-composite-components]: Stepper stories use index-based value (0-based) not string values — matches React component interface; no version prop
 - [Phase 06-composite-components]: Carousel stories use autoplay/autoplayInterval (React props) instead of Vue circular/interval props
 - [Phase 06-composite-components]: RoundMenu options use onClick key instead of Vue action key to match React component interface
+- [Phase 06-10]: Tab.stories.tsx omits isIcon/valueKey/getObject — Tab.tsx uses index-based model (number); these props don't exist in the React implementation
+- [Phase 06-10]: Co-located .mdx doc files (Drawer.mdx, Accordion.mdx, Tab.mdx) deleted alongside .stories.ts — all three imported from the old Vue story files, keeping them causes the same dynamic import error as Input.mdx
 
 ### Pending Todos
 
