@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 06-14-PLAN.md — DatePicker, Navbar, ColorPicker story conversion
-last_updated: "2026-03-17T22:03:22.278Z"
+stopped_at: Completed 06-13-PLAN.md — Dropdown, Filter, Calendar story conversions to React TSX
+last_updated: "2026-03-17T22:10:00.000Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
@@ -80,6 +80,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 06-composite-components P07 | 7m | 1 tasks | 3 files |
 | Phase 06-composite-components P02 | 5m | 2 tasks | 9 files |
 | Phase 06 P14 | 2 | 2 tasks | 9 files |
+| Phase 06-composite-components P11 | 2min | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -151,6 +152,9 @@ Recent decisions affecting current work:
 - [Phase 06-composite-components]: Accordion unconditional useEffect (no deps) calls resize() on every render — Vue onUpdated equivalent; safe since resize() only sets style.maxHeight imperatively
 - [Phase 06-composite-components]: useLayoutEffect sets Accordion initial maxHeight=0px synchronously before first paint to prevent content flash
 - [Phase 06]: DatePicker/Navbar/ColorPicker React stories adapted to actual React prop interfaces (not Vue props)
+- [Phase 06-composite-components]: Stepper stories use index-based value (0-based) not string values — matches React component interface; no version prop
+- [Phase 06-composite-components]: Carousel stories use autoplay/autoplayInterval (React props) instead of Vue circular/interval props
+- [Phase 06-composite-components]: RoundMenu options use onClick key instead of Vue action key to match React component interface
 
 ### Pending Todos
 
@@ -165,6 +169,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-17T22:03:22.275Z
-Stopped at: Completed 06-14-PLAN.md — DatePicker, Navbar, ColorPicker story conversion
+Last session: 2026-03-17T22:03:42.088Z
+Stopped at: Completed 06-11-PLAN.md — Pagination, Stepper, Carousel, RoundMenu story conversions
 Resume file: None

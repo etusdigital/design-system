@@ -132,7 +132,7 @@ Plans:
   3. Dropdown, ColorPicker, and DatePicker position their popover correctly relative to the trigger element
   4. Accordion, Tab, and Stepper maintain the correct active state visually and programmatically
   5. Calendar renders the correct month grid and responds to date selection with `onChange`
-**Plans:** 12/15 plans executed
+**Plans:** 13/15 plans executed
 
 Plans:
 - [ ] 06-00-PLAN.md — Wave 0: Create 16 smoke test stubs for all composite components (Nyquist compliance)
@@ -145,10 +145,10 @@ Plans:
 - [x] 06-07-PLAN.md — Migrate Calendar with compound sub-components (date grid + slide-fade)
 - [ ] 06-08-PLAN.md — Migrate DatePicker + Navbar (Wave 2: depend on Calendar + Dropdown)
 - [ ] 06-09-PLAN.md — Migrate ColorPicker + wire Input type="color" (highest risk)
-- [ ] 06-10-PLAN.md — Gap closure: Remove Input.mdx blocker + convert Drawer/Accordion/Tab stories to TSX
+- [x] 06-10-PLAN.md — Gap closure: Remove Input.mdx blocker + convert Drawer/Accordion/Tab stories to TSX
 - [ ] 06-11-PLAN.md — Gap closure: Convert Pagination/Stepper/Carousel/RoundMenu stories to TSX
 - [ ] 06-12-PLAN.md — Gap closure: Convert Select/AutoComplete/TagSelect stories to TSX
-- [ ] 06-13-PLAN.md — Gap closure: Convert Dropdown/Filter/Calendar stories to TSX
+- [x] 06-13-PLAN.md — Gap closure: Convert Dropdown/Filter/Calendar stories to TSX
 - [ ] 06-14-PLAN.md — Gap closure: Convert DatePicker/Navbar/ColorPicker stories to TSX
 
 ### Phase 7: Complex Components
@@ -196,7 +196,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9
 | 3. Form Components | 13/13 | Complete   | 2026-03-16 |
 | 4. Internal Components | 3/3 | Complete   | 2026-03-16 |
 | 5. Providers | 4/4 | Complete   | 2026-03-17 |
-| 6. Composite Components | 12/15 | In Progress|  |
+| 6. Composite Components | 14/15 | In Progress|  |
 | 7. Complex Components | 0/TBD | Not started | - |
 | 8. Build & Distribution | 0/TBD | Not started | - |
 | 9. Documentation & Testing | 0/TBD | Not started | - |
