@@ -1,0 +1,4 @@
+@reference "../../assets/main.css";
+
+.optionContent { @apply flex items-center gap-xs; }
+.displayLabel { @apply text-sm font-normal truncate; }
