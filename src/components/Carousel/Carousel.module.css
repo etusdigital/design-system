@@ -1,0 +1,56 @@
+@reference "../../assets/main.css";
+
+.carousel {
+  @apply flex flex-col gap-sm w-fit;
+}
+
+.content {
+  @apply flex items-center justify-center gap-xs;
+}
+
+.content.vertical {
+  @apply flex-col gap-sm;
+}
+
+.overflow {
+  @apply overflow-hidden;
+}
+
+.track {
+  display: flex;
+  gap: var(--spacing-xs);
+  transition: transform 0.3s ease;
+}
+
+.track.vertical {
+  flex-direction: column;
+}
+
+.item {
+  @apply shrink-0;
+}
+
+.navButton {
+  @apply cursor-pointer border-none bg-transparent text-2xl text-neutral-interaction-default;
+  @apply hover:text-primary-interaction-hover disabled:text-neutral-interaction-disabled disabled:pointer-events-none;
+}
+
+.prevButton {
+  /* horizontal: left side */
+}
+
+.nextButton {
+  /* horizontal: right side */
+}
+
+.indicators {
+  @apply flex items-center justify-center gap-xs w-full;
+}
+
+.indicator {
+  @apply w-2xl h-xs rounded-full bg-neutral-surface-disabled cursor-pointer border-none;
+}
+
+.indicatorActive {
+  @apply bg-primary-interaction-default;
+}

@@ -1,0 +1,11 @@
+@reference "../../assets/main.css";
+
+.optionsList { @apply py-xxs; }
+.groupHeader { @apply px-sm py-xxs text-xs font-semibold text-neutral-foreground-low; }
+.optionItem {
+  @apply px-sm py-xs text-sm font-normal cursor-pointer;
+  @apply hover:bg-neutral-surface-hover;
+}
+.optionItem.selected { @apply text-primary-interaction-selected; }
+.optionItem.disabled { @apply pointer-events-none text-neutral-interaction-disabled; }
+.searchInput { @apply px-sm py-xs border-b border-neutral-border-default; }
