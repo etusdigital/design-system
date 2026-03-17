@@ -1,0 +1,9 @@
+@reference "../../assets/main.css";
+
+.pagination { @apply flex items-center gap-xxs; }
+.pageButton { @apply py-xs px-xs rounded-xs text-xs font-semibold cursor-pointer border-none bg-transparent text-neutral-foreground-low; }
+.pageButton:hover:not(.active):not(.ellipsis):not(:disabled) { @apply bg-neutral-surface-hover; }
+.pageButton.active { @apply bg-primary-interaction-default text-neutral-foreground-negative; }
+.pageButton.ellipsis { @apply cursor-default text-neutral-foreground-disabled; }
+.navButton { @apply cursor-pointer border-none bg-transparent text-neutral-interaction-default; }
+.navButton:disabled { @apply opacity-50 cursor-not-allowed; }

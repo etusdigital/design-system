@@ -1,0 +1,7 @@
+@reference "../../assets/main.css";
+
+.container { @apply p-xxs rounded-sm; }
+.container:not(.notCard) { @apply bg-neutral-surface-highlight; }
+.tabButton { @apply py-xs px-xs rounded-xs text-sm font-semibold text-neutral-interaction-default cursor-pointer border-none bg-transparent; }
+.tabButton:hover { @apply text-primary-interaction-hover; }
+.tabButton.active { @apply shadow-neutral-selected text-neutral-foreground-high bg-neutral-surface-default; }
