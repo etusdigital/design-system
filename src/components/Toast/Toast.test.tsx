@@ -82,8 +82,8 @@ describe('ToastProvider / useToast', () => {
     expect(screen.getByText('Hello')).toBeInTheDocument();
   });
 
-  it('auto-dismisses after 5000ms', () => {
-    renderWithProvider(<TestConsumer />);
+  it('auto-dismisses after 5000ms when timeout is specified', () => {
+    renderWithProvider(<TestConsumer options={{ timeout: 5000 }} />);
 
     act(() => {
       fireEvent.click(screen.getByText('Show Toast'));
