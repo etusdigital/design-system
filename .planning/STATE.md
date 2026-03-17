@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 05-providers-02-PLAN.md (Toast provider)
-last_updated: "2026-03-17T15:36:03.554Z"
+stopped_at: Completed 05-providers-03-PLAN.md (ConfirmProvider + DesignSystemProvider)
+last_updated: "2026-03-17T15:41:09.836Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 32
-  completed_plans: 31
+  completed_plans: 32
   percent: 0
 ---
 
@@ -73,6 +73,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 04-internal-components P03 | 3m | 2 tasks | 8 files |
 | Phase 05-providers P01 | 2 | 2 tasks | 3 files |
 | Phase 05-providers P02 | 4 | 2 tasks | 4 files |
+| Phase 05-providers P03 | 3 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -126,6 +127,9 @@ Recent decisions affecting current work:
 - [Phase 05-providers]: Dialog CSS uses .active class toggle via useTransition instead of Vue @keyframes bounce-in — identical visual behavior via established React CSS-transition pattern
 - [Phase 05-providers]: Toast.css uses plain CSS (not module) with @reference — portal renders outside component tree requiring global class names
 - [Phase 05-providers]: fireEvent replaces userEvent in Toast tests with vi.useFakeTimers() — userEvent async queue hangs fake timers
+- [Phase 05-providers]: ConfirmProvider uses resolverRef pattern (useRef storing Promise resolve) so confirm() returns Promise<boolean> without useState for the callback
+- [Phase 05-providers]: Dialog receives value={state !== null} with no onChange handler — noOutsideClose prevents backdrop dismissal; only accept/cancel buttons close the dialog
+- [Phase 05-providers]: DesignSystemProvider nests ConfirmProvider outside ToastProvider so both contexts available to all children
 
 ### Pending Todos
 
@@ -140,6 +144,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-17T15:36:03.542Z
-Stopped at: Completed 05-providers-02-PLAN.md (Toast provider)
+Last session: 2026-03-17T15:41:04.141Z
+Stopped at: Completed 05-providers-03-PLAN.md (ConfirmProvider + DesignSystemProvider)
 Resume file: None
