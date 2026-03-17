@@ -1,0 +1,50 @@
+@reference "../../assets/main.css";
+
+.drawer {
+  position: fixed;
+  z-index: 1001;
+  background-color: theme('colors.neutral-surface-default');
+  border: theme('borderWidth.xxs') solid theme('colors.neutral-border-default');
+  overflow: auto;
+  transition: transform 0.5s ease;
+}
+
+.drawer.right {
+  top: 0;
+  right: 0;
+  height: 100%;
+  border-radius: theme('borderRadius.base') 0 0 theme('borderRadius.base');
+  transform: translateX(100%);
+}
+
+.drawer.left {
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 0 theme('borderRadius.base') theme('borderRadius.base') 0;
+  transform: translateX(-100%);
+}
+
+.drawer.top {
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-radius: 0 0 theme('borderRadius.base') theme('borderRadius.base');
+  transform: translateY(-100%);
+}
+
+.drawer.bottom {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-radius: theme('borderRadius.base') theme('borderRadius.base') 0 0;
+  transform: translateY(100%);
+}
+
+.drawer.active {
+  transform: translate(0, 0);
+}
+
+.drawer.no-outside-close-warning {
+  animation: bounce-warning 0.5s ease;
+}
