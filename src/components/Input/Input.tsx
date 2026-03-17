@@ -24,7 +24,7 @@ export interface InputProps {
   isError?: boolean;
   required?: boolean;
   placeholder?: string;
-  textAlign?: 'left' | 'center' | 'right';
+  textAlign?: 'start' | 'center' | 'end';
   tooltipMinWidth?: number;
   icon?: string;          // Material Symbols icon name for prepend
   appendIcon?: string;    // Material Symbols icon name for append

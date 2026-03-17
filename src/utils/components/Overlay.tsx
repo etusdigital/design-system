@@ -23,14 +23,16 @@ export function Overlay({
   return (
     <>
       {isMounted && createPortal(
-        <div
-          className={clsx('overlay-backdrop', isActive && 'active', className)}
-          style={{ zIndex }}
-          onClick={onClick}
-        />,
+        <>
+          <div
+            className={clsx('overlay-backdrop', isActive && 'active', className)}
+            style={{ zIndex }}
+            onClick={onClick}
+          />
+          {children}
+        </>,
         document.body
       )}
-      {children}
     </>
   );
 }

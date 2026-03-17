@@ -7,7 +7,6 @@ import './Dialog.css';
 
 export interface DialogProps {
   value?: boolean;
-  defaultValue?: boolean;
   onChange?: (value: boolean) => void;
   width?: string;
   height?: string;
@@ -18,7 +17,6 @@ export interface DialogProps {
 
 export function Dialog({
   value,
-  defaultValue,
   onChange,
   width = 'fit-content',
   height = 'fit-content',
@@ -26,7 +24,7 @@ export function Dialog({
   children,
   className,
 }: DialogProps) {
-  const [isOpen, setOpen] = useControllable<boolean>({ value, defaultValue, onChange });
+  const [isOpen, setOpen] = useControllable<boolean>({ value, defaultValue: false, onChange });
   const { isMounted, isActive } = useTransition(isOpen ?? false, { duration: 500 });
   const dialogRef = useRef<HTMLDivElement>(null);
 

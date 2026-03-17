@@ -65,7 +65,7 @@ Marks the field as required. Type: `boolean` (default: `false`)
 Placeholder text for the input. Type: `string` (default: `""`)
 
 #### text-align
-Text alignment within input. Type: `'left' | 'center' | 'right'` (default: `"start"`)
+Text alignment within input. Type: `'start' | 'center' | 'end'` (default: `"start"`)
 
 #### tooltip-min-width
 Minimum width for info tooltip. Type: `string` (default: `"none"`)

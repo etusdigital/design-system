@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Textarea } from './Textarea';
+import { DesignSystemProvider } from '@/providers';
 
 const meta = {
   component: Textarea,
@@ -94,7 +95,7 @@ export const Required: Story = {
 export const TextAlign: Story = {
   render: (args: any) => (
     <div className="flex gap-xs">
-      {['left', 'center', 'right'].map((textAlign) => (
+      {['start', 'center', 'end'].map((textAlign) => (
         <Textarea key={textAlign} {...args} textAlign={textAlign} labelValue={textAlign} />
       ))}
     </div>

@@ -6,7 +6,6 @@ import styles from './Textarea.module.css';
 
 interface TextareaProps {
   value?: string;
-  defaultValue?: string;
   onChange?: (value: string) => void;
   labelValue?: string;
   max?: number;
@@ -16,7 +15,7 @@ interface TextareaProps {
   isError?: boolean;
   required?: boolean;
   placeholder?: string;
-  textAlign?: 'left' | 'center' | 'right';
+  textAlign?: 'start' | 'center' | 'end';
   tooltipMinWidth?: number;
   onFocus?: () => void;
   onBlur?: () => void;
@@ -27,7 +26,6 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   function Textarea(
     {
       value,
-      defaultValue,
       onChange,
       labelValue,
       max,
@@ -47,9 +45,9 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ) {
     const [currentValue, setValue] = useControllable<string>({
       value,
-      defaultValue: defaultValue ?? '',
+      defaultValue: '',
       onChange,
-    });
+    }); 
 
     const [isFocused, setIsFocused] = useState(false);
 

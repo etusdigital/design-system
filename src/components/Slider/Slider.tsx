@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
 import { Tooltip } from '../Tooltip';
 import styles from './Slider.module.css';
+import { blendColors } from '#utils/index';
 
 export interface SliderProps {
   value?: number | [number, number];
@@ -39,6 +40,8 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       neutralBackground = false,
       className,
     } = props;
+
+    const isControlled = value !== undefined;
 
     // Normalize value to number | [number, number] for useControllable
     const [currentValue, setValue] = useControllable<number | [number, number]>({
@@ -82,6 +85,11 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     useEffect(() => {
       currentValueRef.current = currentValue;
     }, [currentValue]);
+
+    function getBackground() {
+      if (neutralBackground || !color) return "";
+      return blendColors(color);
+    }
 
     // Helper: get internal model as [number, number] array
     function getModelArray(val: number | [number, number] | undefined): [number, number] {
@@ -247,8 +255,22 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     const stopDraggingHandler = useCallback(() => {
       isDraggingRef.current = [false, false];
       setIsDragging([false, false]);
-      setDragValue(undefined);
+      // In controlled mode, keep the visual value until parent updates `value`,
+      // otherwise the UI may "snap back" to the stale controlled value.
+      if (!isControlled) setDragValue(undefined);
     }, []);
+
+    // When controlled value catches up, clear the temporary drag value.
+    useEffect(() => {
+      if (dragValue === undefined) return;
+
+      const isSame =
+        Array.isArray(dragValue) && Array.isArray(currentValue)
+          ? dragValue[0] === currentValue[0] && dragValue[1] === currentValue[1]
+          : dragValue === currentValue;
+
+      if (isSame) setDragValue(undefined);
+    }, [currentValue, dragValue]);
 
     // Keep refs in sync with current handlers to avoid stale closures
     useEffect(() => {
@@ -382,6 +404,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           neutralBackground && styles.neutralBg,
           className
         )}
+        style={{ background: getBackground() }}
         aria-disabled={disabled}
         onMouseDown={(e) => {
           if (disabled) return;

@@ -84,7 +84,7 @@ export const Required: Story = {
 export const TextAlign: Story = {
   render: (args: any) => (
     <div className="flex flex-col gap-xs">
-      {['left', 'center', 'right'].map((textAlign) => (
+      {['start', 'center', 'end'].map((textAlign) => (
         <Input key={textAlign} {...args} textAlign={textAlign} labelValue={textAlign} />
       ))}
     </div>
@@ -94,7 +94,6 @@ export const TextAlign: Story = {
 export const DomainType: Story = {
   args: {
     type: 'domain',
-    label: 'Domain',
     labelValue: 'Domain',
     placeholder: 'example.com',
   },
@@ -103,7 +102,6 @@ export const DomainType: Story = {
 export const UrlType: Story = {
   args: {
     type: 'url',
-    label: 'URL',
     labelValue: 'URL',
     placeholder: 'https://example.com',
   },

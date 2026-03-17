@@ -11,16 +11,24 @@ export function useTransition(
   const [isMounted, setIsMounted] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cleanupRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     if (open) {
       // Mount immediately
       setIsMounted(true);
-      // Trigger CSS transition on next animation frame
+      // Double RAF ensures browser paints the initial (off-screen) state
+      // before adding .active, so the CSS transition actually animates
       const raf = requestAnimationFrame(() => {
-        setIsActive(true);
+        const raf2 = requestAnimationFrame(() => {
+          setIsActive(true);
+        });
+        cleanupRef.current = () => cancelAnimationFrame(raf2);
       });
-      return () => cancelAnimationFrame(raf);
+      return () => {
+        cancelAnimationFrame(raf);
+        cleanupRef.current?.();
+      };
     } else {
       // Start leave transition: deactivate immediately, unmount after duration
       setIsActive(false);

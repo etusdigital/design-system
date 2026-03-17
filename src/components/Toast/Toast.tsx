@@ -32,7 +32,7 @@ export interface ToastOptions {
 
 interface ToastItem extends Required<Omit<ToastOptions, 'timeout' | 'action'>> {
   visible: boolean;
-  timeout: number | null;
+  timeout: number | null | undefined;
   action: (() => void) | undefined;
 }
 
@@ -195,13 +195,13 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       action: undefined,
       ...options,
       visible: true,
-      timeout: options.timeout !== undefined ? options.timeout : 5000,
+      timeout: options.timeout,
     };
 
     dispatch({ type: 'ADD', toast });
 
     // Auto-dismiss: only if timeout is truthy (not 0, not null)
-    const timeout = options.timeout !== undefined ? options.timeout : 5000;
+    const timeout = options.timeout;
     if (timeout) {
       const timer = setTimeout(() => removeToast(id), timeout);
       timerMapRef.current.set(id, timer);
