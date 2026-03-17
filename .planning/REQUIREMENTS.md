@@ -75,9 +75,9 @@ Requirements for the complete Vue-to-React migration. Each maps to roadmap phase
 
 - [ ] **PROV-01**: DesignSystemProvider created as root context wrapper (replaces Vue plugin install)
 - [ ] **PROV-02**: ConfirmProvider + useConfirm hook created (replaces $confirm global property)
-- [ ] **PROV-03**: ToastProvider + useToast hook created (replaces $toast global property)
+- [x] **PROV-03**: ToastProvider + useToast hook created (replaces $toast global property)
 - [x] **PROV-04**: Confirm component migrated to React TSX (rendered by ConfirmProvider)
-- [ ] **PROV-05**: Toast component migrated to React TSX (rendered by ToastProvider)
+- [x] **PROV-05**: Toast component migrated to React TSX (rendered by ToastProvider)
 
 ### Composite Components
 

@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-03-17T15:33:46.030Z"
+stopped_at: Completed 05-providers-02-PLAN.md (Toast provider)
+last_updated: "2026-03-17T15:36:03.554Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
   completed_phases: 4
   total_plans: 32
-  completed_plans: 30
+  completed_plans: 31
   percent: 0
 ---
 
@@ -72,6 +72,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 04-internal-components P02 | 5m | 1 tasks | 3 files |
 | Phase 04-internal-components P03 | 3m | 2 tasks | 8 files |
 | Phase 05-providers P01 | 2 | 2 tasks | 3 files |
+| Phase 05-providers P02 | 4 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -123,6 +124,8 @@ Recent decisions affecting current work:
 - [Phase 04-internal-components]: isExpandedRef mutable ref pattern for observer callbacks avoids stale closure without re-registering observers
 - [Phase 04-internal-components]: sc-icon CSS class in SelectContent replaces Vue .icon.icon double-class specificity; sc- prefix for SelectContainer CSS classes
 - [Phase 05-providers]: Dialog CSS uses .active class toggle via useTransition instead of Vue @keyframes bounce-in — identical visual behavior via established React CSS-transition pattern
+- [Phase 05-providers]: Toast.css uses plain CSS (not module) with @reference — portal renders outside component tree requiring global class names
+- [Phase 05-providers]: fireEvent replaces userEvent in Toast tests with vi.useFakeTimers() — userEvent async queue hangs fake timers
 
 ### Pending Todos
 
@@ -137,6 +140,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-17T15:33:46.026Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-03-17T15:36:03.542Z
+Stopped at: Completed 05-providers-02-PLAN.md (Toast provider)
 Resume file: None
