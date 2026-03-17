@@ -1,0 +1,48 @@
+@reference "../../assets/main.css";
+
+.calendar { @apply bg-neutral-surface-default rounded-base; }
+
+.header { @apply flex items-center justify-between px-sm py-xs; }
+.monthYear { @apply text-xl font-semibold cursor-pointer; }
+.navButton { @apply cursor-pointer border-none bg-transparent text-lg text-neutral-interaction-default; }
+
+.weekdayHeader { @apply text-xs font-normal text-neutral-foreground-low text-center; }
+
+.dayCell {
+  @apply text-sm text-neutral-foreground-high text-center cursor-pointer p-xxs;
+}
+.dayCell:hover:not(.disabled):not(.outsideMonth) { @apply bg-neutral-surface-hover rounded-xs; }
+.dayCell.selected { @apply bg-primary-surface-default text-primary-foreground-high rounded-xs; border: theme('borderWidth.xxs') solid theme('colors.primary-border-default'); }
+.dayCell.rangeMiddle { @apply bg-primary-surface-hover; }
+.dayCell.rangeStart, .dayCell.rangeEnd { @apply bg-primary-interaction-default text-neutral-foreground-negative rounded-xs; }
+.dayCell.today { @apply font-semibold; }
+.dayCell.outsideMonth { @apply text-neutral-foreground-disabled; }
+.dayCell.disabled { @apply text-neutral-foreground-disabled cursor-not-allowed; }
+
+.grid { @apply grid grid-cols-7; }
+
+/* Slide-fade animation */
+.slideContainer { @apply relative overflow-hidden; }
+
+.slide-fade-forward {
+  animation: slide-in-right 0.3s ease forwards;
+}
+.slide-fade-back {
+  animation: slide-in-left 0.3s ease forwards;
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slide-in-left {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* DateDialog */
+.dateDialog { @apply bg-neutral-surface-default rounded-base shadow-neutral-default p-sm; }
+.monthGrid { @apply grid grid-cols-3 gap-xxs; }
+.monthButton { @apply py-xs px-sm rounded-xs text-sm cursor-pointer border-none bg-transparent; }
+.monthButton:hover { @apply bg-neutral-surface-hover; }
+.monthButton.active { @apply bg-primary-interaction-default text-neutral-foreground-negative; }
