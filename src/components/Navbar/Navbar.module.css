@@ -1,0 +1,21 @@
+@reference "../../assets/main.css";
+
+.navbar {
+  @apply flex items-center justify-between w-full;
+  @apply bg-neutral-surface-default;
+  border-bottom: theme('borderWidth.xxs') solid theme('colors.neutral-border-default');
+  @apply px-base py-xs;
+}
+
+.logo { @apply flex items-center; }
+.title { @apply text-xl font-semibold; }
+
+.navItems { @apply flex items-center gap-base; }
+
+.navItem {
+  @apply text-sm font-normal leading-lg text-primary-foreground-high cursor-pointer;
+  @apply flex items-center gap-xxs;
+}
+.navItem:hover { @apply text-primary-interaction-hover; }
+
+.profile { @apply flex items-center; }
