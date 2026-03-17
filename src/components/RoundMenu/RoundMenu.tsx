@@ -1,4 +1,64 @@
-// TODO: Migrate from RoundMenu.vue in Phase 2+
-export function RoundMenu(props: Record<string, unknown>) {
-  return <div data-component="RoundMenu" {...props} />;
+import React, { useState } from 'react';
+import clsx from 'clsx';
+import { Icon } from '../Icon/Icon';
+import styles from './RoundMenu.module.css';
+
+export interface RoundMenuProps {
+  options: Array<{ icon?: string; label?: string; onClick?: () => void; [key: string]: any }>;
+  iconKey?: string;
+  labelKey?: string;
+  radius?: number;
+  className?: string;
+}
+
+export function RoundMenu({
+  options,
+  iconKey = 'icon',
+  labelKey = 'label',
+  radius = 80,
+  className,
+}: RoundMenuProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  function calculatePosition(index: number, total: number): React.CSSProperties {
+    // Start from top (-PI/2), distribute evenly around circle
+    const angle = (2 * Math.PI * index) / total - Math.PI / 2;
+    const x = Math.cos(angle) * radius;
+    const y = Math.sin(angle) * radius;
+    return {
+      transform: `translate3d(${x}px, ${y}px, 0)`,
+    };
+  }
+
+  return (
+    <div className={clsx(styles.roundMenu, className)}>
+      {options.map((option, index) => {
+        const positionStyle = isExpanded
+          ? calculatePosition(index, options.length)
+          : undefined;
+
+        return (
+          <button
+            key={index}
+            className={clsx(styles.menuItem, !isExpanded && styles.collapsed)}
+            style={positionStyle}
+            onClick={option.onClick}
+            aria-label={option[labelKey] ?? option.label}
+            title={option[labelKey] ?? option.label}
+          >
+            <Icon name={option[iconKey] ?? option.icon} />
+          </button>
+        );
+      })}
+
+      <button
+        className={clsx(styles.trigger, isExpanded && styles.expanded)}
+        onClick={() => setIsExpanded((prev) => !prev)}
+        aria-label={isExpanded ? 'Close menu' : 'Open menu'}
+        aria-expanded={isExpanded}
+      >
+        <Icon name={isExpanded ? 'close' : 'add'} />
+      </button>
+    </div>
+  );
 }
