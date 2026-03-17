@@ -38,23 +38,24 @@ created: 2026-03-17
 
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 06-01-01 | 01 | 1 | COMP-09 | unit | `npx vitest run --project=unit src/components/Tab/Tab.test.tsx` | ❌ W0 | ⬜ pending |
-| 06-01-02 | 01 | 1 | COMP-10 | unit | `npx vitest run --project=unit src/components/Pagination/Pagination.test.tsx` | ❌ W0 | ⬜ pending |
-| 06-01-03 | 01 | 1 | COMP-14 | unit | `npx vitest run --project=unit src/components/RoundMenu/RoundMenu.test.tsx` | ❌ W0 | ⬜ pending |
-| 06-01-04 | 01 | 1 | COMP-12 | unit | `npx vitest run --project=unit src/components/Stepper/Stepper.test.tsx` | ❌ W0 | ⬜ pending |
-| 06-02-01 | 02 | 1 | COMP-07 | unit | `npx vitest run --project=unit src/components/Accordion/Accordion.test.tsx` | ❌ W0 | ⬜ pending |
-| 06-02-02 | 02 | 1 | COMP-08 | unit | `npx vitest run --project=unit src/components/Carousel/Carousel.test.tsx` | ❌ W0 | ⬜ pending |
-| 06-02-03 | 02 | 1 | COMP-06 | unit | `npx vitest run --project=unit src/components/Drawer/Drawer.test.tsx` | ❌ W0 | ⬜ pending |
-| 06-03-01 | 03 | 2 | COMP-01 | unit | `npx vitest run --project=unit src/components/Select/Select.test.tsx` | ❌ W0 | ⬜ pending |
-| 06-03-02 | 03 | 2 | COMP-02 | unit | `npx vitest run --project=unit src/components/AutoComplete/AutoComplete.test.tsx` | ❌ W0 | ⬜ pending |
-| 06-03-03 | 03 | 2 | COMP-03 | unit | `npx vitest run --project=unit src/components/TagSelect/TagSelect.test.tsx` | ❌ W0 | ⬜ pending |
-| 06-04-01 | 04 | 2 | COMP-04 | unit | `npx vitest run --project=unit src/components/Dropdown/Dropdown.test.tsx` | ❌ W0 | ⬜ pending |
-| 06-04-02 | 04 | 2 | COMP-11 | unit | `npx vitest run --project=unit src/components/Filter/Filter.test.tsx` | ❌ W0 | ⬜ pending |
-| 06-04-03 | 04 | 2 | COMP-13 | unit | `npx vitest run --project=unit src/components/Navbar/Navbar.test.tsx` | ❌ W0 | ⬜ pending |
-| 06-05-01 | 05 | 3 | COMP-17 | unit | `npx vitest run --project=unit src/components/Calendar/Calendar.test.tsx` | ❌ W0 | ⬜ pending |
-| 06-05-02 | 05 | 3 | COMP-16 | unit | `npx vitest run --project=unit src/components/DatePicker/DatePicker.test.tsx` | ❌ W0 | ⬜ pending |
-| 06-06-01 | 06 | 3 | COMP-15 | unit | `npx vitest run --project=unit src/components/ColorPicker/ColorPicker.test.tsx` | ❌ W0 | ⬜ pending |
-| 06-07-01 | 07 | 4 | COMP-05 | unit | `npx vitest run --project=unit src/components/Dialog/Dialog.test.tsx` | ✅ | ⬜ pending |
+| 06-00-01 | 00 | 0 | all (stubs) | unit | `npx vitest run --project=unit` | ❌ W0 | ⬜ pending |
+| 06-01-01 | 01 | 1 | COMP-05 | unit | `npx vitest run --project=unit src/components/Dialog/Dialog.test.tsx` | ✅ | ⬜ pending |
+| 06-01-02 | 01 | 1 | COMP-06 | unit | `npx vitest run --project=unit src/components/Drawer/Drawer.test.tsx` | ❌ W0 | ⬜ pending |
+| 06-01-03 | 01 | 1 | COMP-07 | unit | `npx vitest run --project=unit src/components/Accordion/Accordion.test.tsx` | ❌ W0 | ⬜ pending |
+| 06-02-01 | 02 | 1 | COMP-09 | unit | `npx vitest run --project=unit src/components/Tab/Tab.test.tsx` | ❌ W0 | ⬜ pending |
+| 06-02-02 | 02 | 1 | COMP-10 | unit | `npx vitest run --project=unit src/components/Pagination/Pagination.test.tsx` | ❌ W0 | ⬜ pending |
+| 06-02-03 | 02 | 1 | COMP-12 | unit | `npx vitest run --project=unit src/components/Stepper/Stepper.test.tsx` | ❌ W0 | ⬜ pending |
+| 06-03-01 | 03 | 1 | COMP-01 | unit | `npx vitest run --project=unit src/components/Select/Select.test.tsx` | ❌ W0 | ⬜ pending |
+| 06-03-02 | 03 | 1 | COMP-02 | unit | `npx vitest run --project=unit src/components/AutoComplete/AutoComplete.test.tsx` | ❌ W0 | ⬜ pending |
+| 06-04-01 | 04 | 1 | COMP-04 | unit | `npx vitest run --project=unit src/components/Dropdown/Dropdown.test.tsx` | ❌ W0 | ⬜ pending |
+| 06-05-01 | 05 | 2 | COMP-03 | unit | `npx vitest run --project=unit src/components/TagSelect/TagSelect.test.tsx` | ❌ W0 | ⬜ pending |
+| 06-05-02 | 05 | 2 | COMP-11 | unit | `npx vitest run --project=unit src/components/Filter/Filter.test.tsx` | ❌ W0 | ⬜ pending |
+| 06-06-01 | 06 | 1 | COMP-08 | unit | `npx vitest run --project=unit src/components/Carousel/Carousel.test.tsx` | ❌ W0 | ⬜ pending |
+| 06-06-02 | 06 | 1 | COMP-14 | unit | `npx vitest run --project=unit src/components/RoundMenu/RoundMenu.test.tsx` | ❌ W0 | ⬜ pending |
+| 06-07-01 | 07 | 1 | COMP-17 | unit | `npx vitest run --project=unit src/components/Calendar/Calendar.test.tsx` | ❌ W0 | ⬜ pending |
+| 06-08-01 | 08 | 2 | COMP-16 | unit | `npx vitest run --project=unit src/components/DatePicker/DatePicker.test.tsx` | ❌ W0 | ⬜ pending |
+| 06-08-02 | 08 | 2 | COMP-13 | unit | `npx vitest run --project=unit src/components/Navbar/Navbar.test.tsx` | ❌ W0 | ⬜ pending |
+| 06-09-01 | 09 | 1 | COMP-15 | unit | `npx vitest run --project=unit src/components/ColorPicker/ColorPicker.test.tsx` | ❌ W0 | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
