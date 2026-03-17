@@ -81,8 +81,8 @@ Requirements for the complete Vue-to-React migration. Each maps to roadmap phase
 
 ### Composite Components
 
-- [ ] **COMP-01**: Select component migrated with controlled/uncontrolled support and portal
-- [ ] **COMP-02**: AutoComplete component migrated to React TSX
+- [x] **COMP-01**: Select component migrated with controlled/uncontrolled support and portal
+- [x] **COMP-02**: AutoComplete component migrated to React TSX
 - [ ] **COMP-03**: TagSelect component migrated to React TSX
 - [x] **COMP-04**: Dropdown component migrated with portal
 - [ ] **COMP-05**: Dialog component migrated with portal and transition
