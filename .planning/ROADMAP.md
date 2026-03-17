@@ -114,7 +114,12 @@ Plans:
   2. Calling `useConfirm().confirm(...)` renders the Confirm dialog overlay without any prop-drilling
   3. Calling `useToast().show(...)` renders a Toast notification that dismisses automatically
   4. Confirm and Toast components match the visual appearance of their Vue counterparts
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — Migrate Dialog component (Overlay + bounce animation + noOutsideClose shake)
+- [ ] 05-02-PLAN.md — Implement ToastProvider + useToast (4-corner portal, slide animations, auto-dismiss)
+- [ ] 05-03-PLAN.md — Implement ConfirmProvider + useConfirm + DesignSystemProvider + wire exports
 
 ### Phase 6: Composite Components
 **Goal**: All 17 composite components render and interact correctly, including portal-based overlays and transition animations
@@ -172,7 +177,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 2. Atomic Components | 1/8 | In Progress|  |
 | 3. Form Components | 13/13 | Complete   | 2026-03-16 |
 | 4. Internal Components | 3/3 | Complete   | 2026-03-16 |
-| 5. Providers | 0/TBD | Not started | - |
+| 5. Providers | 0/3 | Not started | - |
 | 6. Composite Components | 0/TBD | Not started | - |
 | 7. Complex Components | 0/TBD | Not started | - |
 | 8. Build & Distribution | 0/TBD | Not started | - |

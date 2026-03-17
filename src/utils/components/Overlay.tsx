@@ -1,10 +1,10 @@
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import { useTransition } from '../../hooks';
-import './Overlay.css';
+import '../styles/Overlay.css';
 
 export interface OverlayProps {
-  modelValue?: boolean;
+  value?: boolean;
   zIndex?: number;
   onClick?: () => void;
   children?: React.ReactNode;
@@ -12,13 +12,13 @@ export interface OverlayProps {
 }
 
 export function Overlay({
-  modelValue = false,
+  value = false,
   zIndex = 1000,
   onClick,
   children,
   className,
 }: OverlayProps) {
-  const { isMounted, isActive } = useTransition(modelValue, { duration: 500 });
+  const { isMounted, isActive } = useTransition(value, { duration: 500 });
 
   return (
     <>
