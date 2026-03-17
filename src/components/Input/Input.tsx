@@ -1,5 +1,5 @@
-// TODO: type="color" deferred to Phase 6 — requires ColorPicker + FloatCard integration
 import React, { useState, useRef } from 'react';
+import { ColorPicker } from '../ColorPicker';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
 import { Label } from '../../utils/components/Label';
@@ -85,6 +85,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
   const [hasError, setHasError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [validationError, setValidationError] = useState<string>('');
+  const [showColorPicker, setShowColorPicker] = useState(false);
 
   const internalRef = useRef<HTMLInputElement>(null);
 
@@ -175,6 +176,77 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
   }
 
   const showError = isError || hasError;
+
+  // type="color" — render color swatch that toggles ColorPicker (Phase 3 deferral resolved)
+  if (type === 'color') {
+    const colorValue = currentValue ?? '#000000ff';
+    return (
+      <div className={clsx(styles.input, className)} style={{ position: 'relative' }}>
+        {(labelValue || max !== undefined) && (
+          <div className={styles.labelRow}>
+            <Label
+              labelValue={labelValue}
+              infoMessage={infoMessage}
+              tooltipMinWidth={tooltipMinWidth}
+              required={required}
+            />
+          </div>
+        )}
+        <div className="flex items-center gap-xs">
+          {/* Color swatch button */}
+          <button
+            type="button"
+            style={{
+              width: '2em',
+              height: '2em',
+              background: colorValue,
+              border: '1px solid var(--color-neutral-default, #ccc)',
+              borderRadius: '4px',
+              cursor: disabled ? 'not-allowed' : 'pointer',
+              flexShrink: 0,
+            }}
+            disabled={disabled}
+            onClick={() => setShowColorPicker((v) => !v)}
+            aria-label="Open color picker"
+          />
+          {/* Hex text input */}
+          <input
+            ref={mergedRef}
+            type="text"
+            className={clsx(styles.inputContent)}
+            value={colorValue}
+            onChange={(e) => {
+              setValue(e.target.value);
+            }}
+            disabled={disabled}
+            placeholder="#000000ff"
+          />
+        </div>
+        {/* ColorPicker popover */}
+        {showColorPicker && (
+          <div
+            style={{
+              position: 'absolute',
+              zIndex: 1000,
+              top: '100%',
+              left: 0,
+              marginTop: '4px',
+            }}
+          >
+            <ColorPicker
+              value={colorValue}
+              onChange={(v) => {
+                setValue(v);
+              }}
+            />
+          </div>
+        )}
+        {(errorMessage || validationError) && (showError || !!validationError) && (
+          <p className={styles.errorMessage}>{errorMessage || validationError}</p>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className={clsx(styles.input, className)}>
