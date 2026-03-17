@@ -1,0 +1,24 @@
+@reference "../../assets/main.css";
+
+.categoryHeader {
+  @apply px-sm py-xs flex justify-between items-center cursor-pointer;
+  @apply hover:bg-neutral-surface-hover;
+}
+
+.categoryContent {
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.categoryContent.collapsed { max-height: 0; }
+
+.chevron {
+  @apply text-2xl text-neutral-interaction-default;
+  transition: transform 0.3s ease;
+}
+.chevron.expanded { transform: rotate(180deg); }
+
+.subOption { @apply flex items-center gap-xs px-sm py-xxs; }
+.subOptionLabel { @apply text-sm font-normal; }
+
+.actions { @apply flex justify-end gap-xs px-sm py-xs border-t border-neutral-border-default; }
