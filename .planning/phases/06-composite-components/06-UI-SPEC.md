@@ -133,20 +133,20 @@ Source: `src/assets/main.css` color tokens, `src/components/Tab/Tab.vue` `.activ
 - **Select multiple mode**: Checkbox rendered inside each Option at `text-sm`
 - **AutoComplete**: Identical trigger appearance to Select; internal search input unstyled (inherits from Input)
 - **TagSelect tags**: render as `StatusBadge` components with delete icon (Material Symbols `close` at `text-xs`)
-- **Dropdown private Option**: `text-sm font-normal`, group headers at `text-xs font-medium text-neutral-foreground-low`
+- **Dropdown private Option**: `text-sm font-normal`, group headers at `text-xs font-semibold text-neutral-foreground-low`
 
 ### Accordion
 
 - Card wrapper: `px-base py-xs w-full` with `hover:bg-neutral-surface-hover transition-colors duration-300`
 - Header row: flex justify-between, `text-base` text
-- Chevron icon: `expand_more` Material Symbol, `text-2xl`, `text-neutral-interaction-default font-bold`, rotates 180° when open (`transition-transform duration-300`)
+- Chevron icon: `expand_more` Material Symbol, `text-2xl`, `text-neutral-interaction-default font-semibold`, rotates 180° when open (`transition-transform duration-300`)
 - Content: `transition-[max-height]` with `duration` prop (150ms–1000ms, clamped), `ease-in-out`
 - `noShadow` variant: `border-none`
 
 ### Tab
 
 - Container: `p-xxs rounded-sm`, `bg-neutral-surface-highlight` (unless `notCard=true`)
-- Default tab button: `py-xs px-xs rounded-xs`, text `text-neutral-interaction-default`, `font-bold text-sm`, hover: `text-primary-interaction-hover`
+- Default tab button: `py-xs px-xs rounded-xs`, text `text-neutral-interaction-default`, `font-semibold text-sm`, hover: `text-primary-interaction-hover`
 - Active tab button: `shadow-neutral-selected text-neutral-foreground-high bg-neutral-surface-default`
 
 ### Stepper (version 2 only — version 1 dropped per CONTEXT.md)
@@ -200,7 +200,7 @@ Source: `src/assets/main.css` color tokens, `src/components/Tab/Tab.vue` `.activ
 
 ### Pagination
 
-- Page button: `py-xs px-xs rounded-xs text-xs font-medium`
+- Page button: `py-xs px-xs rounded-xs text-xs font-semibold`
 - Active page: `bg-primary-interaction-default text-neutral-foreground-negative`
 - Inactive page: `text-neutral-foreground-low hover:bg-neutral-surface-hover`
 - Ellipsis (−1 sentinel): rendered as `...` text, `text-neutral-foreground-disabled`, not interactive
