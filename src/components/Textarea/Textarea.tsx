@@ -47,7 +47,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       value,
       defaultValue: '',
       onChange,
-    }); 
+    });
 
     const [isFocused, setIsFocused] = useState(false);
 

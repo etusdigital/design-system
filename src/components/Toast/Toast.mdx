@@ -1,3 +1,6 @@
+import { Canvas } from '@storybook/blocks';
+import * as Toast from './Toast.stories.tsx';
+
 # Name: toast
 ## Function Overview
 
@@ -58,6 +61,11 @@ type ToastOptions = {
 ```
 
 **Returns**: `void` (fire-and-forget function)
+
+<Canvas sourceState="none" of={Toast.Types} />
+<Canvas sourceState="none" of={Toast.Positions} />
+<Canvas sourceState="none" of={Toast.Persistent} />
+<Canvas sourceState="none" of={Toast.WithAction} />
 
 #### Access Methods
 

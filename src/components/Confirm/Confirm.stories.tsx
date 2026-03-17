@@ -5,7 +5,6 @@ import { Button } from '../Button/Button';
 
 const meta = {
   component: ConfirmProvider,
-  title: 'Providers/Confirm',
   decorators: [(Story) => (<ConfirmProvider><Story /></ConfirmProvider>)],
 } satisfies Meta<typeof ConfirmProvider>;
 
@@ -46,17 +45,6 @@ export const Primary: Story = {
     <ConfirmTrigger
       title="Confirm Action"
       message="Are you sure you want to proceed?"
-    />
-  ),
-};
-
-export const CustomLabels: Story = {
-  render: () => (
-    <ConfirmTrigger
-      title="Delete Item"
-      message="This action cannot be undone."
-      acceptLabel="Delete"
-      cancelLabel="Keep"
     />
   ),
 };

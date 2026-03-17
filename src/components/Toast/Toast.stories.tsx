@@ -4,7 +4,6 @@ import { Button } from '../Button/Button';
 
 const meta = {
   component: ToastProvider,
-  title: 'Providers/Toast',
   decorators: [(Story) => (<ToastProvider><Story /></ToastProvider>)],
 } satisfies Meta<typeof ToastProvider>;
 
@@ -28,6 +27,7 @@ function ToastTypesTrigger() {
               type,
               top: true,
               right: true,
+              timeout: 3000,
             })
           }
         >
@@ -56,6 +56,7 @@ function ToastPositionsTrigger() {
               title: label,
               message: `Toast appearing in the ${label.toLowerCase()} corner.`,
               type,
+              timeout: 3000,
               ...pos,
             })
           }

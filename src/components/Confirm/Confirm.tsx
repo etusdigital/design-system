@@ -34,8 +34,13 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<ConfirmState | null>(null);
   const [open, setOpen] = useState(false);
   const resolverRef = useRef<((v: boolean) => void) | null>(null);
+  const cleanupTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   function confirm(options: ConfirmOptions): Promise<boolean> {
+    if (cleanupTimer.current) {
+      clearTimeout(cleanupTimer.current);
+      cleanupTimer.current = null;
+    }
     return new Promise<boolean>((resolve) => {
       resolverRef.current = resolve;
       setState({
@@ -52,7 +57,10 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
     resolverRef.current?.(result);
     resolverRef.current = null;
     setOpen(false);
-    setTimeout(() => setState(null), DIALOG_TRANSITION_MS);
+    cleanupTimer.current = setTimeout(() => {
+      setState(null);
+      cleanupTimer.current = null;
+    }, DIALOG_TRANSITION_MS);
   }
 
   return (

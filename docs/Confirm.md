@@ -21,9 +21,9 @@ const confirm = inject('confirm') as Function
 
 const handleDelete = async () => {
     const result = await confirm({
-        title: 'Delete Confirmation',
-        message: 'Are you sure you want to delete this item? This action cannot be undone.',
-        acceptLabel: 'Delete',
+        title: 'Confirm Action',
+        message: 'Are you sure you want to proceed?',
+        acceptLabel: 'Confirm',
         cancelLabel: 'Cancel'
     })
     
