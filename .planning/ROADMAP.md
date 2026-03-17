@@ -132,17 +132,17 @@ Plans:
   3. Dropdown, ColorPicker, and DatePicker position their popover correctly relative to the trigger element
   4. Accordion, Tab, and Stepper maintain the correct active state visually and programmatically
   5. Calendar renders the correct month grid and responds to date selection with `onChange`
-**Plans:** 1/10 plans executed
+**Plans:** 8/10 plans executed
 
 Plans:
 - [ ] 06-00-PLAN.md — Wave 0: Create 16 smoke test stubs for all composite components (Nyquist compliance)
-- [ ] 06-01-PLAN.md — Verify Dialog + Migrate Drawer and Accordion (overlay/transition composites)
-- [ ] 06-02-PLAN.md — Migrate Tab, Pagination, Stepper (simple stateful, no deps)
+- [x] 06-01-PLAN.md — Verify Dialog + Migrate Drawer and Accordion (overlay/transition composites)
+- [x] 06-02-PLAN.md — Migrate Tab, Pagination, Stepper (simple stateful, no deps)
 - [ ] 06-03-PLAN.md — Migrate Select + AutoComplete (dropdown family core)
 - [ ] 06-04-PLAN.md — Migrate Dropdown with compound sub-components (ExpandableContainer-based)
 - [ ] 06-05-PLAN.md — Migrate TagSelect + Filter (dropdown family dependents)
 - [ ] 06-06-PLAN.md — Migrate Carousel + RoundMenu (independent interactive)
-- [ ] 06-07-PLAN.md — Migrate Calendar with compound sub-components (date grid + slide-fade)
+- [x] 06-07-PLAN.md — Migrate Calendar with compound sub-components (date grid + slide-fade)
 - [ ] 06-08-PLAN.md — Migrate DatePicker + Navbar (Wave 2: depend on Calendar + Dropdown)
 - [ ] 06-09-PLAN.md — Migrate ColorPicker + wire Input type="color" (highest risk)
 
@@ -191,7 +191,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9
 | 3. Form Components | 13/13 | Complete   | 2026-03-16 |
 | 4. Internal Components | 3/3 | Complete   | 2026-03-16 |
 | 5. Providers | 4/4 | Complete   | 2026-03-17 |
-| 6. Composite Components | 1/10 | In Progress|  |
+| 6. Composite Components | 8/10 | In Progress|  |
 | 7. Complex Components | 0/TBD | Not started | - |
 | 8. Build & Distribution | 0/TBD | Not started | - |
 | 9. Documentation & Testing | 0/TBD | Not started | - |

@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 06-04-PLAN.md
-last_updated: "2026-03-17T18:25:15.642Z"
+stopped_at: Completed 06-07-PLAN.md — Calendar migration
+last_updated: "2026-03-17T18:30:00.000Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
@@ -76,6 +76,9 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 05-providers P03 | 3 | 2 tasks | 7 files |
 | Phase 05-providers P04 | 2 | 1 tasks | 4 files |
 | Phase 06-composite-components P04 | 5m | 1 tasks | 3 files |
+| Phase 06-composite-components P01 | 8m | 2 tasks | 6 files |
+| Phase 06-composite-components P07 | 7m | 1 tasks | 3 files |
+| Phase 06-composite-components P02 | 5m | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -136,6 +139,16 @@ Recent decisions affecting current work:
 - [Phase 05-providers]: ConfirmTrigger tracks result state (pending/accepted/cancelled) for visual feedback in Confirm stories
 - [Phase 06-composite-components]: DropdownOption and DropdownOptions declared at module scope (not inside Dropdown) per RESEARCH.md pitfall 5 — avoids React re-mounting on each render
 - [Phase 06-composite-components]: Dropdown.Options = DropdownOptions and Dropdown.Option = DropdownOption static property pattern for compound sub-component API
+- [Phase 06-composite-components]: isBackRef uses useRef(false) not useState for Calendar slide direction — avoids extra render on direction flip per RESEARCH.md pitfall 4
+- [Phase 06-composite-components]: Calendar transitionKey counter (integer parity) drives useTransition open boolean for slide animation
+- [Phase 06-composite-components]: Calendar model derivation: controlled (value prop) computes via checkDateType each render; uncontrolled tracks internalModel state
+- [Phase 06-composite-components]: Tab uses index-based active state (not value-based) — simpler model matching plan spec
+- [Phase 06-composite-components]: Stepper drops version prop entirely — only v2 circle-icon-with-connectors rendered; passedIn tracked in React state (not ref) so past class renders correctly
+- [Phase 06-composite-components]: Pagination buildPages() extracted as pure function outside component; -1 sentinel for ellipsis same as Vue source
+- [Phase 06-composite-components]: Drawer uses plain CSS (not module) matching Dialog/Toast pattern — portal-rendered outside component tree requires global class names
+- [Phase 06-composite-components]: Accordion uses CSS Modules for scoped styles — not portal-rendered, scoping appropriate
+- [Phase 06-composite-components]: Accordion unconditional useEffect (no deps) calls resize() on every render — Vue onUpdated equivalent; safe since resize() only sets style.maxHeight imperatively
+- [Phase 06-composite-components]: useLayoutEffect sets Accordion initial maxHeight=0px synchronously before first paint to prevent content flash
 
 ### Pending Todos
 
@@ -150,6 +163,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-17T18:25:15.639Z
-Stopped at: Completed 06-04-PLAN.md
+Last session: 2026-03-17T18:30:00.000Z
+Stopped at: Completed 06-07-PLAN.md — Calendar migration
 Resume file: None
