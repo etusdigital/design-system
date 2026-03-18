@@ -31,6 +31,10 @@ export function Accordion({
 
   const cardRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const isExpandedRef = useRef(isExpanded);
+
+  // Keep isExpandedRef in sync on every render (avoids stale closure in observer callbacks)
+  isExpandedRef.current = isExpanded;
 
   // Prevent initial flash: set maxHeight to 0 before first paint when collapsed
   useLayoutEffect(() => {
@@ -41,7 +45,7 @@ export function Accordion({
 
   function resize() {
     if (!contentRef.current) return;
-    contentRef.current.style.maxHeight = isExpanded
+    contentRef.current.style.maxHeight = isExpandedRef.current
       ? `${contentRef.current.scrollHeight}px`
       : '0px';
   }
@@ -90,7 +94,7 @@ export function Accordion({
         className
       )}
     >
-      <div ref={cardRef} className="w-full flex flex-col gap-sm">
+      <div ref={cardRef} className="w-full flex flex-col">
         <div
           className={clsx(styles.header, disabled && styles.disabled)}
           onClick={handleToggle}
