@@ -199,7 +199,19 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
             disabled && styles.disabled
           )}
         >
-          {/* Color swatch trigger — wrapped in FloatCard for popover with outside-click close */}
+          {/* Hex text input — on the left */}
+          <input
+            ref={mergedRef}
+            type="text"
+            className={clsx(styles.inputContent)}
+            value={colorValue}
+            onChange={(e) => {
+              setValue(e.target.value);
+            }}
+            disabled={disabled}
+            placeholder="#000000ff"
+          />
+          {/* Color swatch trigger — on the right, wrapped in FloatCard for popover with outside-click close */}
           <FloatCard
             card={
               <ColorPicker
@@ -223,18 +235,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
               aria-label="Open color picker"
             />
           </FloatCard>
-          {/* Hex text input */}
-          <input
-            ref={mergedRef}
-            type="text"
-            className={clsx(styles.inputContent)}
-            value={colorValue}
-            onChange={(e) => {
-              setValue(e.target.value);
-            }}
-            disabled={disabled}
-            placeholder="#000000ff"
-          />
         </div>
         {(errorMessage || validationError) && (showError || !!validationError) && (
           <p className={styles.errorMessage}>{errorMessage || validationError}</p>
