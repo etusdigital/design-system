@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 06-15-PLAN.md — Input.stories.tsx DomainType/UrlType cleanup committed
-last_updated: "2026-03-18T17:38:05.313Z"
+stopped_at: Completed 06-17-PLAN.md — Accordion stale closure fix, Tab icon support, ColorPicker noShadow prop
+last_updated: "2026-03-18T17:39:29.370Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
   completed_phases: 5
   total_plans: 57
-  completed_plans: 49
+  completed_plans: 50
   percent: 0
 ---
 
@@ -84,6 +84,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 06-composite-components P12 | 8m | 2 tasks | 6 files |
 | Phase 06-composite-components P10 | 8m | 2 tasks | 10 files |
 | Phase 06-composite-components P15 | 1 | 1 tasks | 1 files |
+| Phase 06 P17 | 2m | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -161,6 +162,8 @@ Recent decisions affecting current work:
 - [Phase 06-10]: Tab.stories.tsx omits isIcon/valueKey/getObject — Tab.tsx uses index-based model (number); these props don't exist in the React implementation
 - [Phase 06-10]: Co-located .mdx doc files (Drawer.mdx, Accordion.mdx, Tab.mdx) deleted alongside .stories.ts — all three imported from the old Vue story files, keeping them causes the same dynamic import error as Input.mdx
 - [Phase 06-composite-components]: DomainType and UrlType stories removed from Input.stories.tsx — these story variants exercised domain/url input types removed from the React Input implementation
+- [Phase 06-17]: isExpandedRef mutable ref pattern applied to Accordion observer callbacks — same approach as Slider and SelectContainer
+- [Phase 06-17]: Tab icon rendering: two-branch logic (icon+text for object options with icon field, icon-only for string options when isIcon=true)
 
 ### Pending Todos
 
@@ -175,6 +178,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-18T17:38:05.309Z
-Stopped at: Completed 06-15-PLAN.md — Input.stories.tsx DomainType/UrlType cleanup committed
+Last session: 2026-03-18T17:39:29.367Z
+Stopped at: Completed 06-17-PLAN.md — Accordion stale closure fix, Tab icon support, ColorPicker noShadow prop
 Resume file: None
