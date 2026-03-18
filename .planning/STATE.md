@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 06-17-PLAN.md — Accordion stale closure fix, Tab icon support, ColorPicker noShadow prop
-last_updated: "2026-03-18T17:39:29.370Z"
+stopped_at: Completed 06-18-PLAN.md — Dropdown and TagSelect missing props added
+last_updated: "2026-03-18T17:40:30.482Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
   completed_phases: 5
   total_plans: 57
-  completed_plans: 50
+  completed_plans: 51
   percent: 0
 ---
 
@@ -85,6 +85,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 06-composite-components P10 | 8m | 2 tasks | 10 files |
 | Phase 06-composite-components P15 | 1 | 1 tasks | 1 files |
 | Phase 06 P17 | 2m | 2 tasks | 5 files |
+| Phase 06-composite-components P18 | 8min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -164,6 +165,8 @@ Recent decisions affecting current work:
 - [Phase 06-composite-components]: DomainType and UrlType stories removed from Input.stories.tsx — these story variants exercised domain/url input types removed from the React Input implementation
 - [Phase 06-17]: isExpandedRef mutable ref pattern applied to Accordion observer callbacks — same approach as Slider and SelectContainer
 - [Phase 06-17]: Tab icon rendering: two-branch logic (icon+text for object options with icon field, icon-only for string options when isIcon=true)
+- [Phase 06-composite-components]: TagSelect expanded internal state converted to useControllable to support controlled/uncontrolled expanded prop
+- [Phase 06-composite-components]: Dropdown absolute defaults to true (matches Vue original); TagSelect icon wired via SelectContainer complement slot; buttonLabel uses buttonLabel ?? labelValue fallback
 
 ### Pending Todos
 
@@ -178,6 +181,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-18T17:39:29.367Z
-Stopped at: Completed 06-17-PLAN.md — Accordion stale closure fix, Tab icon support, ColorPicker noShadow prop
+Last session: 2026-03-18T17:40:30.479Z
+Stopped at: Completed 06-18-PLAN.md — Dropdown and TagSelect missing props added
 Resume file: None
