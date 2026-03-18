@@ -1,7 +1,10 @@
 @reference "../../assets/main.css";
 
-.datePickerCard { @apply p-sm; }
-.actions { @apply flex justify-end gap-xs mt-sm pt-xs border-t border-neutral-default; }
+.datePickerCard {
+  @apply p-md;
+  min-width: 280px;
+}
+.actions { @apply flex justify-end gap-xs mt-sm pt-xs px-sm border-t border-neutral-default; }
 .compareToggle { @apply flex items-center gap-xs mt-xs; }
 .displayLabel { @apply text-sm font-normal truncate; }
 

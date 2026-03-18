@@ -215,6 +215,7 @@ export function DatePicker({
 
   const triggerContent = (
     <div
+      style={{ minWidth: '160px' }}
       className={clsx(
         'flex items-center text-lg h-xl text-neutral-interaction-default',
         {
@@ -282,15 +283,17 @@ export function DatePicker({
 
         <div className="flex flex-col items-end gap-base relative overflow-hidden">
           {/* Calendar */}
-          <Calendar
-            value={workingValue}
-            onChange={handleCalendarChange}
-            type={type}
-            minDate={minDate}
-            maxDate={maxDate}
-            disabledDates={disabledDates}
-            lang={lang}
-          />
+          <div className="px-sm pt-xxs">
+            <Calendar
+              value={workingValue}
+              onChange={handleCalendarChange}
+              type={type}
+              minDate={minDate}
+              maxDate={maxDate}
+              disabledDates={disabledDates}
+              lang={lang}
+            />
+          </div>
 
           {/* Actions */}
           {!hideActions && (

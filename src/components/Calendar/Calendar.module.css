@@ -19,7 +19,9 @@
 .weekdayHeader { @apply text-sm font-normal text-neutral-foreground-low text-center; }
 
 .dayCell {
-  @apply text-sm text-neutral-foreground-high text-center cursor-pointer p-xxs rounded-xs;
+  @apply text-sm text-neutral-foreground-high text-center cursor-pointer p-xs rounded-xs;
+  min-width: 36px;
+  min-height: 36px;
 }
 .dayCell:hover:not(.disabled):not(.outsideMonth):not(.selected) { @apply bg-primary-surface-hover text-primary-interaction-hover; }
 
