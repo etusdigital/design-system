@@ -21,6 +21,10 @@
 .dayCell {
   @apply text-sm text-neutral-foreground-high text-center cursor-pointer p-xs rounded-xs;
 }
+
+.dayCell.noDate {
+  @apply pointer-events-none;
+}
 .dayCell:hover:not(.disabled):not(.outsideMonth):not(.selected) { @apply bg-primary-surface-hover text-primary-interaction-hover; }
 
 /* Fixed syntax error (removed trailing ') and added filled bg */

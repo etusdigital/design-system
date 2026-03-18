@@ -3,7 +3,7 @@ status: diagnosed
 phase: 06-composite-components
 source: 06-15-SUMMARY.md, 06-16-SUMMARY.md, 06-17-SUMMARY.md, 06-18-SUMMARY.md, 06-19-SUMMARY.md, 06-20-SUMMARY.md, 06-21-SUMMARY.md, 06-22-SUMMARY.md, 06-23-SUMMARY.md
 started: 2026-03-18T18:00:00Z
-updated: 2026-03-18T18:15:00Z
+updated: 2026-03-18T19:30:00Z
 round: 3
 ---
 
@@ -19,11 +19,11 @@ result: pass
 
 ### 2. Tab icon support
 expected: Tabs render with icons when options have icon field. isIcon=true renders icon-only tabs. Tab buttons show flex alignment with icon + label side by side. Without icons, backward compatible text-only rendering.
-result: [pending]
+result: pass
 
 ### 3. Icon glyphs render correctly (not text strings)
 expected: All icon-using components (Pagination arrows, Tab icons, Stepper icons, RoundMenu, Calendar nav, Navbar) display actual Material Symbols Rounded glyphs — not text like "chevron_left".
-result: [pending]
+result: pass
 
 ### 4. Stepper visual design and connector coloring
 expected: Past steps show checkmark icon in filled circle. Active step has scale(1.2) with ring element. Future steps show gray circle with original icon. Connectors are green only for steps before the highest visited step, gray after. Lines vertically centered between circles.
@@ -57,7 +57,7 @@ severity: major
 
 ### 9. Carousel sections, disabled, and circular
 expected: Carousel renders slide sections as grouped flex containers. disabled=true pauses autoplay and blocks arrow navigation. circular=true wraps from last to first slide and vice versa. Slide content is styled (not raw data).
-result: [pending]
+result: pass
 
 ### 10. RoundMenu uses Button component
 expected: RoundMenu trigger and menu items render using the design system Button component (round icon variant), not raw HTML buttons. Items positioned in radial circle pattern with animation.
@@ -100,6 +100,7 @@ passed: 5
 issues: 10
 pending: 0
 skipped: 0
+note: Tests 1,2,3,9,14 passed (5 total). Tests 4,5,6,7,8,10,11,12,13,15 have issues (10 total).
 
 ## Gaps
 
