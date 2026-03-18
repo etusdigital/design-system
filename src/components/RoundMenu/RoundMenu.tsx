@@ -15,7 +15,7 @@ export function RoundMenu({
   options,
   iconKey = 'icon',
   labelKey = 'label',
-  radius = 80,
+  radius = 110,
   className,
 }: RoundMenuProps) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -47,7 +47,6 @@ export function RoundMenu({
           >
             <Button
               round
-              size="small"
               background={option.background}
               icon={option[iconKey] ?? option.icon}
               onClick={option.onClick}
@@ -60,7 +59,6 @@ export function RoundMenu({
 
       <Button
         round
-        size="small"
         className={clsx(styles.trigger, isExpanded && styles.expanded)}
         onClick={() => setIsExpanded((prev) => !prev)}
         color={isExpanded ? 'neutral': 'success'}
