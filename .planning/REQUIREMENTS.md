@@ -97,7 +97,7 @@ Requirements for the complete Vue-to-React migration. Each maps to roadmap phase
 - [ ] **COMP-14**: RoundMenu component migrated to React TSX
 - [ ] **COMP-15**: ColorPicker component migrated with controlled/uncontrolled support
 - [ ] **COMP-16**: DatePicker component migrated with controlled/uncontrolled support
-- [ ] **COMP-17**: Calendar component migrated to React TSX
+- [x] **COMP-17**: Calendar component migrated to React TSX
 
 ### Complex Components
 
