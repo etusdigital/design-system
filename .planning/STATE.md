@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 06-29-PLAN.md — Calendar dialog positioning, compare mode, hover range highlighting
-last_updated: "2026-03-18T20:41:33.708Z"
+stopped_at: Completed 06-30-PLAN.md — DatePicker proportions, spacing, day cell sizing
+last_updated: "2026-03-18T20:44:06.569Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
   completed_phases: 5
   total_plans: 64
-  completed_plans: 61
+  completed_plans: 62
   percent: 0
 ---
 
@@ -96,6 +96,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 06-composite-components P25 | 2min | 2 tasks | 3 files |
 | Phase 06-composite-components P26 | 8m | 2 tasks | 4 files |
 | Phase 06-composite-components P29 | 1min | 2 tasks | 2 files |
+| Phase 06-composite-components P30 | 2m | 1 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -194,6 +195,7 @@ Recent decisions affecting current work:
 - [Phase 06-composite-components]: Stepper past steps always render original icon (green filled background is the visual distinction, not icon change)
 - [Phase 06-composite-components]: RoundMenu .menuItem gets left:0;top:0 anchor so translate3d offsets from known zero-point; transform-origin:left center for rightward label expansion
 - [Phase 06-composite-components]: Calendar .dateDialog: position:absolute/z-index:10 overlays grid; activePanel defaults to 'month'; activeRangeIndex state routes compare clicks to range0 then range1; hoveredDate+computeHover for hover preview; secondary range uses lighter tokens
+- [Phase 06-composite-components]: dayCell min-width/height as raw CSS (not Tailwind) since 36px is not a design-token value but a fixed minimum; trigger minWidth as inline style
 
 ### Pending Todos
 
@@ -208,6 +210,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-18T20:41:33.704Z
-Stopped at: Completed 06-29-PLAN.md — Calendar dialog positioning, compare mode, hover range highlighting
+Last session: 2026-03-18T20:44:02.385Z
+Stopped at: Completed 06-30-PLAN.md — DatePicker proportions, spacing, day cell sizing
 Resume file: None
