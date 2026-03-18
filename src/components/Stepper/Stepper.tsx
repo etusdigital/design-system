@@ -16,6 +16,7 @@ export interface StepperProps {
   background?: string;
   size?: 'medium' | 'large';
   noClick?: boolean;
+  allowSkip?: boolean;
   className?: string;
 }
 
@@ -29,6 +30,7 @@ export function Stepper({
   background,
   size = 'medium',
   noClick = false,
+  allowSkip = false,
   className,
 }: StepperProps) {
   const [model, setModel] = useControllable<number>({
@@ -65,6 +67,8 @@ export function Stepper({
 
   function handleStepClick(index: number) {
     if (!noClick) {
+      const current = model ?? 0;
+      if (!allowSkip && Math.abs(index - current) > 1) return;
       setBiggerStepSelected(prev => Math.max(prev, index));
       setModel(index);
     }
@@ -113,11 +117,7 @@ export function Stepper({
                     styles[stepState]
                   )}
                 >
-                  {stepState === 'past' && !isActive ? (
-                    <Icon className="stepper-icon" name="check" />
-                  ) : (
-                    <Icon className="stepper-icon" name={getIcon(option)} />
-                  )}
+                  <Icon className="stepper-icon" name={getIcon(option)} />
                 </div>
               </div>
               <span className={styles.label}>{getLabel(option)}</span>

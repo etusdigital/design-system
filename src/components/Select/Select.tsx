@@ -247,7 +247,7 @@ export function Select({
       )}
       {renderOption
         ? renderOption(option, isOptionSelected(option))
-        : (children ?? <span>{getLabel(option)}</span>)
+        : <span>{getLabel(option)}</span>
       }
     </Option>
   ));
