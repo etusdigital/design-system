@@ -25,6 +25,11 @@ export interface TagSelectProps {
   infoMessage?: string;
   required?: boolean;
   placeholder?: string;
+  icon?: string;
+  expanded?: boolean;
+  onExpandedChange?: (expanded: boolean) => void;
+  absolute?: boolean;
+  buttonLabel?: string;
   className?: string;
 }
 
@@ -45,6 +50,11 @@ export function TagSelect({
   infoMessage = '',
   required = false,
   placeholder,
+  icon,
+  expanded: expandedProp,
+  onExpandedChange,
+  absolute = true,
+  buttonLabel,
   className,
 }: TagSelectProps) {
   const [model, setModel] = useControllable<any[]>({
@@ -54,7 +64,12 @@ export function TagSelect({
   });
 
   const [searchText, setSearchText] = useState('');
-  const [expanded, setExpanded] = useState(false);
+  const [isOpen, setIsOpen] = useControllable<boolean>({
+    value: expandedProp,
+    defaultValue: false,
+    onChange: onExpandedChange,
+  });
+  const expanded = isOpen ?? false;
 
   const selectedValues: any[] = Array.isArray(model) ? model : [];
 
@@ -163,8 +178,35 @@ export function TagSelect({
     searchable || creatable ? searchNode : undefined
   );
 
+  function handleOptionsKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+    const items = Array.from(
+      (e.currentTarget as HTMLElement).querySelectorAll<HTMLElement>('[role="option"],[data-option]')
+    );
+    if (items.length === 0) return;
+    const focused = document.activeElement as HTMLElement;
+    const idx = items.indexOf(focused);
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const next = idx < items.length - 1 ? items[idx + 1] : items[0];
+      next?.focus();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prev = idx > 0 ? items[idx - 1] : items[items.length - 1];
+      prev?.focus();
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      items[0]?.focus();
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      items[items.length - 1]?.focus();
+    } else if (e.key === 'Tab' && creatable && searchText) {
+      e.preventDefault();
+      addCreatableOption();
+    }
+  }
+
   const optionsNode = (
-    <>
+    <div onKeyDown={handleOptionsKeyDown}>
       {filteredOptions.length === 0 && searchText ? (
         <div className="text-xs italic text-neutral-foreground-low flex justify-center px-xs py-xxs">
           No result found
@@ -185,7 +227,7 @@ export function TagSelect({
           </Option>
         ))
       )}
-    </>
+    </div>
   );
 
   const actionsNode = showAddButton ? (
@@ -200,18 +242,24 @@ export function TagSelect({
     </div>
   ) : undefined;
 
+  const iconNode = icon ? (
+    <Icon name={icon} className="text-neutral-interaction-default" />
+  ) : undefined;
+
   return (
     <SelectContainer
       value={expanded}
-      onChange={(val) => setExpanded(val)}
-      labelValue={labelValue}
+      onChange={(val) => setIsOpen(val)}
+      labelValue={buttonLabel ?? labelValue}
       disabled={disabled}
       isError={isError}
       errorMessage={errorMessage}
       infoMessage={infoMessage}
       required={required}
+      absolute={absolute}
       maxHeight="none"
       minWidth="12em"
+      complement={iconNode}
       options={optionsNode}
       actions={actionsNode}
       className={clsx('tag-select', className)}
