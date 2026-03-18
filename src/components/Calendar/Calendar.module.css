@@ -4,7 +4,17 @@
 
 .header { @apply flex items-center justify-between px-sm py-xs; }
 .monthYear { @apply text-xl font-semibold cursor-pointer; }
-.navButton { @apply cursor-pointer border-none bg-transparent text-lg text-neutral-interaction-default; }
+
+/* Nav buttons: bordered rounded-box styling matching Vue original */
+.navButton {
+  @apply w-[32px] h-[32px] flex items-center justify-center rounded-base
+         border-xxs border-neutral-border-default bg-neutral-surface-default
+         cursor-pointer text-neutral-foreground-low;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+.navButton:hover {
+  @apply bg-neutral-surface-hover border-neutral-border-hover;
+}
 
 .weekdayHeader { @apply text-xs font-normal text-neutral-foreground-low text-center; }
 
@@ -12,9 +22,18 @@
   @apply text-sm text-neutral-foreground-high text-center cursor-pointer p-xxs;
 }
 .dayCell:hover:not(.disabled):not(.outsideMonth) { @apply bg-neutral-surface-hover rounded-xs; }
-.dayCell.selected { @apply bg-primary-surface-default text-primary-foreground-high rounded-xs; border-xxs solid border-primary-default'; }
+
+/* Fixed syntax error (removed trailing ') and added filled bg */
+.dayCell.selected {
+  @apply bg-primary-interaction-default text-neutral-foreground-negative rounded-full font-semibold;
+}
 .dayCell.rangeMiddle { @apply bg-primary-surface-hover; }
 .dayCell.rangeStart, .dayCell.rangeEnd { @apply bg-primary-interaction-default text-neutral-foreground-negative rounded-xs; }
+
+/* Today styling */
+.dayCell.today:not(.selected) {
+  @apply border-xxs border-primary-border-default text-primary-interaction-default rounded-full;
+}
 .dayCell.today { @apply font-semibold; }
 .dayCell.outsideMonth { @apply text-neutral-foreground-disabled; }
 .dayCell.disabled { @apply text-neutral-foreground-disabled cursor-not-allowed; }
@@ -41,8 +60,63 @@
 }
 
 /* DateDialog */
-.dateDialog { @apply bg-neutral-surface-default rounded-base shadow-neutral-default p-sm; }
-.monthGrid { @apply grid grid-cols-3 gap-xxs; }
-.monthButton { @apply py-xs px-sm rounded-xs text-sm cursor-pointer border-none bg-transparent; }
-.monthButton:hover { @apply bg-neutral-surface-hover; }
-.monthButton.active { @apply bg-primary-interaction-default text-neutral-foreground-negative; }
+.dateDialog { @apply rounded-base shadow-neutral-default; }
+
+/* Header toggle buttons (month/year text) */
+.dialogHeader { @apply flex items-center justify-center gap-xs px-sm py-xs; }
+.headerToggle {
+  @apply text-sm font-semibold cursor-pointer bg-transparent border-none text-neutral-foreground-high;
+}
+.headerToggle:hover {
+  @apply text-primary-interaction-hover;
+}
+.headerToggleActive {
+  @apply text-primary-interaction-default;
+}
+
+/* Month grid panel */
+.monthGrid { @apply grid grid-cols-3 gap-xxs p-sm; }
+.monthButton {
+  @apply px-sm py-xs rounded-base text-xs cursor-pointer border-none text-center;
+  transition: background-color 150ms ease;
+}
+.monthButton:not(.monthActive) {
+  @apply bg-primary-surface-highlight text-neutral-foreground-high;
+}
+.monthButton:not(.monthActive):hover {
+  @apply bg-primary-surface-hover;
+}
+.monthButton.monthActive {
+  @apply bg-primary-interaction-default text-neutral-foreground-negative font-semibold;
+}
+
+/* Year list panel: vertical scrollable */
+.yearList {
+  @apply flex flex-col gap-xxs max-h-[200px] overflow-y-auto py-xs px-xs;
+}
+.yearButton {
+  @apply px-sm py-xs rounded-xs text-xs cursor-pointer border-none text-center;
+  transition: background-color 150ms ease;
+}
+.yearButton:hover {
+  @apply bg-neutral-surface-hover;
+}
+.yearButton.yearActive {
+  @apply bg-primary-interaction-default text-neutral-foreground-negative font-semibold;
+}
+
+/* Dialog enter/leave animations */
+.dialogEnter {
+  animation: dialogFadeIn 200ms ease forwards;
+}
+.dialogLeave {
+  animation: dialogFadeOut 150ms ease forwards;
+}
+@keyframes dialogFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes dialogFadeOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.95); }
+}
