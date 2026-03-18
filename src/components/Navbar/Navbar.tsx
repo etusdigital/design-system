@@ -20,6 +20,8 @@ export interface NavbarProps {
   profile?: Profile;
   notifications?: React.ReactNode;
   showNotifications?: boolean;
+  /** Custom content rendered in the right section (before avatar). Replaces default bell+avatar layout when provided. */
+  actions?: React.ReactNode;
   className?: string;
 }
 
@@ -63,6 +65,7 @@ export function Navbar({
   profile,
   notifications,
   showNotifications = true,
+  actions,
   className,
 }: NavbarProps) {
   return (
@@ -80,18 +83,24 @@ export function Navbar({
         />
       </div>
 
-      {/* Right side: notification bell + avatar */}
+      {/* Right side: custom actions OR default notification bell + avatar */}
       <div className={styles.right}>
-        {showNotifications && (
-          <FloatCard card={notifications}>
-            <button className={styles.notificationButton} type="button" aria-label="Notifications">
-              <Icon name="notifications" />
-            </button>
-          </FloatCard>
+        {actions ? (
+          actions
+        ) : (
+          <>
+            {showNotifications && (
+              <FloatCard card={notifications}>
+                <button className={styles.notificationButton} type="button" aria-label="Notifications">
+                  <Icon name="notifications" />
+                </button>
+              </FloatCard>
+            )}
+            <div className={styles.avatarWrapper}>
+              <Avatar name={profile?.name} src={profile?.src} />
+            </div>
+          </>
         )}
-        <div className={styles.avatarWrapper}>
-           <Avatar name={profile?.name} src={profile?.src} />
-        </div>
       </div>
     </nav>
   );
