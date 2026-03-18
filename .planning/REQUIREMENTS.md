@@ -87,7 +87,7 @@ Requirements for the complete Vue-to-React migration. Each maps to roadmap phase
 - [x] **COMP-04**: Dropdown component migrated with portal
 - [x] **COMP-05**: Dialog component migrated with portal and transition
 - [x] **COMP-06**: Drawer component migrated with portal and transition
-- [ ] **COMP-07**: Accordion component migrated with transition
+- [x] **COMP-07**: Accordion component migrated with transition
 - [x] **COMP-08**: Carousel component migrated to React TSX
 - [x] **COMP-09**: Tab component migrated to React TSX
 - [x] **COMP-10**: Pagination component migrated to React TSX
@@ -95,7 +95,7 @@ Requirements for the complete Vue-to-React migration. Each maps to roadmap phase
 - [x] **COMP-12**: Stepper component migrated to React TSX
 - [x] **COMP-13**: Navbar component migrated to React TSX
 - [x] **COMP-14**: RoundMenu component migrated to React TSX
-- [ ] **COMP-15**: ColorPicker component migrated with controlled/uncontrolled support
+- [x] **COMP-15**: ColorPicker component migrated with controlled/uncontrolled support
 - [x] **COMP-16**: DatePicker component migrated with controlled/uncontrolled support
 - [x] **COMP-17**: Calendar component migrated to React TSX
 

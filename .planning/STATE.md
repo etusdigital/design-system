@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 06-20-PLAN.md — Stepper visual redesign and Carousel section/disabled/circular fix
-last_updated: "2026-03-18T17:53:10.764Z"
+stopped_at: Completed 06-21-PLAN.md — Select keyboard nav + DatePicker preset sidebar
+last_updated: "2026-03-18T17:56:24.751Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 57
-  completed_plans: 56
+  completed_plans: 57
   percent: 0
 ---
 
@@ -91,6 +91,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 06-composite-components P23 | 3m | 1 tasks | 3 files |
 | Phase 06-composite-components P22 | 2min | 2 tasks | 2 files |
 | Phase 06-composite-components P20 | 12min | 2 tasks | 4 files |
+| Phase 06-composite-components P21 | 5 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -180,6 +181,8 @@ Recent decisions affecting current work:
 - [Phase 06-composite-components]: Calendar CalendarDateDialog: activePanel state (month|year|null) drives mutually exclusive panels; Card wrapper with isOpen-based animation class; yearRange currentYear±10 with useEffect scroll-to-active
 - [Phase 06-composite-components]: Stepper biggerStepSelected is a number (max visited index) — connectors past=green when index < biggerStepSelected; active ring uses conic-gradient 180deg split
 - [Phase 06-composite-components]: Carousel section wrapper divs matching Vue optionSections; disabled guards setModelSafe; circular wraps at maxIndex bounds
+- [Phase 06-composite-components]: Select keyboard nav uses handleKeyDown on wrapping div (not SelectContainer) to avoid modifying internal container logic
+- [Phase 06-composite-components]: DatePicker preset sidebar only renders when options prop provided AND type !== date — matches Vue conditional
 
 ### Pending Todos
 
@@ -194,6 +197,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-18T17:53:10.759Z
-Stopped at: Completed 06-20-PLAN.md — Stepper visual redesign and Carousel section/disabled/circular fix
+Last session: 2026-03-18T17:56:24.748Z
+Stopped at: Completed 06-21-PLAN.md — Select keyboard nav + DatePicker preset sidebar
 Resume file: None
