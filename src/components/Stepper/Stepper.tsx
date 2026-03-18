@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
 import { isObject } from '../../utils';
@@ -37,26 +37,10 @@ export function Stepper({
     onChange,
   });
 
-  const [passedIn, setPassedIn] = useState<Set<number>>(() => new Set([0]));
-  const [biggerStepSelected, setBiggerStepSelected] = useState(false);
-  const prevModelRef = useRef<number>(model ?? 0);
-
-  useEffect(() => {
-    const current = model ?? 0;
-    const prev = prevModelRef.current;
-
-    if (current !== prev) {
-      setPassedIn((prev) => {
-        const next = new Set(prev);
-        next.add(prev.valueOf());
-        return next;
-      });
-      if (current > prev) {
-        setBiggerStepSelected(true);
-      }
-      prevModelRef.current = current;
-    }
-  }, [model]);
+  // biggerStepSelected tracks the maximum step index the user has reached
+  const [biggerStepSelected, setBiggerStepSelected] = useState<number>(
+    () => Math.max(0, value ?? defaultValue ?? 0)
+  );
 
   function getLabel(option: { [key: string]: any }): string {
     return isObject(option) ? option[labelKey] : option;
@@ -66,62 +50,89 @@ export function Stepper({
     return isObject(option) ? option[iconKey] : 'image';
   }
 
-  function getStepState(index: number): 'active' | 'past' | 'skipped' | 'default' {
+  function getStepState(index: number): 'active' | 'past' | 'future' {
     const current = model ?? 0;
     if (index === current) return 'active';
-    if (passedIn.has(index) || index < current) return 'past';
-    return 'default';
+    if (index < current || index <= biggerStepSelected) return 'past';
+    return 'future';
   }
 
-  function getConnectorState(index: number): 'active' | 'past' | 'default' {
-    const current = model ?? 0;
-    if (index < current) return 'past';
-    if (index === current) return 'active';
-    return 'default';
+  // Connector between step[index] and step[index+1] is green when index < biggerStepSelected
+  function getConnectorState(index: number): 'past' | 'future' {
+    if (index < biggerStepSelected) return 'past';
+    return 'future';
   }
 
   function handleStepClick(index: number) {
     if (!noClick) {
+      setBiggerStepSelected(prev => Math.max(prev, index));
       setModel(index);
     }
   }
+
+  const current = model ?? 0;
 
   return (
     <div
       className={clsx(styles.stepper, className)}
       style={background ? ({ '--stepper-bg': background } as React.CSSProperties) : undefined}
     >
-      {options.map((option, index) => (
-        <div
-          key={index}
-          className={clsx('flex items-center', options[index + 1] ? 'w-full' : 'w-fit')}
-        >
+      {options.map((option, index) => {
+        const stepState = getStepState(index);
+        const isActive = index === current;
+
+        return (
           <div
-            className={clsx(styles.step, noClick && styles.noClick)}
-            onClick={() => handleStepClick(index)}
+            key={index}
+            className={clsx('flex items-center', options[index + 1] ? 'w-full' : 'w-fit')}
           >
             <div
-              className={clsx(
-                styles.circle,
-                styles[size],
-                styles[getStepState(index)]
-              )}
+              className={clsx(styles.step, noClick && styles.noClick)}
+              onClick={() => handleStepClick(index)}
             >
-              
-              <Icon className="stepper-icon" name={getIcon(option)} />
+              {/* Button container with scale on active */}
+              <div className={clsx(styles.buttonContainer, isActive && styles.activeItem)}>
+                {/* Background ring element for active step */}
+                {isActive ? (
+                  <div className={styles.ring} />
+                ) : (
+                  <div
+                    className={clsx(
+                      styles.background,
+                      index <= biggerStepSelected
+                        ? styles.backgroundPast
+                        : styles.backgroundFuture
+                    )}
+                  />
+                )}
+                {/* Step circle */}
+                <div
+                  className={clsx(
+                    styles.circle,
+                    styles[size],
+                    styles[stepState]
+                  )}
+                >
+                  {stepState === 'past' && !isActive ? (
+                    <Icon className="stepper-icon" name="check" />
+                  ) : (
+                    <Icon className="stepper-icon" name={getIcon(option)} />
+                  )}
+                </div>
+              </div>
+              <span className={styles.label}>{getLabel(option)}</span>
             </div>
-            <span className={styles.label}>{getLabel(option)}</span>
+            {options[index + 1] && (
+              <div
+                className={clsx(
+                  styles.connector,
+                  styles[getConnectorState(index)]
+                )}
+              />
+            )}
           </div>
-          {options[index + 1] && (
-            <div
-              className={clsx(
-                styles.connector,
-                styles[getConnectorState(index)]
-              )}
-            />
-          )}
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
