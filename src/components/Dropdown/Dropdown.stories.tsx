@@ -242,3 +242,34 @@ export const CustomTrigger: Story = {
     labelValue: 'label',
   },
 };
+
+const groupOptions: DropdownOptionItem[] = [
+  { label: 'Direct', value: 'direct', icon: 'link' },
+  {
+    label: 'Publisher',
+    value: 'publisher',
+    icon: 'supervisor_account',
+    options: [
+      { label: 'Group Account', value: 'group-account', icon: 'account_balance' },
+      { label: 'Account', value: 'account', icon: 'account_circle' },
+    ],
+  },
+  { label: 'Programmatic', value: 'programmatic', icon: 'code' },
+];
+
+export const WithGroups: Story = {
+  render: (args) => {
+    const [value, setValue] = useState<any>(undefined);
+    return (
+      <Dropdown
+        {...args}
+        value={value}
+        onChange={setValue}
+        options={groupOptions}
+      />
+    );
+  },
+  args: {
+    labelValue: 'Select channel',
+  },
+};
