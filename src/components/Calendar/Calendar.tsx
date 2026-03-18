@@ -97,7 +97,7 @@ function CalendarDateDialog({
   onSelectMonth,
   onSelectYear,
 }: CalendarDateDialogProps) {
-  const [activePanel, setActivePanel] = useState<'month' | 'year' | null>(null);
+  const [activePanel, setActivePanel] = useState<'month' | 'year' | null>('month');
   const yearListRef = useRef<HTMLDivElement>(null);
 
   // Build year range: currentYear-10 to currentYear+10

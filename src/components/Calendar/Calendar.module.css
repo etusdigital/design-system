@@ -1,6 +1,6 @@
 @reference "../../assets/main.css";
 
-.calendar { @apply bg-neutral-surface-default rounded-base; }
+.calendar { @apply bg-neutral-surface-default rounded-base relative; }
 
 .header { @apply flex items-center justify-between px-sm py-xs; }
 .monthYear { @apply text-base font-semibold cursor-pointer; }
@@ -62,8 +62,15 @@
   to { transform: translateX(0); opacity: 1; }
 }
 
-/* DateDialog */
-.dateDialog { @apply rounded-base shadow-neutral-default; }
+/* DateDialog: absolutely positioned over the calendar grid */
+.dateDialog {
+  @apply rounded-base shadow-neutral-default;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
 
 /* Header toggle buttons (month/year text) */
 .dialogHeader { @apply flex items-center justify-center gap-xs px-sm py-xs; }
