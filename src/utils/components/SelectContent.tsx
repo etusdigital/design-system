@@ -24,6 +24,7 @@ export interface SelectContentProps {
   secondary?: boolean;          // default: false
   searchLabel?: React.ReactNode;  // replaces <slot name="search-label">Search</slot>
   status?: React.ReactNode;       // replaces <slot name="status">
+  appendIcon?: string;          // optional icon name rendered on right side (overrides nothing — additive)
   className?: string;
 }
 
@@ -42,6 +43,7 @@ export function SelectContent({
   secondary = false,
   searchLabel,
   status,
+  appendIcon,
   className,
 }: SelectContentProps) {
   const [model, setModel] = useControllable<string>({
@@ -109,6 +111,12 @@ export function SelectContent({
               value={model ?? ''}
               onChange={(e) => setModel(e.target.value)}
             />
+            {appendIcon && (
+              <Icon
+                name={appendIcon}
+                className={clsx('sc-icon', { expanded: expandedModel, disabled, error: isError })}
+              />
+            )}
           </div>
         )}
         {status}

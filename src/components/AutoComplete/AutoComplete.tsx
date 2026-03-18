@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
 import { isObject } from '../../utils';
@@ -51,6 +51,18 @@ export function AutoComplete({
   // Internal search text — not exposed to consumer
   const [searchText, setSearchText] = useState('');
   const [expanded, setExpanded] = useState(false);
+
+  // Sync searchText display when model changes externally (controlled value prop)
+  useEffect(() => {
+    if (model !== undefined && model !== null && model !== '') {
+      const matched = options.find(
+        (o) => getValue(o) === (isObject(model) ? getValue(model) : model)
+      );
+      if (matched) setSearchText(getLabel(matched));
+    } else {
+      setSearchText('');
+    }
+  }, [model]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function getLabel(option: any): string {
     return isObject(option) ? option[labelKey] : String(option ?? '');
@@ -108,6 +120,7 @@ export function AutoComplete({
         expanded={expanded}
         onExpandedChange={(val) => setExpanded(val)}
         searchable
+        appendIcon="unfold_more"
         disabled={disabled}
         isError={isError}
         searchLabel={placeholder}
