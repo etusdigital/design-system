@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 06-23-PLAN.md — Navbar restructure with Dropdown, Avatar, FloatCard, SVG logo
-last_updated: "2026-03-18T17:51:43.206Z"
+stopped_at: Completed 06-22-PLAN.md — Calendar visual overhaul, CalendarDateDialog toggled panels and Card wrapper
+last_updated: "2026-03-18T17:52:21.645Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
   completed_phases: 5
   total_plans: 57
-  completed_plans: 54
+  completed_plans: 55
   percent: 0
 ---
 
@@ -89,6 +89,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 06-composite-components P19 | 12min | 2 tasks | 4 files |
 | Phase 06-composite-components P16 | 3 | 1 tasks | 2 files |
 | Phase 06-composite-components P23 | 3m | 1 tasks | 3 files |
+| Phase 06-composite-components P22 | 2min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -175,6 +176,7 @@ Recent decisions affecting current work:
 - [Phase 06-composite-components]: Input type=color: FloatCard replaces raw absolute div for outside-click-aware color picker; showColorPicker state removed
 - [Phase 06-composite-components]: css2 API for Material Symbols Rounded import supports variable font axes; explicit font-family on .material-symbols-rounded overrides wildcard * reset
 - [Phase 06-composite-components]: Navbar DefaultLogo uses gradient SVG from Vue source; Avatar size='small' (not 'sm'); FloatCard card prop (not content) for notification popover
+- [Phase 06-composite-components]: Calendar CalendarDateDialog: activePanel state (month|year|null) drives mutually exclusive panels; Card wrapper with isOpen-based animation class; yearRange currentYear±10 with useEffect scroll-to-active
 
 ### Pending Todos
 
@@ -189,6 +191,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-18T17:51:43.202Z
-Stopped at: Completed 06-23-PLAN.md — Navbar restructure with Dropdown, Avatar, FloatCard, SVG logo
+Last session: 2026-03-18T17:52:21.642Z
+Stopped at: Completed 06-22-PLAN.md — Calendar visual overhaul, CalendarDateDialog toggled panels and Card wrapper
 Resume file: None
