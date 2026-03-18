@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 06-30-PLAN.md — DatePicker proportions, spacing, day cell sizing
-last_updated: "2026-03-18T20:44:06.569Z"
+stopped_at: Completed 06-27-PLAN.md — Dropdown flyout submenu for groups and selection fix
+last_updated: "2026-03-18T20:45:18.775Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
   completed_phases: 5
   total_plans: 64
-  completed_plans: 62
+  completed_plans: 63
   percent: 0
 ---
 
@@ -97,6 +97,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 06-composite-components P26 | 8m | 2 tasks | 4 files |
 | Phase 06-composite-components P29 | 1min | 2 tasks | 2 files |
 | Phase 06-composite-components P30 | 2m | 1 tasks | 3 files |
+| Phase 06-composite-components P27 | 5min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -196,6 +197,7 @@ Recent decisions affecting current work:
 - [Phase 06-composite-components]: RoundMenu .menuItem gets left:0;top:0 anchor so translate3d offsets from known zero-point; transform-origin:left center for rightward label expansion
 - [Phase 06-composite-components]: Calendar .dateDialog: position:absolute/z-index:10 overlays grid; activePanel defaults to 'month'; activeRangeIndex state routes compare clicks to range0 then range1; hoveredDate+computeHover for hover preview; secondary range uses lighter tokens
 - [Phase 06-composite-components]: dayCell min-width/height as raw CSS (not Tailwind) since 36px is not a design-token value but a fixed minimum; trigger minWidth as inline style
+- [Phase 06-composite-components]: Dropdown flyout: groupRow (position:relative) + flyoutCard (position:absolute left:100% top:0) with subExpanded local useState per DropdownOption group instance
 
 ### Pending Todos
 
@@ -210,6 +212,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-18T20:44:02.385Z
-Stopped at: Completed 06-30-PLAN.md — DatePicker proportions, spacing, day cell sizing
+Last session: 2026-03-18T20:45:18.773Z
+Stopped at: Completed 06-27-PLAN.md — Dropdown flyout submenu for groups and selection fix
 Resume file: None
