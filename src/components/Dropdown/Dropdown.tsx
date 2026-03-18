@@ -176,6 +176,11 @@ export interface DropdownProps {
   alignRight?: boolean;
   isError?: boolean;
   errorMessage?: string;
+  required?: boolean;
+  infoMessage?: string;
+  maxHeight?: string;
+  minWidth?: string;
+  absolute?: boolean;
   children?: React.ReactNode;
   className?: string;
 }
@@ -197,6 +202,11 @@ export function Dropdown({
   alignRight = false,
   isError = false,
   errorMessage = '',
+  required = false,
+  infoMessage,
+  maxHeight,
+  minWidth,
+  absolute = true,
   children,
   className,
 }: DropdownProps) {
@@ -264,6 +274,11 @@ export function Dropdown({
       isError={isError}
       errorMessage={errorMessage}
       alignRight={alignRight}
+      required={required}
+      infoMessage={infoMessage}
+      maxHeight={maxHeight}
+      minWidth={minWidth}
+      absolute={absolute}
       card={card}
       className={clsx('dropdown', className)}
     >
