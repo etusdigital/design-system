@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 06-22-PLAN.md — Calendar visual overhaul, CalendarDateDialog toggled panels and Card wrapper
-last_updated: "2026-03-18T17:52:21.645Z"
+stopped_at: Completed 06-20-PLAN.md — Stepper visual redesign and Carousel section/disabled/circular fix
+last_updated: "2026-03-18T17:53:10.764Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
   completed_phases: 5
   total_plans: 57
-  completed_plans: 55
+  completed_plans: 56
   percent: 0
 ---
 
@@ -90,6 +90,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 06-composite-components P16 | 3 | 1 tasks | 2 files |
 | Phase 06-composite-components P23 | 3m | 1 tasks | 3 files |
 | Phase 06-composite-components P22 | 2min | 2 tasks | 2 files |
+| Phase 06-composite-components P20 | 12min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -177,6 +178,8 @@ Recent decisions affecting current work:
 - [Phase 06-composite-components]: css2 API for Material Symbols Rounded import supports variable font axes; explicit font-family on .material-symbols-rounded overrides wildcard * reset
 - [Phase 06-composite-components]: Navbar DefaultLogo uses gradient SVG from Vue source; Avatar size='small' (not 'sm'); FloatCard card prop (not content) for notification popover
 - [Phase 06-composite-components]: Calendar CalendarDateDialog: activePanel state (month|year|null) drives mutually exclusive panels; Card wrapper with isOpen-based animation class; yearRange currentYear±10 with useEffect scroll-to-active
+- [Phase 06-composite-components]: Stepper biggerStepSelected is a number (max visited index) — connectors past=green when index < biggerStepSelected; active ring uses conic-gradient 180deg split
+- [Phase 06-composite-components]: Carousel section wrapper divs matching Vue optionSections; disabled guards setModelSafe; circular wraps at maxIndex bounds
 
 ### Pending Todos
 
@@ -191,6 +194,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-18T17:52:21.642Z
-Stopped at: Completed 06-22-PLAN.md — Calendar visual overhaul, CalendarDateDialog toggled panels and Card wrapper
+Last session: 2026-03-18T17:53:10.759Z
+Stopped at: Completed 06-20-PLAN.md — Stepper visual redesign and Carousel section/disabled/circular fix
 Resume file: None
