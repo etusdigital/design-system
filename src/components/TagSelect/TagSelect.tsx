@@ -64,6 +64,7 @@ export function TagSelect({
   });
 
   const [searchText, setSearchText] = useState('');
+  const [createdOptions, setCreatedOptions] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useControllable<boolean>({
     value: expandedProp,
     defaultValue: false,
@@ -82,10 +83,11 @@ export function TagSelect({
   }
 
   function isIncluded(arr: any[], option: any): boolean {
-    if (isObject(option)) {
-      return arr.some((i) => getLabel(i) === getLabel(option));
-    }
-    return arr.includes(option);
+    const optionValue = isObject(option) ? option[valueKey] : option;
+    return arr.some((i) => {
+      const iValue = isObject(i) ? i[valueKey] : i;
+      return iValue === optionValue;
+    });
   }
 
   function toggleOption(option: any) {
@@ -111,20 +113,39 @@ export function TagSelect({
 
   function addCreatableOption() {
     if (!creatable || !searchText || isError) return;
-    if (isIncluded(options, searchText)) {
+    const allOptions = [...options, ...createdOptions];
+    // Check if text matches an existing option label (case-insensitive)
+    const existingOption = allOptions.find(
+      (o) => getLabel(o).toLowerCase() === searchText.toLowerCase()
+    );
+    if (existingOption) {
+      // If already selected, do nothing; otherwise select it
+      if (!isIncluded(selectedValues, existingOption)) {
+        toggleOption(existingOption);
+      }
       setSearchText('');
       return;
     }
+    // Check if already selected as a primitive string value
+    if (isIncluded(selectedValues, searchText)) {
+      setSearchText('');
+      return;
+    }
+    // Create new option object and add to createdOptions
     const newOption = { [labelKey]: searchText, [valueKey]: searchText };
+    setCreatedOptions((prev) => [...prev, newOption]);
+    // Select the newly created option
     const emitValue = getObjectProp ? newOption : searchText;
     const arr = [...selectedValues, emitValue];
     setModel(arr);
     setSearchText('');
   }
 
+  const allOptions = [...options, ...createdOptions];
+
   const filteredOptions = searchText
-    ? options.filter((o) => getLabel(o).toLowerCase().includes(searchText.toLowerCase()))
-    : options;
+    ? allOptions.filter((o) => getLabel(o).toLowerCase().includes(searchText.toLowerCase()))
+    : allOptions;
 
   const showAddButton = creatable && searchText && !filteredOptions.some(
     (o) => getLabel(o).toLowerCase() === searchText.toLowerCase()
@@ -211,7 +232,7 @@ export function TagSelect({
         <div className="text-xs italic text-neutral-foreground-low flex justify-center px-xs py-xxs">
           No result found
         </div>
-      ) : options.length === 0 ? (
+      ) : allOptions.length === 0 ? (
         <div className="text-xs italic text-neutral-foreground-low flex justify-center px-xs py-xxs">
           No tags created yet
         </div>
@@ -259,7 +280,7 @@ export function TagSelect({
       absolute={absolute}
       maxHeight="none"
       minWidth="12em"
-      complement={iconNode}
+      leadingComplement={iconNode}
       options={optionsNode}
       actions={actionsNode}
       className={clsx('tag-select', className)}

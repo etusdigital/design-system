@@ -7,7 +7,7 @@
 
 /* Nav buttons: bordered rounded-box styling matching Vue original */
 .navButton {
-  @apply w-[32px] h-[32px] flex items-center justify-center rounded-base
+  @apply w-2xl h-2xl flex items-center justify-center rounded-base
          border-xxs border-neutral-default bg-neutral-surface-default
          cursor-pointer text-neutral-foreground-low;
   transition: background-color 150ms ease, border-color 150ms ease;

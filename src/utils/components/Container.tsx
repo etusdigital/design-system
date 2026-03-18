@@ -26,7 +26,8 @@ export interface ContainerProps {
   disableLabelAutoWidth?: boolean;  // default: false
   children?: React.ReactNode;           // default slot
   label?: React.ReactNode;              // slot name="label"
-  complement?: React.ReactNode;         // slot name="complement"
+  complement?: React.ReactNode;         // slot name="complement" (right side)
+  leadingComplement?: React.ReactNode;  // leading slot (left side, before children)
   renderContent?: (minWidth: string) => React.ReactNode;  // slot name="content" :min-width="contentMinWidth"
   className?: string;
 }
@@ -52,6 +53,7 @@ export function Container({
   children,
   label,
   complement,
+  leadingComplement,
   renderContent,
   className,
 }: ContainerProps) {
@@ -139,6 +141,7 @@ export function Container({
             onClick={toggle}
             onKeyUp={(e) => { if (e.key === ' ') toggle(); }}
           >
+            {leadingComplement}
             {children}
 
             <div className="flex items-center gap-xs ml-auto">

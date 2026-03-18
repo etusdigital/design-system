@@ -25,7 +25,8 @@ export interface SelectContainerProps {
   hideArrow?: boolean;          // default: false
   disableLabelAutoWidth?: boolean; // default: false
   children?: React.ReactNode;       // default slot (label area content)
-  complement?: React.ReactNode;     // complement slot
+  complement?: React.ReactNode;     // complement slot (right side)
+  leadingComplement?: React.ReactNode; // leading slot (left side)
   label?: React.ReactNode;          // label slot override
   content?: React.ReactNode;        // content slot (replaces <slot name="content">)
   options?: React.ReactNode;        // options slot (replaces <slot name="options">)
@@ -53,6 +54,7 @@ export function SelectContainer({
   disableLabelAutoWidth = false,
   children,
   complement,
+  leadingComplement,
   label,
   content,
   options,
@@ -136,6 +138,7 @@ export function SelectContainer({
         disableLabelAutoWidth={disableLabelAutoWidth}
         label={label}
         complement={complement}
+        leadingComplement={leadingComplement}
         content={
           <div
             ref={contentRef}

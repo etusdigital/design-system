@@ -23,7 +23,8 @@ export interface ExpandableContainerProps {
   hideArrow?: boolean;          // default: false
   disableLabelAutoWidth?: boolean; // default: false
   children?: React.ReactNode;       // default slot
-  complement?: React.ReactNode;     // complement slot
+  complement?: React.ReactNode;     // complement slot (right side)
+  leadingComplement?: React.ReactNode; // leading slot (left side)
   label?: React.ReactNode;          // label slot
   card?: React.ReactNode;           // card slot (replaces <slot name="card">)
   content?: React.ReactNode;        // content slot inside card (replaces <slot name="content">)
@@ -50,6 +51,7 @@ export function ExpandableContainer({
   disableLabelAutoWidth = false,
   children,
   complement,
+  leadingComplement,
   label,
   card,
   content,
@@ -91,6 +93,7 @@ export function ExpandableContainer({
       disableLabelAutoWidth={disableLabelAutoWidth}
       label={label}
       complement={complement}
+      leadingComplement={leadingComplement}
       renderContent={(contentMinWidth) => (
         <div
           className={clsx('text-xs top-full w-fit mt-xs', {
