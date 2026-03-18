@@ -98,7 +98,7 @@ export function ExpandableContainer({
             'left-0': !alignRight,
             'right-0': alignRight,
             'opacity-100 visible': isExpanded,
-            'opacity-0 invisible pointer-events-none h-0 overflow-hidden': !isExpanded,
+            'opacity-0 invisible pointer-events-none': !isExpanded,
           })}
           style={{
             minWidth: contentMinWidth,
