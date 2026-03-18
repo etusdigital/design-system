@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
 import styles from './Pagination.module.css';
+import { Icon } from '../Icon/Icon';
 
 export interface PaginationProps {
   value?: number;
@@ -82,7 +83,7 @@ export function Pagination({
         onClick={() => setModel(currentPage - 1)}
         aria-label="Previous page"
       >
-        <span className="material-symbols-outlined">chevron_left</span>
+        <Icon name="chevron_left" />
       </button>
       <div className="flex">
         {pages.map((page, idx) => (
@@ -108,7 +109,7 @@ export function Pagination({
         onClick={() => setModel(currentPage + 1)}
         aria-label="Next page"
       >
-        <span className="material-symbols-outlined">chevron_right</span>
+        <Icon name="chevron_right" />
       </button>
     </div>
   );

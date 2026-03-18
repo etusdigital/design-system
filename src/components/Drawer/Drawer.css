@@ -1,43 +1,35 @@
 @reference "../../assets/main.css";
 
 .drawer {
-  position: fixed;
-  z-index: 1001;
-  background-color: theme('colors.neutral-surface-default');
-  border: theme('borderWidth.xxs') solid theme('colors.neutral-border-default');
-  overflow: auto;
+  @apply z-[1001] fixed overflow-auto bg-neutral-surface-default border-xxs border-neutral-default;
   transition: transform 0.5s ease;
 }
 
+.drawer.right, .drawer.left {
+  @apply w-full;
+}
+
+.drawer.top, .drawer.bottom {
+  @apply h-screen;
+}
+
 .drawer.right {
-  top: 0;
-  right: 0;
-  height: 100%;
-  border-radius: theme('borderRadius.base') 0 0 theme('borderRadius.base');
+  @apply top-0 right-0 h-full rounded-none rounded-l-base;
   transform: translateX(100%);
 }
 
 .drawer.left {
-  top: 0;
-  left: 0;
-  height: 100%;
-  border-radius: 0 theme('borderRadius.base') theme('borderRadius.base') 0;
+  @apply top-0 left-0 h-full rounded-none rounded-r-base;
   transform: translateX(-100%);
 }
 
 .drawer.top {
-  top: 0;
-  left: 0;
-  width: 100%;
-  border-radius: 0 0 theme('borderRadius.base') theme('borderRadius.base');
+  @apply top-0 left-0 w-full rounded-none rounded-b-base;
   transform: translateY(-100%);
 }
 
 .drawer.bottom {
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  border-radius: theme('borderRadius.base') theme('borderRadius.base') 0 0;
+  @apply bottom-0 left-0 w-full rounded-none rounded-t-base;
   transform: translateY(100%);
 }
 

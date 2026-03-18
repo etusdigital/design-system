@@ -1,7 +1,7 @@
 @reference "../../assets/main.css";
 
 .categoryHeader {
-  @apply px-sm py-xs flex justify-between items-center cursor-pointer;
+  @apply px-sm py-xs flex justify-between items-center cursor-pointer w-full;
   @apply hover:bg-neutral-surface-hover;
 }
 
@@ -18,7 +18,7 @@
 }
 .chevron.expanded { transform: rotate(180deg); }
 
-.subOption { @apply flex items-center gap-xs px-sm py-xxs; }
+.subOption { @apply flex items-center gap-xs px-sm py-xxs cursor-pointer; }
 .subOptionLabel { @apply text-sm font-normal; }
 
-.actions { @apply flex justify-end gap-xs px-sm py-xs border-t border-neutral-border-default; }
+.actions { @apply flex justify-end gap-xs px-sm py-xs; }

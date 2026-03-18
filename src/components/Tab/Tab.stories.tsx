@@ -43,6 +43,21 @@ export const Primary: Story = {
   },
 };
 
+export const Icons: Story = {
+  render: () => {
+    const [value, setValue] = useState<number | undefined>(undefined);
+    return (
+      <Tab
+        className="w-fit"
+        value={value}
+        onChange={setValue}
+        isIcon={true}
+        options={['laptop', 'cellphone']}
+      />
+    );
+  },
+};
+
 export const ObjectArray: Story = {
   render: () => {
     const [value, setValue] = useState<number | undefined>(undefined);

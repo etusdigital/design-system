@@ -133,6 +133,24 @@ export const Disabled: Story = {
   },
 };
 
+export const Required: Story = {
+  render: (args) => {
+    const [value, setValue] = useState<any>(undefined);
+    return (
+      <Dropdown
+        {...args}
+        value={value}
+        onChange={setValue}
+        options={defaultOptions}
+      />
+    );
+  },
+  args: {
+    labelValue: 'label',
+    required: true,
+  },
+};
+
 export const Searchable: Story = {
   render: (args) => {
     const [value, setValue] = useState<any>(undefined);
@@ -167,6 +185,24 @@ export const IsError: Story = {
     labelValue: 'label',
     isError: true,
     errorMessage: 'Error message',
+  },
+};
+
+export const InfoMessage: Story = {
+  render: (args) => {
+    const [value, setValue] = useState<any>(undefined);
+    return (
+      <Dropdown
+        {...args}
+        value={value}
+        onChange={setValue}
+        options={defaultOptions}
+      />
+    );
+  },
+  args: {
+    labelValue: 'label',
+    infoMessage: 'Info Message',
   },
 };
 

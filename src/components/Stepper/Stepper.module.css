@@ -12,7 +12,7 @@
 .circle.large { width: 40px; height: 40px; }
 
 .circle.active { @apply bg-primary-interaction-default text-neutral-foreground-negative; }
-.circle.past { @apply bg-primary-surface-highlight; }
+.circle.past { @apply bg-primary-interaction-default text-neutral-foreground-negative; }
 .circle.skipped { @apply bg-warning-surface-default; }
 .circle.default { @apply bg-neutral-surface-highlight text-neutral-foreground-disabled; }
 
@@ -21,3 +21,7 @@
 .connector { @apply flex-1 self-center; height: 2px; }
 .connector.active, .connector.past { @apply bg-primary-surface-highlight; }
 .connector.default { @apply bg-neutral-surface-highlight; }
+
+.stepper-icon.icon {
+  @apply text-base;
+}

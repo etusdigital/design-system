@@ -1,0 +1,5 @@
+@reference "../../assets/main.css";
+
+.dropwdown-icon.icon {
+  @apply text-xl;
+}

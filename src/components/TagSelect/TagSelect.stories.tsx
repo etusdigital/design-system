@@ -83,6 +83,31 @@ export const Primary: Story = {
   },
 };
 
+export const Icon: Story = {
+  render: (args) => {
+    const [value, setValue] = useState<any[]>(undefined as any);
+    return (
+      <TagSelect
+        {...args}
+        value={value}
+        onChange={setValue}
+        options={[]}
+        labelValue="label"
+        labelKey="label"
+        placeholder="Search"
+      />
+    );
+  },
+  args: {
+    disabled: false,
+    required: false,
+    searchable: false,
+    creatable: false,
+    isError: false,
+    icon: 'filter_view',
+  },
+};
+
 export const Searchable: Story = {
   render: (args) => {
     const [value, setValue] = useState<any[]>([]);

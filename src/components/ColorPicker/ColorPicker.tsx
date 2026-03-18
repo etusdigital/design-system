@@ -13,10 +13,10 @@ import {
   getPosition,
 } from '../../utils/index';
 import styles from './ColorPicker.module.css';
+import { Icon } from '../Icon/Icon';
 
 export interface ColorPickerProps {
   value?: string;
-  defaultValue?: string;
   onChange?: (value: string) => void;
   showAlpha?: boolean;
   disabled?: boolean;
@@ -26,14 +26,6 @@ export interface ColorPickerProps {
 type ColorType = 'hexa' | 'rgba' | 'hsla' | 'hsva' | 'hwb';
 
 const COLOR_TYPES: ColorType[] = ['hexa', 'rgba', 'hsla', 'hsva', 'hwb'];
-
-function getDefaultForType(type: ColorType): string {
-  if (type === 'hexa') return '#ffffffff';
-  if (type === 'hsla') return '0, 100%, 0%, 1';
-  if (type === 'hwb') return '0 100% 0% / 1';
-  if (type === 'hsva') return '0, 0%, 100%, 1';
-  return '255, 255, 255, 1';
-}
 
 function divideColor(color: string, type = 'rgba', divideBy = ',') {
   if (!color) return {} as any;
@@ -80,7 +72,6 @@ function buildColor(color: any): string {
 export function ColorPicker(props: ColorPickerProps) {
   const {
     value,
-    defaultValue = '#000000ff',
     onChange,
     showAlpha = true,
     disabled = false,
@@ -89,15 +80,15 @@ export function ColorPicker(props: ColorPickerProps) {
 
   const [model, setModel] = useControllable<string>({
     value,
-    defaultValue,
+    defaultValue: '#000000ff',
     onChange,
   });
 
   const [colorTypeIndex, setColorTypeIndex] = useState<number>(0);
-  const [inputColor, setInputColor] = useState<string>(() => model ?? defaultValue);
+  const [inputColor, setInputColor] = useState<string>(() => model || '');
   const [sliderColor, setSliderColor] = useState<string>('hsl(0, 100%, 50%)');
   const [sliderOpacity, setSliderOpacity] = useState<number>(1);
-  const [circleBackground, setCircleBackground] = useState<string>(model ?? defaultValue);
+  const [circleBackground, setCircleBackground] = useState<string>(model || '');
   const [isMovingDown, setIsMovingDown] = useState(false);
   const [isMovingUp, setIsMovingUp] = useState(false);
   const [opacityTrackBg, setOpacityTrackBg] = useState<string>('linear-gradient(to right, #ffffff 0%, hsl(0, 100%, 50%))');
@@ -610,22 +601,20 @@ export function ColorPicker(props: ColorPickerProps) {
             )}
           </div>
           <div className="flex flex-col">
-            <span
+            <Icon
+              name="arrow_drop_up"
               className="cursor-pointer text-neutral-interaction-default text-sm leading-none"
               onClick={disabled ? undefined : moveUp}
               style={{ fontFamily: 'Material Symbols Outlined', userSelect: 'none' }}
               aria-label="Previous color type"
-            >
-              arrow_drop_up
-            </span>
-            <span
+            />
+            <Icon
+              name="arrow_drop_down"
               className="cursor-pointer text-neutral-interaction-default text-sm leading-none"
               onClick={disabled ? undefined : moveDown}
               style={{ fontFamily: 'Material Symbols Outlined', userSelect: 'none' }}
               aria-label="Next color type"
-            >
-              arrow_drop_down
-            </span>
+            />
           </div>
         </div>
       </div>

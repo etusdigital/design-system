@@ -105,6 +105,42 @@ export const Disabled: Story = {
   },
 };
 
+export const Searchable: Story = {
+  render: (args) => {
+    const [value, setValue] = useState<Record<string, any[]>>({});
+    return (
+      <Filter
+        {...args}
+        value={value}
+        onChange={setValue}
+        options={defaultOptions}
+      />
+    );
+  },
+  args: {
+    labelValue: 'label',
+    searchable: true,
+  },
+};
+
+export const Absolute: Story = {
+  render: (args) => {
+    const [value, setValue] = useState<Record<string, any[]>>({});
+    return (
+      <Filter
+        {...args}
+        value={value}
+        onChange={setValue}
+        options={defaultOptions}
+      />
+    );
+  },
+  args: {
+    labelValue: 'label',
+    absolute: true,
+  },
+};
+
 export const IsError: Story = {
   render: (args) => {
     const [value, setValue] = useState<Record<string, any[]>>({});

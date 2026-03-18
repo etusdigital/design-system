@@ -1,9 +1,22 @@
+import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
+import * as Input from './Input.stories.tsx';
+
+<Meta of={Input} />
+
 # Name: Input
 ## Component Overview
 
 **Purpose**: A comprehensive input component with multiple types, validation, masking, file upload, and extensive customization options for form data collection.
 
 **Import**: Automatic - no need to import any DS components
+
+<br />
+### Playground
+
+<Canvas of={Input.Primary} />
+<Controls />
+
+---
 
 ### Basic Usage
 
@@ -16,10 +29,12 @@
 </template>
 
 <script setup lang="ts">
-
+import { ref } from 'vue'
 const inputValue = ref('')
 </script>
 ```
+
+<Canvas sourceState="none" of={Input.Primary} />
 
 ---
 
@@ -34,11 +49,15 @@ The label displayed above the input. Type: `string` (default: `""`)
 #### type
 Input type determining behavior and validation. Type: `'text' | 'number' | 'search' | 'color' | 'password' | 'file' | 'email'` (default: `"text"`)
 
+<Canvas sourceState="none" of={Input.Types} />
+
 #### mask
 Input mask for automatic formatting. Type: `'cpf' | 'cnpj' | 'cep' | 'domain' | 'url'` (default: `undefined`)
 
 #### max
 Maximum value for numbers or character limit for text. Type: `number` (default: `undefined`)
+
+<Canvas sourceState="none" of={Input.MaxLetters} />
 
 #### min
 Minimum value for number inputs. Type: `number` (default: `undefined`)
@@ -49,23 +68,33 @@ Increment/decrement step for number inputs. Type: `number` (default: `1`)
 #### is-error
 Activates error styling mode. Type: `boolean` (default: `false`)
 
+<Canvas sourceState="none" of={Input.IsError} />
+
 #### error-message
 Error message to display when in error state. Type: `string` (default: `""`)
 
 #### info-message
 Informational message displayed with tooltip. Type: `string` (default: `""`)
 
+<Canvas sourceState="none" of={Input.InfoMessage} />
+
 #### disabled
 Disables input interaction. Type: `boolean` (default: `false`)
 
+<Canvas sourceState="none" of={Input.Disabled} />
+
 #### required
 Marks the field as required. Type: `boolean` (default: `false`)
+
+<Canvas sourceState="none" of={Input.Required} />
 
 #### placeholder
 Placeholder text for the input. Type: `string` (default: `""`)
 
 #### text-align
 Text alignment within input. Type: `'left' | 'center' | 'right'` (default: `"start"`)
+
+<Canvas sourceState="none" of={Input.TextAlign} />
 
 #### tooltip-min-width
 Minimum width for info tooltip. Type: `string` (default: `"none"`)
@@ -115,6 +144,7 @@ Custom icon content for prepended (left-side) icons. This slot allows you to ove
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 
 const inputValue = ref('')
 
@@ -144,6 +174,7 @@ Custom icon content specifically for appended (right-side) icons. This slot is i
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 
 const passwordValue = ref('')
 const showPassword = ref(false)

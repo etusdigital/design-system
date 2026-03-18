@@ -109,14 +109,14 @@ export function Filter({
   );
 
   const optionsNode = (
-    <div>
+    <div className="w-full">
       {options.map((category) => {
         const key = getCategoryKey(category);
         const isExpanded = !!expandedCategories[key];
         const categorySelectedCount = (currentModel[key] ?? []).length;
 
         return (
-          <div key={key}>
+          <div key={key} className="w-full">
             <div
               className={styles.categoryHeader}
               onClick={() => toggleCategory(key)}

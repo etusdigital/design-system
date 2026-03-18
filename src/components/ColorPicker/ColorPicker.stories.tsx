@@ -39,7 +39,7 @@ export const Primary: Story = {
   },
 };
 
-export const NoAlpha: Story = {
+export const noShadow: Story = {
   render: () => {
     const [color, setColor] = useState('');
     return (

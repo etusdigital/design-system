@@ -6,7 +6,7 @@
 
 .trigger {
   @apply rounded-full cursor-pointer border-none p-sm z-10 relative;
-  @apply bg-neutral-surface-default border-xxs border-neutral-border-default shadow-neutral-default;
+  @apply bg-neutral-surface-default border-xxs border-neutral-default shadow-neutral-default;
 }
 
 .trigger.expanded {
@@ -16,7 +16,7 @@
 .menuItem {
   @apply absolute rounded-full cursor-pointer border-none p-sm;
   @apply bg-neutral-surface-default shadow-neutral-default;
-  border: theme('borderWidth.xxs') solid theme('colors.neutral-border-default');
+  @apply border-xxs border-neutral-default;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 

@@ -90,19 +90,3 @@ export const TextAlign: Story = {
     </div>
   ),
 };
-
-export const DomainType: Story = {
-  args: {
-    type: 'domain',
-    labelValue: 'Domain',
-    placeholder: 'example.com',
-  },
-};
-
-export const UrlType: Story = {
-  args: {
-    type: 'url',
-    labelValue: 'URL',
-    placeholder: 'https://example.com',
-  },
-};

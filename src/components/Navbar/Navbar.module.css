@@ -3,7 +3,7 @@
 .navbar {
   @apply flex items-center justify-between w-full;
   @apply bg-neutral-surface-default;
-  border-bottom: theme('borderWidth.xxs') solid theme('colors.neutral-border-default');
+  @apply border-b-xxs border-neutral-default;
   @apply px-base py-xs;
 }
 

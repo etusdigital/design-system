@@ -15,7 +15,7 @@ A full in-place migration of 60+ Vue 3 components to React, proceeding in strict
 - [x] **Phase 3: Form Components** - 12 controlled/uncontrolled form inputs using `useControllable` (completed 2026-03-16)
 - [x] **Phase 4: Internal Components** - 8 shared utility components and portal infrastructure (completed 2026-03-16)
 - [x] **Phase 5: Providers** - Context providers replacing Vue global properties (`$confirm`, `$toast`) (completed 2026-03-17)
-- [x] **Phase 6: Composite Components** - 17 overlay and interactive components depending on Phases 4 and 5 (completed 2026-03-17)
+- [ ] **Phase 6: Composite Components** - 17 overlay and interactive components depending on Phases 4 and 5 (UAT gap closure in progress)
 - [ ] **Phase 7: Complex Components** - 6 high-risk specialized components (Table, Tree, RichTextEditor, etc.)
 - [ ] **Phase 8: Build & Distribution** - Build output validation, TypeScript declarations, npm publishability
 - [ ] **Phase 9: Documentation & Testing** - Storybook stories, RTL tests, visual parity verification
@@ -132,7 +132,7 @@ Plans:
   3. Dropdown, ColorPicker, and DatePicker position their popover correctly relative to the trigger element
   4. Accordion, Tab, and Stepper maintain the correct active state visually and programmatically
   5. Calendar renders the correct month grid and responds to date selection with `onChange`
-**Plans:** 16 plans (15 executed + 1 gap closure)
+**Plans:** 24 plans (15 executed + 1 pending + 8 UAT gap closure)
 
 Plans:
 - [ ] 06-00-PLAN.md — Wave 0: Create 16 smoke test stubs for all composite components (Nyquist compliance)
@@ -151,6 +151,14 @@ Plans:
 - [x] 06-13-PLAN.md — Gap closure: Convert Dropdown/Filter/Calendar stories to TSX
 - [ ] 06-14-PLAN.md — Gap closure: Convert DatePicker/Navbar/ColorPicker stories to TSX
 - [ ] 06-15-PLAN.md — Gap closure: Delete untracked Accordion.mdx + commit Input.stories.tsx cleanup
+- [ ] 06-16-PLAN.md — UAT gap: Global Material Symbols Rounded font fix (icons render as glyphs)
+- [ ] 06-17-PLAN.md — UAT gap: Fix Accordion expand + Tab icon support + ColorPicker noShadow
+- [ ] 06-18-PLAN.md — UAT gap: Dropdown missing props + TagSelect missing props (pass-through)
+- [ ] 06-19-PLAN.md — UAT gap: ExpandableContainer fix + RoundMenu Button + Input color FloatCard
+- [ ] 06-20-PLAN.md — UAT gap: Stepper visual rewrite + Carousel section rendering fix
+- [ ] 06-21-PLAN.md — UAT gap: Select missing props/keyboard nav + DatePicker missing props/sidebar
+- [ ] 06-22-PLAN.md — UAT gap: Calendar visual overhaul + CalendarDateDialog restructure
+- [ ] 06-23-PLAN.md — UAT gap: Navbar complete restructure (Dropdown, Avatar, FloatCard, logo)
 
 ### Phase 7: Complex Components
 **Goal**: The 6 highest-risk specialized components migrate correctly, including Table's render-prop column API, Tree's compound component pattern, and RichTextEditor's third-party React integration
@@ -197,7 +205,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9
 | 3. Form Components | 13/13 | Complete   | 2026-03-16 |
 | 4. Internal Components | 3/3 | Complete   | 2026-03-16 |
 | 5. Providers | 4/4 | Complete   | 2026-03-17 |
-| 6. Composite Components | 15/16 | Gap closure needed | - |
+| 6. Composite Components | 15/24 | UAT gap closure | - |
 | 7. Complex Components | 0/TBD | Not started | - |
 | 8. Build & Distribution | 0/TBD | Not started | - |
 | 9. Documentation & Testing | 0/TBD | Not started | - |

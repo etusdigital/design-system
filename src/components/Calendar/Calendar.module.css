@@ -12,7 +12,7 @@
   @apply text-sm text-neutral-foreground-high text-center cursor-pointer p-xxs;
 }
 .dayCell:hover:not(.disabled):not(.outsideMonth) { @apply bg-neutral-surface-hover rounded-xs; }
-.dayCell.selected { @apply bg-primary-surface-default text-primary-foreground-high rounded-xs; border: theme('borderWidth.xxs') solid theme('colors.primary-border-default'); }
+.dayCell.selected { @apply bg-primary-surface-default text-primary-foreground-high rounded-xs; border-xxs solid border-primary-default'; }
 .dayCell.rangeMiddle { @apply bg-primary-surface-hover; }
 .dayCell.rangeStart, .dayCell.rangeEnd { @apply bg-primary-interaction-default text-neutral-foreground-negative rounded-xs; }
 .dayCell.today { @apply font-semibold; }

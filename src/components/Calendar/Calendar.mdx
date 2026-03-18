@@ -1,9 +1,22 @@
+import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
+import * as CalendarStories from './Calendar.stories';
+
+<Meta of={CalendarStories} />
+
 # Name: Calendar
 ## Component Overview
 
 **Purpose**: A calendar component with support for single date selection, date ranges, and localization for flexible date input handling.
 
 **Import**: Automatic - no need to import any DS components
+
+<br />
+### Playground
+
+<Canvas of={CalendarStories.Primary} />
+<Controls />
+
+---
 
 ### Basic Usage
 
@@ -15,10 +28,12 @@
 </template>
 
 <script setup lang="ts">
-
+import { ref } from 'vue'
 const selectedDate = ref<Date | null>(null)
 </script>
 ```
+
+<Canvas sourceState="none" of={CalendarStories.Primary} />
 
 ---
 
@@ -30,22 +45,35 @@ Controls the selected date or date range. Type: `Date | Date[] | Date[][] | null
 #### lang
 Language for date formatting and localization. Type: `string` (default: `"en-US"`)
 
+<Canvas sourceState="none" of={CalendarStories.Lang} />
+
 #### type
 Selection mode for the calendar. Type: `"date" | "period" | "compare"` (default: `"date"`)
 - `"date"`: Single date selection
 - `"period"`: Date range selection  
 - `"compare"`: Comparison mode with two date ranges
 
+<Canvas sourceState="none" of={CalendarStories.Primary} />
+
+<Canvas sourceState="none" of={CalendarStories.Period} />
+
+<Canvas sourceState="none" of={CalendarStories.Compare} />
+
 #### double-calendar
 Shows two calendar months side by side. Type: `boolean` (default: `false`)
 
 {/* No dedicated DoubleCalendar story; show Primary as example */}
+<Canvas sourceState="none" of={CalendarStories.Primary} />
 
 #### min-date
 Earliest selectable date constraint. Type: `Date` (default: `undefined`)
 
+<Canvas sourceState="none" of={CalendarStories.MinDate} />
+
 #### max-date
 Latest selectable date constraint. Type: `Date` (default: `undefined`)
+
+<Canvas sourceState="none" of={CalendarStories.MaxDate} />
 
 ---
 

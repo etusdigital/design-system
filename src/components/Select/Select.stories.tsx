@@ -181,6 +181,24 @@ export const Searchable: Story = {
   },
 };
 
+export const Clearable: Story = {
+  render: (args) => {
+    const [value, setValue] = useState<any>(null);
+    return (
+      <Select
+        {...args}
+        value={value}
+        onChange={setValue}
+        labelValue="label"
+        options={defaultOptions}
+        clearable
+      >
+        Placeholder
+      </Select>
+    );
+  },
+};
+
 export const Multiple: Story = {
   render: (args) => {
     const [value, setValue] = useState<any>(null);
@@ -252,24 +270,6 @@ export const InfoMessage: Story = {
         labelValue="label"
         options={defaultOptions}
         infoMessage="Info message"
-      >
-        Placeholder
-      </Select>
-    );
-  },
-};
-
-export const Clearable: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<any>(null);
-    return (
-      <Select
-        {...args}
-        value={value}
-        onChange={setValue}
-        labelValue="label"
-        options={defaultOptions}
-        clearable
       >
         Placeholder
       </Select>

@@ -4,6 +4,8 @@ import { useControllable } from '../../hooks';
 import { ExpandableContainer } from '../../utils/components/ExpandableContainer';
 import { isObject } from '../../utils';
 import styles from './Dropdown.module.css';
+import './Dropdown.css';
+import { Icon } from '../Icon/Icon';
 
 // -----------------------------------------------------------------------
 // Option type (local — mirrors DropOption)
@@ -72,7 +74,7 @@ function DropdownOption({
       role="option"
       aria-selected={isSelected}
     >
-      {option.icon && <span className="material-symbols-outlined text-xl">{option.icon}</span>}
+      {option.icon && <Icon className="dropwdown-icon" name={option.icon} />}
       <span>{label}</span>
     </div>
   );

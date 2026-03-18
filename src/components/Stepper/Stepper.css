@@ -1,0 +1,5 @@
+@reference "../../assets/main.css";
+
+.stepper-icon.icon {
+  @apply text-base;
+}

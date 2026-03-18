@@ -7,7 +7,6 @@ import './Drawer.css';
 
 export interface DrawerProps {
   value?: boolean;
-  defaultValue?: boolean;
   onChange?: (value: boolean) => void;
   position?: 'right' | 'left' | 'top' | 'bottom';
   width?: string;
@@ -19,7 +18,6 @@ export interface DrawerProps {
 
 export function Drawer({
   value,
-  defaultValue,
   onChange,
   position = 'right',
   width = 'fit-content',
@@ -35,6 +33,18 @@ export function Drawer({
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const effectivePosition = isMobile ? 'bottom' : position;
   const effectiveWidth = isMobile ? '100%' : width;
+
+  function getStyle() {
+    if (position == 'top'|| position == 'bottom') return {
+      height,
+      maxHeight: 'calc(100% - var(--spacing-xl))',
+    }
+
+    return {
+      width: effectiveWidth,
+      maxWidth: 'calc(100% - var(--spacing-xl))',
+    }
+  }
 
   function handleOverlayClick() {
     if (noOutsideClose) {
@@ -53,12 +63,7 @@ export function Drawer({
         <div
           ref={drawerRef}
           className={clsx('drawer', effectivePosition, isActive && 'active', className)}
-          style={{
-            width: effectiveWidth,
-            height,
-            maxWidth: 'calc(100% - var(--spacing-xl))',
-            maxHeight: 'calc(100% - var(--spacing-xl))',
-          }}
+          style={getStyle()}
         >
           {children}
         </div>

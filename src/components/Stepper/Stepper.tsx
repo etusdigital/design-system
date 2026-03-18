@@ -3,6 +3,8 @@ import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
 import { isObject } from '../../utils';
 import styles from './Stepper.module.css';
+import './Stepper.css';
+import { Icon } from '../Icon/Icon';
 
 export interface StepperProps {
   value?: number;
@@ -105,9 +107,8 @@ export function Stepper({
                 styles[getStepState(index)]
               )}
             >
-              <span className="material-symbols-outlined text-base">
-                {getIcon(option)}
-              </span>
+              
+              <Icon className="stepper-icon" name={getIcon(option)} />
             </div>
             <span className={styles.label}>{getLabel(option)}</span>
           </div>

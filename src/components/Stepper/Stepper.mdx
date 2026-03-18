@@ -1,9 +1,22 @@
+import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
+import * as Stepper from './Stepper.stories.tsx';
+
+<Meta of={Stepper} />
+
 # Name: Stepper
 ## Component Overview
 
 **Purpose**: A multi-step navigation component with two visual styles, progress tracking, and customizable step validation for creating guided workflows and multi-step forms.
 
 **Import**: Automatic - no need to import any DS components
+
+<br />
+### Playground
+
+<Canvas of={Stepper.Primary} />
+<Controls />
+
+---
 
 ### Basic Usage
 
@@ -16,11 +29,13 @@
 </template>
 
 <script setup lang="ts">
-
+import { ref } from 'vue'
 const currentStep = ref(...)
 const steps = ref([...])
 </script>
 ```
+
+<Canvas sourceState="none" of={Stepper.Primary} />
 
 ---
 
@@ -41,11 +56,17 @@ Property name used for option values when using object arrays. Type: `string` (d
 #### size
 Controls the stepper size variant. Type: `'medium' | 'large'` (default: `'medium'`)
 
+<Canvas sourceState="none" of={Stepper.Sizes} />
+
 #### disabled
 Disables step navigation when true. Type: `boolean` (default: `false`)
 
+<Canvas sourceState="none" of={Stepper.Disabled} />
+
 #### allowed-skip
 Allows users to skip steps and jump to any step. Type: `boolean` (default: `false`)
+
+<Canvas sourceState="none" of={Stepper.AllowedSkip} />
 
 #### background
 Custom background color for the stepper. Type: `string` (default: `"var(--neutral-background-default)"`)
@@ -74,6 +95,7 @@ Triggered when any step interaction occurs. Receives the step option and index.
 </template>
 
 <script setup lang="ts">
+import { ref, inject } from 'vue'
 
 const toast = inject("toast") as Function;
 
@@ -101,6 +123,7 @@ const save = () => {}
 ### Slots API
 
 This component doesn't expose custom slots. Content is controlled through the `options` prop.
+
 
 **Important Notes:**
 - Automatically tracks step progression and prevents skipping unless `allowed-skip` is enabled

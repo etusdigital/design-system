@@ -78,13 +78,13 @@ export function SelectContent({
         />
       )}
       <span
-        className={clsx('flex items-center gap-xs truncate leading-xxs', className, {
+        className={clsx('flex items-center gap-xs truncate leading-xxs flex-1', className, {
           'text-neutral-foreground-low': !options,
         })}
       >
         {searchable && !disabled && (
           <div
-            className={clsx('flex items-center text-neutral-foreground-high', {
+            className={clsx('flex items-center text-neutral-foreground-high w-full', {
               secondary,
               hidden: !expandedModel,
             })}

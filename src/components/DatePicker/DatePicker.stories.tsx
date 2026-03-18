@@ -98,6 +98,23 @@ export const Primary: Story = {
   },
 };
 
+// export const Absolute: Story = {
+//   render: () => {
+//     const [value, setValue] = useState<Date | Date[] | [Date[], Date[]] | undefined>(undefined);
+//     return (
+//       <DatePicker
+//         value={value}
+//         onChange={setValue}
+//         type="date"
+//         labelValue="Date Filter"
+//         clearLabel="Clear"
+//         applyLabel="Apply"
+//         absolute={true}
+//       />
+//     );
+//   },
+// };
+
 export const Lang: Story = {
   render: () => {
     const [value, setValue] = useState<Date | Date[] | [Date[], Date[]] | undefined>(undefined);
@@ -148,6 +165,23 @@ export const Compare: Story = {
     );
   },
 };
+
+// export const AllowChangeType: Story = {
+//   render: () => {
+//     const [value, setValue] = useState<Date | Date[] | [Date[], Date[]] | undefined>([]);
+//     return (
+//       <DatePicker
+//         value={value}
+//         onChange={setValue}
+//         type="period"
+//         labelValue="Date Filter"
+//         clearLabel="Clear"
+//         applyLabel="Apply"
+//         allowChangeType={true}
+//       />
+//     );
+//   },
+// };
 
 export const MinDate: Story = {
   render: () => {
@@ -212,20 +246,36 @@ export const Required: Story = {
   },
 };
 
-export const IsError: Story = {
-  render: () => {
-    const [value, setValue] = useState<Date | Date[] | [Date[], Date[]] | undefined>(undefined);
-    return (
-      <DatePicker
-        value={value}
-        onChange={setValue}
-        type="date"
-        labelValue="Date Filter"
-        isError={true}
-        errorMessage="Error message"
-        clearLabel="Clear"
-        applyLabel="Apply"
-      />
-    );
-  },
-};
+// export const AlignRight: Story = {
+//   render: () => {
+//     const [value, setValue] = useState<Date | Date[] | [Date[], Date[]] | undefined>(undefined);
+//     return (
+//       <DatePicker
+//         value={value}
+//         onChange={setValue}
+//         type="date"
+//         labelValue="Date Filter"
+//         alignRight={true}
+//         clearLabel="Clear"
+//         applyLabel="Apply"
+//       />
+//     );
+//   },
+// };
+
+// export const Separator: Story = {
+//   render: () => {
+//     const [value, setValue] = useState<Date | Date[] | [Date[], Date[]] | undefined>(undefined);
+//     return (
+//       <DatePicker
+//         value={value}
+//         onChange={setValue}
+//         type="date"
+//         labelValue="Date Filter"
+//         separator="e"
+//         clearLabel="Clear"
+//         applyLabel="Apply"
+//       />
+//     );
+//   },
+// };

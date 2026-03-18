@@ -75,7 +75,7 @@
   @apply text-xs text-center;
   @apply bg-neutral-surface-default rounded-xs border border-neutral-default;
   @apply px-xxs py-xxs;
-  @apply text-neutral-foreground-default;
+  @apply text-neutral-foreground-high;
   outline: none;
   min-width: 0;
 }
