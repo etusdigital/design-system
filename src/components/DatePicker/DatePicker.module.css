@@ -4,3 +4,16 @@
 .actions { @apply flex justify-end gap-xs mt-sm pt-xs border-t border-neutral-default; }
 .compareToggle { @apply flex items-center gap-xs mt-xs; }
 .displayLabel { @apply text-sm font-normal truncate; }
+
+.presetSidebar {
+  @apply flex flex-col justify-between border-r border-neutral-border-default py-xs min-w-[120px];
+}
+.presetOption {
+  @apply px-sm py-xs text-xs text-neutral-foreground-low cursor-pointer bg-transparent border-none text-left;
+}
+.presetOption:hover {
+  @apply bg-neutral-surface-hover;
+}
+.presetActive {
+  @apply text-primary-interaction-default font-semibold bg-primary-surface-default;
+}
