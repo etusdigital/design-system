@@ -14,6 +14,8 @@ export interface CarouselProps {
   autoplay?: boolean;
   autoplayInterval?: number;
   showArrows?: boolean;
+  disabled?: boolean;
+  circular?: boolean;
   children?: (option: any, index: number) => React.ReactNode;
   className?: string;
 }
@@ -28,6 +30,8 @@ export function Carousel({
   autoplay = false,
   autoplayInterval = 3000,
   showArrows = true,
+  disabled = false,
+  circular = false,
   children,
   className,
 }: CarouselProps) {
@@ -37,7 +41,8 @@ export function Carousel({
     onChange,
   });
 
-  const carouselRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [transform, setTransform] = useState('-0px');
   const [contentStyle, setContentStyle] = useState<React.CSSProperties>({});
 
   const totalPages = Math.ceil(options.length / visible);
@@ -49,29 +54,63 @@ export function Carousel({
     sections.push(options.slice(i, i + visible));
   }
 
+  const maxIndex = totalPages - 1;
+
+  function setModelSafe(value: number) {
+    if (disabled) return;
+    if (value > maxIndex) {
+      if (!circular) return;
+      value = 0;
+    } else if (value < 0) {
+      if (!circular) return;
+      value = maxIndex;
+    }
+    setModel(value);
+  }
+
   function calculateContentStyle() {
-    if (!carouselRef.current) {
+    if (!trackRef.current) {
       setContentStyle({});
+      setTransform('-0px');
       return;
     }
 
-    const container = carouselRef.current;
-    const containerWidth = container.offsetWidth;
-    const containerHeight = container.offsetHeight;
+    const children = trackRef.current.children;
+    if (children.length === 0) {
+      setContentStyle({});
+      setTransform('-0px');
+      return;
+    }
 
-    // Read gap from CSS variable on document root (per RESEARCH.md pitfall 7 — NOT container element)
     const gapStr = getComputedStyle(document.documentElement).getPropertyValue('--spacing-xs');
     const gap = parseFloat(gapStr) || 0;
 
-    if (vertical) {
-      const itemHeight = (containerHeight - gap * (visible - 1)) / visible;
-      const offset = currentIndex * (itemHeight + gap);
-      setContentStyle({ transform: `translateY(-${offset}px)` });
-    } else {
-      const itemWidth = (containerWidth - gap * (visible - 1)) / visible;
-      const offset = currentIndex * (itemWidth + gap);
-      setContentStyle({ transform: `translateX(-${offset}px)` });
+    let totalSize = 0;
+    let totalTransformPx = 0;
+
+    const child = children[currentIndex] as HTMLElement;
+    if (child) {
+      if (vertical) {
+        totalSize = Math.max(totalSize, child.offsetHeight);
+      } else {
+        totalSize += child.offsetWidth;
+      }
     }
+
+    for (let i = 0; i < currentIndex; i++) {
+      const c = children[i] as HTMLElement;
+      const rect = c.getBoundingClientRect();
+      if (vertical) totalTransformPx += rect.height;
+      else totalTransformPx += rect.width;
+
+      if (currentIndex > 0) totalTransformPx += gap;
+    }
+
+    setTransform(`-${Math.floor(totalTransformPx)}px`);
+    setContentStyle({
+      width: vertical ? '' : `${totalSize}px`,
+      height: vertical ? `${totalSize}px` : '',
+    });
   }
 
   // useLayoutEffect replaces Vue's nextTick for DOM measurements
@@ -80,24 +119,31 @@ export function Carousel({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [model, options.length, visible]);
 
-  // Autoplay via setInterval
+  // Autoplay via setInterval — paused when disabled
   useEffect(() => {
-    if (!autoplay) return;
+    if (!autoplay || disabled) return;
     const interval = setInterval(() => {
-      setModel(prev => ((prev ?? 0) + 1) % totalPages);
+      setModel((prev) => {
+        const next = ((prev ?? 0) + 1);
+        if (next > maxIndex) {
+          return circular ? 0 : (prev ?? 0);
+        }
+        return next;
+      });
     }, autoplayInterval);
     return () => clearInterval(interval);
-  }, [autoplay, autoplayInterval, options.length, visible]);
+  }, [autoplay, autoplayInterval, options.length, visible, disabled, circular]);
 
   function goToPrev() {
-    const prev = Math.max(0, currentIndex - 1);
-    if (prev !== currentIndex) setModel(prev);
+    setModelSafe(currentIndex - 1);
   }
 
   function goToNext() {
-    const next = Math.min(totalPages - 1, currentIndex + 1);
-    if (next !== currentIndex) setModel(next);
+    setModelSafe(currentIndex + 1);
   }
+
+  const prevDisabled = disabled || (currentIndex === 0 && !circular);
+  const nextDisabled = disabled || (currentIndex >= maxIndex && !circular);
 
   return (
     <div className={clsx(styles.carousel, className)}>
@@ -107,28 +153,32 @@ export function Carousel({
             className={clsx(styles.navButton, styles.prevButton, vertical && styles.vertical)}
             onClick={goToPrev}
             aria-label="Previous slide"
-            disabled={currentIndex === 0}
+            disabled={prevDisabled}
           >
             <Icon name={vertical ? 'expand_less' : 'chevron_left'} />
           </button>
         )}
 
-        <div className={styles.overflow}>
+        {/* Overflow container with explicit width/height from contentStyle */}
+        <div className={styles.overflow} style={{ width: '100%', overflow: 'hidden', ...contentStyle }}>
           <div
+            ref={trackRef}
             className={clsx(styles.track, vertical && styles.vertical)}
-            style={contentStyle}
+            style={{ transform: `translate${vertical ? 'Y' : 'X'}(${transform})` }}
           >
-            {sections.map((section, sectionIndex) =>
-              section.map((option, optionIndex) => (
-                <div
-                  key={`${sectionIndex}-${optionIndex}`}
-                  className={styles.item}
-                  {...(sectionIndex !== currentIndex ? { inert: true } : {})}
-                >
-                  {children?.(option, sectionIndex * visible + optionIndex)}
-                </div>
-              ))
-            )}
+            {sections.map((section, sectionIndex) => (
+              <div
+                key={sectionIndex}
+                className={styles.section}
+                {...(sectionIndex !== currentIndex ? { inert: true } : {})}
+              >
+                {section.map((option, itemIndex) => (
+                  <div key={itemIndex} className={styles.slide}>
+                    {children?.(option, sectionIndex * visible + itemIndex)}
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -137,7 +187,7 @@ export function Carousel({
             className={clsx(styles.navButton, styles.nextButton, vertical && styles.vertical)}
             onClick={goToNext}
             aria-label="Next slide"
-            disabled={currentIndex >= totalPages - 1}
+            disabled={nextDisabled}
           >
             <Icon name={vertical ? 'expand_more' : 'chevron_right'} />
           </button>
@@ -148,8 +198,12 @@ export function Carousel({
         {Array.from({ length: totalPages }).map((_, i) => (
           <button
             key={i}
-            className={clsx(styles.indicator, i === currentIndex && styles.indicatorActive)}
-            onClick={() => setModel(i)}
+            className={clsx(
+              styles.indicator,
+              i === currentIndex && styles.indicatorActive,
+              disabled && styles.indicatorDisabled
+            )}
+            onClick={() => !disabled && setModel(i)}
             aria-label={`Go to slide ${i + 1}`}
           />
         ))}
