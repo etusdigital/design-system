@@ -93,6 +93,7 @@ export function AutoComplete({
       value={expanded}
       onChange={(val) => setExpanded(val)}
       labelValue={labelValue}
+      absolute={true}
       disabled={disabled}
       isError={isError}
       errorMessage={errorMessage}

@@ -8,7 +8,7 @@ export interface ExpandableContainerProps {
   defaultValue?: boolean;
   onChange?: (value: boolean, extra: ContainerModelExtra) => void;
   labelValue?: string;          // default: ''
-  absolute?: boolean;           // default: false
+  absolute?: boolean;           // default: true
   disabled?: boolean;           // default: false
   isError?: boolean;            // default: false
   errorMessage?: string;        // default: ''
@@ -35,7 +35,7 @@ export function ExpandableContainer({
   defaultValue,
   onChange,
   labelValue = '',
-  absolute = false,
+  absolute = true,
   disabled = false,
   isError = false,
   errorMessage = '',
@@ -62,10 +62,10 @@ export function ExpandableContainer({
   });
 
   const isExpanded = disabled ? false : (model ?? false);
-  // When collapsed (isExpanded=false), isAbsolute=true.
-  // When expanded, isAbsolute=props.absolute.
-  // Faithful port from Vue: isAbsolute = isExpanded ? absolute : true
-  const isAbsolute = isExpanded ? absolute : true;
+  // absolute defaults to true so dropdowns float by default.
+  // isAbsolute simply reflects the absolute prop — content is always rendered
+  // (CSS visibility/opacity toggle) so transitions work regardless of expanded state.
+  const isAbsolute = absolute;
 
   function changeModel(val: boolean, extra: ContainerModelExtra) {
     setModel(val);
@@ -91,24 +91,27 @@ export function ExpandableContainer({
       disableLabelAutoWidth={disableLabelAutoWidth}
       label={label}
       complement={complement}
-      renderContent={(contentMinWidth) =>
-        isExpanded ? (
-          <div
-            className={clsx('text-xs top-full w-fit mt-xs', {
-              'absolute z-[80]': isAbsolute,
-              'left-0': !alignRight,
-              'right-0': alignRight,
-            })}
-            style={{ minWidth: contentMinWidth }}
-          >
-            {card || (
-              <div className="bg-neutral-surface-default shadow-neutral-selected border-xxs border-neutral-default rounded-sm">
-                {content}
-              </div>
-            )}
-          </div>
-        ) : null
-      }
+      renderContent={(contentMinWidth) => (
+        <div
+          className={clsx('text-xs top-full w-fit mt-xs', {
+            'absolute z-[80]': isAbsolute,
+            'left-0': !alignRight,
+            'right-0': alignRight,
+            'opacity-100 visible': isExpanded,
+            'opacity-0 invisible pointer-events-none h-0 overflow-hidden': !isExpanded,
+          })}
+          style={{
+            minWidth: contentMinWidth,
+            transition: 'opacity 150ms ease, visibility 150ms ease',
+          }}
+        >
+          {card || (
+            <div className="bg-neutral-surface-default shadow-neutral-selected border-xxs border-neutral-default rounded-sm">
+              {content}
+            </div>
+          )}
+        </div>
+      )}
     >
       {children}
     </Container>
