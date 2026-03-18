@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import { Icon } from '../Icon/Icon';
+import { Button } from '../Button/Button';
 import styles from './RoundMenu.module.css';
 
 export interface RoundMenuProps {
@@ -38,27 +38,28 @@ export function RoundMenu({
           : undefined;
 
         return (
-          <button
+          <div
             key={index}
             className={clsx(styles.menuItem, !isExpanded && styles.collapsed)}
             style={positionStyle}
-            onClick={option.onClick}
             aria-label={option[labelKey] ?? option.label}
             title={option[labelKey] ?? option.label}
           >
-            <Icon name={option[iconKey] ?? option.icon} />
-          </button>
+            <Button
+              round
+              icon={option[iconKey] ?? option.icon}
+              onClick={option.onClick}
+            />
+          </div>
         );
       })}
 
-      <button
+      <Button
+        round
         className={clsx(styles.trigger, isExpanded && styles.expanded)}
         onClick={() => setIsExpanded((prev) => !prev)}
-        aria-label={isExpanded ? 'Close menu' : 'Open menu'}
-        aria-expanded={isExpanded}
-      >
-        <Icon name={isExpanded ? 'close' : 'add'} />
-      </button>
+        icon={isExpanded ? 'close' : 'add'}
+      />
     </div>
   );
 }

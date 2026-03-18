@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { ColorPicker } from '../ColorPicker';
+import { FloatCard } from '../FloatCard/FloatCard';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
 import { Label } from '../../utils/components/Label';
@@ -85,7 +86,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
   const [hasError, setHasError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [validationError, setValidationError] = useState<string>('');
-  const [showColorPicker, setShowColorPicker] = useState(false);
 
   const internalRef = useRef<HTMLInputElement>(null);
 
@@ -177,11 +177,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
 
   const showError = isError || hasError;
 
-  // type="color" — render color swatch that toggles ColorPicker (Phase 3 deferral resolved)
+  // type="color" — render inline color swatch that opens FloatCard with ColorPicker
   if (type === 'color') {
     const colorValue = currentValue ?? '#000000ff';
     return (
-      <div className={clsx(styles.input, className)} style={{ position: 'relative' }}>
+      <div className={clsx(styles.input, className)}>
         {(labelValue || max !== undefined) && (
           <div className={styles.labelRow}>
             <Label
@@ -192,23 +192,37 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
             />
           </div>
         )}
-        <div className="flex items-center gap-xs">
-          {/* Color swatch button */}
-          <button
-            type="button"
-            style={{
-              width: '2em',
-              height: '2em',
-              background: colorValue,
-              border: '1px solid var(--color-neutral-default, #ccc)',
-              borderRadius: '4px',
-              cursor: disabled ? 'not-allowed' : 'pointer',
-              flexShrink: 0,
-            }}
-            disabled={disabled}
-            onClick={() => setShowColorPicker((v) => !v)}
-            aria-label="Open color picker"
-          />
+        <div
+          className={clsx(
+            styles.inputContainer,
+            'flex items-center',
+            disabled && styles.disabled
+          )}
+        >
+          {/* Color swatch trigger — wrapped in FloatCard for popover with outside-click close */}
+          <FloatCard
+            card={
+              <ColorPicker
+                value={colorValue}
+                onChange={(v) => setValue(v)}
+              />
+            }
+          >
+            <button
+              type="button"
+              style={{
+                width: '1.5em',
+                height: '1.5em',
+                background: colorValue,
+                border: '1px solid var(--color-neutral-default, #ccc)',
+                borderRadius: '4px',
+                cursor: disabled ? 'not-allowed' : 'pointer',
+                flexShrink: 0,
+              }}
+              disabled={disabled}
+              aria-label="Open color picker"
+            />
+          </FloatCard>
           {/* Hex text input */}
           <input
             ref={mergedRef}
@@ -222,25 +236,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
             placeholder="#000000ff"
           />
         </div>
-        {/* ColorPicker popover */}
-        {showColorPicker && (
-          <div
-            style={{
-              position: 'absolute',
-              zIndex: 1000,
-              top: '100%',
-              left: 0,
-              marginTop: '4px',
-            }}
-          >
-            <ColorPicker
-              value={colorValue}
-              onChange={(v) => {
-                setValue(v);
-              }}
-            />
-          </div>
-        )}
         {(errorMessage || validationError) && (showError || !!validationError) && (
           <p className={styles.errorMessage}>{errorMessage || validationError}</p>
         )}
