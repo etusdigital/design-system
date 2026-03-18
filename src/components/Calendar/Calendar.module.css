@@ -33,6 +33,13 @@
 .dayCell.rangeMiddle.end { @apply rounded-l-none; }
 .dayCell.rangeStart, .dayCell.rangeEnd { @apply bg-primary-interaction-default text-neutral-foreground-negative rounded-xs; }
 
+/* Hover preview: light highlight between start and hovered date */
+.dayCell.rangeHover { @apply bg-primary-surface-default text-primary-foreground-high; }
+
+/* Secondary (compare) range: lighter styling */
+.dayCell.inSecondaryRange { @apply bg-primary-surface-highlight text-primary-foreground-high; }
+.dayCell.selectedSecondary { @apply bg-primary-surface-default text-primary-foreground-high font-semibold rounded-xs; }
+
 /* Today styling */
 .dayCell.today:not(.selected) {
   @apply text-primary-interaction-default;

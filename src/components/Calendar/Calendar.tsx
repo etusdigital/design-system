@@ -41,6 +41,12 @@ interface CalendarDayProps {
   isOutsideMonth: boolean;
   isDisabled: boolean;
   onClick: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+  rangeHover?: boolean;
+  inSecondaryRange?: boolean;
+  isSecondaryStart?: boolean;
+  isSecondaryEnd?: boolean;
 }
 
 function CalendarDay({
@@ -54,6 +60,12 @@ function CalendarDay({
   isDisabled,
   position,
   onClick,
+  onMouseEnter,
+  onMouseLeave,
+  rangeHover,
+  inSecondaryRange,
+  isSecondaryStart,
+  isSecondaryEnd,
 }: CalendarDayProps) {
   if (!date) return <div className={styles.dayCell} />;
 
@@ -65,11 +77,16 @@ function CalendarDay({
         selected && styles.selected,
         (inRange && !isRangeStart && !isRangeEnd) && styles.rangeMiddle,
         (isRangeStart || isRangeEnd) && styles.rangeStart,
+        rangeHover && styles.rangeHover,
+        inSecondaryRange && styles.inSecondaryRange,
+        (isSecondaryStart || isSecondaryEnd) && styles.selectedSecondary,
         isToday && styles.today,
         isOutsideMonth && styles.outsideMonth,
         isDisabled && styles.disabled,
       )}
       onClick={isDisabled ? undefined : onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       role="gridcell"
       aria-selected={selected}
     >
@@ -207,6 +224,7 @@ function getDayProps(
   model: Date[] | Date[][],
   type: SelectionType,
   today: Date,
+  hoveredDate: Date | null,
   minDate?: Date,
   maxDate?: Date,
   disabledDates?: Date[],
@@ -216,7 +234,19 @@ function getDayProps(
 
   if (type === 'date') {
     const selected = model.length > 0 && model[0] instanceof Date && isSameDay(model[0] as Date, date);
-    return { selected, inRange: false, isRangeStart: false, isRangeEnd: false, isToday, isDisabled };
+    return {
+      selected, inRange: false, isRangeStart: false, isRangeEnd: false,
+      rangeHover: false, inSecondaryRange: false, isSecondaryStart: false, isSecondaryEnd: false,
+      isToday, isDisabled,
+    };
+  }
+
+  // Helper: compute hover-preview highlight
+  function computeHover(startDate: Date | undefined): boolean {
+    if (!startDate || !hoveredDate) return false;
+    const lo = startDate < hoveredDate ? startDate : hoveredDate;
+    const hi = startDate < hoveredDate ? hoveredDate : startDate;
+    return date >= lo && date <= hi;
   }
 
   if (type === 'period') {
@@ -228,12 +258,21 @@ function getDayProps(
     if (dates.length === 2 && dates[0] instanceof Date && dates[1] instanceof Date) {
       inRange = isRange(dates[0], dates[1], date);
     }
-    return { selected, inRange, isRangeStart, isRangeEnd, isToday, isDisabled };
+    // Hover preview only when exactly one date is selected (range in progress)
+    const rangeHover = dates.length === 1 && !selected && computeHover(dates[0]);
+    return {
+      selected, inRange, isRangeStart, isRangeEnd,
+      rangeHover, inSecondaryRange: false, isSecondaryStart: false, isSecondaryEnd: false,
+      isToday, isDisabled,
+    };
   }
 
-  // compare mode — use first range for highlighting
+  // compare mode — primary range (range0) and secondary range (range1)
   const ranges = model as Date[][];
   const range0 = ranges[0] ?? [];
+  const range1 = ranges[1] ?? [];
+
+  // Primary range
   const selected = range0.some((d) => d instanceof Date && isSameDay(d, date));
   const isRangeStart = range0.length >= 1 && range0[0] instanceof Date && isSameDay(range0[0], date);
   const isRangeEnd = range0.length >= 2 && range0[1] instanceof Date && isSameDay(range0[1], date);
@@ -241,7 +280,23 @@ function getDayProps(
   if (range0.length === 2 && range0[0] instanceof Date && range0[1] instanceof Date) {
     inRange = isRange(range0[0], range0[1], date);
   }
-  return { selected, inRange, isRangeStart, isRangeEnd, isToday, isDisabled };
+
+  // Hover preview: show when first range has 1 date and second range is empty
+  const rangeHover = range0.length === 1 && range1.length === 0 && !selected && computeHover(range0[0]);
+
+  // Secondary range
+  const isSecondaryStart = range1.length >= 1 && range1[0] instanceof Date && isSameDay(range1[0], date);
+  const isSecondaryEnd = range1.length >= 2 && range1[1] instanceof Date && isSameDay(range1[1], date);
+  let inSecondaryRange = false;
+  if (range1.length === 2 && range1[0] instanceof Date && range1[1] instanceof Date) {
+    inSecondaryRange = isRange(range1[0], range1[1], date) && !isSecondaryStart && !isSecondaryEnd;
+  }
+
+  return {
+    selected, inRange, isRangeStart, isRangeEnd,
+    rangeHover, inSecondaryRange, isSecondaryStart, isSecondaryEnd,
+    isToday, isDisabled,
+  };
 }
 
 // ─── Calendar (main) ──────────────────────────────────────────────────────────
@@ -280,6 +335,8 @@ export function Calendar({
   const [currentYear, setCurrentYear] = useState(initial.year);
   const [showDateDialog, setShowDateDialog] = useState(false);
   const [transitionKey, setTransitionKey] = useState(0);
+  const [activeRangeIndex, setActiveRangeIndex] = useState(0);
+  const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
 
   const isBackRef = useRef(false);
   const { isMounted: gridMounted, isActive: gridActive } = useTransition(
@@ -360,20 +417,39 @@ export function Calendar({
         }
       }
     } else {
-      // compare mode
+      // compare mode — route clicks to activeRangeIndex
       const ranges = model as Date[][];
       const range0 = [...(ranges[0] ?? [])];
       const range1 = [...(ranges[1] ?? [])];
 
-      if (range0.length === 0 || range0.length >= 2) {
-        // Start filling first range
-        newModel = [[date], range1];
-      } else if (range0.length === 1) {
-        // Complete first range
-        const [start] = range0;
-        newModel = [date < start ? [date, start] : [start, date], range1];
+      const activeIdx = activeRangeIndex;
+
+      if (activeIdx === 0) {
+        if (range0.length === 0 || range0.length >= 2) {
+          // Start first range over
+          newModel = [[date], range1];
+          setActiveRangeIndex(0);
+        } else {
+          // Complete first range
+          const [start] = range0;
+          const completedRange0 = date < start ? [date, start] : [start, date];
+          newModel = [completedRange0, range1];
+          setActiveRangeIndex(1);
+        }
       } else {
-        newModel = [range0, range1];
+        // Routing to range1
+        if (range1.length === 0 || range1.length >= 2) {
+          // Start second range over
+          newModel = [range0, [date]];
+          setActiveRangeIndex(1);
+        } else {
+          // Complete second range
+          const [start] = range1;
+          const completedRange1 = date < start ? [date, start] : [start, date];
+          newModel = [range0, completedRange1];
+          // Both ranges complete — next click resets to range0
+          setActiveRangeIndex(0);
+        }
       }
     }
 
@@ -472,7 +548,7 @@ export function Calendar({
                   if (!day) {
                     return <div key={dayIdx} className={styles.dayCell} />;
                   }
-                  const props = getDayProps(day, model, type, today, minDate, maxDate, disabledDates);
+                  const props = getDayProps(day, model, type, today, hoveredDate, minDate, maxDate, disabledDates);
                   return (
                     <CalendarDay
                       key={dayIdx}
@@ -481,6 +557,8 @@ export function Calendar({
                       {...props}
                       isOutsideMonth={false}
                       onClick={() => handleDayClick(day)}
+                      onMouseEnter={() => setHoveredDate(day)}
+                      onMouseLeave={() => setHoveredDate(null)}
                     />
                   );
                 })}
