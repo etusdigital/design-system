@@ -1,13 +1,15 @@
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
+import { Icon } from '../Icon/Icon';
 import styles from './Tab.module.css';
 
 export interface TabProps {
   value?: number;
   defaultValue?: number;
   onChange?: (value: number) => void;
-  options?: Array<string | { label: string; [key: string]: any }>;
+  options?: Array<string | { label: string; icon?: string; [key: string]: any }>;
   labelKey?: string;
+  isIcon?: boolean;
   notCard?: boolean;
   children?: React.ReactNode;
   className?: string;
@@ -19,6 +21,7 @@ export function Tab({
   onChange,
   options = [],
   labelKey = 'label',
+  isIcon = false,
   notCard = false,
   children,
   className,
@@ -43,7 +46,16 @@ export function Tab({
             className={clsx(styles.tabButton, model === index && styles.active)}
             onClick={() => setModel(index)}
           >
-            {getLabel(option)}
+            {typeof option === 'object' && option.icon ? (
+              <>
+                <Icon name={option.icon} className={styles.icon} />
+                <span>{getLabel(option)}</span>
+              </>
+            ) : isIcon && typeof option === 'string' ? (
+              <Icon name={option} className={styles.icon} />
+            ) : (
+              <span>{getLabel(option)}</span>
+            )}
           </button>
         ))}
       </div>

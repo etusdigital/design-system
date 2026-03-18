@@ -9,6 +9,8 @@
   @apply opacity-50 pointer-events-none;
 }
 
+.colorPicker.noShadow { box-shadow: none; }
+
 .colorAreaWrapper {
   @apply relative;
 }

@@ -20,6 +20,7 @@ export interface ColorPickerProps {
   onChange?: (value: string) => void;
   showAlpha?: boolean;
   disabled?: boolean;
+  noShadow?: boolean;
   className?: string;
 }
 
@@ -75,6 +76,7 @@ export function ColorPicker(props: ColorPickerProps) {
     onChange,
     showAlpha = true,
     disabled = false,
+    noShadow = false,
     className,
   } = props;
 
@@ -449,7 +451,7 @@ export function ColorPicker(props: ColorPickerProps) {
 
   return (
     <div
-      className={clsx(styles.colorPicker, disabled && styles.disabled, className)}
+      className={clsx(styles.colorPicker, noShadow && styles.noShadow, disabled && styles.disabled, className)}
       data-component="ColorPicker"
     >
       {/* Color area */}
