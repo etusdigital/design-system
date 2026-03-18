@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import {
   getArrayMonthDay,
@@ -9,6 +9,7 @@ import {
 } from '../../utils/index';
 import { useTransition } from '../../hooks/useTransition';
 import { Icon } from '../Icon/Icon';
+import { Card } from '../Card/Card';
 import styles from './Calendar.module.css';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -80,6 +81,7 @@ interface CalendarDateDialogProps {
   months: { label: string; value: number }[];
   currentMonth: number;
   currentYear: number;
+  isOpen: boolean;
   onSelectMonth: (month: number) => void;
   onSelectYear: (year: number) => void;
 }
@@ -88,39 +90,94 @@ function CalendarDateDialog({
   months,
   currentMonth,
   currentYear,
+  isOpen,
   onSelectMonth,
   onSelectYear,
 }: CalendarDateDialogProps) {
-  const years: number[] = [];
-  for (let i = currentYear + 10; i >= currentYear - 10; i--) {
-    years.push(i);
+  const [activePanel, setActivePanel] = useState<'month' | 'year' | null>(null);
+  const yearListRef = useRef<HTMLDivElement>(null);
+
+  // Build year range: currentYear-10 to currentYear+10
+  const yearRange: number[] = [];
+  for (let y = currentYear - 10; y <= currentYear + 10; y++) {
+    yearRange.push(y);
   }
 
+  // Scroll active year into view when year panel opens
+  useEffect(() => {
+    if (activePanel === 'year' && yearListRef.current) {
+      const activeEl = yearListRef.current.querySelector(`.${styles.yearActive}`) as HTMLElement | null;
+      if (activeEl) {
+        activeEl.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      }
+    }
+  }, [activePanel]);
+
   return (
-    <div className={styles.dateDialog}>
-      <div className={styles.monthGrid}>
-        {months.map((m) => (
-          <button
-            key={m.value}
-            className={clsx(styles.monthButton, m.value === currentMonth && styles.active)}
-            onClick={() => onSelectMonth(m.value)}
-          >
-            {m.label}
-          </button>
-        ))}
+    <Card
+      className={clsx(
+        styles.dateDialog,
+        isOpen ? styles.dialogEnter : styles.dialogLeave,
+      )}
+    >
+      {/* Header with month/year toggle buttons */}
+      <div className={styles.dialogHeader}>
+        <button
+          className={clsx(
+            styles.headerToggle,
+            activePanel === 'month' && styles.headerToggleActive,
+          )}
+          onClick={() => setActivePanel(prev => prev === 'month' ? null : 'month')}
+        >
+          {months[currentMonth]?.label ?? ''}
+        </button>
+        <button
+          className={clsx(
+            styles.headerToggle,
+            activePanel === 'year' && styles.headerToggleActive,
+          )}
+          onClick={() => setActivePanel(prev => prev === 'year' ? null : 'year')}
+        >
+          {currentYear}
+        </button>
       </div>
-      <div className={clsx(styles.monthGrid, 'mt-xs')}>
-        {years.map((y) => (
-          <button
-            key={y}
-            className={clsx(styles.monthButton, y === currentYear && styles.active)}
-            onClick={() => onSelectYear(y)}
-          >
-            {y}
-          </button>
-        ))}
-      </div>
-    </div>
+
+      {/* Month grid panel */}
+      {activePanel === 'month' && (
+        <div className={styles.monthGrid}>
+          {months.map((m) => (
+            <button
+              key={m.value}
+              className={clsx(
+                styles.monthButton,
+                m.value === currentMonth && styles.monthActive,
+              )}
+              onClick={() => { onSelectMonth(m.value); setActivePanel(null); }}
+            >
+              {m.label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Year list panel */}
+      {activePanel === 'year' && (
+        <div className={styles.yearList} ref={yearListRef}>
+          {yearRange.map(yr => (
+            <button
+              key={yr}
+              className={clsx(
+                styles.yearButton,
+                yr === currentYear && styles.yearActive,
+              )}
+              onClick={() => { onSelectYear(yr); setActivePanel(null); }}
+            >
+              {yr}
+            </button>
+          ))}
+        </div>
+      )}
+    </Card>
   );
 }
 
@@ -374,6 +431,7 @@ export function Calendar({
           months={months}
           currentMonth={currentMonth}
           currentYear={currentYear}
+          isOpen={showDateDialog}
           onSelectMonth={handleSelectMonth}
           onSelectYear={handleSelectYear}
         />
