@@ -1,21 +1,36 @@
 @reference "../../assets/main.css";
 
 .navbar {
-  @apply flex items-center justify-between w-full;
-  @apply bg-neutral-surface-default;
-  @apply border-b-xxs border-neutral-default;
-  @apply px-base py-xs;
+  @apply flex items-center justify-between w-full px-xl py-sm
+         bg-emphasis border-b-xxs border-neutral-default;
 }
 
-.logo { @apply flex items-center; }
-.title { @apply text-xl font-semibold; }
-
-.navItems { @apply flex items-center gap-base; }
-
-.navItem {
-  @apply text-sm font-normal leading-lg text-primary-foreground-high cursor-pointer;
-  @apply flex items-center gap-xxs;
+.left {
+  @apply flex items-center gap-base;
 }
-.navItem:hover { @apply text-primary-interaction-hover; }
 
-.profile { @apply flex items-center; }
+.right {
+  @apply flex items-center gap-base;
+}
+
+.logo {
+  @apply flex items-center justify-center;
+}
+
+.divider {
+  @apply min-h-xl border-r-xxs border-r-neutral-default;
+}
+
+.notificationButton {
+  @apply relative flex items-center justify-center w-[32px] h-[32px]
+         rounded-full bg-transparent border-none cursor-pointer
+         text-neutral-interaction-default;
+}
+
+.notificationButton:hover {
+  @apply text-neutral-interaction-hover;
+}
+
+.avatarWrapper {
+  @apply flex items-center;
+}

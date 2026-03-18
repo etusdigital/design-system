@@ -29,6 +29,15 @@ export interface SelectProps {
   placeholder?: string;
   secondary?: boolean;
   absolute?: boolean;
+  icon?: string;
+  expanded?: boolean;
+  onExpandedChange?: (expanded: boolean) => void;
+  // Render-prop equivalents for Vue named slots
+  renderSearchLabel?: () => React.ReactNode;
+  renderOption?: (option: any, isSelected: boolean) => React.ReactNode;
+  renderStatus?: (count: number) => React.ReactNode;
+  renderActions?: () => React.ReactNode;
+  renderClearLabel?: () => React.ReactNode;
   children?: React.ReactNode;
   className?: string;
 }
@@ -53,6 +62,14 @@ export function Select({
   placeholder,
   secondary = false,
   absolute = false,
+  icon,
+  expanded,
+  onExpandedChange,
+  renderSearchLabel,
+  renderOption,
+  renderStatus,
+  renderActions,
+  renderClearLabel,
   children,
   className,
 }: SelectProps) {
@@ -68,7 +85,14 @@ export function Select({
   });
 
   const [searchText, setSearchText] = useState('');
-  const [expanded, setExpanded] = useState(false);
+
+  const [isOpen, setIsOpen] = useControllable<boolean>({
+    value: expanded,
+    defaultValue: false,
+    onChange: onExpandedChange,
+  });
+
+  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
 
   function getLabel(option: any): string {
     return isObject(option) ? option[labelKey] : String(option ?? '');
@@ -78,7 +102,7 @@ export function Select({
     return isObject(option) ? option[valueKey] : option;
   }
 
-  function isSelected(option: any): boolean {
+  function isOptionSelected(option: any): boolean {
     if (multiple) {
       const arr: any[] = Array.isArray(model) ? model : [];
       return arr.some((m) => getValue(m) === getValue(option));
@@ -100,7 +124,8 @@ export function Select({
       setModel(arr);
     } else {
       setModel(emitValue);
-      setExpanded(false);
+      setIsOpen(false);
+      setHighlightedIndex(-1);
     }
   }
 
@@ -136,61 +161,135 @@ export function Select({
     ? (Array.isArray(model) && model.length > 0)
     : model != null;
 
-  const statusNode = displayLabel && !expanded ? (
-    <span className={styles.displayLabel}>{displayLabel}</span>
-  ) : undefined;
+  // Keyboard navigation handler
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (disabled) return;
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        if (!isOpen) {
+          setIsOpen(true);
+          setHighlightedIndex(0);
+        } else {
+          setHighlightedIndex((prev) =>
+            prev < filteredOptions.length - 1 ? prev + 1 : prev
+          );
+        }
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        if (!isOpen) {
+          setIsOpen(true);
+          setHighlightedIndex(filteredOptions.length - 1);
+        } else {
+          setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+        }
+        break;
+      case 'Home':
+        e.preventDefault();
+        if (isOpen && filteredOptions.length > 0) {
+          setHighlightedIndex(0);
+        }
+        break;
+      case 'End':
+        e.preventDefault();
+        if (isOpen && filteredOptions.length > 0) {
+          setHighlightedIndex(filteredOptions.length - 1);
+        }
+        break;
+      case 'Enter':
+        e.preventDefault();
+        if (isOpen && highlightedIndex >= 0 && highlightedIndex < filteredOptions.length) {
+          selectOption(filteredOptions[highlightedIndex]);
+        }
+        break;
+      case 'Escape':
+        e.preventDefault();
+        setIsOpen(false);
+        setHighlightedIndex(-1);
+        break;
+    }
+  }
+
+  // Reset highlight when dropdown closes
+  function handleExpandedChange(val: boolean) {
+    setIsOpen(val);
+    if (!val) {
+      setHighlightedIndex(-1);
+    }
+  }
+
+  // Status node: use renderStatus if provided, otherwise use displayLabel
+  let statusNode: React.ReactNode;
+  if (renderStatus && multiple) {
+    const arr: any[] = Array.isArray(model) ? model : [];
+    if (arr.length > 0 && !isOpen) {
+      statusNode = renderStatus(arr.length);
+    }
+  } else if (displayLabel && !isOpen) {
+    statusNode = <span className={styles.displayLabel}>{displayLabel}</span>;
+  } else if (!hasValue && placeholder && !isOpen) {
+    statusNode = <span className={clsx(styles.displayLabel, 'text-neutral-foreground-low')}>{placeholder}</span>;
+  }
 
   const optionsNode = filteredOptions.map((option, index) => (
     <Option
       key={index}
-      selected={!multiple && isSelected(option)}
+      selected={!multiple && isOptionSelected(option)}
       disabled={option?.disabled}
       secondary={secondary}
       noHover={multiple}
-      className={clsx(styles.optionContent)}
+      className={clsx(styles.optionContent, index === highlightedIndex && styles.highlighted)}
       onClick={() => selectOption(option)}
     >
       {multiple && (
-        <Checkbox value={isSelected(option)} className="pointer-events-none" />
+        <Checkbox value={isOptionSelected(option)} className="pointer-events-none" />
       )}
-      {children ?? <span>{getLabel(option)}</span>}
+      {renderOption
+        ? renderOption(option, isOptionSelected(option))
+        : (children ?? <span>{getLabel(option)}</span>)
+      }
     </Option>
   ));
 
-  const actionsNode = clearable ? (
+  const actionsNode = renderActions ? renderActions() : clearable ? (
     <Button variant="plain" size="small" onClick={clearModel}>
-      Clear
+      {renderClearLabel ? renderClearLabel() : 'Clear'}
     </Button>
   ) : undefined;
 
   return (
-    <SelectContainer
-      value={expanded}
-      onChange={(val) => setExpanded(val)}
-      labelValue={labelValue}
-      disabled={disabled}
-      isError={isError}
-      errorMessage={errorMessage}
-      infoMessage={infoMessage}
-      required={required}
-      secondary={secondary}
-      absolute={absolute}
-      options={optionsNode}
-      actions={actionsNode}
-      className={clsx('select', className)}
-    >
-      <SelectContent
-        value={searchText}
-        onChange={(val) => setSearchText(val)}
-        expanded={expanded}
-        onExpandedChange={(val) => setExpanded(val)}
-        searchable={searchable}
+    <div onKeyDown={handleKeyDown}>
+      <SelectContainer
+        value={isOpen}
+        onChange={handleExpandedChange}
+        labelValue={labelValue}
         disabled={disabled}
         isError={isError}
+        errorMessage={errorMessage}
+        infoMessage={infoMessage}
+        required={required}
         secondary={secondary}
-        status={statusNode}
-        options={hasValue ? options : undefined}
-      />
-    </SelectContainer>
+        absolute={absolute}
+        options={optionsNode}
+        actions={actionsNode}
+        className={clsx('select', className)}
+      >
+        <SelectContent
+          value={searchText}
+          onChange={(val) => setSearchText(val)}
+          expanded={isOpen}
+          onExpandedChange={(val) => handleExpandedChange(val)}
+          searchable={searchable}
+          disabled={disabled}
+          isError={isError}
+          secondary={secondary}
+          icon={icon}
+          searchLabel={renderSearchLabel ? renderSearchLabel() : undefined}
+          status={statusNode}
+          options={hasValue ? options : undefined}
+        />
+      </SelectContainer>
+    </div>
   );
 }
