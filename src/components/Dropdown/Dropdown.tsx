@@ -42,24 +42,39 @@ function DropdownOption({
   onSelect,
   depth = 0,
 }: DropdownOptionProps) {
+  const [subExpanded, setSubExpanded] = useState(false);
   const label = option[labelKey] ?? option.label;
   const value = option[valueKey] ?? option.value;
   const isSelected = selectedValue !== undefined && selectedValue !== null && selectedValue === value;
 
   if (option.options && option.options.length > 0) {
     return (
-      <div>
-        <div className={styles.groupHeader} style={depth > 0 ? { paddingLeft: `${(depth + 1) * 8 + 8}px` } : undefined}>
-          {label}
-        </div>
-        <DropdownOptions
-          options={option.options}
-          labelKey={labelKey}
-          valueKey={valueKey}
-          selectedValue={selectedValue}
-          onSelect={onSelect}
-          depth={depth + 1}
-        />
+      <div
+        className={clsx(styles.groupRow, { [styles.disabled]: option.disabled })}
+        onClick={() => !option.disabled && setSubExpanded((prev) => !prev)}
+        onKeyDown={(e) => { if (e.key === 'Enter' && !option.disabled) setSubExpanded((prev) => !prev); }}
+        tabIndex={option.disabled ? -1 : 0}
+        role="option"
+        aria-haspopup="listbox"
+        aria-expanded={subExpanded}
+      >
+        {option.icon && <Icon className="dropdown-icon" name={option.icon} />}
+        <span className={styles.groupLabel}>{label}</span>
+        <Icon className={styles.chevronIcon} name="chevron_right" />
+        {subExpanded && (
+          <div className={styles.flyoutCard}>
+            <div className="bg-neutral-surface-default shadow-neutral-selected border-xxs border-neutral-default rounded-sm">
+              <DropdownOptions
+                options={option.options}
+                labelKey={labelKey}
+                valueKey={valueKey}
+                selectedValue={selectedValue}
+                onSelect={onSelect}
+                depth={depth + 1}
+              />
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -67,14 +82,13 @@ function DropdownOption({
   return (
     <div
       className={clsx(styles.optionItem, { [styles.selected]: isSelected, [styles.disabled]: option.disabled })}
-      style={depth > 0 ? { paddingLeft: `${depth * 8 + 12}px` } : undefined}
       onClick={() => !option.disabled && onSelect(option)}
       onKeyDown={(e) => { if (e.key === 'Enter' && !option.disabled) onSelect(option); }}
       tabIndex={option.disabled ? -1 : 0}
       role="option"
       aria-selected={isSelected}
     >
-      {option.icon && <Icon className="dropwdown-icon" name={option.icon} />}
+      {option.icon && <Icon className="dropdown-icon" name={option.icon} />}
       <span>{label}</span>
     </div>
   );
