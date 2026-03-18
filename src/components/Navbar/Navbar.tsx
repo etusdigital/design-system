@@ -7,12 +7,17 @@ import styles from './Navbar.module.css';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
+type Profile = {
+  name: string;
+  src?: string;
+};
+
 export interface NavbarProps {
   options?: Array<{ label: string; value?: string; children?: any[] }>;
   value?: string;
   onChange?: (value: string) => void;
   logo?: React.ReactNode;
-  avatar?: React.ReactNode;
+  profile?: Profile;
   notifications?: React.ReactNode;
   showNotifications?: boolean;
   className?: string;
@@ -55,7 +60,7 @@ export function Navbar({
   value,
   onChange,
   logo,
-  avatar,
+  profile,
   notifications,
   showNotifications = true,
   className,
@@ -85,7 +90,7 @@ export function Navbar({
           </FloatCard>
         )}
         <div className={styles.avatarWrapper}>
-          {avatar || <Avatar size="small" />}
+           <Avatar name={profile?.name} src={profile?.src} />
         </div>
       </div>
     </nav>

@@ -135,7 +135,7 @@ export const Circular: Story = {
         value={slide}
         onChange={setSlide}
         options={defaultOptions}
-        autoplay={true}
+        circular={true}
       >
         {(option) => <SlideContent option={option} />}
       </Carousel>
@@ -150,6 +150,7 @@ export const Disabled: Story = {
         defaultValue={0}
         options={defaultOptions}
         showArrows={false}
+        disabled={true}
       >
         {(option) => <SlideContent option={option} />}
       </Carousel>

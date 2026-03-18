@@ -93,6 +93,7 @@ export const Primary: Story = {
         applyLabel="Apply"
         compareLabel="Compare two periods"
         lang="en"
+        absolute={false}
       />
     );
   },
@@ -223,6 +224,18 @@ export const Disabled: Story = {
       type="date"
       labelValue="Date Filter"
       disabled={true}
+      clearLabel="Clear"
+      applyLabel="Apply"
+    />
+  ),
+};
+
+export const IsError: Story = {
+  render: () => (
+    <DatePicker
+      type="date"
+      labelValue="Date Filter"
+      isError={true}
       clearLabel="Clear"
       applyLabel="Apply"
     />

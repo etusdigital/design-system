@@ -82,12 +82,12 @@ export function ColorPicker(props: ColorPickerProps) {
 
   const [model, setModel] = useControllable<string>({
     value,
-    defaultValue: '#000000ff',
+    defaultValue: '#ffffff',
     onChange,
   });
 
   const [colorTypeIndex, setColorTypeIndex] = useState<number>(0);
-  const [inputColor, setInputColor] = useState<string>(() => model || '');
+  const [inputColor, setInputColor] = useState<string>(() => model || '#ffffff');
   const [sliderColor, setSliderColor] = useState<string>('hsl(0, 100%, 50%)');
   const [sliderOpacity, setSliderOpacity] = useState<number>(1);
   const [circleBackground, setCircleBackground] = useState<string>(model || '');

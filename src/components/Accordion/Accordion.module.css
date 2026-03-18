@@ -2,6 +2,7 @@
 
 .accordion {
   @apply px-base py-xs w-full;
+  @apply hover:bg-neutral-surface-hover transition-colors duration-300;
 }
 
 .accordion:not(.noShadow) {
@@ -14,7 +15,6 @@
 
 .header {
   @apply flex justify-between items-center cursor-pointer;
-  @apply hover:bg-neutral-surface-hover transition-colors duration-300;
 }
 
 .header.disabled {

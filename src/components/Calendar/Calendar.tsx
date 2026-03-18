@@ -37,6 +37,7 @@ interface CalendarDayProps {
   isRangeStart: boolean;
   isRangeEnd: boolean;
   isToday: boolean;
+  position: 'start' | 'middle' | 'end';
   isOutsideMonth: boolean;
   isDisabled: boolean;
   onClick: () => void;
@@ -51,6 +52,7 @@ function CalendarDay({
   isToday,
   isOutsideMonth,
   isDisabled,
+  position,
   onClick,
 }: CalendarDayProps) {
   if (!date) return <div className={styles.dayCell} />;
@@ -59,6 +61,7 @@ function CalendarDay({
     <div
       className={clsx(
         styles.dayCell,
+        styles[position],
         selected && styles.selected,
         (inRange && !isRangeStart && !isRangeEnd) && styles.rangeMiddle,
         (isRangeStart || isRangeEnd) && styles.rangeStart,
@@ -397,6 +400,13 @@ export function Calendar({
     setShowDateDialog(false);
   }
 
+  function getPosition(week: any[], index: number) {
+    if (index === 0) return 'start'
+    else if (week.length - 1 === index) return 'end'
+
+    return 'middle'
+  }
+
   const animationClass = isBackRef.current ? styles['slide-fade-back'] : styles['slide-fade-forward'];
 
   return (
@@ -467,6 +477,7 @@ export function Calendar({
                     <CalendarDay
                       key={dayIdx}
                       date={day}
+                      position={getPosition(week, dayIdx)}
                       {...props}
                       isOutsideMonth={false}
                       onClick={() => handleDayClick(day)}

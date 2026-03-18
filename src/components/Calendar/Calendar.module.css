@@ -3,42 +3,45 @@
 .calendar { @apply bg-neutral-surface-default rounded-base; }
 
 .header { @apply flex items-center justify-between px-sm py-xs; }
-.monthYear { @apply text-xl font-semibold cursor-pointer; }
+.monthYear { @apply text-base font-semibold cursor-pointer; }
 
 /* Nav buttons: bordered rounded-box styling matching Vue original */
 .navButton {
   @apply w-[32px] h-[32px] flex items-center justify-center rounded-base
-         border-xxs border-neutral-border-default bg-neutral-surface-default
+         border-xxs border-neutral-default bg-neutral-surface-default
          cursor-pointer text-neutral-foreground-low;
   transition: background-color 150ms ease, border-color 150ms ease;
 }
 .navButton:hover {
-  @apply bg-neutral-surface-hover border-neutral-border-hover;
+  @apply bg-neutral-surface-hover border-neutral-hover;
 }
 
-.weekdayHeader { @apply text-xs font-normal text-neutral-foreground-low text-center; }
+.weekdayHeader { @apply text-sm font-normal text-neutral-foreground-low text-center; }
 
 .dayCell {
-  @apply text-sm text-neutral-foreground-high text-center cursor-pointer p-xxs;
+  @apply text-sm text-neutral-foreground-high text-center cursor-pointer p-xxs rounded-xs;
 }
-.dayCell:hover:not(.disabled):not(.outsideMonth) { @apply bg-neutral-surface-hover rounded-xs; }
+.dayCell:hover:not(.disabled):not(.outsideMonth):not(.selected) { @apply bg-primary-surface-hover text-primary-interaction-hover; }
 
 /* Fixed syntax error (removed trailing ') and added filled bg */
 .dayCell.selected {
-  @apply bg-primary-interaction-default text-neutral-foreground-negative rounded-full font-semibold;
+  @apply bg-primary-interaction-default text-neutral-foreground-negative font-semibold;
 }
-.dayCell.rangeMiddle { @apply bg-primary-surface-hover; }
+.dayCell.rangeMiddle { @apply bg-primary-surface-default text-primary-foreground-high; }
+.dayCell.rangeMiddle.start { @apply rounded-r-none; }
+.dayCell.rangeMiddle.middle { @apply rounded-none; }
+.dayCell.rangeMiddle.end { @apply rounded-l-none; }
 .dayCell.rangeStart, .dayCell.rangeEnd { @apply bg-primary-interaction-default text-neutral-foreground-negative rounded-xs; }
 
 /* Today styling */
 .dayCell.today:not(.selected) {
-  @apply border-xxs border-primary-border-default text-primary-interaction-default rounded-full;
+  @apply text-primary-interaction-default;
 }
 .dayCell.today { @apply font-semibold; }
 .dayCell.outsideMonth { @apply text-neutral-foreground-disabled; }
 .dayCell.disabled { @apply text-neutral-foreground-disabled cursor-not-allowed; }
 
-.grid { @apply grid grid-cols-7; }
+.grid { @apply grid grid-cols-7 py-xxs; }
 
 /* Slide-fade animation */
 .slideContainer { @apply relative overflow-hidden; }

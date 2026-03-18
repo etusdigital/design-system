@@ -57,7 +57,7 @@
   @apply w-2xl h-xs rounded-full bg-neutral-surface-disabled cursor-pointer border-none;
 }
 
-.indicatorActive {
+.indicatorActive.indicator {
   @apply bg-primary-interaction-default;
 }
 

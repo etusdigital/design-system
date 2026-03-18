@@ -46,17 +46,9 @@ export const noShadow: Story = {
       <ColorPicker
         value={color}
         onChange={setColor}
-        showAlpha={false}
+        noShadow={true}
       />
     );
   },
 };
 
-export const Disabled: Story = {
-  render: () => (
-    <ColorPicker
-      defaultValue="#ff0000ff"
-      disabled={true}
-    />
-  ),
-};

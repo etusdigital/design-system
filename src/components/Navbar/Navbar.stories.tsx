@@ -18,8 +18,9 @@ const meta = {
     logo: {
       description: 'Custom React node rendered as the logo. Defaults to the SVG circle logo.',
     },
-    avatar: {
-      description: 'Custom React node rendered as the avatar. Defaults to Avatar component.',
+    profile: {
+      description:
+        "Object to be used as profile. Props(name: string, src: string)",
     },
     notifications: {
       description: 'Content rendered inside the FloatCard popover when the notification bell is clicked.',
@@ -41,10 +42,13 @@ const navOptions = [
   { label: 'Settings', value: 'settings' },
 ];
 
-export const Default: Story = {
+export const Primary: Story = {
   render: () => (
     <Navbar
       options={navOptions}
+      profile={{
+        name: 'John Doe'
+      }}
       notifications={
         <div style={{ padding: '16px', minWidth: '200px' }}>
           <h4 style={{ marginBottom: '8px', fontWeight: 600 }}>Notifications</h4>
@@ -77,41 +81,6 @@ export const WithCustomLogo: Story = {
           AC
         </div>
       }
-    />
-  ),
-};
-
-export const WithNotifications: Story = {
-  render: () => (
-    <Navbar
-      options={navOptions}
-      notifications={
-        <div style={{ padding: '16px', minWidth: '280px' }}>
-          <h4 style={{ marginBottom: '12px', fontWeight: 600 }}>Notifications</h4>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            <li style={{ padding: '8px 0', borderBottom: '1px solid #eee', fontSize: 14 }}>
-              New user registered — 5m ago
-            </li>
-            <li style={{ padding: '8px 0', borderBottom: '1px solid #eee', fontSize: 14 }}>
-              Report generated — 1h ago
-            </li>
-            <li style={{ padding: '8px 0', fontSize: 14 }}>
-              Deployment complete — 2h ago
-            </li>
-          </ul>
-        </div>
-      }
-      avatar={<Avatar name="Ana Carolina" size="small" />}
-    />
-  ),
-};
-
-export const NoNotifications: Story = {
-  render: () => (
-    <Navbar
-      options={navOptions}
-      showNotifications={false}
-      avatar={<Avatar name="John Doe" size="small" />}
     />
   ),
 };

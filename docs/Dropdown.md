@@ -51,9 +51,6 @@ type Option = {
 }
 ```
 
-#### absolute
-Controls absolute positioning of dropdown menu. Type: `boolean` (default: `true`)
-
 #### disabled
 Disables the dropdown interaction. Type: `boolean` (default: `false`)
 

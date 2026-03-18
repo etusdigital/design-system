@@ -52,7 +52,7 @@ export const Icons: Story = {
         value={value}
         onChange={setValue}
         isIcon={true}
-        options={['laptop', 'cellphone']}
+        options={['laptop', 'smartphone']}
       />
     );
   },

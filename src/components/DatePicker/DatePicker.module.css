@@ -6,7 +6,7 @@
 .displayLabel { @apply text-sm font-normal truncate; }
 
 .presetSidebar {
-  @apply flex flex-col justify-between border-r border-neutral-border-default py-xs min-w-[120px];
+  @apply flex flex-col justify-between border-r border-neutral-default py-xs min-w-[120px];
 }
 .presetOption {
   @apply px-sm py-xs text-xs text-neutral-foreground-low cursor-pointer bg-transparent border-none text-left;

@@ -47,17 +47,23 @@ export function RoundMenu({
           >
             <Button
               round
+              size="small"
+              background={option.background}
               icon={option[iconKey] ?? option.icon}
               onClick={option.onClick}
-            />
+            >
+              {option[labelKey] ?? option.label}
+            </Button>
           </div>
         );
       })}
 
       <Button
         round
+        size="small"
         className={clsx(styles.trigger, isExpanded && styles.expanded)}
         onClick={() => setIsExpanded((prev) => !prev)}
+        color={isExpanded ? 'neutral': 'success'}
         icon={isExpanded ? 'close' : 'add'}
       />
     </div>

@@ -15,7 +15,7 @@ A full in-place migration of 60+ Vue 3 components to React, proceeding in strict
 - [x] **Phase 3: Form Components** - 12 controlled/uncontrolled form inputs using `useControllable` (completed 2026-03-16)
 - [x] **Phase 4: Internal Components** - 8 shared utility components and portal infrastructure (completed 2026-03-16)
 - [x] **Phase 5: Providers** - Context providers replacing Vue global properties (`$confirm`, `$toast`) (completed 2026-03-17)
-- [x] **Phase 6: Composite Components** - 17 overlay and interactive components depending on Phases 4 and 5 (UAT gap closure in progress) (completed 2026-03-18)
+- [x] **Phase 6: Composite Components** - 17 overlay and interactive components depending on Phases 4 and 5 (UAT round 3 gap closure in progress) (completed 2026-03-18)
 - [ ] **Phase 7: Complex Components** - 6 high-risk specialized components (Table, Tree, RichTextEditor, etc.)
 - [ ] **Phase 8: Build & Distribution** - Build output validation, TypeScript declarations, npm publishability
 - [ ] **Phase 9: Documentation & Testing** - Storybook stories, RTL tests, visual parity verification
@@ -132,7 +132,7 @@ Plans:
   3. Dropdown, ColorPicker, and DatePicker position their popover correctly relative to the trigger element
   4. Accordion, Tab, and Stepper maintain the correct active state visually and programmatically
   5. Calendar renders the correct month grid and responds to date selection with `onChange`
-**Plans:** 24/24 plans complete
+**Plans:** 31 plans (24 complete + 7 UAT round 3 gap closure)
 
 Plans:
 - [ ] 06-00-PLAN.md — Wave 0: Create 16 smoke test stubs for all composite components (Nyquist compliance)
@@ -159,6 +159,13 @@ Plans:
 - [ ] 06-21-PLAN.md — UAT gap: Select missing props/keyboard nav + DatePicker missing props/sidebar
 - [ ] 06-22-PLAN.md — UAT gap: Calendar visual overhaul + CalendarDateDialog restructure
 - [ ] 06-23-PLAN.md — UAT gap: Navbar complete restructure (Dropdown, Avatar, FloatCard, logo)
+- [ ] 06-24-PLAN.md — UAT R3 gap: ExpandableContainer animation fix + Select item slot fix
+- [ ] 06-25-PLAN.md — UAT R3 gap: AutoComplete selection sync + unfold_more icon + Input color swatch
+- [ ] 06-26-PLAN.md — UAT R3 gap: Stepper icon/allowSkip/visual + RoundMenu position/sizing
+- [ ] 06-27-PLAN.md — UAT R3 gap: Dropdown flyout group submenus + selection fix
+- [ ] 06-28-PLAN.md — UAT R3 gap: TagSelect tag creation + icon position + Navbar slot stories
+- [ ] 06-29-PLAN.md — UAT R3 gap: Calendar dialog positioning + compare mode + hover range
+- [ ] 06-30-PLAN.md — UAT R3 gap: DatePicker proportions and spacing fix
 
 ### Phase 7: Complex Components
 **Goal**: The 6 highest-risk specialized components migrate correctly, including Table's render-prop column API, Tree's compound component pattern, and RichTextEditor's third-party React integration
@@ -205,7 +212,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9
 | 3. Form Components | 13/13 | Complete   | 2026-03-16 |
 | 4. Internal Components | 3/3 | Complete   | 2026-03-16 |
 | 5. Providers | 4/4 | Complete   | 2026-03-17 |
-| 6. Composite Components | 24/24 | Complete   | 2026-03-18 |
+| 6. Composite Components | 24/31 | UAT R3 gap closure | 2026-03-18 |
 | 7. Complex Components | 0/TBD | Not started | - |
 | 8. Build & Distribution | 0/TBD | Not started | - |
 | 9. Documentation & Testing | 0/TBD | Not started | - |

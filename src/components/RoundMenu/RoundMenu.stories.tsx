@@ -23,15 +23,15 @@ export const Primary: Story = {
     <div className="px-[3em] py-[4em]">
       <RoundMenu
         options={[
-          { icon: 'email', label: 'Send email', onClick: () => {} },
-          { icon: 'stop', label: 'Finish Automation', onClick: () => {} },
-          { icon: 'schedule', label: 'Wait', onClick: () => {} },
-          { icon: 'history', label: 'Time condition', onClick: () => {} },
-          { icon: 'add', label: 'Conditional', onClick: () => {} },
-          { icon: 'new_label', label: 'Add tag', onClick: () => {} },
-          { icon: 'label_off', label: 'Remove tag', onClick: () => {} },
-          { icon: 'add_circle', label: 'Trigger', onClick: () => {} },
-          { icon: 'call_split', label: 'Split', onClick: () => {} },
+          { icon: 'email', label: 'Send email', background: "#0057F4", onClick: () => {} },
+          { icon: 'stop', label: 'Finish Automation', background: "#F03232", onClick: () => {} },
+          { icon: 'schedule', label: 'Wait', background: "#5C5C5C", onClick: () => {} },
+          { icon: 'history', label: 'Time condition', background: "#FF9654", onClick: () => {} },
+          { icon: 'add', label: 'Conditional', background: "#4A004F", onClick: () => {} },
+          { icon: 'new_label', label: 'Add tag', background: "#009BE4", onClick: () => {} },
+          { icon: 'label_off', label: 'Remove tag', background: "#F06158", onClick: () => {} },
+          { icon: 'add_circle', label: 'Trigger', background: "#7B61FF", onClick: () => {} },
+          { icon: 'call_split', label: 'Split', background: "#FFC500", onClick: () => {} },
         ]}
       />
     </div>

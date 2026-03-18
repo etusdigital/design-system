@@ -56,7 +56,7 @@
 
 /* Future steps: gray border circle */
 .circle.future {
-  @apply bg-neutral-surface-default border-xxs border-neutral-border-default text-neutral-foreground-low;
+  @apply bg-neutral-surface-default border-xxs border-neutral-default text-neutral-foreground-low;
 }
 
 .label { @apply text-xs font-normal mt-xxs text-center; }

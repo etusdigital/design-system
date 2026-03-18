@@ -83,7 +83,7 @@ export function Pagination({
         onClick={() => setModel(currentPage - 1)}
         aria-label="Previous page"
       >
-        <Icon name="chevron_left" />
+        <Icon name="chevron_left" className={clsx(styles.navIcon)} />
       </button>
       <div className="flex">
         {pages.map((page, idx) => (
@@ -109,7 +109,7 @@ export function Pagination({
         onClick={() => setModel(currentPage + 1)}
         aria-label="Next page"
       >
-        <Icon name="chevron_right" />
+        <Icon name="chevron_right" className={clsx(styles.navIcon)} />
       </button>
     </div>
   );

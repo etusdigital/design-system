@@ -2,10 +2,10 @@ import { useRef, useEffect, useLayoutEffect } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
 import styles from './Accordion.module.css';
+import { Icon } from '../Icon';
 
 export interface AccordionProps {
   value?: boolean;
-  defaultValue?: boolean;
   onChange?: (value: boolean) => void;
   duration?: number;
   noShadow?: boolean;
@@ -17,7 +17,6 @@ export interface AccordionProps {
 
 export function Accordion({
   value,
-  defaultValue,
   onChange,
   duration = 300,
   noShadow = false,
@@ -100,15 +99,14 @@ export function Accordion({
           onClick={handleToggle}
         >
           {header && <span className={styles.headerText}>{header}</span>}
-          <span
+          <Icon
             className={clsx(
               styles.chevron,
               'material-symbols-rounded',
               isExpanded && styles.expanded
             )}
-          >
-            expand_more
-          </span>
+            name="expand_more"
+          />
         </div>
         <div
           ref={contentRef}
