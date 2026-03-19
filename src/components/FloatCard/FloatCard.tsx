@@ -7,9 +7,9 @@ import { Card } from '../Card/Card';
 import styles from './FloatCard.module.css';
 
 export interface FloatCardProps {
-  open?: boolean;
-  defaultOpen?: boolean;
-  onOpenChange?: (open: boolean) => void;
+  value?: boolean;
+  defaultValue?: boolean;
+  onChange?: (open: boolean) => void;
   mode?: 'click' | 'hover';
   children?: React.ReactNode;
   card?: React.ReactNode;
@@ -17,18 +17,18 @@ export interface FloatCardProps {
 }
 
 export function FloatCard({
-  open,
-  defaultOpen = false,
-  onOpenChange,
+  value,
+  defaultValue = false,
+  onChange,
   mode = 'click',
   children,
   card,
   className,
 }: FloatCardProps) {
   const [isOpen, setIsOpen] = useControllable({
-    value: open,
-    defaultValue: defaultOpen,
-    onChange: onOpenChange,
+    value: value,
+    defaultValue: defaultValue,
+    onChange: onChange,
   });
 
   const contentRef = useRef<HTMLDivElement>(null);

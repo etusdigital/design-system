@@ -19,6 +19,7 @@ export interface ExpandableContainerProps {
   maxHeight?: string;           // default: '40px'
   minWidth?: string;            // default: 'unset'
   minWidthCard?: string;
+  icon?: string;
   secondary?: boolean;          // default: false
   hideArrow?: boolean;          // default: false
   disableLabelAutoWidth?: boolean; // default: false
@@ -36,19 +37,18 @@ export function ExpandableContainer({
   defaultValue,
   onChange,
   labelValue = '',
-  absolute = true,
   disabled = false,
   isError = false,
   errorMessage = '',
   infoMessage = '',
   required = false,
   closeOnBlur = true,
-  alignRight = false,
   maxHeight = '40px',
   minWidth = 'unset',
   secondary = false,
   hideArrow = false,
   disableLabelAutoWidth = false,
+  icon,
   children,
   complement,
   leadingComplement,
@@ -60,14 +60,7 @@ export function ExpandableContainer({
   const [model, setModel] = useControllable<boolean>({
     value,
     defaultValue,
-    onChange: (val) => onChange?.(val, { source: 'click' }),
   });
-
-  const isExpanded = disabled ? false : (model ?? false);
-  // absolute defaults to true so dropdowns float by default.
-  // isAbsolute simply reflects the absolute prop — content is always rendered
-  // (CSS visibility/opacity toggle) so transitions work regardless of expanded state.
-  const isAbsolute = absolute;
 
   function changeModel(val: boolean, extra: ContainerModelExtra) {
     setModel(val);
@@ -94,26 +87,13 @@ export function ExpandableContainer({
       label={label}
       complement={complement}
       leadingComplement={leadingComplement}
+      icon={icon}
       renderContent={(contentMinWidth) => (
-        <div
-          className={clsx('text-xs top-full w-fit mt-xs', {
-            'absolute z-[80]': isAbsolute,
-            'left-0': !alignRight,
-            'right-0': alignRight,
-            'opacity-100 visible': isExpanded,
-            'opacity-0 invisible pointer-events-none': !isExpanded,
-          })}
-          style={{
-            minWidth: contentMinWidth,
-            transition: 'opacity 150ms ease, visibility 150ms ease',
-          }}
-        >
-          {card || (
-            <div className="bg-neutral-surface-default shadow-neutral-selected border-xxs border-neutral-default rounded-sm">
+          card || (
+            <div style={{ minWidth: contentMinWidth }}>
               {content}
             </div>
-          )}
-        </div>
+          )
       )}
     >
       {children}

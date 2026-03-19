@@ -28,7 +28,6 @@ export interface SelectProps {
   required?: boolean;
   placeholder?: string;
   secondary?: boolean;
-  absolute?: boolean;
   icon?: string;
   expanded?: boolean;
   onExpandedChange?: (expanded: boolean) => void;
@@ -61,7 +60,6 @@ export function Select({
   required = false,
   placeholder,
   secondary = false,
-  absolute = false,
   icon,
   expanded,
   onExpandedChange,
@@ -270,7 +268,6 @@ export function Select({
         infoMessage={infoMessage}
         required={required}
         secondary={secondary}
-        absolute={absolute}
         options={optionsNode}
         actions={actionsNode}
         className={clsx('select', className)}

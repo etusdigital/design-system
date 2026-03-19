@@ -5,6 +5,7 @@ import { Label } from './Label';
 import { Icon } from '../../components/Icon';
 import type { ContainerModelExtra } from '../types/ContainerModelExtra';
 import '../styles/Container.css';
+import { FloatCard } from '@/components';
 
 export interface ContainerProps {
   value?: boolean;              // was modelValue
@@ -23,6 +24,7 @@ export interface ContainerProps {
   minWidth?: string;            // default: '15em'
   secondary?: boolean;          // default: false
   hideArrow?: boolean;          // default: false
+  icon?: string;
   disableLabelAutoWidth?: boolean;  // default: false
   children?: React.ReactNode;           // default slot
   label?: React.ReactNode;              // slot name="label"
@@ -49,6 +51,7 @@ export function Container({
   minWidth = '15em',
   secondary = false,
   hideArrow = false,
+  icon = 'keyboard_arrow_down',
   disableLabelAutoWidth = false,
   children,
   label,
@@ -60,14 +63,12 @@ export function Container({
   const [model, setModel] = useControllable<boolean>({
     value,
     defaultValue,
-    onChange: (val) => onChange?.(val, { source: 'click' }),
   });
 
   const isExpanded = disabled ? false : (model ?? false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   const [contentMinWidth, setContentMinWidth] = useState(minWidth);
 
@@ -82,14 +83,12 @@ export function Container({
   }
 
   // Close from blur: passes source: 'blur' directly to onChange
-  function closeFromBlur() {
+  function blur(value: boolean) {
     if (closeOnBlur && model) {
-      onChange?.(false, { source: 'blur' });
-      setModel(false);
+      setModel(value)
+      onChange?.(value, { source: 'blur' });
     }
   }
-
-  useClickOutside([containerRef, contentRef], closeFromBlur, closeOnBlur);
 
   // MutationObserver on mount — disconnect on unmount
   useEffect(() => {
@@ -113,61 +112,58 @@ export function Container({
   }
 
   return (
-    <div className={clsx('container', className)}>
-      {labelValue && (
-        <div className="flex justify-between items-center">
-          <Label labelValue={labelValue} infoMessage={infoMessage} required={required} />
-        </div>
-      )}
-      <div
-        ref={containerRef}
-        role={role}
-        aria-disabled={disabled || undefined}
-        aria-required={required || undefined}
-        className="label-container"
-        tabIndex={0}
-      >
-        {label || (
-          <div
-            ref={labelRef}
-            className={clsx('label-content', {
-              disabled,
-              secondary,
-              expanded: isExpanded,
-              'hide-bottom': hideBottom,
-              error: isError,
-            })}
-            style={{ maxHeight, minWidth }}
-            onClick={toggle}
-            onKeyUp={(e) => { if (e.key === ' ') toggle(); }}
-          >
-            {leadingComplement}
-            {children}
-
-            <div className="flex items-center gap-xs ml-auto">
-              {complement}
-              {!hideArrow && (
-                <Icon
-                  name="keyboard_arrow_down"
-                  className={clsx('arrow-icon', {
-                    'text-neutral-interaction-disabled': disabled,
-                    'text-danger-interaction-default': isError,
-                    expanded: isExpanded,
-                  })}
-                />
-              )}
-            </div>
+    <FloatCard value={isExpanded} card={renderContent?.(contentMinWidth)} onChange={blur}>
+      <div className={clsx('container', className)}>
+        {labelValue && (
+          <div className="flex justify-between items-center">
+            <Label labelValue={labelValue} infoMessage={infoMessage} required={required} />
           </div>
         )}
+        <div
+          ref={containerRef}
+          role={role}
+          aria-disabled={disabled || undefined}
+          aria-required={required || undefined}
+          className="label-container"
+          tabIndex={0}
+        >
+          {label || (
+            <div
+              ref={labelRef}
+              className={clsx('label-content', {
+                disabled,
+                secondary,
+                expanded: isExpanded,
+                'hide-bottom': hideBottom,
+                error: isError,
+              })}
+              style={{ maxHeight, minWidth }}
+              onClick={toggle}
+              onKeyUp={(e) => { if (e.key === ' ') toggle(); }}
+            >
+              {leadingComplement}
+              {children}
 
-        {/* Content slot — replaces Vue <Transition name="expand"><slot name="content" :min-width="contentMinWidth" /> */}
-        <div ref={contentRef}>
-          {renderContent?.(contentMinWidth)}
+              <div className="flex items-center gap-xs ml-auto">
+                {complement}
+                {!hideArrow && (
+                  <Icon
+                    name={icon}
+                    className={clsx('arrow-icon', {
+                      'text-neutral-interaction-disabled': disabled,
+                      'text-danger-interaction-default': isError,
+                      expanded: isExpanded,
+                    })}
+                  />
+                )}
+              </div>
+            </div>
+          )}
         </div>
+        {isError && (
+          <small className="text-danger-foreground-low text-start p3">{errorMessage}</small>
+        )}
       </div>
-      {isError && (
-        <small className="text-danger-foreground-low text-start p3">{errorMessage}</small>
-      )}
-    </div>
+    </FloatCard>
   );
 }

@@ -65,10 +65,6 @@ const meta = {
       type: { name: 'boolean' },
       table: { defaultValue: { summary: 'false' } },
     },
-    absolute: {
-      type: { name: 'boolean' },
-      table: { defaultValue: { summary: 'false' } },
-    },
   },
 } satisfies Meta<typeof Select>;
 
@@ -105,25 +101,6 @@ export const Primary: Story = {
     isError: false,
     errorMessage: '',
     infoMessage: '',
-    absolute: false,
-  },
-};
-
-export const Absolute: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<any>(null);
-    return (
-      <Select
-        {...args}
-        value={value}
-        onChange={setValue}
-        labelValue="label"
-        options={defaultOptions}
-        absolute
-      >
-        Placeholder
-      </Select>
-    );
   },
 };
 

@@ -24,6 +24,7 @@ export interface SelectContainerProps {
   secondary?: boolean;          // default: false
   hideArrow?: boolean;          // default: false
   disableLabelAutoWidth?: boolean; // default: false
+  icon?: string;
   children?: React.ReactNode;       // default slot (label area content)
   complement?: React.ReactNode;     // complement slot (right side)
   leadingComplement?: React.ReactNode; // leading slot (left side)
@@ -52,6 +53,7 @@ export function SelectContainer({
   secondary = false,
   hideArrow = false,
   disableLabelAutoWidth = false,
+  icon,
   children,
   complement,
   leadingComplement,
@@ -64,7 +66,6 @@ export function SelectContainer({
   const [model, setModel] = useControllable<boolean>({
     value,
     defaultValue,
-    onChange: (val) => onChange?.(val, { source: 'click' }),
   });
 
   const isExpanded = disabled ? false : (model ?? false);
@@ -139,6 +140,7 @@ export function SelectContainer({
         label={label}
         complement={complement}
         leadingComplement={leadingComplement}
+        icon={icon}
         content={
           <div
             ref={contentRef}
