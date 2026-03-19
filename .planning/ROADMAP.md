@@ -15,7 +15,7 @@ A full in-place migration of 60+ Vue 3 components to React, proceeding in strict
 - [x] **Phase 3: Form Components** - 12 controlled/uncontrolled form inputs using `useControllable` (completed 2026-03-16)
 - [x] **Phase 4: Internal Components** - 8 shared utility components and portal infrastructure (completed 2026-03-16)
 - [x] **Phase 5: Providers** - Context providers replacing Vue global properties (`$confirm`, `$toast`) (completed 2026-03-17)
-- [x] **Phase 6: Composite Components** - 17 overlay and interactive components depending on Phases 4 and 5 (UAT round 3 gap closure in progress) (completed 2026-03-18)
+- [x] **Phase 6: Composite Components** - 17 overlay and interactive components depending on Phases 4 and 5 (test maintenance gap closure in progress) (completed 2026-03-18)
 - [ ] **Phase 7: Complex Components** - 6 high-risk specialized components (Table, Tree, RichTextEditor, etc.)
 - [ ] **Phase 8: Build & Distribution** - Build output validation, TypeScript declarations, npm publishability
 - [ ] **Phase 9: Documentation & Testing** - Storybook stories, RTL tests, visual parity verification
@@ -132,7 +132,7 @@ Plans:
   3. Dropdown, ColorPicker, and DatePicker position their popover correctly relative to the trigger element
   4. Accordion, Tab, and Stepper maintain the correct active state visually and programmatically
   5. Calendar renders the correct month grid and responds to date selection with `onChange`
-**Plans:** 30/31 plans executed
+**Plans:** 33 plans
 
 Plans:
 - [ ] 06-00-PLAN.md — Wave 0: Create 16 smoke test stubs for all composite components (Nyquist compliance)
@@ -166,6 +166,8 @@ Plans:
 - [ ] 06-28-PLAN.md — UAT R3 gap: TagSelect tag creation + icon position + Navbar slot stories
 - [ ] 06-29-PLAN.md — UAT R3 gap: Calendar dialog positioning + compare mode + hover range
 - [ ] 06-30-PLAN.md — UAT R3 gap: DatePicker proportions and spacing fix
+- [ ] 06-31-PLAN.md — Test fix: ExpandableContainer/SelectContainer/TagSelect/RoundMenu test-code mismatches
+- [ ] 06-32-PLAN.md — Test fix: Navbar/Dropdown test-code mismatches + Calendar uncommitted changes
 
 ### Phase 7: Complex Components
 **Goal**: The 6 highest-risk specialized components migrate correctly, including Table's render-prop column API, Tree's compound component pattern, and RichTextEditor's third-party React integration
@@ -212,7 +214,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9
 | 3. Form Components | 13/13 | Complete   | 2026-03-16 |
 | 4. Internal Components | 3/3 | Complete   | 2026-03-16 |
 | 5. Providers | 4/4 | Complete   | 2026-03-17 |
-| 6. Composite Components | 30/31 | In Progress|  |
+| 6. Composite Components | 30/33 | Test gap closure |  |
 | 7. Complex Components | 0/TBD | Not started | - |
 | 8. Build & Distribution | 0/TBD | Not started | - |
 | 9. Documentation & Testing | 0/TBD | Not started | - |
