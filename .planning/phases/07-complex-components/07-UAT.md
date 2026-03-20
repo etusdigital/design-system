@@ -1,5 +1,5 @@
 ---
-status: complete
+status: resolved
 phase: 07-complex-components
 source: [07-01-SUMMARY.md, 07-02-SUMMARY.md, 07-03-SUMMARY.md, 07-04-SUMMARY.md, 07-05-SUMMARY.md]
 started: 2026-03-20T20:00:00Z
@@ -94,98 +94,146 @@ skipped: 0
 
 ## Gaps
 
-- truth: "History component renders with position variants and type colors in Storybook"
-  status: failed
+- truth: "History component viewable in React Storybook"
+  status: resolved
   reason: "User reported: missing .stories.tsx file mirroring History.stories.ts"
   severity: major
   test: 1
-  artifacts: []
-  missing: []
+  root_cause: "Phase 7 migration plans did not include creating React Storybook stories (.stories.tsx) for migrated components"
+  artifacts:
+    - path: "src/components/History/History.stories.ts"
+      issue: "Vue stories exist but no React .stories.tsx equivalent"
+  missing:
+    - "Create History.stories.tsx mirroring all stories from History.stories.ts using React/JSX syntax"
 
-- truth: "Crop component renders with drag/zoom in Storybook"
-  status: failed
+- truth: "Crop component viewable in React Storybook"
+  status: resolved
   reason: "User reported: missing .stories.tsx file mirroring Crop.stories.ts"
   severity: major
   test: 2
-  artifacts: []
-  missing: []
+  root_cause: "Phase 7 migration plans did not include creating React Storybook stories"
+  artifacts:
+    - path: "src/components/Crop/Crop.stories.ts"
+      issue: "Vue stories exist but no React .stories.tsx equivalent"
+  missing:
+    - "Create Crop.stories.tsx mirroring all stories from Crop.stories.ts using React/JSX syntax"
 
-- truth: "Sidebar component renders collapsed/expanded modes in Storybook"
-  status: failed
+- truth: "Sidebar component viewable in React Storybook"
+  status: resolved
   reason: "User reported: missing .stories.tsx file mirroring Sidebar.stories.ts"
   severity: major
   test: 3
-  artifacts: []
-  missing: []
+  root_cause: "Phase 7 migration plans did not include creating React Storybook stories"
+  artifacts:
+    - path: "src/components/Sidebar/Sidebar.stories.ts"
+      issue: "Vue stories exist but no React .stories.tsx equivalent"
+  missing:
+    - "Create Sidebar.stories.tsx mirroring all stories from Sidebar.stories.ts using React/JSX syntax"
 
-- truth: "Sidebar navigation integration viewable in Storybook"
-  status: failed
+- truth: "Sidebar navigation viewable in React Storybook"
+  status: resolved
   reason: "User reported: missing .stories.tsx file mirroring Sidebar.stories.ts"
   severity: major
   test: 4
-  artifacts: []
-  missing: []
+  root_cause: "Same as test 3 — no React stories file for Sidebar"
+  artifacts:
+    - path: "src/components/Sidebar/Sidebar.stories.ts"
+      issue: "Vue stories exist but no React .stories.tsx equivalent"
+  missing:
+    - "Covered by Sidebar.stories.tsx creation in test 3"
 
-- truth: "Tree expand/collapse viewable in Storybook"
-  status: failed
+- truth: "Tree expand/collapse viewable in React Storybook"
+  status: resolved
   reason: "User reported: missing .stories.tsx file mirroring Tree.stories.ts"
   severity: major
   test: 5
-  artifacts: []
-  missing: []
+  root_cause: "Phase 7 migration plans did not include creating React Storybook stories"
+  artifacts:
+    - path: "src/components/Tree/Tree.stories.ts"
+      issue: "Vue stories exist but no React .stories.tsx equivalent"
+  missing:
+    - "Create Tree.stories.tsx mirroring all stories from Tree.stories.ts using React/JSX syntax"
 
-- truth: "Tree selection modes viewable in Storybook"
-  status: failed
+- truth: "Tree selection modes viewable in React Storybook"
+  status: resolved
   reason: "User reported: missing .stories.tsx file mirroring Tree.stories.ts"
   severity: major
   test: 6
-  artifacts: []
-  missing: []
+  root_cause: "Same as test 5 — no React stories file for Tree"
+  artifacts:
+    - path: "src/components/Tree/Tree.stories.ts"
+      issue: "Vue stories exist but no React .stories.tsx equivalent"
+  missing:
+    - "Covered by Tree.stories.tsx creation in test 5"
 
-- truth: "Table data rendering viewable in Storybook"
-  status: failed
+- truth: "Table data rendering viewable in React Storybook"
+  status: resolved
   reason: "User reported: missing .stories.tsx file mirroring Table.stories.ts"
   severity: major
   test: 7
-  artifacts: []
-  missing: []
+  root_cause: "Phase 7 migration plans did not include creating React Storybook stories"
+  artifacts:
+    - path: "src/components/Table/Table.stories.ts"
+      issue: "Vue stories exist but no React .stories.tsx equivalent"
+  missing:
+    - "Create Table.stories.tsx mirroring all stories from Table.stories.ts using React/JSX syntax"
 
-- truth: "Table sorting & pagination viewable in Storybook"
-  status: failed
+- truth: "Table sorting & pagination viewable in React Storybook"
+  status: resolved
   reason: "User reported: missing .stories.tsx file mirroring Table.stories.ts"
   severity: major
   test: 8
-  artifacts: []
-  missing: []
+  root_cause: "Same as test 7 — no React stories file for Table"
+  artifacts:
+    - path: "src/components/Table/Table.stories.ts"
+      issue: "Vue stories exist but no React .stories.tsx equivalent"
+  missing:
+    - "Covered by Table.stories.tsx creation in test 7"
 
-- truth: "Table row selection viewable in Storybook"
-  status: failed
+- truth: "Table row selection viewable in React Storybook"
+  status: resolved
   reason: "User reported: missing .stories.tsx file mirroring Table.stories.ts"
   severity: major
   test: 9
-  artifacts: []
-  missing: []
+  root_cause: "Same as test 7 — no React stories file for Table"
+  artifacts:
+    - path: "src/components/Table/Table.stories.ts"
+      issue: "Vue stories exist but no React .stories.tsx equivalent"
+  missing:
+    - "Covered by Table.stories.tsx creation in test 7"
 
-- truth: "RichTextEditor toolbar formatting viewable in Storybook"
-  status: failed
+- truth: "RichTextEditor toolbar formatting viewable in React Storybook"
+  status: resolved
   reason: "User reported: missing .stories.tsx file mirroring RichTextEditor.stories.ts"
   severity: major
   test: 10
-  artifacts: []
-  missing: []
+  root_cause: "Phase 7 migration plans did not include creating React Storybook stories"
+  artifacts:
+    - path: "src/components/RichTextEditor/RichTextEditor.stories.ts"
+      issue: "Vue stories exist but no React .stories.tsx equivalent"
+  missing:
+    - "Create RichTextEditor.stories.tsx mirroring all stories from RichTextEditor.stories.ts using React/JSX syntax"
 
-- truth: "RichTextEditor undo/redo viewable in Storybook"
-  status: failed
+- truth: "RichTextEditor undo/redo viewable in React Storybook"
+  status: resolved
   reason: "User reported: missing .stories.tsx file mirroring RichTextEditor.stories.ts"
   severity: major
   test: 11
-  artifacts: []
-  missing: []
+  root_cause: "Same as test 10 — no React stories file for RichTextEditor"
+  artifacts:
+    - path: "src/components/RichTextEditor/RichTextEditor.stories.ts"
+      issue: "Vue stories exist but no React .stories.tsx equivalent"
+  missing:
+    - "Covered by RichTextEditor.stories.tsx creation in test 10"
 
-- truth: "RichTextEditor color picker viewable in Storybook"
-  status: failed
+- truth: "RichTextEditor color picker viewable in React Storybook"
+  status: resolved
   reason: "User reported: missing .stories.tsx file mirroring RichTextEditor.stories.ts"
   severity: major
   test: 12
-  artifacts: []
-  missing: []
+  root_cause: "Same as test 10 — no React stories file for RichTextEditor"
+  artifacts:
+    - path: "src/components/RichTextEditor/RichTextEditor.stories.ts"
+      issue: "Vue stories exist but no React .stories.tsx equivalent"
+  missing:
+    - "Covered by RichTextEditor.stories.tsx creation in test 10"
