@@ -5,7 +5,7 @@ import { Label } from './Label';
 import { Icon } from '../../components/Icon';
 import type { ContainerModelExtra } from '../types/ContainerModelExtra';
 import '../styles/Container.css';
-import { FloatCard } from '@/components';
+import { FloatCard } from '../../components/FloatCard';
 
 export interface ContainerProps {
   value?: boolean;              // was modelValue
