@@ -104,7 +104,7 @@ export const Icon: Story = {
     searchable: false,
     creatable: false,
     isError: false,
-    icon: 'filter_view',
+    icon: 'filter_list',
   },
 };
 
