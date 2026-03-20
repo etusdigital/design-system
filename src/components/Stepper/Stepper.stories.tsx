@@ -21,10 +21,16 @@ const meta = {
         defaultValue: { summary: 'label' },
       },
     },
+    valueKey: {
+      type: { name: 'string' },
+      table: {
+        defaultValue: { summary: 'value' },
+      },
+    },
     size: {
       type: { name: 'string' },
       control: 'select',
-      options: ['medium', 'large'],
+      options: ['small', 'medium', 'large'],
       table: {
         defaultValue: { summary: 'medium' },
       },
@@ -34,13 +40,6 @@ const meta = {
       description: 'If true, the user will not be able to change the step by clicking.',
       table: {
         defaultValue: { summary: 'false' },
-      },
-    },
-    background: {
-      type: { name: 'string' },
-      description: 'This property will be the stepper background.',
-      table: {
-        defaultValue: { summary: '--neutral-background-default' },
       },
     },
   },
@@ -74,7 +73,13 @@ export const Sizes: Story = {
   render: () => {
     const [step, setStep] = useState(0);
     return (
-      <div className="flex flex-col gap-base">
+      <div className="flex flex-col gap-xl">
+        <Stepper
+          value={step}
+          onChange={setStep}
+          options={defaultOptions}
+          size="small"
+        />
         <Stepper
           value={step}
           onChange={setStep}
@@ -115,6 +120,7 @@ export const AllowedSkip: Story = {
         onChange={setStep}
         options={defaultOptions}
         size="medium"
+        allowSkip
       />
     );
   },

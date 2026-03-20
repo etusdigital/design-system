@@ -3,70 +3,39 @@
 /* items-center so connectors align with circle centers */
 .stepper { @apply flex items-center w-full; }
 
-.step { @apply flex flex-col items-center cursor-pointer; }
-.step.noClick { @apply cursor-default; }
+.stepContainer { @apply relative flex flex-col items-center cursor-pointer; }
+.stepContainer.noClick { @apply cursor-default; }
 
-/* Button container wraps ring + circle for scale transform */
-.buttonContainer {
-  @apply relative p-xxs rounded-full cursor-pointer;
-  transition: transform 200ms ease;
+.step {
+  @apply rounded-full flex items-center justify-center relative z-[1] py-sm px-base border-xs;
 }
-
-.activeItem {
-  transform: scale(1.2);
-}
-
-/* Background ring/fill behind the circle */
-.background {
-  @apply absolute inset-0 rounded-full;
-}
-
-.backgroundPast {
-  @apply bg-primary-interaction-default;
-}
-
-.backgroundFuture {
-  background: var(--neutral-surface-secondary);
-}
-
-/* Ring for active step: top half primary, bottom half neutral */
-.ring {
-  @apply absolute inset-[-4px] rounded-full;
-  background: conic-gradient(
-    var(--primary-surface-highlight) 0deg 180deg,
-    var(--neutral-surface-highlight) 180deg 360deg
-  );
-}
-
-.circle {
-  @apply rounded-full flex items-center justify-center relative z-[1];
-}
-.circle.medium { width: 32px; height: 32px; }
-.circle.large { width: 40px; height: 40px; }
+.step.small { @apply py-xs px-sm; }
+.step.large { @apply py-base px-lg; }
 
 /* Past steps: filled primary circle with white icon */
-.circle.past {
-  @apply bg-primary-interaction-default text-neutral-foreground-negative;
+.step.past {
+  @apply bg-primary-interaction-default border-primary-interaction-default text-neutral-foreground-negative;
 }
 
 /* Active step: primary background with white icon/text */
-.circle.active {
-  @apply bg-primary-interaction-default text-neutral-foreground-negative;
+.step.active {
+  @apply bg-transparent border-primary-default text-primary-interaction-default;
 }
 
 /* Future steps: gray border circle */
-.circle.future {
-  @apply bg-neutral-surface-default border-xxs border-neutral-default text-neutral-foreground-low;
+.step.future {
+  @apply bg-neutral-surface-default border-neutral-default text-neutral-foreground-low;
 }
 
-.label { @apply text-xs font-normal mt-xxs text-center; }
+.label { @apply absolute translate-y-4xl text-xs font-normal text-center whitespace-nowrap; }
+
+.small .label { @apply translate-y-3xl; }
+
+.large .label { @apply translate-y-5xl; }
 
 /* Connector: 2px tall, vertically centered */
 .connector {
-  @apply flex-1;
-  height: 2px;
-  position: relative;
-  top: 0;
+  @apply z-[0] relative top-none flex-1 h-xxs;
 }
 
 /* Past connector: green */
@@ -77,8 +46,4 @@
 /* Future connector: gray */
 .connector.future {
   background: var(--neutral-border-default);
-}
-
-.stepper-icon.icon {
-  @apply text-base;
 }

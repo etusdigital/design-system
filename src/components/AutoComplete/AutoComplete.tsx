@@ -113,7 +113,7 @@ export function AutoComplete({
           />
         }
         className={clsx("auto-complete", className)}
-      ></SelectContainer>
+      />
     </div>
   );
 }

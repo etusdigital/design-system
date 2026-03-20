@@ -91,6 +91,20 @@ export const Compare: Story = {
   },
 };
 
+export const DoubleCalendar: Story = {
+  render: (args) => {
+    const [value, setValue] = useState<Date | undefined>(undefined);
+    return (
+      <Calendar
+        {...args}
+        value={value}
+        onChange={setValue}
+        doubleCalendar
+      />
+    );
+  },
+};
+
 export const MinDate: Story = {
   render: (args) => {
     const [value, setValue] = useState<Date | undefined>(undefined);

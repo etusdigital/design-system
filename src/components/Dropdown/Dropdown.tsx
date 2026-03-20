@@ -1,11 +1,13 @@
-import clsx from 'clsx';
-import { useState } from 'react';
-import { useControllable } from '../../hooks';
-import { ExpandableContainer } from '../../utils/components/ExpandableContainer';
-import { isObject } from '../../utils';
-import styles from './Dropdown.module.css';
-import './Dropdown.css';
-import { Icon } from '../Icon/Icon';
+import clsx from "clsx";
+import { useState } from "react";
+import { useControllable } from "../../hooks";
+import { ExpandableContainer } from "../../utils/components/ExpandableContainer";
+import { isObject } from "../../utils";
+import styles from "./Dropdown.module.css";
+import "./Dropdown.css";
+import { Icon } from "../Icon/Icon";
+import { SelectContent } from "@/utils/components/SelectContent.tsx";
+import { Separator } from "../Separator";
 
 // -----------------------------------------------------------------------
 // Option type (local — mirrors DropOption)
@@ -43,24 +45,52 @@ function DropdownOption({
   depth = 0,
 }: DropdownOptionProps) {
   const [subExpanded, setSubExpanded] = useState(false);
-  const label = option[labelKey] ?? option.label;
-  const value = option[valueKey] ?? option.value;
-  const isSelected = selectedValue !== undefined && selectedValue !== null && selectedValue === value;
+  const label = getLabel(option);
+  const value = getValue(option);
+  const isSelected =
+    selectedValue !== undefined &&
+    selectedValue !== null &&
+    selectedValue === value;
+
+  function getLabel(option: any) {
+    return isObject(option) ? option[labelKey] || option.label : option;
+  }
+
+  function getValue(option: any) {
+    return isObject(option) ? option[valueKey] || option.value : option;
+  }
 
   if (option.options && option.options.length > 0) {
+    function isChildSelected(options: any) {
+      return options.find((option: any) => {
+        if (selectedValue == getValue(option)) return true;
+        else if (option?.options) return isChildSelected(option.options);
+      });
+    }
+
     return (
-      <div
-        className={clsx(styles.groupRow, { [styles.disabled]: option.disabled })}
-        onClick={() => !option.disabled && setSubExpanded((prev) => !prev)}
-        onKeyDown={(e) => { if (e.key === 'Enter' && !option.disabled) setSubExpanded((prev) => !prev); }}
-        tabIndex={option.disabled ? -1 : 0}
-        role="option"
-        aria-haspopup="listbox"
-        aria-expanded={subExpanded}
-      >
-        {option.icon && <Icon className="dropdown-icon" name={option.icon} />}
-        <span className={styles.groupLabel}>{label}</span>
-        <Icon className={styles.chevronIcon} name="chevron_right" />
+      <div className="relative">
+        <div
+          className={clsx(styles.optionItem, {
+            [styles.disabled]: option.disabled,
+            [styles.selected]: isChildSelected(option.options)
+          }, 'justify-between')}
+          onClick={() => !option.disabled && setSubExpanded((prev) => !prev)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !option.disabled)
+              setSubExpanded((prev) => !prev);
+          }}
+          tabIndex={option.disabled ? -1 : 0}
+          role="option"
+          aria-haspopup="listbox"
+          aria-expanded={subExpanded}
+        >
+          <div className="flex item-center gap-xs">
+            {option.icon && <Icon className="dropdown-icon" name={option.icon} />}
+            <span className={styles.groupLabel}>{label}</span>
+          </div>
+          <Icon className={styles.chevronIcon} name="chevron_right" />
+        </div>
         {subExpanded && (
           <div className={styles.flyoutCard}>
             <div className="bg-neutral-surface-default shadow-neutral-selected border-xxs border-neutral-default rounded-sm">
@@ -81,9 +111,14 @@ function DropdownOption({
 
   return (
     <div
-      className={clsx(styles.optionItem, { [styles.selected]: isSelected, [styles.disabled]: option.disabled })}
+      className={clsx(styles.optionItem, {
+        [styles.selected]: isSelected,
+        [styles.disabled]: option.disabled,
+      })}
       onClick={() => !option.disabled && onSelect(option)}
-      onKeyDown={(e) => { if (e.key === 'Enter' && !option.disabled) onSelect(option); }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" && !option.disabled) onSelect(option);
+      }}
       tabIndex={option.disabled ? -1 : 0}
       role="option"
       aria-selected={isSelected}
@@ -115,18 +150,27 @@ function DropdownOptions({
   onSelect,
   depth = 0,
 }: DropdownOptionsProps) {
+  const parsedOptions = [
+    options.filter((option) => !option.bottom),
+    options.filter((option) => option.bottom),
+  ].filter((options) => options.length);
   return (
-    <div className={styles.optionsList} role="listbox">
-      {options.map((option, index) => (
-        <DropdownOption
-          key={index}
-          option={option}
-          labelKey={labelKey}
-          valueKey={valueKey}
-          selectedValue={selectedValue}
-          onSelect={onSelect}
-          depth={depth}
-        />
+    <div role="listbox" className={styles.optionsContainer}>
+      {parsedOptions.map((options, index) => (
+        <>
+          {options.map((option, index) => (
+            <DropdownOption
+              key={index}
+              option={option}
+              labelKey={labelKey}
+              valueKey={valueKey}
+              selectedValue={selectedValue}
+              onSelect={onSelect}
+              depth={depth}
+            />
+          ))}
+          {index == 0 && parsedOptions.length > 1 && <Separator />}
+        </>
       ))}
     </div>
   );
@@ -135,14 +179,23 @@ function DropdownOptions({
 // -----------------------------------------------------------------------
 // Helper: flatten nested options for search filtering
 // -----------------------------------------------------------------------
-function filterOptions(options: DropdownOptionItem[], search: string, labelKey: string): DropdownOptionItem[] {
+function filterOptions(
+  options: DropdownOptionItem[],
+  search: string,
+  labelKey: string,
+): DropdownOptionItem[] {
   const results: DropdownOptionItem[] = [];
   for (const option of options) {
-    const label = (option[labelKey] ?? option.label ?? '').toString().toLowerCase();
+    const label = (option[labelKey] ?? option.label ?? "")
+      .toString()
+      .toLowerCase();
     if (option.options && option.options.length > 0) {
       const nestedResults = filterOptions(option.options, search, labelKey);
       if (label.includes(search.toLowerCase()) || nestedResults.length > 0) {
-        results.push({ ...option, options: nestedResults.length > 0 ? nestedResults : option.options });
+        results.push({
+          ...option,
+          options: nestedResults.length > 0 ? nestedResults : option.options,
+        });
       }
     } else if (label.includes(search.toLowerCase())) {
       results.push(option);
@@ -158,15 +211,22 @@ function findOptionByValue(
   options: DropdownOptionItem[],
   value: any,
   valueKey: string,
-  labelKey: string
+  labelKey: string,
 ): DropdownOptionItem | undefined {
   for (const option of options) {
     const optVal = option[valueKey] ?? option.value;
-    if (optVal === (isObject(value) ? value[valueKey] ?? value.value : value)) {
+    if (
+      optVal === (isObject(value) ? (value[valueKey] ?? value.value) : value)
+    ) {
       return option;
     }
     if (option.options && option.options.length > 0) {
-      const found = findOptionByValue(option.options, value, valueKey, labelKey);
+      const found = findOptionByValue(
+        option.options,
+        value,
+        valueKey,
+        labelKey,
+      );
       if (found) return found;
     }
   }
@@ -194,7 +254,6 @@ export interface DropdownProps {
   infoMessage?: string;
   maxHeight?: string;
   minWidth?: string;
-  absolute?: boolean;
   children?: React.ReactNode;
   className?: string;
 }
@@ -207,20 +266,19 @@ export function Dropdown({
   defaultValue,
   onChange,
   options,
-  labelKey = 'label',
-  valueKey = 'value',
+  labelKey = "label",
+  valueKey = "value",
   getObject = false,
   disabled = false,
-  labelValue = '',
+  labelValue = "",
   searchable = false,
   alignRight = false,
   isError = false,
-  errorMessage = '',
+  errorMessage = "",
   required = false,
   infoMessage,
   maxHeight,
   minWidth,
-  absolute = true,
   children,
   className,
 }: DropdownProps) {
@@ -230,60 +288,54 @@ export function Dropdown({
     onChange,
   });
 
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const [expanded, setExpanded] = useState(false);
 
   function getValue(option: any): any {
-    return isObject(option) ? option[valueKey] ?? option.value : option;
+    return isObject(option) ? (option[valueKey] ?? option.value) : option;
   }
 
   function selectOption(option: DropdownOptionItem) {
     const emitValue = getObject ? option : getValue(option);
     setSelectedValue(emitValue);
-    setExpanded(false);
-    setSearchText('');
+    setTimeout(() => setExpanded(false));
+    setSearchText("");
   }
 
-  const selectedOption = selectedValue != null
-    ? findOptionByValue(options, selectedValue, valueKey, labelKey)
-    : undefined;
+  const selectedOption =
+    selectedValue != null
+      ? findOptionByValue(options, selectedValue, valueKey, labelKey)
+      : undefined;
 
-  const displayLabel = selectedOption
-    ? (selectedOption[labelKey] ?? selectedOption.label ?? '')
-    : labelValue;
+  const filteredOptions =
+    searchable && searchText
+      ? filterOptions(options, searchText, labelKey)
+      : options;
 
-  const filteredOptions = searchable && searchText
-    ? filterOptions(options, searchText, labelKey)
-    : options;
+  let statusNode: React.ReactNode;
+  if (selectedOption)
+    statusNode = (
+      <span className={styles.displayLabel}>
+        {selectedOption[labelKey] ?? selectedOption.label ?? ""}
+      </span>
+    );
+  else statusNode = children;
 
   const card = (
-    <div className="bg-neutral-surface-default shadow-neutral-selected border-xxs border-neutral-default rounded-sm">
-      {searchable && (
-        <div className={styles.searchInput}>
-          <input
-            type="text"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            placeholder="Search..."
-            className="w-full outline-none text-sm bg-transparent"
-          />
-        </div>
-      )}
-      <DropdownOptions
-        options={filteredOptions}
-        labelKey={labelKey}
-        valueKey={valueKey}
-        selectedValue={selectedValue != null ? getValue(selectedValue) : null}
-        onSelect={selectOption}
-      />
-    </div>
+    <DropdownOptions
+      options={filteredOptions}
+      labelKey={labelKey}
+      valueKey={valueKey}
+      selectedValue={selectedValue != null ? getValue(selectedValue) : null}
+      onSelect={selectOption}
+    />
   );
 
   return (
     <ExpandableContainer
       value={expanded}
       onChange={(val) => setExpanded(val)}
-      labelValue={String(displayLabel)}
+      labelValue={labelValue}
       disabled={disabled}
       isError={isError}
       errorMessage={errorMessage}
@@ -292,11 +344,20 @@ export function Dropdown({
       infoMessage={infoMessage}
       maxHeight={maxHeight}
       minWidth={minWidth}
-      absolute={absolute}
       card={card}
-      className={clsx('dropdown', className)}
+      className={clsx("dropdown", className)}
     >
-      {children}
+      <SelectContent
+        value={searchText}
+        onChange={setSearchText}
+        expanded={expanded}
+        onExpandedChange={setExpanded}
+        searchable={searchable}
+        disabled={disabled}
+        isError={isError}
+        status={statusNode}
+        options={selectedOption ? options : undefined}
+      />
     </ExpandableContainer>
   );
 }

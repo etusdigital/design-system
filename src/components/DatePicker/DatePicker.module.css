@@ -1,22 +1,18 @@
 @reference "../../assets/main.css";
 
-.datePickerCard {
-  @apply p-md;
-  min-width: 280px;
-}
-.actions { @apply flex justify-end gap-xs mt-sm pt-xs px-sm border-t border-neutral-default; }
+.actions { @apply flex justify-end gap-xs w-full mt-sm py-xs px-sm border-t border-neutral-default; }
 .compareToggle { @apply flex items-center gap-xs mt-xs; }
 .displayLabel { @apply text-sm font-normal truncate; }
 
 .presetSidebar {
-  @apply flex flex-col justify-between border-r border-neutral-default py-xs min-w-[120px];
+  @apply flex flex-col justify-between border-r border-neutral-default p-xs;
 }
 .presetOption {
-  @apply px-sm py-xs text-xs text-neutral-foreground-low cursor-pointer bg-transparent border-none text-left;
+  @apply py-sm px-xs text-xs text-neutral-interaction-default cursor-pointer bg-transparent border-none rounded-sm text-left;
 }
 .presetOption:hover {
-  @apply bg-neutral-surface-hover;
+  @apply bg-primary-surface-hover text-primary-interaction-hover;
 }
 .presetActive {
-  @apply text-primary-interaction-default font-semibold bg-primary-surface-default;
+  @apply text-primary-interaction-selected font-semibold bg-primary-surface-default;
 }

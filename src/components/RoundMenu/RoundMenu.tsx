@@ -15,7 +15,7 @@ export function RoundMenu({
   options,
   iconKey = 'icon',
   labelKey = 'label',
-  radius = 110,
+  radius = 80,
   className,
 }: RoundMenuProps) {
   const [isExpanded, setIsExpanded] = useState(false);

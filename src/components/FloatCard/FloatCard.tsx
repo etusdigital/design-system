@@ -117,7 +117,14 @@ export function FloatCard({
   return (
     <div
       ref={contentRef}
-      onClick={mode === 'click' ? () => setIsOpen(true) : undefined}
+      onClick={mode === 'click' ? (e) => {
+        // Only open when clicking the trigger content, not portal card content
+        // (React portal events bubble through the React tree but the DOM target
+        // lives in document.body, outside contentRef)
+        if (contentRef.current?.contains(e.target as Node)) {
+          setIsOpen(true);
+        }
+      } : undefined}
       onMouseEnter={mode === 'hover' ? () => setIsOpen(true) : undefined}
       onMouseLeave={mode === 'hover' ? closeCard : undefined}
       className={className}

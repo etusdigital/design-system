@@ -595,7 +595,6 @@ function handleFontSizeUpdate(fontSize: number) {
   selection = window.getSelection();
   if (!selection || selection.rangeCount === 0) return;
   let range = selection.getRangeAt(0);
-  console.log(range);
 
   const selectedElements = getSelectedElements(range);
 

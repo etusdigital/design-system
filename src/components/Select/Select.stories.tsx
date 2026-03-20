@@ -253,3 +253,41 @@ export const InfoMessage: Story = {
     );
   },
 };
+
+export const CustomOption: Story = {
+  render: (args) => {
+    const [value, setValue] = useState<any>(null);
+    const options = [
+      { label: 'Brazil', value: 'br', flag: '🇧🇷' },
+      { label: 'United States', value: 'us', flag: '🇺🇸' },
+      { label: 'Japan', value: 'jp', flag: '🇯🇵' },
+      { label: 'Germany', value: 'de', flag: '🇩🇪' },
+    ];
+    return (
+      <Select
+        {...args}
+        value={value}
+        onChange={setValue}
+        labelValue="Country"
+        options={options}
+        renderStatus={(model, opts) => {
+          const selected = opts.find((o) => o.value === model);
+          if (!selected) return null;
+          return (
+            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span>{selected.flag}</span>
+              <span>{selected.label}</span>
+            </span>
+          );
+        }}
+      >
+        {(option: any) => (
+          <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span>{option.flag}</span>
+            <span>{option.label}</span>
+          </span>
+        )}
+      </Select>
+    );
+  },
+};

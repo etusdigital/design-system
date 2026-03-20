@@ -1,23 +1,17 @@
 @reference "../../assets/main.css";
 
-.optionsList { @apply py-xxs; }
 .optionItem {
-  @apply px-sm py-xs text-sm font-normal cursor-pointer flex items-center gap-xs;
-  @apply hover:bg-neutral-surface-hover;
+  @apply px-base py-sm text-sm font-normal whitespace-nowrap cursor-pointer flex items-center gap-xs;
+  @apply hover:bg-primary-surface-hover hover:text-primary-interaction-hover;
 }
-.optionItem.selected { @apply text-primary-interaction-selected; }
+.optionItem.selected { @apply text-primary-interaction-selected bg-primary-surface-default; }
 .optionItem.disabled { @apply pointer-events-none text-neutral-interaction-disabled; }
+.optionsContainer > .optionItem:first-child { @apply rounded-t-sm; }
+.optionsContainer > .optionItem:last-child { @apply rounded-b-sm; }
 .searchInput { @apply px-sm py-xs border-b-xxs border-neutral-default; }
 
 /* Flyout group row */
-.groupRow {
-  position: relative;
-  @apply px-sm py-xs text-sm font-normal cursor-pointer flex items-center gap-xs;
-  @apply hover:bg-neutral-surface-hover;
-}
-.groupRow.disabled { @apply pointer-events-none text-neutral-interaction-disabled; }
 .groupLabel { flex: 1; }
-.chevronIcon { @apply text-neutral-foreground-low; }
 
 /* Flyout sub-card positioned to the right of the group row */
 .flyoutCard {

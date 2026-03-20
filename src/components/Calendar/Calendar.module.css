@@ -18,34 +18,69 @@
 
 .weekdayHeader { @apply text-sm font-normal text-neutral-foreground-low text-center; }
 
+/* ─── Day cell ──────────────────────────────────────────────────────────────── */
+
 .dayCell {
-  @apply text-sm text-neutral-foreground-high text-center cursor-pointer p-xs rounded-xs;
+  @apply flex items-center justify-center rounded-xs cursor-pointer p-xs text-sm
+         font-semibold text-neutral-interaction-default relative overflow-hidden;
+}
+.dayCell:hover:not(.disabled):not(.outsideMonth):not(.selectedPrimary):not(.selectedSecondary) {
+  @apply text-primary-interaction-hover bg-primary-surface-hover;
 }
 
 .dayCell.noDate {
   @apply pointer-events-none;
 }
-.dayCell:hover:not(.disabled):not(.outsideMonth):not(.selected) { @apply bg-primary-surface-hover text-primary-interaction-hover; }
 
-/* Fixed syntax error (removed trailing ') and added filled bg */
-.dayCell.selected {
-  @apply bg-primary-interaction-default text-neutral-foreground-negative font-semibold;
+/* Day label sits above split overlay */
+.dayLabel { @apply relative z-[1]; }
+
+/* Primary selected (range endpoints) */
+.dayCell.selectedPrimary {
+  @apply bg-primary-interaction-default text-neutral-foreground-negative;
 }
-.dayCell.rangeMiddle { @apply bg-primary-surface-default text-primary-foreground-high; }
-.dayCell.rangeMiddle.start { @apply rounded-r-none; }
-.dayCell.rangeMiddle.middle { @apply rounded-none; }
-.dayCell.rangeMiddle.end { @apply rounded-l-none; }
-.dayCell.rangeStart, .dayCell.rangeEnd { @apply bg-primary-interaction-default text-neutral-foreground-negative rounded-xs; }
+.dayCell.selectedPrimary:hover {
+  @apply bg-primary-interaction-default text-neutral-foreground-negative;
+}
 
-/* Hover preview: light highlight between start and hovered date */
-.dayCell.rangeHover { @apply bg-primary-surface-default text-primary-foreground-high; }
+/* Secondary selected (compare range endpoints) */
+.dayCell.selectedSecondary {
+  @apply bg-primary-interaction-selected text-neutral-foreground-negative;
+}
+.dayCell.selectedSecondary:hover {
+  @apply bg-primary-interaction-selected text-neutral-foreground-negative;
+}
 
-/* Secondary (compare) range: lighter styling */
-.dayCell.inSecondaryRange { @apply bg-primary-surface-highlight text-primary-foreground-high; }
-.dayCell.selectedSecondary { @apply bg-primary-surface-default text-primary-foreground-high font-semibold rounded-xs; }
+/* Range middles and hover previews — same bg for both primary and secondary */
+.hoveredPrimary,
+.rangePrimary,
+.hoveredSecondary,
+.rangeSecondary {
+  @apply text-primary-foreground-high bg-primary-surface-default;
+}
+
+/* Border radius for range cells in compare/period mode */
+.dayCell.isCompare.rangePrimary:not(.isBigger):not(.isSmaller),
+.dayCell.isCompare.hoveredPrimary:not(.isBigger):not(.isSmaller),
+.dayCell.isCompare.rangeSecondary:not(.isBigger):not(.isSmaller),
+.dayCell.isCompare.hoveredSecondary:not(.isBigger):not(.isSmaller) {
+  &.start { @apply rounded-r-none; }
+  &.middle { @apply rounded-none; }
+  &.end { @apply rounded-l-none; }
+}
+
+/* Direction indicators for range endpoints */
+.isBigger { @apply rounded-r-none; }
+.isSmaller { @apply rounded-l-none; }
+
+/* Half-day split overlay for overlapping ranges */
+.splitOverlay { @apply flex absolute w-full h-full inset-0; }
+.halfPrimary { @apply w-1/2 h-full bg-primary-interaction-default; }
+.halfSecondary { @apply w-1/2 h-full bg-primary-interaction-selected; }
+.halfHover { @apply w-1/2 h-full bg-primary-surface-hover; }
 
 /* Today styling */
-.dayCell.today:not(.selected) {
+.dayCell.today:not(.selectedPrimary):not(.selectedSecondary) {
   @apply text-primary-interaction-default;
 }
 .dayCell.today { @apply font-semibold; }
@@ -53,6 +88,14 @@
 .dayCell.disabled { @apply text-neutral-foreground-disabled cursor-not-allowed; }
 
 .grid { @apply grid grid-cols-7 py-xxs; }
+
+/* Double calendar layout */
+.doubleCalendar { @apply w-full; }
+.doubleGrid { @apply flex gap-sm w-full; }
+
+.doubleGrid > div {
+  @apply flex-1;
+}
 
 /* Slide-fade animation */
 .slideContainer { @apply relative overflow-hidden; }
@@ -102,10 +145,10 @@
   transition: background-color 150ms ease;
 }
 .monthButton:not(.monthActive) {
-  @apply bg-primary-surface-highlight text-neutral-foreground-high;
+  @apply bg-neutral-surface-highlight text-neutral-interaction-default;
 }
 .monthButton:not(.monthActive):hover {
-  @apply bg-primary-surface-hover;
+  @apply bg-primary-surface-hover text-primary-interaction-hover;
 }
 .monthButton.monthActive {
   @apply bg-primary-interaction-default text-neutral-foreground-negative font-semibold;
@@ -120,7 +163,7 @@
   transition: background-color 150ms ease;
 }
 .yearButton:hover {
-  @apply bg-neutral-surface-hover;
+  @apply bg-primary-surface-hover text-primary-interaction-hover;
 }
 .yearButton.yearActive {
   @apply bg-primary-interaction-default text-neutral-foreground-negative font-semibold;

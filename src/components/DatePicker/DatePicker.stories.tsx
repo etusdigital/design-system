@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { DatePicker } from './DatePicker';
+import { calculateDate } from '#utils/index';
 
 const meta = {
   component: DatePicker,
@@ -93,24 +94,6 @@ export const Primary: Story = {
         applyLabel="Apply"
         compareLabel="Compare two periods"
         lang="en"
-        absolute={false}
-      />
-    );
-  },
-};
-
-export const Absolute: Story = {
-  render: () => {
-    const [value, setValue] = useState<Date | Date[] | [Date[], Date[]] | undefined>(undefined);
-    return (
-      <DatePicker
-        value={value}
-        onChange={setValue}
-        type="date"
-        labelValue="Date Filter"
-        clearLabel="Clear"
-        applyLabel="Apply"
-        absolute={true}
       />
     );
   },
@@ -136,7 +119,7 @@ export const Lang: Story = {
 
 export const Period: Story = {
   render: () => {
-    const [value, setValue] = useState<Date | Date[] | [Date[], Date[]] | undefined>([]);
+    const [value, setValue] = useState<Date | Date[] | [Date[], Date[]] | undefined>(undefined);
     return (
       <DatePicker
         value={value}
@@ -152,7 +135,7 @@ export const Period: Story = {
 
 export const Compare: Story = {
   render: () => {
-    const [value, setValue] = useState<Date | Date[] | [Date[], Date[]] | undefined>([]);
+    const [value, setValue] = useState<Date | Date[] | [Date[], Date[]] | undefined>(undefined);
     return (
       <DatePicker
         value={value}
@@ -169,12 +152,14 @@ export const Compare: Story = {
 
 export const AllowChangeType: Story = {
   render: () => {
-    const [value, setValue] = useState<Date | Date[] | [Date[], Date[]] | undefined>([]);
+    const [value, setValue] = useState<Date | Date[] | [Date[], Date[]] | undefined>(undefined);
+    const [type, setType] = useState<'date'| 'period' | 'compare' | undefined>('period');
     return (
       <DatePicker
         value={value}
         onChange={setValue}
-        type="period"
+        type={type}
+        onTypeChange={setType}
         labelValue="Date Filter"
         clearLabel="Clear"
         applyLabel="Apply"
@@ -230,12 +215,25 @@ export const Disabled: Story = {
   ),
 };
 
+export const InfoMessage: Story = {
+  render: () => (
+    <DatePicker
+      type="date"
+      labelValue="Date Filter"
+      infoMessage="Info message"
+      clearLabel="Clear"
+      applyLabel="Apply"
+    />
+  ),
+};
+
 export const IsError: Story = {
   render: () => (
     <DatePicker
       type="date"
       labelValue="Date Filter"
       isError={true}
+      errorMessage="Error message"
       clearLabel="Clear"
       applyLabel="Apply"
     />
@@ -259,23 +257,6 @@ export const Required: Story = {
   },
 };
 
-export const AlignRight: Story = {
-  render: () => {
-    const [value, setValue] = useState<Date | Date[] | [Date[], Date[]] | undefined>(undefined);
-    return (
-      <DatePicker
-        value={value}
-        onChange={setValue}
-        type="date"
-        labelValue="Date Filter"
-        alignRight={true}
-        clearLabel="Clear"
-        applyLabel="Apply"
-      />
-    );
-  },
-};
-
 export const Separator: Story = {
   render: () => {
     const [value, setValue] = useState<Date | Date[] | [Date[], Date[]] | undefined>(undefined);
@@ -283,11 +264,72 @@ export const Separator: Story = {
       <DatePicker
         value={value}
         onChange={setValue}
-        type="date"
+        type="compare"
         labelValue="Date Filter"
         separator="e"
         clearLabel="Clear"
         applyLabel="Apply"
+      />
+    );
+  },
+};
+
+export const Options: Story = {
+  render: () => {
+    const [value, setValue] = useState<Date | Date[] | [Date[], Date[]] | undefined>(undefined);
+    return (
+      <DatePicker
+        value={value}
+        onChange={setValue}
+        type="date"
+        labelValue="Date Filter"
+        clearLabel="Clear"
+        applyLabel="Apply"
+        options={[
+          {
+            selected: true,
+            value: "today",
+            label: "Today",
+            calculate: () => {
+              return calculateDate("today");
+            },
+          },
+          {
+            value: "yesterday",
+            label: "Yesterday",
+            calculate: () => {
+              return calculateDate("yesterday");
+            },
+          },
+          {
+            value: "last7",
+            label: "Last 7 days",
+            calculate: () => {
+              return calculateDate("last7");
+            },
+          },
+          {
+            value: "last15",
+            label: "Last 15 days",
+            calculate: () => {
+              return calculateDate("last15");
+            },
+          },
+          {
+            value: "last30",
+            label: "Last 30 days",
+            calculate: () => {
+              return calculateDate("last30");
+            },
+          },
+          {
+            value: "lastMonth",
+            label: "Last month",
+            calculate: () => {
+              return calculateDate("lastMonth");
+            },
+          },
+        ]}
       />
     );
   },

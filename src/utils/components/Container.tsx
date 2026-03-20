@@ -87,6 +87,9 @@ export function Container({
     if (closeOnBlur && model) {
       setModel(value)
       onChange?.(value, { source: 'blur' });
+    } else {
+      setModel(value)
+      onChange?.(value, { source: 'click' });
     }
   }
 
@@ -149,7 +152,7 @@ export function Container({
                 {!hideArrow && (
                   <Icon
                     name={icon}
-                    className={clsx('arrow-icon', {
+                    className={clsx('arrow-icon leading-xs', {
                       'text-neutral-interaction-disabled': disabled,
                       'text-danger-interaction-default': isError,
                       expanded: isExpanded,

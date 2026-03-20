@@ -17,11 +17,15 @@ export interface NavbarProps {
   value?: string;
   onChange?: (value: string) => void;
   logo?: React.ReactNode;
+  /** Title text rendered next to the logo (Vue #title slot). */
+  title?: React.ReactNode;
   profile?: Profile;
   notifications?: React.ReactNode;
   showNotifications?: boolean;
-  /** Custom content rendered in the right section (before avatar). Replaces default bell+avatar layout when provided. */
+  /** Custom content rendered in the right section (replaces default bell+avatar layout). */
   actions?: React.ReactNode;
+  /** Replaces the default Dropdown navigation (Vue default slot). */
+  children?: React.ReactNode;
   className?: string;
 }
 
@@ -62,25 +66,30 @@ export function Navbar({
   value,
   onChange,
   logo,
+  title,
   profile,
   notifications,
   showNotifications = true,
   actions,
+  children,
   className,
 }: NavbarProps) {
   return (
     <nav className={clsx(styles.navbar, className)} role="navigation">
-      {/* Left side: logo + divider + single Dropdown */}
+      {/* Left side: logo + title + divider + navigation */}
       <div className={styles.left}>
-        <div className={styles.logo}>
+        <div className={styles.logoSection}>
           {logo || <DefaultLogo />}
+          {title && <span className={styles.title}>{title}</span>}
         </div>
         <div className={styles.divider} />
-        <Dropdown
-          options={options as any}
-          value={value}
-          onChange={onChange as any}
-        />
+        {children || (
+          <Dropdown
+            options={options as any}
+            value={value}
+            onChange={onChange as any}
+          />
+        )}
       </div>
 
       {/* Right side: custom actions OR default notification bell + avatar */}

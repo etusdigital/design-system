@@ -13,8 +13,12 @@
   @apply flex items-center gap-base;
 }
 
-.logo {
-  @apply flex items-center justify-center;
+.logoSection {
+  @apply flex items-center gap-base text-lg leading-lg font-light text-primary-foreground-high;
+}
+
+.title {
+  @apply text-lg leading-lg font-light text-primary-foreground-high;
 }
 
 .divider {

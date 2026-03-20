@@ -57,7 +57,7 @@
 }
 
 .button.round {
-  @apply rounded-full p-xxs;
+  @apply rounded-full p-xxs aspect-auto;
 }
 
 .round .buttonLabel {

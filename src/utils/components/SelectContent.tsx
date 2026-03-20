@@ -80,7 +80,7 @@ export function SelectContent({
         />
       )}
       <span
-        className={clsx('flex items-center gap-xs truncate leading-xxs flex-1', className, {
+        className={clsx('flex items-center gap-xs truncate text-sm flex-1', className, {
           'text-neutral-foreground-low': !options,
         })}
       >

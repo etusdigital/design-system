@@ -34,10 +34,14 @@ export interface SelectProps {
   // Render-prop equivalents for Vue named slots
   renderSearchLabel?: () => React.ReactNode;
   renderOption?: (option: any, isSelected: boolean) => React.ReactNode;
-  renderStatus?: (count: number) => React.ReactNode;
+  /** Custom status renderer. Receives the current model value and the full options array. */
+  renderStatus?: (model: any, options: any[]) => React.ReactNode;
+  renderStatusLabel?: (count: number) => React.ReactNode;
   renderActions?: () => React.ReactNode;
   renderClearLabel?: () => React.ReactNode;
-  children?: React.ReactNode;
+  /** Function: custom option renderer (option, index, isSelected) => ReactNode.
+   *  ReactNode: placeholder content shown when nothing is selected (Vue default slot). */
+  children?: ((option: any, index: number, isSelected: boolean) => React.ReactNode) | React.ReactNode;
   className?: string;
 }
 
@@ -66,6 +70,7 @@ export function Select({
   renderSearchLabel,
   renderOption,
   renderStatus,
+  renderStatusLabel,
   renderActions,
   renderClearLabel,
   children,
@@ -217,17 +222,39 @@ export function Select({
     }
   }
 
-  // Status node: use renderStatus if provided, otherwise use displayLabel
+  // Resolve whether children is a render function (option renderer) or ReactNode (placeholder)
+  const childIsRenderFn = typeof children === 'function';
+  const placeholderNode = !childIsRenderFn ? children : undefined;
+
+  // Status node: matches Vue #status / #status-label / default slot behaviour
+  const showSelected = multiple && Array.isArray(model) && model.length > 0 && !disabled
+    && ((!isOpen && searchable) || !searchable);
+
   let statusNode: React.ReactNode;
-  if (renderStatus && multiple) {
-    const arr: any[] = Array.isArray(model) ? model : [];
-    if (arr.length > 0 && !isOpen) {
-      statusNode = renderStatus(arr.length);
+  if (!isOpen || !searchable) {
+    if (hasValue && renderStatus) {
+      statusNode = renderStatus(model, options);
+    } else if (showSelected) {
+      statusNode = renderStatusLabel
+        ? renderStatusLabel(model.length)
+        : <span className="font-bold">Selected</span>;
+    } else if (displayLabel && !multiple) {
+      statusNode = <span className={styles.displayLabel}>{displayLabel}</span>;
+    } else if (!hasValue) {
+      if (placeholderNode) {
+        statusNode = <span className={clsx(styles.displayLabel, 'text-neutral-foreground-low')}>{placeholderNode}</span>;
+      } else if (placeholder) {
+        statusNode = <span className={clsx(styles.displayLabel, 'text-neutral-foreground-low')}>{placeholder}</span>;
+      }
     }
-  } else if (displayLabel && !isOpen) {
-    statusNode = <span className={styles.displayLabel}>{displayLabel}</span>;
-  } else if (!hasValue && placeholder && !isOpen) {
-    statusNode = <span className={clsx(styles.displayLabel, 'text-neutral-foreground-low')}>{placeholder}</span>;
+  }
+
+  // Option renderer: children function > renderOption > default label
+  function renderOptionContent(option: any, index: number) {
+    const selected = isOptionSelected(option);
+    if (childIsRenderFn) return (children as Function)(option, index, selected);
+    if (renderOption) return renderOption(option, selected);
+    return <span>{getLabel(option)}</span>;
   }
 
   const optionsNode = filteredOptions.map((option, index) => (
@@ -243,10 +270,7 @@ export function Select({
       {multiple && (
         <Checkbox value={isOptionSelected(option)} className="pointer-events-none" />
       )}
-      {renderOption
-        ? renderOption(option, isOptionSelected(option))
-        : <span>{getLabel(option)}</span>
-      }
+      {renderOptionContent(option, index)}
     </Option>
   ));
 
@@ -255,6 +279,11 @@ export function Select({
       {renderClearLabel ? renderClearLabel() : 'Clear'}
     </Button>
   ) : undefined;
+
+  // Complement: selected count badge (Vue #complement slot)
+  const complementNode = showSelected && multiple
+    ? <span className={styles.selectCount}>{(model as any[]).length}</span>
+    : undefined;
 
   return (
     <div onKeyDown={handleKeyDown}>
@@ -270,6 +299,7 @@ export function Select({
         secondary={secondary}
         options={optionsNode}
         actions={actionsNode}
+        complement={complementNode}
         className={clsx('select', className)}
       >
         <SelectContent

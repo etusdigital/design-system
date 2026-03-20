@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Navbar } from './Navbar';
-import { Avatar } from '../Avatar/Avatar';
+import { Button } from '../Button';
+import { Icon } from '../Icon/Icon';
 
 const meta = {
   component: Navbar,
@@ -16,14 +18,18 @@ const meta = {
       description: 'Currently selected navigation option value.',
     },
     logo: {
-      description: 'Custom React node rendered as the logo. Defaults to the SVG circle logo.',
+      description: 'Custom React node rendered as the logo (Vue #logo slot). Defaults to the SVG circle logo.',
+    },
+    title: {
+      control: 'text',
+      description: 'Title text rendered next to the logo (Vue #title slot).',
     },
     profile: {
       description:
-        "Object to be used as profile. Props(name: string, src: string)",
+        'Object to be used as profile. Props(name: string, src: string)',
     },
     notifications: {
-      description: 'Content rendered inside the FloatCard popover when the notification bell is clicked.',
+      description: 'Content rendered inside the FloatCard popover when the notification bell is clicked (Vue #notifications slot).',
     },
     showNotifications: {
       control: 'boolean',
@@ -31,7 +37,11 @@ const meta = {
     },
     actions: {
       description:
-        'Custom React node rendered in the right section (replaces default bell+avatar layout). Use to add custom buttons, links, or other controls.',
+        'Custom React node rendered in the right section (Vue #actions slot). Replaces default bell+avatar layout.',
+    },
+    children: {
+      description:
+        'Replaces the default Dropdown navigation (Vue default slot). Use to render custom navigation content.',
     },
   },
 } satisfies Meta<typeof Navbar>;
@@ -79,143 +89,19 @@ export const Primary: Story = {
   ),
 };
 
-/**
- * WithCustomLogo: demonstrates the `logo` prop — replace the default SVG circle
- * with any React node.
- */
-export const WithCustomLogo: Story = {
+export const CustomSlots: Story = {
   render: () => (
     <Navbar
       options={navOptions}
+      title="Title"
       logo={
-        <div
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: '50%',
-            background: 'linear-gradient(135deg, #667eea, #764ba2)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontWeight: 'bold',
-            fontSize: 14,
-          }}
-        >
-          AC
-        </div>
+        <>Logo</>
       }
-      profile={{ name: 'Ana Carolina' }}
-    />
-  ),
-};
-
-/**
- * WithNotifications: demonstrates the `notifications` prop — pass any React node
- * to populate the FloatCard popover triggered by the bell icon.
- */
-export const WithNotifications: Story = {
-  render: () => (
-    <Navbar
-      options={navOptions}
-      profile={{ name: 'Jane Smith' }}
-      showNotifications
-      notifications={sampleNotifications}
-    />
-  ),
-};
-
-/**
- * WithoutNotifications: demonstrates `showNotifications={false}` — hides the
- * notification bell entirely, leaving only the avatar in the right section.
- */
-export const WithoutNotifications: Story = {
-  render: () => (
-    <Navbar
-      options={navOptions}
-      profile={{ name: 'Jane Smith' }}
-      showNotifications={false}
-    />
-  ),
-};
-
-/**
- * WithCustomActions: demonstrates the `actions` prop — replaces the default
- * bell+avatar layout with fully custom content in the right section.
- * Use this to add custom buttons, links, or other controls.
- */
-export const WithCustomActions: Story = {
-  render: () => (
-    <Navbar
-      options={navOptions}
       actions={
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <button
-            type="button"
-            style={{
-              padding: '6px 14px',
-              borderRadius: '6px',
-              border: '1px solid #d1d5db',
-              background: 'transparent',
-              cursor: 'pointer',
-              fontSize: '13px',
-            }}
-          >
-            Sign in
-          </button>
-          <button
-            type="button"
-            style={{
-              padding: '6px 14px',
-              borderRadius: '6px',
-              border: 'none',
-              background: '#4f46e5',
-              color: 'white',
-              cursor: 'pointer',
-              fontSize: '13px',
-            }}
-          >
-            Get started
-          </button>
-        </div>
+        <>Actions</>
       }
-    />
-  ),
-};
-
-/**
- * Complete: shows all features together — custom logo, dropdown navigation,
- * notification bell with items, and an avatar with an image src.
- */
-export const Complete: Story = {
-  render: () => (
-    <Navbar
-      options={navOptions}
-      value="analytics"
-      logo={
-        <div
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: '8px',
-            background: 'linear-gradient(135deg, #10b981, #059669)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontWeight: 'bold',
-            fontSize: 16,
-          }}
-        >
-          DS
-        </div>
-      }
-      profile={{
-        name: 'Alice Johnson',
-        src: 'https://i.pravatar.cc/150?img=47',
-      }}
-      showNotifications
-      notifications={sampleNotifications}
-    />
+    >
+      Default
+    </Navbar>
   ),
 };
