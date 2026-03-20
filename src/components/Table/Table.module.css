@@ -1,0 +1,113 @@
+@reference "../../assets/main.css";
+
+.table {
+  @apply block w-full max-w-full;
+}
+
+.tableContent {
+  @apply min-w-full max-w-full overflow-x-auto rounded-xl bg-neutral-surface-default border-xxs border-neutral-default shadow-neutral-selected;
+}
+
+.tableContent.noShadow {
+  @apply shadow-none border-none;
+}
+
+.tableContent.headerFixed {
+  @apply overflow-y-auto max-h-[35em];
+}
+
+.tableContent.headerFixed .tableStyle thead {
+  @apply bg-white top-0 sticky;
+}
+
+.tableStyle {
+  @apply w-full rounded-xl bg-neutral-surface-default;
+}
+
+.tableStyle thead {
+  @apply border-b-xxs border-b-neutral-default;
+}
+
+.tableStyle tbody {
+  @apply divide-y-xxs divide-neutral-default w-full;
+}
+
+.tableStyle tr {
+  @apply rounded-xl;
+}
+
+.tableStyle th {
+  @apply py-base px-lg hover:bg-neutral-surface-highlight cursor-pointer;
+}
+
+.aggregationTh {
+  @apply py-base px-lg rounded-ss-xl pointer-events-none;
+  width: 2%;
+}
+
+.selectionTh {
+  @apply py-base px-lg pointer-events-none;
+  width: 2%;
+}
+
+.actionsTh {
+  @apply py-base px-lg bg-white pointer-events-none;
+  flex: 1;
+}
+
+.sortable {
+  cursor: pointer;
+}
+
+.thContent {
+  @apply flex w-full items-center gap-xs text-neutral-interaction-default;
+}
+
+.thLabel {
+  @apply truncate;
+}
+
+.sortIcon {
+  @apply opacity-0 h-fit w-fit flex items-center;
+  transition: opacity 0.2s ease, transform 0.3s ease;
+}
+
+.sortIconActive {
+  @apply text-primary-interaction-default opacity-100;
+}
+
+.tableStyle th:hover .sortIcon {
+  @apply opacity-100;
+}
+
+.row {
+  @apply text-neutral-foreground-low;
+}
+
+.cell {
+  @apply py-sm px-lg;
+}
+
+.rowHover:hover {
+  @apply bg-primary-surface-default;
+}
+
+.rowSelected {
+  @apply bg-primary-surface-default;
+}
+
+.skeletonCell {
+  @apply p-base;
+}
+
+.footer {
+  @apply flex items-center justify-between mt-base text-neutral-foreground-low flex-wrap;
+}
+
+.pageInfo {
+  @apply text-sm;
+}
+
+.emptyState {
+  @apply flex items-center justify-center py-xl text-neutral-foreground-low;
+}
