@@ -1,0 +1,111 @@
+@reference "../../assets/main.css";
+
+.sidebar {
+  @apply relative flex w-fit;
+}
+
+.collapsed {
+  @apply w-16;
+}
+
+.expanded {
+  @apply w-fit min-w-[200px];
+}
+
+.optionsList {
+  @apply flex flex-col justify-between gap-sm w-fit h-full py-lg px-xs bg-default border-r-xxs border-r-neutral-default;
+}
+
+.optionsContainer {
+  @apply flex flex-col gap-sm;
+}
+
+.bottomOptions {
+  @apply flex flex-col gap-sm mt-auto;
+}
+
+.option {
+  @apply flex items-center gap-xs p-sm rounded-base cursor-pointer select-none;
+}
+
+.option:hover {
+  @apply bg-primary-surface-default no-underline;
+}
+
+.optionActive {
+  @apply bg-primary-surface-default;
+  border-left: 3px solid var(--color-primary-interaction-default, #7c3aed);
+}
+
+.optionIcon {
+  @apply flex items-center justify-center text-xl leading-none;
+}
+
+.optionLabel {
+  @apply flex-1 text-sm whitespace-nowrap;
+}
+
+.optionLink {
+  @apply no-underline text-inherit;
+}
+
+.disabled {
+  @apply pointer-events-none opacity-50;
+}
+
+/* Sub-panel */
+.subPanel {
+  @apply absolute left-full top-0 h-full flex flex-col py-lg px-xs bg-default border-r-xxs border-r-neutral-default min-w-max;
+  @apply transition-all duration-300 overflow-hidden;
+  z-index: 10;
+}
+
+.subPanelHidden {
+  @apply opacity-0;
+  transform: translateX(-10px);
+  pointer-events: none;
+}
+
+.subPanelVisible {
+  @apply opacity-100;
+  transform: translateX(0);
+}
+
+/* Sub-options */
+.subOption {
+  @apply flex items-center gap-xs py-sm px-sm rounded-base cursor-pointer select-none;
+  @apply text-sm;
+}
+
+.subOption:hover {
+  @apply bg-primary-surface-default no-underline;
+}
+
+.subOptionActive {
+  @apply bg-primary-surface-default;
+  border-left: 3px solid var(--color-primary-interaction-default, #7c3aed);
+}
+
+.subOptionExpanded {
+  /* expanded state marker — children visible */
+}
+
+.subOptionIcon {
+  @apply text-base leading-none;
+}
+
+.subOptionLabel {
+  @apply flex-1;
+}
+
+.subOptionChevron {
+  @apply text-base leading-none transition-transform duration-200;
+}
+
+.rotated {
+  @apply rotate-180;
+}
+
+.subOptionLink {
+  @apply no-underline text-inherit;
+}
