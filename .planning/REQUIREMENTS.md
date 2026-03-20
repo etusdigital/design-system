@@ -101,12 +101,12 @@ Requirements for the complete Vue-to-React migration. Each maps to roadmap phase
 
 ### Complex Components
 
-- [ ] **CPLX-01**: Table component migrated with render props for custom cells, sorting, pagination
-- [ ] **CPLX-02**: Tree component migrated with compound component pattern
-- [ ] **CPLX-03**: Sidebar component migrated to React TSX
-- [ ] **CPLX-04**: RichTextEditor component migrated to React TSX
-- [ ] **CPLX-05**: Crop component migrated to React TSX
-- [ ] **CPLX-06**: History component migrated to React TSX
+- [x] **CPLX-01**: Table component migrated with render props for custom cells, sorting, pagination
+- [x] **CPLX-02**: Tree component migrated with compound component pattern
+- [x] **CPLX-03**: Sidebar component migrated to React TSX
+- [x] **CPLX-04**: RichTextEditor component migrated to React TSX
+- [x] **CPLX-05**: Crop component migrated to React TSX
+- [x] **CPLX-06**: History component migrated to React TSX
 
 ### Build & Distribution
 
