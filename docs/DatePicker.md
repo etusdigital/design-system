@@ -100,9 +100,6 @@ Language for date formatting and localization. Type: `string` (default: `"en-US"
 #### type
 Selection mode for the date picker. Type: `'date' | 'period' | 'compare'` (default: `'date'`)
 
-#### is-compare
-Legacy prop for comparison mode (use `type="compare"` instead). Type: `boolean` (default: `false`)
-
 #### allow-change-type
 Allows users to switch between different selection modes. Type: `boolean` (default: `false`)
 
@@ -122,23 +119,20 @@ Array of predefined date range options. Each option should have:
 
 Type: `OptionType[]` (default: predefined options)
 
-#### absolute
-Uses absolute positioning for the dropdown. Type: `boolean` (default: `false`)
-
 #### disabled
 Disables the filter interaction. Type: `boolean` (default: `false`)
 
 #### required
 Marks the field as required for form validation. Type: `boolean` (default: `false`)
 
+#### info-message
+Informational message displayed with tooltip. Type: `string` (default: `""`)
+
 #### is-error
 Activates error visual state. Type: `boolean` (default: `false`)
 
 #### error-message
 Error message displayed when in error state. Type: `string` (default: `""`)
-
-#### align-right
-Aligns the dropdown to the right (requires absolute=true). Type: `boolean` (default: `false`)
 
 #### separator
 Custom separator text for comparison mode. Type: `string` (default: auto-detected based on language - "and" for English, "e" for Portuguese)

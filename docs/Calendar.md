@@ -39,8 +39,6 @@ Selection mode for the calendar. Type: `"date" | "period" | "compare"` (default:
 #### double-calendar
 Shows two calendar months side by side. Type: `boolean` (default: `false`)
 
-{/* No dedicated DoubleCalendar story; show Primary as example */}
-
 #### min-date
 Earliest selectable date constraint. Type: `Date` (default: `undefined`)
 
