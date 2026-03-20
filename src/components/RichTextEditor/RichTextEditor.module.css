@@ -1,0 +1,196 @@
+@reference "../../assets/main.css";
+
+.richTextEditor {
+  @apply flex flex-col;
+}
+
+.richTextEditor.noBorder {
+  @apply border-none;
+}
+
+/* Toolbar */
+.toolbar {
+  @apply flex items-center gap-xs p-sm bg-neutral-surface-default border-xxs border-neutral-default border-b-none rounded-t-sm flex-wrap;
+}
+
+.toolbarGroup {
+  @apply flex items-center gap-xxs border-r-xxs border-neutral-default pr-xs mr-xs;
+}
+
+.toolbarGroup:last-child {
+  @apply border-r-none pr-none mr-none;
+}
+
+.toolbarBtn {
+  @apply flex items-center justify-center p-xxs rounded-sm cursor-pointer bg-transparent border-none text-neutral-foreground-low;
+  @apply hover:bg-neutral-surface-highlight transition-colors;
+}
+
+.toolbarBtn:disabled {
+  @apply opacity-40 pointer-events-none;
+}
+
+.toolbarBtnActive {
+  @apply bg-primary-surface-default text-primary-interaction-default;
+}
+
+.fontSizeSelect {
+  @apply w-20;
+}
+
+/* Editor content area */
+.editorContent {
+  @apply overflow-y-auto p-sm border-xxs border-neutral-default rounded-b-sm outline-none whitespace-pre-wrap
+  text-neutral-foreground-high focus:border-primary-default transition-colors;
+  word-wrap: break-word;
+}
+
+.editorContent:focus:empty::before {
+  @apply hidden;
+}
+
+.editorContent div {
+  @apply mb-sm;
+}
+
+.editorContent a {
+  @apply text-primary-foreground-high underline;
+}
+
+.editorContent img {
+  @apply max-w-full h-auto rounded;
+}
+
+.editorContent strong {
+  @apply font-bold;
+}
+
+.editorContent em {
+  @apply italic;
+}
+
+.editorContent u {
+  @apply underline;
+}
+
+/* Focus state */
+.focus .editorContent {
+  @apply border-primary-default;
+}
+
+/* Disabled state */
+.disabled .toolbar,
+.disabled .editorContent {
+  @apply pointer-events-none;
+}
+
+/* Error state */
+.error .editorContent {
+  @apply border-danger-default;
+}
+
+/* No border state */
+.noBorder .toolbar,
+.noBorder .editorContent {
+  @apply border-none rounded-none;
+}
+
+.errorMessage {
+  @apply text-sm text-danger-foreground-low text-start;
+}
+
+/* Color picker */
+.colorsContainer {
+  @apply relative inline-flex;
+}
+
+.colorPicker {
+  @apply absolute z-50 top-full left-0 mt-xxs bg-neutral-surface-default border-xxs border-neutral-default rounded-sm shadow-lg p-xs;
+  min-width: 220px;
+}
+
+.colorColumn {
+  @apply flex flex-col gap-xxs;
+}
+
+.colorGrid {
+  @apply flex flex-col gap-0;
+}
+
+.colorRow {
+  @apply flex gap-0;
+}
+
+.colorOption {
+  @apply w-5 h-5 cursor-pointer flex items-center justify-center rounded-none;
+  @apply hover:ring-2 hover:ring-primary-default hover:z-10 transition-shadow;
+}
+
+.colorDivider {
+  @apply border-neutral-default my-xxs;
+}
+
+.addColorBtn {
+  @apply flex items-center justify-center w-5 h-5 cursor-pointer;
+}
+
+/* Custom color section */
+.customColorSection {
+  @apply flex flex-col gap-xs p-xs;
+}
+
+.customColorInput {
+  @apply w-full h-10 cursor-pointer border-none;
+}
+
+.customColorActions {
+  @apply flex justify-end gap-xs;
+}
+
+.customColorBtn {
+  @apply px-sm py-xxs text-sm rounded-sm border-xxs border-neutral-default bg-transparent cursor-pointer;
+  @apply hover:bg-neutral-surface-highlight;
+}
+
+.customColorBtnPrimary {
+  @apply px-sm py-xxs text-sm rounded-sm bg-primary-interaction-default text-neutral-foreground-negative cursor-pointer border-none;
+  @apply hover:bg-primary-interaction-hover;
+}
+
+/* Image input overlay */
+.imageInput {
+  @apply z-[1] absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer;
+}
+
+/* Link dialog */
+.linkDialog {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-black/30;
+}
+
+.linkDialogContent {
+  @apply flex flex-col gap-sm p-base bg-neutral-surface-default rounded-base shadow-lg;
+  min-width: 400px;
+}
+
+.linkInput {
+  @apply w-full px-sm py-xs border-xxs border-neutral-default rounded-sm outline-none;
+  @apply focus:border-primary-default;
+}
+
+.linkDialogActions {
+  @apply flex justify-end gap-sm;
+}
+
+.linkCancelBtn {
+  @apply px-base py-xs rounded-sm border-xxs border-neutral-default bg-transparent cursor-pointer;
+  @apply hover:bg-neutral-surface-highlight;
+}
+
+.linkInsertBtn {
+  @apply px-base py-xs rounded-sm bg-primary-interaction-default text-neutral-foreground-negative cursor-pointer border-none;
+  @apply hover:bg-primary-interaction-hover;
+}
+
+.linkInsertBtn:disabled {
+  @apply opacity-40 pointer-events-none;
+}
