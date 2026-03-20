@@ -16,7 +16,7 @@ A full in-place migration of 60+ Vue 3 components to React, proceeding in strict
 - [x] **Phase 4: Internal Components** - 8 shared utility components and portal infrastructure (completed 2026-03-16)
 - [x] **Phase 5: Providers** - Context providers replacing Vue global properties (`$confirm`, `$toast`) (completed 2026-03-17)
 - [x] **Phase 6: Composite Components** - 17 overlay and interactive components depending on Phases 4 and 5 (test maintenance gap closure in progress) (completed 2026-03-18)
-- [ ] **Phase 7: Complex Components** - 6 high-risk specialized components (Table, Tree, RichTextEditor, etc.)
+- [x] **Phase 7: Complex Components** - 6 high-risk specialized components (Table, Tree, RichTextEditor, etc.) (completed 2026-03-20)
 - [ ] **Phase 8: Build & Distribution** - Build output validation, TypeScript declarations, npm publishability
 - [ ] **Phase 9: Documentation & Testing** - Storybook stories, RTL tests, visual parity verification
 
@@ -179,7 +179,7 @@ Plans:
   3. Tree renders nested node hierarchies; nodes expand and collapse correctly; selection state is controllable
   4. RichTextEditor loads with the same toolbar controls as the Vue version and fires `onChange` with the updated content
   5. Sidebar, Crop, and History match the visual output and interaction behavior of their Vue counterparts
-**Plans:** 7/8 plans executed
+**Plans:** 8/8 plans complete
 
 Plans:
 - [ ] 07-00-PLAN.md — Wave 0: Create 6 smoke test stubs for all complex components (Nyquist compliance)
@@ -225,6 +225,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9
 | 4. Internal Components | 3/3 | Complete   | 2026-03-16 |
 | 5. Providers | 4/4 | Complete   | 2026-03-17 |
 | 6. Composite Components | 30/33 | Test gap closure |  |
-| 7. Complex Components | 7/8 | In Progress|  |
+| 7. Complex Components | 8/8 | Complete   | 2026-03-20 |
 | 8. Build & Distribution | 0/TBD | Not started | - |
 | 9. Documentation & Testing | 0/TBD | Not started | - |
