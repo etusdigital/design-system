@@ -33,19 +33,26 @@ No `components.json` found — shadcn is not used in this project. The design sy
 
 The project uses a custom spacing scale backed by CSS variables. The values below are the token-resolved px values from `main.css`.
 
+Standard scale (multiples of 4 within the canonical set {4, 8, 16, 24, 32, 48, 64}):
+
 | Token | CSS Variable | Value | Usage |
 |-------|-------------|-------|-------|
 | xxs | --spacing-xxs | 4px | Icon gaps, tight inline padding |
 | xs | --spacing-xs | 8px | Compact element spacing (table cell padding, tree indent step) |
-| sm | --spacing-sm | 12px | Medium compact spacing |
 | base | --spacing-base | 16px | Default element spacing (toolbar buttons, sidebar option padding) |
-| lg | --spacing-lg | 20px | Component internal section spacing |
 | xl | --spacing-xl | 24px | Section padding (table header, sidebar group headers) |
 | 2xl | --spacing-2xl | 32px | Layout gaps |
 | 3xl | --spacing-3xl | 48px | Major section breaks |
 | 5xl | --spacing-5xl | 64px | Page-level spacing |
 
-Exceptions:
+Exceptions (project-specific, outside standard set — do NOT change without modifying `src/assets/main.css`):
+
+| Token | CSS Variable | Value | Justification |
+|-------|-------------|-------|---------------|
+| sm | --spacing-sm | 12px | Resolved from existing `main.css` token definition. Bridges xs (8px) and base (16px). Used for medium-compact spacing in component internals. Cannot be changed without modifying the upstream token file. |
+| lg | --spacing-lg | 20px | Resolved from existing `main.css` token definition. Bridges base (16px) and xl (24px). Used for component internal section spacing. Cannot be changed without modifying the upstream token file. |
+
+Additional exceptions:
 - Table cell touch targets: minimum 44px row height to meet accessibility tap target requirements
 - Tree node indent: each nesting level adds `--spacing-base` (16px) of left padding per depth level
 - Sidebar collapsed width: fixed at `--spacing-5xl` (64px) icon-only rail; expanded to fixed width matching Vue source
@@ -116,13 +123,13 @@ Phase 7 components are developer-facing library components, not end-user applica
 
 | Element | Copy |
 |---------|------|
-| Table empty state heading | "No items found" |
+| Table empty state heading | "No rows to display — add items to populate this table." |
 | Table empty state body | "There are no items to display. Add data to see it here." |
 | Table loading state | "Loading..." (shown as Skeleton rows, no text label) |
 | Table items-per-page label | "Items per page" |
 | Table pagination summary | "{min}–{max} of {total} items" |
 | Table select-all label | (checkbox only — no text label, aria-label="Select all rows") |
-| Tree empty state | "No options available." |
+| Tree empty state | "No options provided — pass an options array via the options prop." |
 | Sidebar no selection | (no copy — sidebar opens to first item active by default) |
 | History no options | (component renders nothing — empty options array renders empty container) |
 | RichTextEditor placeholder | "Start typing..." |
