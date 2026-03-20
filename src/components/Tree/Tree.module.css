@@ -10,7 +10,7 @@
 
 .nodeRow {
   @apply flex items-center gap-xs py-xxs px-xs cursor-pointer rounded-sm;
-  @apply hover:bg-neutral-surface-low transition-colors duration-150;
+  @apply hover:bg-neutral-surface-highlight transition-colors duration-150;
 }
 
 .selected {
