@@ -7,10 +7,8 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Avatar name="John Doe" />
-</template>
+```tsx
+<Avatar name="John Doe" />
 ```
 
 ---
@@ -29,27 +27,25 @@ Alternative text for the avatar image (accessibility). Type: `string` (optional,
 #### size
 Controls the avatar's dimensions. Options: `"small"` | `"medium"` | `"large"` (default: `"medium"`)
 
-```vue
-<template>
-    <div class="flex gap-sm">
-        <Avatar name="John Doe" size="small" />
-        <Avatar name="John Doe" size="medium" />
-        <Avatar name="John Doe" size="large" />
-    </div>
-</template>
+```tsx
+<div className="flex gap-sm">
+    <Avatar name="John Doe" size="small" />
+    <Avatar name="John Doe" size="medium" />
+    <Avatar name="John Doe" size="large" />
+</div>
 ```
 
 ---
 
 ### Events API
 
-Avatar does not emit any custom events. It's a display component that passes through standard DOM events from the underlying div element.
+Avatar does not emit any custom events. It's a display React component that passes through standard DOM events from the underlying div element.
 
 ---
 
-### Slots API
+### Children API
 
-Avatar does not use slots. All content is controlled through props (`name`, `src`, `alt`, `size`). The component automatically handles the display logic between images and initials.
+Avatar does not use children. All content is controlled through props (`name`, `src`, `alt`, `size`). The component automatically handles the display logic between images and initials.
 
 **Important Notes:**
 - The component automatically chooses between image and initials display

@@ -7,27 +7,28 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Switch 
-        v-model="isEnabled"
+```tsx
+const [isEnabled, setIsEnabled] = useState(false)
+
+return (
+    <Switch
+        value={isEnabled}
+        onChange={setIsEnabled}
     >
         Switch Label
     </Switch>
-</template>
-
-<script setup lang="ts">
-
-const isEnabled = ref(false)
-</script>
+)
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value
 Controls the switch state (on/off). Type: `boolean` (default: `false`)
+
+#### onChange
+Callback triggered when the switch state changes. Type: `(value: boolean) => void`
 
 #### id
 HTML id attribute for the switch element. Type: `string` (default: `undefined`)
@@ -45,25 +46,22 @@ Disables the switch interaction. Type: `boolean` (default: `false`)
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the switch state changes. Receives the new boolean value.
 
 ### Slots API
 
-#### #default
+#### children
 Content displayed as the switch label next to the switch.
 
-```vue
-<template>
-    <Switch v-model="setting">
+```tsx
+const [setting, setSetting] = useState(false)
+
+return (
+    <Switch value={setting} onChange={setSetting}>
         Slot: default
     </Switch>
-</template>
-
-<script setup lang="ts">
-
-const setting = ref(false)
-</script>
+)
 ```
 
 **Important Notes:**

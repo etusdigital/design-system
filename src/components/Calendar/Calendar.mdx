@@ -1,5 +1,5 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as CalendarStories from './Calendar.stories';
+import * as CalendarStories from './Calendar.stories.tsx';
 
 <Meta of={CalendarStories} />
 
@@ -20,17 +20,13 @@ import * as CalendarStories from './Calendar.stories';
 
 ### Basic Usage
 
-```vue
-<template>
-    <Calendar 
-        v-model="selectedDate"
-    />
-</template>
+```tsx
+const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-<script setup lang="ts">
-import { ref } from 'vue'
-const selectedDate = ref<Date | null>(null)
-</script>
+<Calendar
+    value={selectedDate}
+    onChange={setSelectedDate}
+/>
 ```
 
 <Canvas sourceState="none" of={CalendarStories.Primary} />
@@ -39,7 +35,7 @@ const selectedDate = ref<Date | null>(null)
 
 ### Props API
 
-#### v-model
+#### value / onChange
 Controls the selected date or date range. Type: `Date | Date[] | Date[][] | null` (default: `null`)
 
 #### lang
@@ -50,7 +46,7 @@ Language for date formatting and localization. Type: `string` (default: `"en-US"
 #### type
 Selection mode for the calendar. Type: `"date" | "period" | "compare"` (default: `"date"`)
 - `"date"`: Single date selection
-- `"period"`: Date range selection  
+- `"period"`: Date range selection
 - `"compare"`: Comparison mode with two date ranges
 
 <Canvas sourceState="none" of={CalendarStories.Primary} />
@@ -59,17 +55,17 @@ Selection mode for the calendar. Type: `"date" | "period" | "compare"` (default:
 
 <Canvas sourceState="none" of={CalendarStories.Compare} />
 
-#### double-calendar
+#### doubleCalendar
 Shows two calendar months side by side. Type: `boolean` (default: `false`)
 
 <Canvas sourceState="none" of={CalendarStories.DoubleCalendar} />
 
-#### min-date
+#### minDate
 Earliest selectable date constraint. Type: `Date` (default: `undefined`)
 
 <Canvas sourceState="none" of={CalendarStories.MinDate} />
 
-#### max-date
+#### maxDate
 Latest selectable date constraint. Type: `Date` (default: `undefined`)
 
 <Canvas sourceState="none" of={CalendarStories.MaxDate} />
@@ -78,16 +74,16 @@ Latest selectable date constraint. Type: `Date` (default: `undefined`)
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the selected date or date range changes.
 
-### Slots API
+### Children API
 
-This component uses the internal Calendar component and doesn't expose custom slots.
+This component uses the internal Calendar component and doesn't accept children.
 
 **Important Notes:**
 - Supports single date, date range, and comparison modes via `type` prop
-- Use `double-calendar` prop to show two months side by side
-- Automatically handles locale-specific date formatting and display  
-- Date constraints can be applied using `min-date` and `max-date` props
+- Use `doubleCalendar` prop to show two months side by side
+- Automatically handles locale-specific date formatting and display
+- Date constraints can be applied using `minDate` and `maxDate` props
 - Returns `Date` for single selection, `Date[]` for ranges, or `Date[][]` for comparison mode

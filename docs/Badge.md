@@ -11,21 +11,19 @@
 
 > **Recommendation:** Use StatusBadge for standard status indicators (primary, info, success, warning, error, neutral). Badge is intended for custom color requirements not covered by the design system theme.
 
-```vue
-<template>
-    <Badge 
-        label-value="Custom Brand"
-        color="#000000"
-        icon="star"
-    />
-</template>
+```tsx
+<Badge
+    labelValue="Custom Brand"
+    color="#000000"
+    icon="star"
+/>
 ```
 
 ---
 
 ### Props API
 
-#### label-value
+#### labelValue
 The text content displayed in the tag. Type: `string` (default: `""`)
 
 #### color
@@ -45,30 +43,28 @@ Shows spinner animation instead of content. Type: `boolean` (default: `false`)
 #### icon
 Icon name to display within the tag. Type: `string` (default: `""`)
 
-#### is-appended-icon
+#### isAppendedIcon
 Controls icon position - when true, icon appears after text. Type: `boolean` (default: `false`)
 
 #### closeable
-Adds close button functionality with click event emission. Type: `boolean` (default: `false`)
+Adds close button functionality with callback prop. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
-#### @close
+#### onClose
 Triggered when the close button is clicked (only when `closeable` is true).
 
-### Slots API
+### Children API
 
-#### #default
+#### children
 Content displayed instead of text prop when provided.
 
-```vue
-<template>
-    <Badge>
-       Slot: default
-    </Badge>
-</template>
+```tsx
+<Badge>
+   Slot: default
+</Badge>
 ```
 
 **Important Notes:**

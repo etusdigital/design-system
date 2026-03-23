@@ -7,10 +7,8 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Spinner />
-</template>
+```tsx
+<Spinner />
 ```
 
 ---
@@ -20,32 +18,28 @@
 #### color
 Controls the spinner's color. Can be changed through the **color** CSS property or theme colors.
 
-```vue
-<template>
-    <div class="flex gap-sm">
-        <Spinner class="text-neutral-interaction-default" />
-        <Spinner class="text-primary-interaction-default" />
-        <Spinner class="text-informative-interaction-default" />
-        <Spinner class="text-success-interaction-default" />
-        <Spinner class="text-warning-interaction-default" />
-        <Spinner class="text-danger-interaction-default" />
-    </div>
-</template>
+```tsx
+<div className="flex gap-sm">
+    <Spinner className="text-neutral-interaction-default" />
+    <Spinner className="text-primary-interaction-default" />
+    <Spinner className="text-informative-interaction-default" />
+    <Spinner className="text-success-interaction-default" />
+    <Spinner className="text-warning-interaction-default" />
+    <Spinner className="text-danger-interaction-default" />
+</div>
 ```
 
 #### size
 Controls the spinner's dimensions. Can be changed through the **font-size** CSS property, or by manipulating **width** and **height** directly.
 
-```vue
-<template>
-    <div class="flex gap-sm">
-        <Spinner class="text-xs" />
-        <Spinner class="text-xl" />
-        <Spinner class="text-3xl" />
-        <Spinner class="text-5xl" />
-        <Spinner class="text-7xl" />
-      </div>
-</template>
+```tsx
+<div className="flex gap-sm">
+    <Spinner className="text-xs" />
+    <Spinner className="text-xl" />
+    <Spinner className="text-3xl" />
+    <Spinner className="text-5xl" />
+    <Spinner className="text-7xl" />
+</div>
 ```
 
 **Important Notes:**

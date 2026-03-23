@@ -7,35 +7,35 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Stepper 
-        v-model="currentStep"
-        :options="steps"
+```tsx
+const [currentStep, setCurrentStep] = useState(steps[0])
+
+return (
+    <Stepper
+        value={currentStep}
+        onChange={setCurrentStep}
+        options={steps}
     />
-</template>
-
-<script setup lang="ts">
-
-const currentStep = ref(...)
-const steps = ref([...])
-</script>
+)
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value
 Controls the currently active step. Type: `any` (default: `undefined`)
+
+#### onChange
+Callback triggered when the active step changes. Type: `(value: any) => void`
 
 #### options
 Array of step options that can be strings or objects. Type: `any[]` (required)
 
-#### label-key
+#### labelKey
 Property name used for displaying option labels when using object arrays. Type: `string` (default: `"label"`)
 
-#### value-key
+#### valueKey
 Property name used for option values when using object arrays. Type: `string` (default: `"value"`)
 
 #### size
@@ -44,56 +44,49 @@ Controls the stepper size variant. Type: `'medium' | 'large'` (default: `'medium
 #### disabled
 Disables step navigation when true. Type: `boolean` (default: `false`)
 
-#### allowed-skip
+#### allowedSkip
 Allows users to skip steps and jump to any step. Type: `boolean` (default: `false`)
 
 #### background
 Custom background color for the stepper. Type: `string` (default: `"var(--neutral-background-default)"`)
 
-#### get-object
+#### getObject
 Returns the complete option object instead of just the value when true. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
-#### @update:model-value
-Triggered when the active step changes (v-model). Receives the new step value.
+#### onChange
+Triggered when the active step changes. Receives the new step value.
 
-#### @change-step
+#### onChangeStep
 Triggered when any step interaction occurs. Receives the step option and index.
 
-```vue
-<template>
-    <Stepper 
-        v-model="currentStep"
-        :options="steps"
-        disabled
-        @change-step="handleStepChange"
-    />
-</template>
+```tsx
+const { toast } = useToast()
 
-<script setup lang="ts">
-
-const toast = inject("toast") as Function;
-
-const currentStep = ref(...)
-const steps = ref([...])
-const attr = ref(...)
+const [currentStep, setCurrentStep] = useState(steps[0])
 
 const handleStepChange = (option, index) => {
     if (!isValid()) {
-        toast({...})
+        toast({ title: 'Validation error', message: 'Please complete the current step', type: 'warning' })
         return
     }
 
-    if (index != steps.length - 1) currentStep = steps[index + 1]
+    if (index !== steps.length - 1) setCurrentStep(steps[index + 1])
     else save()
 }
 
-const isValid = () => {}
-const save = () => {}
-</script>
+return (
+    <Stepper
+        value={currentStep}
+        onChange={setCurrentStep}
+        options={steps}
+        disabled
+        onChangeStep={handleStepChange}
+    />
+)
 ```
 
 ---
@@ -103,8 +96,7 @@ const save = () => {}
 This component doesn't expose custom slots. Content is controlled through the `options` prop.
 
 **Important Notes:**
-- Automatically tracks step progression and prevents skipping unless `allowed-skip` is enabled
-- Version 2 requires objects with `icon` property for proper display
+- Automatically tracks step progression and prevents skipping unless `allowedSkip` is enabled
 - Step validation prevents users from jumping ahead unless explicitly allowed
 - Custom background colors apply to button backgrounds and maintain visual consistency
 - Progress tracking persists even when users navigate backwards

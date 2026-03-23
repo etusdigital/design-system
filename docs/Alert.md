@@ -7,13 +7,11 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Alert 
-        title="Demo Title" 
-        message="Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a massa praesent ultricies."
-    />
-</template>
+```tsx
+<Alert
+    title="Demo Title"
+    message="Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a massa praesent ultricies."
+/>
 ```
 
 ---
@@ -35,7 +33,7 @@ Controls the alert dimensions and text sizes. Type: `"small" | "medium" | "large
 #### icon
 Custom icon name to override the default type icon. Type: `string` (default: `""`)
 
-#### icon-position
+#### iconPosition
 Position of the icon relative to content. Type: `"start" | "center" | "end"` (default: `"start"`)
 
 #### expandable
@@ -44,61 +42,56 @@ Makes the alert expandable to show/hide full message. Type: `boolean` (default: 
 #### closable
 Adds a close button to dismiss the alert. Type: `boolean` (default: `false`)
 
-#### hide-icon
+#### hideIcon
 Hides the alert icon completely. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
-#### @close
+#### onClose
 Triggered when the close button is clicked (only when `closable` is true).
 
-### Slots API
+### Children API
 
-#### #default
+#### children
 Replaces the entire content area (title and message). Useful for custom layouts.
 
-```vue
-<template>
-    <Alert type="success">
-        <div class="flex flex-col gap-sm">
-            <h3 class="font-bold text-lg">Custom Content</h3>
-            <p>You can put any custom content here instead of using title and message props.</p>
-            <div class="flex gap-sm">
-                <button size="small">Action 1</button>
-                <button size="small" variant="secondary">Action 2</button>
-            </div>
+```tsx
+<Alert type="success">
+    <div className="flex flex-col gap-sm">
+        <h3 className="font-bold text-lg">Custom Content</h3>
+        <p>You can put any custom content here instead of using title and message props.</p>
+        <div className="flex gap-sm">
+            <button size="small">Action 1</button>
+            <button size="small" variant="secondary">Action 2</button>
         </div>
-    </Alert>
-</template>
+    </div>
+</Alert>
 ```
 
-#### #actions
+#### actions (via `actions` prop)
 Replaces the default action area (expand/close buttons). Useful for custom actions.
 
-```vue
-<template>
-    <Alert 
-        title="Custom Actions" 
-        message="This alert has custom action buttons."
-        type="warning"
-    >
-        <template #actions>
-            <div class="flex gap-xs">
-                <button size="small" variant="plain">
-                    <icon name="refresh" />
-                </button>
-                <button size="small" variant="plain">
-                    <icon name="share" />
-                </button>
-                <button size="small" variant="plain">
-                    <icon name="close" />
-                </button>
-            </div>
-        </template>
-    </Alert>
-</template>
+```tsx
+<Alert
+    title="Custom Actions"
+    message="This alert has custom action buttons."
+    type="warning"
+    actions={
+        <div className="flex gap-xs">
+            <button size="small" variant="plain">
+                <icon name="refresh" />
+            </button>
+            <button size="small" variant="plain">
+                <icon name="share" />
+            </button>
+            <button size="small" variant="plain">
+                <icon name="close" />
+            </button>
+        </div>
+    }
+/>
 ```
 
 **Important Notes:**

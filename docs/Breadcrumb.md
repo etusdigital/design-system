@@ -7,48 +7,44 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Breadcrumb 
-        v-model="currentPage"
-        :options="navigationPath"
-    />
-</template>
+```tsx
+const [currentPage, setCurrentPage] = useState("Settings");
+const navigationPath = ["Home", "Dashboard", "Profile", "Settings"];
 
-<script setup lang="ts">
-
-const currentPage = ref("Settings")
-const navigationPath = ["Home", "Dashboard", "Profile", "Settings"]
-</script>
+<Breadcrumb
+    value={currentPage}
+    onChange={setCurrentPage}
+    options={navigationPath}
+/>
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value / onChange
 Controls the currently selected breadcrumb option. Type: `any` (default: `undefined`)
 
 #### options
 Array of breadcrumb navigation options. Can be strings or objects. Type: `any[]` (default: `undefined`)
 
-#### label-key
+#### labelKey
 Property name used for displaying option labels when using object arrays. Type: `string` (default: `"label"`)
 
-#### value-key
+#### valueKey
 Property name used for option values when using object arrays. Type: `string` (default: `"value"`)
 
-#### get-object
+#### getObject
 Returns complete objects instead of just values when enabled. Type: `boolean` (default: `false`)
 
 ### Events API
 
-#### @update:model-value
-Triggered when a breadcrumb option is clicked. Receives the selected value based on `get-object` setting.
+#### onChange
+Triggered when a breadcrumb option is clicked. Receives the selected value based on `getObject` setting.
 
-### Slots API
+### Children API
 
-This component uses internal rendering for breadcrumb options and doesn't expose custom slots.
+This component uses internal rendering for breadcrumb options and doesn't accept children.
 
 **Important Notes:**
 - Intelligent truncation algorithm shows first, last, and options around current selection

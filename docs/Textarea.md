@@ -7,41 +7,42 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Textarea 
-        v-model="textareaValue"
-        label-value="Message"
+```tsx
+const [textareaValue, setTextareaValue] = useState('')
+
+return (
+    <Textarea
+        value={textareaValue}
+        onChange={setTextareaValue}
+        labelValue="Message"
         placeholder="Enter your message..."
     />
-</template>
-
-<script setup lang="ts">
-
-const textareaValue = ref('')
-</script>
+)
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value
 Controls the textarea value. Type: `string` (default: `""`)
 
-#### label-value
+#### onChange
+Callback triggered when the textarea value changes. Type: `(value: string) => void`
+
+#### labelValue
 The label displayed above the textarea. Type: `string` (default: `""`)
 
 #### max
 Maximum character limit for textarea. Type: `number` (default: `undefined`)
 
-#### is-error
+#### isError
 Activates error styling mode. Type: `boolean` (default: `false`)
 
-#### error-message
+#### errorMessage
 Error message to display when in error state. Type: `string` (default: `""`)
 
-#### info-message
+#### infoMessage
 Informational message displayed with tooltip. Type: `string` (default: `""`)
 
 #### disabled
@@ -53,23 +54,23 @@ Marks the field as required. Type: `boolean` (default: `false`)
 #### placeholder
 Placeholder text for the textarea. Type: `string` (default: `""`)
 
-#### text-align
+#### textAlign
 Text alignment within textarea. Type: `'start' | 'center' | 'end'` (default: `"start"`)
 
-#### tooltip-min-width
+#### tooltipMinWidth
 Minimum width for info tooltip. Type: `string` (default: `"none"`)
 
 ---
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the textarea value changes.
 
-#### @focus
+#### onFocus
 Triggered when the textarea gains focus. Receives the current value.
 
-#### @blur
+#### onBlur
 Triggered when the textarea loses focus. Receives the current value.
 
 **Important Notes:**

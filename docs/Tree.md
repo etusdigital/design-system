@@ -7,34 +7,40 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Tree 
-      v-model="selectedOptions"
-      :options="treeData"
-      :multiple="true"
-      :get-object="true"
+```tsx
+const [selectedOptions, setSelectedOptions] = useState([])
+
+return (
+    <Tree
+        value={selectedOptions}
+        onChange={setSelectedOptions}
+        options={treeData}
+        multiple={true}
+        getObject={true}
     />
-</template>
+)
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value
 The selected value(s). Can be a single option or array for multiple selection. Type: `any` (default: `undefined`)
+
+#### onChange
+Callback triggered when selection changes. Type: `(value: any) => void`
 
 #### options
 The tree data structure with nested options. Type: `array` (required)
 
-#### label-key
+#### labelKey
 The property name to use for displaying option labels. Type: `string` (default: `"label"`)
 
-#### value-key
+#### valueKey
 The property name to use for option values/identification. Type: `string` (default: `"value"`)
 
-#### get-object
+#### getObject
 When true, returns complete objects in selection. When false, returns only values. Type: `boolean` (default: `false`)
 
 #### multiple
@@ -47,12 +53,18 @@ Disables the entire tree component. Type: `boolean` (default: `false`)
 
 ### Events API
 
-#### update:model-value
-Emitted when selection changes. Payload contains the selected option(s) based on `getObject` and `multiple` settings.
+#### onChange
+Triggered when selection changes. Payload contains the selected option(s) based on `getObject` and `multiple` settings.
 
-### Slots API
+### Children API
 
-This component uses internal logic for page display and doesn't expose custom slots.
+The Tree component uses compound sub-components:
+
+```tsx
+<Tree value={selected} onChange={setSelected} options={treeData}>
+    <Tree.Node />
+</Tree>
+```
 
 ### Selection Behavior
 

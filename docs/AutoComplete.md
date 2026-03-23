@@ -7,36 +7,33 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <AutoComplete 
-        v-model="selectedValue"
-        v-model:expanded="isExpanded"
-        label-value="label"
-        placeholder="Placeholder"
-        :options="options"
-    />
-</template>
+```tsx
+const [selectedValue, setSelectedValue] = useState('');
+const [isExpanded, setIsExpanded] = useState(false);
+const options = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"];
 
-<script setup lang="ts">
-
-const selectedValue = ref('')
-const isExpanded = ref(false)
-const options = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"]
-</script>
+<AutoComplete
+    value={selectedValue}
+    onChange={setSelectedValue}
+    expanded={isExpanded}
+    onExpandedChange={setIsExpanded}
+    labelValue="label"
+    placeholder="Placeholder"
+    options={options}
+/>
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value / onChange
 The current input value. Type: `string` (default: `""`)
 
-#### v-model:expanded
+#### expanded / onExpandedChange
 Controls whether the dropdown is open. Type: `boolean` (default: `false`)
 
-#### label-value
+#### labelValue
 Label displayed above the input. Type: `string` (default: `""`)
 
 #### options
@@ -54,62 +51,58 @@ Marks the field as required for form validation. Type: `boolean` (default: `fals
 #### disabled
 Disables the input and dropdown. Type: `boolean` (default: `false`)
 
-#### is-error
+#### isError
 Activates error visual state. Type: `boolean` (default: `false`)
 
-#### error-message
+#### errorMessage
 Error message displayed when in error state. Type: `string` (default: `""`)
 
-#### info-message
+#### infoMessage
 Informational message displayed below the input. Type: `string` (default: `""`)
 
-#### max-height
+#### maxHeight
 Maximum height of the input area. Type: `string` (default: `"40px"`)
 
-#### min-width
+#### minWidth
 Minimum width of the component. Type: `string` (default: `"15em"`)
 
 ---
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the input value changes.
 
-#### @update:expanded
+#### onExpandedChange
 Triggered when the dropdown open/close state changes.
 
-### Slots API
+### Children API
 
-#### #option
-Customizes the rendering of each dropdown option. Provides `option` and `index` as slot props.
+#### option render prop
+Customizes the rendering of each dropdown option. Receives `option` and `index`.
 
-```vue
-<template>
-    <AutoComplete
-        v-model="selectedValue"
-        v-model:expanded="isExpanded"
-        label-value="label"
-        placeholder="Placeholder"
-        :options="options"
-    >
-        <template #option="{ option, index }">
-            <Icon name="account_circle" /> {{ option }}
-        </template>
-    </AutoComplete>
-</template>
+```tsx
+const [selectedValue, setSelectedValue] = useState('');
+const [isExpanded, setIsExpanded] = useState(false);
+const options = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"];
 
-<script setup lang="ts">
-
-const selectedValue = ref('')
-const isExpanded = ref(false)
-const options = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"]
-</script>
+<AutoComplete
+    value={selectedValue}
+    onChange={setSelectedValue}
+    expanded={isExpanded}
+    onExpandedChange={setIsExpanded}
+    labelValue="label"
+    placeholder="Placeholder"
+    options={options}
+    renderOption={(option, index) => (
+        <><Icon name="account_circle" /> {option}</>
+    )}
+/>
 ```
 
 **Important Notes:**
 - Filtering is case-insensitive and matches partial strings
 - Built on top of SelectContainer for consistent styling and behavior
 - Dropdown automatically opens on focus and closes when an option is selected
-- Use the `option` slot for rich content like icons, badges, or structured data
+- Use the `renderOption` callback prop for rich content like icons, badges, or structured data
 - Input value can be different from available options for flexible user input

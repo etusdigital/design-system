@@ -7,28 +7,24 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Checkbox 
-        v-model="isChecked"
-        id="basic-checkbox"
-        name="basic"
-    >
-        Test label
-    </Checkbox>
-</template>
+```tsx
+const [isChecked, setIsChecked] = useState(false);
 
-<script setup lang="ts">
-
-const isChecked = ref(false)
-</script>
+<Checkbox
+    value={isChecked}
+    onChange={setIsChecked}
+    id="basic-checkbox"
+    name="basic"
+>
+    Test label
+</Checkbox>
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value / onChange
 Controls the checkbox state. Type: `boolean | null` (default: `false`)
 
 #### id
@@ -40,7 +36,7 @@ HTML name attribute for the checkbox. Type: `string` (optional)
 #### rhs
 Positions the checkbox on the right-hand side. Type: `boolean` (default: `false`)
 
-#### allow-indeterminate
+#### allowIndeterminate
 Allows the checkbox to be in an indeterminate state. The `null` value is treated as indeterminate. Type: `boolean` (default: `false`)
 
 #### disabled
@@ -50,20 +46,20 @@ Disables the checkbox interaction. Type: `boolean` (default: `false`)
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the checkbox state changes.
 
-### Slots API
+### Children API
 
-#### #default
+#### children
 Content displayed next to the checkbox box (typically the label text).
 
-```vue
-<template>
-    <Checkbox v-model="isSelected" id="slot-example">
-        Slot: default
-    </Checkbox>
-</template>
+```tsx
+const [isSelected, setIsSelected] = useState(false);
+
+<Checkbox value={isSelected} onChange={setIsSelected} id="slot-example">
+    children: default
+</Checkbox>
 ```
 
 **Important Notes:**

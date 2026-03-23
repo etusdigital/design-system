@@ -1,34 +1,30 @@
 # Name: Crop
 ## Component Overview
 
-**Purpose**: An advanced image cropping component with interactive drag-and-drop selection, zoom controls, and real-time preview for precise image editing and content preparation.
+**Purpose**: An advanced image cropping React component with interactive drag-and-drop selection, zoom controls, and real-time preview for precise image editing and content preparation.
 
 **Import**: Automatic - no need to import any DS components
 
 ### Basic Usage
 
-```vue
-<template>
-    <Crop 
-        v-model="croppedImage"
-        :src="originalImage"
-        width="360px"
-        height="200px"
-    />
-</template>
+```tsx
+const [croppedImage, setCroppedImage] = useState("");
+const originalImage = "/path/to/image.jpg";
 
-<script setup lang="ts">
-
-const croppedImage = ref("")
-const originalImage = ref("/path/to/image.jpg")
-</script>
+<Crop
+    value={croppedImage}
+    onChange={setCroppedImage}
+    src={originalImage}
+    width="360px"
+    height="200px"
+/>
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value / onChange
 Controls the cropped image output as a base64 data URL. Type: `string` (default: `undefined`)
 
 #### src
@@ -39,16 +35,17 @@ The width of the crop area selection box. Type: `string` (default: `"360px"`)
 
 #### height
 The height of the crop area selection box. Type: `string` (default: `"200px"`)
+
 ---
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the crop area changes or zoom is adjusted. Receives the cropped image as a base64 data URL.
 
-### Slots API
+### Children API
 
-This component uses internal canvas-based rendering and doesn't expose custom slots.
+This component uses internal canvas-based rendering and doesn't accept children.
 
 **Important Notes:**
 - Interactive crop area with drag-and-drop positioning for precise selection control

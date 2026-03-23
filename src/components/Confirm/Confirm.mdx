@@ -6,22 +6,15 @@ import * as Confirm from './Confirm.stories.tsx';
 
 **Purpose**: A programmatic confirmation dialog function that displays modal dialogs for user confirmation, returning a promise that resolves based on user interaction for critical action validation.
 
-**Usage**: Function-based API - no direct component import needed
+**Usage**: Hook-based API - access via `useConfirm` hook
 
-**Import**: Import it using inject function `inject('confirm')`
+**Import**: `import { useConfirm } from 'your-design-system'`
 
 <br />
 ### Basic Usage
 
-```vue
-<template>
-   <button @click="handleDelete">Delete Item</button>
-</template>
-
-<script setup lang="ts">
-import { inject } from 'vue'
-
-const confirm = inject('confirm') as Function
+```tsx
+const { confirm } = useConfirm();
 
 const handleDelete = async () => {
     const result = await confirm({
@@ -29,13 +22,14 @@ const handleDelete = async () => {
         message: 'Are you sure you want to proceed?',
         acceptLabel: 'Confirm',
         cancelLabel: 'Cancel'
-    })
-    
+    });
+
     if (result) {
-        console.log('Item deleted')
+        console.log('Item deleted');
     }
-}
-</script>
+};
+
+<button onClick={handleDelete}>Delete Item</button>
 ```
 <Canvas sourceState="none" of={Confirm.Primary} />
 
@@ -63,20 +57,10 @@ type ConfirmOptions = {
 
 #### Access Methods
 
-**Composition API (Recommended)**
-```javascript
-import { inject } from 'vue'
-const confirm = inject('confirm') as Function
-```
-
-**Options API (Legacy)**
-```javascript
-this.$confirm({
-    title: 'Confirmation',
-    message: 'Proceed with action?',
-    acceptLabel: 'Yes',
-    cancelLabel: 'No'
-})
+**Hook API (Recommended)**
+```tsx
+import { useConfirm } from 'your-design-system';
+const { confirm } = useConfirm();
 ```
 
 ---
@@ -84,23 +68,23 @@ this.$confirm({
 ### Usage Patterns
 
 #### Async/Await Pattern
-```javascript
+```tsx
 const handleCriticalAction = async () => {
     const confirmed = await confirm({
         title: 'Critical Action',
         message: 'This will permanently delete all data. Continue?',
         acceptLabel: 'Yes, Delete All',
         cancelLabel: 'Cancel'
-    })
-    
+    });
+
     if (confirmed) {
-        await performCriticalAction()
+        await performCriticalAction();
     }
-}
+};
 ```
 
 #### Promise Chain Pattern
-```javascript
+```tsx
 const handleAction = () => {
     confirm({
         message: 'Save changes before leaving?',
@@ -108,49 +92,48 @@ const handleAction = () => {
         cancelLabel: 'Discard'
     }).then((result) => {
         if (result) {
-            saveChanges()
+            saveChanges();
         }
-        navigateAway()
-    })
-}
+        navigateAway();
+    });
+};
 ```
 
 ### Setup Requirements
 
-#### Component Registration
-The `<confirm />` component must be included **only once** in your application root, preferably in `App.vue`:
+#### Provider Registration
+The `DesignSystemProvider` (which includes `ConfirmProvider`) must be included **only once** at your application root:
 
-```vue
-<!-- App.vue -->
-<template>
-    <!-- Your app content -->
-    <router-view />
-    
-    <!-- Required for confirm dialogs - Add only once -->
-    <confirm />
-</template>
+```tsx
+// App.tsx
+import { DesignSystemProvider } from 'your-design-system';
+
+function App() {
+    return (
+        <DesignSystemProvider>
+            {/* Your app content */}
+        </DesignSystemProvider>
+    );
+}
 ```
 
-**Important**: Do not add `<confirm />` to individual components. It should only be present once in your entire application.
-
-#### Service Injection
-The confirm function is available through Vue's dependency injection system and requires proper setup in your application configuration.
+**Important**: Do not nest `DesignSystemProvider`. It should only be present once in your entire application.
 
 ---
 
 ### Event System
 
-The confirm dialog uses an internal event system to communicate between the function call and the dialog component:
+The confirm dialog uses an internal context to communicate between the hook call and the dialog component:
 
-- **Function Call** → Triggers `open-confirm` event
-- **User Action** → Triggers `confirm` or `cancel` events
+- **Hook Call** → Triggers dialog open via context
+- **User Action** → Resolves the returned Promise
 - **Promise Resolution** → Based on user choice
 
 **Important Notes:**
 - Returns `Promise<boolean>` for easy async/await usage
 - Modal dialog prevents outside clicks when active
 - Only one confirmation dialog can be active at a time
-- Requires `<confirm />` component in application root **only once** (preferably in App.vue)
-- Uses dependency injection for clean API access
+- Requires `DesignSystemProvider` (or `ConfirmProvider`) wrapping your application root
+- Uses React context for clean API access
 - Handles both accept and cancel scenarios gracefully
-- No direct component props - all configuration through function parameters
+- No direct component props — all configuration through function parameters
