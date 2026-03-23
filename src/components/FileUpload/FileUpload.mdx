@@ -1,5 +1,5 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as FileUploadStories from './FileUpload.stories';
+import * as FileUploadStories from './FileUpload.stories.tsx';
 
 <Meta of={FileUploadStories} />
 
@@ -20,19 +20,17 @@ import * as FileUploadStories from './FileUpload.stories';
 
 ### Basic Usage
 
-```vue
-<template>
-    <FileUpload 
-        v-model="uploadedFile"
-        label-value="Upload Document"
-        placeholder="Select a file or drag it here"
-    />
-</template>
+```tsx
+import { useState } from 'react'
 
-<script setup lang="ts">
-import { ref } from 'vue'
-const uploadedFile = ref<File>()
-</script>
+const [uploadedFile, setUploadedFile] = useState<File | undefined>(undefined)
+
+<FileUpload
+    value={uploadedFile}
+    onChange={setUploadedFile}
+    labelValue="Upload Document"
+    placeholder="Select a file or drag it here"
+/>
 ```
 
 <Canvas sourceState="none" of={FileUploadStories.Default} />
@@ -41,29 +39,30 @@ const uploadedFile = ref<File>()
 
 ### Props API
 
-#### v-model
+#### value
 Controls the uploaded file(s). Type: `File | File[] | undefined` (default: `undefined`)
 
-#### label-value
+#### onChange
+Callback fired when files are selected or uploaded. Type: `(file: File | File[] | undefined) => void`
+
+#### labelValue
 The label displayed above the file upload area. Type: `string` (default: `""`)
 
 #### accept
 Specifies the types of files that can be uploaded. Type: `string` (default: `undefined`)
 
-```vue
-<template>
-    <FileUpload 
-        v-model="image"
-        label-value="Upload Image"
-        accept=".jpg,.jpeg,.png,.gif"
-        info-message="Only image files allowed"
-    />
-</template>
+```tsx
+import { useState } from 'react'
 
-<script setup lang="ts">
-import { ref } from 'vue'
-const image = ref<File>()
-</script>
+const [image, setImage] = useState<File | undefined>(undefined)
+
+<FileUpload
+    value={image}
+    onChange={setImage}
+    labelValue="Upload Image"
+    accept=".jpg,.jpeg,.png,.gif"
+    infoMessage="Only image files allowed"
+/>
 ```
 
 <Canvas sourceState="none" of={FileUploadStories.Accept} />
@@ -73,15 +72,15 @@ Allows multiple file selection. Type: `boolean` (default: `false`)
 
 <Canvas sourceState="none" of={FileUploadStories.Multiple} />
 
-#### is-error
+#### isError
 Activates error styling mode. Type: `boolean` (default: `false`)
 
 <Canvas sourceState="none" of={FileUploadStories.IsError} />
 
-#### error-message
+#### errorMessage
 Error message to display when in error state. Type: `string` (default: `""`)
 
-#### info-message
+#### infoMessage
 Informational message displayed with tooltip. Type: `string` (default: `""`)
 
 <Canvas sourceState="none" of={FileUploadStories.InfoMessage} />
@@ -103,22 +102,22 @@ Placeholder text for the file upload area. Type: `string` (default: `"or drag an
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when files are selected or uploaded. Receives the File object(s) or undefined when files are removed.
 
 ---
 
-### Slots API
+### Children API
 
-#### #uploaded-file
-Custom content for displaying uploaded file information. This slot is shown when files are successfully uploaded and allows complete customization of the file display.
+#### uploadedFile slot
+Custom content for displaying uploaded file information. This children prop is shown when files are successfully uploaded and allows complete customization of the file display.
 
 **Important Notes:**
 - Full drag-and-drop support for intuitive file selection
 - File type restrictions using the `accept` attribute (MIME types or file extensions)
 - Support for single or multiple file uploads
 - Visual feedback during drag operations with blur effect
-- Customizable file display through the `uploaded-file` slot
+- Customizable file display through the `uploadedFile` children prop
 - Responsive sizing options from extra small to full width
 - Built-in accessibility features and keyboard navigation
 - Error handling and visual feedback for upload failures

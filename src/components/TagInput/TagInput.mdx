@@ -20,22 +20,17 @@ import * as TagInput from './TagInput.stories.tsx';
 
 ### Basic Usage
 
-```vue
-<template>
-    <TagInput 
-        v-model="tags"
-        label-value="label"
-    >
-        <template #hint-message>
-            Press enter to add a new tag
-        </template>
-    </TagInput>
-</template>
+```tsx
+const [tags, setTags] = useState([])
 
-<script setup lang="ts">
-import { ref } from 'vue'
-const tags = ref([])
-</script>
+return (
+    <TagInput
+        value={tags}
+        onChange={setTags}
+        labelValue="label"
+        hintMessage="Press enter to add a new tag"
+    />
+)
 ```
 
 <Canvas sourceState="none" of={TagInput.Primary} />
@@ -44,24 +39,27 @@ const tags = ref([])
 
 ### Props API
 
-#### v-model
+#### value
 Controls the array of tag values. Type: `any[]` (required)
 
-#### label-value
+#### onChange
+Callback triggered when the tag array changes. Type: `(tags: any[]) => void`
+
+#### labelValue
 The label displayed above the input field. Type: `string` (default: `""`)
 
 #### placeholder
 Placeholder text shown in the input area. Type: `string` (default: `""`)
 
-#### is-error
+#### isError
 Activates error styling mode. Type: `boolean` (default: `false`)
 
 <Canvas sourceState="none" of={TagInput.IsError} />
 
-#### error-message
+#### errorMessage
 Error message to display when in error state. Type: `string` (default: `""`)
 
-#### info-message
+#### infoMessage
 Informational message displayed with tooltip. Type: `string` (default: `""`)
 
 <Canvas sourceState="none" of={TagInput.InfoMessage} />
@@ -76,7 +74,7 @@ Marks the field as required. Type: `boolean` (default: `false`)
 
 <Canvas sourceState="none" of={TagInput.Required} />
 
-#### allow-duplicate
+#### allowDuplicate
 Allows duplicate tag values when enabled. Type: `boolean` (default: `false`)
 
 <Canvas sourceState="none" of={TagInput.AllowDuplicate} />
@@ -92,96 +90,67 @@ Input validation mask for specific data formats. Type: `"cpf" | "cnpj" | "cep" |
 #### icon
 Icon name to display in input. Type: `string` (default: `""`)
 
-#### append-icon
+#### appendIcon
 Position icon at end of input. Type: `boolean` (default: `false`)
+
+#### hintMessage
+Custom informational text displayed below the input area. Type: `string`
+
+#### iconSlot
+Custom icon content for prepended (left-side) icons.
+
+```tsx
+const handleCreate = () => {}
+
+return (
+    <TagInput
+        value={inputValue}
+        onChange={setInputValue}
+        labelValue="label"
+        iconSlot={
+            <Icon
+                name="plus"
+                className="side-icon cursor-pointer text-neutral-interaction-default hover:text-primary-foreground-low"
+                onClick={handleCreate}
+            />
+        }
+    />
+)
+```
+
+#### appendedIconSlot
+Custom icon content for appended (right-side) icons.
+
+```tsx
+const handleCreate = () => {}
+
+return (
+    <TagInput
+        value={inputValue}
+        onChange={setInputValue}
+        labelValue="label"
+        appendedIconSlot={
+            <Icon
+                name="plus"
+                className="side-icon cursor-pointer text-neutral-interaction-default hover:text-primary-foreground-low"
+                onClick={handleCreate}
+            />
+        }
+    />
+)
+```
 
 ---
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the tag array changes (addition or removal). Receives the updated array.
-
-### Slots API
-
-#### #hint-message
-Custom informational text displayed below the input area.
-
-```vue
-<template>
-    <TagInput v-model="tags" label-value="label">
-        <template #hint-message>
-            Press enter to add a new tag
-        </template>
-    </TagInput>
-</template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-const tags = ref([])
-</script>
-```
-
-#### #icon-slot
-Custom icon content for prepended (left-side) icons. This slot allows you to override the default prepend icon with custom content and behavior.
-
-```vue
-<template>
-    <TagInput 
-        v-model="inputValue" 
-        label-value="label" 
-    >
-        <template #icon-slot>
-            <icon 
-                name="plus" 
-                class="side-icon cursor-pointer text-neutral-interaction-default hover:text-primary-foreground-low" 
-                @click="handleCreate" 
-            />
-        </template>
-    </TagInput >
-</template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const inputValue = ref('')
-
-const handleCreate = () => {}
-</script>
-```
-
-#### #appended-icon-slot
-Custom icon content specifically for appended (right-side) icons. This slot is independent of the `appendIcon` prop and allows full control over appended icon behavior.
-
-```vue
-<template>
-    <TagInput
-        v-model="inputValue" 
-        label-value="label" 
-    >
-        <template #appended-icon-slot>
-            <icon 
-                name="plus" 
-                class="side-icon cursor-pointer text-neutral-interaction-default hover:text-primary-foreground-low" 
-                @click="handleCreate" 
-            />
-        </template>
-    </TagInput >
-</template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const inputValue = ref('')
-
-const handleCreate = () => {}
-</script>
-```
 
 **Important Notes:**
 - Support for multiple input methods: Enter key, Tab key, comma separation, and line breaks
 - Built-in validation for email, domain, URL, CPF, CNPJ, and CEP formats when using masks
-- Automatic duplicate detection and prevention (configurable via allow-duplicate)
+- Automatic duplicate detection and prevention (configurable via allowDuplicate)
 - Visual feedback with error animations and color-coded states
 - Tag tooltips show full content for long values with text wrapping
 - Maximum tag limit with visual counter display

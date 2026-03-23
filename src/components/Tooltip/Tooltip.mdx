@@ -20,12 +20,10 @@ import * as Tooltip from './Tooltip.stories.tsx';
 
 ### Basic Usage
 
-```vue
-<template>
-    <Tooltip label-value="Helpful tooltip text">
-        <button>Hover me</button>
-    </Tooltip>
-</template>
+```tsx
+<Tooltip labelValue="Helpful tooltip text">
+    <button>Hover me</button>
+</Tooltip>
 ```
 
 <Canvas sourceState="none" of={Tooltip.Primary} />
@@ -34,11 +32,11 @@ import * as Tooltip from './Tooltip.stories.tsx';
 
 ### Props API
 
-#### label-value
+#### labelValue
 The text content displayed inside the tooltip. Type: `string` (default: `""`)
 
 #### text (deprecated)
-The text content displayed inside the tooltip. Use `label-value` instead. Type: `string` (default: `""`)
+The text content displayed inside the tooltip. Use `labelValue` instead. Type: `string` (default: `""`)
 
 #### position
 Controls the tooltip positioning relative to the trigger element. Type: `"top" | "bottom" | "left" | "right"` (default: `"right"`)
@@ -53,32 +51,29 @@ This component doesn't emit custom events. Tooltip visibility is controlled inte
 
 ### Slots API
 
-#### #default
+#### children
 The trigger element that activates the tooltip on hover.
 
-```vue
-<template>
-    <Tooltip label-value="Tooltip text">
-        Slot: default
-    </Tooltip>
-</template>
+```tsx
+<Tooltip labelValue="Tooltip text">
+    Slot: default
+</Tooltip>
 ```
 
-#### #label
-Custom content for the tooltip, overrides the `label-value` prop.
+#### label
+Custom content for the tooltip, overrides the `labelValue` prop.
 
-```vue
-<template>
-    <Tooltip>
-        <button>Rich tooltip</button>
-        <template #label>
-            <div class="flex items-center gap-xs">
-                <icon name="info" />
-                <span>Rich content here</span>
-            </div>
-        </template>
-    </Tooltip>
-</template>
+```tsx
+<Tooltip
+    label={
+        <div className="flex items-center gap-xs">
+            <Icon name="info" />
+            <span>Rich content here</span>
+        </div>
+    }
+>
+    <button>Rich tooltip</button>
+</Tooltip>
 ```
 
 <Canvas sourceState="none" of={Tooltip.Label} />

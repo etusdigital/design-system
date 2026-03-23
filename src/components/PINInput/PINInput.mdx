@@ -21,24 +21,21 @@ import * as PINInputStories from './PINInput.stories.tsx';
 
 ### Basic Usage
 
-```vue
-<template>
-    <PINInput 
-        v-model="pinValue"
-        :length="6"
-        @complete="handleComplete"
-    />
-</template>
+```tsx
+import { useState } from 'react'
 
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const pinValue = ref('')
+const [pinValue, setPinValue] = useState('')
 
 const handleComplete = (value: string) => {
     console.log('PIN entered:', value)
 }
-</script>
+
+<PINInput
+    value={pinValue}
+    onChange={setPinValue}
+    length={6}
+    onComplete={handleComplete}
+/>
 ```
 
 <Canvas sourceState="none" of={PINInputStories.Primary} />
@@ -47,8 +44,11 @@ const handleComplete = (value: string) => {
 
 ### Props API
 
-#### v-model
+#### value
 Controls the PIN input value as a string. Type: `string` (default: `""`)
+
+#### onChange
+Callback fired when the PIN value changes. Type: `(value: string) => void`
 
 #### length
 Number of input fields to display. Type: `number` (default: `6`)
@@ -80,23 +80,23 @@ Indicates this is an OTP input for accessibility and autocomplete. Type: `boolea
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the PIN value changes. Receives the complete string value.
 
-```vue
-<PINInput 
-    v-model="pinValue"
-    @update:model-value="handleValueChange"
+```tsx
+<PINInput
+    value={pinValue}
+    onChange={handleValueChange}
 />
 ```
 
-#### @complete
+#### onComplete
 Triggered when all PIN fields are filled. Receives the complete string value.
 
-```vue
-<PINInput 
-    :length="6"
-    @complete="handleComplete"
+```tsx
+<PINInput
+    length={6}
+    onComplete={handleComplete}
 />
 ```
 
@@ -104,48 +104,40 @@ Triggered when all PIN fields are filled. Receives the complete string value.
 
 ### Methods API
 
-The component exposes the following methods via template refs:
+The component exposes the following methods via refs:
 
 #### focus()
 Focuses the first empty input field, or the first field if all are filled.
 
-```vue
-<template>
-    <PINInput ref="pinInputRef" v-model="pinValue" />
-    <button @click="focusPinInput">Focus PIN Input</button>
-</template>
+```tsx
+import { useRef } from 'react'
 
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const pinInputRef = ref()
-const pinValue = ref('')
+const pinInputRef = useRef()
+const [pinValue, setPinValue] = useState('')
 
 const focusPinInput = () => {
-    pinInputRef.value?.focus()
+    pinInputRef.current?.focus()
 }
-</script>
+
+<PINInput ref={pinInputRef} value={pinValue} onChange={setPinValue} />
+<button onClick={focusPinInput}>Focus PIN Input</button>
 ```
 
 #### clear()
 Clears all input fields and focuses the first field.
 
-```vue
-<template>
-    <PINInput ref="pinInputRef" v-model="pinValue" />
-    <button @click="clearPinInput">Clear PIN</button>
-</template>
+```tsx
+import { useRef } from 'react'
 
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const pinInputRef = ref()
-const pinValue = ref('')
+const pinInputRef = useRef()
+const [pinValue, setPinValue] = useState('')
 
 const clearPinInput = () => {
-    pinInputRef.value?.clear()
+    pinInputRef.current?.clear()
 }
-</script>
+
+<PINInput ref={pinInputRef} value={pinValue} onChange={setPinValue} />
+<button onClick={clearPinInput}>Clear PIN</button>
 ```
 
 ---
@@ -153,7 +145,7 @@ const clearPinInput = () => {
 ### Accessibility Features
 
 - **Keyboard Navigation**: Arrow keys navigate between fields
-- **Paste Support**: Ctrl/Cmd+V distributes pasted content across fields  
+- **Paste Support**: Ctrl/Cmd+V distributes pasted content across fields
 - **Auto Focus**: Automatically focuses next field on input
 - **Backspace Handling**: Smart backspace navigation between fields
 - **Field Selection**: Selects field content on focus
@@ -166,7 +158,7 @@ const clearPinInput = () => {
 The PIN Input component uses design system tokens and supports:
 
 - **Focus States**: Visual feedback when fields are focused
-- **Filled States**: Different styling for completed fields  
+- **Filled States**: Different styling for completed fields
 - **Disabled States**: Proper disabled appearance and behavior
 - **Error States**: Can be combined with form validation
 - **Responsive Sizing**: Adapts to different screen sizes
