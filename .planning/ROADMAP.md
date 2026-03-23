@@ -179,7 +179,7 @@ Plans:
   3. Tree renders nested node hierarchies; nodes expand and collapse correctly; selection state is controllable
   4. RichTextEditor loads with the same toolbar controls as the Vue version and fires `onChange` with the updated content
   5. Sidebar, Crop, and History match the visual output and interaction behavior of their Vue counterparts
-**Plans:** 12 plans (8 complete + 4 gap closure)
+**Plans:** 10/12 plans executed
 
 Plans:
 - [ ] 07-00-PLAN.md — Wave 0: Create 6 smoke test stubs for all complex components (Nyquist compliance)
@@ -229,6 +229,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9
 | 4. Internal Components | 3/3 | Complete   | 2026-03-16 |
 | 5. Providers | 4/4 | Complete   | 2026-03-17 |
 | 6. Composite Components | 30/33 | Test gap closure |  |
-| 7. Complex Components | 8/12 | UAT gap closure |  |
+| 7. Complex Components | 10/12 | In Progress|  |
 | 8. Build & Distribution | 0/TBD | Not started | - |
 | 9. Documentation & Testing | 0/TBD | Not started | - |
