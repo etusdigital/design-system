@@ -179,7 +179,7 @@ Plans:
   3. Tree renders nested node hierarchies; nodes expand and collapse correctly; selection state is controllable
   4. RichTextEditor loads with the same toolbar controls as the Vue version and fires `onChange` with the updated content
   5. Sidebar, Crop, and History match the visual output and interaction behavior of their Vue counterparts
-**Plans:** 8/8 plans complete
+**Plans:** 12 plans (8 complete + 4 gap closure)
 
 Plans:
 - [ ] 07-00-PLAN.md — Wave 0: Create 6 smoke test stubs for all complex components (Nyquist compliance)
@@ -190,6 +190,10 @@ Plans:
 - [ ] 07-05-PLAN.md — Migrate RichTextEditor (contenteditable, execCommand toolbar, Colors sub-components)
 - [ ] 07-06-PLAN.md — UAT gap: Create History/Crop/Sidebar/Tree React Storybook stories
 - [ ] 07-07-PLAN.md — UAT gap: Create Table/RichTextEditor React Storybook stories
+- [ ] 07-08-PLAN.md — UAT R2 gap: History CSS fixes + Crop unique mask ID + RichTextEditor color sanitizer
+- [ ] 07-09-PLAN.md — UAT R2 gap: Sidebar visual styling + Tree indeterminate/icons + Table select-all
+- [ ] 07-10-PLAN.md — UAT R2 gap: Fix utility/form test mismatches (Overlay, Container, Icon, Slider, etc.)
+- [ ] 07-11-PLAN.md — UAT R2 gap: Fix composite test mismatches (Select, RoundMenu, Stepper, Dropdown, etc.)
 
 ### Phase 8: Build & Distribution
 **Goal**: The library builds cleanly in all three output formats with correct TypeScript declarations and is publishable to npm
@@ -225,6 +229,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9
 | 4. Internal Components | 3/3 | Complete   | 2026-03-16 |
 | 5. Providers | 4/4 | Complete   | 2026-03-17 |
 | 6. Composite Components | 30/33 | Test gap closure |  |
-| 7. Complex Components | 8/8 | Complete   | 2026-03-20 |
+| 7. Complex Components | 8/12 | UAT gap closure |  |
 | 8. Build & Distribution | 0/TBD | Not started | - |
 | 9. Documentation & Testing | 0/TBD | Not started | - |
