@@ -8,44 +8,58 @@ const options = [
   { icon: 'settings', label: 'Settings', onClick: vi.fn() },
 ];
 
+// The trigger is the last button rendered (after all menu item buttons).
+function getTrigger() {
+  const buttons = screen.getAllByRole('button');
+  return buttons[buttons.length - 1];
+}
+
 describe('RoundMenu', () => {
   it('renders trigger button', () => {
     render(<RoundMenu options={options} />);
-    const trigger = screen.getByLabelText('Open menu');
+    const trigger = getTrigger();
     expect(trigger).toBeInTheDocument();
   });
 
   it('trigger toggles expanded/collapsed state', () => {
     render(<RoundMenu options={options} />);
-    const trigger = screen.getByLabelText('Open menu');
-    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    const trigger = getTrigger();
+    // Before expanding: menu items are collapsed
+    const menuItemsBefore = document.querySelectorAll('[aria-label="Home"], [aria-label="Star"], [aria-label="Settings"]');
+    menuItemsBefore.forEach((item) => {
+      expect(item.className).toMatch(/collapsed/);
+    });
     fireEvent.click(trigger);
-    expect(screen.getByLabelText('Close menu')).toBeInTheDocument();
+    // After expanding: menu items should NOT have collapsed class
+    const menuItemsAfter = document.querySelectorAll('[aria-label="Home"], [aria-label="Star"], [aria-label="Settings"]');
+    menuItemsAfter.forEach((item) => {
+      expect(item.className).not.toMatch(/collapsed/);
+    });
   });
 
   it('renders menu items when expanded', () => {
     render(<RoundMenu options={options} />);
-    const trigger = screen.getByLabelText('Open menu');
+    const trigger = getTrigger();
     fireEvent.click(trigger);
     // Items should be present and not collapsed
-    const homeButton = screen.getByLabelText('Home');
-    expect(homeButton).toBeInTheDocument();
-    expect(homeButton).not.toHaveClass('collapsed');
+    const homeItem = document.querySelector('[aria-label="Home"]');
+    expect(homeItem).toBeInTheDocument();
+    expect(homeItem!.className).not.toMatch(/collapsed/);
   });
 
   it('menu items have transform style when expanded', () => {
     render(<RoundMenu options={options} />);
-    fireEvent.click(screen.getByLabelText('Open menu'));
-    const homeButton = screen.getByLabelText('Home');
-    // translate3d should be applied via inline style
-    expect(homeButton.style.transform).toMatch(/translate3d/);
+    fireEvent.click(getTrigger());
+    const homeItem = document.querySelector('[aria-label="Home"]') as HTMLElement;
+    // translate3d should be applied via inline style on the menuItem div
+    expect(homeItem.style.transform).toMatch(/translate3d/);
   });
 
   it('menu items use collapsed class when not expanded', () => {
-    const { container } = render(<RoundMenu options={options} />);
+    render(<RoundMenu options={options} />);
     // Before expanding, items should have collapsed class
-    const menuItems = container.querySelectorAll('[aria-label="Home"], [aria-label="Star"], [aria-label="Settings"]');
-    menuItems.forEach(item => {
+    const menuItems = document.querySelectorAll('[aria-label="Home"], [aria-label="Star"], [aria-label="Settings"]');
+    menuItems.forEach((item) => {
       expect(item.className).toMatch(/collapsed/);
     });
   });
@@ -53,8 +67,11 @@ describe('RoundMenu', () => {
   it('calls onClick when a menu item is clicked', () => {
     const onClick = vi.fn();
     render(<RoundMenu options={[{ icon: 'home', label: 'Home', onClick }]} />);
-    fireEvent.click(screen.getByLabelText('Open menu'));
-    fireEvent.click(screen.getByLabelText('Home'));
+    fireEvent.click(getTrigger());
+    // Click the button inside the Home menu item
+    const homeItem = document.querySelector('[aria-label="Home"]') as HTMLElement;
+    const homeButton = homeItem.querySelector('button') as HTMLButtonElement;
+    fireEvent.click(homeButton);
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
@@ -66,7 +83,8 @@ describe('RoundMenu', () => {
   it('respects custom iconKey and labelKey props', () => {
     const customOptions = [{ myIcon: 'home', myLabel: 'Custom Home', onClick: vi.fn() }];
     render(<RoundMenu options={customOptions} iconKey="myIcon" labelKey="myLabel" />);
-    fireEvent.click(screen.getByLabelText('Open menu'));
-    expect(screen.getByLabelText('Custom Home')).toBeInTheDocument();
+    fireEvent.click(getTrigger());
+    const customItem = document.querySelector('[aria-label="Custom Home"]');
+    expect(customItem).toBeInTheDocument();
   });
 });

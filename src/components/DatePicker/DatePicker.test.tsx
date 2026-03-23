@@ -17,7 +17,9 @@ describe('DatePicker', () => {
 
   it('renders labelValue in trigger when no date selected', () => {
     render(<DatePicker labelValue="Select a date" />);
-    expect(screen.getByText('Select a date')).toBeTruthy();
+    // labelValue may appear in multiple places (label area + trigger content); use getAllByText
+    const els = screen.getAllByText('Select a date');
+    expect(els.length).toBeGreaterThan(0);
   });
 
   it('shows Calendar inside expanded card when clicked', () => {
