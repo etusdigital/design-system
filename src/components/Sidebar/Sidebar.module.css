@@ -25,16 +25,16 @@
 }
 
 .option {
-  @apply flex items-center gap-xs p-sm rounded-base cursor-pointer select-none;
+  @apply flex items-center gap-xs p-sm rounded-base cursor-pointer select-none
+         text-neutral-interaction-default;
 }
 
 .option:hover {
-  @apply bg-primary-surface-default no-underline;
+  @apply bg-primary-surface-default text-primary-interaction-default no-underline;
 }
 
 .optionActive {
-  @apply bg-primary-surface-default;
-  border-left: 3px solid var(--color-primary-interaction-default, #7c3aed);
+  @apply bg-primary-surface-default text-primary-interaction-selected;
 }
 
 .optionIcon {
@@ -55,7 +55,7 @@
 
 /* Sub-panel */
 .subPanel {
-  @apply absolute left-full top-0 h-full flex flex-col py-lg px-xs bg-default border-r-xxs border-r-neutral-default min-w-max;
+  @apply absolute left-full top-0 h-full flex flex-col gap-sm py-lg px-xs bg-default border-r-xxs border-r-neutral-default min-w-max;
   @apply transition-all duration-300 overflow-hidden;
   z-index: 10;
 }
@@ -73,17 +73,16 @@
 
 /* Sub-options */
 .subOption {
-  @apply flex items-center gap-xs py-sm px-sm rounded-base cursor-pointer select-none;
-  @apply text-sm;
+  @apply flex items-center gap-xs py-sm px-sm rounded-base cursor-pointer select-none
+         text-sm text-neutral-interaction-default;
 }
 
 .subOption:hover {
-  @apply bg-primary-surface-default no-underline;
+  @apply bg-primary-surface-default text-primary-interaction-default no-underline;
 }
 
 .subOptionActive {
-  @apply bg-primary-surface-default;
-  border-left: 3px solid var(--color-primary-interaction-default, #7c3aed);
+  @apply bg-primary-surface-default text-primary-interaction-selected;
 }
 
 .subOptionExpanded {
