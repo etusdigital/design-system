@@ -112,7 +112,7 @@ Requirements for the complete Vue-to-React migration. Each maps to roadmap phase
 
 - [x] **DIST-01**: Library builds successfully in ES, CJS, UMD formats
 - [x] **DIST-02**: TypeScript declarations generated correctly for all components
-- [ ] **DIST-03**: Tailwind config exported for consumers
+- [x] **DIST-03**: Tailwind config exported for consumers
 - [x] **DIST-04**: Package publishable to npm as @etus/design-system
 
 ### Documentation & Testing

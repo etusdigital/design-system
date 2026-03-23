@@ -17,7 +17,7 @@ A full in-place migration of 60+ Vue 3 components to React, proceeding in strict
 - [x] **Phase 5: Providers** - Context providers replacing Vue global properties (`$confirm`, `$toast`) (completed 2026-03-17)
 - [x] **Phase 6: Composite Components** - 17 overlay and interactive components depending on Phases 4 and 5 (test maintenance gap closure in progress) (completed 2026-03-18)
 - [x] **Phase 7: Complex Components** - 6 high-risk specialized components (Table, Tree, RichTextEditor, etc.) (completed 2026-03-20)
-- [ ] **Phase 8: Build & Distribution** - Build output validation, TypeScript declarations, npm publishability
+- [x] **Phase 8: Build & Distribution** - Build output validation, TypeScript declarations, npm publishability (completed 2026-03-23)
 - [ ] **Phase 9: Documentation & Testing** - Storybook stories, RTL tests, visual parity verification
 
 ## Phase Details
@@ -237,5 +237,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9
 | 5. Providers | 4/4 | Complete   | 2026-03-17 |
 | 6. Composite Components | 30/33 | Test gap closure |  |
 | 7. Complex Components | 12/12 | Complete   | 2026-03-23 |
-| 8. Build & Distribution | 4/5 | In Progress|  |
+| 8. Build & Distribution | 5/5 | Complete   | 2026-03-23 |
 | 9. Documentation & Testing | 0/TBD | Not started | - |
