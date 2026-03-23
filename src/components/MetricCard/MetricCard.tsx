@@ -45,7 +45,7 @@ export function MetricCard({
   size = 'medium',
   infoMessage = '',
   infoType = 'neutral',
-  tooltipMinWidth = 'none',
+  tooltipMinWidth: _tooltipMinWidth = 'none',
   loading = false,
   noTooltip = false,
   boldTitle = false,

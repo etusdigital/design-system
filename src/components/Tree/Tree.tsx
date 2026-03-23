@@ -109,7 +109,6 @@ function updateSelection(
   const arr = [...currentSelection];
 
   if (getObject) {
-    const parent = getParent(option, [] as DropOption[], valueKey);
     // We don't have the full options tree here so use top-level check via arr
     const topParent = (() => {
       // Try to find parent within existing selected items

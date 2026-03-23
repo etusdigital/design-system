@@ -1,3 +1,4 @@
+import type React from "react";
 import { useState, useRef, useEffect, type RefObject } from "react";
 import clsx from "clsx";
 import {
@@ -124,7 +125,7 @@ interface CalendarDateDialogProps {
   currentMonth: number;
   currentYear: number;
   isOpen: boolean;
-  header: RefObject<HTMLDivElement>;
+  header: RefObject<HTMLDivElement | null>;
   onSelectMonth: (month: number) => void;
   onSelectYear: (year: number) => void;
 }
@@ -313,7 +314,7 @@ function getHoveredCheck(
   index: number,
 ): boolean {
   if (!hovered || !model || type === "date") return false;
-  if (index > 0 && type === "date") return false;
+  if (index > 0) return false;
   const dates = getDates(model, type, index);
   return dates.length === 1 && isRange(dates[0], hovered, day);
 }
@@ -413,7 +414,7 @@ function getDayProps(
 
 // Extended Calendar type to support compound sub-components
 interface CalendarComponent {
-  (props: CalendarProps): JSX.Element;
+  (props: CalendarProps): React.JSX.Element;
   Day: typeof CalendarDay;
   DateDialog: typeof CalendarDateDialog;
 }
@@ -447,7 +448,7 @@ export function Calendar({
   disabledDates,
   lang = "en",
   className,
-}: CalendarProps): JSX.Element {
+}: CalendarProps): React.JSX.Element {
   const initial = getInitialMonthYear(value ?? defaultValue);
   const [currentMonth, setCurrentMonth] = useState(initial.month);
   const [currentYear, setCurrentYear] = useState(initial.year);
@@ -457,7 +458,7 @@ export function Calendar({
   const header = useRef<HTMLDivElement>(null);
 
   const isBackRef = useRef(false);
-  const { isMounted: gridMounted, isActive: gridActive } = useTransition(
+  const { isMounted: _gridMounted, isActive: _gridActive } = useTransition(
     transitionKey % 2 === 0,
     { duration: 300 },
   );

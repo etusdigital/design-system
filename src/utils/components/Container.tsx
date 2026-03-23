@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
-import { useControllable, useClickOutside } from '../../hooks';
+import { useControllable } from '../../hooks';
 import { Label } from './Label';
 import { Icon } from '../../components/Icon';
 import type { ContainerModelExtra } from '../types/ContainerModelExtra';

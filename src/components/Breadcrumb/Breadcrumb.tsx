@@ -99,8 +99,8 @@ export function Breadcrumb({
         <span key={index} className={styles.itemWrapper}>
           {isObject(option) && option.icon === 'more_horiz' ? (
             <FloatCard
-              open={expanded[index]}
-              onOpenChange={(open) => {
+              value={expanded[index]}
+              onChange={(open: boolean) => {
                 const next = [...expanded];
                 next[index] = open;
                 setExpanded(next);

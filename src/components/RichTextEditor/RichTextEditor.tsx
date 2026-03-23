@@ -782,7 +782,7 @@ export function RichTextEditor({
         role="textbox"
         style={{ minHeight, maxHeight }}
         contentEditable={!disabled}
-        placeholder={placeholder}
+        data-placeholder={placeholder}
         aria-label={labelValue}
         aria-required={required}
         aria-invalid={hasError}

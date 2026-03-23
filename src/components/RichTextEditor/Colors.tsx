@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { blendColors } from "../../utils";
 import { Icon } from "../Icon/Icon";
 import { Color } from "./Color";

@@ -102,8 +102,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
 
   React.Children.forEach(children, (child) => {
     if (!React.isValidElement(child)) return;
-    if (child.type === PrependIcon) prependIconChild = child.props.children;
-    if (child.type === AppendIcon) appendIconChild = child.props.children;
+    const childProps = child.props as Record<string, unknown>;
+    if (child.type === PrependIcon) prependIconChild = childProps.children as React.ReactNode;
+    if (child.type === AppendIcon) appendIconChild = childProps.children as React.ReactNode;
   });
 
   // Resolve native input type

@@ -77,7 +77,7 @@ export function TagInput({
   const [errorMsg, setErrorMsg] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const errorTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const errorTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     return () => clearTimeout(errorTimerRef.current);
@@ -177,9 +177,10 @@ export function TagInput({
 
   Children.forEach(children, (child) => {
     if (isValidElement(child)) {
-      if (child.type === PrependIcon) prependIconChild = child.props.children;
-      else if (child.type === AppendIcon) appendIconChild = child.props.children;
-      else if (child.type === Hint) hintChild = child.props.children;
+      const childProps = child.props as Record<string, unknown>;
+      if (child.type === PrependIcon) prependIconChild = childProps.children as React.ReactNode;
+      else if (child.type === AppendIcon) appendIconChild = childProps.children as React.ReactNode;
+      else if (child.type === Hint) hintChild = childProps.children as React.ReactNode;
     }
   });
 

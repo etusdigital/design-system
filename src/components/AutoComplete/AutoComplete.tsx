@@ -1,11 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import clsx from "clsx";
 import { useControllable } from "../../hooks/useControllable";
 import { SelectContainer } from "../../utils/components/SelectContainer";
 import { Option } from "../../utils/components/Option";
 import styles from "./AutoComplete.module.css";
 import { Input } from "../Input";
-import { useClickOutside } from "#composables";
 
 export interface AutoCompleteProps {
   value?: string | number;

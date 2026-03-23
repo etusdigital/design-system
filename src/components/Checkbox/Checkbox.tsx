@@ -30,7 +30,7 @@ export function Checkbox({
   const [currentValue, setValue] = useControllable<boolean | null>({
     value: value as boolean | undefined,
     defaultValue: defaultValue ?? false,
-    onChange: onChange as ((value: boolean) => void) | undefined,
+    onChange: onChange as ((value: boolean | null) => void) | undefined,
   });
 
   function handleClick() {

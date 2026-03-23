@@ -152,7 +152,7 @@ export function Profile({
           {/* User info header */}
           <div className="flex flex-col items-center gap-xs text-9xl px-xs py-sm text-neutral-interaction-default">
             <Avatar name={name} src={picture} size="large" alt="profile picture" />
-            {model && getLabel(selected) && name && (
+            {!!(model && getLabel(selected) && name) && (
               <p className="text-sm text-center">{name}</p>
             )}
             {((model && getLabel(selected)) || name) && (
@@ -238,7 +238,7 @@ export function Profile({
                 : ''
             )}
           >
-            {model && (
+            {!!model && (
               <div
                 className={clsx(
                   styles.profileOption,

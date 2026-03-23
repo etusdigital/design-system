@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect, Children, isValidElement } from "react";
 import clsx from "clsx";
-import { Label } from "../../utils/components/Label";
 import styles from "./FileUpload.module.css";
 
 export type FileUploadSize = "xs" | "sm" | "md" | "lg" | "xl";
@@ -132,7 +131,7 @@ export function FileUpload({
   let previewChild: React.ReactNode = null;
   Children.forEach(children, (child) => {
     if (isValidElement(child) && child.type === Preview) {
-      previewChild = child.props.children;
+      previewChild = (child.props as Record<string, unknown>).children as React.ReactNode;
     }
   });
 

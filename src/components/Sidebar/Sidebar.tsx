@@ -63,7 +63,7 @@ function SidebarSubOption({ option, depth, parentPath = '' }: SidebarSubOptionPr
 
   const selected = isSelected();
 
-  function handleClick(e: React.MouseEvent | React.KeyboardEvent) {
+  function handleClick(_e: React.MouseEvent | React.KeyboardEvent) {
     if (option.disabled) return;
     if (hasChildren) {
       setExpanded((prev) => !prev);

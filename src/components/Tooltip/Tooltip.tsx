@@ -29,7 +29,7 @@ export function Tooltip({
 
   Children.forEach(children, (child) => {
     if (isValidElement(child) && child.type === TooltipLabel) {
-      labelSlotContent = child.props.children;
+      labelSlotContent = (child.props as Record<string, unknown>).children as React.ReactNode;
     } else {
       triggerChildren.push(child);
     }

@@ -119,17 +119,26 @@ export function Carousel({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [model, options.length, visible]);
 
+  const currentIndexRef = useRef(currentIndex);
+  currentIndexRef.current = currentIndex;
+  const maxIndexRef = useRef(maxIndex);
+  maxIndexRef.current = maxIndex;
+  const circularRef = useRef(circular);
+  circularRef.current = circular;
+
   // Autoplay via setInterval — paused when disabled
   useEffect(() => {
     if (!autoplay || disabled) return;
     const interval = setInterval(() => {
-      setModel((prev) => {
-        const next = ((prev ?? 0) + 1);
-        if (next > maxIndex) {
-          return circular ? 0 : (prev ?? 0);
-        }
-        return next;
-      });
+      const prev = currentIndexRef.current;
+      const max = maxIndexRef.current;
+      const circ = circularRef.current;
+      const next = prev + 1;
+      if (next > max) {
+        setModel(circ ? 0 : prev);
+      } else {
+        setModel(next);
+      }
     }, autoplayInterval);
     return () => clearInterval(interval);
   }, [autoplay, autoplayInterval, options.length, visible, disabled, circular]);
