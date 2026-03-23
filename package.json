@@ -1,6 +1,6 @@
 {
   "name": "@etus/design-system",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "type": "module",
   "description": "React Design System Components with Tailwind CSS",
   "author": "Etus Digital",
@@ -28,7 +28,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:lib": "tsc -b tsconfig.lib.json && vite build --mode production",
+    "build:lib": "tsc -b tsconfig.lib.json && vite build --mode production && vite build --config vite.umd.config.ts --mode production",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -41,18 +41,16 @@
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
+    "clsx": "^2.1.1",
+    "normalize.css": "^8.0.1"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "4.1.1",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.12",
-    "clsx": "^2.1.1",
-    "normalize.css": "^8.0.1",
-    "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0",
-    "tailwindcss": "^4.1.12"
-  },
-  "devDependencies": {
-    "@chromatic-com/storybook": "4.1.1",
+    "tailwindcss": "^4.1.12",
     "@commitlint/cli": "^20.0.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@rollup/plugin-node-resolve": "^15.3.1",
@@ -95,9 +93,18 @@
       "import": "./lib/design-system.es.js",
       "require": "./lib/design-system.umd.js"
     },
-    "./components/*": "./src/components/*/index.ts",
-    "./hooks/*": "./src/hooks/*.ts",
+    "./components/*": {
+      "types": "./lib/components/*/index.d.ts",
+      "import": "./lib/components/*/index.es.js",
+      "require": "./lib/components/*/index.cjs.js"
+    },
+    "./hooks/*": {
+      "types": "./lib/hooks/*.d.ts",
+      "import": "./lib/hooks/*.es.js",
+      "require": "./lib/hooks/*.cjs.js"
+    },
     "./styles.css": "./lib/index.css",
+    "./tailwind": "./lib/tailwind.config.cjs",
     "./tailwind.config.cjs": "./lib/tailwind.config.cjs"
   }
 }

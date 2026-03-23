@@ -3,11 +3,37 @@ import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react-swc';
 import dts from 'vite-plugin-dts';
-import { copyFileSync, writeFileSync } from 'fs';
+import { copyFileSync, writeFileSync, readdirSync, existsSync } from 'fs';
 import { resolve } from 'path';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import path from 'node:path';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+
+function buildComponentEntries(): Record<string, string> {
+  const entries: Record<string, string> = {};
+  const componentsDir = resolve(__dirname, 'src/components');
+  if (existsSync(componentsDir)) {
+    readdirSync(componentsDir, { withFileTypes: true })
+      .filter(d => d.isDirectory() && existsSync(resolve(componentsDir, d.name, 'index.ts')))
+      .forEach(d => {
+        entries[`components/${d.name}/index`] = resolve(componentsDir, d.name, 'index.ts');
+      });
+  }
+  return entries;
+}
+
+function buildHookEntries(): Record<string, string> {
+  const entries: Record<string, string> = {};
+  const hooksDir = resolve(__dirname, 'src/hooks');
+  if (existsSync(hooksDir)) {
+    readdirSync(hooksDir)
+      .filter(f => f.endsWith('.ts') && !f.includes('.test.') && f !== 'index.ts')
+      .forEach(f => {
+        entries[`hooks/${f.replace('.ts', '')}`] = resolve(hooksDir, f);
+      });
+  }
+  return entries;
+}
 
 const copyTailwindConfig = () => ({
   name: 'copy-tailwind-config',
@@ -61,28 +87,37 @@ export default defineConfig({
   build: {
     outDir: 'lib',
     cssCodeSplit: true,
-    lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'DesignSystem',
-      formats: ['es', 'cjs', 'umd'],
-      fileName: format => `design-system.${format}.js`,
-    },
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'src/index.ts'),
+        ...buildComponentEntries(),
+        ...buildHookEntries(),
       },
       external: ['react', 'react-dom'],
-      output: {
-        exports: 'named',
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
+      output: [
+        {
+          format: 'es',
+          exports: 'named',
+          entryFileNames: (chunkInfo) => {
+            if (chunkInfo.name === 'main') return 'design-system.es.js';
+            return '[name].es.js';
+          },
+          globals: { react: 'React', 'react-dom': 'ReactDOM' },
+          assetFileNames: (assetInfo) => {
+            if (assetInfo.name === 'main.css') return 'index.css';
+            return assetInfo.name || 'assets/[name]-[hash][extname]';
+          },
         },
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'main.css') return 'index.css';
-          return assetInfo.name || 'assets/[name]-[hash][extname]';
+        {
+          format: 'cjs',
+          exports: 'named',
+          entryFileNames: (chunkInfo) => {
+            if (chunkInfo.name === 'main') return 'design-system.cjs.js';
+            return '[name].cjs.js';
+          },
+          globals: { react: 'React', 'react-dom': 'ReactDOM' },
         },
-      },
+      ],
       plugins: [
         nodeResolve({
           extensions: ['.ts', '.tsx'],
