@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 07-08-PLAN.md
-last_updated: "2026-03-23T17:47:17.414Z"
+stopped_at: Completed 07-09-PLAN.md
+last_updated: "2026-03-23T17:47:25.149Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
@@ -212,6 +212,9 @@ Recent decisions affecting current work:
 - [Phase 07-complex-components]: Table slots use compound sub-components (Table.Actions/Footer/EmptyState) not render props
 - [Phase 07-complex-components]: useId() from React 18 generates stable unique IDs per component instance — no external library or manual counter needed for SVG mask isolation in Crop
 - [Phase 07-complex-components]: execCommand foreColor/backColor emit <font color=...> tags — ALLOWED_TAGS must include 'font' and ALLOWED_ATTRS must include 'color' for RichTextEditor color formatting to survive sanitization
+- [Phase 07-complex-components]: Sidebar active indicator changed from border-left to full background fill matching Vue visual parity
+- [Phase 07-complex-components]: Tree checkIsSelected returns boolean | null (null = indeterminate) to support allowIndeterminate Checkbox prop
+- [Phase 07-complex-components]: Table allSelected derived from selectedRows.size === pagedItems.length - eliminates sync bug with separate state
 
 ### Pending Todos
 
@@ -226,6 +229,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-23T17:47:09.058Z
-Stopped at: Completed 07-08-PLAN.md
+Last session: 2026-03-23T17:47:25.146Z
+Stopped at: Completed 07-09-PLAN.md
 Resume file: None
