@@ -35,20 +35,21 @@ describe('Overlay', () => {
     expect(document.body).toBeTruthy();
   });
 
-  it('does not render backdrop when modelValue=false', () => {
-    const { container } = render(<Overlay modelValue={false} />);
-    expect(container.querySelector('.overlay-backdrop')).toBeNull();
+  it('does not render backdrop when value=false', () => {
+    render(<Overlay value={false} />);
+    expect(document.querySelector('.overlay-backdrop')).toBeNull();
   });
 
-  it('renders backdrop when modelValue=true', () => {
-    const { container } = render(<Overlay modelValue={true} />);
-    // isMounted becomes true immediately when modelValue=true
-    expect(container.querySelector('.overlay-backdrop')).toBeInTheDocument();
+  it('renders backdrop when value=true', () => {
+    render(<Overlay value={true} />);
+    // isMounted becomes true immediately when value=true
+    // createPortal is mocked to render inline in document.body
+    expect(document.querySelector('.overlay-backdrop')).toBeInTheDocument();
   });
 
   it('renders children alongside backdrop', () => {
     const { getByText } = render(
-      <Overlay modelValue={true}>
+      <Overlay value={true}>
         <span>Child content</span>
       </Overlay>
     );
@@ -57,9 +58,9 @@ describe('Overlay', () => {
 
   it('calls onClick when backdrop is clicked', () => {
     const handleClick = vi.fn();
-    const { container } = render(<Overlay modelValue={true} onClick={handleClick} />);
+    render(<Overlay value={true} onClick={handleClick} />);
 
-    const backdrop = container.querySelector('.overlay-backdrop');
+    const backdrop = document.querySelector('.overlay-backdrop');
     backdrop?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
     expect(handleClick).toHaveBeenCalled();

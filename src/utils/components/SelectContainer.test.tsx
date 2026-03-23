@@ -25,10 +25,11 @@ describe('SelectContainer', () => {
   });
 
   it('content-wrapper is visible when expanded', () => {
-    const { container } = render(
+    render(
       <SelectContainer value={true} options={<li>Option 1</li>} />
     );
-    const wrapper = container.querySelector('.content-wrapper') as HTMLElement | null;
+    // content-wrapper renders via FloatCard portal into document.body
+    const wrapper = document.querySelector('.content-wrapper') as HTMLElement | null;
     expect(wrapper).toBeTruthy();
     expect(wrapper?.style.display).not.toBe('none');
   });
@@ -42,10 +43,11 @@ describe('SelectContainer', () => {
   });
 
   it('applies has-max-height class when dontHaveMaxHeight is false', () => {
-    const { container } = render(
+    render(
       <SelectContainer value={true} dontHaveMaxHeight={false} />
     );
-    const content = container.querySelector('.has-max-height');
+    // sc-content with has-max-height renders via FloatCard portal into document.body
+    const content = document.querySelector('.has-max-height');
     expect(content).toBeTruthy();
   });
 
