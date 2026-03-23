@@ -28,8 +28,8 @@ interface RichTextEditorProps {
   className?: string;
 }
 
-const ALLOWED_TAGS = ['b', 'i', 'u', 'strong', 'em', 'br', 'div', 'ul', 'ol', 'li', 'blockquote', 'a', 'img', 'span'];
-const ALLOWED_ATTRS = ['style', 'href', 'src', 'alt', 'title'];
+const ALLOWED_TAGS = ['b', 'i', 'u', 'strong', 'em', 'br', 'div', 'ul', 'ol', 'li', 'blockquote', 'a', 'img', 'span', 'font'];
+const ALLOWED_ATTRS = ['style', 'href', 'src', 'alt', 'title', 'color'];
 
 const FONT_SIZES = Array.from({ length: 10 }, (_, i) => i * 4 + 12);
 

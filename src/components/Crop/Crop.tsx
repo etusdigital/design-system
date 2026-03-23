@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useCallback, useId } from 'react';
 import { getPosition } from '../../utils';
 import { Icon } from '../Icon';
 import { Slider } from '../Slider';
@@ -20,6 +20,7 @@ export function Crop({
   height = '200px',
   className,
 }: CropProps) {
+  const maskId = useId();
   const bCropRef = useRef<HTMLDivElement>(null);
   const cropAreaRef = useRef<HTMLDivElement>(null);
   const selectedAreaRef = useRef<SVGRectElement>(null);
@@ -207,7 +208,7 @@ export function Crop({
             xmlns="http://www.w3.org/2000/svg"
           >
             <defs>
-              <mask id="highlight-mask">
+              <mask id={maskId}>
                 <rect width="100%" height="100%" fill="white" />
                 <rect
                   ref={selectedAreaRef}
@@ -225,7 +226,7 @@ export function Crop({
               width="100%"
               height="100%"
               fill="rgba(255, 255, 255, 0.7)"
-              mask="url(#highlight-mask)"
+              mask={`url(#${maskId})`}
             />
           </svg>
           {parsedImgSrc && <img src={parsedImgSrc} alt="model value" />}
