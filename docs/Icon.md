@@ -1,18 +1,16 @@
 # Name: Icon
 ## Component Overview
 
-**Purpose**: A wrapper component for Google Material Symbols that provides easy icon usage without custom element warnings in Vue applications.
+**Purpose**: A wrapper component for Google Material Symbols that provides easy icon usage in React applications.
 
 **Import**: Automatic - no need to import any DS components
 
-**Icon** is just a wrapper for **Google Material Symbols**. We do this to avoid the need to setup Vue to hide the custom element warning. The usage is identical to the original since parameters fall through to the **Google Material Symbols** component. You can check it's usage [here](https://fonts.google.com/icons?icon.style=Rounded).
+**Icon** is just a wrapper for **Google Material Symbols**. The usage is identical to the original since parameters fall through to the **Google Material Symbols** component. You can check its usage [here](https://fonts.google.com/icons?icon.style=Rounded).
 
 ### Basic Usage
 
-```vue
-<template>
-    <Icon name="sentiment_satisfied" />
-</template>
+```tsx
+<Icon name="sentiment_satisfied" />
 ```
 
 ---
@@ -24,16 +22,8 @@ The icon name from Google Material Symbols. Type: `string` (required)
 
 Find available icons at [Google Material Symbols](https://fonts.google.com/icons?icon.style=Rounded).
 
-```vue
-<template>
-    <Icon name="favorite" class="favorite-icon" />
-</template>
-
-<style scoped>
-.favorite-icon.icon {
-    @apply text-sm
-}
-</style>
+```tsx
+<Icon name="favorite" className="favorite-icon" />
 ```
 
 #### filled

@@ -7,22 +7,18 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <ProgressBar v-model="uploadProgress" />
-</template>
+```tsx
 
-<script setup lang="ts">
+const [uploadProgress, setUploadProgress] = useState(0.5)
 
-const uploadProgress = ref(0.5)
-</script>
+<ProgressBar value={uploadProgress} />
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value
 The current progress value (0-1 for percentage, or step number when using steps). Type: `number` (default: `0`)
 
 #### type
@@ -34,10 +30,10 @@ Size variant affecting height and typography. Type: `"small" | "medium" | "large
 #### steps
 Number of discrete steps for step-based progress. Type: `number` (default: `0`)
 
-#### animation-type
+#### animationType
 Animation type for loading states. Type: `"indeterminate" | "query" | undefined` (default: `undefined`)
 
-#### display-percentage
+#### displayPercentage
 Location for displaying the percentage text. Type: `"center" | "bar" | undefined` (default: `undefined`)
 
 #### color
@@ -46,34 +42,29 @@ Custom color for the progress bar fill. Type: `string` (default: `""`)
 #### icon
 Icon displayed at the end of the progress bar. Type: `string` (default: `""`)
 
-#### info-message
+#### infoMessage
 Tooltip message displayed when hovering over the icon. Type: `string` (default: `""`)
 
-#### neutral-background
+#### neutralBackground
 Uses neutral background color instead of theme-based background. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
-This component does not emit custom events but supports v-model for reactive progress updates.
+This React component does not emit custom events but supports `value` prop for reactive progress updates.
 
-### Slots API
+### Children API
 
-#### #icon-slot
-Custom content to replace the default icon at the end of the progress bar.
+#### iconSlot
+Custom content to replace the default icon at the end of the progress bar. Pass via `iconSlot` prop.
 
-```vue
-<template>
-    <ProgressBar 
-        v-model="progress"
-        display-percentage="bar"
-    >
-        <template #icon-slot>
-            Slot: icon-slot
-        </template>
-    </ProgressBar>
-</template>
+```tsx
+<ProgressBar
+    value={progress}
+    displayPercentage="bar"
+    iconSlot="Custom icon content"
+/>
 ```
 
 **Important Notes:**
@@ -87,7 +78,7 @@ Custom content to replace the default icon at the end of the progress bar.
 - Theme-based styling with support for all design system color variants
 - Step-based progress automatically calculates percentage from current step
 - Neutral background option for contexts requiring subdued styling
-- Slot-based architecture allows complete customization of progress indicators
+- Prop-based architecture allows complete customization of progress indicators
 - Accessibility support with proper ARIA attributes and semantic markup
 - Performance optimized with minimal DOM updates during progress changes
 - CSS custom properties integration for advanced theming capabilities

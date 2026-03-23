@@ -7,32 +7,24 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <FloatCard v-model="isCardOpen" mode="click">
-        <button>Click to show card</button>
-        
-        <template #card>
-            <div class="p-base">
-                <h4>Floating Card Content</h4>
-                <p>This content appears in a floating card positioned relative to the trigger element.</p>
-            </div>
-        </template>
-    </FloatCard>
-</template>
+```tsx
 
-<script setup lang="ts">
+const [isCardOpen, setIsCardOpen] = useState(false)
 
-const isCardOpen = ref(false)
-</script>
+<FloatCard value={isCardOpen} onChange={setIsCardOpen} mode="click">
+    <button>Click to show card</button>
+</FloatCard>
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value
 Controls the visibility state of the floating card. Type: `boolean` (default: `false`)
+
+#### onChange
+Callback fired when the card visibility state changes. Type: `(open: boolean) => void`
 
 #### mode
 Interaction mode for showing/hiding the card. Type: `"click" | "hover"` (default: `"click"`)
@@ -44,43 +36,42 @@ Interaction mode for showing/hiding the card. Type: `"click" | "hover"` (default
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the card visibility state changes. Receives the new boolean value.
 
-### Slots API
+### Children API
 
-#### #default
+#### children (trigger)
 The trigger element that activates the floating card when interacted with.
 
-```vue
-<template>
-    <FloatCard v-model="showCard">
-        Slot: default
-    </FloatCard>
-</template>
+```tsx
+<FloatCard value={showCard} onChange={setShowCard}>
+    Trigger content
+</FloatCard>
 ```
 
-#### #card
-Content displayed within the floating card when visible.
+#### card
+Content displayed within the floating card when visible. Pass via the `card` prop.
 
-```vue
-<template>
-    <FloatCard v-model="showTooltip" mode="hover">
-        Slot: default
-        
-        <template #card>
-            <div class="p-sm max-w-xs">
-                <h5 class="font-semibold mxs">Help Information</h5>
-                <p class="text-sm">This tooltip provides additional context and guidance for the user.</p>
-            </div>
-        </template>
-    </FloatCard>
-</template>
+```tsx
+<FloatCard
+    value={showTooltip}
+    onChange={setShowTooltip}
+    mode="hover"
+    card={
+        <div className="p-sm max-w-xs">
+            <h5 className="font-semibold mxs">Help Information</h5>
+            <p className="text-sm">This tooltip provides additional context and guidance for the user.</p>
+        </div>
+    }
+>
+    Hover trigger
+</FloatCard>
 ```
 
 **Important Notes:**
 - Smart positioning automatically adjusts card placement to stay within viewport bounds
-- Portal rendering (Teleport to body) ensures proper z-index layering and prevents overflow issues
+- Portal rendering ensures proper z-index layering and prevents overflow issues
 - Intelligent scroll detection distinguishes between scrolling inside the card vs. outside
 - Advanced event handling with both mouse and touch support for mobile compatibility
 - Automatic cleanup of event listeners prevents memory leaks and performance issues

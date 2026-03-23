@@ -7,46 +7,45 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <History 
-        v-model="selectedOption"
-        :options="historyOptions"
-    >
-        <template #option="{ option, index, active }">
-            <div class="p-base">
-                <p class="text-sm font-semibold mxs" :class="{ 'text-primary-default': active }">
-                    {{ option.label }}
-                </p>
-                <p class="text-xs text-neutral-foreground-medium">
-                    {{ formatDate(option.date) }}
-                </p>
-            </div>
-        </template>
-    </History>
-</template>
+```tsx
 
-<script setup lang="ts">
-
-const selectedOption = ref(null)
-const historyOptions = ref([...])
+const [selectedOption, setSelectedOption] = useState(null)
+const historyOptions = [...]
 
 const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', { 
-        day: '2-digit', 
-        month: 'long', 
-        year: 'numeric' 
+    return date.toLocaleDateString('en-US', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
     })
 }
-</script>
+
+<History
+    value={selectedOption}
+    onChange={setSelectedOption}
+    options={historyOptions}
+    option={({ option, index, active }) => (
+        <div className="p-base">
+            <p className={`text-sm font-semibold mxs${active ? ' text-primary-default' : ''}`}>
+                {option.label}
+            </p>
+            <p className="text-xs text-neutral-foreground-medium">
+                {formatDate(option.date)}
+            </p>
+        </div>
+    )}
+/>
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value
 Controls the selected history option from the options array. Type: `any` (default: `null`)
+
+#### onChange
+Callback fired when a history option is selected. Type: `(value: any) => void`
 
 #### options
 Array of history options to display in the timeline. Type: `any[]` (required)
@@ -76,34 +75,35 @@ Disables option selection interaction. Type: `boolean` (default: `false`)
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when a history option is selected. Receives the selected option and additional context including the index.
 
-### Slots API
+### Children API
 
-#### #option
+#### option (render prop)
 Custom rendering for each history option in the timeline.
 
-**Slot Props:**
+**Render prop args:**
 - `option`: The history option object
 - `index`: Position in the options array
 - `active`: Whether this option is currently selected
 
-```vue
-<template>
-    <History v-model="selected" :options="options">
-        <template #option="{ option, index, active }">
-            <div class="p-base border rounded" :class="{ 'border-primary-default': active }">
-                <h4 class="font-semibold">{{ option.title }}</h4>
-                <p class="text-sm text-neutral-foreground-medium">{{ option.description }}</p>
-                <div class="flex items-center gap-xs mt-xs">
-                    <icon :name="option.icon" />
-                    <span class="text-xs">{{ formatDate(option.date) }}</span>
-                </div>
+```tsx
+<History
+    value={selected}
+    onChange={setSelected}
+    options={options}
+    option={({ option, index, active }) => (
+        <div className={`p-base border rounded${active ? ' border-primary-default' : ''}`}>
+            <h4 className="font-semibold">{option.title}</h4>
+            <p className="text-sm text-neutral-foreground-medium">{option.description}</p>
+            <div className="flex items-center gap-xs mt-xs">
+                <Icon name={option.icon} />
+                <span className="text-xs">{formatDate(option.date)}</span>
             </div>
-        </template>
-    </History>
-</template>
+        </div>
+    )}
+/>
 ```
 
 **Important Notes:**

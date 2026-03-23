@@ -7,35 +7,35 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Select 
-        v-model="selectedOption"
-        label-value="label"
-        :options="options"
-    >
-        Placeholder
-    </Select>
-</template>
+```tsx
 
-<script setup lang="ts">
-
-const selectedOption = ref(null)
+const [selectedOption, setSelectedOption] = useState(null)
 const options = [...]
-</script>
+
+<Select
+    value={selectedOption}
+    onChange={setSelectedOption}
+    labelValue="label"
+    options={options}
+>
+    Placeholder
+</Select>
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value
 Controls the selected option(s) value. Type: `any` (single) or `any[]` (multiple) (default: `null`)
 
-#### v-model:expanded
+#### onChange
+Callback fired when the selected option(s) change. Type: `(value: any | any[]) => void`
+
+#### expanded / onExpandedChange
 Controls the dropdown expanded state. Type: `boolean` (default: `false`)
 
-#### label-value
+#### labelValue
 The label displayed for the select button. Type: `string` (default: `""`)
 
 #### options
@@ -44,10 +44,10 @@ Array of options to select from. Can be strings or objects. Type: `any[]` (requi
 #### icon
 Icon displayed on the select button. Type: `string` (default: `""`)
 
-#### label-key
+#### labelKey
 Property name used for displaying option labels when using object arrays. Type: `string` (default: `"label"`)
 
-#### value-key
+#### valueKey
 Property name used for option values when using object arrays. Type: `string` (default: `"value"`)
 
 #### disabled
@@ -68,88 +68,84 @@ Enables multi-selection mode, transforming component behavior and return types. 
 #### secondary
 Enables secondary styling variant. Type: `boolean` (default: `false`)
 
-#### is-error
+#### isError
 Activates error styling mode. Type: `boolean` (default: `false`)
 
-#### error-message
+#### errorMessage
 Error message to display when in error state. Type: `string` (default: `""`)
 
-#### info-message
+#### infoMessage
 Informational message displayed with tooltip. Type: `string` (default: `""`)
 
-#### get-object
+#### getObject
 Returns complete objects instead of just values when enabled. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
-#### @update:model-value
-Triggered when the selected option(s) change. Returns value(s) based on `multiple` and `get-object` settings.
+#### onChange
+Triggered when the selected option(s) change. Returns value(s) based on `multiple` and `getObject` settings.
 
-#### @update:expanded
+#### onExpandedChange
 Triggered when the dropdown expanded state changes.
 
-### Slots API
+### Children API
 
-#### #default
+#### children (default)
 Content displayed in the collapsed state of the select.
 
-```vue
-<template>
-    <Select v-model="selected" :options="options">
-        Slot: default
-    </Select>
-</template>
+```tsx
 
-<script setup lang="ts">
+const [selected, setSelected] = useState(null)
+const options = [...]
 
-const selected = ref(null)
-const options = ref([...])
-</script>
+<Select value={selected} onChange={setSelected} options={options}>
+    Placeholder text
+</Select>
 ```
 
-#### #search-label
-Custom placeholder text for the search input when searchable is enabled.
+#### searchLabel
+Custom placeholder text for the search input when searchable is enabled. Pass via `searchLabel` prop.
 
-#### #status
-Custom content for displaying the selected option (single mode only).
+#### status
+Custom content for displaying the selected option (single mode only). Pass via `status` prop.
 
-#### #status-label
-Custom text for the status display (multi-selection mode only).
+#### statusLabel
+Custom text for the status display (multi-selection mode only). Pass via `statusLabel` prop.
 
-#### #clear-label
-Custom text for the clear button when clearable is enabled.
+#### clearLabel
+Custom text for the clear button when clearable is enabled. Pass via `clearLabel` prop.
 
-#### #option
+#### option (render prop)
 Custom rendering for individual options in the dropdown.
 
-```vue
-<template>
-    <Select v-model="selected" :options="options">
-        Placeholder
-        <template #option="{ option }">
-            <div class="flex items-center gap-xs">
-                <icon :name="option.icon" />
-                {{ option.label }}
-            </div>
-        </template>
-    </Select>
-</template>
+```tsx
 
-<script setup lang="ts">
+const [selected, setSelected] = useState(null)
+const options = [...]
 
-const selected = ref(null)
-const options = ref([...])
-</script>
+<Select
+    value={selected}
+    onChange={setSelected}
+    options={options}
+    option={({ option }) => (
+        <div className="flex items-center gap-xs">
+            <Icon name={option.icon} />
+            {option.label}
+        </div>
+    )}
+>
+    Placeholder
+</Select>
 ```
 
 **Important Notes:**
 - Dynamically switches between Select and MultiSelect components based on `multiple` prop
 - Unified API provides consistent interface regardless of selection mode
-- Intelligent model parsing handles both value extraction and object return modes
+- Intelligent value parsing handles both value extraction and object return modes
 - Clear functionality automatically adapts to single or multiple selection contexts
 - Maintains all functionality from underlying Select and MultiSelect components
 - Seamless migration path from individual select components to unified solution
-- Enhanced slot forwarding ensures all customization options remain available
+- Enhanced callback prop forwarding ensures all customization options remain available
 - Optimized performance through component-level switching rather than conditional rendering
