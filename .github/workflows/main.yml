@@ -27,27 +27,29 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v4
-      
+
     - uses: actions/setup-node@v4
       with:
         node-version: '20'
-        cache: 'yarn'
+        cache: 'npm'
         registry-url: 'https://registry.npmjs.org'
-        
-    - run: yarn install --frozen-lockfile
-    - run: yarn build
-    - run: yarn build-storybook
-    
+
+    - run: npm ci
+    - run: npm run build:lib
+    - run: node scripts/verify-imports.cjs
+    - run: npm publish --dry-run
+    - run: npm run build-storybook
+
     # Upload build artifacts for later use
     - name: Upload lib artifacts
       uses: actions/upload-artifact@v4
       with:
         name: lib-build
         path: lib/
-        
+
     - name: Upload storybook artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -58,16 +60,16 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
+
     steps:
     - uses: actions/checkout@v4
-      
+
     - name: Download storybook artifacts
       uses: actions/download-artifact@v4
       with:
         name: storybook-build
         path: storybook-static/
-        
+
     - name: Deploy Storybook to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
@@ -78,15 +80,15 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
-    
+
     steps:
     - uses: actions/checkout@v4
-      
+
     - uses: actions/setup-node@v4
       with:
         node-version: '20'
-        cache: 'yarn'
-        
+        cache: 'npm'
+
     - name: Configure npm authentication
       run: |
         if [ -z "${{ secrets.NPM_TOKEN }}" ]; then
@@ -96,49 +98,49 @@ jobs:
         echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
         echo "@etus:registry=https://registry.npmjs.org/" >> ~/.npmrc
         echo "//registry.npmjs.org/:always-auth=true" >> ~/.npmrc
-        
+
     - name: Download lib artifacts
       uses: actions/download-artifact@v4
       with:
         name: lib-build
         path: lib/
-        
-    - run: yarn install --frozen-lockfile
-    - run: yarn build:lib
-    
+
+    - run: npm ci
+    - run: npm run build:lib
+
     - name: Verify npm authentication
       run: npm whoami --registry=https://registry.npmjs.org/
-      
+
     - name: Publish to npm
       run: npm publish --ignore-scripts --access public --registry=https://registry.npmjs.org/
 
   manual-release:
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.release != ''
-    
+
     steps:
     - uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        
+
     - uses: actions/setup-node@v4
       with:
         node-version: '20'
-        cache: 'yarn'
-        
-    - run: yarn install --frozen-lockfile
-    - run: yarn build
-    
+        cache: 'npm'
+
+    - run: npm ci
+    - run: npm run build:lib
+
     - name: Configure Git
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        
+
     - name: Bump version and create tag
       run: |
         npm version ${{ github.event.inputs.release }}
         git push origin main --tags
-        
+
     - name: Create GitHub Release
       uses: actions/create-release@v1
       env:
