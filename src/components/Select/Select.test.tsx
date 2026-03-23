@@ -31,7 +31,8 @@ describe('Select', () => {
       <Select options={objectOptions} value={null} onChange={handleChange} />
     );
     openSelect(container);
-    const options = container.querySelectorAll('[role="option"]');
+    // Options are portaled to document.body via FloatCard
+    const options = document.querySelectorAll('[role="option"]');
     expect(options.length).toBeGreaterThan(0);
     fireEvent.click(options[0]);
     expect(handleChange).toHaveBeenCalledWith('a');
@@ -43,7 +44,8 @@ describe('Select', () => {
       <Select options={objectOptions} multiple value={[]} onChange={handleChange} />
     );
     openSelect(container);
-    const options = container.querySelectorAll('[role="option"]');
+    // Options are portaled to document.body
+    const options = document.querySelectorAll('[role="option"]');
     // Select 'a'
     fireEvent.click(options[0]);
     expect(handleChange).toHaveBeenCalledWith(['a']);
@@ -55,7 +57,8 @@ describe('Select', () => {
       <Select options={objectOptions} multiple value={['a']} onChange={handleChange} />
     );
     openSelect(container);
-    const options = container.querySelectorAll('[role="option"]');
+    // Options are portaled to document.body
+    const options = document.querySelectorAll('[role="option"]');
     // Deselect 'a'
     fireEvent.click(options[0]);
     expect(handleChange).toHaveBeenCalledWith([]);
@@ -66,7 +69,8 @@ describe('Select', () => {
       <Select options={objectOptions} multiple defaultValue={[]} />
     );
     openSelect(container);
-    const checkboxes = container.querySelectorAll('[role="checkbox"]');
+    // Checkboxes are portaled with options
+    const checkboxes = document.querySelectorAll('[role="checkbox"]');
     expect(checkboxes.length).toBe(objectOptions.length);
   });
 
@@ -75,10 +79,11 @@ describe('Select', () => {
       <Select options={objectOptions} searchable defaultValue={null} />
     );
     openSelect(container);
+    // Search input is in the label area (not portaled)
     const searchInput = container.querySelector('input[type="search"]');
     expect(searchInput).toBeTruthy();
-    // With no search text all options are present
-    const options = container.querySelectorAll('[role="option"]');
+    // With no search text all options are present in portal
+    const options = document.querySelectorAll('[role="option"]');
     expect(options.length).toBe(objectOptions.length);
   });
 
@@ -91,8 +96,8 @@ describe('Select', () => {
     if (searchInput) {
       fireEvent.change(searchInput, { target: { value: 'zzzzz' } });
     }
-    // After filter: no option elements remaining
-    const options = container.querySelectorAll('[role="option"]');
+    // After filter: no option elements remaining in portal
+    const options = document.querySelectorAll('[role="option"]');
     expect(options.length).toBe(0);
   });
 
@@ -111,7 +116,8 @@ describe('Select', () => {
       <Select options={objectOptions} value={null} onChange={handleChange} getObject />
     );
     openSelect(container);
-    const options = container.querySelectorAll('[role="option"]');
+    // Options are portaled
+    const options = document.querySelectorAll('[role="option"]');
     fireEvent.click(options[0]);
     expect(handleChange).toHaveBeenCalledWith(objectOptions[0]);
   });

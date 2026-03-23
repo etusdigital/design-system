@@ -6,7 +6,7 @@ import { isObject } from "../../utils";
 import styles from "./Dropdown.module.css";
 import "./Dropdown.css";
 import { Icon } from "../Icon/Icon";
-import { SelectContent } from "@/utils/components/SelectContent.tsx";
+import { SelectContent } from "../../utils/components/SelectContent";
 import { Separator } from "../Separator";
 
 // -----------------------------------------------------------------------

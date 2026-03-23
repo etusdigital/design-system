@@ -65,7 +65,8 @@ describe('TagSelect', () => {
   it('opens options list on click', () => {
     const { container } = render(<TagSelect options={options} />);
     openTagSelect(container);
-    const optionEls = container.querySelectorAll('[role="option"]');
+    // Options are portaled to document.body via FloatCard
+    const optionEls = document.querySelectorAll('[role="option"]');
     expect(optionEls.length).toBe(options.length);
   });
 
@@ -75,7 +76,8 @@ describe('TagSelect', () => {
       <TagSelect options={options} value={[]} onChange={handleChange} />
     );
     openTagSelect(container);
-    const optionEls = container.querySelectorAll('[role="option"]');
+    // Options are portaled to document.body
+    const optionEls = document.querySelectorAll('[role="option"]');
     expect(optionEls.length).toBeGreaterThan(0);
     fireEvent.click(optionEls[0]);
     expect(handleChange).toHaveBeenCalledWith(['apple']);
@@ -91,7 +93,8 @@ describe('TagSelect', () => {
       />
     );
     openTagSelect(container);
-    const optionEls = container.querySelectorAll('[role="option"]');
+    // Options are portaled to document.body
+    const optionEls = document.querySelectorAll('[role="option"]');
     expect(optionEls.length).toBeGreaterThan(0);
     fireEvent.click(optionEls[0]);
     expect(handleChange).toHaveBeenCalledWith([]);
@@ -100,10 +103,12 @@ describe('TagSelect', () => {
   it('filters options when searchable and text entered', () => {
     const { container } = render(<TagSelect options={options} searchable value={[]} />);
     openTagSelect(container);
+    // Search input is in the label area (not portaled)
     const input = container.querySelector('input[type="text"]') as HTMLInputElement;
     expect(input).toBeTruthy();
     fireEvent.change(input, { target: { value: 'app' } });
-    const optionEls = container.querySelectorAll('[role="option"]');
+    // Options are portaled to document.body
+    const optionEls = document.querySelectorAll('[role="option"]');
     expect(optionEls.length).toBe(1);
   });
 
@@ -157,7 +162,8 @@ describe('TagSelect', () => {
   it('respects disabled prop — does not open', () => {
     const { container } = render(<TagSelect options={options} disabled />);
     openTagSelect(container);
-    const optionEls = container.querySelectorAll('[role="option"]');
+    // Disabled — portal content should not be mounted
+    const optionEls = document.querySelectorAll('[role="option"]');
     expect(optionEls.length).toBe(0);
   });
 });
