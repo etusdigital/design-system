@@ -1,9 +1,9 @@
 ---
-status: resolved
+status: complete
 phase: 07-complex-components
-source: [07-01-SUMMARY.md, 07-02-SUMMARY.md, 07-03-SUMMARY.md, 07-04-SUMMARY.md, 07-05-SUMMARY.md]
-started: 2026-03-20T20:00:00Z
-updated: 2026-03-20T20:15:00Z
+source: [07-01-SUMMARY.md, 07-02-SUMMARY.md, 07-03-SUMMARY.md, 07-04-SUMMARY.md, 07-05-SUMMARY.md, 07-06-SUMMARY.md, 07-07-SUMMARY.md]
+started: 2026-03-23T00:00:00Z
+updated: 2026-03-23T14:10:00Z
 ---
 
 ## Current Test
@@ -12,228 +12,128 @@ updated: 2026-03-20T20:15:00Z
 
 ## Tests
 
-### 1. History Position Variants
-expected: History component renders a timeline with items. Supports 4 position variants (top/bottom/left/right) changing layout direction. Items show type-based colors. Active step is visually highlighted. Custom content via renderOption render prop.
+### 1. History Stories in Storybook
+expected: Open Storybook and navigate to History. You should see 8 story variants: Primary, Positions, Types, Disabled, MultiType, Icons, IsIconRound, Unfilled. The Primary story shows a 6-person timeline with date + label items and type-based colors. The Positions story shows all 4 layouts (top/bottom/left/right).
 result: issue
-reported: "It is missing the tsx file with the same the examples as in the original .ts History.stories.ts"
+reported: "The most part of the modes their styles are broken. Icons should be inside large colored filled circles (not small outlines), timeline connector line should be thicker, active items need green highlight background, type-based colors missing as circle fills. Affects left, right, top, and bottom position variants."
 severity: major
 
-### 2. Crop Image Cropping
-expected: Crop component displays an image with a draggable crop area and SVG mask overlay. User can drag to pan the image within the crop area. Zoom slider (via Slider component) adjusts image scale. Canvas-based output generates the cropped image.
+### 2. Crop Story in Storybook
+expected: Navigate to Crop in Storybook. The Primary story shows an image with a draggable crop area and zoom slider. Dragging pans the image. The zoom slider adjusts scale. A cropped output image is displayed below.
 result: issue
-reported: "It is missing the tsx file with the same the examples as in the original .ts Crop.stories.ts"
+reported: "If there are 2 Crops in the same page, the movement of one affect the second — shared state between instances"
 severity: major
 
-### 3. Sidebar Collapsed/Expanded Modes
-expected: Sidebar renders as a vertical navigation rail. In collapsed mode, only icons are visible. In expanded mode, icons and labels are shown with CSS transitions. Clicking an option with sub-options opens an absolutely positioned sub-panel. Sub-panel hides on blur/click outside.
+### 3. Sidebar Stories in Storybook
+expected: Navigate to Sidebar in Storybook. Primary story shows a collapsed sidebar (icons only) with 5 navigation items. Expanded story shows the same sidebar with icons and labels visible. Clicking an option with sub-options should open a sub-panel.
 result: issue
-reported: "It is missing the tsx file with the same the examples as in the original .ts Sidebar.stories.ts"
+reported: "The visuals are all wrong. Active item should have green background highlight not just left border, sub-panel shows duplicate 'All Projects' header with arrow instead of just sub-items, sub-panel items lack spacing, Settings icon missing at bottom, overall layout/spacing wrong."
 severity: major
 
-### 4. Sidebar Navigation Integration
-expected: Sidebar options navigate to routes. If react-router-dom is available, uses router navigation. Otherwise falls back to anchor tags. Active option is visually highlighted based on current path.
+### 4. Tree Stories in Storybook
+expected: Navigate to Tree in Storybook. Primary story shows a Documents/Downloads/Music hierarchy with expand/collapse arrows. Multiple story shows the same tree with checkboxes for multi-select. Disabled story shows the tree in disabled state.
 result: issue
-reported: "It is missing the tsx file with the same the examples as in the original .ts Sidebar.stories.ts"
+reported: "The multi version parent checkbox does not work properly — no indeterminate state (dash) when some children are selected. And the icons are not appearing next to node labels (should show folder, gear, document, person, download, music icons)."
 severity: major
 
-### 5. Tree Expand/Collapse
-expected: Tree renders a recursive hierarchy of nodes. Nodes with children show an expand/collapse arrow icon with rotation animation. Clicking the arrow toggles child visibility. Supports default expanded state.
+### 5. Table Stories in Storybook
+expected: Navigate to Table in Storybook. Primary story shows a table with Name/Age/Membership columns, 43-item dataset, sorting (click column headers), and pagination. Other variants include Loading (skeleton rows), Selection (checkboxes), EmptyState, and Footer.
 result: issue
-reported: "It is missing the tsx file with the same the examples as in the original .ts Tree.stories.ts"
+reported: "The select all and aggregation does not work"
 severity: major
 
-### 6. Tree Selection Modes
-expected: Tree supports single selection (clicking a node selects it, deselects others) and multiple selection (checkboxes appear, clicking toggles selection). In multiple mode with getObject, selected value is a tree-shaped array. Selected nodes are visually highlighted.
+### 6. RichTextEditor Stories in Storybook
+expected: Navigate to RichTextEditor in Storybook. Primary story shows a contenteditable editor with a formatting toolbar (bold, italic, underline, lists, link, alignment, font-size, colors). Other variants: IsError (red border + error message), Disabled, Required, NoBorder.
 result: issue
-reported: "It is missing the tsx file with the same the examples as in the original .ts Tree.stories.ts"
+reported: "The color and background selection is not working"
 severity: major
 
-### 7. Table Data Rendering
-expected: Table renders columns and rows from items array. Columns support render-prop via col.render(value, item, index) for custom cell content. Compound sub-components: Table.Actions (toolbar above table), Table.Footer (below table), Table.EmptyState (when no items).
-result: issue
-reported: "It is missing the tsx file with the same the examples as in the original .ts Table.stories.ts"
-severity: major
+### 7. Storybook Build Success
+expected: Run `npx storybook build` (or check dev server). Build completes without errors. No duplicate story ID warnings. All 33 Phase 7 story variants are indexed.
+result: pass
 
-### 8. Table Sorting & Pagination
-expected: Table columns can be sortable — clicking a column header toggles sort direction with icon indicator. Pagination component appears below the table for navigating pages (client-side or server-side via onPaginate callback). Loading state shows skeleton rows.
+### 8. Unit Tests Pass
+expected: Run `npx vitest --project unit` for the 6 complex components. All smoke tests pass (Table, Tree, Sidebar, RichTextEditor, Crop, History).
 result: issue
-reported: "It is missing the tsx file with the same the examples as in the original .ts Table.stories.ts"
-severity: major
-
-### 9. Table Row Selection
-expected: Table supports row selection with checkboxes. A select-all checkbox in the header toggles all rows. Selected rows are tracked via Set. Selection state is accessible via onChange callback.
-result: issue
-reported: "It is missing the tsx file with the same the examples as in the original .ts Table.stories.ts"
-severity: major
-
-### 10. RichTextEditor Toolbar Formatting
-expected: RichTextEditor shows a contenteditable area with a formatting toolbar above it. Toolbar provides: undo/redo, font-size (via Select dropdown), bold/italic/underline/strikethrough, text color and background color pickers, ordered/unordered lists, text alignment, link/image insertion, blockquote, and remove formatting.
-result: issue
-reported: "It is missing the tsx file with the same the examples as in the original .ts RichTextEditor.stories.ts"
-severity: major
-
-### 11. RichTextEditor Undo/Redo & History
-expected: RichTextEditor tracks editing history (max 50 entries). Clicking undo restores previous content state. Clicking redo re-applies undone changes. History is managed via a stack with an isRestoringHistory guard to prevent recording undo actions as new history entries.
-result: issue
-reported: "It is missing the tsx file with the same the examples as in the original .ts RichTextEditor.stories.ts"
-severity: major
-
-### 12. RichTextEditor Color Picker
-expected: Clicking foreColor or backColor toolbar button opens a color grid panel. Grid shows palette colors generated via blendColors utility. Supports custom color input. Selecting a color applies it to the current text selection. Panel closes on click outside.
-result: issue
-reported: "It is missing the tsx file with the same the examples as in the original .ts RichTextEditor.stories.ts"
+reported: "17 test files failed, 45 tests failed out of 378. Failures across RoundMenu, Slider, Stepper, TagSelect, Textarea, Container, ExpandableContainer, Overlay, SelectContainer. Tests need to be fixed to match the components, not the other way around."
 severity: major
 
 ## Summary
 
-total: 12
-passed: 0
-issues: 12
+total: 8
+passed: 1
+issues: 7
 pending: 0
 skipped: 0
 
 ## Gaps
 
-- truth: "History component viewable in React Storybook"
-  status: resolved
-  reason: "User reported: missing .stories.tsx file mirroring History.stories.ts"
+- truth: "History component renders with correct styles — large colored icon circles, thick timeline connector, active item highlight, type-based colors"
+  status: failed
+  reason: "User reported: The most part of the modes their styles are broken. Icons should be inside large colored filled circles (not small outlines), timeline connector line should be thicker, active items need green highlight background, type-based colors missing as circle fills. Affects left, right, top, and bottom position variants."
   severity: major
   test: 1
-  root_cause: "Phase 7 migration plans did not include creating React Storybook stories (.stories.tsx) for migrated components"
-  artifacts:
-    - path: "src/components/History/History.stories.ts"
-      issue: "Vue stories exist but no React .stories.tsx equivalent"
-  missing:
-    - "Create History.stories.tsx mirroring all stories from History.stories.ts using React/JSX syntax"
+  root_cause: ""
+  artifacts: []
+  missing: []
+  debug_session: ""
 
-- truth: "Crop component viewable in React Storybook"
-  status: resolved
-  reason: "User reported: missing .stories.tsx file mirroring Crop.stories.ts"
+- truth: "Multiple Crop instances on same page operate independently"
+  status: failed
+  reason: "User reported: If there are 2 Crops in the same page, the movement of one affect the second — shared state between instances"
   severity: major
   test: 2
-  root_cause: "Phase 7 migration plans did not include creating React Storybook stories"
-  artifacts:
-    - path: "src/components/Crop/Crop.stories.ts"
-      issue: "Vue stories exist but no React .stories.tsx equivalent"
-  missing:
-    - "Create Crop.stories.tsx mirroring all stories from Crop.stories.ts using React/JSX syntax"
+  root_cause: ""
+  artifacts: []
+  missing: []
+  debug_session: ""
 
-- truth: "Sidebar component viewable in React Storybook"
-  status: resolved
-  reason: "User reported: missing .stories.tsx file mirroring Sidebar.stories.ts"
+- truth: "Sidebar renders with correct visual styling — green active highlight, proper sub-panel, Settings at bottom"
+  status: failed
+  reason: "User reported: The visuals are all wrong. Active item should have green background highlight not just left border, sub-panel shows duplicate 'All Projects' header with arrow instead of just sub-items, sub-panel items lack spacing, Settings icon missing at bottom, overall layout/spacing wrong."
   severity: major
   test: 3
-  root_cause: "Phase 7 migration plans did not include creating React Storybook stories"
-  artifacts:
-    - path: "src/components/Sidebar/Sidebar.stories.ts"
-      issue: "Vue stories exist but no React .stories.tsx equivalent"
-  missing:
-    - "Create Sidebar.stories.tsx mirroring all stories from Sidebar.stories.ts using React/JSX syntax"
+  root_cause: ""
+  artifacts: []
+  missing: []
+  debug_session: ""
 
-- truth: "Sidebar navigation viewable in React Storybook"
-  status: resolved
-  reason: "User reported: missing .stories.tsx file mirroring Sidebar.stories.ts"
+- truth: "Tree parent checkbox shows indeterminate state and node icons are visible"
+  status: failed
+  reason: "User reported: The multi version parent checkbox does not work properly — no indeterminate state (dash) when some children are selected. And the icons are not appearing next to node labels."
   severity: major
   test: 4
-  root_cause: "Same as test 3 — no React stories file for Sidebar"
-  artifacts:
-    - path: "src/components/Sidebar/Sidebar.stories.ts"
-      issue: "Vue stories exist but no React .stories.tsx equivalent"
-  missing:
-    - "Covered by Sidebar.stories.tsx creation in test 3"
+  root_cause: ""
+  artifacts: []
+  missing: []
+  debug_session: ""
 
-- truth: "Tree expand/collapse viewable in React Storybook"
-  status: resolved
-  reason: "User reported: missing .stories.tsx file mirroring Tree.stories.ts"
+- truth: "Table select-all checkbox and aggregation numbering work correctly"
+  status: failed
+  reason: "User reported: The select all and aggregation does not work"
   severity: major
   test: 5
-  root_cause: "Phase 7 migration plans did not include creating React Storybook stories"
-  artifacts:
-    - path: "src/components/Tree/Tree.stories.ts"
-      issue: "Vue stories exist but no React .stories.tsx equivalent"
-  missing:
-    - "Create Tree.stories.tsx mirroring all stories from Tree.stories.ts using React/JSX syntax"
+  root_cause: ""
+  artifacts: []
+  missing: []
+  debug_session: ""
 
-- truth: "Tree selection modes viewable in React Storybook"
-  status: resolved
-  reason: "User reported: missing .stories.tsx file mirroring Tree.stories.ts"
+- truth: "RichTextEditor color and background color pickers apply colors to selected text"
+  status: failed
+  reason: "User reported: The color and background selection is not working"
   severity: major
   test: 6
-  root_cause: "Same as test 5 — no React stories file for Tree"
-  artifacts:
-    - path: "src/components/Tree/Tree.stories.ts"
-      issue: "Vue stories exist but no React .stories.tsx equivalent"
-  missing:
-    - "Covered by Tree.stories.tsx creation in test 5"
+  root_cause: ""
+  artifacts: []
+  missing: []
+  debug_session: ""
 
-- truth: "Table data rendering viewable in React Storybook"
-  status: resolved
-  reason: "User reported: missing .stories.tsx file mirroring Table.stories.ts"
-  severity: major
-  test: 7
-  root_cause: "Phase 7 migration plans did not include creating React Storybook stories"
-  artifacts:
-    - path: "src/components/Table/Table.stories.ts"
-      issue: "Vue stories exist but no React .stories.tsx equivalent"
-  missing:
-    - "Create Table.stories.tsx mirroring all stories from Table.stories.ts using React/JSX syntax"
-
-- truth: "Table sorting & pagination viewable in React Storybook"
-  status: resolved
-  reason: "User reported: missing .stories.tsx file mirroring Table.stories.ts"
+- truth: "All unit tests pass (vitest --project unit)"
+  status: failed
+  reason: "User reported: 17 test files failed, 45 tests failed out of 378. Failures across RoundMenu, Slider, Stepper, TagSelect, Textarea, Container, ExpandableContainer, Overlay, SelectContainer. Tests need to be fixed to match components, not vice versa."
   severity: major
   test: 8
-  root_cause: "Same as test 7 — no React stories file for Table"
-  artifacts:
-    - path: "src/components/Table/Table.stories.ts"
-      issue: "Vue stories exist but no React .stories.tsx equivalent"
-  missing:
-    - "Covered by Table.stories.tsx creation in test 7"
-
-- truth: "Table row selection viewable in React Storybook"
-  status: resolved
-  reason: "User reported: missing .stories.tsx file mirroring Table.stories.ts"
-  severity: major
-  test: 9
-  root_cause: "Same as test 7 — no React stories file for Table"
-  artifacts:
-    - path: "src/components/Table/Table.stories.ts"
-      issue: "Vue stories exist but no React .stories.tsx equivalent"
-  missing:
-    - "Covered by Table.stories.tsx creation in test 7"
-
-- truth: "RichTextEditor toolbar formatting viewable in React Storybook"
-  status: resolved
-  reason: "User reported: missing .stories.tsx file mirroring RichTextEditor.stories.ts"
-  severity: major
-  test: 10
-  root_cause: "Phase 7 migration plans did not include creating React Storybook stories"
-  artifacts:
-    - path: "src/components/RichTextEditor/RichTextEditor.stories.ts"
-      issue: "Vue stories exist but no React .stories.tsx equivalent"
-  missing:
-    - "Create RichTextEditor.stories.tsx mirroring all stories from RichTextEditor.stories.ts using React/JSX syntax"
-
-- truth: "RichTextEditor undo/redo viewable in React Storybook"
-  status: resolved
-  reason: "User reported: missing .stories.tsx file mirroring RichTextEditor.stories.ts"
-  severity: major
-  test: 11
-  root_cause: "Same as test 10 — no React stories file for RichTextEditor"
-  artifacts:
-    - path: "src/components/RichTextEditor/RichTextEditor.stories.ts"
-      issue: "Vue stories exist but no React .stories.tsx equivalent"
-  missing:
-    - "Covered by RichTextEditor.stories.tsx creation in test 10"
-
-- truth: "RichTextEditor color picker viewable in React Storybook"
-  status: resolved
-  reason: "User reported: missing .stories.tsx file mirroring RichTextEditor.stories.ts"
-  severity: major
-  test: 12
-  root_cause: "Same as test 10 — no React stories file for RichTextEditor"
-  artifacts:
-    - path: "src/components/RichTextEditor/RichTextEditor.stories.ts"
-      issue: "Vue stories exist but no React .stories.tsx equivalent"
-  missing:
-    - "Covered by RichTextEditor.stories.tsx creation in test 10"
+  root_cause: ""
+  artifacts: []
+  missing: []
+  debug_session: ""
