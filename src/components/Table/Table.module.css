@@ -37,22 +37,27 @@
 }
 
 .tableStyle th {
-  @apply py-base px-lg hover:bg-neutral-surface-highlight cursor-pointer;
+  @apply py-base px-lg hover:bg-neutral-surface-highlight;
 }
 
-.aggregationTh {
-  @apply py-base px-lg rounded-ss-xl pointer-events-none;
-  width: 2%;
+.firstTh {
+  @apply rounded-ss-xl;
 }
 
-.selectionTh {
-  @apply py-base px-lg pointer-events-none;
-  width: 2%;
+.lastTh {
+  @apply rounded-se-xl;
 }
 
-.actionsTh {
-  @apply py-base px-lg bg-white pointer-events-none;
-  flex: 1;
+.pointerNone {
+  @apply pointer-events-none;
+}
+
+.hoverBg {
+  @apply hover:bg-neutral-surface-default;
+}
+
+.bgWhite {
+  @apply bg-white;
 }
 
 .sortable {
@@ -68,8 +73,15 @@
 }
 
 .sortIcon {
-  @apply opacity-0 h-fit w-fit flex items-center;
-  transition: opacity 0.2s ease, transform 0.3s ease;
+  @apply opacity-0 h-fit w-fit flex items-center transition-transform ease-in-out duration-300;
+}
+
+.sortIcon .icon {
+  @apply text-lg;
+}
+
+.sortIconRotated {
+  @apply rotate-180;
 }
 
 .sortIconActive {
@@ -84,6 +96,10 @@
   @apply text-neutral-foreground-low;
 }
 
+.row > * {
+  @apply py-sm px-lg;
+}
+
 .cell {
   @apply py-sm px-lg;
 }
@@ -92,19 +108,23 @@
   @apply bg-primary-surface-default;
 }
 
-.rowSelected {
-  @apply bg-primary-surface-default;
-}
-
 .skeletonCell {
   @apply p-base;
+}
+
+.skeletonCell .skeleton {
+  @apply h-sm w-full;
 }
 
 .footer {
   @apply flex items-center justify-between mt-base text-neutral-foreground-low flex-wrap;
 }
 
-.pageInfo {
+.footerLeft {
+  @apply flex items-center gap-xs;
+}
+
+.footerLabel {
   @apply text-sm;
 }
 

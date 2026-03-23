@@ -1,9 +1,12 @@
-import { useRef, useState } from 'react';
-import { useClickOutside } from '../../hooks/useClickOutside';
-import { blendColors } from '../../utils';
-import { Icon } from '../Icon/Icon';
-import { Color } from './Color';
-import styles from './RichTextEditor.module.css';
+import { useRef, useState } from "react";
+import { blendColors } from "../../utils";
+import { Icon } from "../Icon/Icon";
+import { Color } from "./Color";
+import styles from "./RichTextEditor.module.css";
+import { ColorPicker } from "../ColorPicker";
+import { Button } from "../Button";
+import clsx from "clsx";
+import { FloatCard } from "../FloatCard";
 
 interface ColorsProps {
   value: string;
@@ -20,22 +23,22 @@ function generateColorPalette(): string[][] {
 
   // Gray row: from black to white
   const gray: string[] = [];
-  for (let i = 10; i >= 0; i--) gray.push(blendColors('#000000', i / 10));
+  for (let i = 10; i >= 0; i--) gray.push(blendColors("#000000", i / 10));
   palette.push(gray);
 
   // Base hues
   const hue = [
-    'hsl(0, 100%, 50%)',
-    'hsl(30, 100%, 50%)',
-    'hsl(60, 100%, 50%)',
-    'hsl(90, 100%, 50%)',
-    'hsl(120, 100%, 50%)',
-    'hsl(150, 100%, 50%)',
-    'hsl(180, 100%, 50%)',
-    'hsl(210, 100%, 50%)',
-    'hsl(240, 100%, 50%)',
-    'hsl(270, 100%, 50%)',
-    'hsl(300, 100%, 50%)',
+    "hsl(0, 100%, 50%)",
+    "hsl(30, 100%, 50%)",
+    "hsl(60, 100%, 50%)",
+    "hsl(90, 100%, 50%)",
+    "hsl(120, 100%, 50%)",
+    "hsl(150, 100%, 50%)",
+    "hsl(180, 100%, 50%)",
+    "hsl(210, 100%, 50%)",
+    "hsl(240, 100%, 50%)",
+    "hsl(270, 100%, 50%)",
+    "hsl(300, 100%, 50%)",
   ];
   palette.push(hue);
 
@@ -53,7 +56,7 @@ function generateColorPalette(): string[][] {
   for (let i = 2; i >= 0; i--) {
     const colors: string[] = [];
     hue.forEach((color) =>
-      colors.push(blendColors(color, i * 0.2 + 0.2, [0, 0, 0]))
+      colors.push(blendColors(color, i * 0.2 + 0.2, [0, 0, 0])),
     );
     dark.push(colors);
   }
@@ -73,18 +76,8 @@ export function Colors({
   onCustomChange,
   children,
 }: ColorsProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const popoverRef = useRef<HTMLDivElement>(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [customColorInput, setCustomColorInput] = useState(value);
-
-  useClickOutside(
-    [containerRef],
-    () => {
-      if (expanded) onExpandedChange(false);
-    },
-    expanded
-  );
 
   function handleColorSelect(color: string) {
     onValueChange(color);
@@ -105,33 +98,37 @@ export function Colors({
   }
 
   return (
-    <div ref={containerRef} className={styles.colorsContainer}>
-      {children}
-      {expanded && (
-        <div ref={popoverRef} className={styles.colorPicker}>
+    <FloatCard
+      value={expanded}
+      onChange={onExpandedChange}
+      card={
+        <div
+          className={clsx(
+            styles.colorPicker,
+            showColorPicker && styles.customColorPicker,
+          )}
+        >
           {showColorPicker ? (
-            <div className={styles.customColorSection}>
-              <input
-                type="color"
-                className={styles.customColorInput}
+            <>
+              <ColorPicker
                 value={customColorInput}
-                onChange={(e) => setCustomColorInput(e.target.value)}
+                onChange={setCustomColorInput}
+                noShadow
               />
               <div className={styles.customColorActions}>
-                <button
-                  className={styles.customColorBtn}
+                <Button
+                  variant="plain"
+                  color="neutral"
+                  size="small"
                   onClick={handleCancelCustomColor}
                 >
                   Cancel
-                </button>
-                <button
-                  className={styles.customColorBtnPrimary}
-                  onClick={handleAddCustomColor}
-                >
+                </Button>
+                <Button size="small" onClick={handleAddCustomColor}>
                   Add
-                </button>
+                </Button>
               </div>
-            </div>
+            </>
           ) : (
             <div className={styles.colorColumn}>
               <div className={styles.colorGrid}>
@@ -149,13 +146,16 @@ export function Colors({
                 ))}
               </div>
               <hr className={styles.colorDivider} />
-              <div className={styles.colorRow} style={{ padding: '4px 8px' }}>
+              <div className={clsx(styles.colorRow, styles.customRole)}>
                 <div
                   className={styles.addColorBtn}
                   title="Add custom color"
                   onClick={() => setShowColorPicker(true)}
                 >
-                  <Icon name="add_circle" className="text-neutral-interactive-default cursor-pointer" />
+                  <Icon
+                    name="add_circle"
+                    className="text-neutral-interactive-default cursor-pointer"
+                  />
                 </div>
                 {custom.map((color) => (
                   <Color
@@ -169,7 +169,9 @@ export function Colors({
             </div>
           )}
         </div>
-      )}
-    </div>
+      }
+    >
+      {children}
+    </FloatCard>
   );
 }

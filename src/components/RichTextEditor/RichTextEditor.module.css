@@ -105,6 +105,10 @@
   min-width: 220px;
 }
 
+.customColorPicker {
+  @apply p-none;
+}
+
 .colorColumn {
   @apply flex flex-col gap-xxs;
 }
@@ -115,6 +119,10 @@
 
 .colorRow {
   @apply flex gap-0;
+}
+
+.customRole {
+  @apply py-xxs px-xs gap-xxs;
 }
 
 .colorOption {
@@ -140,7 +148,7 @@
 }
 
 .customColorActions {
-  @apply flex justify-end gap-xs;
+  @apply flex justify-end gap-xs px-xs pb-xs;
 }
 
 .customColorBtn {

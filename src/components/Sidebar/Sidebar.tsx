@@ -368,10 +368,10 @@ export function Sidebar({
           )}
         </div>
 
-        {/* Sub-panel */}
-        {clickedOption && clickedOption.options && clickedOption.options.length > 0 && (
-          <div className={subPanelClasses}>
-            {clickedOption.options.map((subOpt) => (
+        {/* Sub-panel — always in DOM so CSS transition works on first open */}
+        <div className={subPanelClasses}>
+          {clickedOption && clickedOption.options && clickedOption.options.length > 0 &&
+            clickedOption.options.map((subOpt) => (
               <SidebarSubOption
                 key={subOpt.value}
                 option={subOpt}
@@ -379,8 +379,7 @@ export function Sidebar({
                 parentPath={getPath(clickedOption.path)}
               />
             ))}
-          </div>
-        )}
+        </div>
       </div>
     </SidebarContext.Provider>
   );

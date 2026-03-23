@@ -35,6 +35,14 @@
   @apply hidden;
 }
 
+.option {
+  @apply w-full relative cursor-pointer;
+}
+
+.option .roundIcon .icon {
+ @apply text-3xl;
+}
+
 /* ===== Type color variants ===== */
 .option.primary {
   @apply hover:bg-primary-surface-default;
@@ -54,14 +62,6 @@
 .option.neutral {
   @apply hover:bg-neutral-surface-highlight;
 }
-
-/* ===== Default type circle fills (idle, non-active state) ===== */
-.primary .circle { @apply bg-primary-interaction-default; }
-.info .circle { @apply bg-informative-interaction-default; }
-.success .circle { @apply bg-success-interaction-default; }
-.warning .circle { @apply bg-warning-interaction-default; }
-.danger .circle { @apply bg-danger-interaction-default; }
-.neutral .circle { @apply bg-neutral-interaction-default; }
 
 /* ===== Active variants ===== */
 .primary.active {
@@ -199,8 +199,7 @@
 }
 
 .circleIcon {
-  @apply flex items-center justify-center p-sm text-neutral-foreground-negative bg-neutral-surface-disabled
-         w-[32px] h-[32px] min-w-[32px] min-h-[32px] rounded-full;
+  @apply flex items-center justify-center p-sm text-neutral-foreground-negative bg-neutral-surface-disabled;
 }
 
 .circleIcon span {
@@ -229,7 +228,7 @@
   @apply top-[22px] left-[15px];
 }
 .option.right .dataList {
-  @apply border-l-[3px] p-[16px] pt-[20px] ml-[5px] pl-[20px];
+  @apply border-l-[1.5px] p-[16px] pt-[20px] ml-[5px] pl-[20px];
 }
 
 .option.right.firstOption {
@@ -267,7 +266,7 @@
   @apply top-[22px] right-[14.5px];
 }
 .option.left .dataList {
-  @apply border-r-[3px] mr-[5px] pr-[20px] p-[16px] pt-[20px];
+  @apply border-r-[1.5px] mr-[6px] pr-[20px] p-[16px] pt-[20px];
 }
 
 .option.left.firstOption {
@@ -293,7 +292,7 @@
 
 /* ===== Position: top ===== */
 .option.top {
-  @apply pt-[20px] p-[16px];
+  @apply pt-[20px] pb-[16px];
 }
 .option.top .circle {
   @apply top-[16px] left-[16px];
@@ -305,7 +304,7 @@
   @apply top-[9.5px] left-[16px];
 }
 .option.top .dataList {
-  @apply border-t-[3px] pt-[20px] px-[16px] ml-0;
+  @apply border-t-[1.5px] pt-[20px] px-[16px] ml-0;
 }
 .option.top .customBorder {
   @apply h-[.5px] w-full;
@@ -326,7 +325,7 @@
 }
 
 .option.top.lastOption .customBorder {
-  @apply border-t-xxs w-[22px] left-[-5px];
+  @apply border-t-xxs w-[22px] left-[-5px] 2xl:mt-[-0.1%];
 }
 .option.top.lastOption .haveIcon {
   @apply mt-[1px];
@@ -334,7 +333,7 @@
 
 /* ===== Position: bottom ===== */
 .option.bottom {
-  @apply p-[20.5px] pt-[16px];
+  @apply pb-[20.5px] pt-[16px];
 }
 .option.bottom .circle {
   @apply bottom-[16px] left-[16px];
@@ -346,14 +345,14 @@
   @apply bottom-[10px] left-[16px];
 }
 .option.bottom .dataList {
-  @apply border-[3px] p-[20px] px-[16px];
+  @apply border-b-[1.5px] p-[20px] px-[16px];
 }
 .option.bottom .customBorder {
   @apply h-[.5px] w-full;
 }
 
 .option.bottom.firstOption .customBorder {
-  @apply border-xxs ml-[26px] bottom-[20.5px];
+  @apply border-b-xxs ml-[26px] bottom-[20.5px];
 }
 .option.bottom.firstOption .circle {
   @apply left-[26px];
@@ -364,10 +363,5 @@
 }
 
 .option.bottom.lastOption .customBorder {
-  @apply border-xxs w-[22px] left-[-5px] bottom-[20.5px];
-}
-
-/* connector alias (for plan acceptance criteria check) */
-.connector {
-  display: none;
+  @apply border-b-xxs w-[22px] left-[-5px] bottom-[20.5px];
 }

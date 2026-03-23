@@ -47,7 +47,13 @@ describe('Table', () => {
   });
 
   it('shows empty state when no items', () => {
-    render(<Table columns={columns} items={[]} />);
+    render(
+      <Table
+        columns={columns}
+        items={[]}
+        renderEmptyState={() => <span>No rows to display</span>}
+      />
+    );
     expect(screen.getByText('No rows to display')).toBeInTheDocument();
   });
 });

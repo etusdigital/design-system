@@ -9,11 +9,18 @@
 }
 
 .nodeRow {
-  @apply flex items-center gap-xs py-xxs px-xs cursor-pointer rounded-sm;
-  @apply hover:bg-neutral-surface-highlight transition-colors duration-150;
+  @apply flex items-center gap-xxs py-xxs px-xs cursor-pointer rounded-sm text-neutral-interaction-default;
 }
 
-.selected {
+.nodeRow:not(.multiple) {
+  @apply hover:bg-primary-surface-hover hover:text-primary-interaction-hover transition-colors duration-150;
+}
+
+.nodeIcon {
+  @apply text-xl;
+}
+
+.selected:not(.multiple) {
   @apply bg-primary-surface-default text-primary-foreground-low;
 }
 
@@ -32,8 +39,4 @@
 
 .nodeLabel {
   @apply text-sm flex-1;
-}
-
-.nodeLabelSelected {
-  @apply font-medium text-primary-foreground-low;
 }

@@ -156,12 +156,13 @@ function updateSelection(
 // Selection check helper
 // ---------------------------------------------------------------------------
 
-function getAllDescendantValues(options: DropOption[], valueKey: string): any[] {
+function getAllLeafValues(options: DropOption[], valueKey: string): any[] {
   const values: any[] = [];
   for (const opt of options) {
-    values.push((opt as any)[valueKey]);
     if (opt.options?.length) {
-      values.push(...getAllDescendantValues(opt.options, valueKey));
+      values.push(...getAllLeafValues(opt.options, valueKey));
+    } else {
+      values.push((opt as any)[valueKey]);
     }
   }
   return values;
@@ -184,7 +185,7 @@ function checkIsSelected(selectedValue: any, nodeValue: any, ctx: TreeContextVal
 
     // If this node has children, check for indeterminate state
     if (option?.options?.length) {
-      const childValues = getAllDescendantValues(option.options, ctx.valueKey);
+      const childValues = getAllLeafValues(option.options, ctx.valueKey);
       const isChildSelected = (cv: any) =>
         selectedValue.some((v: any) => {
           if (ctx.getObject && typeof v === 'object' && v !== null) {
@@ -227,6 +228,7 @@ function TreeNode({ option, depth = 0 }: { option: DropOption; depth?: number })
         className={clsx(
           styles.nodeRow,
           isSelected === true && styles.selected,
+          ctx.multiple && styles.multiple,
           (ctx.disabled || option.disabled) && styles.disabled
         )}
         onClick={() => {
@@ -254,9 +256,9 @@ function TreeNode({ option, depth = 0 }: { option: DropOption; depth?: number })
           />
         )}
         {option.icon && (
-          <Icon name={option.icon} />
+          <Icon name={option.icon} className={styles.nodeIcon} />
         )}
-        <span className={clsx(styles.nodeLabel, isSelected === true && styles.nodeLabelSelected)}>
+        <span className={clsx(styles.nodeLabel)}>
           {nodeLabel}
         </span>
       </div>

@@ -5,6 +5,7 @@ import { Pagination } from '../Pagination/Pagination';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { Icon } from '../Icon/Icon';
+import { Select } from '../Select/Select';
 import styles from './Table.module.css';
 
 export interface Column {
@@ -39,6 +40,22 @@ export interface TableProps {
   onPageItems?: (page: number, itemsPerPage: number) => void;
   onSelectAll?: (value: boolean) => void;
   onSelectRow?: (item: any, selected: boolean) => void;
+  /** Slot: per-row aggregation cell (Vue: slot name="aggregation") */
+  renderAggregation?: (item: any, index: number) => React.ReactNode;
+  /** Slot: per-row selection cell (Vue: slot name="select") */
+  renderSelect?: (item: any, index: number) => React.ReactNode;
+  /** Slot: per-row actions cell (Vue: slot name="actions") */
+  renderActions?: (item: any, index: number) => React.ReactNode;
+  /** Slot: expandable child rows (Vue: slot name="childs") */
+  renderChilds?: (item: any, index: number) => React.ReactNode;
+  /** Slot: empty state (Vue: slot name="empty-state") */
+  renderEmptyState?: () => React.ReactNode;
+  /** Slot: custom footer content in tfoot (Vue: slot name="footer") */
+  renderFooter?: () => React.ReactNode;
+  /** Slot: items per page label (Vue: slot name="items-per-page") */
+  renderItemsPerPage?: () => React.ReactNode;
+  /** Slot: showing page text (Vue: slot name="showing-page") */
+  renderShowingPage?: (min: number, max: number, total: number) => React.ReactNode;
   children?: React.ReactNode;
   className?: string;
 }
@@ -47,9 +64,20 @@ function sortItems(items: any[], sortKey: string, desc: boolean): any[] {
   return [...items].sort((a, b) => {
     const aVal = a[sortKey];
     const bVal = b[sortKey];
-    if (aVal < bVal) return desc ? 1 : -1;
-    if (aVal > bVal) return desc ? -1 : 1;
-    return 0;
+
+    if (typeof aVal === 'string' && typeof bVal === 'string') {
+      const lowerA = aVal.toLowerCase();
+      const lowerB = bVal.toLowerCase();
+      return desc ? lowerA.localeCompare(lowerB) : lowerB.localeCompare(lowerA);
+    } else if (typeof aVal === 'number' && typeof bVal === 'number') {
+      return desc ? aVal - bVal : bVal - aVal;
+    } else if (aVal instanceof Date && bVal instanceof Date) {
+      return desc ? aVal.getTime() - bVal.getTime() : bVal.getTime() - aVal.getTime();
+    } else {
+      const strA = String(aVal).toLowerCase();
+      const strB = String(bVal).toLowerCase();
+      return desc ? strA.localeCompare(strB) : strB.localeCompare(strA);
+    }
   });
 }
 
@@ -99,6 +127,14 @@ export function Table({
   onPageItems,
   onSelectAll,
   onSelectRow,
+  renderAggregation,
+  renderSelect,
+  renderActions,
+  renderChilds,
+  renderEmptyState,
+  renderFooter,
+  renderItemsPerPage,
+  renderShowingPage,
   children,
   className,
 }: TableProps) {
@@ -115,7 +151,7 @@ export function Table({
   });
 
   const [sortByName, setSortByName] = useState<string | null>(
-    sortOptions?.by ?? null
+    sortOptions?.by || null
   );
   const [isDesc, setIsDesc] = useState<Record<string, boolean>>(() => {
     const map: Record<string, boolean> = {};
@@ -126,6 +162,7 @@ export function Table({
     return map;
   });
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
+  const [allSelected, setAllSelected] = useState(false);
 
   const currentPage = page ?? 1;
   const currentItemsPerPage = itemsPerPage ?? 10;
@@ -135,7 +172,9 @@ export function Table({
       ? sortItems(items, sortByName, isDesc[sortByName] ?? false)
       : items;
 
-  const totalItems = numberOfItems ?? sortedItems.length;
+  const totalItems = renderPaginationInBackEnd
+    ? (numberOfItems ?? 0)
+    : (sortedItems?.length ?? 0);
   const pageCount = Math.ceil(totalItems / currentItemsPerPage);
 
   const pagedItems = renderPaginationInBackEnd
@@ -144,9 +183,6 @@ export function Table({
         (currentPage - 1) * currentItemsPerPage,
         currentPage * currentItemsPerPage
       );
-
-  const allSelected = pagedItems.length > 0 && selectedRows.size === pagedItems.length;
-  const someSelected = selectedRows.size > 0 && selectedRows.size < pagedItems.length;
 
   const min =
     currentPage === 1
@@ -158,11 +194,15 @@ export function Table({
   if (enableSelection) colspan++;
   if (enableAggregation) colspan++;
 
+  // Legacy compound component slots (fallback)
   const actionsSlot = findSlot(children, TableActions);
   const footerSlot = findSlot(children, TableFooter);
   const emptySlot = findSlot(children, TableEmptyState);
 
-  if (actionsSlot) colspan++;
+  const hasActions = !!renderActions || !!actionsSlot;
+  if (hasActions) colspan++;
+
+  const listPerPage = [5, 10, 20, 50, 100];
 
   const handleSort = (column: Column) => {
     if (!column.sortable) return;
@@ -183,13 +223,28 @@ export function Table({
     });
   };
 
-  const handleSelectAll = (selectAll: boolean) => {
+  const handleSelectAll = (value: boolean | null) => {
+    const selectAll = !!value;
+    setAllSelected(selectAll);
     if (selectAll) {
       setSelectedRows(new Set(pagedItems.map((_, i) => i)));
     } else {
       setSelectedRows(new Set());
     }
+    // Mutate item.selected like Vue does
+    items?.forEach((item: any) => { item.selected = selectAll; });
     onSelectAll?.(selectAll);
+  };
+
+  const handleChangePage = (newPage: number) => {
+    setPage(newPage);
+    onPageItems?.(newPage, currentItemsPerPage);
+  };
+
+  const handleChangeItemsPerPage = (newItemsPerPage: number) => {
+    setItemsPerPage(newItemsPerPage || 10);
+    setPage(1);
+    onPageItems?.(1, newItemsPerPage);
   };
 
   return (
@@ -202,152 +257,194 @@ export function Table({
         )}
       >
         <table className={styles.tableStyle}>
-          <thead>
-            <tr>
-              {enableAggregation && (
-                <th className={styles.aggregationTh} style={{ minWidth: '40px' }}>#</th>
-              )}
-              {enableSelection && (
-                <th className={styles.selectionTh}>
-                  <Checkbox
-                    value={allSelected ? true : someSelected ? null : false}
-                    allowIndeterminate
-                    onChange={(v) => handleSelectAll(!!v)}
-                  />
-                </th>
-              )}
-              {columns.map((col) => (
-                <th
-                  key={col.value}
-                  style={{ width: col.width }}
-                  className={clsx(col.sortable && styles.sortable)}
-                  onClick={() => handleSort(col)}
-                >
-                  <div
-                    className={styles.thContent}
-                    style={{
-                      justifyContent: col.align ?? 'flex-start',
-                    }}
-                  >
-                    <p className={styles.thLabel}>{col.label}</p>
-                    {col.sortable && (
-                      <Icon
-                        name={
-                          sortByName === col.value && isDesc[col.value]
-                            ? 'arrow_downward'
-                            : 'arrow_upward'
-                        }
-                        className={clsx(
-                          styles.sortIcon,
-                          sortByName === col.value && styles.sortIconActive
-                        )}
-                      />
-                    )}
-                  </div>
-                </th>
-              ))}
-              {actionsSlot && <th className={styles.actionsTh} />}
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              Array.from({ length: currentItemsPerPage }).map((_, i) => (
-                <tr key={`skeleton-${i}`}>
-                  {enableAggregation && (
-                    <td className={styles.skeletonCell}>
-                      <Skeleton />
-                    </td>
-                  )}
-                  {enableSelection && (
-                    <td className={styles.skeletonCell}>
-                      <Skeleton />
-                    </td>
-                  )}
-                  {columns.map((col) => (
-                    <td key={col.value} className={styles.skeletonCell}>
-                      <Skeleton />
-                    </td>
-                  ))}
-                  {actionsSlot && (
-                    <td className={styles.skeletonCell}>
-                      <Skeleton />
-                    </td>
-                  )}
-                </tr>
-              ))
-            ) : pagedItems.length === 0 ? (
+          {!loading ? (
+            <thead>
               <tr>
-                <td colSpan={colspan}>
-                  {emptySlot || (
-                    <div className={styles.emptyState}>No rows to display</div>
-                  )}
-                </td>
-              </tr>
-            ) : (
-              pagedItems.map((item, rowIndex) => (
-                <tr
-                  key={rowIndex}
-                  className={clsx(
-                    styles.row,
-                    hasHover && styles.rowHover,
-                    selectedRows.has(rowIndex) && styles.rowSelected
-                  )}
-                >
-                  {enableAggregation && (
-                    <td className={styles.cell}>
-                      {(currentPage - 1) * currentItemsPerPage + rowIndex + 1}
-                    </td>
-                  )}
-                  {enableSelection && (
-                    <td className={styles.cell}>
-                      <Checkbox
-                        value={selectedRows.has(rowIndex)}
-                        onChange={() => handleSelectRow(rowIndex, item)}
-                      />
-                    </td>
-                  )}
-                  {columns.map((col) => (
-                    <td
-                      key={col.value}
-                      className={styles.cell}
+                {enableAggregation && (
+                  <th
+                    className={clsx(styles.firstTh, styles.pointerNone)}
+                    style={{ width: '2%' }}
+                  />
+                )}
+                {enableSelection && (
+                  <th
+                    className={clsx(
+                      !enableAggregation && styles.firstTh,
+                      styles.hoverBg
+                    )}
+                    style={{ width: '2%' }}
+                  >
+                    <Checkbox
+                      value={allSelected}
+                      onChange={handleSelectAll}
+                    />
+                  </th>
+                )}
+                {columns.map((col, index) => (
+                  <th
+                    key={col.value}
+                    style={{ width: col.width ?? 'fit-content' }}
+                    className={clsx(
+                      styles.sortable,
+                      index === 0 && !enableSelection && !enableAggregation && styles.firstTh,
+                      !columns[index + 1] && !hasActions && styles.lastTh,
+                      !col.sortable && styles.pointerNone,
+                    )}
+                    onClick={() => handleSort(col)}
+                  >
+                    <div
+                      className={styles.thContent}
                       style={{
-                        textAlign:
-                          col.align === 'center'
-                            ? 'center'
-                            : col.align === 'flex-end'
-                            ? 'right'
-                            : 'left',
+                        justifyContent: col.align ?? 'flex-start',
                       }}
                     >
-                      {col.render
-                        ? col.render(item[col.value], item, rowIndex)
-                        : item[col.value]}
-                    </td>
-                  ))}
-                  {actionsSlot && (
-                    <td className={styles.cell}>{actionsSlot}</td>
-                  )}
+                      <p className={styles.thLabel}>{col.label}</p>
+                      {col.sortable && (
+                        <span
+                          className={clsx(
+                            styles.sortIcon,
+                            isDesc[col.value] && styles.sortIconRotated,
+                            col.value === sortByName && styles.sortIconActive
+                          )}
+                        >
+                          <Icon name="arrow_upward" />
+                        </span>
+                      )}
+                    </div>
+                  </th>
+                ))}
+                {hasActions && (
+                  <th style={{ flex: 1 }} className={clsx(styles.pointerNone, styles.bgWhite)} />
+                )}
+              </tr>
+            </thead>
+          ) : (
+            <thead>
+              <tr>
+                {Array.from({ length: colspan || 3 }).map((_, i) => (
+                  <th key={i} className={styles.skeletonCell}>
+                    <Skeleton />
+                  </th>
+                ))}
+              </tr>
+            </thead>
+          )}
+          {loading || !pagedItems.length ? (
+            <tbody>
+              {loading ? (
+                Array.from({ length: 10 }).map((_, i) => (
+                  <tr key={`skeleton-${i}`}>
+                    {Array.from({ length: colspan || 3 }).map((_, j) => (
+                      <td key={j} className={styles.skeletonCell}>
+                        <Skeleton />
+                      </td>
+                    ))}
+                    {hasActions && (
+                      <td className={styles.skeletonCell}>
+                        <Skeleton />
+                      </td>
+                    )}
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={colspan}>
+                    {renderEmptyState?.() || emptySlot || null}
+                  </td>
                 </tr>
-              ))
-            )}
-          </tbody>
+              )}
+            </tbody>
+          ) : (
+            <tbody>
+              {pagedItems.map((item, rowIndex) => (
+                <React.Fragment key={rowIndex}>
+                  <tr
+                    className={clsx(
+                      styles.row,
+                      hasHover && styles.rowHover,
+                    )}
+                  >
+                    {enableAggregation && (
+                      <td className={styles.cell}>
+                        {renderAggregation?.(item, rowIndex)}
+                      </td>
+                    )}
+                    {enableSelection && (
+                      <td className={styles.cell}>
+                        {renderSelect ? (
+                          renderSelect(item, rowIndex)
+                        ) : (
+                          <Checkbox
+                            value={selectedRows.has(rowIndex)}
+                            onChange={() => handleSelectRow(rowIndex, item)}
+                          />
+                        )}
+                      </td>
+                    )}
+                    {columns.map((col) => (
+                      <td
+                        key={col.value}
+                        className={styles.cell}
+                        style={{
+                          textAlign:
+                            col.align === 'center'
+                              ? 'center'
+                              : col.align === 'flex-end'
+                              ? 'right'
+                              : 'left',
+                        }}
+                      >
+                        {col.render
+                          ? col.render(item[col.value], item, rowIndex)
+                          : item[col.value]}
+                      </td>
+                    ))}
+                    {renderActions && (
+                      <td className={styles.cell}>
+                        {renderActions(item, rowIndex)}
+                      </td>
+                    )}
+                    {!renderActions && actionsSlot && (
+                      <td className={styles.cell}>{actionsSlot}</td>
+                    )}
+                  </tr>
+                  {item.expanded && renderChilds && renderChilds(item, rowIndex)}
+                </React.Fragment>
+              ))}
+            </tbody>
+          )}
+          {(renderFooter || footerSlot) && (
+            <tfoot>
+              {renderFooter?.() || footerSlot}
+            </tfoot>
+          )}
         </table>
       </div>
       {!hideFooter && (
-        <div className={styles.footer}>
-          {footerSlot || (
-            <>
-              <span className={styles.pageInfo}>
-                {min}-{max} of {totalItems} items
-              </span>
-              <Pagination
-                value={page}
-                onChange={setPage}
-                length={pageCount}
-              />
-            </>
-          )}
-        </div>
+        <footer className={styles.footer}>
+          <div className={styles.footerLeft}>
+            <p className={styles.footerLabel}>
+              {renderItemsPerPage?.() || 'Items per page'}
+            </p>
+            <Select
+              value={currentItemsPerPage}
+              options={listPerPage}
+              onChange={(v: any) => handleChangeItemsPerPage(v)}
+            />
+          </div>
+          <Pagination
+            value={currentPage}
+            onChange={handleChangePage}
+            length={pageCount}
+          />
+          <div>
+            <p className={styles.footerLabel}>
+              {renderShowingPage
+                ? renderShowingPage(min, max, totalItems)
+                : `Showing ${min}-${max} of ${totalItems}`}
+            </p>
+          </div>
+        </footer>
       )}
     </div>
   );

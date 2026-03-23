@@ -71,7 +71,7 @@ export function History({
               )}
             >
               {hasIcon && (
-                <Icon name={option.icon} filled={!option.unfilled} />
+                <Icon name={option.icon} filled={!option.unfilled} className={styles.icon} />
               )}
             </div>
             <div

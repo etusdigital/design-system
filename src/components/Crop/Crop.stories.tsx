@@ -58,28 +58,3 @@ export const Primary: Story = {
     );
   },
 };
-
-export const PrimaryA: Story = {
-  render: () => {
-    const [value, setValue] = useState<string | undefined>(undefined);
-    return (
-      <>
-        <Crop
-          value={value}
-          onChange={setValue}
-          src={banner}
-          width="360px"
-          height="200px"
-        />
-        <span className="block mt-sm">Model value (it can have a delay):</span>
-        {value && (
-          <img
-            className="mt-sm border-xxs border-black border-solid"
-            src={value}
-            alt="Cropped output"
-          />
-        )}
-      </>
-    );
-  },
-};
