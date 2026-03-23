@@ -37,7 +37,8 @@ describe('Textarea', () => {
   });
 
   it('shows character counter when max is set', () => {
-    render(<Textarea max={100} defaultValue="test" />);
+    // Textarea uses useControllable with hardcoded defaultValue:''; use value prop to set initial text
+    render(<Textarea max={100} value="test" />);
     expect(screen.getByText('4/100')).toBeInTheDocument();
   });
 

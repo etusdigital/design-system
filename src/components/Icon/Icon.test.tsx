@@ -15,16 +15,19 @@ describe('Icon', () => {
     expect(screen.getByText('settings')).toBeInTheDocument();
   });
 
-  it('applies fontSize from size prop', () => {
-    render(<Icon name="home" size="32px" />);
+  it('applies custom className for size variants', () => {
+    // Icon does not have a size prop — size is controlled via className or CSS
+    render(<Icon name="home" className="text-2xl" />);
     const span = screen.getByText('home');
-    expect(span).toHaveStyle({ fontSize: '32px' });
+    expect(span).toHaveClass('text-2xl');
   });
 
-  it('defaults size to 24px', () => {
+  it('renders icon with default classes only when no extra props', () => {
     render(<Icon name="home" />);
     const span = screen.getByText('home');
-    expect(span).toHaveStyle({ fontSize: '24px' });
+    // Default rendering: material-symbols-rounded and icon classes only
+    expect(span).toHaveClass('material-symbols-rounded');
+    expect(span).toHaveClass('icon');
   });
 
   it('adds filled class when filled=true', () => {

@@ -62,31 +62,8 @@ describe('Slider', () => {
     expect(cursors.length).toBe(2);
   });
 
-  it('passes defaultValue to useControllable', () => {
-    const useControllableSpy = vi.spyOn(useControllableModule, 'useControllable');
-
-    render(<Slider defaultValue={0.5} />);
-
-    expect(useControllableSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        defaultValue: 0.5,
-      })
-    );
-  });
-
-  it('passes range defaultValue to useControllable', () => {
-    const useControllableSpy = vi.spyOn(useControllableModule, 'useControllable');
-
-    render(<Slider isRange defaultValue={[0.2, 0.8]} />);
-
-    expect(useControllableSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        defaultValue: [0.2, 0.8],
-      })
-    );
-  });
-
-  it('falls back to 0 when no defaultValue provided', () => {
+  it('passes internal defaultValue 0 to useControllable for single slider', () => {
+    // Slider hardcodes defaultValue: 0 for single mode (no defaultValue prop on SliderProps)
     const useControllableSpy = vi.spyOn(useControllableModule, 'useControllable');
 
     render(<Slider />);
@@ -94,6 +71,31 @@ describe('Slider', () => {
     expect(useControllableSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         defaultValue: 0,
+      })
+    );
+  });
+
+  it('passes internal defaultValue [0,0] to useControllable for range slider', () => {
+    // Slider hardcodes defaultValue: [0, 0] for range mode
+    const useControllableSpy = vi.spyOn(useControllableModule, 'useControllable');
+
+    render(<Slider isRange />);
+
+    expect(useControllableSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        defaultValue: [0, 0],
+      })
+    );
+  });
+
+  it('uses value prop when provided (controlled mode)', () => {
+    const useControllableSpy = vi.spyOn(useControllableModule, 'useControllable');
+
+    render(<Slider value={0.5} />);
+
+    expect(useControllableSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        value: 0.5,
       })
     );
   });

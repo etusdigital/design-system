@@ -40,7 +40,7 @@ describe('useTransition', () => {
       expect(result.current.isMounted).toBe(true);
     });
 
-    it('isActive becomes true on next animation frame when open changes to true', () => {
+    it('isActive becomes true after double RAF when open changes to true', () => {
       const rafCallbacks: FrameRequestCallback[] = [];
       vi.spyOn(globalThis, 'requestAnimationFrame').mockImplementation((cb) => {
         rafCallbacks.push(cb);
@@ -60,9 +60,18 @@ describe('useTransition', () => {
       expect(result.current.isMounted).toBe(true);
       expect(result.current.isActive).toBe(false);
 
-      // Fire the RAF callback
+      // Fire the first RAF — this schedules a second RAF (double-RAF pattern)
       act(() => {
-        rafCallbacks.forEach(cb => cb(0));
+        const firstBatch = [...rafCallbacks];
+        firstBatch.forEach(cb => cb(0));
+      });
+      // isActive still false — only the outer RAF fired, inner RAF pending
+      expect(result.current.isActive).toBe(false);
+
+      // Fire the second RAF — this sets isActive to true
+      act(() => {
+        const secondBatch = [...rafCallbacks].slice(1);
+        secondBatch.forEach(cb => cb(0));
       });
       expect(result.current.isActive).toBe(true);
     });
@@ -86,9 +95,14 @@ describe('useTransition', () => {
       act(() => {
         rerender({ open: true });
       });
-      // Fire the RAF to make isActive true
+      // Fire both RAFs (double-RAF pattern) to make isActive true
       act(() => {
-        rafCallbacks.forEach(cb => cb(0));
+        const firstBatch = [...rafCallbacks];
+        firstBatch.forEach(cb => cb(0));
+      });
+      act(() => {
+        const secondBatch = [...rafCallbacks].slice(1);
+        secondBatch.forEach(cb => cb(0));
       });
       expect(result.current.isActive).toBe(true);
 
@@ -116,9 +130,14 @@ describe('useTransition', () => {
       act(() => {
         rerender({ open: true });
       });
-      // Fire RAF
+      // Fire both RAFs (double-RAF pattern)
       act(() => {
-        rafCallbacks.forEach(cb => cb(0));
+        const firstBatch = [...rafCallbacks];
+        firstBatch.forEach(cb => cb(0));
+      });
+      act(() => {
+        const secondBatch = [...rafCallbacks].slice(1);
+        secondBatch.forEach(cb => cb(0));
       });
       // Close
       act(() => {
@@ -151,7 +170,7 @@ describe('useTransition', () => {
         { initialProps: { open: false } }
       );
 
-      // Open then immediately close
+      // Open then immediately close (before any RAF fires)
       act(() => {
         rerender({ open: true });
       });
@@ -159,7 +178,7 @@ describe('useTransition', () => {
         rerender({ open: false });
       });
 
-      // Should have cancelled the RAF
+      // The cleanup of the open effect should have cancelled the pending RAF
       expect(cancelledRafs.length).toBeGreaterThan(0);
 
       // After duration, isMounted should be false
