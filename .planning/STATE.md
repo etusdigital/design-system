@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 08-05-PLAN.md
-last_updated: "2026-03-23T21:10:23.130Z"
+stopped_at: Completed 08-01-PLAN.md
+last_updated: "2026-03-23T21:12:13.594Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
   completed_phases: 6
   total_plans: 83
-  completed_plans: 79
+  completed_plans: 80
   percent: 0
 ---
 
@@ -109,6 +109,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 08-build-distribution P04 | 6m | 1 tasks | 20 files |
 | Phase 08-build-distribution P03 | 15min | 1 tasks | 20 files |
 | Phase 08 P05 | 7m | 2 tasks | 18 files |
+| Phase 08-build-distribution P01 | 15 | 2 tasks | 19 files |
 
 ## Accumulated Context
 
@@ -231,6 +232,8 @@ Recent decisions affecting current work:
 - [Phase 08]: Introduction.mdx and Themes.mdx required no changes: pure CSS/variable reference with no Vue syntax
 - [Phase 08]: Toast.mdx updated to useToast() hook pattern replacing Vue inject('toast') API
 - [Phase 08]: Version.mdx updated to v2.0.0 React migration release with summary of v-model to value/onChange pattern change
+- [Phase 08-build-distribution]: ES2023 lib in tsconfig.lib.json enables findLastIndex natively; IconProps gains style/size/MouseEventHandler onClick; contentEditable placeholder replaced with data-placeholder
+- [Phase 08-build-distribution]: Carousel autoplay uses mutable refs for currentIndex/maxIndex to avoid functional updater on useControllable setModel; Breadcrumb FloatCard: open/onOpenChange -> value/onChange
 
 ### Pending Todos
 
@@ -245,6 +248,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-23T21:10:23.122Z
-Stopped at: Completed 08-05-PLAN.md
+Last session: 2026-03-23T21:12:13.590Z
+Stopped at: Completed 08-01-PLAN.md
 Resume file: None
