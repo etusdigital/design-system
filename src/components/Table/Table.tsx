@@ -126,7 +126,6 @@ export function Table({
     return map;
   });
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
-  const [allSelected, setAllSelected] = useState(false);
 
   const currentPage = page ?? 1;
   const currentItemsPerPage = itemsPerPage ?? 10;
@@ -145,6 +144,9 @@ export function Table({
         (currentPage - 1) * currentItemsPerPage,
         currentPage * currentItemsPerPage
       );
+
+  const allSelected = pagedItems.length > 0 && selectedRows.size === pagedItems.length;
+  const someSelected = selectedRows.size > 0 && selectedRows.size < pagedItems.length;
 
   const min =
     currentPage === 1
@@ -187,7 +189,6 @@ export function Table({
     } else {
       setSelectedRows(new Set());
     }
-    setAllSelected(selectAll);
     onSelectAll?.(selectAll);
   };
 
@@ -204,12 +205,13 @@ export function Table({
           <thead>
             <tr>
               {enableAggregation && (
-                <th className={styles.aggregationTh} />
+                <th className={styles.aggregationTh} style={{ minWidth: '40px' }}>#</th>
               )}
               {enableSelection && (
                 <th className={styles.selectionTh}>
                   <Checkbox
-                    value={allSelected}
+                    value={allSelected ? true : someSelected ? null : false}
+                    allowIndeterminate
                     onChange={(v) => handleSelectAll(!!v)}
                   />
                 </th>

@@ -156,18 +156,51 @@ function updateSelection(
 // Selection check helper
 // ---------------------------------------------------------------------------
 
-function checkIsSelected(selectedValue: any, nodeValue: any, ctx: TreeContextValue): boolean {
+function getAllDescendantValues(options: DropOption[], valueKey: string): any[] {
+  const values: any[] = [];
+  for (const opt of options) {
+    values.push((opt as any)[valueKey]);
+    if (opt.options?.length) {
+      values.push(...getAllDescendantValues(opt.options, valueKey));
+    }
+  }
+  return values;
+}
+
+function checkIsSelected(selectedValue: any, nodeValue: any, ctx: TreeContextValue, option?: DropOption): boolean | null {
   if (ctx.multiple) {
     if (!Array.isArray(selectedValue)) return false;
-    if (ctx.getObject) {
-      return selectedValue.some(
-        (x: any) => getRawValue(x, ctx.valueKey) === nodeValue
-      );
+
+    const isValueMatch = (v: any) => {
+      if (ctx.getObject && typeof v === 'object' && v !== null) {
+        return (v as any)[ctx.valueKey] === nodeValue;
+      }
+      const raw = typeof v === 'object' && v !== null ? (v as any)[ctx.valueKey] : v;
+      return raw === nodeValue;
+    };
+
+    const directMatch = selectedValue.some(isValueMatch);
+    if (directMatch) return true;
+
+    // If this node has children, check for indeterminate state
+    if (option?.options?.length) {
+      const childValues = getAllDescendantValues(option.options, ctx.valueKey);
+      const isChildSelected = (cv: any) =>
+        selectedValue.some((v: any) => {
+          if (ctx.getObject && typeof v === 'object' && v !== null) {
+            return (v as any)[ctx.valueKey] === cv;
+          }
+          const raw = typeof v === 'object' && v !== null ? (v as any)[ctx.valueKey] : v;
+          return raw === cv;
+        });
+
+      const someSelected = childValues.some(isChildSelected);
+      const allSelected = childValues.length > 0 && childValues.every(isChildSelected);
+      if (allSelected) return true;
+      if (someSelected) return null; // indeterminate
     }
-    return selectedValue.some((x: any) => {
-      const v = typeof x === 'object' && x !== null ? (x as any)[ctx.valueKey] : x;
-      return v === nodeValue;
-    });
+
+    return false;
   } else {
     if (ctx.getObject && typeof selectedValue === 'object' && selectedValue !== null) {
       return (selectedValue as any)[ctx.valueKey] === nodeValue;
@@ -186,14 +219,14 @@ function TreeNode({ option, depth = 0 }: { option: DropOption; depth?: number })
   const nodeLabel = (option as any)[ctx.labelKey];
   const isExpanded = ctx.expandedNodes.has(nodeValue);
   const hasChildren = Boolean(option.options && option.options.length > 0);
-  const isSelected = checkIsSelected(ctx.selectedValue, nodeValue, ctx);
+  const isSelected = checkIsSelected(ctx.selectedValue, nodeValue, ctx, option);
 
   return (
     <div className={styles.treeOption} style={{ paddingLeft: depth * 16 }}>
       <div
         className={clsx(
           styles.nodeRow,
-          isSelected && styles.selected,
+          isSelected === true && styles.selected,
           (ctx.disabled || option.disabled) && styles.disabled
         )}
         onClick={() => {
@@ -217,9 +250,13 @@ function TreeNode({ option, depth = 0 }: { option: DropOption; depth?: number })
             value={isSelected}
             onChange={() => {}}
             disabled={ctx.disabled || option.disabled}
+            allowIndeterminate
           />
         )}
-        <span className={clsx(styles.nodeLabel, isSelected && styles.nodeLabelSelected)}>
+        {option.icon && (
+          <Icon name={option.icon} />
+        )}
+        <span className={clsx(styles.nodeLabel, isSelected === true && styles.nodeLabelSelected)}>
           {nodeLabel}
         </span>
       </div>
