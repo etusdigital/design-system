@@ -7,6 +7,9 @@ import { Icon } from '../Icon';
 import { Select } from '../Select';
 import { Colors } from './Colors';
 import styles from './RichTextEditor.module.css';
+import { Dialog } from '../Dialog';
+import { Button } from '../Button';
+import { Tooltip } from '../Tooltip';
 
 interface RichTextEditorProps {
   value?: string;
@@ -609,15 +612,17 @@ export function RichTextEditor({
     action?: () => void
   ) {
     return (
-      <button
-        key={command}
-        className={clsx(styles.toolbarBtn, activeStates[command] && styles.toolbarBtnActive)}
-        title={title}
-        onMouseDown={(e) => { e.preventDefault(); saveCurrentSelection(); }}
-        onClick={() => action ? action() : execFormatCommand(command)}
-      >
-        <Icon name={icon} />
-      </button>
+      <Tooltip position="bottom" labelValue={title}>
+        <button
+          key={command}
+          className={clsx(styles.toolbarBtn, activeStates[command] && styles.toolbarBtnActive)}
+          title={title}
+          onMouseDown={(e) => { e.preventDefault(); saveCurrentSelection(); }}
+          onClick={() => action ? action() : execFormatCommand(command)}
+        >
+          <Icon name={icon} />
+        </button>
+      </Tooltip>
     );
   }
 
@@ -671,7 +676,6 @@ export function RichTextEditor({
             onChange={handleFontSizeUpdate}
             options={FONT_SIZES.map((s) => ({ label: String(s), value: s }))}
             disabled={disabled}
-            className={styles.fontSizeSelect}
           />
         </div>
 
@@ -792,8 +796,7 @@ export function RichTextEditor({
       />
 
       {/* Link Dialog */}
-      {showLinkDialog && (
-        <div className={styles.linkDialog}>
+      <Dialog value={showLinkDialog} onChange={setShowLinkDialog}>
           <div className={styles.linkDialogContent}>
             <input
               type="text"
@@ -813,23 +816,24 @@ export function RichTextEditor({
               className={styles.linkInput}
             />
             <div className={styles.linkDialogActions}>
-              <button
+              <Button
                 className={styles.linkCancelBtn}
+                variant="plain"
+                color="neutral"
                 onClick={() => { setShowLinkDialog(false); setLinkUrl(''); setLinkText(''); }}
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 className={styles.linkInsertBtn}
                 disabled={!linkUrl.trim()}
                 onClick={handleInsertLink}
               >
                 Insert Link
-              </button>
+              </Button>
             </div>
           </div>
-        </div>
-      )}
+      </Dialog>
 
       {hasError && errorMessage && (
         <small className={styles.errorMessage}>{errorMessage}</small>

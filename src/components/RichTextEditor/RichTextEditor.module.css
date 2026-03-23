@@ -22,7 +22,7 @@
 }
 
 .toolbarBtn {
-  @apply flex items-center justify-center p-xxs rounded-sm cursor-pointer bg-transparent border-none text-neutral-foreground-low;
+  @apply relative flex items-center justify-center p-xxs rounded-sm cursor-pointer bg-transparent border-none text-neutral-foreground-low;
   @apply hover:bg-neutral-surface-highlight transition-colors;
 }
 
@@ -32,10 +32,6 @@
 
 .toolbarBtnActive {
   @apply bg-primary-surface-default text-primary-interaction-default;
-}
-
-.fontSizeSelect {
-  @apply w-20;
 }
 
 /* Editor content area */
@@ -163,10 +159,6 @@
 }
 
 /* Link dialog */
-.linkDialog {
-  @apply fixed inset-0 z-50 flex items-center justify-center bg-black/30;
-}
-
 .linkDialogContent {
   @apply flex flex-col gap-sm p-base bg-neutral-surface-default rounded-base shadow-lg;
   min-width: 400px;
@@ -179,18 +171,4 @@
 
 .linkDialogActions {
   @apply flex justify-end gap-sm;
-}
-
-.linkCancelBtn {
-  @apply px-base py-xs rounded-sm border-xxs border-neutral-default bg-transparent cursor-pointer;
-  @apply hover:bg-neutral-surface-highlight;
-}
-
-.linkInsertBtn {
-  @apply px-base py-xs rounded-sm bg-primary-interaction-default text-neutral-foreground-negative cursor-pointer border-none;
-  @apply hover:bg-primary-interaction-hover;
-}
-
-.linkInsertBtn:disabled {
-  @apply opacity-40 pointer-events-none;
 }
