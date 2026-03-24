@@ -222,7 +222,11 @@ Plans:
   1. Storybook builds without errors and shows a story for every one of the 57 components
   2. All 12 form components have RTL tests covering at least controlled mode, uncontrolled mode, and ref forwarding
   3. A visual comparison pass (manual or Chromatic) confirms no component differs visually from the Vue version
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 09-01-PLAN.md — Add test scripts to package.json, baseline vitest run, build-storybook gate
+- [ ] 09-02-PLAN.md — Add missing form component test scenarios (controlled/uncontrolled/ref)
 
 ## Progress
 
@@ -239,4 +243,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9
 | 6. Composite Components | 30/33 | Test gap closure |  |
 | 7. Complex Components | 12/12 | Complete   | 2026-03-23 |
 | 8. Build & Distribution | 6/6 | Complete   | 2026-03-24 |
-| 9. Documentation & Testing | 0/TBD | Not started | - |
+| 9. Documentation & Testing | 0/2 | Planned | - |
