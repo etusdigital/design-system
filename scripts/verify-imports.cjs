@@ -81,6 +81,68 @@ check('No "@vitejs/plugin-vue" in any dependency field', !allDeps['@vitejs/plugi
 check('react not in dependencies (peerDeps only)', !pkg.dependencies?.react);
 check('Version is 2.0.0', pkg.version === '2.0.0');
 
+// 9. Type Declaration Checks
+console.log('\n--- Type Declaration Checks ---');
+let dtsErrors = 0;
+
+// Check main.d.ts has real re-exports
+const mainDtsPath = path.join(libDir, 'main.d.ts');
+if (fs.existsSync(mainDtsPath)) {
+  const mainDts = fs.readFileSync(mainDtsPath, 'utf-8');
+  if (!mainDts.includes('export')) {
+    console.error('  FAIL: lib/main.d.ts has no exports');
+    dtsErrors++;
+  } else {
+    console.log('  PASS: lib/main.d.ts has exports');
+  }
+} else {
+  console.error('  FAIL: lib/main.d.ts does not exist');
+  dtsErrors++;
+}
+
+// Spot-check per-component .d.ts files have real content (not just "export {}")
+const dtsSpotCheckComponents = ['Button', 'Input', 'Select', 'Dialog', 'Table'];
+for (const comp of dtsSpotCheckComponents) {
+  const dtsPath = path.join(libDir, 'components', comp, 'index.d.ts');
+  if (!fs.existsSync(dtsPath)) {
+    console.error(`  FAIL: ${dtsPath} does not exist`);
+    dtsErrors++;
+    continue;
+  }
+  const content = fs.readFileSync(dtsPath, 'utf-8');
+  if (content.trim() === 'export {}' || content.length < 20) {
+    console.error(`  FAIL: lib/components/${comp}/index.d.ts is empty stub (${content.length} bytes)`);
+    dtsErrors++;
+  } else if (!content.includes(comp)) {
+    console.error(`  FAIL: lib/components/${comp}/index.d.ts does not contain '${comp}'`);
+    dtsErrors++;
+  } else {
+    console.log(`  PASS: lib/components/${comp}/index.d.ts has real types (${content.length} bytes)`);
+  }
+}
+
+// Check hook .d.ts
+const hookDtsPath = path.join(libDir, 'hooks', 'useControllable.d.ts');
+if (fs.existsSync(hookDtsPath)) {
+  const hookContent = fs.readFileSync(hookDtsPath, 'utf-8');
+  if (hookContent.trim() === 'export {}' || hookContent.length < 20) {
+    console.error(`  FAIL: lib/hooks/useControllable.d.ts is empty stub`);
+    dtsErrors++;
+  } else {
+    console.log(`  PASS: lib/hooks/useControllable.d.ts has real types (${hookContent.length} bytes)`);
+  }
+} else {
+  console.error(`  FAIL: lib/hooks/useControllable.d.ts does not exist`);
+  dtsErrors++;
+}
+
+if (dtsErrors > 0) {
+  console.error(`\n  ${dtsErrors} type declaration error(s) found`);
+  failures += dtsErrors;
+} else {
+  console.log('\n  All type declaration checks passed');
+}
+
 // Summary
 console.log(`\n=== Results: ${failures === 0 ? 'ALL PASSED' : failures + ' FAILURE(S)'} ===\n`);
 process.exit(failures === 0 ? 0 : 1);
