@@ -50,11 +50,17 @@ const generateMainDts = () => ({
   name: 'generate-main-dts',
   writeBundle() {
     try {
-      const mainDtsContent = `
-        export * from './index'
-        import DesignSystem from './index'
-        export default DesignSystem
-      `;
+      const mainDtsContent = [
+        "export * from './components';",
+        "export { useControllable } from './hooks/useControllable';",
+        "export type { UseControllableOptions } from './hooks/useControllable';",
+        "export { useTransition } from './hooks/useTransition';",
+        "export type { UseTransitionOptions } from './hooks/useTransition';",
+        "export { DesignSystemProvider } from './providers';",
+        "export { ConfirmProvider, useConfirm } from './components/Confirm';",
+        "export { ToastProvider, useToast } from './components/Toast';",
+        "",
+      ].join('\n');
       writeFileSync(resolve('lib/main.d.ts'), mainDtsContent);
     } catch (error) {
       console.warn('Could not generate main.d.ts:', error);
@@ -71,7 +77,7 @@ export default defineConfig({
     copyTailwindConfig(),
     generateMainDts(),
     dts({
-      insertTypesEntry: true,
+      tsconfigPath: './tsconfig.dts.json',
       outDir: 'lib',
       include: ['src/**/*'],
       exclude: ['src/**/*.stories.ts', 'src/**/*.stories.tsx', 'src/**/*.test.ts', 'src/**/*.test.tsx', 'vite.config.ts'],
