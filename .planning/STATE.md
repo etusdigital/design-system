@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 08-02-PLAN.md
-last_updated: "2026-03-23T21:20:18.487Z"
+stopped_at: Completed 08-06-PLAN.md
+last_updated: "2026-03-24T15:34:10.638Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
   completed_phases: 7
-  total_plans: 83
-  completed_plans: 81
+  total_plans: 84
+  completed_plans: 82
   percent: 0
 ---
 
@@ -111,6 +111,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 08 P05 | 7m | 2 tasks | 18 files |
 | Phase 08-build-distribution P01 | 15 | 2 tasks | 19 files |
 | Phase 08-build-distribution P02 | 6m | 2 tasks | 5 files |
+| Phase 08-build-distribution P06 | 3min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -237,6 +238,8 @@ Recent decisions affecting current work:
 - [Phase 08-build-distribution]: Carousel autoplay uses mutable refs for currentIndex/maxIndex to avoid functional updater on useControllable setModel; Breadcrumb FloatCard: open/onOpenChange -> value/onChange
 - [Phase 08-build-distribution]: UMD format requires single entry: separate vite.umd.config.ts; build:lib runs both builds sequentially
 - [Phase 08-build-distribution]: react/react-dom moved to peerDependencies only; tailwindcss/* moved to devDependencies; version bumped to 2.0.0
+- [Phase 08-build-distribution]: tsconfig.dts.json overrides noEmit:false and verbatimModuleSyntax:false so vite-plugin-dts generates real declarations
+- [Phase 08-build-distribution]: dts() plugin uses tsconfigPath pointing at tsconfig.dts.json; generateMainDts re-exports from ./components not ./index
 
 ### Pending Todos
 
@@ -251,6 +254,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-23T21:20:18.483Z
-Stopped at: Completed 08-02-PLAN.md
+Last session: 2026-03-24T15:34:10.635Z
+Stopped at: Completed 08-06-PLAN.md
 Resume file: None
