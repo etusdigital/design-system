@@ -39,23 +39,18 @@ created: 2026-03-24
 
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 09-01-01 | 01 | 0 | TEST-02 | config | `npm test` | ❌ W0 | ⬜ pending |
-| 09-01-02 | 01 | 0 | TEST-02 | unit | `vitest run --project unit` | ✅ (partial) | ⬜ pending |
-| 09-02-01 | 02 | 1 | TEST-02 | unit | `vitest run --project unit` | ✅ | ⬜ pending |
-| 09-02-02 | 02 | 1 | TEST-02 | unit | `vitest run --project unit` | ✅ | ⬜ pending |
-| 09-02-03 | 02 | 1 | TEST-02 | unit | `vitest run --project unit` | ✅ | ⬜ pending |
-| 09-02-04 | 02 | 1 | TEST-02 | unit | `vitest run --project unit` | ✅ | ⬜ pending |
-| 09-03-01 | 03 | 2 | TEST-01 | build | `npm run build-storybook` | N/A | ⬜ pending |
-| 09-03-02 | 03 | 2 | TEST-03 | build | `npm run build-storybook` | N/A | ⬜ pending |
+| 09-01-01 | 01 | 1 | TEST-01, TEST-03 | config + build | `npm test` and `npm run build-storybook` | N/A | pending |
+| 09-02-01 | 02 | 2 | TEST-02 | unit | `vitest run --project unit` | yes | pending |
+| 09-02-02 | 02 | 2 | TEST-02 | unit | `vitest run --project unit` | yes | pending |
 
-*Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
+*Status: pending / green / red / flaky*
 
 ---
 
 ## Wave 0 Requirements
 
-- [ ] `package.json` — add `"test": "vitest run"` and `"test:watch": "vitest"` scripts
-- [ ] Baseline `vitest run --project unit` — confirm existing tests pass before writing new ones
+- [ ] `package.json` -- add `"test": "vitest run"` and `"test:watch": "vitest"` scripts
+- [ ] Baseline `npm test` -- confirm existing tests pass before writing new ones
 
 *All test files exist; only gaps are missing test cases within existing files and the package.json scripts.*
 
