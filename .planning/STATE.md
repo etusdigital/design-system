@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 9 context gathered
-last_updated: "2026-03-24T17:47:59.309Z"
+stopped_at: Completed 09-documentation-testing plan 01 - test baseline green
+last_updated: "2026-03-24T18:12:35.410Z"
 last_activity: 2026-03-13 — Roadmap created, ready to plan Phase 1
 progress:
   total_phases: 9
   completed_phases: 7
-  total_plans: 84
-  completed_plans: 82
+  total_plans: 86
+  completed_plans: 83
   percent: 0
 ---
 
@@ -112,6 +112,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 08-build-distribution P01 | 15 | 2 tasks | 19 files |
 | Phase 08-build-distribution P02 | 6m | 2 tasks | 5 files |
 | Phase 08-build-distribution P06 | 3min | 2 tasks | 3 files |
+| Phase 09-documentation-testing P01 | 2min | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -240,6 +241,7 @@ Recent decisions affecting current work:
 - [Phase 08-build-distribution]: react/react-dom moved to peerDependencies only; tailwindcss/* moved to devDependencies; version bumped to 2.0.0
 - [Phase 08-build-distribution]: tsconfig.dts.json overrides noEmit:false and verbatimModuleSyntax:false so vite-plugin-dts generates real declarations
 - [Phase 08-build-distribution]: dts() plugin uses tsconfigPath pointing at tsconfig.dts.json; generateMainDts re-exports from ./components not ./index
+- [Phase 09-documentation-testing]: npm test scoped to --project unit: bare vitest run triggers storybook project requiring Playwright; unit project covers all 68 test files
 
 ### Pending Todos
 
@@ -254,6 +256,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-24T17:47:59.303Z
-Stopped at: Phase 9 context gathered
-Resume file: .planning/phases/09-documentation-testing/09-CONTEXT.md
+Last session: 2026-03-24T18:12:35.405Z
+Stopped at: Completed 09-documentation-testing plan 01 - test baseline green
+Resume file: None
