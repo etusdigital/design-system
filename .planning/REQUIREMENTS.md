@@ -118,7 +118,7 @@ Requirements for the complete Vue-to-React migration. Each maps to roadmap phase
 ### Documentation & Testing
 
 - [x] **TEST-01**: Storybook stories migrated for all 57 components (.stories.tsx)
-- [ ] **TEST-02**: Component tests written with React Testing Library for all form components
+- [x] **TEST-02**: Component tests written with React Testing Library for all form components
 - [x] **TEST-03**: Visual output matches Vue version for all components
 
 ## v2 Requirements
