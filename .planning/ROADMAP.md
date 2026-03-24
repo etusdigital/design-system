@@ -204,14 +204,15 @@ Plans:
   2. TypeScript consumers get full type inference and autocomplete for all component props from the generated `.d.ts` files
   3. The Tailwind config is importable from the package (e.g., `import tailwindConfig from '@etus/design-system/tailwind'`)
   4. `npm publish --dry-run` completes without errors and the package manifest lists no Vue dependencies
-**Plans**: 5 plans
+**Plans**: 6 plans (5 complete + 1 gap closure)
 
 Plans:
-- [ ] 08-01-PLAN.md — Fix TypeScript type errors + purge Vue remnants (build gate)
-- [ ] 08-02-PLAN.md — Multi-entry build config + package.json + verification script + CI update
-- [ ] 08-03-PLAN.md — MDX documentation update batch 1 (Accordion through Dropdown)
-- [ ] 08-04-PLAN.md — MDX documentation update batch 2 (FileUpload through Separator)
-- [ ] 08-05-PLAN.md — MDX documentation update batch 3 (Sidebar through Tree + docs pages)
+- [x] 08-01-PLAN.md — Fix TypeScript type errors + purge Vue remnants (build gate)
+- [x] 08-02-PLAN.md — Multi-entry build config + package.json + verification script + CI update
+- [x] 08-03-PLAN.md — MDX documentation update batch 1 (Accordion through Dropdown)
+- [x] 08-04-PLAN.md — MDX documentation update batch 2 (FileUpload through Separator)
+- [x] 08-05-PLAN.md — MDX documentation update batch 3 (Sidebar through Tree + docs pages)
+- [ ] 08-06-PLAN.md — Gap closure: Fix empty .d.ts declarations (vite-plugin-dts tsconfig fix)
 
 ### Phase 9: Documentation & Testing
 **Goal**: Every component has a Storybook story and form components have RTL tests; visual output is verified to match the Vue version
@@ -237,5 +238,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9
 | 5. Providers | 4/4 | Complete   | 2026-03-17 |
 | 6. Composite Components | 30/33 | Test gap closure |  |
 | 7. Complex Components | 12/12 | Complete   | 2026-03-23 |
-| 8. Build & Distribution | 5/5 | Complete   | 2026-03-23 |
+| 8. Build & Distribution | 5/6 | Gap closure needed | - |
 | 9. Documentation & Testing | 0/TBD | Not started | - |
