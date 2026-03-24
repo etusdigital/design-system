@@ -69,4 +69,16 @@ describe('TagInput', () => {
 
     expect(screen.queryByText('Duplicated values are not allowed')).toBeNull();
   });
+
+  it('controlled mode: value prop renders tags, onChange fires on new tag', () => {
+    const handleChange = vi.fn();
+    render(<TagInput value={['existing']} onChange={handleChange} />);
+    // Controlled value renders as tag
+    expect(screen.getByText('existing')).toBeTruthy();
+    // Add a new tag
+    const textarea = document.querySelector('textarea')!;
+    fireEvent.change(textarea, { target: { value: 'newtag' } });
+    fireEvent.keyDown(textarea, { key: 'Enter' });
+    expect(handleChange).toHaveBeenCalled();
+  });
 });

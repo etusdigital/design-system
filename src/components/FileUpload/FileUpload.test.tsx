@@ -64,4 +64,19 @@ describe('FileUpload', () => {
     expect(onChange).toHaveBeenCalledWith(files);
     expect(screen.getByText('2 files selected')).toBeTruthy();
   });
+
+  it('controlled mode: value prop sets file, onChange fires on drop', () => {
+    const existingFile = new File(['content'], 'existing.pdf', { type: 'application/pdf' });
+    const handleChange = vi.fn();
+    render(<FileUpload value={existingFile} onChange={handleChange} />);
+    // Controlled value shows file name
+    expect(screen.getByText('existing.pdf')).toBeTruthy();
+    // Drop a new file onto the drop zone fires onChange
+    const newFile = new File(['new'], 'new-file.pdf', { type: 'application/pdf' });
+    const dropZone = document.querySelector('[class]') as HTMLElement;
+    fireEvent.drop(dropZone, {
+      dataTransfer: { files: [newFile] },
+    });
+    expect(handleChange).toHaveBeenCalledWith(newFile);
+  });
 });
