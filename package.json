@@ -37,7 +37,9 @@
     "local-link": "./scripts/local-link.sh",
     "local-link-windows": "./scripts/windows-elevate.bat",
     "prepublishOnly": "npm run build:lib",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "vitest run --project unit",
+    "test:watch": "vitest --project unit"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",

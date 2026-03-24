@@ -102,8 +102,8 @@ export function AutoComplete({
           <Input
             value={model}
             disabled={disabled}
-            is-error={isError}
-            info-message={infoMessage}
+            isError={isError}
+            infoMessage={infoMessage}
             placeholder={placeholder}
             appendIcon="unfold_more"
             onChange={setModel}
