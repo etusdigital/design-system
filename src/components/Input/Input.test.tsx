@@ -66,4 +66,10 @@ describe('Input', () => {
     const { getByText } = render(<Input isError errorMessage="Something went wrong" />);
     expect(getByText('Something went wrong')).toBeTruthy();
   });
+
+  it('renders with defaultValue in uncontrolled mode', () => {
+    const { container } = render(<Input defaultValue="initial" />);
+    const input = container.querySelector('input') as HTMLInputElement;
+    expect(input.value).toBe('initial');
+  });
 });

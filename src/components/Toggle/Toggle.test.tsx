@@ -1,5 +1,5 @@
 import { render, fireEvent } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
 import { Toggle } from './index';
 import { ToggleGroupContext } from '../ToggleGroup/ToggleGroup';
@@ -55,5 +55,12 @@ describe('Toggle', () => {
     );
     fireEvent.click(getByRole('button'));
     expect(select).toHaveBeenCalledWith('b');
+  });
+
+  it('controlled mode calls onChange on click', () => {
+    const handleChange = vi.fn();
+    const { getByRole } = render(<Toggle value={false} onChange={handleChange}>Label</Toggle>);
+    fireEvent.click(getByRole('button'));
+    expect(handleChange).toHaveBeenCalledWith(true);
   });
 });

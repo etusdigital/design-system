@@ -46,4 +46,13 @@ describe('Textarea', () => {
     render(<Textarea isError errorMessage="Something went wrong" />);
     expect(screen.getByText('Something went wrong')).toBeInTheDocument();
   });
+
+  it('manages own state in uncontrolled mode (no value prop)', () => {
+    const { container } = render(<Textarea />);
+    const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+    // Starts empty; internal state updates on input
+    expect(textarea.value).toBe('');
+    fireEvent.change(textarea, { target: { value: 'typed text' } });
+    expect(textarea.value).toBe('typed text');
+  });
 });

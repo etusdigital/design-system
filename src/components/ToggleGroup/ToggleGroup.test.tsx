@@ -1,5 +1,5 @@
 import { render, fireEvent } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import React from 'react';
 import { ToggleGroup } from './index';
 
@@ -62,5 +62,18 @@ describe('ToggleGroup', () => {
     );
     fireEvent.click(getAllByRole('button')[1]);
     expect(onChange).toHaveBeenCalledWith(2);
+  });
+
+  it('controlled mode: value prop controls selection, onChange fires on click', () => {
+    const handleChange = vi.fn();
+    const { getAllByRole } = render(
+      <ToggleGroup options={defaultOptions} value={1} onChange={handleChange} />
+    );
+    const buttons = getAllByRole('button');
+    // First button is active because value=1 matches first option
+    expect(buttons[0].getAttribute('aria-pressed')).toBe('true');
+    // Click second button
+    fireEvent.click(buttons[1]);
+    expect(handleChange).toHaveBeenCalledWith(2);
   });
 });
