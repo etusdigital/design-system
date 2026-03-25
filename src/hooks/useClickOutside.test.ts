@@ -16,7 +16,7 @@ describe('useClickOutside', () => {
   it('fires callback when mousedown is outside the ref element', () => {
     const callback = vi.fn();
 
-    const { result } = renderHook(() => {
+    renderHook(() => {
       const ref = useRef<HTMLElement | null>(null);
       useClickOutside([ref], callback);
       return ref;
@@ -50,7 +50,7 @@ describe('useClickOutside', () => {
       toJSON: () => ({}),
     });
 
-    const { result } = renderHook(() => {
+    renderHook(() => {
       const ref = useRef<HTMLElement | null>(element);
       useClickOutside([ref], callback);
       return ref;
@@ -70,7 +70,7 @@ describe('useClickOutside', () => {
   it('does NOT fire callback when enabled=false', () => {
     const callback = vi.fn();
 
-    const { result } = renderHook(() => {
+    renderHook(() => {
       const ref = useRef<HTMLElement | null>(null);
       useClickOutside([ref], callback, false);
       return ref;

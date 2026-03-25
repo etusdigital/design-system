@@ -1,5 +1,5 @@
-import React, { createRef, act } from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { createRef, act } from 'react';
+import { render, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { PINInput } from './index';
 import type { PINInputHandle } from './PINInput';

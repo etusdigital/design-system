@@ -27,7 +27,7 @@ export const Primary: Story = {
 };
 
 export const Positions: Story = {
-  render: (args) => (
+  render: () => (
     <div className="space-y-lg">
       <Separator position="left">Left</Separator>
       <Separator position="center">Center</Separator>

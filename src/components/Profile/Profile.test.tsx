@@ -4,7 +4,7 @@ import { Profile } from './Profile';
 
 describe('Profile', () => {
   it('renders without crashing', () => {
-    render(<Profile />);
+    render(<Profile name="John Doe" />);
     expect(document.body).toBeTruthy();
   });
 });

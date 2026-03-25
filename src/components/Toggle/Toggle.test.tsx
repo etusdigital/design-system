@@ -1,6 +1,5 @@
 import { render, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import React from 'react';
 import { Toggle } from './index';
 import { ToggleGroupContext } from '../ToggleGroup/ToggleGroup';
 

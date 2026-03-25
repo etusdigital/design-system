@@ -119,7 +119,6 @@ export const Searchable: Story = {
   },
   args: {
     labelValue: 'label',
-    searchable: true,
   },
 };
 
@@ -137,7 +136,6 @@ export const Absolute: Story = {
   },
   args: {
     labelValue: 'label',
-    absolute: true,
   },
 };
 

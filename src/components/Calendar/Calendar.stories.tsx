@@ -78,7 +78,7 @@ export const Period: Story = {
 
 export const Compare: Story = {
   render: (args) => {
-    const [value, setValue] = useState<Date[][] | undefined>(undefined);
+    const [value, setValue] = useState<Date | undefined>(undefined);
     return (
       <Calendar
         {...args}

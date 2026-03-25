@@ -1,4 +1,3 @@
-import React from 'react';
 import { act, fireEvent, render, renderHook, screen } from '@testing-library/react';
 import { beforeEach, afterEach, describe, it, expect, vi } from 'vitest';
 import { ConfirmProvider, useConfirm } from './Confirm';

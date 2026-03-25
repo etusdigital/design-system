@@ -1,8 +1,5 @@
-import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Navbar } from './Navbar';
-import { Button } from '../Button';
-import { Icon } from '../Icon/Icon';
 
 const meta = {
   component: Navbar,

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import React from 'react';
 import { Slider } from './index';
@@ -15,7 +15,7 @@ describe('Slider', () => {
   });
 
   it('renders track and cursor elements', () => {
-    const { container } = render(<Slider defaultValue={0.5} />);
+    const { container } = render(<Slider value={0.5} />);
     // Should render the slider container
     const slider = container.firstChild as HTMLElement;
     expect(slider).toBeTruthy();
@@ -26,7 +26,7 @@ describe('Slider', () => {
 
   it('forwards ref to container div', () => {
     const ref = React.createRef<HTMLDivElement>();
-    render(<Slider ref={ref} defaultValue={0.3} />);
+    render(<Slider ref={ref} value={0.3} />);
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
 
@@ -34,7 +34,7 @@ describe('Slider', () => {
     const addSpy = vi.spyOn(window, 'addEventListener');
     const removeSpy = vi.spyOn(window, 'removeEventListener');
 
-    const { unmount } = render(<Slider defaultValue={0.5} />);
+    const { unmount } = render(<Slider value={0.5} />);
     const addedCount = addSpy.mock.calls.filter(
       (call) => ['mousemove', 'mouseup', 'touchmove', 'touchend'].includes(call[0] as string)
     ).length;
@@ -49,14 +49,14 @@ describe('Slider', () => {
   });
 
   it('accepts size prop', () => {
-    const { container } = render(<Slider size="small" defaultValue={0.5} />);
+    const { container } = render(<Slider size="small" value={0.5} />);
     const slider = container.firstChild as HTMLElement;
     // The small CSS module class should be applied
     expect(slider.className).toContain('small');
   });
 
   it('renders two cursors in range mode', () => {
-    const { container } = render(<Slider isRange defaultValue={[0.2, 0.8]} />);
+    const { container } = render(<Slider isRange value={[0.2, 0.8]} />);
     const slider = container.firstChild as HTMLElement;
     const cursors = slider.querySelectorAll('[class*="cursor"]');
     expect(cursors.length).toBe(2);
@@ -101,13 +101,13 @@ describe('Slider', () => {
   });
 
   it('applies disabled class when disabled', () => {
-    const { container } = render(<Slider disabled defaultValue={0.5} />);
+    const { container } = render(<Slider disabled value={0.5} />);
     const slider = container.firstChild as HTMLElement;
     expect(slider.className).toContain('disabled');
   });
 
   it('applies vertical class when vertical', () => {
-    const { container } = render(<Slider vertical defaultValue={0.5} />);
+    const { container } = render(<Slider vertical value={0.5} />);
     const slider = container.firstChild as HTMLElement;
     expect(slider.className).toContain('vertical');
   });

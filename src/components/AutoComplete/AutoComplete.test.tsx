@@ -29,7 +29,7 @@ describe('AutoComplete', () => {
   it('calls onChange with selected value on option click', () => {
     const handleChange = vi.fn();
     const { container } = render(
-      <AutoComplete options={stringOptions} value={null} onChange={handleChange} />
+      <AutoComplete options={stringOptions} value={undefined} onChange={handleChange} />
     );
     openAutoComplete(container);
     // Options are portaled to document.body via FloatCard
@@ -42,7 +42,7 @@ describe('AutoComplete', () => {
 
   it('renders all options when opened', () => {
     const { container } = render(
-      <AutoComplete options={stringOptions} value={null} />
+      <AutoComplete options={stringOptions} value={undefined} />
     );
     openAutoComplete(container);
     const options = document.querySelectorAll('[role="option"]');
