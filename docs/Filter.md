@@ -65,9 +65,6 @@ Placeholder text for search input when searchable is enabled. Type: `string` (de
 #### searchable
 Enables search functionality within filter categories. Type: `boolean` (default: `false`)
 
-#### absolute
-Controls absolute positioning of the filter dropdown. Type: `boolean` (default: `false`)
-
 #### disabled
 Disables the filter interaction. Type: `boolean` (default: `false`)
 
