@@ -30,7 +30,7 @@ export default {
 type Story = StoryObj<typeof Switch>;
 
 export const Primary: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [on, setOn] = useState(false);
     return (
       <Switch
@@ -51,7 +51,7 @@ export const Primary: Story = {
 };
 
 export const RHS: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [on, setOn] = useState(false);
     return (
       <Switch
@@ -72,7 +72,7 @@ export const RHS: Story = {
 };
 
 export const Disabled: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <Switch
       id="disabled-switch"
       defaultValue={false}

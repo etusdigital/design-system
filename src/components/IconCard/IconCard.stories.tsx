@@ -40,7 +40,7 @@ const defaultArgs = {
 };
 
 export const Primary: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <IconCard className="w-fit" {...args}>
       <IconCard.TitleActions>
         <span className="text-neutral-interaction-default cursor-pointer hover:text-neutral-interaction-hover material-symbols-rounded icon">
@@ -65,7 +65,7 @@ export const Primary: Story = {
 };
 
 export const Default: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <IconCard {...args}>
       <IconCard.TitleActions>
         <span className="material-symbols-rounded icon cursor-pointer">visibility</span>
@@ -79,7 +79,7 @@ export const Default: Story = {
 };
 
 export const IsIconRound: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <IconCard {...args}>
       <IconCard.TitleActions>
         <span className="material-symbols-rounded icon cursor-pointer">visibility</span>

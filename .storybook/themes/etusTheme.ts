@@ -1,4 +1,4 @@
-import { create } from '@storybook/theming';
+import { create } from 'storybook/theming';
 import logo from './imgs/etus-logo.svg'
 
 export default create({

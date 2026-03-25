@@ -9,11 +9,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
-  render: (args) => <Skeleton {...args} />,
+  render: (args: any) => <Skeleton {...args} />,
 };
 
 export const Sizes: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <div className="flex flex-col gap-sm">
       <Skeleton {...args} className="h-sm" />
       <Skeleton {...args} className="h-xl" />

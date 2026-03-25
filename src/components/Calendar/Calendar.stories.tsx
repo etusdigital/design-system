@@ -32,7 +32,7 @@ export default meta;
 type Story = StoryObj<typeof Calendar>;
 
 export const Primary: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<Date | undefined>(undefined);
     return (
       <Calendar
@@ -47,7 +47,7 @@ export const Primary: Story = {
 };
 
 export const Lang: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<Date | undefined>(undefined);
     return (
       <Calendar
@@ -62,7 +62,7 @@ export const Lang: Story = {
 };
 
 export const Period: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<Date[] | undefined>(undefined);
     return (
       <Calendar
@@ -77,7 +77,7 @@ export const Period: Story = {
 };
 
 export const Compare: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<Date | undefined>(undefined);
     return (
       <Calendar
@@ -92,7 +92,7 @@ export const Compare: Story = {
 };
 
 export const DoubleCalendar: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<Date | undefined>(undefined);
     return (
       <Calendar
@@ -106,7 +106,7 @@ export const DoubleCalendar: Story = {
 };
 
 export const MinDate: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<Date | undefined>(undefined);
     return (
       <Calendar
@@ -122,7 +122,7 @@ export const MinDate: Story = {
 };
 
 export const MaxDate: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<Date | undefined>(undefined);
     return (
       <Calendar

@@ -38,7 +38,7 @@ const defaultArgs = {
 };
 
 export const Primary: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <ActionCard className="w-fit" {...args}>
       Label
     </ActionCard>
@@ -47,7 +47,7 @@ export const Primary: Story = {
 };
 
 export const HideDrag: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <ActionCard className="w-fit" {...args}>
       Label
     </ActionCard>
@@ -59,7 +59,7 @@ export const HideDrag: Story = {
 };
 
 export const Card: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <ActionCard className="w-fit" icon="mail" color={args.color} hideDrag={args.hideDrag}>
       <div className="flex justify-between items-center text-white w-full">
         <div className="flex flex-col text-sm">

@@ -38,12 +38,12 @@ const defaultArgs = {
 };
 
 export const Primary: Story = {
-  render: (args) => <Avatar {...args} />,
+  render: (args: any) => <Avatar {...args} />,
   args: defaultArgs,
 };
 
 export const noSrc: Story = {
-  render: (args) => <Avatar {...args} />,
+  render: (args: any) => <Avatar {...args} />,
   args: {
     ...defaultArgs,
     src: undefined,
@@ -51,7 +51,7 @@ export const noSrc: Story = {
 };
 
 export const Sizes: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <div className="flex gap-xs">
       {(['small', 'medium', 'large'] as const).map((size) => (
         <Avatar key={size} {...args} size={size} />

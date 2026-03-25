@@ -67,7 +67,7 @@ const defaultOptions = [
 ];
 
 export const Primary: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<Record<string, any[]>>({});
     return (
       <Filter
@@ -88,7 +88,7 @@ export const Primary: Story = {
 };
 
 export const Disabled: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<Record<string, any[]>>({});
     return (
       <Filter
@@ -106,7 +106,7 @@ export const Disabled: Story = {
 };
 
 export const Searchable: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<Record<string, any[]>>({});
     return (
       <Filter
@@ -124,7 +124,7 @@ export const Searchable: Story = {
 };
 
 export const IsError: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<Record<string, any[]>>({});
     return (
       <Filter

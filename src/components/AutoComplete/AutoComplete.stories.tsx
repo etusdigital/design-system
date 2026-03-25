@@ -47,7 +47,7 @@ type Story = StoryObj<typeof AutoComplete>;
 const defaultOptions = ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5'];
 
 export const Primary: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(undefined);
     return (
       <AutoComplete
@@ -70,7 +70,7 @@ export const Primary: Story = {
 };
 
 export const Absolute: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(undefined);
     return (
       <AutoComplete
@@ -86,7 +86,7 @@ export const Absolute: Story = {
 };
 
 export const Required: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(undefined);
     return (
       <AutoComplete
@@ -103,7 +103,7 @@ export const Required: Story = {
 };
 
 export const Disabled: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(undefined);
     return (
       <AutoComplete
@@ -120,7 +120,7 @@ export const Disabled: Story = {
 };
 
 export const IsError: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(undefined);
     return (
       <AutoComplete
@@ -138,7 +138,7 @@ export const IsError: Story = {
 };
 
 export const InfoMessage: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(undefined);
     return (
       <AutoComplete

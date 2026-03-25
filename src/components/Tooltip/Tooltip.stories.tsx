@@ -36,7 +36,7 @@ const defaultArgs = {
 
 export const Primary: Story = {
   args: defaultArgs,
-  render: (args) => (
+  render: (args: any) => (
     <Tooltip {...args}>
       <span>Hover me</span>
     </Tooltip>
@@ -45,7 +45,7 @@ export const Primary: Story = {
 
 export const Positions: Story = {
   args: defaultArgs,
-  render: (args) => (
+  render: (args: any) => (
     <div style={{ display: 'flex', gap: '16px' }}>
       <Tooltip labelValue={args.labelValue} position="right">
         <span>Right</span>
@@ -65,7 +65,7 @@ export const Positions: Story = {
 
 export const Label: Story = {
   args: defaultArgs,
-  render: (args) => (
+  render: (args: any) => (
     <Tooltip position={args.position}>
       <span>Rich tooltip</span>
       <Tooltip.Label>

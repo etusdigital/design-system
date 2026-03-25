@@ -74,7 +74,7 @@ type Story = StoryObj<typeof Select>;
 const defaultOptions = ['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5'];
 
 export const Primary: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(null);
     return (
       <Select
@@ -105,7 +105,7 @@ export const Primary: Story = {
 };
 
 export const Disabled: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(null);
     return (
       <Select
@@ -123,7 +123,7 @@ export const Disabled: Story = {
 };
 
 export const Required: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(null);
     return (
       <Select
@@ -141,7 +141,7 @@ export const Required: Story = {
 };
 
 export const Searchable: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(null);
     return (
       <Select
@@ -159,7 +159,7 @@ export const Searchable: Story = {
 };
 
 export const Clearable: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(null);
     return (
       <Select
@@ -177,7 +177,7 @@ export const Clearable: Story = {
 };
 
 export const Multiple: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(null);
     return (
       <Select
@@ -200,7 +200,7 @@ export const Multiple: Story = {
 };
 
 export const Secondary: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(null);
     return (
       <Select
@@ -218,7 +218,7 @@ export const Secondary: Story = {
 };
 
 export const IsError: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(null);
     return (
       <Select
@@ -237,7 +237,7 @@ export const IsError: Story = {
 };
 
 export const InfoMessage: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(null);
     return (
       <Select
@@ -255,7 +255,7 @@ export const InfoMessage: Story = {
 };
 
 export const CustomOption: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(null);
     const options = [
       { label: 'Brazil', value: 'br', flag: '🇧🇷' },

@@ -83,7 +83,7 @@ export const Primary: Story = {
 };
 
 export const Types: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <div className="flex flex-col gap-xs">
       {(['primary', 'info', 'success', 'warning', 'danger', 'neutral'] as const).map((type) => (
         <ProgressBar key={type} {...args} type={type} />
@@ -94,7 +94,7 @@ export const Types: Story = {
 };
 
 export const Sizes: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <div className="flex flex-col gap-xs">
       {(['small', 'medium', 'large'] as const).map((size) => (
         <ProgressBar key={size} {...args} size={size} />
@@ -113,7 +113,7 @@ export const Steps: Story = {
 };
 
 export const AnimationTypes: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <div className="flex flex-col gap-xs">
       {(['indeterminate', 'query'] as const).map((animationType) => (
         <ProgressBar key={animationType} {...args} animationType={animationType} />
@@ -124,7 +124,7 @@ export const AnimationTypes: Story = {
 };
 
 export const DisplayPercentage: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <div className="flex flex-col gap-xs">
       {(['center', 'bar'] as const).map((displayPercentage) => (
         <ProgressBar key={displayPercentage} {...args} displayPercentage={displayPercentage} />
@@ -150,7 +150,7 @@ export const NeutralBackground: Story = {
 };
 
 export const IconSlot: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <ProgressBar
       {...args}
       displayPercentage="bar"

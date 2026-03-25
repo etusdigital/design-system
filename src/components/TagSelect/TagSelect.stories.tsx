@@ -58,7 +58,7 @@ export default meta;
 type Story = StoryObj<typeof TagSelect>;
 
 export const Primary: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any[]>(undefined as any);
     return (
       <TagSelect
@@ -84,7 +84,7 @@ export const Primary: Story = {
 };
 
 export const Icon: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any[]>(undefined as any);
     return (
       <TagSelect
@@ -109,7 +109,7 @@ export const Icon: Story = {
 };
 
 export const Searchable: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any[]>([]);
     return (
       <TagSelect
@@ -131,7 +131,7 @@ export const Searchable: Story = {
 };
 
 export const Creatable: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any[]>([]);
     return (
       <TagSelect
@@ -149,7 +149,7 @@ export const Creatable: Story = {
 };
 
 export const Disabled: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any[]>(undefined as any);
     return (
       <TagSelect
@@ -167,7 +167,7 @@ export const Disabled: Story = {
 };
 
 export const Required: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any[]>(undefined as any);
     return (
       <TagSelect
@@ -185,7 +185,7 @@ export const Required: Story = {
 };
 
 export const IsError: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any[]>(undefined as any);
     return (
       <TagSelect
@@ -204,7 +204,7 @@ export const IsError: Story = {
 };
 
 export const InfoMessage: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any[]>(undefined as any);
     return (
       <TagSelect

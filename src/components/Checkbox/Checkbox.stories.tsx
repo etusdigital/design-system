@@ -38,7 +38,7 @@ export default {
 type Story = StoryObj<typeof Checkbox>;
 
 export const Primary: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [checked, setChecked] = useState<boolean | null>(false);
     return (
       <Checkbox
@@ -61,7 +61,7 @@ export const Primary: Story = {
 };
 
 export const RHS: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [checked, setChecked] = useState<boolean | null>(false);
     return (
       <Checkbox
@@ -84,7 +84,7 @@ export const RHS: Story = {
 };
 
 export const AllowIndeterminate: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [checked, setChecked] = useState<boolean | null>(false);
     return (
       <Checkbox
@@ -107,7 +107,7 @@ export const AllowIndeterminate: Story = {
 };
 
 export const Disabled: Story = {
-  render: (args) => (
+  render: (args: any) => (
     <Checkbox
       id="disabled-checkbox"
       defaultValue={false}

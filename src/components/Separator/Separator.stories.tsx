@@ -22,7 +22,7 @@ const defaultArgs = {
 };
 
 export const Primary: Story = {
-  render: (args) => <Separator {...args}>Separator</Separator>,
+  render: (args: any) => <Separator {...args}>Separator</Separator>,
   args: defaultArgs,
 };
 

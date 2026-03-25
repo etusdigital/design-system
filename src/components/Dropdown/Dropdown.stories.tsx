@@ -94,7 +94,7 @@ const defaultOptions: DropdownOptionItem[] = [
 ];
 
 export const Primary: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(undefined);
     return (
       <Dropdown
@@ -116,7 +116,7 @@ export const Primary: Story = {
 };
 
 export const Disabled: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(undefined);
     return (
       <Dropdown
@@ -134,7 +134,7 @@ export const Disabled: Story = {
 };
 
 export const Required: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(undefined);
     return (
       <Dropdown
@@ -152,7 +152,7 @@ export const Required: Story = {
 };
 
 export const Searchable: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(undefined);
     return (
       <Dropdown
@@ -170,7 +170,7 @@ export const Searchable: Story = {
 };
 
 export const IsError: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(undefined);
     return (
       <Dropdown
@@ -189,7 +189,7 @@ export const IsError: Story = {
 };
 
 export const InfoMessage: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(undefined);
     return (
       <Dropdown
@@ -207,7 +207,7 @@ export const InfoMessage: Story = {
 };
 
 export const GetObject: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(undefined);
     return (
       <Dropdown
@@ -225,7 +225,7 @@ export const GetObject: Story = {
 };
 
 export const CustomTrigger: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(undefined);
     return (
       <Dropdown
@@ -258,7 +258,7 @@ const groupOptions: DropdownOptionItem[] = [
 ];
 
 export const WithGroups: Story = {
-  render: (args) => {
+  render: (args: any) => {
     const [value, setValue] = useState<any>(undefined);
     return (
       <Dropdown
