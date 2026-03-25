@@ -1,7 +1,7 @@
 @reference "../../assets/main.css";
 
 .optionItem {
-  @apply px-base py-sm text-sm font-normal whitespace-nowrap cursor-pointer flex items-center gap-xs;
+  @apply text-neutral-interaction-default px-base py-sm text-sm font-normal whitespace-nowrap cursor-pointer flex items-center gap-xs;
   @apply hover:bg-primary-surface-hover hover:text-primary-interaction-hover;
 }
 .optionItem.selected { @apply text-primary-interaction-selected bg-primary-surface-default; }

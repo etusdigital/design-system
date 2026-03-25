@@ -119,23 +119,7 @@ export const Searchable: Story = {
   },
   args: {
     labelValue: 'label',
-  },
-};
-
-export const Absolute: Story = {
-  render: (args) => {
-    const [value, setValue] = useState<Record<string, any[]>>({});
-    return (
-      <Filter
-        {...args}
-        value={value}
-        onChange={setValue}
-        options={defaultOptions}
-      />
-    );
-  },
-  args: {
-    labelValue: 'label',
+    searchable: true
   },
 };
 

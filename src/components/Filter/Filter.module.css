@@ -22,3 +22,12 @@
 .subOptionLabel { @apply text-sm font-normal; }
 
 .actions { @apply flex justify-end gap-xs px-sm py-xs; }
+
+.searchBox { @apply flex items-center gap-xs px-sm py-xs border-b-xxs border-neutral-default; }
+
+.searchInput {
+  @apply flex-1 text-sm bg-transparent outline-none;
+  @apply text-neutral-foreground-high placeholder:text-neutral-foreground-low;
+}
+
+.searchClear { @apply flex items-center text-neutral-foreground-low cursor-pointer hover:text-neutral-foreground-high; }

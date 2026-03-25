@@ -17,6 +17,8 @@ export interface FilterProps {
   labelKey?: string;
   valueKey?: string;
   disabled?: boolean;
+  searchable?: boolean;
+  searchLabel?: string;
   labelValue?: string;
   clearLabel?: string;
   applyLabel?: string;
@@ -35,6 +37,8 @@ export function Filter({
   labelKey = 'label',
   valueKey = 'value',
   disabled = false,
+  searchable = false,
+  searchLabel = 'Search...',
   labelValue = '',
   clearLabel = 'Clear selection',
   applyLabel = 'Apply filters',
@@ -51,6 +55,7 @@ export function Filter({
 
   const [expanded, setExpanded] = useState(false);
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
+  const [searchText, setSearchText] = useState('');
 
   const currentModel: Record<string, any[]> = model ?? {};
 
@@ -108,11 +113,55 @@ export function Filter({
     0
   );
 
+  const searchLower = searchText.toLowerCase();
+
+  const filteredCategories = searchable && searchText
+    ? options
+        .map((category) => {
+          const categoryLabel = getLabel(category).toLowerCase();
+          const matchingSubOptions = category.options.filter((sub) =>
+            getLabel(sub).toLowerCase().includes(searchLower)
+          );
+          // Show category if its label matches or any sub-option matches
+          if (categoryLabel.includes(searchLower) || matchingSubOptions.length > 0) {
+            return {
+              ...category,
+              options: categoryLabel.includes(searchLower) ? category.options : matchingSubOptions,
+            };
+          }
+          return null;
+        })
+        .filter(Boolean) as typeof options
+    : options;
+
   const optionsNode = (
     <div className="w-full">
-      {options.map((category) => {
+      {searchable && (
+        <div className={styles.searchBox}>
+          <Icon name="search" className="text-lg text-neutral-foreground-low" />
+          <input
+            type="text"
+            className={styles.searchInput}
+            placeholder={searchLabel}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+          {searchText && (
+            <button
+              className={styles.searchClear}
+              onClick={() => setSearchText('')}
+              aria-label="Clear search"
+              type="button"
+            >
+              <Icon name="close" className="text-base" />
+            </button>
+          )}
+        </div>
+      )}
+      {filteredCategories.map((category) => {
         const key = getCategoryKey(category);
-        const isExpanded = !!expandedCategories[key];
+        const isSearching = searchable && !!searchText;
+        const isExpanded = isSearching || !!expandedCategories[key];
         const categorySelectedCount = (currentModel[key] ?? []).length;
 
         return (
