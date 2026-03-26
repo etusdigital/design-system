@@ -4,12 +4,22 @@ import { checkPath, isObject } from '../../utils';
 import { type Option as SidebarOptionType } from '../../utils/types/SidebarOption';
 import styles from './Sidebar.module.css';
 
-// ─── react-router-dom auto-detection ───────────────────────────────────────
+// ─── Router link auto-detection ──────────────────────────────────────────────
 let RouterLink: React.ComponentType<any> | null = null;
+let linkPropName: 'to' | 'href' = 'to';
 try {
   RouterLink = require('react-router-dom').Link;
+  linkPropName = 'to';
 } catch {
-  // Fall back to <a>
+  // react-router-dom not available
+}
+if (!RouterLink) {
+  try {
+    RouterLink = require('next/link');
+    linkPropName = 'href';
+  } catch {
+    // next/link not available — fall back to <a>
+  }
 }
 
 // ─── Context ────────────────────────────────────────────────────────────────
@@ -112,7 +122,7 @@ function SidebarSubOption({ option, depth, parentPath = '' }: SidebarSubOptionPr
     wrapper = content;
   } else if (RouterLink && option.path) {
     wrapper = (
-      <RouterLink to={fullPath} tabIndex={0} className={styles.subOptionLink} onClick={() => onChange(option)}>
+      <RouterLink {...{ [linkPropName]: fullPath }} tabIndex={0} className={styles.subOptionLink} onClick={() => onChange(option)}>
         {content}
       </RouterLink>
     );
@@ -190,7 +200,7 @@ function SidebarOption({ option, sidebarExpanded, onRailClick, activeParentValue
 
   if (RouterLink && option.path) {
     return (
-      <RouterLink to={getPath(option.path)} tabIndex={0} className={styles.optionLink}>
+      <RouterLink {...{ [linkPropName]: getPath(option.path) }} tabIndex={0} className={styles.optionLink}>
         {optionContent}
       </RouterLink>
     );
