@@ -104,6 +104,11 @@
       "import": "./lib/hooks/*.es.js",
       "require": "./lib/hooks/*.cjs.js"
     },
+    "./providers/*": {
+      "types": "./lib/providers/*.d.ts",
+      "import": "./lib/providers/*.es.js",
+      "require": "./lib/providers/*.cjs.js"
+    },
     "./styles.css": "./lib/index.css",
     "./tailwind": "./lib/tailwind.config.cjs",
     "./tailwind.config.cjs": "./lib/tailwind.config.cjs"
