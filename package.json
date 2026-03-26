@@ -28,7 +28,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:lib": "tsc -b tsconfig.lib.json && vite build --mode production && vite build --config vite.umd.config.ts --mode production",
+    "build:lib": "tsc -b tsconfig.lib.json && vite build --config vite.umd.config.ts --mode production && vite build --mode production",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
