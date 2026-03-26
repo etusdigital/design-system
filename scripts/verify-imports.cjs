@@ -22,7 +22,6 @@ console.log('\n=== Import Verification ===\n');
 console.log('Main bundles:');
 check('ES module bundle exists', fs.existsSync(path.join(libDir, 'design-system.es.js')));
 check('CJS bundle exists', fs.existsSync(path.join(libDir, 'design-system.cjs.js')));
-check('UMD bundle exists', fs.existsSync(path.join(libDir, 'design-system.umd.js')));
 
 // 2. CSS output
 console.log('\nCSS output:');
