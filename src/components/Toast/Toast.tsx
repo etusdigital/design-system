@@ -4,6 +4,7 @@ import React, {
   useReducer,
   useRef,
   useEffect,
+  useState,
 } from 'react';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
@@ -156,12 +157,13 @@ function ToastContainers({ toasts, onClose }: ToastContainersProps) {
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, dispatch] = useReducer(toastReducer, []);
+  const [mounted, setMounted] = useState(false);
   const timerMapRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(
     new Map()
   );
 
-  // Cleanup all timers on unmount
   useEffect(() => {
+    setMounted(true);
     return () => {
       timerMapRef.current.forEach((timer) => clearTimeout(timer));
     };
@@ -213,7 +215,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   return (
     <ToastContext.Provider value={{ toast: addToast }}>
       {children}
-      {typeof document !== 'undefined' &&
+      {mounted &&
         createPortal(
           <ToastContainers toasts={toasts} onClose={removeToast} />,
           document.body

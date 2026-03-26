@@ -116,6 +116,7 @@ export default defineConfig({
         ...buildHookEntries(),
         ...buildProviderEntries(),
       },
+      preserveEntrySignatures: 'exports-only',
       external: ['react', 'react-dom'],
       output: [
         {

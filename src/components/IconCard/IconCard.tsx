@@ -2,7 +2,6 @@ import clsx from 'clsx';
 import { Children, isValidElement } from 'react';
 import { Card } from '../Card/Card';
 import { Icon } from '../Icon/Icon';
-import { blendColors } from '../../utils';
 import styles from './IconCard.module.css';
 
 export interface IconCardProps {
@@ -38,8 +37,6 @@ export function IconCard({
     }
   });
 
-  const coloredBackground = color ? blendColors(color) : '';
-
   return (
     <div className={clsx(styles.iconCard, className)}>
       <div
@@ -49,7 +46,7 @@ export function IconCard({
           color && styles.coloredBackground,
           color && isIconRound && styles.coloredText
         )}
-        style={color ? { background: isIconRound ? undefined : coloredBackground, color: isIconRound ? color : undefined } : undefined}
+        style={color ? { background: isIconRound ? undefined : color, color: isIconRound ? color : undefined } : undefined}
       >
         <Icon name={icon} filled={isIconRound} />
       </div>

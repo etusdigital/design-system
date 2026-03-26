@@ -3,6 +3,7 @@ import { Icon } from '../Icon/Icon';
 import { Tooltip } from '../Tooltip/Tooltip';
 import { blendColors } from '../../utils';
 import styles from './ProgressBar.module.css';
+import { useEffect, useState } from 'react';
 
 export interface ProgressBarProps {
   value?: number;
@@ -34,6 +35,12 @@ export function ProgressBar({
   iconSlot,
   className,
 }: ProgressBarProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const computeProgressWidth = (): string => {
     let val = value * 100;
     if (steps) val = (value / steps) * 100;
@@ -44,7 +51,7 @@ export function ProgressBar({
   const progressWidth = computeProgressWidth();
 
   const background = (): string => {
-    if (neutralBackground || !color) return '';
+    if (!mounted || neutralBackground || !color) return '';
     return blendColors(color);
   };
 

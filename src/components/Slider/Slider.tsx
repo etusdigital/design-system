@@ -52,6 +52,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 
     // Dragging state: one flag per cursor (single=1, range=2)
     const [isDragging, setIsDragging] = useState<boolean[]>([false, false]);
+    const [mounted, setMounted] = useState(false);
 
     // Visual value during drag — forces re-render for step markers in controlled mode
     const [dragValue, setDragValue] = useState<number | [number, number] | undefined>(undefined);
@@ -83,11 +84,12 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 
     // Keep currentValueRef in sync
     useEffect(() => {
+      setMounted(true);
       currentValueRef.current = currentValue;
     }, [currentValue]);
 
     function getBackground() {
-      if (neutralBackground || !color) return "";
+      if (!mounted || neutralBackground || !color) return "";
       return blendColors(color);
     }
 

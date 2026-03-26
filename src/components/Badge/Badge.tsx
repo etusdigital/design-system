@@ -3,6 +3,7 @@ import { Spinner } from '../Spinner/Spinner';
 import { Icon } from '../Icon/Icon';
 import { blendColors } from '../../utils';
 import styles from './Badge.module.css';
+import { useEffect, useState } from 'react';
 
 export interface BadgeProps {
   labelValue?: string;
@@ -33,10 +34,15 @@ export function Badge({
 }: BadgeProps) {
   const prependIcon = !isAppendedIcon ? icon : '';
   const appendedIcon = closeable ? 'close' : isAppendedIcon ? icon : '';
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const computedBackground = (() => {
     if (type === 'secondary') return 'transparent';
-    if (type === 'heavy') return color;
+    if (!mounted || type === 'heavy') return color;
     return blendColors(color);
   })();
 

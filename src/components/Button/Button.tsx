@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Spinner } from '../Spinner/Spinner';
 import { Icon } from '../Icon/Icon';
@@ -44,6 +44,11 @@ export function Button({
   onClick,
 }: ButtonProps) {
   const [isHovering, setIsHovering] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const isLoading = !!(progress > 0 || loading);
 
@@ -65,7 +70,7 @@ export function Button({
       style.background = background;
     }
 
-    if (isHovering && typeof document !== 'undefined') {
+    if (isHovering && mounted) {
       if (background && variant === 'default') {
         const bg = blendColors(background, 0.5, [0, 0, 0]);
         style.background = bg;

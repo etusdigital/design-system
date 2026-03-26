@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { blendColors } from "../../utils";
 import { Icon } from "../Icon/Icon";
 import { Color } from "./Color";
@@ -65,8 +65,6 @@ function generateColorPalette(): string[][] {
   return palette;
 }
 
-const PALETTE = generateColorPalette();
-
 export function Colors({
   value,
   expanded,
@@ -78,6 +76,16 @@ export function Colors({
 }: ColorsProps) {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [customColorInput, setCustomColorInput] = useState(value);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const palette = (() => {
+    if (!mounted) return [];
+    return generateColorPalette();;
+  })();
 
   function handleColorSelect(color: string) {
     onValueChange(color);
@@ -132,7 +140,7 @@ export function Colors({
           ) : (
             <div className={styles.colorColumn}>
               <div className={styles.colorGrid}>
-                {PALETTE.map((row, rowIndex) => (
+                {palette.map((row, rowIndex) => (
                   <div key={rowIndex} className={styles.colorRow}>
                     {row.map((color) => (
                       <Color
