@@ -92,7 +92,8 @@
     ".": {
       "types": "./lib/main.d.ts",
       "import": "./lib/design-system.es.js",
-      "require": "./lib/design-system.cjs.js"
+      "require": "./lib/design-system.cjs.js",
+      "default": "./lib/design-system.es.js"
     },
     "./components/*": {
       "types": "./lib/components/*/index.d.ts",
