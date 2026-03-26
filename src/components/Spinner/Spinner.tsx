@@ -7,7 +7,7 @@ export interface SpinnerProps {
 
 export function Spinner({ className }: SpinnerProps = {}) {
   return (
-    <svg className={clsx(styles.spinner, className)} viewBox="0 0 50 50">
+    <svg className={clsx(styles.spinner, 'spinner', className)} viewBox="0 0 50 50">
       <circle
         className={styles.path}
         cx="25"

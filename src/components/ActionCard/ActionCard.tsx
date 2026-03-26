@@ -98,7 +98,7 @@ export function ActionCard({
   const hasCardSlot = cardChildren.length > 0;
 
   return (
-    <div className={clsx(styles.actionCard, className)}>
+    <div className={clsx(styles.actionCard, 'action-card', className)}>
       {!hideDrag && (
         <span
           className={clsx(styles.sideIcon, isDragging ? 'cursor-grabbing' : 'cursor-grab')}

@@ -245,7 +245,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
   }
 
   return (
-    <div className={clsx(styles.input, className)}>
+    <div className={clsx(styles.input, 'input', className)}>
       {/* Label row */}
       {(labelValue || max !== undefined) && (
         <div className={styles.labelRow}>

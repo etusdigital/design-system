@@ -1,6 +1,6 @@
 {
   "name": "@etus/design-system",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "type": "module",
   "description": "React Design System Components with Tailwind CSS",
   "author": "Etus Digital",
@@ -17,7 +17,7 @@
     "tailwind",
     "typescript"
   ],
-  "main": "./lib/design-system.umd.js",
+  "main": "./lib/design-system.cjs.js",
   "module": "./lib/design-system.es.js",
   "types": "./lib/main.d.ts",
   "files": [

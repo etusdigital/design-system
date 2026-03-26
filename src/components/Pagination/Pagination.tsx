@@ -73,7 +73,7 @@ export function Pagination({
   const currentPage = model ?? 1;
 
   return (
-    <div className={clsx(styles.pagination, className)}>
+    <div className={clsx(styles.pagination, 'pagination', className)}>
       <button
         className={styles.navButton}
         disabled={currentPage === 1}

@@ -194,7 +194,7 @@ export function Crop({
   })();
 
   return (
-    <div ref={bCropRef} className={`${styles.crop}${className ? ` ${className}` : ''}`}>
+    <div ref={bCropRef} className={`${styles.crop} crop${className ? ` ${className}` : ''}`}>
       <div
         className="relative w-full h-full bg-black rounded-xl"
         style={{ minWidth: width, minHeight: height }}

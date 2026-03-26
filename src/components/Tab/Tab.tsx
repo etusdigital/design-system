@@ -38,7 +38,7 @@ export function Tab({
   }
 
   return (
-    <div className={clsx(styles.container, notCard && styles.notCard, className)}>
+    <div className={clsx(styles.container, 'tab', notCard && styles.notCard, className)}>
       <div className="flex font-bold text-sm gap-xs w-fit">
         {options.map((option, index) => (
           <button

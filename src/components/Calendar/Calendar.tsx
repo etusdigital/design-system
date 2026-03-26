@@ -669,7 +669,7 @@ export function Calendar({
   }
 
   return (
-    <div className={clsx(styles.calendar, doubleCalendar && styles.doubleCalendar, className)}>
+    <div className={clsx(styles.calendar, 'calendar', doubleCalendar && styles.doubleCalendar, className)}>
       <div className={styles.header} ref={header}>
         <button
           className={styles.navButton}

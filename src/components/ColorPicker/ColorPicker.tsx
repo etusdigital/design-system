@@ -451,7 +451,7 @@ export function ColorPicker(props: ColorPickerProps) {
 
   return (
     <div
-      className={clsx(styles.colorPicker, noShadow && styles.noShadow, disabled && styles.disabled, className)}
+      className={clsx(styles.colorPicker, 'color-picker', noShadow && styles.noShadow, disabled && styles.disabled, className)}
       data-component="ColorPicker"
     >
       {/* Color area */}

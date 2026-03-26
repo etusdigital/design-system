@@ -74,7 +74,7 @@ export function MetricCard({
   const showHeader = (title || icon || titleSlot) && !loading;
 
   return (
-    <Card className={clsx(styles.metricCard, styles[type], styles[color], styles[size], className)}>
+    <Card className={clsx(styles.metricCard, 'metric-card', styles[type], styles[color], styles[size], className)}>
       {showHeader ? (
         <div className={styles.headerRow}>
           {icon && <Icon name={icon} className={styles.icon} />}

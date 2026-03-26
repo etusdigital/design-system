@@ -320,6 +320,7 @@ export function Sidebar({
 
   const sidebarClasses = [
     styles.sidebar,
+    'sidebar',
     expanded ? styles.expanded : styles.collapsed,
     className,
   ].filter(Boolean).join(' ');

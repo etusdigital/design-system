@@ -25,7 +25,7 @@ export function Avatar({ name, src, alt, size = 'medium', className }: AvatarPro
   const initialsSize = size === 'small' ? styles.smallInitials : size === 'large' ? styles.largeInitials : styles.mediumInitials;
 
   return (
-    <div className={clsx(styles.avatar, sizeClass, className)}>
+    <div className={clsx(styles.avatar, 'avatar', sizeClass, className)}>
       {src && <img className={styles.avatarImg} src={src} alt={alt || name} />}
       <span className={clsx(styles.avatarInitials, initialsSize, src && 'opacity-0')}>
         {initials}

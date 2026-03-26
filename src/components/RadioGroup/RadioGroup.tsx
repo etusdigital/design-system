@@ -94,6 +94,7 @@ export function RadioGroup({
       <div
         className={clsx(
           styles.radioGroup,
+          'radio-group',
           vertical ? styles.vertical : styles.horizontal,
           className,
         )}

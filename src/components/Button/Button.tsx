@@ -96,6 +96,7 @@ export function Button({
       disabled={disabled}
       className={clsx(
         styles.button,
+        'button',
         variant,
         size,
         color,

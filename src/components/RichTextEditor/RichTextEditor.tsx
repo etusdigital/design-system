@@ -628,6 +628,7 @@ export function RichTextEditor({
 
   const editorClasses = clsx(
     styles.richTextEditor,
+    'rich-text-editor',
     isFocused && styles.focus,
     disabled && styles.disabled,
     hasError && styles.error,

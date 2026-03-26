@@ -127,7 +127,7 @@ export function FloatCard({
       } : undefined}
       onMouseEnter={mode === 'hover' ? () => setIsOpen(true) : undefined}
       onMouseLeave={mode === 'hover' ? closeCard : undefined}
-      className={className}
+      className={clsx('float-card-container', className)}
     >
       {isMounted &&
         createPortal(
@@ -135,6 +135,7 @@ export function FloatCard({
             <Card
               className={clsx(
                 styles.floatCard,
+                'float-card',
                 isActive && styles.active
               )}
             >

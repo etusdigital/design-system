@@ -86,7 +86,7 @@ export function AutoComplete({
         ];
 
   return (
-    <div onClick={() => setTimeout(() => handleExpanded(focus))}>
+    <div className="auto-complete" onClick={() => setTimeout(() => handleExpanded(focus))}>
       <SelectContainer
         value={expanded}
         onChange={handleExpanded}
@@ -111,7 +111,7 @@ export function AutoComplete({
             onBlur={() => handleFocus(false)}
           />
         }
-        className={clsx("auto-complete", className)}
+        className={clsx("auto-complete-content", className)}
       />
     </div>
   );

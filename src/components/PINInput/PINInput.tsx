@@ -139,7 +139,7 @@ export const PINInput = React.forwardRef<PINInputHandle, PINInputProps>(
     }
 
     return (
-      <div className={clsx(styles.pinInput, className)}>
+      <div className={clsx(styles.pinInput, 'pin-input', className)}>
         {Array.from({ length }, (_, index) => (
           <React.Fragment key={index}>
             {separator !== undefined && index > 0 && index % separator === 0 && (

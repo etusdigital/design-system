@@ -67,7 +67,7 @@ export function ProgressBar({
       <div
         className={clsx(
           styles.stepBar,
-          'flex flex-row gap-xs',
+          'progress-bar',
           styles[size],
           styles[type],
           neutralBackground && styles.neutralBg,

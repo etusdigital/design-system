@@ -94,7 +94,7 @@ export function Breadcrumb({
   })();
 
   return (
-    <div className={clsx(styles.breadcrumb, className)}>
+    <div className={clsx(styles.breadcrumb, 'breadcrumb', className)}>
       {parsedOptions.map((option, index) => (
         <span key={index} className={styles.itemWrapper}>
           {isObject(option) && option.icon === 'more_horiz' ? (

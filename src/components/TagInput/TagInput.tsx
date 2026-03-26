@@ -187,7 +187,7 @@ export function TagInput({
   const currentTags = tags ?? [];
 
   return (
-    <div className={clsx(styles.tagInput, className)}>
+    <div className={clsx(styles.tagInput, 'tag-input', className)}>
       {labelValue && (
         <div className={styles.labelRow}>
           <Label

@@ -349,7 +349,7 @@ export function Tree({
         disabled,
       }}
     >
-      <div className={clsx(styles.tree, className)}>
+      <div className={clsx(styles.tree, 'tree', className)}>
         {options.map((option) => (
           <TreeNode key={(option as any)[valueKey]} option={option} />
         ))}

@@ -78,6 +78,7 @@ export function ToggleGroup({
       <div
         className={clsx(
           styles.toggleGroup,
+          'toggle-group',
           vertical && styles.vertical,
           type === 'default' && styles.default,
           type === 'secondary' && !vertical && styles.secondary,

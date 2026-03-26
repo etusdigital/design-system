@@ -9,7 +9,7 @@ export interface SeparatorProps {
 
 export function Separator({ position = 'right', children, className }: SeparatorProps = {}) {
   return (
-    <div className={clsx(styles.separator, className)}>
+    <div className={clsx(styles.separator, 'separator', className)}>
       {position !== 'right' && <div className={styles.separatorLine} />}
       {children}
       {position !== 'left' && <div className={styles.separatorLine} />}

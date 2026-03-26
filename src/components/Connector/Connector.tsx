@@ -16,6 +16,7 @@ export function Connector({
     <div
       className={clsx(
         styles.connector,
+        'connector',
         vertical ? styles.vert : styles.hor,
         className
       )}

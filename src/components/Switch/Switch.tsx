@@ -53,7 +53,7 @@ export function Switch({
       role="switch"
       aria-checked={!!currentValue}
       aria-disabled={disabled}
-      className={clsx(styles.switch, rhs && styles.rhs, disabled && styles.disabled, className)}
+      className={clsx(styles.switch, 'switch', rhs && styles.rhs, disabled && styles.disabled, className)}
       onClick={handleClick}
     >
       <div className={clsx(styles.track, currentValue && styles.active)}>

@@ -9,7 +9,7 @@ export interface CardProps {
 
 export function Card({ children, className, style }: CardProps = {}) {
   return (
-    <div className={clsx(styles.card, className)} style={style}>
+    <div className={clsx(styles.card, 'card', className)} style={style}>
       {children}
     </div>
   );

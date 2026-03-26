@@ -104,7 +104,7 @@ export function Tooltip({
       ref={contentRef}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
-      className={className}
+      className={clsx('tooltip', className)}
       style={style}
     >
       {isMounted &&

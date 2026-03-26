@@ -6,5 +6,5 @@ export interface SkeletonProps {
 }
 
 export function Skeleton({ className }: SkeletonProps = {}) {
-  return <div className={clsx(styles.skeleton, className)} />;
+  return <div className={clsx(styles.skeleton, 'skeleton', className)} />;
 }

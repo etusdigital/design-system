@@ -66,6 +66,7 @@ export function Toggle({
       tabIndex={0}
       className={clsx(
         styles.toggle,
+        'toggle',
         resolvedType === 'secondary' ? styles.secondary : styles.default,
         isActive && styles.active,
         isDisabled && styles.disabled,

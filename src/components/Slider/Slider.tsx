@@ -399,6 +399,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         ref={mergedRef}
         className={clsx(
           styles.slider,
+          'slider',
           styles[size],
           vertical ? styles.vertical : styles.horizontal,
           disabled && styles.disabled,

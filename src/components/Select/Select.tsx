@@ -286,7 +286,7 @@ export function Select({
     : undefined;
 
   return (
-    <div onKeyDown={handleKeyDown}>
+    <div className="select" onKeyDown={handleKeyDown}>
       <SelectContainer
         value={isOpen}
         onChange={handleExpandedChange}
@@ -300,7 +300,7 @@ export function Select({
         options={optionsNode}
         actions={actionsNode}
         complement={complementNode}
-        className={clsx('select', className)}
+        className={clsx('select-content', className)}
       >
         <SelectContent
           value={searchText}

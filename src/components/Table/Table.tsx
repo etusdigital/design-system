@@ -248,7 +248,7 @@ export function Table({
   };
 
   return (
-    <div className={clsx(styles.table, className)}>
+    <div className={clsx(styles.table, 'table', className)}>
       <div
         className={clsx(
           styles.tableContent,

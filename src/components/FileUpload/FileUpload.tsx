@@ -136,7 +136,7 @@ export function FileUpload({
   });
 
   return (
-    <div className={className}>
+    <div className={clsx('file-upload', className)}>
       <div
         className={clsx(
           styles.file,

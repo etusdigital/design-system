@@ -89,6 +89,7 @@ export function Accordion({
     <div
       className={clsx(
         styles.accordion,
+        'accordion',
         noShadow && styles.noShadow,
         className
       )}

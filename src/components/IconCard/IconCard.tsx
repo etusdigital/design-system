@@ -38,7 +38,7 @@ export function IconCard({
   });
 
   return (
-    <div className={clsx(styles.iconCard, className)}>
+    <div className={clsx(styles.iconCard, 'icon-card', className)}>
       <div
         className={clsx(
           styles.iconContainer,

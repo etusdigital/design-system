@@ -155,7 +155,7 @@ export function Carousel({
   const nextDisabled = disabled || (currentIndex >= maxIndex && !circular);
 
   return (
-    <div className={clsx(styles.carousel, className)}>
+    <div className={clsx(styles.carousel, 'carousel', className)}>
       <div className={clsx(styles.content, vertical && styles.vertical)}>
         {showArrows && (
           <button

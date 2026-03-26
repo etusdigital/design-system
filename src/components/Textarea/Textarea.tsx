@@ -70,7 +70,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     const showLabelRow = labelValue || max !== undefined;
 
     return (
-      <div className={clsx(styles.textarea, className)}>
+      <div className={clsx(styles.textarea, 'textarea', className)}>
         {showLabelRow && (
           <div className={styles.labelRow}>
             <Label

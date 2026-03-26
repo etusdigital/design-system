@@ -1,5 +1,9 @@
 @reference "../../assets/main.css";
 
+.stepBar {
+  @apply flex flex-row gap-xs;
+}
+
 .progressBar,
 .stepBar .step {
   @apply flex items-center rounded-lg bg-primary-surface-highlight justify-start relative;

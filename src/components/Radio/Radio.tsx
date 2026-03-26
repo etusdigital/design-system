@@ -71,6 +71,7 @@ export function Radio({
       aria-disabled={isDisabled}
       className={clsx(
         styles.radio,
+        'radio',
         styles[variant],
         isSelected && styles.selected,
         isDisabled && styles.disabled,

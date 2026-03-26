@@ -127,6 +127,7 @@ export function Profile({
       ref={wrapperRef}
       className={clsx(
         styles.profile,
+        'profile',
         absolute && styles.absolute,
         disabled && styles.disabled,
         className

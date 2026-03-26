@@ -61,7 +61,7 @@ export function Checkbox({
       role="checkbox"
       aria-checked={currentValue === null ? 'mixed' : !!currentValue}
       aria-disabled={disabled}
-      className={clsx(styles.checkbox, rhs && styles.rhs, disabled && styles.disabled, className)}
+      className={clsx(styles.checkbox, 'checkbox', rhs && styles.rhs, disabled && styles.disabled, className)}
       onClick={handleClick}
     >
       <div

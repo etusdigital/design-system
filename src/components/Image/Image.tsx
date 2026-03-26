@@ -144,7 +144,7 @@ export function Image({
 
   return (
     <span
-      className={clsx(styles.image, className)}
+      className={clsx(styles.image, 'image', className)}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >

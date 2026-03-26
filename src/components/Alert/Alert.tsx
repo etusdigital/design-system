@@ -94,6 +94,7 @@ export function Alert({
       ref={cardRef}
       className={clsx(
         styles.alert,
+        'alert',
         styles[type],
         styles[size],
         expandable && styles.itemsStart,

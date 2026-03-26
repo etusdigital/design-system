@@ -56,7 +56,7 @@ export function Badge({
 
   return (
     <div
-      className={clsx(styles.badge, styles[size], styles[type], className)}
+      className={clsx(styles.badge, 'bagde', styles[size], styles[type], className)}
       style={customStyle}
     >
       {loading ? (

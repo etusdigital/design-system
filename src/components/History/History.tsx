@@ -39,7 +39,7 @@ export function History({
   const isHorizontal = position === 'top' || position === 'bottom';
 
   return (
-    <div className={clsx(styles.history, isHorizontal && styles.flex, className)}>
+    <div className={clsx(styles.history, 'history', isHorizontal && styles.flex, className)}>
       {options.map((option, index) => {
         const active = isActive(option, index);
         const optionType = option.type ?? type;

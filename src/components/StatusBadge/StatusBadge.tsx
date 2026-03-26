@@ -31,7 +31,7 @@ export function StatusBadge({
 }: StatusBadgeProps) {
   return (
     <Badge
-      className={clsx(styles.statusBadge, styles[color], styles[type], className)}
+      className={clsx(styles.statusBadge, 'status-badge', styles[color], styles[type], className)}
       labelValue={labelValue}
       type={type}
       size={size}

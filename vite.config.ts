@@ -108,7 +108,7 @@ export default defineConfig({
   },
   build: {
     outDir: 'lib',
-    cssCodeSplit: true,
+    cssCodeSplit: false,
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'src/index.ts'),
@@ -128,7 +128,7 @@ export default defineConfig({
           },
           globals: { react: 'React', 'react-dom': 'ReactDOM' },
           assetFileNames: (assetInfo) => {
-            if (assetInfo.name === 'main.css') return 'index.css';
+            if (assetInfo.name?.endsWith('.css')) return 'index.css';
             return assetInfo.name || 'assets/[name]-[hash][extname]';
           },
         },

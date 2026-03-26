@@ -31,7 +31,7 @@ export function RoundMenu({
   }
 
   return (
-    <div className={clsx(styles.roundMenu, className)}>
+    <div className={clsx(styles.roundMenu, 'round-menu', className)}>
       {options.map((option, index) => {
         const positionStyle = isExpanded
           ? calculatePosition(index, options.length)

@@ -90,7 +90,7 @@ export function Stepper({
 
   return (
     <div
-      className={clsx(styles.stepper, className)}
+      className={clsx(styles.stepper, 'stepper', className)}
     >
       {options.map((option, index) => {
         const stepState = getStepState(index);
