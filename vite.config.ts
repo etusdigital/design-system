@@ -35,6 +35,22 @@ function buildHookEntries(): Record<string, string> {
   return entries;
 }
 
+function buildProviderEntries(): Record<string, string> {
+  const entries: Record<string, string> = {};
+  const providersDir = resolve(__dirname, 'src/providers');
+  if (existsSync(providersDir)) {
+    readdirSync(providersDir, { withFileTypes: true })
+      .filter(d => d.isDirectory() && existsSync(resolve(providersDir, d.name, 'index.ts')))
+      .forEach(d => {
+        entries[`providers/${d.name}/index`] = resolve(providersDir, d.name, 'index.ts');
+      });
+    if (existsSync(resolve(providersDir, 'index.ts'))) {
+      entries['providers/index'] = resolve(providersDir, 'index.ts');
+    }
+  }
+  return entries;
+}
+
 const copyTailwindConfig = () => ({
   name: 'copy-tailwind-config',
   writeBundle() {
@@ -98,6 +114,7 @@ export default defineConfig({
         main: path.resolve(__dirname, 'src/index.ts'),
         ...buildComponentEntries(),
         ...buildHookEntries(),
+        ...buildProviderEntries(),
       },
       external: ['react', 'react-dom'],
       output: [
