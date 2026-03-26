@@ -78,7 +78,7 @@ check('No "vue" in any dependency field', !allDeps.vue);
 check('No "vue-tsc" in any dependency field', !allDeps['vue-tsc']);
 check('No "@vitejs/plugin-vue" in any dependency field', !allDeps['@vitejs/plugin-vue']);
 check('react not in dependencies (peerDeps only)', !pkg.dependencies?.react);
-check('Version is 2.0.6', pkg.version === '2.0.6');
+check('Version is 2.0.7', pkg.version === '2.0.7');
 
 // 9. Type Declaration Checks
 console.log('\n--- Type Declaration Checks ---');
