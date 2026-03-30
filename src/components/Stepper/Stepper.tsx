@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { useControllable } from "../../hooks/useControllable";
 import { isObject } from "../../utils";
@@ -8,14 +8,15 @@ import { Icon } from "../Icon/Icon";
 
 export interface StepperProps {
   value?: any;
-  onChange?: (value: number) => void;
+  onChange?: (value: any) => void;
+  onChangeStep?: (option: any, index: number) => void;
   options: Array<{ [key: string]: any }>;
   labelKey?: string;
   valueKey?: string;
   iconKey?: string;
   size?: "small" | "medium" | "large";
   getObject?: boolean;
-  noClick?: boolean;
+  disabled?: boolean;
   allowSkip?: boolean;
   className?: string;
 }
@@ -23,31 +24,36 @@ export interface StepperProps {
 export function Stepper({
   value,
   onChange,
+  onChangeStep,
   options,
   labelKey = "label",
   valueKey = "label",
   iconKey = "icon",
   size = "medium",
   getObject = false,
-  noClick = false,
+  disabled = false,
   allowSkip = false,
   className,
 }: StepperProps) {
   const [model, setModel] = useControllable<any>({
     value,
-    defaultValue: undefined,
+    defaultValue: options.length ? options[0] : undefined,
     onChange,
   });
 
   // biggerStepSelected tracks the maximum step index the user has reached
   const currentIndex = getIndex(model)
+  const pastIndexsRef = useRef(new Set([currentIndex]))
   const [biggerStepSelected, setBiggerStepSelected] = useState<number>(() =>
     Math.max(0, (currentIndex != -1 ? currentIndex : 0)),
   );
 
   useEffect(() => {
     const currentIndex = getIndex(value)
-    if (currentIndex != -1) setBiggerStepSelected(currentIndex)
+    if (currentIndex != -1) {
+      if (currentIndex > biggerStepSelected) setBiggerStepSelected(currentIndex)
+      pastIndexsRef.current.add(currentIndex)
+    }
   }, [model])
 
   function getIndex(option: any) {
@@ -80,12 +86,17 @@ export function Stepper({
   }
 
   function handleStepClick(option: any, index: number) {
-    if (!noClick) {
+    const value = getObject ? option : getValue(option);
+
+    if (!disabled) {
       const current = getIndex(model);
       if (!allowSkip && index - current > 1) return;
+      pastIndexsRef.current.add(index)
       setBiggerStepSelected((prev) => Math.max(prev, index));
       setModel(getObject ? option : getValue(option));
     }
+
+    if (onChangeStep) onChangeStep(value, index)
   }
 
   return (
@@ -106,7 +117,7 @@ export function Stepper({
             )}
           >
             <div
-              className={clsx(styles.stepContainer, noClick && styles.noClick)}
+              className={clsx(styles.stepContainer)}
               onClick={() => handleStepClick(option, index)}
             >
                 <div
@@ -118,6 +129,7 @@ export function Stepper({
                     {
                       [styles.past]: index < biggerStepSelected,
                       [styles.future]: index > biggerStepSelected,
+                      [styles.skip]: index < biggerStepSelected && !pastIndexsRef.current.has(index)
                     }
                   )}
                 >

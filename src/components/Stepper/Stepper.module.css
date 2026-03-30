@@ -4,7 +4,6 @@
 .stepper { @apply flex items-center w-full; }
 
 .stepContainer { @apply relative flex flex-col items-center cursor-pointer; }
-.stepContainer.noClick { @apply cursor-default; }
 
 .step {
   @apply rounded-full flex items-center justify-center relative z-[1] py-sm px-base border-xs;
@@ -25,6 +24,11 @@
 /* Future steps: gray border circle */
 .step.future {
   @apply bg-neutral-surface-default border-neutral-default text-neutral-foreground-low;
+}
+
+/* Skipped steps: primary text/border but not filled */
+.step.skip {
+  @apply bg-transparent border-primary-interaction-default text-primary-interaction-default;
 }
 
 .label { @apply absolute translate-y-4xl text-xs font-normal text-center whitespace-nowrap; }

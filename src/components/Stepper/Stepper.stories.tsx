@@ -6,10 +6,7 @@ const meta = {
   component: Stepper,
   argTypes: {
     value: {
-      description: 'Current step index (0-based).',
-      table: {
-        defaultValue: { summary: '0' },
-      },
+      description: 'Current step.',
     },
     options: {
       type: { name: 'array', value: { name: 'object', value: {} } },
@@ -35,7 +32,7 @@ const meta = {
         defaultValue: { summary: 'medium' },
       },
     },
-    noClick: {
+    disabled: {
       type: { name: 'boolean' },
       description: 'If true, the user will not be able to change the step by clicking.',
       table: {
@@ -57,7 +54,7 @@ const defaultOptions = [
 
 export const Primary: Story = {
   render: () => {
-    const [step, setStep] = useState(0);
+    const [step, setStep] = useState(undefined);
     return (
       <Stepper
         value={step}
@@ -71,7 +68,7 @@ export const Primary: Story = {
 
 export const Sizes: Story = {
   render: () => {
-    const [step, setStep] = useState(0);
+    const [step, setStep] = useState(undefined);
     return (
       <div className="flex flex-col gap-xl">
         <Stepper
@@ -99,13 +96,13 @@ export const Sizes: Story = {
 
 export const Disabled: Story = {
   render: () => {
-    const [step, setStep] = useState(0);
+    const [step, setStep] = useState(undefined);
     return (
       <Stepper
         value={step}
         onChange={setStep}
         options={defaultOptions}
-        noClick={true}
+        disabled={true}
       />
     );
   },
@@ -113,7 +110,7 @@ export const Disabled: Story = {
 
 export const AllowedSkip: Story = {
   render: () => {
-    const [step, setStep] = useState(0);
+    const [step, setStep] = useState(undefined);
     return (
       <Stepper
         value={step}
