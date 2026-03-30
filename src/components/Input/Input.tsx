@@ -221,18 +221,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
               />
             }
           >
-            <button
-              type="button"
+            <div
+              className={clsx(styles.colorPickerButton, disabled && styles.disabled)}
               style={{
-                width: '1.5em',
-                height: '1.5em',
                 background: colorValue,
-                border: '1px solid var(--color-neutral-default, #ccc)',
-                borderRadius: '4px',
-                cursor: disabled ? 'not-allowed' : 'pointer',
-                flexShrink: 0,
               }}
-              disabled={disabled}
               aria-label="Open color picker"
             />
           </FloatCard>

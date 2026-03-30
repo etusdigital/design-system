@@ -52,6 +52,14 @@
   @apply flex flex-col items-center;
 }
 
+.colorPickerButton {
+  @apply w-xl h-lg border-xxs border-neutral-default rounded-xs cursor-pointer;
+}
+
+.colorPickerButton.disabled {
+  @apply pointer-events-none;
+}
+
 /* Hide native number spinners */
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
