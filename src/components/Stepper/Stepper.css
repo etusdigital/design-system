@@ -1,13 +1,13 @@
 @reference "../../assets/main.css";
 
-.stepper-icon.icon {
+.stepper .stepper-icon.icon {
   @apply text-lg leading-xxs;
 }
 
-.small .stepper-icon.icon {
+.stepper .small .stepper-icon.icon {
   @apply text-base;
 }
 
-.large .stepper-icon.icon {
+.stepper .large .stepper-icon.icon {
   @apply text-xl;
 }

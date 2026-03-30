@@ -4,10 +4,10 @@
   @apply z-[1100] fixed flex flex-col gap-sm p-sm;
 }
 
-.top { @apply top-0; }
-.bottom { @apply bottom-0; }
-.right { @apply right-0 items-end; }
-.left { @apply left-0; }
+.toast-container.top { @apply top-0; }
+.toast-container.bottom { @apply bottom-0; }
+.toast-container.right { @apply right-0 items-end; }
+.toast-container.left { @apply left-0; }
 
 .toast {
   @apply w-fit max-w-[50em] break-all whitespace-normal;

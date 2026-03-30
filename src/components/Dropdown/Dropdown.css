@@ -1,5 +1,5 @@
 @reference "../../assets/main.css";
 
-.dropwdown-icon.material-symbols-rounded.icon {
+.dropwdown .dropwdown-icon.material-symbols-rounded.icon {
   @apply text-xl leading-xs;
 }
