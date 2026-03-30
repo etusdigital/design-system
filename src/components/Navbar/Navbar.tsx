@@ -4,6 +4,7 @@ import { Avatar } from '../Avatar/Avatar';
 import { FloatCard } from '../FloatCard/FloatCard';
 import { Icon } from '../Icon/Icon';
 import styles from './Navbar.module.css';
+import './Navbar.css';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

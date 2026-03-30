@@ -47,7 +47,7 @@
 
 .small .typeIcon,
 .small :global(.icon) {
-  @apply text-xl;
+  @apply text-xl leading-xxs;
 }
 
 .medium .title {
@@ -60,7 +60,7 @@
 
 .medium .typeIcon,
 .medium :global(.icon) {
-  @apply text-2xl;
+  @apply text-2xl leading-xxs;
 }
 
 .large .title {
@@ -73,7 +73,7 @@
 
 .large .typeIcon,
 .large :global(.icon) {
-  @apply text-2xl;
+  @apply text-2xl leading-xxs;
 }
 
 /* Type variants */

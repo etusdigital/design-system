@@ -5,6 +5,7 @@ import { Button } from '../Button/Button';
 import { Icon } from '../Icon/Icon';
 import { useControllable } from '../../hooks/useControllable';
 import styles from './Profile.module.css';
+import './Profile.css';
 
 function isObject(val: unknown): val is Record<string, unknown> {
   return val !== null && typeof val === 'object' && !Array.isArray(val);
@@ -248,7 +249,7 @@ export function Profile({
                 )}
                 onClick={onEditOption}
               >
-                <Icon name="person" size="xl" />
+                <Icon name="person" />
                 <p className="text-sm font-bold">{editOptionLabel}</p>
               </div>
             )}
@@ -260,7 +261,7 @@ export function Profile({
               )}
               onClick={onLogout}
             >
-              <Icon name="logout" size="xl" />
+              <Icon name="logout" />
               <p className="text-sm font-bold">{logoutLabel}</p>
             </div>
           </div>

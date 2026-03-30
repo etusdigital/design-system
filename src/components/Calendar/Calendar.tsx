@@ -676,7 +676,7 @@ export function Calendar({
           onClick={prevMonth}
           aria-label="Previous month"
         >
-          <Icon name="chevron_left" />
+          <Icon name="chevron_left" className="leading-xxs" />
         </button>
 
         <span
@@ -691,7 +691,7 @@ export function Calendar({
           onClick={nextMonth}
           aria-label="Next month"
         >
-          <Icon name="chevron_right" />
+          <Icon name="chevron_right" className="leading-xxs" />
         </button>
       </div>
 

@@ -1,0 +1,29 @@
+@reference "../../assets/main.css";
+
+.metric-card .material-symbols-rounded.icon {
+  @apply leading-xs;
+}
+
+.small .material-symbols-rounded.icon {
+  @apply text-xs;
+}
+
+.small .info-icon.material-symbols-rounded.icon {
+  @apply text-base;
+}
+
+.medium .info-icon.material-symbols-rounded.icon {
+  @apply text-lg;
+}
+
+.medium .material-symbols-rounded.icon {
+  @apply text-sm;
+}
+
+.large .info-icon.material-symbols-rounded.icon {
+  @apply text-xl;
+}
+
+.large .material-symbols-rounded.icon {
+  @apply text-base;
+}

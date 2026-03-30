@@ -6,10 +6,11 @@ import { Label } from '../../utils/components/Label';
 import { Icon } from '../Icon';
 import { Select } from '../Select';
 import { Colors } from './Colors';
-import styles from './RichTextEditor.module.css';
 import { Dialog } from '../Dialog';
 import { Button } from '../Button';
 import { Tooltip } from '../Tooltip';
+import styles from './RichTextEditor.module.css';
+import './RichTextEditor.css';
 
 interface RichTextEditorProps {
   value?: string;

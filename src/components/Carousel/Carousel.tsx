@@ -164,7 +164,7 @@ export function Carousel({
             aria-label="Previous slide"
             disabled={prevDisabled}
           >
-            <Icon name={vertical ? 'expand_less' : 'chevron_left'} />
+            <Icon name={vertical ? 'expand_less' : 'chevron_left'} className="leading-xxs" />
           </button>
         )}
 
@@ -198,7 +198,7 @@ export function Carousel({
             aria-label="Next slide"
             disabled={nextDisabled}
           >
-            <Icon name={vertical ? 'expand_more' : 'chevron_right'} />
+            <Icon name={vertical ? 'expand_more' : 'chevron_right'} className="leading-xxs" />
           </button>
         )}
       </div>

@@ -13,7 +13,7 @@
 .categoryContent.collapsed { max-height: 0; }
 
 .chevron {
-  @apply text-2xl text-neutral-interaction-default;
+  @apply text-xl leading-xs text-neutral-interaction-default;
   transition: transform 0.3s ease;
 }
 .chevron.expanded { transform: rotate(180deg); }

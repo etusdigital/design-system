@@ -16,3 +16,6 @@
 .presetActive {
   @apply text-primary-interaction-selected font-semibold bg-primary-surface-default;
 }
+.calendarIcon {
+  @apply text-xl leading-xxs;
+}

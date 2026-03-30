@@ -16,10 +16,6 @@
   @apply hover:bg-primary-surface-hover hover:text-primary-interaction-hover transition-colors duration-150;
 }
 
-.nodeIcon {
-  @apply text-xl;
-}
-
 .selected:not(.multiple) {
   @apply bg-primary-surface-default text-primary-foreground-low;
 }

@@ -6,7 +6,5 @@
 .pageButton.active { @apply border-xxs border-neutral-default text-neutral-foreground-high; }
 .pageButton.ellipsis { @apply cursor-default text-neutral-foreground-disabled; }
 .navButton { @apply flex justify-center items-center cursor-pointer border-none bg-transparent text-neutral-interaction-default; }
+.navButton:hover { @apply text-primary-interaction-hover; }
 .navButton:disabled { @apply opacity-50 cursor-not-allowed; }
-.navIcon {
-    @apply text-2xl;
-}

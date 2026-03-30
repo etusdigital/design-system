@@ -78,7 +78,7 @@
 }
 
 .round:global(.small) {
-  @apply text-xs py-none;
+  @apply text-xs;
 }
 
 .round:global(.small).hovered .buttonLabel,
@@ -87,11 +87,11 @@
 }
 
 .round:global(.small) :global(.icon) {
-  @apply text-xl;
+  @apply text-xl leading-xxs;
 }
 
 .round:global(.medium) {
-  @apply text-base leading-lg py-none;
+  @apply text-base leading-lg;
 }
 
 .round:global(.medium).hovered .buttonLabel,
@@ -100,7 +100,7 @@
 }
 
 .round:global(.medium) :global(.icon) {
-  @apply text-3xl;
+  @apply text-3xl leading-xxs;
 }
 
 .round:global(.large) {
@@ -113,7 +113,7 @@
 }
 
 .round:global(.large) :global(.icon) {
-  @apply text-5xl;
+  @apply text-5xl leading-xxs;
 }
 
 .spinner {

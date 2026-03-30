@@ -13,5 +13,5 @@
 }
 
 .sideIcon {
-  @apply flex items-center text-neutral-interaction-disabled;
+  @apply flex items-center text-neutral-interaction-disabled leading-xxs;
 }

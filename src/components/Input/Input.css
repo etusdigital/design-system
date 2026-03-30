@@ -1,9 +1,9 @@
 @reference "../../assets/main.css";
 
-.material-symbols-rounded.icon {
-  @apply text-lg leading-[.7em];
+.input .material-symbols-rounded.icon {
+  @apply text-lg leading-xxs;
 }
 
-.arrow-icon.icon {
-  @apply text-2xl cursor-pointer text-neutral-interaction-default;
+.input .arrow-icon.material-symbols-rounded.icon {
+  @apply text-2xl cursor-pointer text-neutral-interaction-default leading-xxs;
 }

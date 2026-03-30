@@ -6,10 +6,10 @@
 .stepContainer { @apply relative flex flex-col items-center cursor-pointer; }
 
 .step {
-  @apply rounded-full flex items-center justify-center relative z-[1] py-sm px-base border-xs;
+  @apply rounded-full flex items-center justify-center relative z-[1] p-base border-xs;
 }
-.step.small { @apply py-xs px-sm; }
-.step.large { @apply py-base px-lg; }
+.step.small { @apply p-sm; }
+.step.large { @apply p-lg; }
 
 /* Past steps: filled primary circle with white icon */
 .step.past {

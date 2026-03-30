@@ -5,6 +5,7 @@ import { Icon } from '../Icon/Icon';
 import { Tooltip } from '../Tooltip/Tooltip';
 import { Skeleton } from '../Skeleton/Skeleton';
 import styles from './MetricCard.module.css';
+import './MetricCard.css';
 
 type Color = 'primary' | 'informative' | 'info' | 'success' | 'warning' | 'danger' | 'neutral';
 
@@ -74,7 +75,7 @@ export function MetricCard({
   const showHeader = (title || icon || titleSlot) && !loading;
 
   return (
-    <Card className={clsx(styles.metricCard, 'metric-card', styles[type], styles[color], styles[size], className)}>
+    <Card className={clsx(styles.metricCard, 'metric-card', size, styles[type], styles[color], styles[size], className)}>
       {showHeader ? (
         <div className={styles.headerRow}>
           {icon && <Icon name={icon} className={styles.icon} />}
@@ -85,7 +86,7 @@ export function MetricCard({
             infoMessage && (
               !noTooltip ? (
                 <Tooltip labelValue={infoMessage}>
-                  <Icon name="info" className={clsx(styles.infoIcon, styles.infoLabel, styles[`info-${infoType}`])} />
+                  <Icon name="info" className={clsx(styles.infoIcon, styles.infoLabel, styles[`info-${infoType}`], 'info-icon')} />
                 </Tooltip>
               ) : (
                 <p className={clsx(styles.infoText, styles.infoLabel, styles[`info-${infoType}`])}>{infoMessage}</p>

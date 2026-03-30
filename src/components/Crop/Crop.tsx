@@ -241,14 +241,14 @@ export function Crop({
         />
       </div>
       <footer className={styles.footer}>
-        <Icon name="zoom_out" className="select-none" />
+        <Icon name="zoom_out" className="select-none leading-xxs" />
         <Slider
           value={zoom}
           onChange={handleZoomChange}
           size="small"
           max={2}
         />
-        <Icon name="zoom_in" className="select-none" />
+        <Icon name="zoom_in" className="select-none leading-xxs" />
       </footer>
     </div>
   );

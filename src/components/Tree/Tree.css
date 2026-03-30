@@ -1,0 +1,6 @@
+@reference "../../assets/main.css";
+
+.expandIcon.material-symbols-rounded.icon,
+.nodeIcon.material-symbols-rounded.icon {
+  @apply text-xl leading-base;
+}

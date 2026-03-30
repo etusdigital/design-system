@@ -5,6 +5,7 @@ import { useControllable } from '../../hooks/useControllable';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { Icon } from '../Icon/Icon';
 import styles from './Tree.module.css';
+import './Tree.css';
 
 // ---------------------------------------------------------------------------
 // Context
@@ -239,7 +240,7 @@ function TreeNode({ option, depth = 0 }: { option: DropOption; depth?: number })
         {hasChildren && (
           <Icon
             name="keyboard_arrow_right"
-            className={clsx(styles.expandIcon, isExpanded && styles.expandIconOpen)}
+            className={clsx(styles.expandIcon, isExpanded && styles.expandIconOpen, 'expandIcon')}
             onClick={(e: any) => {
               e.stopPropagation();
               ctx.onToggleExpand(nodeValue);
@@ -255,7 +256,7 @@ function TreeNode({ option, depth = 0 }: { option: DropOption; depth?: number })
           />
         )}
         {option.icon && (
-          <Icon name={option.icon} className={styles.nodeIcon} />
+          <Icon name={option.icon} className="nodeIcon" />
         )}
         <span className={clsx(styles.nodeLabel)}>
           {nodeLabel}

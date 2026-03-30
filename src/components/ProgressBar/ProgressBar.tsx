@@ -2,8 +2,9 @@ import clsx from 'clsx';
 import { Icon } from '../Icon/Icon';
 import { Tooltip } from '../Tooltip/Tooltip';
 import { blendColors } from '../../utils';
-import styles from './ProgressBar.module.css';
 import { useEffect, useState } from 'react';
+import styles from './ProgressBar.module.css';
+import './ProgressBar.css';
 
 export interface ProgressBarProps {
   value?: number;
@@ -58,7 +59,7 @@ export function ProgressBar({
   const showIcon = !animationType && (icon || iconSlot);
 
   const iconContent = (
-    <>{iconSlot ?? <Icon name={icon} />}</>
+    <>{iconSlot ?? <Icon name={icon} className='slot-icon' />}</>
   );
 
   // Step bar mode

@@ -40,7 +40,7 @@
 }
 
 .option .roundIcon .icon {
- @apply text-3xl;
+ @apply text-3xl leading-xs;
 }
 
 /* ===== Type color variants ===== */

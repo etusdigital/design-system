@@ -103,7 +103,6 @@ export function Accordion({
           <Icon
             className={clsx(
               styles.chevron,
-              'material-symbols-rounded',
               isExpanded && styles.expanded
             )}
             name="expand_more"

@@ -29,5 +29,5 @@
 }
 
 .moreIcon {
-  @apply cursor-pointer;
+  @apply cursor-pointer leading-xxs;
 }

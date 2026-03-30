@@ -7,6 +7,7 @@ import { Option } from "../../utils/components/Option";
 import { StatusBadge } from "../StatusBadge/StatusBadge";
 import { Icon } from "../Icon/Icon";
 import styles from "./TagSelect.module.css";
+import "./TagSelect.css";
 
 export interface TagSelectProps {
   value?: any[];
@@ -285,7 +286,7 @@ export function TagSelect({
   ) : undefined;
 
   const iconNode = icon ? (
-    <Icon name={icon} className="text-neutral-interaction-default" />
+    <Icon name={icon} className="node-icon" />
   ) : undefined;
 
   return (

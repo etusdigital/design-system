@@ -1,0 +1,5 @@
+@reference "../../assets/main.css";
+
+.slot-icon.material-symbols-rounded.icon {
+    @apply text-2xl leading-xs;
+}

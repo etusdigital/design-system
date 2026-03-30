@@ -231,7 +231,7 @@ export function DatePicker({
         }
       )}
     >
-      <Icon name="calendar_month" />
+      <Icon name="calendar_month" className={styles.calendarIcon} />
       <h5 className={clsx('whitespace-nowrap ml-xs', { 'font-bold': isOpen })}>
         <span className={styles.displayLabel}>
           {displayLabel || labelValue || '\u00A0'}

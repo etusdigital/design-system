@@ -8,8 +8,8 @@
   @apply bg-primary-interaction-default text-neutral-foreground-negative placeholder:text-neutral-foreground-negative;
 }
 
-.sc-icon {
-  @apply text-neutral-interaction-default text-base shrink-0;
+.sc-icon.icon {
+  @apply text-neutral-interaction-default text-base leading-sm shrink-0;
 }
 
 .secondary .sc-icon {

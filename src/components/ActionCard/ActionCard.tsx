@@ -116,7 +116,7 @@ export function ActionCard({
           )}
           style={{ background: color || undefined }}
         >
-          {icon && <Icon name={icon} />}
+          {icon && <Icon name={icon} className="leading-xxs" />}
           {headerChildren}
         </header>
         {hasCardSlot && cardChildren}

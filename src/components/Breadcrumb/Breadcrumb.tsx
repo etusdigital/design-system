@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import clsx from 'clsx';
-import { Icon } from '../Icon/Icon';
-import { FloatCard } from '../FloatCard/FloatCard';
-import { useControllable } from '../../hooks/useControllable';
-import { isObject } from '../../utils';
-import styles from './Breadcrumb.module.css';
+import { useState } from "react";
+import clsx from "clsx";
+import { Icon } from "../Icon/Icon";
+import { FloatCard } from "../FloatCard/FloatCard";
+import { useControllable } from "../../hooks/useControllable";
+import { isObject } from "../../utils";
+import styles from "./Breadcrumb.module.css";
 
 export interface BreadcrumbProps {
   value?: any;
@@ -22,8 +22,8 @@ export function Breadcrumb({
   defaultValue,
   onChange,
   options = [],
-  labelKey = 'label',
-  valueKey = 'value',
+  labelKey = "label",
+  valueKey = "value",
   getObject = false,
   className,
 }: BreadcrumbProps) {
@@ -79,12 +79,12 @@ export function Breadcrumb({
         result.push(opts[i]);
       } else if (i === 1 && selectedIndex > 1) {
         result.push({
-          icon: 'more_horiz',
+          icon: "more_horiz",
           options: opts.slice(1, selectedIndex - 1),
         });
       } else if (i === opts.length - 2 && selectedIndex < opts.length - 2) {
         result.push({
-          icon: 'more_horiz',
+          icon: "more_horiz",
           options: opts.slice(selectedIndex + 2, opts.length - 1),
         });
       }
@@ -94,10 +94,10 @@ export function Breadcrumb({
   })();
 
   return (
-    <div className={clsx(styles.breadcrumb, 'breadcrumb', className)}>
+    <div className={clsx(styles.breadcrumb, "breadcrumb", className)}>
       {parsedOptions.map((option, index) => (
         <span key={index} className={styles.itemWrapper}>
-          {isObject(option) && option.icon === 'more_horiz' ? (
+          {isObject(option) && option.icon === "more_horiz" ? (
             <FloatCard
               value={expanded[index]}
               onChange={(open: boolean) => {
@@ -129,7 +129,11 @@ export function Breadcrumb({
               {getLabel(option)}
             </h5>
           )}
-          {index < parsedOptions.length - 1 && <Icon name="chevron_right" />}
+          {index < parsedOptions.length - 1 && (
+            <div>
+              <Icon name="chevron_right" className="leading-xxs" />
+            </div>
+          )}
         </span>
       ))}
     </div>
