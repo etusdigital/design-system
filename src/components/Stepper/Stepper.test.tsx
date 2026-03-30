@@ -45,7 +45,7 @@ describe('Stepper', () => {
 
   it('does not call onChange when noClick is true', () => {
     const handleChange = vi.fn();
-    render(<Stepper options={steps} noClick onChange={handleChange} />);
+    render(<Stepper options={steps} disabled onChange={handleChange} />);
     fireEvent.click(screen.getByText('Step 2'));
     expect(handleChange).not.toHaveBeenCalled();
   });
