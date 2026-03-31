@@ -22,7 +22,7 @@
 }
 
 .headerText {
-  @apply text-base font-semibold text-neutral-foreground-high;
+  @apply text-base font-semibold text-neutral-foreground-high flex-1;
 }
 
 .chevron :global(.icon) {
