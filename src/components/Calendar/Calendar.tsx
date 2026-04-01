@@ -623,8 +623,8 @@ export function Calendar({
       <div role="grid" aria-label={label}>
         {/* Weekday headers */}
         <div className={styles.grid}>
-          {weekDays.map((wd) => (
-            <div key={wd} className={styles.weekdayHeader}>
+          {weekDays.map((wd, index) => (
+            <div key={wd + index} className={styles.weekdayHeader}>
               {wd}
             </div>
           ))}

@@ -48,7 +48,7 @@ export interface DatePickerProps {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function formatDate(date: Date, lang: string): string {
-  return date.toLocaleDateString(lang, {
+  return new Date(date).toLocaleDateString(lang, {
     year: 'numeric',
     month: 'short',
     day: '2-digit',
