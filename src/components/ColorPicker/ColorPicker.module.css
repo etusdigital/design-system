@@ -66,20 +66,15 @@
 }
 
 .colorCircle {
-  @apply rounded-full;
+  @apply shrink-0 rounded-full w-2xl h-2xl;
   @apply border border-neutral-default;
-  height: 2em;
-  width: 2.2em;
-  flex-shrink: 0;
 }
 
 .colorInput {
-  @apply text-xs text-center;
+  @apply min-w-0 outline-none text-xs text-center;
   @apply bg-neutral-surface-default rounded-xs border border-neutral-default;
   @apply px-xxs py-xxs;
   @apply text-neutral-foreground-high;
-  outline: none;
-  min-width: 0;
 }
 
 .typeToggles {
@@ -93,6 +88,14 @@
 
 .typeToggle.active {
   @apply bg-primary-interaction-default text-neutral-foreground-negative;
+}
+
+.colorArrows {
+  @apply cursor-pointer text-neutral-interaction-default text-xl leading-xxs select-none;
+}
+
+.colorArrows.disabled {
+  @apply text-neutral-interaction-disabled pointer-events-none;
 }
 
 @keyframes slide-up {

@@ -112,6 +112,7 @@ export function ColorPicker(props: ColorPickerProps) {
   const sliderColorRef = useRef(sliderColor);
   const sliderOpacityRef = useRef(sliderOpacity);
   const colorTypeIndexRef = useRef(colorTypeIndex);
+  const hueRef = useRef(0);
 
   // Keep mutable refs in sync on every render
   sliderColorRef.current = sliderColor;
@@ -206,11 +207,9 @@ export function ColorPicker(props: ColorPickerProps) {
     const height = canvas.clientHeight;
     const normalizedX = Math.max(0, Math.min(1, x / width));
     const normalizedY = Math.max(0, Math.min(1, y / height));
-    const hue = Math.round((Number(sliderColorRef.current.split(',')[0]?.replace('rgba(', '').trim()) / canvas.clientWidth) * 360);
     const saturation = normalizedX * 100;
     const val = (1 - normalizedY) * 100;
-    // Use hue from slider position
-    const rgba = hsvaToRgba(hue || 0, saturation, val, sliderOpacityRef.current);
+    const rgba = hsvaToRgba(hueRef.current, saturation, val, sliderOpacityRef.current);
     return [Math.round(rgba.r), Math.round(rgba.g), Math.round(rgba.b), Math.round(rgba.a * 255)];
   }
 
@@ -336,6 +335,8 @@ export function ColorPicker(props: ColorPickerProps) {
     if (!cursor || !sliderDiv || !sliderOpacityDiv) return;
     const clamped = getCursorPosition(event, cursor, sliderDiv);
     cursor.style.left = clamped.left + 'px';
+    const trackWidth = sliderDiv.clientWidth - 10;
+    hueRef.current = trackWidth > 0 ? Math.round((clamped.left / trackWidth) * 360) : 0;
     const color = getPixelColor(sliderDiv, clamped.left);
     setSliderColor(color);
     sliderColorRef.current = color;
@@ -377,6 +378,7 @@ export function ColorPicker(props: ColorPickerProps) {
 
     const currentInput = inputColor;
     const hsva = getHsvaColor(currentInput, colorTypeIndexRef.current);
+    hueRef.current = hsva.h ?? 0;
     const colorPercentage = Math.min(1, (hsva.h ?? 0) / 360);
     const colorLeft = Math.min(
       sliderDiv.clientWidth - 10,
@@ -605,16 +607,14 @@ export function ColorPicker(props: ColorPickerProps) {
           <div className="flex flex-col">
             <Icon
               name="arrow_drop_up"
-              className="cursor-pointer text-neutral-interaction-default text-sm leading-none"
-              onClick={disabled ? undefined : moveUp}
-              style={{ fontFamily: 'Material Symbols Outlined', userSelect: 'none' }}
+              className={clsx(styles.colorArrows, disabled && styles.disabled)}
+              onClick={moveUp}
               aria-label="Previous color type"
             />
             <Icon
               name="arrow_drop_down"
-              className="cursor-pointer text-neutral-interaction-default text-sm leading-none"
-              onClick={disabled ? undefined : moveDown}
-              style={{ fontFamily: 'Material Symbols Outlined', userSelect: 'none' }}
+              className={clsx(styles.colorArrows, disabled && styles.disabled)}
+              onClick={moveDown}
               aria-label="Next color type"
             />
           </div>
