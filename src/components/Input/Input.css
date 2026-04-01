@@ -5,5 +5,5 @@
 }
 
 .input .arrow-icon.material-symbols-rounded.icon {
-  @apply text-2xl cursor-pointer text-neutral-interaction-default leading-xxs;
+  @apply text-2xl cursor-pointer text-neutral-interaction-default leading-[.7em];
 }

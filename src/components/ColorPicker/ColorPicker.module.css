@@ -91,7 +91,7 @@
 }
 
 .colorArrows {
-  @apply cursor-pointer text-neutral-interaction-default text-xl leading-xxs select-none;
+  @apply cursor-pointer text-neutral-interaction-default text-xl leading-[.7em] select-none;
 }
 
 .colorArrows.disabled {
