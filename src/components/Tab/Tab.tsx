@@ -24,7 +24,7 @@ export function Tab({
   onChange,
   options = [],
   labelKey = "label",
-  valueKey = "label",
+  valueKey = "value",
   isIcon = false,
   notCard = false,
   getObject = false,
