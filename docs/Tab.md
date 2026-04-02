@@ -122,7 +122,7 @@ Property name used for option values when using object arrays. This is used for:
 - Comparing which tab is active
 - Returning the value when `getObject={false}`
 
-Type: `string` (default: `"label"`)
+Type: `string` (default: `"value"`)
 
 **Example**: If your objects use `id` instead of `value`, set `valueKey="id"`.
 
