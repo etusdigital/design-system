@@ -3,7 +3,6 @@ import clsx from "clsx";
 import { useControllable } from "../../hooks/useControllable";
 import { isObject } from "../../utils";
 import styles from "./Stepper.module.css";
-import "./Stepper.css";
 import { Icon } from "../Icon/Icon";
 
 export interface StepperProps {
@@ -133,7 +132,7 @@ export function Stepper({
                     }
                   )}
                 >
-                  <Icon className="stepper-icon" name={getIcon(option)} />
+                  <Icon className={clsx(styles.stepperIcon, styles[size])} name={getIcon(option)} />
               </div>
               <span className={styles.label}>{getLabel(option)}</span>
             </div>

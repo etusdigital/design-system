@@ -1,5 +1,0 @@
-@reference "../../assets/main.css";
-
-.rich-text-editor .material-symbols-rounded.icon {
-  @apply leading-xs;
-}

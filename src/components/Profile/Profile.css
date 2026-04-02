@@ -1,5 +1,0 @@
-@reference "../../assets/main.css";
-
-.profile .material-symbols-rounded.icon {
-  @apply text-xl leading-xs;
-}

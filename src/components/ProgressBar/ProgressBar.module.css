@@ -156,6 +156,10 @@
   @apply text-neutral-foreground-low;
 }
 
+.slotIcon {
+  @apply text-2xl leading-xs;
+}
+
 /* Animations */
 .progressFill.indeterminate {
   animation: indeterminate 2s ease-in-out infinite;

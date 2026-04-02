@@ -25,12 +25,16 @@
 }
 
 .expandIcon {
-  @apply transition-transform duration-200;
+  @apply text-xl leading-base transition-transform duration-200;
   transform: rotate(0deg);
 }
 
 .expandIconOpen {
   transform: rotate(90deg);
+}
+
+.nodeIcon {
+  @apply text-xl leading-base;
 }
 
 .nodeLabel {

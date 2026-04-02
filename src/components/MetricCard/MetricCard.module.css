@@ -124,12 +124,12 @@
   @apply text-lg;
 }
 
-.small .cardDescription, .small :global(.icon) {
-  @apply text-xs;
+.metricCardIcon.small {
+  @apply text-xs leading-xs p-none;
 }
 
-.small .infoIcon {
-  @apply text-base;
+.infoIcon.small {
+  @apply text-base leading-xs p-none;
 }
 
 .small .infoText {
@@ -152,12 +152,20 @@
   @apply text-xl;
 }
 
-.medium .cardDescription, .medium :global(.icon) {
-  @apply text-sm;
+.metricCardIcon {
+  @apply leading-xs;
 }
 
-.medium .infoIcon {
-  @apply text-lg;
+.metricCardIcon.medium {
+  @apply text-sm leading-xs;
+}
+
+.infoIcon {
+  @apply leading-xs;
+}
+
+.infoIcon.medium {
+  @apply text-lg leading-xs;
 }
 
 .medium .infoText {
@@ -184,12 +192,12 @@
   @apply text-sm;
 }
 
-.large :global(.icon) {
-  @apply text-base;
+.infoIcon.large {
+  @apply text-xl leading-xs;
 }
 
-.large .infoIcon {
-  @apply text-xl;
+.metricCardIcon.large {
+  @apply text-base leading-xs;
 }
 
 .large .infoText {

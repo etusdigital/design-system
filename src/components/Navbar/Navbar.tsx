@@ -4,7 +4,6 @@ import { Avatar } from '../Avatar/Avatar';
 import { FloatCard } from '../FloatCard/FloatCard';
 import { Icon } from '../Icon/Icon';
 import styles from './Navbar.module.css';
-import './Navbar.css';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -124,7 +123,7 @@ export function Navbar({
             {showNotifications && (
               <FloatCard card={notifications}>
                 <button className={styles.notificationButton} type="button" aria-label="Notifications">
-                  <Icon name="notifications" />
+                  <Icon name="notifications" className={styles.navbarIcon} />
                 </button>
               </FloatCard>
             )}

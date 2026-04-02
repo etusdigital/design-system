@@ -9,7 +9,7 @@
 .optionsContainer > .optionItem:first-child { @apply rounded-t-sm; }
 .optionsContainer > .optionItem:last-child { @apply rounded-b-sm; }
 .searchInput { @apply px-sm py-xs border-b-xxs border-neutral-default; }
-.chevronIcon {
+.dropwdownIcon, .chevronIcon {
   @apply text-xl leading-xs;
 }
 

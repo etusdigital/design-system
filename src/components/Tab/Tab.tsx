@@ -1,57 +1,79 @@
-import clsx from 'clsx';
-import { useControllable } from '../../hooks/useControllable';
-import { Icon } from '../Icon/Icon';
-import styles from './Tab.module.css';
+import clsx from "clsx";
+import { useControllable } from "../../hooks/useControllable";
+import { Icon } from "../Icon/Icon";
+import styles from "./Tab.module.css";
+import { isObject } from "#utils/index";
 
 export interface TabProps {
-  value?: number;
-  defaultValue?: number;
-  onChange?: (value: number) => void;
-  options?: Array<string | { label: string; icon?: string; [key: string]: any }>;
+  value?: any;
+  onChange?: (value: any) => void;
+  options?: Array<
+    string | any
+  >;
   labelKey?: string;
+  valueKey?: string;
   isIcon?: boolean;
   notCard?: boolean;
+  getObject?: boolean;
   children?: React.ReactNode;
   className?: string;
 }
 
 export function Tab({
   value,
-  defaultValue,
   onChange,
   options = [],
-  labelKey = 'label',
+  labelKey = "label",
+  valueKey = "label",
   isIcon = false,
   notCard = false,
+  getObject = false,
   children,
   className,
 }: TabProps) {
-  const [model, setModel] = useControllable<number>({
+  const [model, setModel] = useControllable<any>({
     value,
-    defaultValue: defaultValue ?? 0,
+    defaultValue: options.length ? options[0] : undefined,
     onChange,
   });
 
-  function getLabel(option: string | { label: string; [key: string]: any }): string {
-    if (typeof option === 'string') return option;
-    return option[labelKey] as string;
+  function getValue(option: any) {
+    return isObject(option) ? option[valueKey] : option;
+  }
+
+  function getLabel(option: any) {
+    return isObject(option) ? option[labelKey] : option;
+  }
+
+  function handleClick(option: any) {
+    setModel(getObject ? option : getValue(option))
   }
 
   return (
-    <div className={clsx(styles.container, 'tab', notCard && styles.notCard, className)}>
+    <div
+      className={clsx(
+        styles.container,
+        "tab",
+        notCard && styles.notCard,
+        className,
+      )}
+    >
       <div className="flex font-bold text-sm gap-xs w-fit">
         {options.map((option, index) => (
           <button
             key={index}
-            className={clsx(styles.tabButton, model === index && styles.active)}
-            onClick={() => setModel(index)}
+            className={clsx(
+              styles.tabButton,
+              getValue(model) === getValue(option) && styles.active,
+            )}
+            onClick={() => handleClick(option)}
           >
-            {typeof option === 'object' && option.icon ? (
+            {typeof option === "object" && option.icon ? (
               <>
                 <Icon name={option.icon} className={styles.icon} />
                 <span>{getLabel(option)}</span>
               </>
-            ) : isIcon && typeof option === 'string' ? (
+            ) : isIcon && typeof option === "string" ? (
               <Icon name={option} className={styles.icon} />
             ) : (
               <span>{getLabel(option)}</span>

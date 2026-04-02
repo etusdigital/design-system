@@ -3,11 +3,10 @@ import { useState } from "react";
 import { useControllable } from "../../hooks";
 import { ExpandableContainer } from "../../utils/components/ExpandableContainer";
 import { isObject } from "../../utils";
-import styles from "./Dropdown.module.css";
-import "./Dropdown.css";
 import { Icon } from "../Icon/Icon";
 import { SelectContent } from "../../utils/components/SelectContent";
 import { Separator } from "../Separator";
+import styles from "./Dropdown.module.css";
 
 // -----------------------------------------------------------------------
 // Option type (local — mirrors DropOption)
@@ -86,7 +85,7 @@ function DropdownOption({
           aria-expanded={subExpanded}
         >
           <div className="flex item-center gap-xs">
-            {option.icon && <Icon className="dropdown-icon" name={option.icon} />}
+            {option.icon && <Icon className={styles.dropwdownIcon} name={option.icon} />}
             <span className={styles.groupLabel}>{label}</span>
           </div>
           <Icon className={styles.chevronIcon} name="chevron_right" />
@@ -123,7 +122,7 @@ function DropdownOption({
       role="option"
       aria-selected={isSelected}
     >
-      {option.icon && <Icon className="dropdown-icon" name={option.icon} />}
+      {option.icon && <Icon className={styles.dropwdownIcon} name={option.icon} />}
       <span>{label}</span>
     </div>
   );

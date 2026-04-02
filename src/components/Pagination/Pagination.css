@@ -1,5 +1,0 @@
-@reference "../../assets/main.css";
-
-.pagination .nav-icon.material-symbols-rounded.icon {
-    @apply text-2xl leading-xs;
-}

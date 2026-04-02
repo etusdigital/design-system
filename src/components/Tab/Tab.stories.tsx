@@ -6,8 +6,7 @@ const meta = {
   component: Tab,
   argTypes: {
     value: {
-      type: { name: 'number' },
-      description: 'The currently active tab index.',
+      description: 'The currently active tab.',
     },
     options: {
       type: { name: 'array', value: { name: 'object', value: {} } },
@@ -18,9 +17,19 @@ const meta = {
       description: 'Property name used for displaying option labels when using object arrays.',
       table: { defaultValue: { summary: 'label' } },
     },
+    valueKey: {
+      type: { name: 'string' },
+      table: {
+        defaultValue: { summary: 'value' },
+      },
+    },
     notCard: {
       type: { name: 'boolean' },
       description: 'No card will wrap the options.',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    getObject: {
+      type: { name: 'boolean' },
       table: { defaultValue: { summary: 'false' } },
     },
   },
@@ -31,7 +40,7 @@ type Story = StoryObj<typeof Tab>;
 
 export const Primary: Story = {
   render: () => {
-    const [value, setValue] = useState<number | undefined>(undefined);
+    const [value, setValue] = useState<any | undefined>(undefined);
     return (
       <Tab
         className="w-fit"

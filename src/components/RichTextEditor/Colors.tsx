@@ -84,7 +84,7 @@ export function Colors({
 
   const palette = (() => {
     if (!mounted) return [];
-    return generateColorPalette();;
+    return generateColorPalette();
   })();
 
   function handleColorSelect(color: string) {
@@ -162,7 +162,10 @@ export function Colors({
                 >
                   <Icon
                     name="add_circle"
-                    className="text-neutral-interactive-default cursor-pointer"
+                    className={clsx(
+                      styles.richTextEditorIcon,
+                      "text-neutral-interactive-default cursor-pointer",
+                    )}
                   />
                 </div>
                 {custom.map((color) => (

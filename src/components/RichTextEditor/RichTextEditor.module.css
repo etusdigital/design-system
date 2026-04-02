@@ -180,3 +180,7 @@
 .linkDialogActions {
   @apply flex justify-end gap-sm;
 }
+
+.richTextEditorIcon {
+  @apply leading-xs;
+}

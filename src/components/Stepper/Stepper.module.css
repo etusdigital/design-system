@@ -51,3 +51,15 @@
 .connector.future {
   background: var(--neutral-border-default);
 }
+
+.stepperIcon {
+  @apply text-lg leading-xxs;
+}
+
+.stepperIcon.small {
+  @apply text-base;
+}
+
+.stepperIcon.large {
+  @apply text-xl;
+}

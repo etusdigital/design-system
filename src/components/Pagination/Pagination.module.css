@@ -8,3 +8,6 @@
 .navButton { @apply flex justify-center items-center cursor-pointer border-none bg-transparent text-neutral-interaction-default; }
 .navButton:hover { @apply text-primary-interaction-hover; }
 .navButton:disabled { @apply opacity-50 cursor-not-allowed; }
+.navIcon {
+    @apply text-2xl leading-xs;
+}

@@ -1,6 +1,6 @@
-import clsx from 'clsx';
-import { Icon } from '../Icon/Icon';
-import styles from './RichTextEditor.module.css';
+import clsx from "clsx";
+import { Icon } from "../Icon/Icon";
+import styles from "./RichTextEditor.module.css";
 
 interface ColorProps {
   color: string;
@@ -10,16 +10,18 @@ interface ColorProps {
 }
 
 function getContrastColor(color: string): string {
-  let r = 0, g = 0, b = 0;
+  let r = 0,
+    g = 0,
+    b = 0;
 
-  if (color.startsWith('rgb(')) {
+  if (color.startsWith("rgb(")) {
     const matches = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
     if (matches) {
       r = parseInt(matches[1]);
       g = parseInt(matches[2]);
       b = parseInt(matches[3]);
     }
-  } else if (color.startsWith('hsl(')) {
+  } else if (color.startsWith("hsl(")) {
     const matches = color.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
     if (matches) {
       const h = parseInt(matches[1]) / 360;
@@ -48,8 +50,8 @@ function getContrastColor(color: string): string {
       g = Math.round(g * 255);
       b = Math.round(b * 255);
     }
-  } else if (color.startsWith('#')) {
-    const hex = color.replace('#', '');
+  } else if (color.startsWith("#")) {
+    const hex = color.replace("#", "");
     if (/^[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$/i.test(hex)) {
       r = parseInt(hex.substring(0, 2), 16);
       g = parseInt(hex.substring(2, 4), 16);
@@ -58,7 +60,7 @@ function getContrastColor(color: string): string {
   }
 
   const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-  return luminance < 0.5 ? 'text-white' : 'text-black';
+  return luminance < 0.5 ? "text-white" : "text-black";
 }
 
 export function Color({ color, selected, onClick, className }: ColorProps) {
@@ -73,7 +75,7 @@ export function Color({ color, selected, onClick, className }: ColorProps) {
       {selected && (
         <Icon
           name="check"
-          className={contrastClass}
+          className={clsx(contrastClass, styles.richTextEditorIcon)}
         />
       )}
     </div>

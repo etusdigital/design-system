@@ -10,7 +10,6 @@ import { Dialog } from '../Dialog';
 import { Button } from '../Button';
 import { Tooltip } from '../Tooltip';
 import styles from './RichTextEditor.module.css';
-import './RichTextEditor.css';
 
 interface RichTextEditorProps {
   value?: string;
@@ -621,7 +620,7 @@ export function RichTextEditor({
           onMouseDown={(e) => { e.preventDefault(); saveCurrentSelection(); }}
           onClick={() => action ? action() : execFormatCommand(command)}
         >
-          <Icon name={icon} />
+          <Icon name={icon} className={styles.richTextEditorIcon} />
         </button>
       </Tooltip>
     );
@@ -658,7 +657,7 @@ export function RichTextEditor({
             onMouseDown={(e) => e.preventDefault()}
             onClick={undoAction}
           >
-            <Icon name="undo" />
+            <Icon name="undo" className={styles.richTextEditorIcon} />
           </button>
           <button
             className={styles.toolbarBtn}
@@ -667,7 +666,7 @@ export function RichTextEditor({
             onMouseDown={(e) => e.preventDefault()}
             onClick={redoAction}
           >
-            <Icon name="redo" />
+            <Icon name="redo" className={styles.richTextEditorIcon} />
           </button>
         </div>
 
@@ -711,7 +710,7 @@ export function RichTextEditor({
               onMouseDown={(e) => { e.preventDefault(); saveCurrentSelection(); }}
               onClick={() => setForeColorExpanded(!foreColorExpanded)}
             >
-              <Icon name="format_color_text" />
+              <Icon name="format_color_text" className={styles.richTextEditorIcon} />
             </button>
           </Colors>
           <Colors
@@ -734,7 +733,7 @@ export function RichTextEditor({
               onMouseDown={(e) => { e.preventDefault(); saveCurrentSelection(); }}
               onClick={() => setBackColorExpanded(!backColorExpanded)}
             >
-              <Icon name="format_color_fill" />
+              <Icon name="format_color_fill" className={styles.richTextEditorIcon} />
             </button>
           </Colors>
         </div>
@@ -761,7 +760,7 @@ export function RichTextEditor({
             title="Insert image"
             onMouseDown={(e) => { e.preventDefault(); saveCurrentSelection(); }}
           >
-            <Icon name="image" />
+            <Icon name="image" className={styles.richTextEditorIcon} />
             <input
               type="file"
               accept="image/*"

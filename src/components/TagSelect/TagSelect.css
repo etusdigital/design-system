@@ -1,5 +1,0 @@
-@reference "../../assets/main.css";
-
-.tag-select .node-icon.material-symbols-rounded.icon {
-    @apply text-neutral-interaction-default text-lg leading-sm;
-}

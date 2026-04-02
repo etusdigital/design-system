@@ -37,3 +37,7 @@
 .inputDefault {
   @apply w-full text-sm border-0 border-xxs border-neutral-default placeholder:text-neutral-interaction-default py-xs pr-xs pl-2xl outline-none focus:border-neutral-default;
 }
+
+.profileIcon {
+  @apply text-xl leading-xs;
+}

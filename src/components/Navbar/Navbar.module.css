@@ -38,3 +38,7 @@
 .avatarWrapper {
   @apply flex items-center;
 }
+
+.navbarIcon {
+  @apply text-xl leading-xs;
+}

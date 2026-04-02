@@ -6,7 +6,6 @@ import { useControllable } from '../../hooks/useControllable';
 import { Label } from '../../utils/components/Label';
 import { Icon } from '../Icon/Icon';
 import { applyMask, isValidEmail, isValidDomain, isValidUrl } from '../../utils/index';
-import './Input.css';
 import styles from './Input.module.css';
 
 export interface InputProps {
@@ -267,9 +266,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
         >
           {/* Prepend icon area */}
           {type === 'search' ? (
-            <Icon name="search" className="text-neutral-foreground-low" />
+            <Icon name="search" className={clsx(styles.inputIcon, "text-neutral-foreground-low")} />
           ) : icon ? (
-            <Icon name={icon} />
+            <Icon name={icon} className={styles.inputIcon} />
           ) : prependIconChild ? (
             prependIconChild
           ) : null}
@@ -292,11 +291,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
           {type === 'password' ? (
             <Icon
               name={showPassword ? 'visibility_off' : 'visibility'}
-              className="cursor-pointer"
+              className={clsx(styles.inputIcon, "cursor-pointer")}
               onClick={() => setShowPassword(!showPassword)}
             />
           ) : appendIcon ? (
-            <Icon name={appendIcon} />
+            <Icon name={appendIcon} className={styles.inputIcon} />
           ) : appendIconChild ? (
             appendIconChild
           ) : null}
@@ -307,12 +306,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
           <div className={clsx(styles.numberArrows, 'ml-xxs')}>
             <Icon
               name="arrow_drop_up"
-              className="arrow-icon"
+              className={styles.arrowIcon}
               onClick={increment}
             />
             <Icon
               name="arrow_drop_down"
-              className="arrow-icon"
+              className={styles.arrowIcon}
               onClick={decrement}
             />
           </div>
