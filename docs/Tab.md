@@ -96,8 +96,6 @@ Controls the currently selected tab. The value type depends on the `getObject` p
 
 Type: `any` (default: `undefined`)
 
-**Note**: If no initial value is provided, the first option is automatically selected.
-
 #### onChange
 Callback triggered when the selected tab changes. Type: `(value: any) => void`
 
@@ -124,7 +122,7 @@ Property name used for option values when using object arrays. This is used for:
 - Comparing which tab is active
 - Returning the value when `getObject={false}`
 
-Type: `string` (default: `"value"`)
+Type: `string` (default: `"label"`)
 
 **Example**: If your objects use `id` instead of `value`, set `valueKey="id"`.
 
@@ -167,10 +165,12 @@ Triggered when the selected tab changes. The emitted value depends on the `getOb
 
 ### Slots API
 
-This component uses internal rendering for tab options and doesn't expose custom slots. All customization is done through props and the `options` array structure.
+#### children
+Content rendered below the tab buttons. Use this to display tab panels or any content associated with the selected tab.
+
+Type: `React.ReactNode`
 
 **Important Notes:**
-- **Auto-selection**: Automatically selects the first tab if no initial `value` is provided
 - **Flexible data structures**: Supports both string arrays and object arrays with configurable property names via `labelKey` and `valueKey`
 - **Icon support**:
   - Use `isIcon` for icon-only tabs with string arrays
