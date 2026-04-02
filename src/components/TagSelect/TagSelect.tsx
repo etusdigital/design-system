@@ -31,6 +31,7 @@ export interface TagSelectProps {
   absolute?: boolean;
   buttonLabel?: string;
   className?: string;
+  children?: React.ReactNode;
 }
 
 export function TagSelect({
@@ -56,6 +57,7 @@ export function TagSelect({
   absolute = true,
   buttonLabel,
   className,
+  children,
 }: TagSelectProps) {
   const [model, setModel] = useControllable<any[]>({
     value,
@@ -217,7 +219,7 @@ export function TagSelect({
       ? tagsNode
       : searchable || creatable
         ? searchNode
-        : undefined;
+        : children;
 
   function handleOptionsKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
     const items = Array.from(

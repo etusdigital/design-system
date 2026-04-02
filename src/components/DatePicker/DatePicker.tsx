@@ -43,6 +43,7 @@ export interface DatePickerProps {
   onClear?: () => void;
   onTypeChange?: (type: SelectionType) => void;
   className?: string;
+  children?: React.ReactNode;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -132,6 +133,7 @@ export function DatePicker({
   onClear,
   onTypeChange,
   className,
+  children,
 }: DatePickerProps) {
   const [controlledValue, setControlledValue] = useControllable<
     Date | Date[] | [Date[], Date[]] | undefined
@@ -234,7 +236,7 @@ export function DatePicker({
       <Icon name="calendar_month" className={styles.calendarIcon} />
       <h5 className={clsx('whitespace-nowrap ml-xs', { 'font-bold': isOpen })}>
         <span className={styles.displayLabel}>
-          {displayLabel || labelValue || '\u00A0'}
+          {displayLabel || children || '\u00A0'}
         </span>
       </h5>
     </div>
