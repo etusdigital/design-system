@@ -37,7 +37,7 @@
 }
 
 .heavy .colored {
-  @apply text-white;
+  @apply text-neutral-foreground-negative;
 }
 
 .clickable {

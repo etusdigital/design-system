@@ -200,7 +200,7 @@ export function TagSelect({
           placeholder={placeholder ?? "Search"}
           disabled={disabled}
           className={clsx(
-            "text-neutral-interaction-default h-full w-full p-none m-none border-none shadow-none outline-none text-sm",
+            "text-neutral-interaction-default h-full w-full bg-neutral-surface-default p-none m-none border-none shadow-none outline-none text-sm",
             {
               "text-danger-foreground-low": isError,
               "bg-neutral-surface-disabled text-neutral-foreground-low":

@@ -13,7 +13,7 @@
 }
 
 .textareaContainer {
-  @apply flex py-xs px-sm rounded-sm outline outline-1 outline-neutral-default bg-white transition-[outline-color] duration-100;
+  @apply flex py-xs px-sm rounded-sm outline outline-1 outline-neutral-default bg-neutral-surface-default transition-[outline-color] duration-100;
 }
 
 .focused {

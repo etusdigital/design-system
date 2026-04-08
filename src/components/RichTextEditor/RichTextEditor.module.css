@@ -173,7 +173,7 @@
 }
 
 .linkInput {
-  @apply w-full px-sm py-xs border-xxs border-neutral-default rounded-sm outline-none;
+  @apply w-full px-sm py-xs bg-neutral-surface-default border-xxs border-neutral-default rounded-sm outline-none;
   @apply focus:border-primary-default;
 }
 

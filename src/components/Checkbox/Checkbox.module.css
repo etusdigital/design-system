@@ -17,9 +17,9 @@
 }
 
 .active {
-  @apply bg-primary-interaction-selected border-primary-interaction-selected text-white;
+  @apply bg-primary-interaction-selected border-primary-interaction-selected text-neutral-foreground-negative;
 }
 
 .indeterminate {
-  @apply bg-primary-interaction-selected border-primary-interaction-selected text-white;
+  @apply bg-primary-interaction-selected border-primary-interaction-selected text-neutral-foreground-negative;
 }

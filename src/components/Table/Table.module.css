@@ -17,7 +17,7 @@
 }
 
 .tableContent.headerFixed .tableStyle thead {
-  @apply bg-white top-0 sticky;
+  @apply bg-neutral-surface-default top-0 sticky;
 }
 
 .tableStyle {
@@ -54,10 +54,6 @@
 
 .hoverBg {
   @apply hover:bg-neutral-surface-default;
-}
-
-.bgWhite {
-  @apply bg-white;
 }
 
 .sortable {

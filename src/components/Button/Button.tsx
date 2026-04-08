@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Spinner } from '../Spinner/Spinner';
 import { Icon } from '../Icon/Icon';
-import { blendColors } from '../../utils';
+import { blendColors, getContrastColor } from '../../utils';
 import styles from './Button.module.css';
 import './colors.css';
 
@@ -77,7 +77,7 @@ export function Button({
         style.borderColor = bg;
       } else if (background && variant === 'reverse') {
         style.background = background;
-        style.color = 'white';
+        style.color = getContrastColor(background);
       } else if (background) {
         style.background = blendColors(background, 0.4);
       }

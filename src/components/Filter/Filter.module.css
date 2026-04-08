@@ -26,7 +26,7 @@
 .searchBox { @apply flex items-center gap-xs px-sm py-xs border-b-xxs border-neutral-default; }
 
 .searchInput {
-  @apply flex-1 text-sm bg-transparent outline-none;
+  @apply flex-1 text-sm bg-transparent outline-none bg-neutral-surface-default;
   @apply text-neutral-foreground-high placeholder:text-neutral-foreground-low;
 }
 

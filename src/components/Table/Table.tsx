@@ -314,7 +314,7 @@ export function Table({
                   </th>
                 ))}
                 {hasActions && (
-                  <th style={{ flex: 1 }} className={clsx(styles.pointerNone, styles.bgWhite)} />
+                  <th style={{ flex: 1 }} className={clsx(styles.pointerNone)} />
                 )}
               </tr>
             </thead>

@@ -60,7 +60,7 @@
 
 /* Cursor / thumb */
 .cursor {
-  @apply absolute w-[1.25em] h-[1.25em] rounded-full border-2 border-primary-interaction-default bg-white cursor-grab z-[1] select-none;
+  @apply absolute w-[1.25em] h-[1.25em] rounded-full border-2 border-primary-interaction-default bg-neutral-surface-default cursor-grab z-[1] select-none;
   top: 50%;
   transform: translateY(-50%);
   left: -50px;

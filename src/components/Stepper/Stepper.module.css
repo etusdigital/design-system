@@ -11,12 +11,10 @@
 .step.small { @apply p-sm; }
 .step.large { @apply p-lg; }
 
-/* Past steps: filled primary circle with white icon */
 .step.past {
   @apply bg-primary-interaction-default border-primary-interaction-default text-neutral-foreground-negative;
 }
 
-/* Active step: primary background with white icon/text */
 .step.active {
   @apply bg-transparent border-primary-default text-primary-interaction-default;
 }

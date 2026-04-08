@@ -1,7 +1,7 @@
 @reference "../../assets/main.css";
 
 .search {
-  @apply h-full w-full pl-xxs p-0 m-0 border-none shadow-none outline-none text-xs;
+  @apply h-full w-full pl-xxs p-0 m-0 border-none shadow-none outline-none text-xs bg-neutral-surface-default;
 }
 
 .secondary .search {

@@ -53,7 +53,7 @@
 }
 
 .statusBadge.heavy :global(.colored) {
-  @apply text-white;
+  @apply text-neutral-foreground-negative;
 }
 
 .statusBadge.heavy.primary {

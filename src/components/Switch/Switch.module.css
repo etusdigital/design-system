@@ -13,7 +13,7 @@
 }
 
 .track {
-  @apply flex items-center w-[2em] h-[1.16em] rounded-full bg-neutral-interaction-default transition-all duration-150 ease-out text-white;
+  @apply flex items-center w-[2em] h-[1.16em] rounded-full bg-neutral-interaction-default transition-all duration-150 ease-out text-neutral-foreground-negative;
 }
 
 .active {
