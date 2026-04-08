@@ -67,7 +67,7 @@ Main content area of the card, displayed below the header.
 
 ```tsx
 <ActionCard icon="mail">
-    <div className="flex justify-between items-center text-white w-full">
+    <div className="flex justify-between items-center text-neutral-foreground-negative w-full">
         <div className="flex flex-col text-sm">
             <p>Send Message:</p>
             <p className="font-bold">cartaofeito-d-fluxo-cc-dia-05-e12</p>
