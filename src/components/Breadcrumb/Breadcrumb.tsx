@@ -105,6 +105,7 @@ export function Breadcrumb({
                 next[index] = open;
                 setExpanded(next);
               }}
+              className="leading-none"
               card={
                 <div className={styles.moreOptions}>
                   {option.options.map((subOption: any, subIndex: number) => (
@@ -130,9 +131,7 @@ export function Breadcrumb({
             </h5>
           )}
           {index < parsedOptions.length - 1 && (
-            <div>
-              <Icon name="chevron_right" className="leading-xxs" />
-            </div>
+            <Icon name="chevron_right" className="leading-xxs" />
           )}
         </span>
       ))}

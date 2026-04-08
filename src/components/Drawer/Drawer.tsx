@@ -9,8 +9,7 @@ export interface DrawerProps {
   value?: boolean;
   onChange?: (value: boolean) => void;
   position?: 'right' | 'left' | 'top' | 'bottom';
-  width?: string;
-  height?: string;
+  size?: string;
   noOutsideClose?: boolean;
   children?: React.ReactNode;
   className?: string;
@@ -20,8 +19,7 @@ export function Drawer({
   value,
   onChange,
   position = 'right',
-  width = 'fit-content',
-  height = 'fit-content',
+  size = 'fit-content',
   noOutsideClose = false,
   children,
   className,
@@ -32,11 +30,11 @@ export function Drawer({
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const effectivePosition = isMobile ? 'bottom' : position;
-  const effectiveWidth = isMobile ? '100%' : width;
+  const effectiveWidth = isMobile ? '100%' : size;
 
   function getStyle() {
     if (position == 'top'|| position == 'bottom') return {
-      height,
+      height: size,
       maxHeight: 'calc(100% - var(--spacing-xl))',
     }
 

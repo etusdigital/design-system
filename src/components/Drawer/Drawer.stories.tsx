@@ -10,15 +10,10 @@ const meta = {
       control: { type: 'boolean' },
       description: 'Determine if the drawer is displayed or not.',
     },
-    width: {
+    size: {
       control: { type: 'text' },
       table: { defaultValue: { summary: 'fit-content' } },
-      description: 'Width of the drawer (for left/right positions).',
-    },
-    height: {
-      control: { type: 'text' },
-      table: { defaultValue: { summary: 'fit-content' } },
-      description: 'Height of the drawer (for top/bottom positions).',
+      description: 'Width (for left/right positions) or height (for top/bottom positions) of the drawer.',
     },
     noOutsideClose: {
       control: { type: 'boolean' },
@@ -43,7 +38,7 @@ export const Primary: Story = {
     return (
       <>
         <Button onClick={() => setOpen(true)}>Show Drawer</Button>
-        <Drawer value={open} onChange={setOpen} position="right" width="40%" noOutsideClose={false}>
+        <Drawer value={open} onChange={setOpen} position="right" size="40%" noOutsideClose={false}>
           <div className="flex flex-col justify-between h-full p-xl">
             <div className="flex flex-col gap-sm">
               <h2 className="font-bold text-lg">Drawer</h2>
@@ -70,7 +65,7 @@ export const NoOutsideClose: Story = {
     return (
       <>
         <Button onClick={() => setOpen(true)}>Show Drawer</Button>
-        <Drawer value={open} onChange={setOpen} position="right" width="40%" noOutsideClose={true}>
+        <Drawer value={open} onChange={setOpen} position="right" size="40%" noOutsideClose={true}>
           <div className="flex flex-col justify-between h-full p-xl">
             <div className="flex flex-col gap-sm">
               <h2 className="font-bold text-lg">Drawer</h2>
@@ -113,7 +108,7 @@ export const Positions: Story = {
             </Button>
           ))}
         </div>
-        <Drawer value={open} onChange={setOpen} position={position} width="40%">
+        <Drawer value={open} onChange={setOpen} position={position} size="40%">
           <div className="flex flex-col justify-between h-full p-xl">
             <div className="flex flex-col gap-sm">
               <h2 className="font-bold text-lg">Drawer</h2>
