@@ -272,9 +272,10 @@ module.exports = {
       borderColor: borderColor,
       outlineColor: borderColor,
       boxShadow: {
-        "neutral-default":
-          "0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.06)",
-        "neutral-selected": "0px 1px 2px 0px rgba(0, 0, 0, 0.05)",
+        neutral: {
+          default: "var(--neutral-shadow-default)",
+          selected: "var(--neutral-shadow-selected)",
+        },
       },
     },
   },
