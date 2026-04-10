@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
-import clsx from 'clsx';
-import { useControllable } from '../../hooks';
-import { checkDateType } from '../../utils';
-import { ExpandableContainer } from '../../utils/components/ExpandableContainer';
-import { Calendar } from '../Calendar/Calendar';
-import { Button } from '../Button/Button';
-import { Checkbox } from '../Checkbox/Checkbox';
-import { Icon } from '../Icon/Icon';
-import styles from './DatePicker.module.css';
+import { useEffect, useState } from "react";
+import clsx from "clsx";
+import { useControllable } from "../../hooks";
+import { checkDateType } from "../../utils";
+import { ExpandableContainer } from "../../utils/components/ExpandableContainer";
+import { Calendar } from "../Calendar/Calendar";
+import { Button } from "../Button/Button";
+import { Checkbox } from "../Checkbox/Checkbox";
+import { Icon } from "../Icon/Icon";
+import styles from "./DatePicker.module.css";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type SelectionType = 'date' | 'period' | 'compare';
+type SelectionType = "date" | "period" | "compare";
 
 export interface DatePickerProps {
   value?: Date | Date[] | [Date[], Date[]];
@@ -38,39 +38,45 @@ export interface DatePickerProps {
   allowChangeType?: boolean;
   expanded?: boolean;
   onExpandedChange?: (expanded: boolean) => void;
-  options?: Array<{ label: string; value: string | [string, string]; selected?: boolean; calculate?: () => Date[] }>;
+  options?: Array<{
+    label: string;
+    value: string | [string, string];
+    selected?: boolean;
+    calculate?: () => Date[];
+  }>;
   hideActions?: boolean;
   onClear?: () => void;
   onTypeChange?: (type: SelectionType) => void;
   className?: string;
   children?: React.ReactNode;
+  actions?: React.ReactNode;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function formatDate(date: Date, lang: string): string {
   return new Date(date).toLocaleDateString(lang, {
-    year: 'numeric',
-    month: 'short',
-    day: '2-digit',
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
   });
 }
 
 function getAnd(lang: string): string {
-  return lang.includes('pt') ? 'e' : 'and';
+  return lang.includes("pt") ? "e" : "and";
 }
 
 function buildDisplayLabel(
   value: Date | Date[] | [Date[], Date[]] | undefined,
   type: SelectionType,
   lang: string,
-  separator?: string
+  separator?: string,
 ): string {
-  if (!value) return '';
+  if (!value) return "";
 
   const model = checkDateType(value as any, type);
 
-  if (type === 'compare') {
+  if (type === "compare") {
     const ranges = model as Date[][];
     const range0 = ranges[0] ?? [];
     const range1 = ranges[1] ?? [];
@@ -79,26 +85,26 @@ function buildDisplayLabel(
       const sep = separator ?? getAnd(lang);
       const r0 =
         formatDate(range0[0], lang) +
-        (range0[1] ? ' - ' + formatDate(range0[1], lang) : '');
+        (range0[1] ? " - " + formatDate(range0[1], lang) : "");
       const r1 =
         formatDate(range1[0], lang) +
-        (range1[1] ? ' - ' + formatDate(range1[1], lang) : '');
+        (range1[1] ? " - " + formatDate(range1[1], lang) : "");
       return `${r0} ${sep} ${r1}`;
     } else if (range0.length > 0) {
       return (
         formatDate(range0[0], lang) +
-        (range0[1] ? ' - ' + formatDate(range0[1], lang) : '')
+        (range0[1] ? " - " + formatDate(range0[1], lang) : "")
       );
     }
-    return '';
+    return "";
   }
 
   const dates = model as Date[];
-  if (dates.length === 0) return '';
+  if (dates.length === 0) return "";
 
   const label =
     formatDate(dates[0], lang) +
-    (dates[1] && type !== 'date' ? ' - ' + formatDate(dates[1], lang) : '');
+    (dates[1] && type !== "date" ? " - " + formatDate(dates[1], lang) : "");
   return label;
 }
 
@@ -108,20 +114,20 @@ export function DatePicker({
   value,
   defaultValue,
   onChange,
-  type = 'date',
+  type = "date",
   minDate,
   maxDate,
   disabledDates,
   disabled = false,
-  labelValue = '',
+  labelValue = "",
   isError = false,
-  errorMessage = '',
-  infoMessage = '',
+  errorMessage = "",
+  infoMessage = "",
   required = false,
-  clearLabel = 'Clear selection',
-  applyLabel = 'Apply filters',
-  compareLabel = 'Compare dates',
-  lang = 'en',
+  clearLabel = "Clear selection",
+  applyLabel = "Apply filters",
+  compareLabel = "Compare dates",
+  lang = "en",
   onApply,
   separator,
   isCompare = false,
@@ -134,6 +140,7 @@ export function DatePicker({
   onTypeChange,
   className,
   children,
+  actions,
 }: DatePickerProps) {
   const [controlledValue, setControlledValue] = useControllable<
     Date | Date[] | [Date[], Date[]] | undefined
@@ -164,13 +171,20 @@ export function DatePicker({
   const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
 
   // Compare/range mode toggle for allowChangeType
-  const [isMulti, setIsMulti] = useState(isCompare || controlledType === 'compare');
+  const [isMulti, setIsMulti] = useState(
+    isCompare || controlledType === "compare",
+  );
 
-  const displayLabel = buildDisplayLabel(controlledValue, controlledType!, lang, separator);
+  const displayLabel = buildDisplayLabel(
+    controlledValue,
+    controlledType!,
+    lang,
+    separator,
+  );
 
   useEffect(() => {
-    setWorkingValue(controlledValue)
-  }, [controlledValue])
+    setWorkingValue(controlledValue);
+  }, [controlledValue]);
 
   function handleExpand(isOpenVal: boolean) {
     if (isOpenVal) {
@@ -197,9 +211,11 @@ export function DatePicker({
     onApply?.(workingValue);
   }
 
-  function handlePresetSelect(
-    opt: { label: string; value: string | [string, string]; calculate?: () => Date[] }
-  ) {
+  function handlePresetSelect(opt: {
+    label: string;
+    value: string | [string, string];
+    calculate?: () => Date[];
+  }) {
     setSelectedPreset(opt.label);
     if (opt.calculate) {
       const dates = opt.calculate();
@@ -207,42 +223,45 @@ export function DatePicker({
     }
   }
 
-  function isPresetSelected(
-    opt: { label: string; value: string | [string, string] }
-  ): boolean {
+  function isPresetSelected(opt: {
+    label: string;
+    value: string | [string, string];
+  }): boolean {
     return selectedPreset === opt.label;
   }
 
   function handleChangeType(checked: boolean | null) {
     const newIsMulti = !!checked;
     setIsMulti(newIsMulti);
-    setControlledType(newIsMulti ? 'compare' : 'period');
-    console.log(newIsMulti, type, controlledType)
+    setControlledType(newIsMulti ? "compare" : "period");
+    console.log(newIsMulti, type, controlledType);
     setWorkingValue(controlledValue);
-    console.log(value, controlledValue, workingValue)
+    console.log(value, controlledValue, workingValue);
   }
 
   const triggerContent = (
     <div
       className={clsx(
-        'flex items-center text-lg text-neutral-interaction-default',
+        "flex items-center text-lg text-neutral-interaction-default",
         {
           expanded: isOpen,
           error: isError,
           disabled,
-        }
+        },
       )}
     >
       <Icon name="calendar_month" className={styles.calendarIcon} />
-      <h5 className={clsx('whitespace-nowrap ml-xs', { 'font-bold': isOpen })}>
+      <h5 className={clsx("whitespace-nowrap ml-xs", { "font-bold": isOpen })}>
         <span className={styles.displayLabel}>
-          {displayLabel || children || '\u00A0'}
+          {displayLabel || children || "\u00A0"}
         </span>
       </h5>
     </div>
   );
 
-  const hasPresetSidebar = ((options && options.length) || allowChangeType) && controlledType != "date";
+  const hasPresetSidebar =
+    ((options && options.length) || allowChangeType) &&
+    controlledType != "date";
 
   const cardContent = (
     <div>
@@ -251,25 +270,23 @@ export function DatePicker({
         {hasPresetSidebar && (
           <div className={styles.presetSidebar}>
             <div className="flex flex-col">
-              {options && options.map((opt, i) => (
-                <button
-                  key={i}
-                  className={clsx(
-                    styles.presetOption,
-                    isPresetSelected(opt) && styles.presetActive
-                  )}
-                  onClick={() => handlePresetSelect(opt)}
-                >
-                  {opt.label}
-                </button>
-              ))}
+              {options &&
+                options.map((opt, i) => (
+                  <button
+                    key={i}
+                    className={clsx(
+                      styles.presetOption,
+                      isPresetSelected(opt) && styles.presetActive,
+                    )}
+                    onClick={() => handlePresetSelect(opt)}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
             </div>
             {allowChangeType && (
               <div className="px-xs py-sm">
-                <Checkbox
-                  value={isMulti}
-                  onChange={handleChangeType}
-                >
+                <Checkbox value={isMulti} onChange={handleChangeType}>
                   {compareLabel}
                 </Checkbox>
               </div>
@@ -294,12 +311,26 @@ export function DatePicker({
           {/* Actions */}
           {!hideActions && (
             <div className={styles.actions}>
-              <Button size="small" variant="plain" color="neutral" onClick={handleClear}>
-                {clearLabel}
-              </Button>
-              <Button size="small" variant="default" color="primary" onClick={handleApply}>
-                {applyLabel}
-              </Button>
+              {actions || (
+                <>
+                  <Button
+                    size="small"
+                    variant="plain"
+                    color="neutral"
+                    onClick={handleClear}
+                  >
+                    {clearLabel}
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="default"
+                    color="primary"
+                    onClick={handleApply}
+                  >
+                    {applyLabel}
+                  </Button>
+                </>
+              )}
             </div>
           )}
         </div>
@@ -319,7 +350,7 @@ export function DatePicker({
       hideArrow
       disableLabelAutoWidth
       card={cardContent}
-      className={clsx('date-picker', className)}
+      className={clsx("date-picker", className)}
       labelValue={labelValue}
     >
       {triggerContent}
