@@ -584,7 +584,6 @@ export function Calendar({
     }
 
     if (onChange) {
-      console.log('aqui')
       if (type === "date") {
         onChange(date);
       } else {
