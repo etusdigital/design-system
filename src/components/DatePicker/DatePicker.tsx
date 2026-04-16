@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import clsx from "clsx";
 import { useControllable } from "../../hooks";
 import { checkDateType } from "../../utils";
