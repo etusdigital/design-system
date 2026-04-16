@@ -1,5 +1,7 @@
 @reference "../../assets/main.css";
 
+.displayLabel { @apply text-sm font-normal truncate; }
+
 .optionItem {
   @apply text-neutral-interaction-default px-base py-sm text-sm font-normal whitespace-nowrap cursor-pointer flex items-center gap-xs;
   @apply hover:bg-primary-surface-hover hover:text-primary-interaction-hover;

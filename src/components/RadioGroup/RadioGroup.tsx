@@ -15,7 +15,6 @@ export const RadioGroupContext = createContext<RadioGroupContextValue | null>(nu
 
 export interface RadioGroupProps {
   value?: any;
-  defaultValue?: any;
   onChange?: (value: any) => void;
   vertical?: boolean;
   disabled?: boolean;
@@ -29,7 +28,6 @@ export interface RadioGroupProps {
 
 export function RadioGroup({
   value,
-  defaultValue,
   onChange,
   vertical = false,
   disabled = false,
@@ -42,7 +40,6 @@ export function RadioGroup({
 }: RadioGroupProps) {
   const [currentValue, setValueInternal] = useControllable<any>({
     value,
-    defaultValue,
     onChange,
   });
 

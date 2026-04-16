@@ -9,7 +9,6 @@ export interface PINInputHandle {
 
 interface PINInputProps {
   value?: string;
-  defaultValue?: string;
   onChange?: (value: string) => void;
   onComplete?: (value: string) => void;
   length?: number;
@@ -25,7 +24,6 @@ export const PINInput = React.forwardRef<PINInputHandle, PINInputProps>(
   function PINInput(
     {
       value,
-      defaultValue,
       onChange,
       onComplete,
       length = 6,
@@ -41,7 +39,7 @@ export const PINInput = React.forwardRef<PINInputHandle, PINInputProps>(
     const isControlled = value !== undefined;
 
     const [values, setValues] = useState<string[]>(() => {
-      const initial = isControlled ? value : (defaultValue ?? '');
+      const initial = isControlled ? value : '';
       return Array.from({ length }, (_, i) => initial?.[i] ?? '');
     });
 

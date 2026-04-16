@@ -10,9 +10,6 @@ const meta = {
     value: {
       description: 'The selected value (controlled).',
     },
-    defaultValue: {
-      description: 'The default selected value (uncontrolled).',
-    },
     labelValue: {
       control: 'text',
       description: 'Placeholder label when no value is selected.',

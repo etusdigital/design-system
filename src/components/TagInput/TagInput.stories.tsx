@@ -100,7 +100,7 @@ export const InfoMessage: Story = {
 export const Disabled: Story = {
   args: {
     labelValue: 'Tags',
-    defaultValue: ['tag 1', 'tag 2'],
+    value: ['tag 1', 'tag 2'],
     disabled: true,
   },
 };

@@ -24,21 +24,21 @@ type Story = StoryObj<typeof Breadcrumb>;
 
 export const Primary: Story = {
   args: {
-    defaultValue: 'Home',
+    value: 'Home',
     options: ['Home', 'Dashboard', 'Profile', 'Settings'],
   },
 };
 
 export const ManyItems: Story = {
   args: {
-    defaultValue: 'Page 5',
+    value: 'Page 5',
     options: ['Home', 'Page 1', 'Page 2', 'Page 3', 'Page 4', 'Page 5', 'Page 6', 'Page 7', 'Current'],
   },
 };
 
 export const WithObjects: Story = {
   args: {
-    defaultValue: { label: 'Home', value: 'home' },
+    value: { label: 'Home', value: 'home' },
     options: [
       { label: 'Home', value: 'home' },
       { label: 'Products', value: 'products' },

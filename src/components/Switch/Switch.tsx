@@ -6,7 +6,6 @@ export interface SwitchProps {
   id?: string;
   name?: string;
   value?: boolean;
-  defaultValue?: boolean;
   onChange?: (value: boolean) => void;
   rhs?: boolean;
   disabled?: boolean;
@@ -18,7 +17,6 @@ export function Switch({
   id,
   name,
   value,
-  defaultValue,
   onChange,
   rhs = false,
   disabled = false,
@@ -27,7 +25,7 @@ export function Switch({
 }: SwitchProps) {
   const [currentValue, setValue] = useControllable<boolean>({
     value,
-    defaultValue: defaultValue ?? false,
+    defaultValue: false,
     onChange,
   });
 

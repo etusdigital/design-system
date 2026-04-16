@@ -132,7 +132,7 @@ describe('Filter', () => {
     const { container } = render(
       <Filter
         options={filterOptions}
-        defaultValue={{ color: ['red'] }}
+        value={{ color: ['red'] }}
         onChange={handleChange}
       />
     );
@@ -147,7 +147,7 @@ describe('Filter', () => {
     const { container } = render(
       <Filter
         options={filterOptions}
-        defaultValue={{ color: ['red'] }}
+        value={{ color: ['red'] }}
         onApply={handleApply}
       />
     );
@@ -166,7 +166,7 @@ describe('Filter', () => {
 
   it('renders clear and apply buttons', () => {
     const { container } = render(
-      <Filter options={filterOptions} defaultValue={{ color: ['red'] }} />
+      <Filter options={filterOptions} value={{ color: ['red'] }} />
     );
     openFilter(container);
     expect(screen.getByText('Clear selection')).toBeTruthy();

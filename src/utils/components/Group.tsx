@@ -16,7 +16,6 @@ export function useGroupContext(): GroupContextValue | null {
 
 export interface GroupProps {
   value?: any;
-  defaultValue?: any;
   onChange?: (value: any) => void;
   vertical?: boolean;
   disabled?: boolean;
@@ -26,14 +25,13 @@ export interface GroupProps {
 
 export function Group({
   value,
-  defaultValue,
   onChange,
   vertical = false,
   disabled = false,
   children,
   className,
 }: GroupProps) {
-  const [currentValue, setValue] = useControllable<any>({ value, defaultValue, onChange });
+  const [currentValue, setValue] = useControllable<any>({ value, onChange });
 
   return (
     <GroupContext.Provider value={{ value: currentValue ?? null, disabled, select: setValue }}>

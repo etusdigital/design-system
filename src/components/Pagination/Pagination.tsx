@@ -6,7 +6,6 @@ import styles from './Pagination.module.css';
 
 export interface PaginationProps {
   value?: number;
-  defaultValue?: number;
   onChange?: (value: number) => void;
   length: number;
   visiblePages?: number;
@@ -48,14 +47,13 @@ function buildPages(current: number, length: number): number[] {
 
 export function Pagination({
   value,
-  defaultValue,
   onChange,
   length,
   className,
 }: PaginationProps) {
   const [model, setModel] = useControllable<number>({
     value,
-    defaultValue: defaultValue ?? 1,
+    defaultValue: 1,
     onChange,
   });
 

@@ -75,7 +75,7 @@ export const Disabled: Story = {
   render: (args: any) => (
     <Switch
       id="disabled-switch"
-      defaultValue={false}
+      value={false}
       disabled={args.disabled}
       rhs={args.rhs}
     >

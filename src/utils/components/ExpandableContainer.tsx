@@ -5,7 +5,6 @@ import type { ContainerModelExtra } from "../types/ContainerModelExtra";
 
 export interface ExpandableContainerProps {
   value?: boolean;
-  defaultValue?: boolean;
   onChange?: (value: boolean, extra: ContainerModelExtra) => void;
   labelValue?: string;
   absolute?: boolean;
@@ -22,7 +21,6 @@ export interface ExpandableContainerProps {
   icon?: string;
   secondary?: boolean;
   hideArrow?: boolean;
-  disableLabelAutoWidth?: boolean;
   children?: React.ReactNode;
   complement?: React.ReactNode;
   leadingComplement?: React.ReactNode;
@@ -34,7 +32,6 @@ export interface ExpandableContainerProps {
 
 export function ExpandableContainer({
   value,
-  defaultValue,
   onChange,
   labelValue = "",
   disabled = false,
@@ -47,7 +44,6 @@ export function ExpandableContainer({
   minWidth = "unset",
   secondary = false,
   hideArrow = false,
-  disableLabelAutoWidth = false,
   icon,
   children,
   complement,
@@ -59,7 +55,6 @@ export function ExpandableContainer({
 }: ExpandableContainerProps) {
   const [model, setModel] = useControllable<boolean>({
     value,
-    defaultValue,
   });
 
   function changeModel(val: boolean, extra: ContainerModelExtra) {
@@ -83,7 +78,6 @@ export function ExpandableContainer({
       minWidth={minWidth}
       secondary={secondary}
       hideArrow={hideArrow}
-      disableLabelAutoWidth={disableLabelAutoWidth}
       label={label}
       complement={complement}
       leadingComplement={leadingComplement}

@@ -22,9 +22,7 @@ export interface TableProps {
   items: any[];
   sortOptions?: { by?: string; desc?: boolean };
   page?: number;
-  defaultPage?: number;
   itemsPerPage?: number;
-  defaultItemsPerPage?: number;
   numberOfItems?: number;
   renderPaginationInBackEnd?: boolean;
   hideFooter?: boolean;
@@ -101,9 +99,7 @@ export function Table({
   items,
   sortOptions,
   page: pageProp,
-  defaultPage,
   itemsPerPage: itemsPerPageProp,
-  defaultItemsPerPage,
   numberOfItems,
   renderPaginationInBackEnd = false,
   hideFooter = false,
@@ -132,13 +128,13 @@ export function Table({
 }: TableProps) {
   const [page, setPage] = useControllable<number>({
     value: pageProp,
-    defaultValue: defaultPage ?? 1,
+    defaultValue: 1,
     onChange: onPageChange,
   });
 
   const [itemsPerPage, setItemsPerPage] = useControllable<number>({
     value: itemsPerPageProp,
-    defaultValue: defaultItemsPerPage ?? 10,
+    defaultValue: 10,
     onChange: onItemsPerPageChange,
   });
 

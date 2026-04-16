@@ -36,7 +36,7 @@ describe('PINInput', () => {
 
   it('exposes clear() via imperative handle', () => {
     const ref = createRef<PINInputHandle>();
-    render(<PINInput ref={ref} length={4} defaultValue="1234" />);
+    render(<PINInput ref={ref} length={4} value="1234" />);
     act(() => {
       ref.current?.clear();
     });

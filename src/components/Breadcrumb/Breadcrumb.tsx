@@ -8,7 +8,6 @@ import styles from "./Breadcrumb.module.css";
 
 export interface BreadcrumbProps {
   value?: any;
-  defaultValue?: any;
   onChange?: (value: any) => void;
   options?: any[];
   labelKey?: string;
@@ -19,7 +18,6 @@ export interface BreadcrumbProps {
 
 export function Breadcrumb({
   value,
-  defaultValue,
   onChange,
   options = [],
   labelKey = "label",
@@ -29,7 +27,6 @@ export function Breadcrumb({
 }: BreadcrumbProps) {
   const [model, setModel] = useControllable({
     value,
-    defaultValue,
     onChange,
   });
 

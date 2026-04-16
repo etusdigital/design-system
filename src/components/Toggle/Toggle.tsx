@@ -6,7 +6,6 @@ import styles from './Toggle.module.css';
 
 export interface ToggleProps {
   value?: boolean;
-  defaultValue?: boolean;
   onChange?: (value: boolean) => void;
   id?: string;
   name?: string;
@@ -19,7 +18,6 @@ export interface ToggleProps {
 
 export function Toggle({
   value,
-  defaultValue,
   onChange,
   id,
   name,
@@ -33,7 +31,7 @@ export function Toggle({
 
   const [currentValue, setValue] = useControllable<boolean>({
     value: groupCtx && groupValue !== undefined ? undefined : value,
-    defaultValue: groupCtx && groupValue !== undefined ? undefined : (defaultValue ?? false),
+    defaultValue: groupCtx && groupValue !== undefined ? undefined : false,
     onChange,
   });
 

@@ -36,7 +36,7 @@ describe('RadioGroup', () => {
       { label: 'B', value: 'b' },
       { label: 'C', value: 'c' },
     ];
-    render(<RadioGroup defaultValue="a" options={options} />);
+    render(<RadioGroup value="a" options={options} />);
     const radios = screen.getAllByRole('radio');
 
     expect(radios[0]).toHaveAttribute('aria-checked', 'true');
@@ -61,7 +61,7 @@ describe('RadioGroup', () => {
 
   it('works with children (no options prop)', () => {
     render(
-      <RadioGroup defaultValue="x">
+      <RadioGroup value="x">
         <Radio groupValue="x">X</Radio>
         <Radio groupValue="y">Y</Radio>
       </RadioGroup>

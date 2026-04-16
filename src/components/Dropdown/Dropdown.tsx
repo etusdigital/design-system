@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { useControllable } from "../../hooks";
 import { ExpandableContainer } from "../../utils/components/ExpandableContainer";
 import { isObject } from "../../utils";
@@ -61,10 +61,14 @@ function DropdownOption({
     return (
       <div className="relative">
         <div
-          className={clsx(styles.optionItem, {
-            [styles.disabled]: option.disabled,
-            [styles.selected]: isChildSelected(option.options)
-          }, 'justify-between')}
+          className={clsx(
+            styles.optionItem,
+            {
+              [styles.disabled]: option.disabled,
+              [styles.selected]: isChildSelected(option.options),
+            },
+            "justify-between",
+          )}
           onClick={() => !option.disabled && setSubExpanded((prev) => !prev)}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !option.disabled)
@@ -76,7 +80,9 @@ function DropdownOption({
           aria-expanded={subExpanded}
         >
           <div className="flex item-center gap-xs">
-            {option.icon && <Icon className={styles.dropwdownIcon} name={option.icon} />}
+            {option.icon && (
+              <Icon className={styles.dropwdownIcon} name={option.icon} />
+            )}
             <span className={styles.groupLabel}>{label}</span>
           </div>
           <Icon className={styles.chevronIcon} name="chevron_right" />
@@ -113,7 +119,9 @@ function DropdownOption({
       role="option"
       aria-selected={isSelected}
     >
-      {option.icon && <Icon className={styles.dropwdownIcon} name={option.icon} />}
+      {option.icon && (
+        <Icon className={styles.dropwdownIcon} name={option.icon} />
+      )}
       <span>{label}</span>
     </div>
   );
@@ -143,7 +151,7 @@ function DropdownOptions({
   return (
     <div role="listbox" className={styles.optionsContainer}>
       {parsedOptions.map((options, index) => (
-        <>
+        <Fragment key={"options-" + index}>
           {options.map((option, index) => (
             <DropdownOption
               key={index}
@@ -156,7 +164,7 @@ function DropdownOptions({
             />
           ))}
           {index == 0 && parsedOptions.length > 1 && <Separator />}
-        </>
+        </Fragment>
       ))}
     </div>
   );
@@ -214,7 +222,6 @@ function findOptionByValue(
 }
 export interface DropdownProps {
   value?: any;
-  defaultValue?: any;
   onChange?: (value: any) => void;
   options: DropdownOptionItem[];
   labelKey?: string;
@@ -236,7 +243,6 @@ export interface DropdownProps {
 
 export function Dropdown({
   value,
-  defaultValue,
   onChange,
   options,
   labelKey = "label",
@@ -257,7 +263,7 @@ export function Dropdown({
 }: DropdownProps) {
   const [selectedValue, setSelectedValue] = useControllable<any>({
     value,
-    defaultValue: defaultValue ?? null,
+    defaultValue: null,
     onChange,
   });
 
@@ -275,22 +281,20 @@ export function Dropdown({
     setSearchText("");
   }
 
-  const selectedOption =
-    selectedValue != null
-      ? findOptionByValue(options, selectedValue, valueKey, labelKey)
-      : undefined;
-
   const filteredOptions =
     searchable && searchText
       ? filterOptions(options, searchText, labelKey)
       : options;
 
+  const selectedOption =
+    selectedValue != null
+      ? findOptionByValue(options, selectedValue, valueKey, labelKey)
+      : undefined;
+
   let statusNode: React.ReactNode;
   if (selectedOption)
     statusNode = (
-      <span className={styles.displayLabel}>
-        {selectedOption[labelKey] ?? selectedOption.label ?? ""}
-      </span>
+      <span>{selectedOption[labelKey] ?? selectedOption.label ?? ""}</span>
     );
   else statusNode = children;
 

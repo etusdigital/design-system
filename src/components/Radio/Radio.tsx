@@ -8,7 +8,6 @@ export interface RadioProps {
   id?: string;
   name?: string;
   value?: boolean;
-  defaultValue?: boolean;
   onChange?: (value: boolean) => void;
   groupValue?: any;
   disabled?: boolean;
@@ -21,7 +20,6 @@ export function Radio({
   id,
   name,
   value,
-  defaultValue,
   onChange,
   groupValue,
   disabled,
@@ -33,7 +31,7 @@ export function Radio({
 
   const [standaloneValue, setStandaloneValue] = useControllable<boolean>({
     value: groupCtx && groupValue !== undefined ? undefined : value,
-    defaultValue: groupCtx && groupValue !== undefined ? undefined : (defaultValue ?? false),
+    defaultValue: groupCtx && groupValue !== undefined ? undefined : false,
     onChange: groupCtx && groupValue !== undefined ? undefined : onChange,
   });
 

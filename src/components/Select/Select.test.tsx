@@ -61,7 +61,7 @@ describe('Select', () => {
 
   it('multiple mode: renders Checkbox inside each option', () => {
     const { container } = render(
-      <Select options={objectOptions} multiple defaultValue={[]} />
+      <Select options={objectOptions} multiple value={[]} />
     );
     openSelect(container);
     const checkboxes = document.querySelectorAll('[role="checkbox"]');
@@ -70,7 +70,7 @@ describe('Select', () => {
 
   it('search filters options', () => {
     const { container } = render(
-      <Select options={objectOptions} searchable defaultValue={null} />
+      <Select options={objectOptions} searchable value={null} />
     );
     openSelect(container);
     const searchInput = container.querySelector('input[type="search"]');
@@ -81,7 +81,7 @@ describe('Select', () => {
 
   it('returns no options when nothing matches search', () => {
     const { container } = render(
-      <Select options={objectOptions} searchable defaultValue={null} />
+      <Select options={objectOptions} searchable value={null} />
     );
     openSelect(container);
     const searchInput = container.querySelector('input[type="search"]') as HTMLInputElement;
@@ -94,7 +94,7 @@ describe('Select', () => {
 
   it('clearable shows clear action button', () => {
     const { container } = render(
-      <Select options={objectOptions} clearable defaultValue={null} />
+      <Select options={objectOptions} clearable value={null} />
     );
     openSelect(container);
     const clearBtn = screen.getByText('Clear');

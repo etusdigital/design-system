@@ -9,7 +9,7 @@ describe('Switch', () => {
   });
 
   it('toggles value on click', () => {
-    render(<Switch defaultValue={false} />);
+    render(<Switch value={false} />);
     const switchEl = document.querySelector('[role="switch"]')!;
     expect(switchEl).toHaveAttribute('aria-checked', 'false');
     fireEvent.click(switchEl);
@@ -31,7 +31,7 @@ describe('Switch', () => {
 
   it('does not respond to clicks when disabled', () => {
     const handleChange = vi.fn();
-    render(<Switch defaultValue={false} disabled onChange={handleChange} />);
+    render(<Switch value={false} disabled onChange={handleChange} />);
     const switchEl = document.querySelector('[role="switch"]')!;
     fireEvent.click(switchEl);
     expect(handleChange).not.toHaveBeenCalled();

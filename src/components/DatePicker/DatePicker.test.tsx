@@ -29,7 +29,7 @@ describe('DatePicker', () => {
   it('renders with custom clearLabel and applyLabel strings', () => {
     const { container } = render(
       <DatePicker
-        defaultValue={new Date('2024-01-15')}
+        value={new Date('2024-01-15')}
         clearLabel="Reset"
         applyLabel="Confirm"
       />
@@ -51,7 +51,7 @@ describe('DatePicker', () => {
     const onApply = vi.fn();
     const { container } = render(
       <DatePicker
-        defaultValue={new Date('2024-01-15')}
+        value={new Date('2024-01-15')}
         onApply={onApply}
       />
     );

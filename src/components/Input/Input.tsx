@@ -10,7 +10,6 @@ import styles from './Input.module.css';
 
 export interface InputProps {
   value?: string;
-  defaultValue?: string;
   onChange?: (value: string) => void;
   labelValue?: string;
   type?: 'text' | 'number' | 'password' | 'search' | 'email' | 'url' | 'domain' | 'color';
@@ -50,7 +49,6 @@ type InputComponent = React.ForwardRefExoticComponent<InputProps & React.RefAttr
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(props, ref) {
   const {
     value,
-    defaultValue,
     onChange,
     labelValue,
     type = 'text',
@@ -76,7 +74,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
 
   const [currentValue, setValue] = useControllable<string>({
     value,
-    defaultValue: defaultValue ?? '',
+    defaultValue: '',
     onChange,
   });
 
@@ -252,9 +250,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
           )}
         >
           {type === 'search' ? (
-            <Icon name="search" className={clsx(styles.inputIcon, "text-neutral-foreground-low")} />
+            <Icon name="search" className={clsx(styles.inputIcon, isFocused && styles.focused)} />
           ) : icon ? (
-            <Icon name={icon} className={styles.inputIcon} />
+            <Icon name={icon} className={clsx(styles.inputIcon, isFocused && styles.focused)} />
           ) : prependIconChild ? (
             prependIconChild
           ) : null}
@@ -275,11 +273,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
           {type === 'password' ? (
             <Icon
               name={showPassword ? 'visibility_off' : 'visibility'}
-              className={clsx(styles.inputIcon, "cursor-pointer")}
+              className={clsx(styles.inputIcon, isFocused && styles.focused, "cursor-pointer")}
               onClick={() => setShowPassword(!showPassword)}
             />
           ) : appendIcon ? (
-            <Icon name={appendIcon} className={styles.inputIcon} />
+            <Icon name={appendIcon} className={clsx(styles.inputIcon, isFocused && styles.focused)} />
           ) : appendIconChild ? (
             appendIconChild
           ) : null}

@@ -11,7 +11,6 @@ import styles from './Select.module.css';
 
 export interface SelectProps {
   value?: any;
-  defaultValue?: any;
   onChange?: (value: any) => void;
   options?: any[];
   labelKey?: string;
@@ -43,7 +42,6 @@ export interface SelectProps {
 
 export function Select({
   value,
-  defaultValue,
   onChange,
   options = [],
   labelKey = 'label',
@@ -72,13 +70,9 @@ export function Select({
   children,
   className,
 }: SelectProps) {
-  const normalizedDefault = multiple
-    ? Array.isArray(defaultValue) ? defaultValue : defaultValue != null ? [defaultValue] : []
-    : Array.isArray(defaultValue) ? defaultValue[0] : defaultValue ?? null;
-
   const [model, setModel] = useControllable<any>({
     value,
-    defaultValue: normalizedDefault,
+    defaultValue: multiple ? [] : null,
     onChange,
   });
 

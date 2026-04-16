@@ -8,7 +8,6 @@ import { Input } from "../Input";
 
 export interface AutoCompleteProps {
   value?: string | number;
-  defaultValue?: any;
   onChange?: (value: any) => void;
   options: string[] | number[];
   disabled?: boolean;
@@ -23,7 +22,6 @@ export interface AutoCompleteProps {
 
 export function AutoComplete({
   value,
-  defaultValue,
   onChange,
   options,
   disabled = false,
@@ -37,7 +35,6 @@ export function AutoComplete({
 }: AutoCompleteProps) {
   const [model, setModel] = useControllable<any>({
     value,
-    defaultValue: defaultValue ?? null,
     onChange,
   });
 

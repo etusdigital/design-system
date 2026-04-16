@@ -6,7 +6,6 @@ export interface CheckboxProps {
   id?: string;
   name?: string;
   value?: boolean | null;
-  defaultValue?: boolean | null;
   onChange?: (value: boolean | null) => void;
   rhs?: boolean;
   allowIndeterminate?: boolean;
@@ -19,7 +18,6 @@ export function Checkbox({
   id,
   name,
   value,
-  defaultValue,
   onChange,
   rhs = false,
   allowIndeterminate = false,
@@ -29,7 +27,7 @@ export function Checkbox({
 }: CheckboxProps) {
   const [currentValue, setValue] = useControllable<boolean | null>({
     value: value as boolean | undefined,
-    defaultValue: defaultValue ?? false,
+    defaultValue: false,
     onChange: onChange as ((value: boolean | null) => void) | undefined,
   });
 

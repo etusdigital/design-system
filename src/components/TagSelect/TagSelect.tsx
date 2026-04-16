@@ -10,7 +10,6 @@ import styles from "./TagSelect.module.css";
 
 export interface TagSelectProps {
   value?: any[];
-  defaultValue?: any[];
   onChange?: (value: any[]) => void;
   options?: any[];
   labelKey?: string;
@@ -36,7 +35,6 @@ export interface TagSelectProps {
 
 export function TagSelect({
   value,
-  defaultValue,
   onChange,
   options = [],
   labelKey = "label",
@@ -61,7 +59,7 @@ export function TagSelect({
 }: TagSelectProps) {
   const [model, setModel] = useControllable<any[]>({
     value,
-    defaultValue: defaultValue ?? [],
+    defaultValue: [],
     onChange,
   });
 

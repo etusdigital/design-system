@@ -6,7 +6,6 @@ import styles from './Carousel.module.css';
 
 export interface CarouselProps {
   value?: number;
-  defaultValue?: number;
   onChange?: (value: number) => void;
   options: any[];
   visible?: number;
@@ -22,7 +21,6 @@ export interface CarouselProps {
 
 export function Carousel({
   value,
-  defaultValue,
   onChange,
   options,
   visible = 1,
@@ -37,7 +35,7 @@ export function Carousel({
 }: CarouselProps) {
   const [model, setModel] = useControllable<number>({
     value,
-    defaultValue: defaultValue ?? 0,
+    defaultValue: 0,
     onChange,
   });
 

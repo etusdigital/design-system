@@ -39,7 +39,7 @@ describe('Carousel', () => {
   it('calls onChange when next arrow is clicked', () => {
     const onChange = vi.fn();
     render(
-      <Carousel options={options} defaultValue={0} onChange={onChange}>
+      <Carousel options={options} value={0} onChange={onChange}>
         {(option) => <div>{option}</div>}
       </Carousel>
     );
@@ -50,7 +50,7 @@ describe('Carousel', () => {
   it('calls onChange when previous arrow is clicked', () => {
     const onChange = vi.fn();
     render(
-      <Carousel options={options} defaultValue={1} onChange={onChange}>
+      <Carousel options={options} value={1} onChange={onChange}>
         {(option) => <div>{option}</div>}
       </Carousel>
     );
@@ -61,7 +61,7 @@ describe('Carousel', () => {
   it('does not navigate before first slide', () => {
     const onChange = vi.fn();
     render(
-      <Carousel options={options} defaultValue={0} onChange={onChange}>
+      <Carousel options={options} value={0} onChange={onChange}>
         {(option) => <div>{option}</div>}
       </Carousel>
     );

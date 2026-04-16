@@ -42,7 +42,7 @@ const defaultOptions = [
 
 export const Primary: Story = {
   args: {
-    defaultValue: 1,
+    value: 1,
     vertical: false,
     disabled: false,
     options: defaultOptions,
@@ -54,7 +54,7 @@ export const Primary: Story = {
 
 export const Vertical: Story = {
   args: {
-    defaultValue: 2,
+    value: 2,
     vertical: true,
     disabled: false,
     options: defaultOptions,
@@ -63,7 +63,7 @@ export const Vertical: Story = {
 
 export const Disabled: Story = {
   args: {
-    defaultValue: 1,
+    value: 1,
     disabled: true,
     options: defaultOptions,
   },
@@ -71,14 +71,14 @@ export const Disabled: Story = {
 
 export const StringOptions: Story = {
   args: {
-    defaultValue: 'apple',
+    value: 'apple',
     options: ['apple', 'banana', 'cherry'],
   },
 };
 
 export const WithChildren: Story = {
   render: () => (
-    <RadioGroup defaultValue="a">
+    <RadioGroup value="a">
       <div>Children mode — Radio components are passed as children</div>
     </RadioGroup>
   ),

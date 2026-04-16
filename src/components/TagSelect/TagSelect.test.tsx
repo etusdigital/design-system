@@ -23,7 +23,7 @@ describe('TagSelect', () => {
     render(
       <TagSelect
         options={options}
-        defaultValue={[{ label: 'Apple', value: 'apple' }]}
+        value={[{ label: 'Apple', value: 'apple' }]}
       />
     );
     expect(screen.getByText('Apple')).toBeTruthy();
@@ -33,7 +33,7 @@ describe('TagSelect', () => {
     render(
       <TagSelect
         options={options}
-        defaultValue={[
+        value={[
           { label: 'Apple', value: 'apple' },
           { label: 'Banana', value: 'banana' },
         ]}

@@ -147,7 +147,7 @@ export const Disabled: Story = {
   render: () => {
     return (
       <Carousel
-        defaultValue={0}
+        value={0}
         options={defaultOptions}
         showArrows={false}
         disabled={true}

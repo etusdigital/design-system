@@ -15,7 +15,6 @@ const ERROR_MESSAGES = {
 
 export interface TagInputProps {
   value?: any[];
-  defaultValue?: any[];
   onChange?: (value: any[]) => void;
   labelValue?: string;
   errorMessage?: string;
@@ -48,7 +47,6 @@ function Hint({ children }: { children: React.ReactNode }) {
 
 export function TagInput({
   value,
-  defaultValue,
   onChange,
   labelValue,
   errorMessage,
@@ -68,7 +66,7 @@ export function TagInput({
 }: TagInputProps) {
   const [tags, setTags] = useControllable<any[]>({
     value,
-    defaultValue: defaultValue ?? [],
+    defaultValue: [],
     onChange,
   });
 

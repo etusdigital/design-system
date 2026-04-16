@@ -13,7 +13,6 @@ type SelectionType = "date" | "period" | "compare";
 
 export interface DatePickerProps {
   value?: Date | Date[] | [Date[], Date[]];
-  defaultValue?: Date | Date[] | [Date[], Date[]];
   onChange?: (value: any) => void;
   type?: SelectionType;
   minDate?: Date;
@@ -105,7 +104,6 @@ function buildDisplayLabel(
 
 export function DatePicker({
   value,
-  defaultValue,
   onChange,
   type = "date",
   minDate,
@@ -139,7 +137,6 @@ export function DatePicker({
     Date | Date[] | [Date[], Date[]] | undefined
   >({
     value,
-    defaultValue,
     onChange,
   });
 
@@ -319,7 +316,6 @@ export function DatePicker({
       infoMessage={infoMessage}
       required={required}
       hideArrow
-      disableLabelAutoWidth
       card={cardContent}
       className={clsx("date-picker", className)}
       labelValue={labelValue}

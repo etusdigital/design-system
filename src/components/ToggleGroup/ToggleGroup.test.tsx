@@ -23,7 +23,7 @@ describe('ToggleGroup', () => {
 
   it('selecting one option updates the group selection', () => {
     const { getAllByRole } = render(
-      <ToggleGroup options={defaultOptions} defaultValue={1} />
+      <ToggleGroup options={defaultOptions} value={1} />
     );
     const buttons = getAllByRole('button');
     expect(buttons[0].getAttribute('aria-pressed')).toBe('true');

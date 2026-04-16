@@ -11,12 +11,10 @@ export type SelectExpandedExtra = {
 
 export interface SelectContentProps {
   value?: string;
-  defaultValue?: string;
   onChange?: (value: string, extra: { index: number }) => void;
   options?: any;
   icon?: string;
   expanded?: boolean;
-  defaultExpanded?: boolean;
   onExpandedChange?: (value: boolean, extra: SelectExpandedExtra) => void;
   searchable?: boolean;
   disabled?: boolean;
@@ -30,12 +28,10 @@ export interface SelectContentProps {
 
 export function SelectContent({
   value,
-  defaultValue = '',
   onChange,
   options,
   icon,
   expanded,
-  defaultExpanded,
   onExpandedChange,
   searchable = false,
   disabled = false,
@@ -48,13 +44,13 @@ export function SelectContent({
 }: SelectContentProps) {
   const [model, setModel] = useControllable<string>({
     value,
-    defaultValue,
+    defaultValue: '',
     onChange: (val) => onChange?.(val, { index: -1 }),
   });
 
   const [expandedModel, setExpandedModel] = useControllable<boolean>({
     value: expanded,
-    defaultValue: defaultExpanded,
+    defaultValue: false,
     onChange: (val) => onExpandedChange?.(val, { source: 'click' }),
   });
 

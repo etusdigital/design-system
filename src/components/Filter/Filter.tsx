@@ -10,7 +10,6 @@ import styles from './Filter.module.css';
 
 export interface FilterProps {
   value?: Record<string, any[]>;
-  defaultValue?: Record<string, any[]>;
   onChange?: (value: Record<string, any[]>) => void;
   onApply?: (value: Record<string, any[]>) => void;
   options?: Array<{ label: string; value: string; options: any[] }>;
@@ -30,7 +29,6 @@ export interface FilterProps {
 
 export function Filter({
   value,
-  defaultValue,
   onChange,
   onApply,
   options = [],
@@ -49,7 +47,7 @@ export function Filter({
 }: FilterProps) {
   const [model, setModel] = useControllable<Record<string, any[]>>({
     value,
-    defaultValue: defaultValue ?? {},
+    defaultValue: {},
     onChange,
   });
 

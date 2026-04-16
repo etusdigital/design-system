@@ -17,7 +17,6 @@ type SelectionType = "date" | "period" | "compare";
 
 export interface CalendarProps {
   value?: Date | Date[] | [Date[], Date[]];
-  defaultValue?: Date | Date[] | [Date[], Date[]];
   onChange?: (value: any) => void;
   type?: SelectionType;
   doubleCalendar?: boolean;
@@ -417,7 +416,6 @@ function getInitialMonthYear(value?: Date | Date[] | [Date[], Date[]]): {
 
 export function Calendar({
   value,
-  defaultValue,
   onChange,
   type = "date",
   doubleCalendar = false,
@@ -427,7 +425,7 @@ export function Calendar({
   lang = "en",
   className,
 }: CalendarProps): React.JSX.Element {
-  const initial = getInitialMonthYear(value ?? defaultValue);
+  const initial = getInitialMonthYear(value);
   const [currentMonth, setCurrentMonth] = useState(initial.month);
   const [currentYear, setCurrentYear] = useState(initial.year);
   const [showDateDialog, setShowDateDialog] = useState(false);

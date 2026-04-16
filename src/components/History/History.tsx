@@ -10,7 +10,6 @@ interface HistoryOption {
 
 interface HistoryProps {
   value?: any;
-  defaultValue?: any;
   onChange?: (value: any) => void;
   options: HistoryOption[];
   position?: 'top' | 'bottom' | 'left' | 'right';
@@ -22,7 +21,6 @@ interface HistoryProps {
 
 export function History({
   value,
-  defaultValue,
   onChange,
   options,
   position = 'right',
@@ -31,7 +29,7 @@ export function History({
   renderOption,
   className,
 }: HistoryProps) {
-  const [model, setModel] = useControllable<any>({ value, defaultValue: defaultValue ?? null, onChange });
+  const [model, setModel] = useControllable<any>({ value, defaultValue: null, onChange });
 
   const isActive = (option: any, index: number) =>
     (index === 0 && !model && !disabled) || option === model;

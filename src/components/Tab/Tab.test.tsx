@@ -20,7 +20,7 @@ describe('Tab', () => {
     expect(screen.getByText('Tab B')).toBeInTheDocument();
   });
 
-  it('initializes to index 0 when no defaultValue', () => {
+  it('initializes to index 0 when no value', () => {
     render(<Tab options={['First', 'Second']} />);
     const buttons = screen.getAllByRole('button');
     expect(buttons[0].className).toContain('active');
@@ -28,7 +28,7 @@ describe('Tab', () => {
   });
 
   it('active tab has active class', () => {
-    render(<Tab options={['First', 'Second', 'Third']} defaultValue={1} />);
+    render(<Tab options={['First', 'Second', 'Third']} value={1} />);
     const buttons = screen.getAllByRole('button');
     expect(buttons[1].className).toContain('active');
     expect(buttons[0].className).not.toContain('active');

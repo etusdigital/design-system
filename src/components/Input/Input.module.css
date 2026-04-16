@@ -61,7 +61,11 @@
 }
 
 .inputIcon {
-  @apply text-lg leading-xxs;
+  @apply text-lg leading-xxs text-neutral-foreground-low;
+}
+
+.inputIcon.focused {
+  @apply text-primary-interaction-default;
 }
 
 .arrowIcon {

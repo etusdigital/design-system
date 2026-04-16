@@ -46,7 +46,7 @@ describe('AutoComplete', () => {
 
   it('filters options based on search text', () => {
     const { container } = render(
-      <AutoComplete options={stringOptions} defaultValue={null} />
+      <AutoComplete options={stringOptions} />
     );
     openAutoComplete(container);
     const searchInput = container.querySelector('input') as HTMLInputElement;
@@ -58,7 +58,7 @@ describe('AutoComplete', () => {
 
   it('shows no-results message when nothing matches search', () => {
     const { container } = render(
-      <AutoComplete options={stringOptions} defaultValue={null} />
+      <AutoComplete options={stringOptions} />
     );
     openAutoComplete(container);
     const searchInput = container.querySelector('input') as HTMLInputElement;
@@ -70,7 +70,7 @@ describe('AutoComplete', () => {
 
   it('input value updates when typing', () => {
     const { container } = render(
-      <AutoComplete options={stringOptions} defaultValue={null} />
+      <AutoComplete options={stringOptions} />
     );
     openAutoComplete(container);
     const searchInput = container.querySelector('input') as HTMLInputElement;

@@ -249,7 +249,6 @@ function TreeNode({ option, depth = 0 }: { option: DropOption; depth?: number })
 
 export interface TreeProps {
   value?: any;
-  defaultValue?: any;
   onChange?: (value: any) => void;
   options: DropOption[];
   labelKey?: string;
@@ -262,7 +261,6 @@ export interface TreeProps {
 
 export function Tree({
   value,
-  defaultValue,
   onChange,
   options,
   labelKey = 'label',
@@ -274,7 +272,7 @@ export function Tree({
 }: TreeProps) {
   const [selectedValue, setSelectedValue] = useControllable<any>({
     value,
-    defaultValue: defaultValue ?? (multiple ? [] : undefined),
+    defaultValue: multiple ? [] : undefined,
     onChange,
   });
 

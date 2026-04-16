@@ -13,7 +13,6 @@ import styles from './RichTextEditor.module.css';
 
 interface RichTextEditorProps {
   value?: string;
-  defaultValue?: string;
   onChange?: (value: string) => void;
   placeholder?: string;
   disabled?: boolean;
@@ -70,7 +69,6 @@ function compressHTML(html: string): string {
 
 export function RichTextEditor({
   value,
-  defaultValue,
   onChange,
   placeholder,
   disabled = false,
@@ -86,7 +84,7 @@ export function RichTextEditor({
 }: RichTextEditorProps) {
   const [currentValue, setValue] = useControllable<string>({
     value,
-    defaultValue: defaultValue ?? '',
+    defaultValue: '',
     onChange,
   });
 

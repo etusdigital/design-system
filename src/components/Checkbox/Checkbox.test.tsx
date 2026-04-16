@@ -9,7 +9,7 @@ describe('Checkbox', () => {
   });
 
   it('toggles value on click', () => {
-    render(<Checkbox defaultValue={false} />);
+    render(<Checkbox value={false} />);
     const checkbox = document.querySelector('[role="checkbox"]')!;
     expect(checkbox).toHaveAttribute('aria-checked', 'false');
     fireEvent.click(checkbox);
@@ -17,7 +17,7 @@ describe('Checkbox', () => {
   });
 
   it('cycles through three states when allowIndeterminate', () => {
-    render(<Checkbox defaultValue={false} allowIndeterminate />);
+    render(<Checkbox value={false} allowIndeterminate />);
     const checkbox = document.querySelector('[role="checkbox"]')!;
     fireEvent.click(checkbox);
     expect(checkbox).toHaveAttribute('aria-checked', 'true');
@@ -42,7 +42,7 @@ describe('Checkbox', () => {
 
   it('does not respond to clicks when disabled', () => {
     const handleChange = vi.fn();
-    render(<Checkbox defaultValue={false} disabled onChange={handleChange} />);
+    render(<Checkbox value={false} disabled onChange={handleChange} />);
     const checkbox = document.querySelector('[role="checkbox"]')!;
     fireEvent.click(checkbox);
     expect(handleChange).not.toHaveBeenCalled();

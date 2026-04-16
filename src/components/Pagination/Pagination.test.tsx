@@ -4,7 +4,7 @@ import { Pagination } from './index';
 
 describe('Pagination', () => {
   it('renders page buttons', () => {
-    render(<Pagination length={5} defaultValue={1} />);
+    render(<Pagination length={5} value={1} />);
     expect(screen.getByText('1')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();
     expect(screen.getByText('3')).toBeInTheDocument();
@@ -16,7 +16,7 @@ describe('Pagination', () => {
   });
 
   it('active page has active class', () => {
-    render(<Pagination length={5} defaultValue={3} />);
+    render(<Pagination length={5} value={3} />);
     const pageButtons = screen.getAllByRole('button');
     const activeButton = pageButtons.find((btn) => btn.textContent === '3');
     expect(activeButton?.className).toContain('active');
@@ -24,39 +24,39 @@ describe('Pagination', () => {
 
   it('calls onChange on page click', () => {
     const handleChange = vi.fn();
-    render(<Pagination length={5} defaultValue={1} onChange={handleChange} />);
+    render(<Pagination length={5} value={1} onChange={handleChange} />);
     fireEvent.click(screen.getByText('3'));
     expect(handleChange).toHaveBeenCalledWith(3);
   });
 
   it('prev button is disabled when on first page', () => {
-    render(<Pagination length={5} defaultValue={1} />);
+    render(<Pagination length={5} value={1} />);
     const prevButton = screen.getByLabelText('Previous page');
     expect(prevButton).toBeDisabled();
   });
 
   it('next button is disabled when on last page', () => {
-    render(<Pagination length={5} defaultValue={5} />);
+    render(<Pagination length={5} value={5} />);
     const nextButton = screen.getByLabelText('Next page');
     expect(nextButton).toBeDisabled();
   });
 
   it('prev button navigates to previous page', () => {
     const handleChange = vi.fn();
-    render(<Pagination length={5} defaultValue={3} onChange={handleChange} />);
+    render(<Pagination length={5} value={3} onChange={handleChange} />);
     fireEvent.click(screen.getByLabelText('Previous page'));
     expect(handleChange).toHaveBeenCalledWith(2);
   });
 
   it('next button navigates to next page', () => {
     const handleChange = vi.fn();
-    render(<Pagination length={5} defaultValue={3} onChange={handleChange} />);
+    render(<Pagination length={5} value={3} onChange={handleChange} />);
     fireEvent.click(screen.getByLabelText('Next page'));
     expect(handleChange).toHaveBeenCalledWith(4);
   });
 
   it('renders ellipsis for many pages', () => {
-    render(<Pagination length={10} defaultValue={5} />);
+    render(<Pagination length={10} value={5} />);
     expect(screen.getAllByText('...').length).toBeGreaterThan(0);
   });
 });

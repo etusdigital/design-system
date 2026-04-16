@@ -5,19 +5,15 @@ import { Button } from '../Button/Button';
 import { Icon } from '../Icon/Icon';
 import { useControllable } from '../../hooks/useControllable';
 import styles from './Profile.module.css';
-
-function isObject(val: unknown): val is Record<string, unknown> {
-  return val !== null && typeof val === 'object' && !Array.isArray(val);
-}
+import { isObject } from '#utils/index';
 
 export interface ProfileOption {
-  [key: string]: unknown;
+  [key: string]: any;
 }
 
 export interface ProfileProps {
-  value?: unknown;
-  defaultValue?: unknown;
-  onChange?: (value: unknown) => void;
+  value?: any;
+  onChange?: (value: any) => void;
   name: string;
   picture?: string;
   options?: ProfileOption[];
@@ -42,7 +38,6 @@ export interface ProfileProps {
 
 export function Profile({
   value,
-  defaultValue,
   onChange,
   name,
   picture,
@@ -67,7 +62,6 @@ export function Profile({
 }: ProfileProps) {
   const [model, setModel] = useControllable<unknown>({
     value,
-    defaultValue,
     onChange,
   });
 
@@ -88,11 +82,11 @@ export function Profile({
     };
   }, []);
 
-  function getLabel(option: unknown): string {
+  function getLabel(option: any): string {
     return isObject(option) ? String(option[labelKey] ?? '') : String(option ?? '');
   }
 
-  function getValue(option: unknown): unknown {
+  function getValue(option: any): any {
     return isObject(option) ? option[valueKey] : option;
   }
 

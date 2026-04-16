@@ -44,7 +44,7 @@ const defaultOptions = [
 
 export const Primary: Story = {
   args: {
-    defaultValue: 1,
+    value: 1,
     vertical: false,
     disabled: false,
     options: defaultOptions,
@@ -54,7 +54,7 @@ export const Primary: Story = {
 
 export const Secondary: Story = {
   args: {
-    defaultValue: 1,
+    value: 1,
     vertical: false,
     disabled: false,
     options: defaultOptions,
@@ -64,7 +64,7 @@ export const Secondary: Story = {
 
 export const Vertical: Story = {
   args: {
-    defaultValue: 1,
+    value: 1,
     vertical: true,
     disabled: false,
     options: defaultOptions,
@@ -74,7 +74,7 @@ export const Vertical: Story = {
 
 export const VerticalSecondary: Story = {
   args: {
-    defaultValue: 1,
+    value: 1,
     vertical: true,
     disabled: false,
     options: defaultOptions,
@@ -84,7 +84,7 @@ export const VerticalSecondary: Story = {
 
 export const Disabled: Story = {
   args: {
-    defaultValue: 1,
+    value: 1,
     vertical: false,
     disabled: true,
     options: defaultOptions,
@@ -95,8 +95,8 @@ export const Disabled: Story = {
 export const Types: Story = {
   render: () => (
     <div className="flex flex-col gap-xs">
-      <ToggleGroup defaultValue={1} options={defaultOptions} type="default" />
-      <ToggleGroup defaultValue={1} options={defaultOptions} type="secondary" />
+      <ToggleGroup value={1} options={defaultOptions} type="default" />
+      <ToggleGroup value={1} options={defaultOptions} type="secondary" />
     </div>
   ),
 };

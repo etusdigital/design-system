@@ -9,7 +9,6 @@ import { FloatCard } from '../../components/FloatCard';
 
 export interface ContainerProps {
   value?: boolean;
-  defaultValue?: boolean;
   onChange?: (value: boolean, extra: ContainerModelExtra) => void;
   labelValue?: string;
   role?: string;
@@ -25,7 +24,6 @@ export interface ContainerProps {
   secondary?: boolean;
   hideArrow?: boolean;
   icon?: string;
-  disableLabelAutoWidth?: boolean;
   children?: React.ReactNode;
   label?: React.ReactNode;
   complement?: React.ReactNode;
@@ -36,7 +34,6 @@ export interface ContainerProps {
 
 export function Container({
   value,
-  defaultValue,
   onChange,
   labelValue = '',
   role = 'listbox',
@@ -52,7 +49,6 @@ export function Container({
   secondary = false,
   hideArrow = false,
   icon = 'keyboard_arrow_down',
-  disableLabelAutoWidth = false,
   children,
   label,
   complement,
@@ -62,13 +58,11 @@ export function Container({
 }: ContainerProps) {
   const [model, setModel] = useControllable<boolean>({
     value,
-    defaultValue,
   });
 
   const isExpanded = disabled ? false : (model ?? false);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const labelRef = useRef<HTMLDivElement>(null);
 
   const [contentMinWidth, setContentMinWidth] = useState(minWidth);
 
@@ -76,9 +70,6 @@ export function Container({
     const newVal = (containerRef.current?.scrollWidth ?? 0) + 'px';
     if (newVal !== contentMinWidth) {
       setContentMinWidth(newVal);
-    }
-    if (!disableLabelAutoWidth && labelRef.current && containerRef.current) {
-      labelRef.current.style.width = containerRef.current.scrollWidth + 'px';
     }
   }
 
@@ -128,7 +119,6 @@ export function Container({
         >
           {label || (
             <div
-              ref={labelRef}
               className={clsx('label-content', {
                 disabled,
                 secondary,

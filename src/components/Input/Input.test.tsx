@@ -54,7 +54,7 @@ describe('Input', () => {
   });
 
   it('type=number renders increment and decrement buttons', () => {
-    const { container } = render(<Input type="number" defaultValue="5" />);
+    const { container } = render(<Input type="number" value="5" />);
     const icons = container.querySelectorAll('.icon');
     expect(icons.length).toBeGreaterThanOrEqual(2);
   });
@@ -64,8 +64,8 @@ describe('Input', () => {
     expect(getByText('Something went wrong')).toBeTruthy();
   });
 
-  it('renders with defaultValue in uncontrolled mode', () => {
-    const { container } = render(<Input defaultValue="initial" />);
+  it('renders with value in uncontrolled mode', () => {
+    const { container } = render(<Input value="initial" />);
     const input = container.querySelector('input') as HTMLInputElement;
     expect(input.value).toBe('initial');
   });

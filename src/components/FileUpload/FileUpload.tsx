@@ -6,7 +6,6 @@ export type FileUploadSize = "xs" | "sm" | "base" | "lg" | "xl";
 
 export interface FileUploadProps {
   value?: File | File[] | null;
-  defaultValue?: File | File[] | null;
   onChange?: (value: File | File[] | null) => void;
   labelValue?: string;
   errorMessage?: string;
@@ -61,7 +60,6 @@ const FILENAME_SIZE_MAP: Record<FileUploadSize, string> = {
 
 export function FileUpload({
   value,
-  defaultValue,
   onChange,
   labelValue,
   errorMessage,
@@ -76,7 +74,7 @@ export function FileUpload({
   className,
 }: FileUploadProps) {
   const [currentFile, setCurrentFile] = useState<File | File[] | null>(
-    value !== undefined ? value : (defaultValue ?? null),
+    value !== undefined ? value : null,
   );
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);

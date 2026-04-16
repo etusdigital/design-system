@@ -21,7 +21,7 @@ describe('Group', () => {
 
   it('provides GroupContext with initial value to children', () => {
     render(
-      <Group defaultValue="initial">
+      <Group value="initial">
         <TestConsumer />
       </Group>
     );
@@ -49,7 +49,7 @@ describe('Group', () => {
   it('calls onChange when select() is called from context', () => {
     const handleChange = vi.fn();
     render(
-      <Group defaultValue={null} onChange={handleChange}>
+      <Group value={null} onChange={handleChange}>
         <TestConsumer />
       </Group>
     );
@@ -60,7 +60,7 @@ describe('Group', () => {
 
   it('updates value in context when select() is called', () => {
     render(
-      <Group defaultValue={null}>
+      <Group value={null}>
         <TestConsumer />
       </Group>
     );

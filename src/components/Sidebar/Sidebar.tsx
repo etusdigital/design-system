@@ -207,7 +207,6 @@ function SidebarOption({ option, sidebarExpanded, onRailClick, activeParentValue
 
 interface SidebarProps {
   value?: any;
-  defaultValue?: any;
   onChange?: (value: any) => void;
   expanded?: boolean;
   options: SidebarOptionType[];
@@ -217,7 +216,6 @@ interface SidebarProps {
 
 export function Sidebar({
   value,
-  defaultValue,
   onChange,
   expanded = false,
   options,
@@ -226,7 +224,6 @@ export function Sidebar({
 }: SidebarProps) {
   const [currentValue, setCurrentValue] = useControllable<any>({
     value,
-    defaultValue,
     onChange,
   });
 

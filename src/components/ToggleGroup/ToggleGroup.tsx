@@ -16,7 +16,6 @@ export const ToggleGroupContext = createContext<ToggleGroupContextValue | null>(
 
 export interface ToggleGroupProps {
   value?: any;
-  defaultValue?: any;
   onChange?: (value: any) => void;
   vertical?: boolean;
   disabled?: boolean;
@@ -31,7 +30,6 @@ export interface ToggleGroupProps {
 
 export function ToggleGroup({
   value,
-  defaultValue,
   onChange,
   vertical = false,
   disabled = false,
@@ -43,7 +41,7 @@ export function ToggleGroup({
   children,
   className,
 }: ToggleGroupProps) {
-  const [currentValue, setCurrentValue] = useControllable<any>({ value, defaultValue, onChange });
+  const [currentValue, setCurrentValue] = useControllable<any>({ value, onChange });
 
   function getLabel(option: any): string {
     return isObject(option) ? option[labelKey] : option;

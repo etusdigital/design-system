@@ -7,7 +7,6 @@ import '../styles/SelectContainer.css';
 
 export interface SelectContainerProps {
   value?: boolean;
-  defaultValue?: boolean;
   onChange?: (value: boolean, extra: ContainerModelExtra) => void;
   labelValue?: string;
   role?: string;
@@ -23,7 +22,6 @@ export interface SelectContainerProps {
   minWidth?: string;
   secondary?: boolean;
   hideArrow?: boolean;
-  disableLabelAutoWidth?: boolean;
   icon?: string;
   children?: React.ReactNode;
   complement?: React.ReactNode;
@@ -37,7 +35,6 @@ export interface SelectContainerProps {
 
 export function SelectContainer({
   value,
-  defaultValue,
   onChange,
   labelValue = '',
   absolute = false,
@@ -52,7 +49,6 @@ export function SelectContainer({
   minWidth = '15em',
   secondary = false,
   hideArrow = false,
-  disableLabelAutoWidth = false,
   icon,
   children,
   complement,
@@ -65,7 +61,6 @@ export function SelectContainer({
 }: SelectContainerProps) {
   const [model, setModel] = useControllable<boolean>({
     value,
-    defaultValue,
   });
 
   const isExpanded = disabled ? false : (model ?? false);
@@ -132,7 +127,6 @@ export function SelectContainer({
         minWidth={minWidth}
         secondary={secondary}
         hideArrow={hideArrow}
-        disableLabelAutoWidth={disableLabelAutoWidth}
         label={label}
         complement={complement}
         leadingComplement={leadingComplement}

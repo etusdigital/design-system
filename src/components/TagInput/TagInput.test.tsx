@@ -21,7 +21,7 @@ describe('TagInput', () => {
   });
 
   it('prevents duplicate tags when allowDuplicate is false', () => {
-    render(<TagInput defaultValue={['hello']} />);
+    render(<TagInput value={['hello']} />);
     const textarea = document.querySelector('textarea')!;
     fireEvent.change(textarea, { target: { value: 'hello' } });
     fireEvent.keyDown(textarea, { key: 'Enter' });
@@ -30,7 +30,7 @@ describe('TagInput', () => {
   });
 
   it('removes tag on backspace when textarea is empty', () => {
-    render(<TagInput defaultValue={['tag1', 'tag2']} />);
+    render(<TagInput value={['tag1', 'tag2']} />);
     const textarea = document.querySelector('textarea')!;
     fireEvent.keyDown(textarea, { key: 'Backspace' });
     expect(screen.queryByText('tag2')).toBeNull();
@@ -52,7 +52,7 @@ describe('TagInput', () => {
 
   it('shows error message for duplicate and auto-dismisses after 2s', async () => {
     vi.useFakeTimers();
-    render(<TagInput defaultValue={['hello']} />);
+    render(<TagInput value={['hello']} />);
     const textarea = document.querySelector('textarea')!;
     fireEvent.change(textarea, { target: { value: 'hello' } });
     fireEvent.keyDown(textarea, { key: 'Enter' });
