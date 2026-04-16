@@ -150,11 +150,6 @@ export function DatePicker({
     onChange,
   });
 
-  // Working copy — the in-progress selection while the picker is open
-  const [workingValue, setWorkingValue] = useState<
-    Date | Date[] | [Date[], Date[]] | undefined
-  >(controlledValue);
-
   const [controlledType, setControlledType] = useControllable<SelectionType>({
     value: type,
     defaultValue: type,
@@ -167,30 +162,13 @@ export function DatePicker({
     onChange: onExpandedChange,
   });
 
-  // Track which preset option is selected
   const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
 
-  // Compare/range mode toggle for allowChangeType
   const [isMulti, setIsMulti] = useState(
     isCompare || controlledType === "compare",
   );
 
-  const displayLabel = buildDisplayLabel(
-    controlledValue,
-    controlledType!,
-    lang,
-    separator,
-  );
-
-  useEffect(() => {
-    setWorkingValue(controlledValue);
-  }, [controlledValue]);
-
   function handleExpand(isOpenVal: boolean) {
-    if (isOpenVal) {
-      // Copy current value to working copy when opening
-      setWorkingValue(controlledValue);
-    }
     setIsOpen(isOpenVal);
   }
 
@@ -206,9 +184,8 @@ export function DatePicker({
   }
 
   function handleApply() {
-    setControlledValue(workingValue as any);
     setIsOpen(false);
-    onApply?.(workingValue);
+    onApply?.(controlledValue);
   }
 
   function handlePresetSelect(opt: {
@@ -234,9 +211,6 @@ export function DatePicker({
     const newIsMulti = !!checked;
     setIsMulti(newIsMulti);
     setControlledType(newIsMulti ? "compare" : "period");
-    console.log(newIsMulti, type, controlledType);
-    setWorkingValue(controlledValue);
-    console.log(value, controlledValue, workingValue);
   }
 
   const triggerContent = (
@@ -253,7 +227,14 @@ export function DatePicker({
       <Icon name="calendar_month" className={styles.calendarIcon} />
       <h5 className={clsx("whitespace-nowrap ml-xs", { "font-bold": isOpen })}>
         <span className={styles.displayLabel}>
-          {displayLabel || children || "\u00A0"}
+          {buildDisplayLabel(
+            controlledValue,
+            controlledType!,
+            lang,
+            separator,
+          ) ||
+            children ||
+            "\u00A0"}
         </span>
       </h5>
     </div>
@@ -298,7 +279,7 @@ export function DatePicker({
           {/* Calendar */}
           <div className="px-sm pt-xxs w-full">
             <Calendar
-              value={workingValue}
+              value={controlledValue}
               onChange={handleCalendarChange}
               type={controlledType}
               minDate={minDate}

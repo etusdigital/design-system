@@ -1,5 +1,5 @@
 import type React from "react";
-import { useState, useRef, useEffect, type RefObject } from "react";
+import { useState, useRef, useEffect, type RefObject, useMemo } from "react";
 import clsx from "clsx";
 import {
   getArrayMonthDay,
@@ -106,9 +106,7 @@ function CalendarDay({
           <div className={styles.halfPrimary} />
           <div
             className={
-              splitIsSecondary
-                ? styles.halfSecondary
-                : styles.halfHover
+              splitIsSecondary ? styles.halfSecondary : styles.halfHover
             }
           />
         </div>
@@ -314,7 +312,6 @@ function getHoveredCheck(
   index: number,
 ): boolean {
   if (!hovered || !model || type === "date") return false;
-  if (index > 0) return false;
   const dates = getDates(model, type, index);
   return dates.length === 1 && isRange(dates[0], hovered, day);
 }
@@ -463,14 +460,10 @@ export function Calendar({
     { duration: 300 },
   );
 
-  // Internal model for uncontrolled usage
-  const [internalModel, setInternalModel] = useState<Date[] | Date[][]>(() =>
-    checkDateType(defaultValue as any, type),
+  const model = useMemo(
+    (): Date[] | Date[][] => checkDateType(value as any, type),
+    [value],
   );
-
-  // Controlled vs uncontrolled
-  const model: Date[] | Date[][] =
-    value !== undefined ? checkDateType(value as any, type) : internalModel;
 
   const today = new Date();
   const monthDate = new Date(currentYear, currentMonth, 1);
@@ -538,57 +531,35 @@ export function Calendar({
       if (dates.length === 0 || dates.length >= 2) {
         newModel = [date];
       } else {
-        // Second click — form range, ensure start <= end
         const [start] = dates;
-        if (date < start) {
-          newModel = [date, start];
-        } else {
-          newModel = [start, date];
-        }
+        if (date < start) newModel = [date, start];
+        else newModel = [start, date];
       }
     } else {
-      // compare mode — derive active range from model state (matches Vue behaviour)
       const ranges = model as Date[][];
       let range0 = [...(ranges[0] ?? [])];
       let range1 = [...(ranges[1] ?? [])];
 
-      // Reset both ranges when second range is complete or first is missing
       if (!ranges[0] || range1.length > 1) {
         range0 = [];
         range1 = [];
       }
 
-      // Determine which range to fill based on current state
       const rangeIdx = range0.length > 1 ? 1 : 0;
       const target = rangeIdx === 0 ? range0 : range1;
 
-      // sortDate logic: add date to target range
       let sorted: Date[];
-      if (target.length > 1 || target.length === 0) {
-        sorted = [date];
-      } else if (date < target[0]) {
-        sorted = [date, target[0]];
-      } else {
-        sorted = [target[0], date];
-      }
+      if (target.length > 1 || target.length === 0) sorted = [date];
+      else if (date < target[0]) sorted = [date, target[0]];
+      else sorted = [target[0], date];
 
-      if (rangeIdx === 0) {
-        newModel = [sorted, range1];
-      } else {
-        newModel = [range0, sorted];
-      }
-    }
-
-    if (value === undefined) {
-      setInternalModel(newModel);
+      if (rangeIdx === 0) newModel = [sorted, range1];
+      else newModel = [range0, sorted];
     }
 
     if (onChange) {
-      if (type === "date") {
-        onChange(date);
-      } else {
-        onChange(newModel);
-      }
+      if (type === "date") onChange(date);
+      else onChange(newModel);
     }
   }
 
@@ -668,7 +639,14 @@ export function Calendar({
   }
 
   return (
-    <div className={clsx(styles.calendar, 'calendar', doubleCalendar && styles.doubleCalendar, className)}>
+    <div
+      className={clsx(
+        styles.calendar,
+        "calendar",
+        doubleCalendar && styles.doubleCalendar,
+        className,
+      )}
+    >
       <div className={styles.header} ref={header}>
         <button
           className={styles.navButton}
