@@ -13,10 +13,8 @@
   @apply text-xl leading-xs;
 }
 
-/* Flyout group row */
 .groupLabel { flex: 1; }
 
-/* Flyout sub-card positioned to the right of the group row */
 .flyoutCard {
   position: absolute;
   left: 100%;

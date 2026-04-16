@@ -33,7 +33,6 @@ describe('Input', () => {
     const { container } = render(<Input type="text" mask="cpf" onChange={handleChange} />);
     const input = container.querySelector('input') as HTMLInputElement;
     fireEvent.change(input, { target: { value: '12345678900' } });
-    // After mask applied, onChange should receive formatted CPF
     expect(handleChange).toHaveBeenCalledWith('123.456.789-00');
   });
 
@@ -44,7 +43,6 @@ describe('Input', () => {
 
   it('type=password renders visibility toggle', () => {
     const { container } = render(<Input type="password" placeholder="Password" />);
-    // Should have an icon for visibility toggle
     const icon = container.querySelector('.icon');
     expect(icon).toBeTruthy();
   });
@@ -58,7 +56,6 @@ describe('Input', () => {
   it('type=number renders increment and decrement buttons', () => {
     const { container } = render(<Input type="number" defaultValue="5" />);
     const icons = container.querySelectorAll('.icon');
-    // Should have at least 2 icons: arrow_drop_up and arrow_drop_down
     expect(icons.length).toBeGreaterThanOrEqual(2);
   });
 

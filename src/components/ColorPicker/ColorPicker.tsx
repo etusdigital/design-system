@@ -95,12 +95,10 @@ export function ColorPicker(props: ColorPickerProps) {
   const [isMovingUp, setIsMovingUp] = useState(false);
   const [opacityTrackBg, setOpacityTrackBg] = useState<string>('linear-gradient(to right, #ffffff 0%, hsl(0, 100%, 50%))');
 
-  // Refs for dragging
   const isDraggingColorSlider = useRef(false);
   const isDraggingOpacitySlider = useRef(false);
   const isDraggingColorArea = useRef(false);
 
-  // Element refs
   const cursorColorSliderRef = useRef<HTMLSpanElement>(null);
   const cursorOpacitySliderRef = useRef<HTMLSpanElement>(null);
   const cursorColorAreaRef = useRef<HTMLSpanElement>(null);
@@ -108,18 +106,14 @@ export function ColorPicker(props: ColorPickerProps) {
   const sliderColorDivRef = useRef<HTMLDivElement>(null);
   const sliderOpacityDivRef = useRef<HTMLDivElement>(null);
 
-  // Mutable refs for handler closures — ref-forwarding pattern from Slider
   const sliderColorRef = useRef(sliderColor);
   const sliderOpacityRef = useRef(sliderOpacity);
   const colorTypeIndexRef = useRef(colorTypeIndex);
   const hueRef = useRef(0);
 
-  // Keep mutable refs in sync on every render
   sliderColorRef.current = sliderColor;
   sliderOpacityRef.current = sliderOpacity;
   colorTypeIndexRef.current = colorTypeIndex;
-
-  // --- Color conversion helpers ---
 
   function getColor(color: any): string {
     const idx = colorTypeIndexRef.current;
@@ -157,8 +151,6 @@ export function ColorPicker(props: ColorPickerProps) {
     const rgba = divideColor(currentInput);
     return rgbaToHsva(rgba.r, rgba.g, rgba.b, isNaN(rgba.a) ? 1 : rgba.a);
   }
-
-  // --- Canvas helpers ---
 
   function getPixelColor(element: Element, x: number): string {
     const canvas = document.createElement('canvas');
@@ -246,14 +238,11 @@ export function ColorPicker(props: ColorPickerProps) {
     updateColorFromPixel(pixel);
   }
 
-  // --- Drag event handlers (registered once, read from refs) ---
-
   const handleMouseMoveRef = useRef<(e: MouseEvent) => void>(() => {});
   const handleMouseUpRef = useRef<() => void>(() => {});
   const handleTouchMoveRef = useRef<(e: TouchEvent) => void>(() => {});
   const handleTouchEndRef = useRef<() => void>(() => {});
 
-  // Update handler refs each render to avoid stale closures
   useEffect(() => {
     handleMouseMoveRef.current = (event: MouseEvent) => {
       updateOpacitySlider(event);
@@ -279,7 +268,6 @@ export function ColorPicker(props: ColorPickerProps) {
     };
   });
 
-  // Register window listeners once on mount
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => handleMouseMoveRef.current(e);
     const handleMouseUp = () => handleMouseUpRef.current();
@@ -299,7 +287,6 @@ export function ColorPicker(props: ColorPickerProps) {
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Initial setup: draw canvas and position cursors
   useEffect(() => {
     changeCanvasColor();
     const timer = setTimeout(() => {
@@ -307,8 +294,6 @@ export function ColorPicker(props: ColorPickerProps) {
     }, 100);
     return () => clearTimeout(timer);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // --- Slider update functions ---
 
   function updateOpacitySlider(event: MouseEvent | Touch) {
     if (!isDraggingOpacitySlider.current) return;
@@ -410,8 +395,6 @@ export function ColorPicker(props: ColorPickerProps) {
     cursorArea.style.top = colorPosition.y + 'px';
   }, [inputColor]);
 
-  // --- Color type navigation ---
-
   function moveDown() {
     setIsMovingDown(true);
     setTimeout(() => {
@@ -445,8 +428,6 @@ export function ColorPicker(props: ColorPickerProps) {
     setModel(newInput);
   }
 
-  // --- Render ---
-
   const currentTypeName = COLOR_TYPES[colorTypeIndex];
   const nextTypeName = COLOR_TYPES[colorTypeIndex + 1 > COLOR_TYPES.length - 1 ? 0 : colorTypeIndex + 1];
   const prevTypeName = COLOR_TYPES[colorTypeIndex - 1 < 0 ? COLOR_TYPES.length - 1 : colorTypeIndex - 1];
@@ -456,7 +437,6 @@ export function ColorPicker(props: ColorPickerProps) {
       className={clsx(styles.colorPicker, 'color-picker', noShadow && styles.noShadow, disabled && styles.disabled, className)}
       data-component="ColorPicker"
     >
-      {/* Color area */}
       <div className={styles.colorAreaWrapper}>
         <span
           ref={cursorColorAreaRef}
@@ -489,17 +469,13 @@ export function ColorPicker(props: ColorPickerProps) {
         />
       </div>
 
-      {/* Preview + sliders */}
       <div className="flex items-center gap-sm">
-        {/* Color preview circle */}
         <div
           className={styles.colorCircle}
           style={{ background: circleBackground }}
         />
 
-        {/* Hue + opacity sliders */}
         <div className="flex flex-col gap-xs w-full">
-          {/* Hue slider */}
           <div
             ref={sliderColorDivRef}
             className={clsx(styles.sliderTrack, styles.hueTrack, 'slider')}
@@ -531,7 +507,6 @@ export function ColorPicker(props: ColorPickerProps) {
             />
           </div>
 
-          {/* Opacity slider */}
           {showAlpha && (
             <div
               ref={sliderOpacityDivRef}
@@ -568,7 +543,6 @@ export function ColorPicker(props: ColorPickerProps) {
         </div>
       </div>
 
-      {/* Color value input + type toggle */}
       <div className="flex items-center gap-sm">
         <input
           type="text"
@@ -582,7 +556,6 @@ export function ColorPicker(props: ColorPickerProps) {
           disabled={disabled}
         />
 
-        {/* Type toggle arrows */}
         <div className="flex items-center gap-xxs">
           <div className="flex flex-col items-center overflow-hidden relative h-lg w-fit text-neutral-interaction-default">
             {isMovingDown && (
@@ -621,7 +594,6 @@ export function ColorPicker(props: ColorPickerProps) {
         </div>
       </div>
 
-      {/* Color type tab toggles */}
       <div className={styles.typeToggles}>
         {COLOR_TYPES.map((type) => (
           <button

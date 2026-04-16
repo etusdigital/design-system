@@ -10,21 +10,21 @@ export type SelectExpandedExtra = {
 };
 
 export interface SelectContentProps {
-  value?: string;               // was modelValue — search string
+  value?: string;
   defaultValue?: string;
   onChange?: (value: string, extra: { index: number }) => void;
-  options?: any;                // used to determine placeholder text color
-  icon?: string;                // optional icon name
-  expanded?: boolean;           // was expanded prop
+  options?: any;
+  icon?: string;
+  expanded?: boolean;
   defaultExpanded?: boolean;
   onExpandedChange?: (value: boolean, extra: SelectExpandedExtra) => void;
-  searchable?: boolean;         // default: false
-  disabled?: boolean;           // default: false
-  isError?: boolean;            // default: false
-  secondary?: boolean;          // default: false
-  searchLabel?: React.ReactNode;  // replaces <slot name="search-label">Search</slot>
-  status?: React.ReactNode;       // replaces <slot name="status">
-  appendIcon?: string;          // optional icon name rendered on right side (overrides nothing — additive)
+  searchable?: boolean;
+  disabled?: boolean;
+  isError?: boolean;
+  secondary?: boolean;
+  searchLabel?: React.ReactNode;
+  status?: React.ReactNode;
+  appendIcon?: string;
   className?: string;
 }
 
@@ -60,7 +60,6 @@ export function SelectContent({
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Auto-focus search input when expanded
   useEffect(() => {
     if (expanded && !disabled && inputRef.current) {
       inputRef.current.focus();

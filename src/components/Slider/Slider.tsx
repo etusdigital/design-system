@@ -43,33 +43,27 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 
     const isControlled = value !== undefined;
 
-    // Normalize value to number | [number, number] for useControllable
     const [currentValue, setValue] = useControllable<number | [number, number]>({
       value,
       defaultValue: isRange ? [0, 0] : 0,
       onChange,
     });
 
-    // Dragging state: one flag per cursor (single=1, range=2)
     const [isDragging, setIsDragging] = useState<boolean[]>([false, false]);
     const [mounted, setMounted] = useState(false);
 
-    // Visual value during drag — forces re-render for step markers in controlled mode
     const [dragValue, setDragValue] = useState<number | [number, number] | undefined>(undefined);
 
-    // Refs
     const containerRef = useRef<HTMLDivElement>(null);
     const fillBarRef = useRef<HTMLDivElement>(null);
     const cursorRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-    // Refs for drag handlers to avoid stale closures
     const isDraggingRef = useRef<boolean[]>([false, false]);
     const currentValueRef = useRef<number | [number, number] | undefined>(currentValue);
     const updateCursorRef = useRef<(e: MouseEvent) => void>(() => {});
     const stopDraggingRef = useRef<() => void>(() => {});
     const updateCursorTouchRef = useRef<(e: TouchEvent) => void>(() => {});
 
-    // Merge forwarded ref with internal containerRef
     const mergedRef = useCallback(
       (node: HTMLDivElement | null) => {
         (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
@@ -82,7 +76,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       [ref]
     );
 
-    // Keep currentValueRef in sync
     useEffect(() => {
       setMounted(true);
       currentValueRef.current = currentValue;
@@ -93,26 +86,22 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       return blendColors(color);
     }
 
-    // Helper: get internal model as [number, number] array
     function getModelArray(val: number | [number, number] | undefined): [number, number] {
       if (val === undefined) return [0, 0];
       if (Array.isArray(val)) return [val[0], val[1]];
       return [val, val];
     }
 
-    // Get percentage value for a raw value given max
     function toPercentage(rawValue: number): number {
       if (!max || max === 0) return Math.min(1, Math.max(0, rawValue));
       return Math.min(1, Math.max(0, rawValue / max));
     }
 
-    // Convert a percentage back to raw value
     function fromPercentage(pct: number): number {
       if (!max || max === 0) return pct;
       return pct * max;
     }
 
-    // Snap to nearest step if steps defined
     function getStepPercentage(pct: number): number {
       if (!steps || !steps.length) return pct;
       const stepValues = steps.map((s) => (max ? s.value / max : s.value));
@@ -121,7 +110,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       );
     }
 
-    // Calculate cursor positions and fill bar from current value
     const calculateCursor = useCallback(() => {
       const container = containerRef.current;
       const fillBar = fillBarRef.current;
@@ -134,7 +122,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 
       const cursors = cursorRefs.current;
 
-      // Position each cursor
       cursors.forEach((cursor, index) => {
         if (!cursor) return;
         const pct = percentages[index] ?? 0;
@@ -162,7 +149,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         }
       });
 
-      // Position fill bar
       if (!fillBar) return;
 
       if (vertical) {
@@ -194,7 +180,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       }
     }, [isRange, vertical, max, steps]);
 
-    // Drag: start dragging cursor at index
     const startDragging = useCallback((index: number) => {
       const newDragging = [false, false];
       newDragging[index] = true;
@@ -202,7 +187,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       setIsDragging([...newDragging]);
     }, []);
 
-    // Update cursor position from mouse/touch event
     const updateCursorHandler = useCallback(
       (clientX: number, clientY: number) => {
         const container = containerRef.current;
@@ -245,24 +229,19 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 
           currentValueRef.current = newValue;
           setValue(newValue);
-          setDragValue(newValue); // force re-render for step markers
-          // Recalculate cursor position immediately
+          setDragValue(newValue);
           setTimeout(() => calculateCursor(), 0);
         });
       },
       [isRange, vertical, max, steps, setValue, calculateCursor]
     );
 
-    // Stop dragging
     const stopDraggingHandler = useCallback(() => {
       isDraggingRef.current = [false, false];
       setIsDragging([false, false]);
-      // In controlled mode, keep the visual value until parent updates `value`,
-      // otherwise the UI may "snap back" to the stale controlled value.
       if (!isControlled) setDragValue(undefined);
     }, []);
 
-    // When controlled value catches up, clear the temporary drag value.
     useEffect(() => {
       if (dragValue === undefined) return;
 
@@ -274,7 +253,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       if (isSame) setDragValue(undefined);
     }, [currentValue, dragValue]);
 
-    // Keep refs in sync with current handlers to avoid stale closures
     useEffect(() => {
       updateCursorRef.current = (e: MouseEvent) =>
         updateCursorHandler(e.clientX, e.clientY);
@@ -286,7 +264,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       };
     });
 
-    // Register window event listeners once on mount
     useEffect(() => {
       const handleMouseMove = (e: MouseEvent) => updateCursorRef.current(e);
       const handleMouseUp = () => stopDraggingRef.current();
@@ -306,32 +283,26 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       };
     }, []);
 
-    // Initial calculation on mount (port Vue's setTimeout 200ms)
     useEffect(() => {
       const timer = setTimeout(() => calculateCursor(), 200);
       return () => clearTimeout(timer);
     }, []);
 
-    // Recalculate when value, size, or vertical changes
     useEffect(() => {
       const timer = setTimeout(() => calculateCursor(), 100);
       return () => clearTimeout(timer);
     }, [currentValue, size, vertical]);
 
-    // Tooltip display value
     const getTooltipText = (rawValue: number): string => {
       const displayUnit = unit || '%';
       return `${rawValue.toFixed(1)}${displayUnit}`;
     };
 
-    // Compute cursors count: range=2, single=1
     const cursorCount = isRange ? 2 : 1;
 
-    // Use drag value during drag for step marker reactivity, otherwise controlled/internal value
     const effectiveValue = dragValue ?? currentValue;
     const modelArray = getModelArray(effectiveValue);
 
-    // Step style for a step marker
     const getStepStyle = (step: { label: string; value: number }) => {
       const pct = max ? step.value / max : step.value;
       const style: React.CSSProperties = {};
@@ -343,7 +314,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       return style;
     };
 
-    // Check if a step is within the fill range
     const isStepActive = (step: { label: string; value: number }): boolean => {
       const pct = max ? step.value / max : step.value;
       if (isRange) {
@@ -354,11 +324,9 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       return pct >= 0 && pct <= toPercentage(modelArray[0]);
     };
 
-    // Inline style for active step markers (respects color and fillColors props)
     const getStepMarkerStyle = (step: { label: string; value: number }, active: boolean): React.CSSProperties => {
       if (!active || disabled) return {};
       if (fillColors && fillColors.length) {
-        // Determine which fill color segment this step sits on
         const stepPct = max ? step.value / max : step.value;
         const fillStart = isRange ? Math.min(toPercentage(modelArray[0]), toPercentage(modelArray[1])) : 0;
         const fillEnd = isRange
@@ -379,13 +347,11 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       return {};
     };
 
-    // Fill bar dynamic style (color/fillColors)
     const fillBarStyle: React.CSSProperties = {};
     if (color && !(fillColors && fillColors.length) && !disabled) {
       fillBarStyle.backgroundColor = color;
     }
 
-    // Cursor dynamic style
     const getCursorStyle = (_: number): React.CSSProperties => {
       const style: React.CSSProperties = {};
       if (color && !disabled) {
@@ -411,7 +377,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         aria-disabled={disabled}
         onMouseDown={(e) => {
           if (disabled) return;
-          // Find closest cursor on track mousedown
           const container = containerRef.current;
           if (!container) return;
 
@@ -449,7 +414,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           }
         }}
       >
-        {/* Fill bar */}
         <div
           ref={fillBarRef}
           className={clsx(
@@ -464,7 +428,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           ))}
         </div>
 
-        {/* Cursors */}
         {Array.from({ length: cursorCount }).map((_, index) => (
           showTooltip ? (
             <Tooltip
@@ -512,7 +475,6 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           )
         ))}
 
-        {/* Step markers */}
         {steps && steps.map((step, i) => {
           const active = isStepActive(step);
           return (

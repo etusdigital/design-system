@@ -16,10 +16,8 @@ describe('Slider', () => {
 
   it('renders track and cursor elements', () => {
     const { container } = render(<Slider value={0.5} />);
-    // Should render the slider container
     const slider = container.firstChild as HTMLElement;
     expect(slider).toBeTruthy();
-    // Should render at least one cursor div
     const cursors = slider.querySelectorAll('[class*="cursor"]');
     expect(cursors.length).toBeGreaterThan(0);
   });
@@ -51,7 +49,6 @@ describe('Slider', () => {
   it('accepts size prop', () => {
     const { container } = render(<Slider size="small" value={0.5} />);
     const slider = container.firstChild as HTMLElement;
-    // The small CSS module class should be applied
     expect(slider.className).toContain('small');
   });
 
@@ -63,7 +60,6 @@ describe('Slider', () => {
   });
 
   it('passes internal defaultValue 0 to useControllable for single slider', () => {
-    // Slider hardcodes defaultValue: 0 for single mode (no defaultValue prop on SliderProps)
     const useControllableSpy = vi.spyOn(useControllableModule, 'useControllable');
 
     render(<Slider />);
@@ -76,7 +72,6 @@ describe('Slider', () => {
   });
 
   it('passes internal defaultValue [0,0] to useControllable for range slider', () => {
-    // Slider hardcodes defaultValue: [0, 0] for range mode
     const useControllableSpy = vi.spyOn(useControllableModule, 'useControllable');
 
     render(<Slider isRange />);

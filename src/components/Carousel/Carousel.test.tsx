@@ -65,14 +65,11 @@ describe('Carousel', () => {
         {(option) => <div>{option}</div>}
       </Carousel>
     );
-    // Previous button should be disabled at index 0
     const prevButton = screen.getByLabelText('Previous slide');
     expect(prevButton).toBeDisabled();
   });
 
   it('uses getComputedStyle for CSS variable reading (not computedStyleMap)', () => {
-    // The implementation uses getComputedStyle(document.documentElement)
-    // This test ensures the module loads and renders without any computedStyleMap usage
     const { container } = render(
       <Carousel options={options}>
         {(option) => <div>{option}</div>}
@@ -87,7 +84,6 @@ describe('Carousel', () => {
         {(option) => <div>{option}</div>}
       </Carousel>
     );
-    // 3 options with visible=1 should give 3 indicators
     const indicators = screen.getAllByRole('button', { name: /Go to slide/ });
     expect(indicators).toHaveLength(3);
   });

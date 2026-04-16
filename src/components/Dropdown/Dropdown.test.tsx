@@ -102,12 +102,8 @@ describe('Dropdown', () => {
       />
     );
 
-    // Top-level group headers are always rendered immediately
     expect(getAllByText('Fruits').length).toBeGreaterThan(0);
     expect(getAllByText('Vegetables').length).toBeGreaterThan(0);
-    // Nested items (Apple, Banana, Carrot, Spinach) are inside flyouts
-    // — they only render after clicking the group header (subExpanded toggle)
-    // We verify the component renders without crashing
     expect(document.body).toBeTruthy();
   });
 

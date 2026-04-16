@@ -57,7 +57,6 @@ export function MetricCard({
   children,
   className,
 }: MetricCardProps) {
-  // Extract DescriptionSlot from children
   const extractedDescriptionSlot: React.ReactNode[] = [];
   const remainingChildren: React.ReactNode[] = [];
 

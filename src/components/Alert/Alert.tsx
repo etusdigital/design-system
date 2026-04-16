@@ -82,7 +82,6 @@ export function Alert({
     return () => observer.disconnect();
   }, [resize]);
 
-  // Re-run resize on every render (replaces Vue onUpdated)
   useEffect(() => {
     resize();
   });

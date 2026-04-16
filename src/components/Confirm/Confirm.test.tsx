@@ -3,15 +3,11 @@ import { beforeEach, afterEach, describe, it, expect, vi } from 'vitest';
 import { ConfirmProvider, useConfirm } from './Confirm';
 import { DesignSystemProvider } from '../../providers/DesignSystemProvider';
 
-// ── Setup ─────────────────────────────────────────────────────────────────────
-
 beforeEach(() => vi.useFakeTimers());
 afterEach(() => {
   vi.runOnlyPendingTimers();
   vi.useRealTimers();
 });
-
-// ── Test helper ───────────────────────────────────────────────────────────────
 
 function TestConsumer({ onResult }: { onResult: (v: boolean) => void }) {
   const { confirm } = useConfirm();
@@ -26,8 +22,6 @@ function TestConsumer({ onResult }: { onResult: (v: boolean) => void }) {
     </button>
   );
 }
-
-// ── Tests ─────────────────────────────────────────────────────────────────────
 
 describe('useConfirm', () => {
   it('throws outside ConfirmProvider', () => {
@@ -135,7 +129,6 @@ describe('useConfirm', () => {
       fireEvent.click(screen.getByText('Open Empty'));
     });
 
-    // No h2 or p in dialog content since title and message are empty
     const headings = document.querySelectorAll('.confirm h2');
     const paragraphs = document.querySelectorAll('.confirm p');
     expect(headings.length).toBe(0);
@@ -148,7 +141,6 @@ describe('useConfirm', () => {
       return <button onClick={() => confirm({ title: 'Test?' })}>Confirm</button>;
     }
 
-    // Just rendering inside DesignSystemProvider should not throw
     expect(() =>
       render(
         <DesignSystemProvider>

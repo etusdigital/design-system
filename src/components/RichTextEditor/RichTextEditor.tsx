@@ -100,19 +100,16 @@ export function RichTextEditor({
   const [activeStates, setActiveStates] = useState<Record<string, boolean>>({});
   const [currentFontSize, setCurrentFontSize] = useState(16);
 
-  // Color states
   const [foreColor, setForeColor] = useState('#000000');
   const [foreColorExpanded, setForeColorExpanded] = useState(false);
   const [backColor, setBackColor] = useState('#ffffff');
   const [backColorExpanded, setBackColorExpanded] = useState(false);
   const [customColors, setCustomColors] = useState<string[]>([]);
 
-  // Link dialog
   const [showLinkDialog, setShowLinkDialog] = useState(false);
   const [linkUrl, setLinkUrl] = useState('');
   const [linkText, setLinkText] = useState('');
 
-  // ─── History ──────────────────────────────────────
   const saveToHistory = useCallback((content: string) => {
     if (isRestoringHistoryRef.current) return;
     const compressed = compressHTML(content);
@@ -130,7 +127,6 @@ export function RichTextEditor({
     }
   }, []);
 
-  // ─── Selection save/restore ───────────────────────
   function saveCurrentSelection() {
     try {
       const selection = window.getSelection();
@@ -177,7 +173,6 @@ export function RichTextEditor({
     }
   }
 
-  // ─── Active state ─────────────────────────────────
   const updateActiveStates = useCallback(() => {
     setActiveStates({
       bold: document.queryCommandState('bold'),
@@ -192,7 +187,6 @@ export function RichTextEditor({
       justifyFull: document.queryCommandState('justifyFull'),
     });
 
-    // Font size detection
     const selection = window.getSelection();
     if (!selection || selection.rangeCount === 0 || !editorRef.current) return;
     let currentNode: Node | null = selection.getRangeAt(0).startContainer;
@@ -213,7 +207,6 @@ export function RichTextEditor({
     if (!fontSizeFound) setCurrentFontSize(16);
   }, []);
 
-  // ─── Style helpers ────────────────────────────────
   function setListStyles() {
     if (!editorRef.current) return;
     const spacing = getComputedStyle(editorRef.current).getPropertyValue('--spacing-base');
@@ -259,7 +252,6 @@ export function RichTextEditor({
     });
   }
 
-  // ─── Mount ────────────────────────────────────────
   useEffect(() => {
     if (!editorRef.current) return;
     editorRef.current.innerHTML = sanitizeHTML(currentValue ?? '');
@@ -267,14 +259,12 @@ export function RichTextEditor({
     saveToHistory(currentValue ?? '');
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Controlled sync
   useEffect(() => {
     if (!editorRef.current || editorRef.current.innerHTML === value) return;
     editorRef.current.innerHTML = sanitizeHTML(value ?? '');
     applyContentStyles();
   }, [value]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ─── execCommand wrapper ──────────────────────────
   function execFormatCommand(command: string, cmdValue?: string) {
     const selection = window.getSelection();
     if (disabled || !editorRef.current || !isSelectionWithinEditor(selection)) return;
@@ -297,7 +287,6 @@ export function RichTextEditor({
     }
   }
 
-  // ─── Font size ────────────────────────────────────
   function handleFontSizeUpdate(fontSize: any) {
     if (disabled || !editorRef.current) return;
     const size = typeof fontSize === 'object' ? fontSize.value : fontSize;
@@ -334,7 +323,6 @@ export function RichTextEditor({
     updateActiveStates();
   }
 
-  // ─── Color ────────────────────────────────────────
   function handleColorCommand(color: string, command: string) {
     const selection = window.getSelection();
     if (!selection || disabled || !editorRef.current) return;
@@ -351,7 +339,6 @@ export function RichTextEditor({
     updateActiveStates();
   }
 
-  // ─── Undo/Redo ────────────────────────────────────
   function undoAction() {
     if (historyIndexRef.current <= 0 || !editorRef.current) return;
     isRestoringHistoryRef.current = true;
@@ -376,7 +363,6 @@ export function RichTextEditor({
     updateActiveStates();
   }
 
-  // ─── Link ─────────────────────────────────────────
   function handleCreateLink() {
     if (disabled) return;
     saveCurrentSelection();
@@ -429,7 +415,6 @@ export function RichTextEditor({
     } catch { /* ignore */ }
   }
 
-  // ─── Image ────────────────────────────────────────
   function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
     if (!files || !editorRef.current) return;
@@ -476,11 +461,9 @@ export function RichTextEditor({
       } catch { /* ignore */ }
     });
 
-    // Reset input
     e.target.value = '';
   }
 
-  // ─── Blockquote ───────────────────────────────────
   function handleInsertBlockquote() {
     if (disabled || !editorRef.current) return;
     const selection = window.getSelection();
@@ -531,7 +514,6 @@ export function RichTextEditor({
     } catch { /* ignore */ }
   }
 
-  // ─── onInput ──────────────────────────────────────
   function handleInput() {
     if (isRestoringHistoryRef.current || !editorRef.current) return;
     const html = editorRef.current.innerHTML;
@@ -540,7 +522,6 @@ export function RichTextEditor({
     updateActiveStates();
   }
 
-  // ─── onKeyDown ────────────────────────────────────
   function handleKeyDown(event: React.KeyboardEvent) {
     if (disabled) return;
 
@@ -604,7 +585,6 @@ export function RichTextEditor({
     if (!isSelectionWithinEditor(selection)) event.preventDefault();
   }
 
-  // ─── Toolbar button helper ────────────────────────
   function toolbarBtn(
     command: string,
     icon: string,
@@ -648,7 +628,6 @@ export function RichTextEditor({
       )}
 
       <div className={styles.toolbar}>
-        {/* Undo/Redo */}
         <div className={styles.toolbarGroup}>
           <button
             className={styles.toolbarBtn}
@@ -670,7 +649,6 @@ export function RichTextEditor({
           </button>
         </div>
 
-        {/* Font size */}
         <div className={styles.toolbarGroup}>
           <Select
             value={currentFontSize}
@@ -680,7 +658,6 @@ export function RichTextEditor({
           />
         </div>
 
-        {/* Font style */}
         <div className={styles.toolbarGroup}>
           {toolbarBtn('bold', 'format_bold', 'Bold (Ctrl+B)')}
           {toolbarBtn('italic', 'format_italic', 'Italic (Ctrl+I)')}
@@ -688,7 +665,6 @@ export function RichTextEditor({
           {toolbarBtn('strikeThrough', 'strikethrough_s', 'Strikethrough')}
         </div>
 
-        {/* Colors */}
         <div className={styles.toolbarGroup}>
           <Colors
             value={foreColor}
@@ -738,13 +714,11 @@ export function RichTextEditor({
           </Colors>
         </div>
 
-        {/* Lists */}
         <div className={styles.toolbarGroup}>
           {toolbarBtn('insertUnorderedList', 'format_list_bulleted', 'Bulleted list')}
           {toolbarBtn('insertOrderedList', 'format_list_numbered', 'Numbered list')}
         </div>
 
-        {/* Alignment */}
         <div className={styles.toolbarGroup}>
           {toolbarBtn('justifyLeft', 'format_align_left', 'Align left')}
           {toolbarBtn('justifyCenter', 'format_align_center', 'Align center')}
@@ -752,7 +726,6 @@ export function RichTextEditor({
           {toolbarBtn('justifyFull', 'format_align_justify', 'Justify')}
         </div>
 
-        {/* Insert elements */}
         <div className={styles.toolbarGroup}>
           {toolbarBtn('createLink', 'link', 'Insert link', handleCreateLink)}
           <button
@@ -771,7 +744,6 @@ export function RichTextEditor({
           {toolbarBtn('insertBlockquote', 'format_quote', 'Quote', handleInsertBlockquote)}
         </div>
 
-        {/* Remove formatting */}
         <div className={styles.toolbarGroup}>
           {toolbarBtn('removeFormat', 'format_clear', 'Remove formatting')}
         </div>
@@ -796,7 +768,6 @@ export function RichTextEditor({
         onPaste={handlePaste}
       />
 
-      {/* Link Dialog */}
       <Dialog value={showLinkDialog} onChange={setShowLinkDialog}>
           <div className={styles.linkDialogContent}>
             <input

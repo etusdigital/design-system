@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, Children, isValidElement } from "react";
 import clsx from "clsx";
 import styles from "./FileUpload.module.css";
 
-export type FileUploadSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type FileUploadSize = "xs" | "sm" | "base" | "lg" | "xl";
 
 export interface FileUploadProps {
   value?: File | File[] | null;
@@ -30,7 +30,7 @@ function Preview({ children }: { children: React.ReactNode }) {
 const SVG_SIZE_MAP: Record<FileUploadSize, number> = {
   xs: 56,
   sm: 66,
-  md: 76,
+  base: 76,
   lg: 86,
   xl: 96,
 };
@@ -38,7 +38,7 @@ const SVG_SIZE_MAP: Record<FileUploadSize, number> = {
 const ICON_SIZE_MAP: Record<FileUploadSize, string> = {
   xs: "text-4xl",
   sm: "text-6xl",
-  md: "text-7xl",
+  base: "text-7xl",
   lg: "text-8xl",
   xl: "text-9xl",
 };
@@ -46,7 +46,7 @@ const ICON_SIZE_MAP: Record<FileUploadSize, string> = {
 const TRASH_SIZE_MAP: Record<FileUploadSize, string> = {
   xs: "text-base",
   sm: "text-lg",
-  md: "text-xl",
+  base: "text-xl",
   lg: "text-2xl",
   xl: "text-3xl",
 };
@@ -54,7 +54,7 @@ const TRASH_SIZE_MAP: Record<FileUploadSize, string> = {
 const FILENAME_SIZE_MAP: Record<FileUploadSize, string> = {
   xs: "text-xs",
   sm: "text-sm",
-  md: "text-base",
+  base: "text-base",
   lg: "text-lg",
   xl: "text-xl",
 };
@@ -66,7 +66,7 @@ export function FileUpload({
   labelValue,
   errorMessage,
   infoMessage,
-  size = "md",
+  size = "base",
   disabled = false,
   isError = false,
   placeholder = "or drag and drop it here",
@@ -81,7 +81,6 @@ export function FileUpload({
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Sync controlled value
   useEffect(() => {
     if (value !== undefined) {
       setCurrentFile(value);
@@ -127,7 +126,6 @@ export function FileUpload({
   const trashSizeClass = TRASH_SIZE_MAP[size];
   const fileNameSizeClass = FILENAME_SIZE_MAP[size];
 
-  // Extract Preview compound child
   let previewChild: React.ReactNode = null;
   Children.forEach(children, (child) => {
     if (isValidElement(child) && child.type === Preview) {
@@ -171,7 +169,6 @@ export function FileUpload({
 
         {!hasFile && (
           <>
-            {/* Upload SVG icon */}
             <svg
               width={svgSize}
               height={svgSize}

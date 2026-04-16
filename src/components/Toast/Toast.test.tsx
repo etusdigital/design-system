@@ -4,7 +4,6 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { ToastProvider, useToast } from './Toast';
 import type { ToastOptions } from './Toast';
 
-// Mock createPortal to render inline during tests
 vi.mock('react-dom', async (importOriginal) => {
   const actual = await importOriginal<typeof import('react-dom')>();
   return {
@@ -13,8 +12,6 @@ vi.mock('react-dom', async (importOriginal) => {
   };
 });
 
-// Polyfill RAF/cAF at module level — jsdom does not provide them
-// and vi.useRealTimers() removes them from beforeEach assignments.
 if (typeof globalThis.requestAnimationFrame === 'undefined') {
   globalThis.requestAnimationFrame = (cb: FrameRequestCallback) =>
     setTimeout(() => cb(0), 0) as unknown as number;
@@ -22,8 +19,6 @@ if (typeof globalThis.requestAnimationFrame === 'undefined') {
 if (typeof globalThis.cancelAnimationFrame === 'undefined') {
   globalThis.cancelAnimationFrame = (id: number) => clearTimeout(id);
 }
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
 
 function TestConsumer({ options }: { options?: Partial<ToastOptions> }) {
   const { toast } = useToast();
@@ -48,15 +43,11 @@ function renderWithProvider(ui: React.ReactElement) {
   return render(<ToastProvider>{ui}</ToastProvider>);
 }
 
-// ── Setup ─────────────────────────────────────────────────────────────────────
-
 beforeEach(() => vi.useFakeTimers());
 afterEach(() => {
   vi.runOnlyPendingTimers();
   vi.useRealTimers();
 });
-
-// ── Tests ─────────────────────────────────────────────────────────────────────
 
 describe('ToastProvider / useToast', () => {
   it('throws when useToast is used outside provider', () => {
@@ -73,7 +64,6 @@ describe('ToastProvider / useToast', () => {
       fireEvent.click(button);
     });
 
-    // Advance RAF so useTransition triggers isActive
     act(() => {
       vi.advanceTimersByTime(0);
     });
@@ -95,12 +85,10 @@ describe('ToastProvider / useToast', () => {
 
     expect(screen.getByText('Test')).toBeInTheDocument();
 
-    // Advance to auto-dismiss timer (triggers HIDE → visible:false)
     act(() => {
       vi.advanceTimersByTime(5000);
     });
 
-    // Advance 600ms for REMOVE dispatch + useTransition unmount
     act(() => {
       vi.advanceTimersByTime(600);
     });
@@ -275,7 +263,6 @@ describe('ToastProvider / useToast', () => {
 
     expect(screen.getByText('Test')).toBeInTheDocument();
 
-    // The close icon rendered by Alert's closable prop has text content 'close'
     const closeIcon = screen.getByText('close');
     act(() => {
       fireEvent.click(closeIcon);

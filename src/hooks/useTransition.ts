@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
 export interface UseTransitionOptions {
-  duration: number; // ms — must match the CSS transition duration
+  duration: number;
 }
 
 export function useTransition(
@@ -15,10 +15,7 @@ export function useTransition(
 
   useEffect(() => {
     if (open) {
-      // Mount immediately
       setIsMounted(true);
-      // Double RAF ensures browser paints the initial (off-screen) state
-      // before adding .active, so the CSS transition actually animates
       const raf = requestAnimationFrame(() => {
         const raf2 = requestAnimationFrame(() => {
           setIsActive(true);
@@ -30,7 +27,6 @@ export function useTransition(
         cleanupRef.current?.();
       };
     } else {
-      // Start leave transition: deactivate immediately, unmount after duration
       setIsActive(false);
       timerRef.current = setTimeout(() => {
         setIsMounted(false);

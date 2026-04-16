@@ -14,11 +14,8 @@ describe('Navbar', () => {
       { label: 'About', value: 'about' },
     ];
     const { container } = render(<Navbar options={options} />);
-    // Options render inside Dropdown which uses FloatCard portal
-    // Open the dropdown trigger to render portal content
     const labelContent = container.querySelector('.label-content') as HTMLElement;
     if (labelContent) fireEvent.click(labelContent);
-    // After opening, options are in document (portal)
     expect(screen.getByText('Home')).toBeTruthy();
     expect(screen.getByText('About')).toBeTruthy();
   });
@@ -30,9 +27,7 @@ describe('Navbar', () => {
   });
 
   it('renders profile avatar when profile object provided', () => {
-    // profile prop accepts {name, src} object
     render(<Navbar profile={{ name: 'John Doe' }} />);
-    // Avatar renders with name — the Avatar component renders something in the DOM
     expect(document.body).toBeTruthy();
   });
 
@@ -48,7 +43,6 @@ describe('Navbar', () => {
       },
     ];
     const { container } = render(<Navbar options={options} />);
-    // Dropdown renders an expandable-container
     const dropdown = container.querySelector('.expandable-container, .dropdown');
     expect(dropdown).toBeTruthy();
   });
@@ -57,10 +51,8 @@ describe('Navbar', () => {
     const onClick = vi.fn();
     const options = [{ label: 'Dashboard', value: 'dashboard', onClick }];
     const { container } = render(<Navbar options={options as any} />);
-    // Options render inside Dropdown portal — open first
     const labelContent = container.querySelector('.label-content') as HTMLElement;
     if (labelContent) fireEvent.click(labelContent);
-    // Option appears in portal as role="option"
     const optionEl = document.querySelector('[role="option"]');
     expect(optionEl).toBeTruthy();
   });
@@ -73,7 +65,6 @@ describe('Navbar', () => {
   it('renders nav items with icon if provided', () => {
     const options = [{ label: 'Home', value: 'home', icon: 'home' }];
     const { container } = render(<Navbar options={options as any} />);
-    // Open the dropdown to see nav items with icons
     const labelContent = container.querySelector('.label-content') as HTMLElement;
     if (labelContent) fireEvent.click(labelContent);
     const icon = document.querySelector('.icon');

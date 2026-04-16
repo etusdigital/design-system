@@ -9,8 +9,6 @@ import { Checkbox } from "../Checkbox/Checkbox";
 import { Icon } from "../Icon/Icon";
 import styles from "./DatePicker.module.css";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 type SelectionType = "date" | "period" | "compare";
 
 export interface DatePickerProps {
@@ -32,7 +30,6 @@ export interface DatePickerProps {
   compareLabel?: string;
   lang?: string;
   onApply?: (value: any) => void;
-  // ── New props matching Vue source ──────────────────────────────────────────
   separator?: string;
   isCompare?: boolean;
   allowChangeType?: boolean;
@@ -51,8 +48,6 @@ export interface DatePickerProps {
   children?: React.ReactNode;
   actions?: React.ReactNode;
 }
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function formatDate(date: Date, lang: string): string {
   return new Date(date).toLocaleDateString(lang, {
@@ -107,8 +102,6 @@ function buildDisplayLabel(
     (dates[1] && type !== "date" ? " - " + formatDate(dates[1], lang) : "");
   return label;
 }
-
-// ─── DatePicker ───────────────────────────────────────────────────────────────
 
 export function DatePicker({
   value,
@@ -247,7 +240,6 @@ export function DatePicker({
   const cardContent = (
     <div>
       <div className="flex">
-        {/* Preset options sidebar */}
         {hasPresetSidebar && (
           <div className={styles.presetSidebar}>
             <div className="flex flex-col">
@@ -276,7 +268,6 @@ export function DatePicker({
         )}
 
         <div className="flex flex-col items-end gap-base relative overflow-hidden flex-1">
-          {/* Calendar */}
           <div className="px-sm pt-xxs w-full">
             <Calendar
               value={controlledValue}
@@ -289,7 +280,6 @@ export function DatePicker({
             />
           </div>
 
-          {/* Actions */}
           {!hideActions && (
             <div className={styles.actions}>
               {actions || (

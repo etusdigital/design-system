@@ -37,7 +37,6 @@ describe('Textarea', () => {
   });
 
   it('shows character counter when max is set', () => {
-    // Textarea uses useControllable with hardcoded defaultValue:''; use value prop to set initial text
     render(<Textarea max={100} value="test" />);
     expect(screen.getByText('4/100')).toBeInTheDocument();
   });
@@ -50,7 +49,6 @@ describe('Textarea', () => {
   it('manages own state in uncontrolled mode (no value prop)', () => {
     const { container } = render(<Textarea />);
     const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
-    // Starts empty; internal state updates on input
     expect(textarea.value).toBe('');
     fireEvent.change(textarea, { target: { value: 'typed text' } });
     expect(textarea.value).toBe('typed text');

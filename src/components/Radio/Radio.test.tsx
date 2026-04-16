@@ -22,7 +22,6 @@ describe('Radio', () => {
     render(<Radio value={true} onChange={onChange}>Option</Radio>);
     const radio = screen.getByRole('radio');
     fireEvent.click(radio);
-    // onChange still called with true (Radio cannot deselect itself)
     expect(onChange).toHaveBeenCalledWith(true);
   });
 

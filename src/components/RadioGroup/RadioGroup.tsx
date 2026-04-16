@@ -2,15 +2,8 @@ import { createContext } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
 import { isObject } from '../../utils';
-// Note: Radio imports RadioGroupContext from this file — circular dep is safe
-// because both values (RadioGroupContext and Radio) are initialised synchronously
-// at module-eval time, so neither references the other before definition.
 import { Radio } from '../Radio/Radio';
 import styles from './RadioGroup.module.css';
-
-// ---------------------------------------------------------------------------
-// Context — exported so Radio.tsx can consume it
-// ---------------------------------------------------------------------------
 
 export interface RadioGroupContextValue {
   selected: any;
@@ -19,10 +12,6 @@ export interface RadioGroupContextValue {
 }
 
 export const RadioGroupContext = createContext<RadioGroupContextValue | null>(null);
-
-// ---------------------------------------------------------------------------
-// Component
-// ---------------------------------------------------------------------------
 
 export interface RadioGroupProps {
   value?: any;
@@ -80,8 +69,6 @@ export function RadioGroup({
     return isObject(opt) ? ((opt as Record<string, any>).disabled ?? false) : false;
   }
 
-  // When getObject mode is on the emitted value is the whole object.
-  // For the context we need the primitive key so Radio can compare via ===.
   const contextSelected =
     getObject && isObject(currentValue)
       ? (currentValue as Record<string, any>)[valueKey]

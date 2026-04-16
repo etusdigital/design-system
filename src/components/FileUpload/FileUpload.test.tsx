@@ -35,14 +35,11 @@ describe('FileUpload', () => {
     });
     fireEvent.change(input);
 
-    // File name visible
     expect(screen.getByText('my-document.pdf')).toBeTruthy();
 
-    // Click delete button
     const deleteBtn = screen.getByLabelText('Remove file');
     fireEvent.click(deleteBtn);
 
-    // File cleared — placeholder visible again
     expect(screen.queryByText('my-document.pdf')).toBeNull();
     expect(screen.getByText('or drag and drop it here')).toBeTruthy();
   });
@@ -69,9 +66,7 @@ describe('FileUpload', () => {
     const existingFile = new File(['content'], 'existing.pdf', { type: 'application/pdf' });
     const handleChange = vi.fn();
     render(<FileUpload value={existingFile} onChange={handleChange} />);
-    // Controlled value shows file name
     expect(screen.getByText('existing.pdf')).toBeTruthy();
-    // Drop a new file onto the drop zone fires onChange
     const newFile = new File(['new'], 'new-file.pdf', { type: 'application/pdf' });
     const dropZone = document.querySelector('[class]') as HTMLElement;
     fireEvent.drop(dropZone, {

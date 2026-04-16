@@ -8,9 +8,6 @@ import { SelectContent } from "../../utils/components/SelectContent";
 import { Separator } from "../Separator";
 import styles from "./Dropdown.module.css";
 
-// -----------------------------------------------------------------------
-// Option type (local — mirrors DropOption)
-// -----------------------------------------------------------------------
 export interface DropdownOptionItem {
   label: string;
   value: any;
@@ -20,12 +17,6 @@ export interface DropdownOptionItem {
   options?: DropdownOptionItem[];
   [key: string]: any;
 }
-
-// -----------------------------------------------------------------------
-// Private sub-component: DropdownOption
-// Renders a single option or a group header + recursive DropdownOptions.
-// Must be declared at module scope (RESEARCH.md pitfall 5).
-// -----------------------------------------------------------------------
 interface DropdownOptionProps {
   option: DropdownOptionItem;
   labelKey: string;
@@ -128,10 +119,6 @@ function DropdownOption({
   );
 }
 
-// -----------------------------------------------------------------------
-// Private sub-component: DropdownOptions
-// Renders a list of options with recursive group support.
-// -----------------------------------------------------------------------
 interface DropdownOptionsProps {
   options: DropdownOptionItem[];
   labelKey: string;
@@ -175,9 +162,6 @@ function DropdownOptions({
   );
 }
 
-// -----------------------------------------------------------------------
-// Helper: flatten nested options for search filtering
-// -----------------------------------------------------------------------
 function filterOptions(
   options: DropdownOptionItem[],
   search: string,
@@ -203,9 +187,6 @@ function filterOptions(
   return results;
 }
 
-// -----------------------------------------------------------------------
-// Helper: find label for selected value in nested options
-// -----------------------------------------------------------------------
 function findOptionByValue(
   options: DropdownOptionItem[],
   value: any,
@@ -231,10 +212,6 @@ function findOptionByValue(
   }
   return undefined;
 }
-
-// -----------------------------------------------------------------------
-// Main component props
-// -----------------------------------------------------------------------
 export interface DropdownProps {
   value?: any;
   defaultValue?: any;
@@ -257,9 +234,6 @@ export interface DropdownProps {
   className?: string;
 }
 
-// -----------------------------------------------------------------------
-// Main component: Dropdown
-// -----------------------------------------------------------------------
 export function Dropdown({
   value,
   defaultValue,
@@ -361,8 +335,5 @@ export function Dropdown({
   );
 }
 
-// -----------------------------------------------------------------------
-// Compound sub-component static properties
-// -----------------------------------------------------------------------
 Dropdown.Options = DropdownOptions;
 Dropdown.Option = DropdownOption;

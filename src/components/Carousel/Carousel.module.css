@@ -16,7 +16,6 @@
   @apply overflow-hidden shrink-0;
 }
 
-/* Track: flex container for sections, slides with transform */
 .track {
   @apply flex items-center justify-center gap-xs transition-transform duration-300 ease-in-out;
   width: max-content;
@@ -26,12 +25,10 @@
   @apply flex-col;
 }
 
-/* Each section: a flex group showing `visible` items */
 .section {
   @apply flex gap-xs flex-shrink-0;
 }
 
-/* Each slide within a section */
 .slide {
   @apply shrink-0;
 }
@@ -39,14 +36,6 @@
 .navButton {
   @apply cursor-pointer border-none bg-transparent text-2xl text-neutral-interaction-default;
   @apply hover:text-primary-interaction-hover disabled:text-neutral-interaction-disabled disabled:pointer-events-none;
-}
-
-.prevButton {
-  /* horizontal: left side */
-}
-
-.nextButton {
-  /* horizontal: right side */
 }
 
 .indicators {

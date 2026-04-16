@@ -61,7 +61,6 @@ export function ProgressBar({
     <>{iconSlot ?? <Icon name={icon} className={styles.slotIcon} />}</>
   );
 
-  // Step bar mode
   if (steps) {
     return (
       <div

@@ -134,7 +134,6 @@ export function Crop({
     };
   }, [crop]);
 
-  // Mount: set up listeners, ResizeObserver, image load
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => updateCropArea(e);
     const handleMouseUp = () => { isDraggingRef.current = false; };

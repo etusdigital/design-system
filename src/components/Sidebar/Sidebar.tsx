@@ -4,25 +4,18 @@ import { checkPath, isObject } from '../../utils';
 import { type Option as SidebarOptionType } from '../../utils/types/SidebarOption';
 import styles from './Sidebar.module.css';
 
-// ─── Router link auto-detection ──────────────────────────────────────────────
 let RouterLink: React.ComponentType<any> | null = null;
 let linkPropName: 'to' | 'href' = 'to';
 try {
   RouterLink = require('react-router-dom').Link;
   linkPropName = 'to';
-} catch {
-  // react-router-dom not available
-}
+} catch {}
 if (!RouterLink) {
   try {
     RouterLink = require('next/link');
     linkPropName = 'href';
-  } catch {
-    // next/link not available — fall back to <a>
-  }
+  } catch {}
 }
-
-// ─── Context ────────────────────────────────────────────────────────────────
 interface SidebarContextValue {
   currentValue: any;
   onChange: (option: SidebarOptionType) => void;
@@ -34,7 +27,6 @@ const SidebarContext = createContext<SidebarContextValue>({
   onChange: () => {},
 });
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
 function getValue(option: any): any {
   return isObject(option) ? option.value : option;
 }
@@ -45,7 +37,6 @@ function getPath(path: string | undefined): string {
   return path;
 }
 
-// ─── SidebarSubOption ────────────────────────────────────────────────────────
 interface SidebarSubOptionProps {
   option: SidebarOptionType;
   depth: number;
@@ -56,7 +47,6 @@ function SidebarSubOption({ option, depth, parentPath = '' }: SidebarSubOptionPr
   const [expanded, setExpanded] = useState(false);
   const { currentValue, onChange } = useContext(SidebarContext);
 
-  // Build full path for this sub-option
   let fullPath = parentPath;
   if (option.path) {
     if (!fullPath.endsWith('/') && !option.path.startsWith('/')) fullPath += '/';
@@ -93,7 +83,6 @@ function SidebarSubOption({ option, depth, parentPath = '' }: SidebarSubOptionPr
     option.disabled ? styles.disabled : '',
   ].filter(Boolean).join(' ');
 
-  // Indent style based on depth
   const indentStyle: React.CSSProperties = { paddingLeft: `${depth * 16 + 16}px` };
 
   const content = (
@@ -151,7 +140,6 @@ function SidebarSubOption({ option, depth, parentPath = '' }: SidebarSubOptionPr
   );
 }
 
-// ─── SidebarOption ───────────────────────────────────────────────────────────
 interface SidebarOptionComponentProps {
   option: SidebarOptionType;
   sidebarExpanded: boolean;
@@ -217,7 +205,6 @@ function SidebarOption({ option, sidebarExpanded, onRailClick, activeParentValue
   return optionContent;
 }
 
-// ─── Sidebar ─────────────────────────────────────────────────────────────────
 interface SidebarProps {
   value?: any;
   defaultValue?: any;
@@ -248,7 +235,6 @@ export function Sidebar({
   const [height, setHeight] = useState<string>('100vh');
   const sidebarRef = useRef<HTMLDivElement>(null);
 
-  // Height calculation from navbar
   useEffect(() => {
     function calcHeight() {
       const navBarHeight = document.querySelector('.navbar')?.getBoundingClientRect()?.height;
@@ -260,12 +246,10 @@ export function Sidebar({
     return () => window.removeEventListener('resize', calcHeight);
   }, []);
 
-  // Auto-select from path on mount
   useEffect(() => {
     const found = getSelected(options);
     if (found) handleChange(found);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   function getSelected(opts: SidebarOptionType[], parentPath = ''): SidebarOptionType | undefined {
     for (const opt of opts) {
@@ -300,7 +284,6 @@ export function Sidebar({
 
   const activeParent = getParent(options, currentValue);
 
-  // Split options into top and bottom
   const topOptions = options.filter((o) => !o.bottom);
   const bottomOptions = options.filter((o) => o.bottom);
 
@@ -367,7 +350,6 @@ export function Sidebar({
         tabIndex={0}
         onBlur={handleBlur}
       >
-        {/* Main rail */}
         <div className={styles.optionsList}>
           <div className={styles.optionsContainer}>
             {topOptions.map(renderOption)}
@@ -379,7 +361,6 @@ export function Sidebar({
           )}
         </div>
 
-        {/* Sub-panel — always in DOM so CSS transition works on first open */}
         <div className={subPanelClasses}>
           {clickedOption && clickedOption.options && clickedOption.options.length > 0 &&
             clickedOption.options.map((subOpt) => (

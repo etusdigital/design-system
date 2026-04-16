@@ -5,8 +5,6 @@ import { FloatCard } from '../FloatCard/FloatCard';
 import { Icon } from '../Icon/Icon';
 import styles from './Navbar.module.css';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 type Profile = {
   name: string;
   src?: string;
@@ -17,19 +15,14 @@ export interface NavbarProps {
   value?: string;
   onChange?: (value: string) => void;
   logo?: React.ReactNode;
-  /** Title text rendered next to the logo (Vue #title slot). */
   title?: React.ReactNode;
   profile?: Profile;
   notifications?: React.ReactNode;
   showNotifications?: boolean;
-  /** Custom content rendered in the right section (replaces default bell+avatar layout). */
   actions?: React.ReactNode;
-  /** Replaces the default Dropdown navigation (Vue default slot). */
   children?: React.ReactNode;
   className?: string;
 }
-
-// ─── Default SVG Logo ─────────────────────────────────────────────────────────
 
 function DefaultLogo() {
   return (
@@ -81,8 +74,6 @@ function DefaultLogo() {
   );
 }
 
-// ─── Navbar ───────────────────────────────────────────────────────────────────
-
 export function Navbar({
   options = [],
   value,
@@ -98,7 +89,6 @@ export function Navbar({
 }: NavbarProps) {
   return (
     <nav className={clsx(styles.navbar, 'navbar', className)} role="navigation">
-      {/* Left side: logo + title + divider + navigation */}
       <div className={styles.left}>
         <div className={styles.logoSection}>
           {logo || <DefaultLogo />}
@@ -114,7 +104,6 @@ export function Navbar({
         )}
       </div>
 
-      {/* Right side: custom actions OR default notification bell + avatar */}
       <div className={styles.right}>
         {actions ? (
           actions

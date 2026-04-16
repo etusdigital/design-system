@@ -79,7 +79,6 @@ export function Image({
     setScale((s) => Math.max(s - 0.1, 0.5));
   }
 
-  // Keyboard handler: Escape closes preview
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if (!isPreviewOpen) return;
@@ -93,7 +92,6 @@ export function Image({
     };
   }, [isPreviewOpen]);
 
-  // Cleanup body overflow on unmount
   useEffect(() => {
     return () => {
       document.body.style.overflow = '';
@@ -136,7 +134,6 @@ export function Image({
   const backdropRef = useRef<HTMLDivElement>(null);
 
   function handleBackdropClick(e: React.MouseEvent<HTMLDivElement>) {
-    // Close only if click is on the backdrop itself (not on children)
     if (e.target === backdropRef.current) {
       hidePreview();
     }
@@ -168,7 +165,6 @@ export function Image({
             className={clsx(styles.backdrop, isActive && styles.backdropActive)}
             onClick={handleBackdropClick}
           >
-            {/* Preview image container */}
             <div
               className={clsx(
                 styles.previewModal,
@@ -184,7 +180,6 @@ export function Image({
               />
             </div>
 
-            {/* Toolbar */}
             <div
               className={clsx(
                 styles.previewModal,

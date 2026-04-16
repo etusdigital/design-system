@@ -40,7 +40,6 @@ export function Stepper({
     onChange,
   });
 
-  // biggerStepSelected tracks the maximum step index the user has reached
   const currentIndex = getIndex(model)
   const pastIndexsRef = useRef(new Set([currentIndex]))
   const [biggerStepSelected, setBiggerStepSelected] = useState<number>(() =>
@@ -78,7 +77,6 @@ export function Stepper({
     return "future";
   }
 
-  // Connector between step[index] and step[index+1] is green when index < biggerStepSelected
   function getConnectorState(index: number): "past" | "future" {
     if (index < biggerStepSelected) return "past";
     return "future";

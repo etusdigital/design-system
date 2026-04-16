@@ -436,7 +436,6 @@ export const Aggregation: Story = {
       });
     };
 
-    // Derive items with expanded flag from state
     const dataWithExpanded = items.map((item, i) => ({
       ...item,
       expanded: expandedSet.has(i),

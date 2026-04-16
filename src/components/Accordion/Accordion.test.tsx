@@ -37,7 +37,6 @@ describe('Accordion', () => {
     await act(async () => {
       vi.runAllTimers();
     });
-    // Content element is in DOM but maxHeight is 0px (collapsed)
     const contentEl = document.querySelector('[class*="content"]') as HTMLElement;
     expect(contentEl).toBeTruthy();
     expect(contentEl.style.maxHeight).toBe('0px');
@@ -80,7 +79,6 @@ describe('Accordion', () => {
     });
     const chevron = document.querySelector('[class*="chevron"]') as HTMLElement;
     expect(chevron).toBeTruthy();
-    // The expanded class is applied via CSS module — check className contains 'expanded'
     expect(chevron.className).toMatch(/expanded/);
   });
 });

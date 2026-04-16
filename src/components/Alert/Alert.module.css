@@ -36,7 +36,6 @@
   @apply flex flex-col gap-xxs;
 }
 
-/* Size variants */
 .small .title {
   @apply text-sm;
 }
@@ -76,7 +75,6 @@
   @apply text-2xl leading-xxs;
 }
 
-/* Type variants */
 .info {
   @apply bg-informative-surface-default border-informative-default text-informative-interaction-default;
 }

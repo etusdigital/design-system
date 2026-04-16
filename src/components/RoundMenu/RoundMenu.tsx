@@ -21,7 +21,6 @@ export function RoundMenu({
   const [isExpanded, setIsExpanded] = useState(false);
 
   function calculatePosition(index: number, total: number): React.CSSProperties {
-    // Start from top (-PI/2), distribute evenly around circle
     const angle = (2 * Math.PI * index) / total - Math.PI / 2;
     const x = Math.cos(angle) * radius;
     const y = Math.sin(angle) * radius;

@@ -52,7 +52,6 @@ describe('TagSelect', () => {
         onChange={handleChange}
       />
     );
-    // Find the close icon span (Material Symbols renders "close" as text content)
     const closeSpans = Array.from(document.querySelectorAll('span')).filter(
       (el) => el.textContent === 'close'
     );
@@ -65,7 +64,6 @@ describe('TagSelect', () => {
   it('opens options list on click', () => {
     const { container } = render(<TagSelect options={options} />);
     openTagSelect(container);
-    // Options are portaled to document.body via FloatCard
     const optionEls = document.querySelectorAll('[role="option"]');
     expect(optionEls.length).toBe(options.length);
   });
@@ -76,7 +74,6 @@ describe('TagSelect', () => {
       <TagSelect options={options} value={[]} onChange={handleChange} />
     );
     openTagSelect(container);
-    // Options are portaled to document.body
     const optionEls = document.querySelectorAll('[role="option"]');
     expect(optionEls.length).toBeGreaterThan(0);
     fireEvent.click(optionEls[0]);
@@ -93,7 +90,6 @@ describe('TagSelect', () => {
       />
     );
     openTagSelect(container);
-    // Options are portaled to document.body
     const optionEls = document.querySelectorAll('[role="option"]');
     expect(optionEls.length).toBeGreaterThan(0);
     fireEvent.click(optionEls[0]);
@@ -103,11 +99,9 @@ describe('TagSelect', () => {
   it('filters options when searchable and text entered', () => {
     const { container } = render(<TagSelect options={options} searchable value={[]} />);
     openTagSelect(container);
-    // Search input is in the label area (not portaled)
     const input = container.querySelector('input[type="text"]') as HTMLInputElement;
     expect(input).toBeTruthy();
     fireEvent.change(input, { target: { value: 'app' } });
-    // Options are portaled to document.body
     const optionEls = document.querySelectorAll('[role="option"]');
     expect(optionEls.length).toBe(1);
   });
@@ -162,7 +156,6 @@ describe('TagSelect', () => {
   it('respects disabled prop — does not open', () => {
     const { container } = render(<TagSelect options={options} disabled />);
     openTagSelect(container);
-    // Disabled — portal content should not be mounted
     const optionEls = document.querySelectorAll('[role="option"]');
     expect(optionEls.length).toBe(0);
   });

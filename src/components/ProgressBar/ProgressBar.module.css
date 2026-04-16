@@ -75,7 +75,6 @@
   @apply flex items-center absolute text-primary-foreground-low;
 }
 
-/* Type variants */
 .info {
   @apply bg-informative-surface-highlight;
 }
@@ -160,7 +159,6 @@
   @apply text-2xl leading-xs;
 }
 
-/* Animations */
 .progressFill.indeterminate {
   animation: indeterminate 2s ease-in-out infinite;
   transform-origin: 100%;

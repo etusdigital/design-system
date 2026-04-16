@@ -26,9 +26,7 @@ describe('ToggleGroup', () => {
       <ToggleGroup options={defaultOptions} defaultValue={1} />
     );
     const buttons = getAllByRole('button');
-    // First button initially active
     expect(buttons[0].getAttribute('aria-pressed')).toBe('true');
-    // Click second
     fireEvent.click(buttons[1]);
     expect(buttons[1].getAttribute('aria-pressed')).toBe('true');
     expect(buttons[0].getAttribute('aria-pressed')).toBe('false');
@@ -39,8 +37,6 @@ describe('ToggleGroup', () => {
       <ToggleGroup options={defaultOptions} type="secondary" />
     );
     const buttons = getAllByRole('button');
-    // Secondary type buttons should not have the default min-width class
-    // We verify by checking the className contains 'secondary'
     expect(buttons[0].className).toContain('secondary');
   });
 
@@ -69,9 +65,7 @@ describe('ToggleGroup', () => {
       <ToggleGroup options={defaultOptions} value={1} onChange={handleChange} />
     );
     const buttons = getAllByRole('button');
-    // First button is active because value=1 matches first option
     expect(buttons[0].getAttribute('aria-pressed')).toBe('true');
-    // Click second button
     fireEvent.click(buttons[1]);
     expect(handleChange).toHaveBeenCalledWith(2);
   });

@@ -11,8 +11,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof ConfirmProvider>;
 
-// ── Helper Components ─────────────────────────────────────────────────────────
-
 function ConfirmTrigger({ title, message, acceptLabel, cancelLabel }: {
   title?: string;
   message?: string;
@@ -37,8 +35,6 @@ function ConfirmTrigger({ title, message, acceptLabel, cancelLabel }: {
     </div>
   );
 }
-
-// ── Stories ───────────────────────────────────────────────────────────────────
 
 export const Primary: Story = {
   render: () => (

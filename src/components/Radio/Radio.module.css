@@ -4,10 +4,6 @@
   @apply inline-flex items-center gap-xs cursor-pointer select-none text-xs text-primary-interaction-default;
 }
 
-.default {
-  /* default variant — sizing comes from text-xs on parent */
-}
-
 .onboarding .outerCircle {
   @apply text-xl;
 }

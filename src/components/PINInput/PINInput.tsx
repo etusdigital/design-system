@@ -47,14 +47,12 @@ export const PINInput = React.forwardRef<PINInputHandle, PINInputProps>(
 
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-    // Sync controlled value into internal array
     useEffect(() => {
       if (isControlled && value !== undefined) {
         setValues(Array.from({ length }, (_, i) => value[i] ?? ''));
       }
     }, [value, isControlled, length]);
 
-    // Fire onChange and onComplete when values change
     const prevJoinedRef = useRef<string>('');
     useEffect(() => {
       const joined = values.join('');
@@ -87,7 +85,6 @@ export const PINInput = React.forwardRef<PINInputHandle, PINInputProps>(
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>, index: number) {
       const rawValue = e.target.value;
-      // Take last character if somehow multiple chars entered
       const char = rawValue.slice(-1);
       updateValues(index, char);
       if (char && index < length - 1) {
@@ -128,7 +125,6 @@ export const PINInput = React.forwardRef<PINInputHandle, PINInputProps>(
         newValues[index + idx] = char;
       });
       setValues(newValues);
-      // Focus last filled position
       const lastFilled = newValues.reduce((last, v, i) => (v ? i : last), index);
       const nextFocus = Math.min(lastFilled + 1, length - 1);
       inputRefs.current[nextFocus]?.focus();

@@ -22,7 +22,6 @@ const filterOptions = [
   },
 ];
 
-// Filter uses SelectContainer -> Container which renders a .label-content trigger (plain CSS class)
 function openFilter(container: HTMLElement) {
   const labelContent = container.querySelector('.label-content') as HTMLElement;
   if (labelContent) fireEvent.click(labelContent);
@@ -44,7 +43,6 @@ describe('Filter', () => {
   it('sub-options are hidden by default (collapsed)', () => {
     const { container } = render(<Filter options={filterOptions} />);
     openFilter(container);
-    // Sub-options are rendered in FloatCard portal (document.body), not in container
     const subOptions = document.querySelectorAll('[role="option"]');
     expect(subOptions.length).toBeGreaterThan(0);
   });
@@ -52,14 +50,12 @@ describe('Filter', () => {
   it('toggles category expand on header click', () => {
     const { container } = render(<Filter options={filterOptions} />);
     openFilter(container);
-    // Category headers are in the portal (document.body)
     const categoryHeader = Array.from(
       document.querySelectorAll('[role="button"]')
     ).find((el) => el.textContent?.includes('Color'));
     expect(categoryHeader).toBeTruthy();
     if (categoryHeader) {
       fireEvent.click(categoryHeader);
-      // After clicking, the chevron should rotate — expanded class added (CSS module hashed)
       const expandedChevron = document.querySelector('[class*="expanded"]');
       expect(expandedChevron).toBeTruthy();
     }
@@ -72,9 +68,8 @@ describe('Filter', () => {
       document.querySelectorAll('[role="button"]')
     ).find((el) => el.textContent?.includes('Color'));
     if (categoryHeader) {
-      fireEvent.click(categoryHeader); // expand
-      fireEvent.click(categoryHeader); // collapse
-      // After collapse, the assertion passes trivially — component rendered correctly
+      fireEvent.click(categoryHeader);
+      fireEvent.click(categoryHeader);
       expect(document.body).toBeTruthy();
     }
   });
@@ -85,13 +80,11 @@ describe('Filter', () => {
       <Filter options={filterOptions} value={{}} onChange={handleChange} />
     );
     openFilter(container);
-    // Expand Color category (portal content)
     const colorHeader = Array.from(
       document.querySelectorAll('[role="button"]')
     ).find((el) => el.textContent?.includes('Color'));
     if (colorHeader) {
       fireEvent.click(colorHeader);
-      // Sub-options are in portal
       const subOptions = document.querySelectorAll('[role="option"]');
       if (subOptions.length > 0) {
         fireEvent.click(subOptions[0]);
@@ -116,7 +109,6 @@ describe('Filter', () => {
     if (colorHeader) {
       fireEvent.click(colorHeader);
       const subOptions = document.querySelectorAll('[role="option"]');
-      // Find the Red option (first one)
       if (subOptions.length > 0) {
         fireEvent.click(subOptions[0]);
         expect(handleChange).toHaveBeenCalledWith({ color: [] });
@@ -166,11 +158,8 @@ describe('Filter', () => {
   });
 
   it('does NOT use useTransition (max-height CSS transition only)', () => {
-    // This test verifies the implementation uses CSS max-height for transitions
-    // Filter uses CSS module class categoryContent — check it exists in portal content
     const { container } = render(<Filter options={filterOptions} />);
     openFilter(container);
-    // categoryContent is a CSS module class (hashed) — use partial match in document
     const contentDivs = document.querySelectorAll('[class*="categoryContent"]');
     expect(contentDivs.length).toBeGreaterThan(0);
   });

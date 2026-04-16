@@ -10,8 +10,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof ToastProvider>;
 
-// ── Helper Components ─────────────────────────────────────────────────────────
-
 function ToastTypesTrigger() {
   const { toast } = useToast();
   const types = ['info', 'success', 'warning', 'danger', 'neutral'] as const;
@@ -108,8 +106,6 @@ function ToastWithActionTrigger() {
     </Button>
   );
 }
-
-// ── Stories ───────────────────────────────────────────────────────────────────
 
 export const Types: Story = {
   render: () => <ToastTypesTrigger />,

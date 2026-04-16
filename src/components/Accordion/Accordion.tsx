@@ -32,10 +32,8 @@ export function Accordion({
   const contentRef = useRef<HTMLDivElement>(null);
   const isExpandedRef = useRef(isExpanded);
 
-  // Keep isExpandedRef in sync on every render (avoids stale closure in observer callbacks)
   isExpandedRef.current = isExpanded;
 
-  // Prevent initial flash: set maxHeight to 0 before first paint when collapsed
   useLayoutEffect(() => {
     if (!isExpanded && contentRef.current) {
       contentRef.current.style.maxHeight = '0px';
@@ -49,7 +47,6 @@ export function Accordion({
       : '0px';
   }
 
-  // Mount effect: register ResizeObserver on card + content, MutationObserver on content
   useEffect(() => {
     const cardEl = cardRef.current;
     const contentEl = contentRef.current;
@@ -74,7 +71,6 @@ export function Accordion({
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Post-render resize (Vue onUpdated equivalent) — safe since resize() only sets style imperatively
   useEffect(() => {
     resize();
   });

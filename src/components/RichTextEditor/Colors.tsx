@@ -21,12 +21,10 @@ interface ColorsProps {
 function generateColorPalette(): string[][] {
   const palette: string[][] = [];
 
-  // Gray row: from black to white
   const gray: string[] = [];
   for (let i = 10; i >= 0; i--) gray.push(blendColors("#000000", i / 10));
   palette.push(gray);
 
-  // Base hues
   const hue = [
     "hsl(0, 100%, 50%)",
     "hsl(30, 100%, 50%)",
@@ -42,7 +40,6 @@ function generateColorPalette(): string[][] {
   ];
   palette.push(hue);
 
-  // Light variants (blend towards white)
   const light: string[][] = [];
   for (let i = 0; i < 3; i++) {
     const colors: string[] = [];
@@ -51,7 +48,6 @@ function generateColorPalette(): string[][] {
   }
   palette.push(...light);
 
-  // Dark variants (blend towards black)
   const dark: string[][] = [];
   for (let i = 2; i >= 0; i--) {
     const colors: string[] = [];

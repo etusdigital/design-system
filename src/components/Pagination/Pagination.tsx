@@ -36,7 +36,6 @@ function buildPages(current: number, length: number): number[] {
     }
   }
 
-  // Replace -1 sentinels with the actual page if gap is just 1
   for (let pass = 0; pass < 2; pass++) {
     const index = result.findIndex((v) => v === -1);
     if (index !== -1 && result[index + 1] - result[index - 1] === 2) {
@@ -60,7 +59,6 @@ export function Pagination({
     onChange,
   });
 
-  // Clamp model when length shrinks
   useEffect(() => {
     if (model !== undefined && length >= 1 && model > length) {
       setModel(length);

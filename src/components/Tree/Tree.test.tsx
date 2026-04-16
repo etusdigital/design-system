@@ -38,10 +38,8 @@ describe('Tree', () => {
 
   it('clicking expand icon shows nested children', () => {
     render(<Tree options={nestedOptions} />);
-    // Children should not be visible initially
     expect(screen.queryByText('Apple')).toBeNull();
 
-    // Click the expand icon on the Fruits node row
     const expandIcons = document.querySelectorAll('.icon');
     fireEvent.click(expandIcons[0]);
     expect(screen.getByText('Apple')).toBeTruthy();

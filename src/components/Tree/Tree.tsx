@@ -6,10 +6,6 @@ import { Checkbox } from '../Checkbox/Checkbox';
 import { Icon } from '../Icon/Icon';
 import styles from './Tree.module.css';
 
-// ---------------------------------------------------------------------------
-// Context
-// ---------------------------------------------------------------------------
-
 interface TreeContextValue {
   selectedValue: any;
   onSelect: (option: DropOption, add: boolean) => void;
@@ -23,10 +19,6 @@ interface TreeContextValue {
 }
 
 const TreeContext = createContext<TreeContextValue | null>(null);
-
-// ---------------------------------------------------------------------------
-// Pure utility helpers (ported from Tree.vue)
-// ---------------------------------------------------------------------------
 
 function getRawValue(option: DropOption, valueKey: string): any {
   return typeof option === 'object' && option !== null ? (option as any)[valueKey] : option;
@@ -95,10 +87,6 @@ function updateSelectionMut(
   }
 }
 
-/**
- * Returns new selection array after toggling `option`.
- * Ported from Tree.vue parseModel.
- */
 function updateSelection(
   option: DropOption,
   add: boolean,
@@ -109,9 +97,7 @@ function updateSelection(
   const arr = [...currentSelection];
 
   if (getObject) {
-    // We don't have the full options tree here so use top-level check via arr
     const topParent = (() => {
-      // Try to find parent within existing selected items
       for (const sel of arr) {
         if (sel.options) {
           const found = (sel.options as DropOption[]).find(
@@ -151,10 +137,6 @@ function updateSelection(
   }
 }
 
-// ---------------------------------------------------------------------------
-// Selection check helper
-// ---------------------------------------------------------------------------
-
 function getAllLeafValues(options: DropOption[], valueKey: string): any[] {
   const values: any[] = [];
   for (const opt of options) {
@@ -182,7 +164,6 @@ function checkIsSelected(selectedValue: any, nodeValue: any, ctx: TreeContextVal
     const directMatch = selectedValue.some(isValueMatch);
     if (directMatch) return true;
 
-    // If this node has children, check for indeterminate state
     if (option?.options?.length) {
       const childValues = getAllLeafValues(option.options, ctx.valueKey);
       const isChildSelected = (cv: any) =>
@@ -197,7 +178,7 @@ function checkIsSelected(selectedValue: any, nodeValue: any, ctx: TreeContextVal
       const someSelected = childValues.some(isChildSelected);
       const allSelected = childValues.length > 0 && childValues.every(isChildSelected);
       if (allSelected) return true;
-      if (someSelected) return null; // indeterminate
+      if (someSelected) return null;
     }
 
     return false;
@@ -208,10 +189,6 @@ function checkIsSelected(selectedValue: any, nodeValue: any, ctx: TreeContextVal
     return selectedValue === nodeValue;
   }
 }
-
-// ---------------------------------------------------------------------------
-// TreeNode (recursive, module scope)
-// ---------------------------------------------------------------------------
 
 function TreeNode({ option, depth = 0 }: { option: DropOption; depth?: number }) {
   const ctx = useContext(TreeContext)!;
@@ -269,10 +246,6 @@ function TreeNode({ option, depth = 0 }: { option: DropOption; depth?: number })
     </div>
   );
 }
-
-// ---------------------------------------------------------------------------
-// Tree (exported)
-// ---------------------------------------------------------------------------
 
 export interface TreeProps {
   value?: any;

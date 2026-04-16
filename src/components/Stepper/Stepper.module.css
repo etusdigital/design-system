@@ -1,6 +1,5 @@
 @reference "../../assets/main.css";
 
-/* items-center so connectors align with circle centers */
 .stepper { @apply flex items-center w-full; }
 
 .stepContainer { @apply relative flex flex-col items-center cursor-pointer; }
@@ -19,12 +18,10 @@
   @apply bg-transparent border-primary-default text-primary-interaction-default;
 }
 
-/* Future steps: gray border circle */
 .step.future {
   @apply bg-neutral-surface-default border-neutral-default text-neutral-foreground-low;
 }
 
-/* Skipped steps: primary text/border but not filled */
 .step.skip {
   @apply bg-transparent border-primary-interaction-default text-primary-interaction-default;
 }
@@ -35,17 +32,14 @@
 
 .large .label { @apply translate-y-5xl; }
 
-/* Connector: 2px tall, vertically centered */
 .connector {
   @apply z-[0] relative top-none flex-1 h-xxs;
 }
 
-/* Past connector: green */
 .connector.past {
   @apply bg-primary-interaction-default;
 }
 
-/* Future connector: gray */
 .connector.future {
   background: var(--neutral-border-default);
 }

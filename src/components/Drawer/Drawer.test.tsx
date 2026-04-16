@@ -2,7 +2,6 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { Drawer } from './Drawer';
 
-// RAF/cAF polyfill at module level — vi.useRealTimers() removes beforeEach assignments
 let rafId = 0;
 const rafCallbacks: Map<number, FrameRequestCallback> = new Map();
 vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {

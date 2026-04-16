@@ -170,7 +170,6 @@ export function TagInput({
     }
   }
 
-  // Extract compound children
   let prependIconChild: React.ReactNode = null;
   let appendIconChild: React.ReactNode = null;
   let hintChild: React.ReactNode = null;
@@ -214,7 +213,6 @@ export function TagInput({
         )}
         onClick={() => textareaRef.current?.focus()}
       >
-        {/* Prepend icon */}
         {prependIconChild
           ? prependIconChild
           : icon && !appendIcon && (
@@ -223,7 +221,6 @@ export function TagInput({
               </span>
             )}
 
-        {/* Tags */}
         {currentTags.map((tag, index) => (
           <Tooltip key={index} className="max-w-full">
             <Tooltip.Label>
@@ -241,7 +238,6 @@ export function TagInput({
           </Tooltip>
         ))}
 
-        {/* Textarea */}
         <textarea
           ref={textareaRef}
           className={styles.textarea}
@@ -256,7 +252,6 @@ export function TagInput({
           disabled={disabled}
         />
 
-        {/* Append icon */}
         {appendIconChild
           ? appendIconChild
           : appendIcon && icon && (
@@ -266,12 +261,10 @@ export function TagInput({
             )}
       </div>
 
-      {/* Hint */}
       {hintChild && (
         <label className="text-neutral-foreground-low text-sm">{hintChild}</label>
       )}
 
-      {/* Error message */}
       {(isError || hasError) && (
         <p className={styles.errorMessage}>{errorMsg || errorMessage}</p>
       )}

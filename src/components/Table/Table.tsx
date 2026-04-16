@@ -40,21 +40,13 @@ export interface TableProps {
   onPageItems?: (page: number, itemsPerPage: number) => void;
   onSelectAll?: (value: boolean) => void;
   onSelectRow?: (item: any, selected: boolean) => void;
-  /** Slot: per-row aggregation cell (Vue: slot name="aggregation") */
   renderAggregation?: (item: any, index: number) => React.ReactNode;
-  /** Slot: per-row selection cell (Vue: slot name="select") */
   renderSelect?: (item: any, index: number) => React.ReactNode;
-  /** Slot: per-row actions cell (Vue: slot name="actions") */
   renderActions?: (item: any, index: number) => React.ReactNode;
-  /** Slot: expandable child rows (Vue: slot name="childs") */
   renderChilds?: (item: any, index: number) => React.ReactNode;
-  /** Slot: empty state (Vue: slot name="empty-state") */
   renderEmptyState?: () => React.ReactNode;
-  /** Slot: custom footer content in tfoot (Vue: slot name="footer") */
   renderFooter?: () => React.ReactNode;
-  /** Slot: items per page label (Vue: slot name="items-per-page") */
   renderItemsPerPage?: () => React.ReactNode;
-  /** Slot: showing page text (Vue: slot name="showing-page") */
   renderShowingPage?: (min: number, max: number, total: number) => React.ReactNode;
   children?: React.ReactNode;
   className?: string;
@@ -194,7 +186,6 @@ export function Table({
   if (enableSelection) colspan++;
   if (enableAggregation) colspan++;
 
-  // Legacy compound component slots (fallback)
   const actionsSlot = findSlot(children, TableActions);
   const footerSlot = findSlot(children, TableFooter);
   const emptySlot = findSlot(children, TableEmptyState);
@@ -231,7 +222,6 @@ export function Table({
     } else {
       setSelectedRows(new Set());
     }
-    // Mutate item.selected like Vue does
     items?.forEach((item: any) => { item.selected = selectAll; });
     onSelectAll?.(selectAll);
   };

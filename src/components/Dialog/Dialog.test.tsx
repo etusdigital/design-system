@@ -17,7 +17,6 @@ describe('Dialog', () => {
         <p>content</p>
       </Dialog>
     );
-    // useTransition uses requestAnimationFrame to activate; advance timers
     await act(async () => {
       vi.runAllTimers();
     });
@@ -79,7 +78,6 @@ describe('Dialog', () => {
     fireEvent.click(backdrop!);
     const dialogEl = document.querySelector('.dialog');
     expect(dialogEl?.classList.contains('no-outside-close-warning')).toBe(true);
-    // Advance 100ms to trigger the removal timeout
     await act(async () => {
       vi.advanceTimersByTime(100);
     });
@@ -113,7 +111,6 @@ describe('Dialog', () => {
     await act(async () => {
       vi.runAllTimers();
     });
-    // Overlay uses createPortal to document.body, so overlay-backdrop is a direct child of body
     const backdrop = document.querySelector('.overlay-backdrop');
     expect(backdrop).toBeTruthy();
     expect(backdrop?.parentElement).toBe(document.body);

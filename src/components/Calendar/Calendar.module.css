@@ -5,7 +5,6 @@
 .header { @apply flex items-center justify-between px-sm py-xs; }
 .monthYear { @apply text-base font-semibold cursor-pointer; }
 
-/* Nav buttons: bordered rounded-box styling matching Vue original */
 .navButton {
   @apply w-2xl h-2xl flex items-center justify-center rounded-base
          border-xxs border-neutral-default bg-neutral-surface-default
@@ -17,8 +16,6 @@
 }
 
 .weekdayHeader { @apply text-sm font-normal text-neutral-foreground-low text-center; }
-
-/* ─── Day cell ──────────────────────────────────────────────────────────────── */
 
 .dayCell {
   @apply flex items-center justify-center rounded-xs cursor-pointer p-xs text-sm
@@ -32,10 +29,8 @@
   @apply pointer-events-none;
 }
 
-/* Day label sits above split overlay */
 .dayLabel { @apply relative z-[1]; }
 
-/* Primary selected (range endpoints) */
 .dayCell.selectedPrimary {
   @apply bg-primary-interaction-default text-neutral-foreground-negative;
 }
@@ -43,7 +38,6 @@
   @apply bg-primary-interaction-default text-neutral-foreground-negative;
 }
 
-/* Secondary selected (compare range endpoints) */
 .dayCell.selectedSecondary {
   @apply bg-primary-interaction-selected text-neutral-foreground-negative;
 }
@@ -51,7 +45,6 @@
   @apply bg-primary-interaction-selected text-neutral-foreground-negative;
 }
 
-/* Range middles and hover previews — same bg for both primary and secondary */
 .hoveredPrimary,
 .rangePrimary,
 .hoveredSecondary,
@@ -59,7 +52,6 @@
   @apply text-primary-foreground-high bg-primary-surface-default;
 }
 
-/* Border radius for range cells in compare/period mode */
 .dayCell.isCompare.rangePrimary:not(.isBigger):not(.isSmaller),
 .dayCell.isCompare.hoveredPrimary:not(.isBigger):not(.isSmaller),
 .dayCell.isCompare.rangeSecondary:not(.isBigger):not(.isSmaller),
@@ -69,17 +61,14 @@
   &.end { @apply rounded-l-none; }
 }
 
-/* Direction indicators for range endpoints */
 .isBigger { @apply rounded-r-none; }
 .isSmaller { @apply rounded-l-none; }
 
-/* Half-day split overlay for overlapping ranges */
 .splitOverlay { @apply flex absolute w-full h-full inset-0; }
 .halfPrimary { @apply w-1/2 h-full bg-primary-interaction-default; }
 .halfSecondary { @apply w-1/2 h-full bg-primary-interaction-selected; }
 .halfHover { @apply w-1/2 h-full bg-primary-surface-hover; }
 
-/* Today styling */
 .dayCell.today:not(.selectedPrimary):not(.selectedSecondary) {
   @apply text-primary-interaction-default;
 }
@@ -89,7 +78,6 @@
 
 .grid { @apply grid grid-cols-7 py-xxs; }
 
-/* Double calendar layout */
 .doubleCalendar { @apply w-full; }
 .doubleGrid { @apply flex gap-sm w-full; }
 
@@ -97,7 +85,6 @@
   @apply flex-1;
 }
 
-/* Slide-fade animation */
 .slideContainer { @apply relative overflow-hidden; }
 
 .slide-fade-forward {
@@ -116,7 +103,6 @@
   to { transform: translateX(0); opacity: 1; }
 }
 
-/* DateDialog: absolutely positioned over the calendar grid */
 .dateDialog {
   @apply rounded-base shadow-neutral-default;
   position: absolute;
@@ -126,7 +112,6 @@
   z-index: 10;
 }
 
-/* Header toggle buttons (month/year text) */
 .dialogHeader { @apply flex items-center justify-center gap-xs px-sm py-xs; }
 .headerToggle {
   @apply text-sm font-semibold cursor-pointer bg-transparent border-none text-neutral-foreground-high;
@@ -138,7 +123,6 @@
   @apply text-primary-interaction-default;
 }
 
-/* Month grid panel */
 .monthGrid { @apply grid grid-cols-3 gap-xxs p-sm; }
 .monthButton {
   @apply px-sm py-xs rounded-base text-xs cursor-pointer border-none text-center;
@@ -154,7 +138,6 @@
   @apply bg-primary-interaction-default text-neutral-foreground-negative font-semibold;
 }
 
-/* Year list panel: vertical scrollable */
 .yearList {
   @apply flex flex-col gap-xxs max-h-[200px] overflow-y-auto py-xs px-xs;
 }
@@ -169,7 +152,6 @@
   @apply bg-primary-interaction-default text-neutral-foreground-negative font-semibold;
 }
 
-/* Dialog enter/leave animations */
 .dialogEnter {
   animation: dialogFadeIn 200ms ease forwards;
 }

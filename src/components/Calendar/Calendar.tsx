@@ -13,8 +13,6 @@ import { Icon } from "../Icon/Icon";
 import { Card } from "../Card/Card";
 import styles from "./Calendar.module.css";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 type SelectionType = "date" | "period" | "compare";
 
 export interface CalendarProps {
@@ -29,8 +27,6 @@ export interface CalendarProps {
   lang?: string;
   className?: string;
 }
-
-// ─── CalendarDay ──────────────────────────────────────────────────────────────
 
 interface CalendarDayProps {
   date: Date | null;
@@ -116,8 +112,6 @@ function CalendarDay({
   );
 }
 
-// ─── CalendarDateDialog ───────────────────────────────────────────────────────
-
 interface CalendarDateDialogProps {
   months: { label: string; value: number }[];
   currentMonth: number;
@@ -142,7 +136,6 @@ function CalendarDateDialog({
   );
   const yearListRef = useRef<HTMLDivElement>(null);
 
-  // Build year range: currentYear-10 to currentYear+10
   const yearRange: number[] = [];
   for (let y = currentYear - 10; y <= currentYear + 10; y++) {
     yearRange.push(y);
@@ -155,7 +148,6 @@ function CalendarDateDialog({
     return `${current ? current.scrollHeight : 0}px`;
   }
 
-  // Scroll active year into view when year panel opens
   useEffect(() => {
     if (activePanel === "year" && yearListRef.current) {
       const activeEl = yearListRef.current.querySelector(
@@ -175,7 +167,6 @@ function CalendarDateDialog({
       )}
       style={{ top: getTop() }}
     >
-      {/* Header with month/year toggle buttons */}
       <div className={styles.dialogHeader}>
         <button
           className={clsx(
@@ -201,7 +192,6 @@ function CalendarDateDialog({
         </button>
       </div>
 
-      {/* Month grid panel */}
       {activePanel === "month" && (
         <div className={styles.monthGrid}>
           {months.map((m) => (
@@ -222,7 +212,6 @@ function CalendarDateDialog({
         </div>
       )}
 
-      {/* Year list panel */}
       {activePanel === "year" && (
         <div className={styles.yearList} ref={yearListRef}>
           {yearRange.map((yr) => (
@@ -246,8 +235,6 @@ function CalendarDateDialog({
   );
 }
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
 function isSameDay(a: Date, b: Date): boolean {
   return (
     a.getFullYear() === b.getFullYear() &&
@@ -269,7 +256,6 @@ function isDateDisabled(
   return false;
 }
 
-// Port of Vue Day.vue helper functions
 function getDates(
   model: Date[] | Date[][],
   type: SelectionType,
@@ -377,7 +363,6 @@ function getDayProps(
     1,
   );
 
-  // Split overlay: matches Vue Day.vue condition
   const dates0 = getDates(model, type, 0);
   const dates1 = getDates(model, type, 1);
   const showSplit =
@@ -406,10 +391,6 @@ function getDayProps(
     isDisabled,
   };
 }
-
-// ─── Calendar (main) ──────────────────────────────────────────────────────────
-
-// Extended Calendar type to support compound sub-components
 interface CalendarComponent {
   (props: CalendarProps): React.JSX.Element;
   Day: typeof CalendarDay;
@@ -470,13 +451,11 @@ export function Calendar({
   const weeks = getArrayMonthDay(monthDate);
   const months = getMonths(lang);
 
-  // Second calendar month (for doubleCalendar)
   const nextMonthNum = currentMonth === 11 ? 0 : currentMonth + 1;
   const nextYearNum = currentMonth === 11 ? currentYear + 1 : currentYear;
   const nextMonthDate = new Date(nextYearNum, nextMonthNum, 1);
   const nextWeeks = getArrayMonthDay(nextMonthDate);
 
-  // Compute weekday headers
   const weekDays: string[] = [];
   const baseDate = new Date("2021-10-03T23:15:30");
   for (let i = 0; i < 7; i++) {
@@ -591,7 +570,6 @@ export function Calendar({
   function renderGrid(gridWeeks: any[], label: string) {
     return (
       <div role="grid" aria-label={label}>
-        {/* Weekday headers */}
         <div className={styles.grid}>
           {weekDays.map((wd, index) => (
             <div key={wd + index} className={styles.weekdayHeader}>
@@ -600,7 +578,6 @@ export function Calendar({
           ))}
         </div>
 
-        {/* Day rows */}
         {gridWeeks
           .filter((week: any[]) => week.some((d: any) => d))
           .map((week: any[], weekIdx: number) => (
@@ -697,9 +674,7 @@ export function Calendar({
   );
 }
 
-// Attach compound sub-components
 (Calendar as unknown as CalendarComponent).Day = CalendarDay;
 (Calendar as unknown as CalendarComponent).DateDialog = CalendarDateDialog;
 
-// Re-export sub-components for direct use
 export { CalendarDay, CalendarDateDialog };

@@ -39,11 +39,9 @@ describe('RadioGroup', () => {
     render(<RadioGroup defaultValue="a" options={options} />);
     const radios = screen.getAllByRole('radio');
 
-    // Initially first is selected
     expect(radios[0]).toHaveAttribute('aria-checked', 'true');
     expect(radios[1]).toHaveAttribute('aria-checked', 'false');
 
-    // Click second
     fireEvent.click(radios[1]);
     expect(radios[0]).toHaveAttribute('aria-checked', 'false');
     expect(radios[1]).toHaveAttribute('aria-checked', 'true');

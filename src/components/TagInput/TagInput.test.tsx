@@ -25,7 +25,6 @@ describe('TagInput', () => {
     const textarea = document.querySelector('textarea')!;
     fireEvent.change(textarea, { target: { value: 'hello' } });
     fireEvent.keyDown(textarea, { key: 'Enter' });
-    // Should show duplicate error — badge count stays at 1
     const badges = document.querySelectorAll('[class*="statusBadge"]');
     expect(badges.length).toBe(1);
   });
@@ -33,7 +32,6 @@ describe('TagInput', () => {
   it('removes tag on backspace when textarea is empty', () => {
     render(<TagInput defaultValue={['tag1', 'tag2']} />);
     const textarea = document.querySelector('textarea')!;
-    // Textarea is empty by default, pressing backspace should remove last tag
     fireEvent.keyDown(textarea, { key: 'Backspace' });
     expect(screen.queryByText('tag2')).toBeNull();
     expect(screen.getByText('tag1')).toBeTruthy();
@@ -59,10 +57,8 @@ describe('TagInput', () => {
     fireEvent.change(textarea, { target: { value: 'hello' } });
     fireEvent.keyDown(textarea, { key: 'Enter' });
 
-    // Error message should appear
     expect(screen.getByText('Duplicated values are not allowed')).toBeTruthy();
 
-    // Advance timers past 2 seconds — error should dismiss
     act(() => {
       vi.advanceTimersByTime(2100);
     });
@@ -73,9 +69,7 @@ describe('TagInput', () => {
   it('controlled mode: value prop renders tags, onChange fires on new tag', () => {
     const handleChange = vi.fn();
     render(<TagInput value={['existing']} onChange={handleChange} />);
-    // Controlled value renders as tag
     expect(screen.getByText('existing')).toBeTruthy();
-    // Add a new tag
     const textarea = document.querySelector('textarea')!;
     fireEvent.change(textarea, { target: { value: 'newtag' } });
     fireEvent.keyDown(textarea, { key: 'Enter' });

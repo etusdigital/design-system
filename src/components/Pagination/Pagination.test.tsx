@@ -18,7 +18,6 @@ describe('Pagination', () => {
   it('active page has active class', () => {
     render(<Pagination length={5} defaultValue={3} />);
     const pageButtons = screen.getAllByRole('button');
-    // Find the button with text "3"
     const activeButton = pageButtons.find((btn) => btn.textContent === '3');
     expect(activeButton?.className).toContain('active');
   });
@@ -58,7 +57,6 @@ describe('Pagination', () => {
 
   it('renders ellipsis for many pages', () => {
     render(<Pagination length={10} defaultValue={5} />);
-    // Should show ellipsis (...) for pages far from current
     expect(screen.getAllByText('...').length).toBeGreaterThan(0);
   });
 });

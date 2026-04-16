@@ -32,12 +32,10 @@
   @apply bg-neutral-surface-disabled;
 }
 
-/* Track (the slider bar itself is the container in this implementation) */
 .track {
   @apply relative h-[.5em] w-full rounded-base bg-primary-surface-highlight;
 }
 
-/* Fill bar */
 .fillBar {
   @apply absolute h-full rounded-base bg-primary-interaction-default overflow-hidden flex;
   bottom: 50%;
@@ -58,7 +56,6 @@
   @apply bg-transparent;
 }
 
-/* Cursor / thumb */
 .cursor {
   @apply absolute w-[1.25em] h-[1.25em] rounded-full border-2 border-primary-interaction-default bg-neutral-surface-default cursor-grab z-[1] select-none;
   top: 50%;
@@ -70,7 +67,6 @@
   @apply cursor-grabbing;
 }
 
-/* Step markers */
 .stepsContainer {
   @apply relative w-full mt-2;
 }
@@ -99,7 +95,6 @@
   @apply bg-neutral-surface-disabled;
 }
 
-/* Vertical adjustments */
 .vertical .cursor {
   top: auto;
   transform: translateX(-50%);
@@ -120,7 +115,6 @@
   @apply h-[0.35em] w-[1.25em] translate-y-none translate-x-3/5;
 }
 
-/* Disabled state */
 .disabled {
   @apply bg-neutral-surface-disabled;
 }

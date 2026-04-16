@@ -18,8 +18,6 @@ describe('SelectContainer', () => {
     const { container } = render(
       <SelectContainer value={false} options={<li>Option 1</li>} />
     );
-    // When collapsed, ExpandableContainer returns null from renderContent
-    // so .content-wrapper is not in the DOM at all
     const wrapper = container.querySelector('.content-wrapper');
     expect(wrapper).toBeNull();
   });
@@ -28,7 +26,6 @@ describe('SelectContainer', () => {
     render(
       <SelectContainer value={true} options={<li>Option 1</li>} />
     );
-    // content-wrapper renders via FloatCard portal into document.body
     const wrapper = document.querySelector('.content-wrapper') as HTMLElement | null;
     expect(wrapper).toBeTruthy();
     expect(wrapper?.style.display).not.toBe('none');
@@ -46,7 +43,6 @@ describe('SelectContainer', () => {
     render(
       <SelectContainer value={true} dontHaveMaxHeight={false} />
     );
-    // sc-content with has-max-height renders via FloatCard portal into document.body
     const content = document.querySelector('.has-max-height');
     expect(content).toBeTruthy();
   });

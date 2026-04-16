@@ -8,7 +8,6 @@
   @apply border-none;
 }
 
-/* Toolbar */
 .toolbar {
   @apply flex items-center gap-xs p-sm bg-neutral-surface-default border-xxs border-neutral-default border-b-none rounded-t-sm flex-wrap;
 }
@@ -34,7 +33,6 @@
   @apply bg-primary-surface-default text-primary-interaction-default;
 }
 
-/* Editor content area */
 .editorContent {
   @apply overflow-y-auto p-sm border-xxs border-neutral-default rounded-b-sm outline-none whitespace-pre-wrap
   text-neutral-foreground-high focus:border-primary-default transition-colors;
@@ -69,23 +67,19 @@
   @apply underline;
 }
 
-/* Focus state */
 .focus .editorContent {
   @apply border-primary-default;
 }
 
-/* Disabled state */
 .disabled .toolbar,
 .disabled .editorContent {
   @apply pointer-events-none;
 }
 
-/* Error state */
 .error .editorContent {
   @apply border-danger-default;
 }
 
-/* No border state */
 .noBorder .toolbar,
 .noBorder .editorContent {
   @apply border-none rounded-none;
@@ -95,7 +89,6 @@
   @apply text-sm text-danger-foreground-low text-start;
 }
 
-/* Color picker */
 .colorsContainer {
   @apply relative inline-flex;
 }
@@ -138,7 +131,6 @@
   @apply flex items-center justify-center w-5 h-5 cursor-pointer;
 }
 
-/* Custom color section */
 .customColorSection {
   @apply flex flex-col gap-xs p-xs;
 }
@@ -161,12 +153,10 @@
   @apply hover:bg-primary-interaction-hover;
 }
 
-/* Image input overlay */
 .imageInput {
   @apply z-[1] absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer;
 }
 
-/* Link dialog */
 .linkDialogContent {
   @apply flex flex-col gap-sm p-base bg-neutral-surface-default rounded-base shadow-lg;
   min-width: 400px;

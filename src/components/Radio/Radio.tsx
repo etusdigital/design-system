@@ -31,8 +31,6 @@ export function Radio({
 }: RadioProps) {
   const groupCtx = useContext(RadioGroupContext);
 
-  // Standalone mode — use useControllable for own boolean state.
-  // We always call it (rules of hooks) but only use it when not in group mode.
   const [standaloneValue, setStandaloneValue] = useControllable<boolean>({
     value: groupCtx && groupValue !== undefined ? undefined : value,
     defaultValue: groupCtx && groupValue !== undefined ? undefined : (defaultValue ?? false),
@@ -48,7 +46,6 @@ export function Radio({
     if (isInGroup) {
       groupCtx!.select(groupValue);
     } else {
-      // Standalone Radio can only be selected (set to true), never deselected.
       setStandaloneValue(true);
     }
   }

@@ -8,29 +8,29 @@ import '../styles/Container.css';
 import { FloatCard } from '../../components/FloatCard';
 
 export interface ContainerProps {
-  value?: boolean;              // was modelValue
-  defaultValue?: boolean;       // uncontrolled mode
-  onChange?: (value: boolean, extra: ContainerModelExtra) => void;  // was update:modelValue
-  labelValue?: string;          // default: ''
-  role?: string;                // default: 'listbox'
-  disabled?: boolean;           // default: false
-  isError?: boolean;            // default: false
-  errorMessage?: string;        // default: ''
-  infoMessage?: string;         // default: ''
-  required?: boolean;           // default: false
-  closeOnBlur?: boolean;        // default: true
-  hideBottom?: boolean;         // default: false
-  maxHeight?: string;           // default: 'none'
-  minWidth?: string;            // default: '15em'
-  secondary?: boolean;          // default: false
-  hideArrow?: boolean;          // default: false
+  value?: boolean;
+  defaultValue?: boolean;
+  onChange?: (value: boolean, extra: ContainerModelExtra) => void;
+  labelValue?: string;
+  role?: string;
+  disabled?: boolean;
+  isError?: boolean;
+  errorMessage?: string;
+  infoMessage?: string;
+  required?: boolean;
+  closeOnBlur?: boolean;
+  hideBottom?: boolean;
+  maxHeight?: string;
+  minWidth?: string;
+  secondary?: boolean;
+  hideArrow?: boolean;
   icon?: string;
-  disableLabelAutoWidth?: boolean;  // default: false
-  children?: React.ReactNode;           // default slot
-  label?: React.ReactNode;              // slot name="label"
-  complement?: React.ReactNode;         // slot name="complement" (right side)
-  leadingComplement?: React.ReactNode;  // leading slot (left side, before children)
-  renderContent?: (minWidth: string) => React.ReactNode;  // slot name="content" :min-width="contentMinWidth"
+  disableLabelAutoWidth?: boolean;
+  children?: React.ReactNode;
+  label?: React.ReactNode;
+  complement?: React.ReactNode;
+  leadingComplement?: React.ReactNode;
+  renderContent?: (minWidth: string) => React.ReactNode;
   className?: string;
 }
 
@@ -82,7 +82,6 @@ export function Container({
     }
   }
 
-  // Close from blur: passes source: 'blur' directly to onChange
   function blur(value: boolean) {
     if (closeOnBlur && model) {
       setModel(value)
@@ -93,7 +92,6 @@ export function Container({
     }
   }
 
-  // MutationObserver on mount — disconnect on unmount
   useEffect(() => {
     const obs = new MutationObserver(resize);
     if (containerRef.current) {
@@ -103,8 +101,6 @@ export function Container({
     return () => obs.disconnect();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Post-render resize — runs after every render (Vue onUpdated equivalent)
-  // Safe because resize only calls setContentMinWidth when value changes
   useEffect(() => {
     resize();
   });

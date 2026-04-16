@@ -4,31 +4,31 @@ import { Container } from "./Container";
 import type { ContainerModelExtra } from "../types/ContainerModelExtra";
 
 export interface ExpandableContainerProps {
-  value?: boolean; // was modelValue
+  value?: boolean;
   defaultValue?: boolean;
   onChange?: (value: boolean, extra: ContainerModelExtra) => void;
-  labelValue?: string; // default: ''
-  absolute?: boolean; // default: true
-  disabled?: boolean; // default: false
-  isError?: boolean; // default: false
-  errorMessage?: string; // default: ''
-  infoMessage?: string; // default: ''
-  required?: boolean; // default: false
-  closeOnBlur?: boolean; // default: true
-  alignRight?: boolean; // default: false
-  maxHeight?: string; // default: '40px'
-  minWidth?: string; // default: 'unset'
+  labelValue?: string;
+  absolute?: boolean;
+  disabled?: boolean;
+  isError?: boolean;
+  errorMessage?: string;
+  infoMessage?: string;
+  required?: boolean;
+  closeOnBlur?: boolean;
+  alignRight?: boolean;
+  maxHeight?: string;
+  minWidth?: string;
   minWidthCard?: string;
   icon?: string;
-  secondary?: boolean; // default: false
-  hideArrow?: boolean; // default: false
-  disableLabelAutoWidth?: boolean; // default: false
-  children?: React.ReactNode; // default slot
-  complement?: React.ReactNode; // complement slot (right side)
-  leadingComplement?: React.ReactNode; // leading slot (left side)
-  label?: React.ReactNode; // label slot
-  card?: React.ReactNode; // card slot (replaces <slot name="card">)
-  content?: React.ReactNode; // content slot inside card (replaces <slot name="content">)
+  secondary?: boolean;
+  hideArrow?: boolean;
+  disableLabelAutoWidth?: boolean;
+  children?: React.ReactNode;
+  complement?: React.ReactNode;
+  leadingComplement?: React.ReactNode;
+  label?: React.ReactNode;
+  card?: React.ReactNode;
+  content?: React.ReactNode;
   className?: string;
 }
 

@@ -2,8 +2,6 @@ import React, { createContext, useContext, useRef, useState } from 'react';
 import { Dialog } from '../Dialog/Dialog';
 import { Button } from '../Button/Button';
 
-// ── Types ─────────────────────────────────────────────────────────────────────
-
 interface ConfirmOptions {
   title?: string;
   message?: string;
@@ -22,11 +20,7 @@ interface ConfirmContextValue {
   confirm: (options: ConfirmOptions) => Promise<boolean>;
 }
 
-// ── Context ───────────────────────────────────────────────────────────────────
-
 const ConfirmContext = createContext<ConfirmContextValue | null>(null);
-
-// ── ConfirmProvider ───────────────────────────────────────────────────────────
 
 const DIALOG_TRANSITION_MS = 500;
 
@@ -85,8 +79,6 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
     </ConfirmContext.Provider>
   );
 }
-
-// ── useConfirm ────────────────────────────────────────────────────────────────
 
 export function useConfirm(): ConfirmContextValue {
   const ctx = useContext(ConfirmContext);

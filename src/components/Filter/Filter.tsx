@@ -107,7 +107,6 @@ export function Filter({
     onApply?.(currentModel);
   }
 
-  // Count total selected items across all categories
   const totalSelected = Object.values(currentModel).reduce(
     (sum, arr) => sum + (Array.isArray(arr) ? arr.length : 0),
     0
@@ -122,7 +121,6 @@ export function Filter({
           const matchingSubOptions = category.options.filter((sub) =>
             getLabel(sub).toLowerCase().includes(searchLower)
           );
-          // Show category if its label matches or any sub-option matches
           if (categoryLabel.includes(searchLower) || matchingSubOptions.length > 0) {
             return {
               ...category,

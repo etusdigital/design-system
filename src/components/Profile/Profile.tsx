@@ -71,13 +71,11 @@ export function Profile({
     onChange,
   });
 
-  // Local dropdown implementation — will be replaced by Phase 4 SelectContainer
   const [isOpen, setIsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [onFocusInput, setOnFocusInput] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // Click-outside handler to close dropdown
   useEffect(() => {
     function handleMouseDown(event: MouseEvent) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
@@ -133,7 +131,6 @@ export function Profile({
         className
       )}
     >
-      {/* Trigger: Avatar + name */}
       {!isOpen && (
         <div
           className={clsx(
@@ -147,10 +144,8 @@ export function Profile({
         </div>
       )}
 
-      {/* Dropdown content */}
       {isOpen && (
         <div className={styles.dropdown}>
-          {/* User info header */}
           <div className="flex flex-col items-center gap-xs text-9xl px-xs py-sm text-neutral-interaction-default">
             <Avatar name={name} src={picture} size="large" alt="profile picture" />
             {!!(model && getLabel(selected) && name) && (
@@ -170,7 +165,6 @@ export function Profile({
             </Button>
           </div>
 
-          {/* Options list with search */}
           {options && options.length > 0 && (
             <div className="flex flex-col items-center text-neutral-interaction-default">
               <div className="flex items-center w-full relative">
@@ -230,7 +224,6 @@ export function Profile({
             </div>
           )}
 
-          {/* Actions: Edit account, Logout */}
           <div
             className={clsx(
               'flex flex-col divide-y-xxs divide-neutral-default',
@@ -265,7 +258,6 @@ export function Profile({
             </div>
           </div>
 
-          {/* Footer links */}
           <div className="flex items-center justify-center px-xs py-sm pt-xl text-neutral-interaction-default font-bold text-xxs gap-5 [&>*]:cursor-pointer">
             <p onClick={onPrivacyPolicy} className="hover:underline">
               {privacyPolicyLabel}

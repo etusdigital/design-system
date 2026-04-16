@@ -6,32 +6,32 @@ import type { ContainerModelExtra } from '../types/ContainerModelExtra';
 import '../styles/SelectContainer.css';
 
 export interface SelectContainerProps {
-  value?: boolean;              // was modelValue — expanded state
+  value?: boolean;
   defaultValue?: boolean;
   onChange?: (value: boolean, extra: ContainerModelExtra) => void;
-  labelValue?: string;          // default: ''
-  role?: string;                // default: 'listbox'
-  absolute?: boolean;           // default: false
-  disabled?: boolean;           // default: false
-  isError?: boolean;            // default: false
-  errorMessage?: string;        // default: ''
-  infoMessage?: string;         // default: ''
-  required?: boolean;           // default: false
-  closeOnBlur?: boolean;        // default: true
-  dontHaveMaxHeight?: boolean;  // default: false
-  maxHeight?: string;           // default: '40px'
-  minWidth?: string;            // default: '15em'
-  secondary?: boolean;          // default: false
-  hideArrow?: boolean;          // default: false
-  disableLabelAutoWidth?: boolean; // default: false
+  labelValue?: string;
+  role?: string;
+  absolute?: boolean;
+  disabled?: boolean;
+  isError?: boolean; 
+  errorMessage?: string;
+  infoMessage?: string;
+  required?: boolean;
+  closeOnBlur?: boolean;
+  dontHaveMaxHeight?: boolean;
+  maxHeight?: string;
+  minWidth?: string;
+  secondary?: boolean;
+  hideArrow?: boolean;
+  disableLabelAutoWidth?: boolean;
   icon?: string;
-  children?: React.ReactNode;       // default slot (label area content)
-  complement?: React.ReactNode;     // complement slot (right side)
-  leadingComplement?: React.ReactNode; // leading slot (left side)
-  label?: React.ReactNode;          // label slot override
-  content?: React.ReactNode;        // content slot (replaces <slot name="content">)
-  options?: React.ReactNode;        // options slot (replaces <slot name="options">)
-  actions?: React.ReactNode;        // actions slot
+  children?: React.ReactNode;
+  complement?: React.ReactNode;
+  leadingComplement?: React.ReactNode;
+  label?: React.ReactNode;
+  content?: React.ReactNode;
+  options?: React.ReactNode;
+  actions?: React.ReactNode;
   className?: string;
 }
 
@@ -70,7 +70,6 @@ export function SelectContainer({
 
   const isExpanded = disabled ? false : (model ?? false);
 
-  // Use ref to avoid stale closure in observer callbacks
   const isExpandedRef = useRef(isExpanded);
   isExpandedRef.current = isExpanded;
 
@@ -84,7 +83,6 @@ export function SelectContainer({
       : '0px';
   }
 
-  // Mount effect: set up ResizeObserver + MutationObserver + 200ms initial resize
   useEffect(() => {
     const fatherEl = fatherRef.current;
     if (!fatherEl) return;
@@ -109,8 +107,6 @@ export function SelectContainer({
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Post-render resize (Vue onUpdated equivalent)
-  // Safe: resize() only sets style.maxHeight imperatively (no setState -> no infinite loop)
   useEffect(() => {
     resize();
   });

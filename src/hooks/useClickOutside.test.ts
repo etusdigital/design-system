@@ -22,7 +22,6 @@ describe('useClickOutside', () => {
       return ref;
     });
 
-    // ref.current is null so every mousedown outside fires callback
     act(() => {
       fireEvent.mouseDown(document.body);
     });
@@ -33,11 +32,9 @@ describe('useClickOutside', () => {
   it('does NOT fire callback when mousedown is inside the ref element', () => {
     const callback = vi.fn();
 
-    // Create a real DOM element with a bounding rect that covers the click
     const element = document.createElement('div');
     document.body.appendChild(element);
 
-    // Mock getBoundingClientRect to simulate element covering the click point
     element.getBoundingClientRect = () => ({
       left: 0,
       right: 200,
@@ -56,7 +53,6 @@ describe('useClickOutside', () => {
       return ref;
     });
 
-    // Fire mousedown at a point inside the element's bounding rect
     act(() => {
       const event = new MouseEvent('mousedown', { clientX: 100, clientY: 100, bubbles: true });
       document.dispatchEvent(event);

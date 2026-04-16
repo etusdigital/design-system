@@ -32,7 +32,6 @@
   @apply text-sm text-neutral-foreground-low mt-1;
 }
 
-/* Size variants */
 .xs {
   @apply min-h-[80px];
 }

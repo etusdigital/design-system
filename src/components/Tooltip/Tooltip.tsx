@@ -23,7 +23,6 @@ export function Tooltip({
   className,
   style,
 }: TooltipProps) {
-  // Extract Tooltip.Label from children
   let labelSlotContent: React.ReactNode = null;
   const triggerChildren: React.ReactNode[] = [];
 

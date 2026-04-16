@@ -24,7 +24,6 @@
   @apply text-2xl text-neutral-foreground-negative;
 }
 
-/* Full-screen backdrop for the portal */
 .backdrop {
   @apply fixed inset-0 z-[1000] bg-black/70 opacity-0 transition-opacity duration-150;
 }

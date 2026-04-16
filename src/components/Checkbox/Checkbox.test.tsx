@@ -19,13 +19,10 @@ describe('Checkbox', () => {
   it('cycles through three states when allowIndeterminate', () => {
     render(<Checkbox defaultValue={false} allowIndeterminate />);
     const checkbox = document.querySelector('[role="checkbox"]')!;
-    // false -> true
     fireEvent.click(checkbox);
     expect(checkbox).toHaveAttribute('aria-checked', 'true');
-    // true -> null (mixed)
     fireEvent.click(checkbox);
     expect(checkbox).toHaveAttribute('aria-checked', 'mixed');
-    // null -> false
     fireEvent.click(checkbox);
     expect(checkbox).toHaveAttribute('aria-checked', 'false');
   });

@@ -16,7 +16,6 @@ describe('ColorPicker', () => {
 
   it('renders hue slider track', () => {
     const { container } = render(<ColorPicker />);
-    // Hue track has class containing "hueTrack"
     const hueTrack = container.querySelector('[class*="hueTrack"]');
     expect(hueTrack).toBeTruthy();
   });
@@ -79,6 +78,5 @@ describe('ColorPicker', () => {
     const { container } = render(<ColorPicker onChange={onChange} />);
     const input = container.querySelector('input[type="text"]') as HTMLInputElement;
     expect(input).toBeTruthy();
-    // We just check it exists; canvas drag test is skipped (jsdom limitation)
   });
 });

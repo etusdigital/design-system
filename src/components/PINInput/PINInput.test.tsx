@@ -60,12 +60,10 @@ describe('PINInput', () => {
     const handleChange = vi.fn();
     render(<PINInput value="1234" onChange={handleChange} length={4} />);
     const inputs = document.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
-    // Controlled value populates fields
     expect(inputs[0].value).toBe('1');
     expect(inputs[1].value).toBe('2');
     expect(inputs[2].value).toBe('3');
     expect(inputs[3].value).toBe('4');
-    // Changing a field fires onChange
     fireEvent.change(inputs[0], { target: { value: '5' } });
     expect(handleChange).toHaveBeenCalled();
   });

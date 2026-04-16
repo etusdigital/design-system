@@ -25,7 +25,6 @@ export function IconCard({
   children,
   className,
 }: IconCardProps) {
-  // Separate TitleActions children from body children
   const titleActionsChildren: React.ReactNode[] = [];
   const bodyChildren: React.ReactNode[] = [];
 

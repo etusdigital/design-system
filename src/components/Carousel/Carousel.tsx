@@ -48,7 +48,6 @@ export function Carousel({
   const totalPages = Math.ceil(options.length / visible);
   const currentIndex = model ?? 0;
 
-  // Group options into sections of `visible` length
   const sections: any[][] = [];
   for (let i = 0; i < options.length; i += visible) {
     sections.push(options.slice(i, i + visible));
@@ -113,10 +112,8 @@ export function Carousel({
     });
   }
 
-  // useLayoutEffect replaces Vue's nextTick for DOM measurements
   useLayoutEffect(() => {
     calculateContentStyle();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [model, options.length, visible]);
 
   const currentIndexRef = useRef(currentIndex);
@@ -126,7 +123,6 @@ export function Carousel({
   const circularRef = useRef(circular);
   circularRef.current = circular;
 
-  // Autoplay via setInterval — paused when disabled
   useEffect(() => {
     if (!autoplay || disabled) return;
     const interval = setInterval(() => {
@@ -168,7 +164,6 @@ export function Carousel({
           </button>
         )}
 
-        {/* Overflow container with explicit width/height from contentStyle */}
         <div className={styles.overflow} style={{ width: '100%', overflow: 'hidden', ...contentStyle }}>
           <div
             ref={trackRef}

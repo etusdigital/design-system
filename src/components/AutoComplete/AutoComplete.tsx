@@ -41,7 +41,6 @@ export function AutoComplete({
     onChange,
   });
 
-  // Internal search text — not exposed to consumer
   const [expanded, setExpanded] = useState(false);
   let focus = false
 

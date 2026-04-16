@@ -21,10 +21,8 @@ describe('Container', () => {
   it('click toggles expanded back — expanded class removed on second toggle via keyboard', () => {
     const { container } = render(<Container />);
     const labelContent = container.querySelector('.label-content')!;
-    // First open via click
     fireEvent.click(labelContent);
     expect(labelContent.classList.contains('expanded')).toBe(true);
-    // Close via Space key (avoids FloatCard click handler re-opening)
     fireEvent.keyUp(labelContent, { key: ' ' });
     expect(labelContent.classList.contains('expanded')).toBe(false);
   });
@@ -68,8 +66,6 @@ describe('Container', () => {
 
   it('renderContent receives contentMinWidth and renders content when expanded', () => {
     render(<Container renderContent={(minWidth) => <div data-testid="content">{minWidth}</div>} />);
-    // renderContent content is only shown when expanded (portal via FloatCard)
-    // Click to expand, then query document-wide since content renders in portal
     const labelContent = document.querySelector('.label-content')!;
     fireEvent.click(labelContent);
     expect(document.querySelector('[data-testid="content"]')).toBeTruthy();
@@ -85,7 +81,6 @@ describe('Container', () => {
   it('custom label slot overrides default label-content', () => {
     const { container } = render(<Container label={<div data-testid="custom-label">Custom</div>} />);
     expect(screen.getByTestId('custom-label')).toBeTruthy();
-    // label-content div should not be rendered when custom label is provided
     expect(container.querySelector('.label-content')).toBeNull();
   });
 });

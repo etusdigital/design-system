@@ -31,16 +31,12 @@ export interface SelectProps {
   icon?: string;
   expanded?: boolean;
   onExpandedChange?: (expanded: boolean) => void;
-  // Render-prop equivalents for Vue named slots
   renderSearchLabel?: () => React.ReactNode;
   renderOption?: (option: any, isSelected: boolean) => React.ReactNode;
-  /** Custom status renderer. Receives the current model value and the full options array. */
   renderStatus?: (model: any, options: any[]) => React.ReactNode;
   renderStatusLabel?: (count: number) => React.ReactNode;
   renderActions?: () => React.ReactNode;
   renderClearLabel?: () => React.ReactNode;
-  /** Function: custom option renderer (option, index, isSelected) => ReactNode.
-   *  ReactNode: placeholder content shown when nothing is selected (Vue default slot). */
   children?: ((option: any, index: number, isSelected: boolean) => React.ReactNode) | React.ReactNode;
   className?: string;
 }
@@ -76,7 +72,6 @@ export function Select({
   children,
   className,
 }: SelectProps) {
-  // Normalise defaultValue for multiple mode
   const normalizedDefault = multiple
     ? Array.isArray(defaultValue) ? defaultValue : defaultValue != null ? [defaultValue] : []
     : Array.isArray(defaultValue) ? defaultValue[0] : defaultValue ?? null;
@@ -144,7 +139,6 @@ export function Select({
     ? options.filter((o) => getLabel(o).toLowerCase().includes(searchText.toLowerCase()))
     : options;
 
-  // Build display label for status slot
   function getDisplayLabel(): string {
     if (multiple) {
       const arr: any[] = Array.isArray(model) ? model : [];
@@ -164,7 +158,6 @@ export function Select({
     ? (Array.isArray(model) && model.length > 0)
     : model != null;
 
-  // Keyboard navigation handler
   function handleKeyDown(e: React.KeyboardEvent) {
     if (disabled) return;
     switch (e.key) {
@@ -214,7 +207,6 @@ export function Select({
     }
   }
 
-  // Reset highlight when dropdown closes
   function handleExpandedChange(val: boolean) {
     setIsOpen(val);
     if (!val) {
@@ -222,11 +214,9 @@ export function Select({
     }
   }
 
-  // Resolve whether children is a render function (option renderer) or ReactNode (placeholder)
   const childIsRenderFn = typeof children === 'function';
   const placeholderNode = !childIsRenderFn ? children : undefined;
 
-  // Status node: matches Vue #status / #status-label / default slot behaviour
   const showSelected = multiple && Array.isArray(model) && model.length > 0 && !disabled
     && ((!isOpen && searchable) || !searchable);
 
@@ -249,7 +239,6 @@ export function Select({
     }
   }
 
-  // Option renderer: children function > renderOption > default label
   function renderOptionContent(option: any, index: number) {
     const selected = isOptionSelected(option);
     if (childIsRenderFn) return (children as Function)(option, index, selected);
@@ -280,7 +269,6 @@ export function Select({
     </Button>
   ) : undefined;
 
-  // Complement: selected count badge (Vue #complement slot)
   const complementNode = showSelected && multiple
     ? <span className={styles.selectCount}>{(model as any[]).length}</span>
     : undefined;

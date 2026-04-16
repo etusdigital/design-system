@@ -8,7 +8,6 @@
   display: flex;
 }
 
-/* ===== Option base ===== */
 .option {
   @apply w-full relative cursor-pointer;
 }
@@ -17,7 +16,6 @@
   @apply hover:bg-transparent cursor-default;
 }
 
-/* ===== First / last option ===== */
 .firstOption .dataList {
   @apply border-none;
 }
@@ -30,7 +28,6 @@
   @apply border-none;
 }
 
-/* When only one option exists (first AND last) */
 .firstOption.lastOption .customBorder {
   @apply hidden;
 }
@@ -43,7 +40,6 @@
  @apply text-3xl leading-xs;
 }
 
-/* ===== Type color variants ===== */
 .option.primary {
   @apply hover:bg-primary-surface-default;
 }
@@ -63,7 +59,6 @@
   @apply hover:bg-neutral-surface-highlight;
 }
 
-/* ===== Active variants ===== */
 .primary.active {
   @apply bg-primary-surface-default;
 }
@@ -124,7 +119,6 @@
   @apply text-neutral-interaction-default bg-neutral-surface-default;
 }
 
-/* ===== Disabled type overrides ===== */
 .option.disabled.primary {
   @apply hover:bg-transparent;
 }
@@ -185,7 +179,6 @@
   @apply text-neutral-interaction-default bg-neutral-surface-default;
 }
 
-/* ===== Circle base ===== */
 .circle {
   @apply bg-neutral-surface-disabled absolute w-[10px] h-[10px] rounded-full;
 }
@@ -214,7 +207,6 @@
   @apply text-3xl;
 }
 
-/* ===== Position: right ===== */
 .option.right {
   @apply pl-[20.5px] pr-[16px];
 }
@@ -252,7 +244,6 @@
   @apply border-r-xxs h-[22px] w-[.5px] mt-[0] ml-[5px];
 }
 
-/* ===== Position: left ===== */
 .option.left {
   @apply pl-[16px] pr-[20.5px];
 }
@@ -290,7 +281,6 @@
   @apply border-l-xxs h-[22px] w-[.5px] right-[26px];
 }
 
-/* ===== Position: top ===== */
 .option.top {
   @apply pt-[20px] pb-[16px];
 }
@@ -331,7 +321,6 @@
   @apply mt-[1px];
 }
 
-/* ===== Position: bottom ===== */
 .option.bottom {
   @apply pb-[20.5px] pt-[16px];
 }

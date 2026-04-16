@@ -69,7 +69,6 @@ export function FloatCard({
   useEffect(() => {
     if (!isMounted) return;
 
-    // Position after mount
     requestAnimationFrame(() => showCard());
 
     const closeHandler = (e: MouseEvent | WheelEvent) => {
@@ -89,7 +88,6 @@ export function FloatCard({
         clientY <= rect.bottom;
 
       if (isWheel && isInsideCard) {
-        // Check for scrollable parent within card
         let current = e.target as HTMLElement;
         while (current && cardContent.contains(current)) {
           if (current.scrollHeight > current.clientHeight) return;
@@ -118,9 +116,6 @@ export function FloatCard({
     <div
       ref={contentRef}
       onClick={mode === 'click' ? (e) => {
-        // Only open when clicking the trigger content, not portal card content
-        // (React portal events bubble through the React tree but the DOM target
-        // lives in document.body, outside contentRef)
         if (contentRef.current?.contains(e.target as Node)) {
           setIsOpen(true);
         }

@@ -26,15 +26,14 @@ export interface InputProps {
   placeholder?: string;
   textAlign?: 'start' | 'center' | 'end';
   tooltipMinWidth?: number;
-  icon?: string;          // Material Symbols icon name for prepend
-  appendIcon?: string;    // Material Symbols icon name for append
+  icon?: string;
+  appendIcon?: string;
   onFocus?: () => void;
   onBlur?: () => void;
-  children?: React.ReactNode;  // for compound sub-components
+  children?: React.ReactNode;
   className?: string;
 }
 
-// Compound sub-components
 function PrependIcon({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
@@ -88,14 +87,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
 
   const internalRef = useRef<HTMLInputElement>(null);
 
-  // Merge forwarded ref with internal ref
   const mergedRef = (el: HTMLInputElement | null) => {
     internalRef.current = el;
     if (typeof ref === 'function') ref(el);
     else if (ref) (ref as React.MutableRefObject<HTMLInputElement | null>).current = el;
   };
 
-  // Extract compound sub-component children
   let prependIconChild: React.ReactNode = null;
   let appendIconChild: React.ReactNode = null;
 
@@ -106,10 +103,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
     if (child.type === AppendIcon) appendIconChild = childProps.children as React.ReactNode;
   });
 
-  // Resolve native input type
   const resolvedType = (() => {
     if (type === 'password') return showPassword ? 'text' : 'password';
-    if (type === 'number') return 'text'; // custom arrows, hide native spinners
+    if (type === 'number') return 'text';
     if (type === 'search' || type === 'email' || type === 'url' || type === 'domain' || type === 'color') return 'text';
     return type;
   })();
@@ -117,17 +113,14 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     let newValue = e.target.value;
 
-    // Apply mask
     if (mask && type === 'text') {
       newValue = applyMask(newValue, mask as any);
     }
 
-    // Enforce max length for text
     if (max && type === 'text') {
       newValue = newValue.slice(0, max);
     }
 
-    // Clamp number
     if (type === 'number') {
       const numVal = Number(newValue);
       if (!isNaN(numVal)) {
@@ -147,7 +140,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
   function handleBlur() {
     setIsFocused(false);
 
-    // Validate on blur
     const val = currentValue ?? '';
     if (type === 'email') setHasError(!isValidEmail(val));
     else if (type === 'domain') {
@@ -177,7 +169,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
 
   const showError = isError || hasError;
 
-  // type="color" — render inline color swatch that opens FloatCard with ColorPicker
   if (type === 'color') {
     const colorValue = currentValue ?? '#000000ff';
     return (
@@ -199,7 +190,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
             disabled && styles.disabled
           )}
         >
-          {/* Hex text input — on the left */}
           <input
             ref={mergedRef}
             type="text"
@@ -211,7 +201,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
             disabled={disabled}
             placeholder="#000000ff"
           />
-          {/* Color swatch trigger — on the right, wrapped in FloatCard for popover with outside-click close */}
           <FloatCard
             card={
               <ColorPicker
@@ -238,7 +227,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
 
   return (
     <div className={clsx(styles.input, 'input', className)}>
-      {/* Label row */}
       {(labelValue || max !== undefined) && (
         <div className={styles.labelRow}>
           <Label
@@ -253,7 +241,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
         </div>
       )}
 
-      {/* Input area */}
       <div className="flex items-center h-fit">
         <div
           className={clsx(
@@ -264,7 +251,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
             disabled && styles.disabled
           )}
         >
-          {/* Prepend icon area */}
           {type === 'search' ? (
             <Icon name="search" className={clsx(styles.inputIcon, "text-neutral-foreground-low")} />
           ) : icon ? (
@@ -273,7 +259,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
             prependIconChild
           ) : null}
 
-          {/* Native input */}
           <input
               ref={mergedRef}
               type={resolvedType}
@@ -287,7 +272,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
               spellCheck={false}
             />
 
-          {/* Append icon area */}
           {type === 'password' ? (
             <Icon
               name={showPassword ? 'visibility_off' : 'visibility'}
@@ -301,7 +285,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
           ) : null}
         </div>
 
-        {/* Number arrows (outside input container — matching Vue source) */}
         {type === 'number' && (
           <div className={clsx(styles.numberArrows, 'ml-xxs')}>
             <Icon
@@ -318,7 +301,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
         )}
       </div>
 
-      {/* Error message */}
       {(errorMessage || validationError) && (showError || !!validationError) && (
         <p className={styles.errorMessage}>{errorMessage || validationError}</p>
       )}

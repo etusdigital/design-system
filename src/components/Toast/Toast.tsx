@@ -13,8 +13,6 @@ import { Button } from '../Button/Button';
 import { useTransition } from '../../hooks/useTransition';
 import './Toast.css';
 
-// ── Types ────────────────────────────────────────────────────────────────────
-
 type ToastType = 'info' | 'success' | 'warning' | 'danger' | 'neutral';
 
 export interface ToastOptions {
@@ -46,8 +44,6 @@ interface ToastContextValue {
   toast: (options: ToastOptions) => { id: string; close: () => void };
 }
 
-// ── Reducer ──────────────────────────────────────────────────────────────────
-
 function toastReducer(state: ToastItem[], action: ToastAction): ToastItem[] {
   switch (action.type) {
     case 'ADD':
@@ -61,11 +57,7 @@ function toastReducer(state: ToastItem[], action: ToastAction): ToastItem[] {
   }
 }
 
-// ── Context ──────────────────────────────────────────────────────────────────
-
 const ToastContext = createContext<ToastContextValue | null>(null);
-
-// ── Internal: ToastItemComponent ─────────────────────────────────────────────
 
 interface ToastItemComponentProps {
   toast: ToastItem;
@@ -109,8 +101,6 @@ function ToastItemComponent({ toast, onClose }: ToastItemComponentProps) {
   );
 }
 
-// ── Internal: ToastContainers ─────────────────────────────────────────────────
-
 const CONTAINERS = [
   { vertical: 'top' as const, horizontal: 'left' as const },
   { vertical: 'top' as const, horizontal: 'right' as const },
@@ -153,8 +143,6 @@ function ToastContainers({ toasts, onClose }: ToastContainersProps) {
   );
 }
 
-// ── ToastProvider ─────────────────────────────────────────────────────────────
-
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, dispatch] = useReducer(toastReducer, []);
   const [mounted, setMounted] = useState(false);
@@ -170,7 +158,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   function removeToast(id: string) {
-    // Clear auto-dismiss timer if present
     const timer = timerMapRef.current.get(id);
     if (timer !== undefined) {
       clearTimeout(timer);
@@ -202,7 +189,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
     dispatch({ type: 'ADD', toast });
 
-    // Auto-dismiss: only if timeout is truthy (not 0, not null)
     const timeout = options.timeout;
     if (timeout) {
       const timer = setTimeout(() => removeToast(id), timeout);
@@ -223,8 +209,6 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     </ToastContext.Provider>
   );
 }
-
-// ── useToast ──────────────────────────────────────────────────────────────────
 
 export function useToast(): ToastContextValue {
   const ctx = useContext(ToastContext);

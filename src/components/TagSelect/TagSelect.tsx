@@ -124,27 +124,22 @@ export function TagSelect({
   function addCreatableOption() {
     if (!creatable || !searchText || isError) return;
     const allOptions = [...options, ...createdOptions];
-    // Check if text matches an existing option label (case-insensitive)
     const existingOption = allOptions.find(
       (o) => getLabel(o).toLowerCase() === searchText.toLowerCase(),
     );
     if (existingOption) {
-      // If already selected, do nothing; otherwise select it
       if (!isIncluded(selectedValues, existingOption)) {
         toggleOption(existingOption);
       }
       setSearchText("");
       return;
     }
-    // Check if already selected as a primitive string value
     if (isIncluded(selectedValues, searchText)) {
       setSearchText("");
       return;
     }
-    // Create new option object and add to createdOptions
     const newOption = { [labelKey]: searchText, [valueKey]: searchText };
     setCreatedOptions((prev) => [...prev, newOption]);
-    // Select the newly created option
     const emitValue = getObjectProp ? newOption : searchText;
     const arr = [...selectedValues, emitValue];
     setModel(arr);

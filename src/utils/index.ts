@@ -395,32 +395,31 @@ export function applyMask(
 ) {
   switch (mask) {
     case "cpf":
-      value = value.replace(/\D/g, ""); // Remove non-numeric characters
-      value = value.slice(0, 11); // Limit the number of digit to 11
-      value = value.replace(/(\d{3})(\d)/, "$1.$2"); // Add dot after 3º digit
-      value = value.replace(/(\d{3})(\d)/, "$1.$2"); // Add dot after 6º digit
-      value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2"); // Add hyphen after 9º digit
+      value = value.replace(/\D/g, "");
+      value = value.slice(0, 11);
+      value = value.replace(/(\d{3})(\d)/, "$1.$2");
+      value = value.replace(/(\d{3})(\d)/, "$1.$2");
+      value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
       break;
     case "cnpj":
-      value = value.replace(/\D/g, ""); // Remove non-numeric characters
-      value = value.slice(0, 14); // Limit the number of digit to 14
-      value = value.replace(/(\d{2})(\d)/, "$1.$2"); // Add dot after 2º digit
-      value = value.replace(/(\d{2})\.(\d{3})(\d)/, "$1.$2.$3"); // Add dot after 5º digit
-      value = value.replace(/(\d{2})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3/$4"); // Add dot after 8º digit
+      value = value.replace(/\D/g, "");
+      value = value.slice(0, 14);
+      value = value.replace(/(\d{2})(\d)/, "$1.$2");
+      value = value.replace(/(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+      value = value.replace(/(\d{2})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3/$4");
       value = value.replace(
         /(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d)/,
         "$1.$2.$3/$4-$5"
-      ); // Add hyphen after 10º digit
+      );
       break;
     case "cep":
       value = value.replace(/\D/g, "");
       value = value.slice(0, 8);
-      value = value.replace(/(\d{5})(\d)/, "$1-$2"); // Add hyphen after 5º digit
+      value = value.replace(/(\d{5})(\d)/, "$1-$2");
       break;
     case "domain":
     case "url":
     case "email":
-      // No character masking — validated on blur
       break;
   }
 

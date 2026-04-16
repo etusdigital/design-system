@@ -39,7 +39,6 @@ export function ActionCard({
   const [isDragging, setIsDragging] = useState(false);
   const isDraggingRef = useRef(false);
 
-  // Keep ref in sync with state for use in event handlers
   isDraggingRef.current = isDragging;
 
   const move = useCallback(
@@ -60,8 +59,6 @@ export function ActionCard({
     [onDragend]
   );
 
-  // Register global listeners on mount; clean up on unmount.
-  // Vue source registered 'touhend' (typo) — React version uses correct 'touchend'.
   useEffect(() => {
     window.addEventListener('mousemove', move as EventListener);
     window.addEventListener('mouseup', end as EventListener);
@@ -83,7 +80,6 @@ export function ActionCard({
     onDragstart?.(getEvent(rawEvent as MouseEvent | TouchEvent));
   }
 
-  // Separate ActionCard.Card children from header children
   const cardChildren: React.ReactNode[] = [];
   const headerChildren: React.ReactNode[] = [];
 

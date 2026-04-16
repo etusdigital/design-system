@@ -8,17 +8,14 @@
   @apply flex-col;
 }
 
-/* Default type: connected pill layout — border collapse between siblings */
 .default > * {
   @apply rounded-none;
 }
 
-/* Remove left border on all items after the first (adjacent sibling) */
 .default:not(.vertical) > * + * {
   @apply border-l-0;
 }
 
-/* Rounded corners on first and last child */
 .default:not(.vertical) > *:first-child {
   @apply rounded-l-sm;
 }
@@ -39,7 +36,6 @@
   @apply rounded-b-sm;
 }
 
-/* Secondary type: independent rounded buttons with gap */
 .secondary {
   @apply gap-xs flex-wrap;
 }

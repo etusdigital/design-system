@@ -19,7 +19,6 @@ describe('ExpandableContainer', () => {
     render(
       <ExpandableContainer value={true} content={<p>card body</p>} />
     );
-    // Content renders via FloatCard portal into document.body
     expect(document.querySelector('p')).toBeTruthy();
     expect(screen.getByText('card body')).toBeTruthy();
   });
@@ -32,8 +31,6 @@ describe('ExpandableContainer', () => {
   });
 
   it('renders content in portal when expanded regardless of alignRight prop', () => {
-    // alignRight is declared in the interface but not implemented in the React version
-    // (FloatCard handles positioning automatically); verify content still renders
     render(
       <ExpandableContainer value={true} alignRight={true} content={<p>aligned</p>} />
     );

@@ -44,7 +44,6 @@ describe('useControllable', () => {
       act(() => {
         result.current[1]('new value');
       });
-      // In controlled mode, the value is still from the prop
       expect(result.current[0]).toBe('controlled');
     });
   });
@@ -99,7 +98,6 @@ describe('useControllable', () => {
           useControllable({ value }),
         { initialProps: { value: undefined } as { value?: string } }
       );
-      // Initially uncontrolled
       rerender({ value: 'now-controlled' });
       expect(console.warn).toHaveBeenCalledWith(
         expect.stringContaining('switched from uncontrolled to controlled')

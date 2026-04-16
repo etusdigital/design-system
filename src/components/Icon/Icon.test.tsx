@@ -16,7 +16,6 @@ describe('Icon', () => {
   });
 
   it('applies custom className for size variants', () => {
-    // Icon does not have a size prop — size is controlled via className or CSS
     render(<Icon name="home" className="text-2xl" />);
     const span = screen.getByText('home');
     expect(span).toHaveClass('text-2xl');
@@ -25,7 +24,6 @@ describe('Icon', () => {
   it('renders icon with default classes only when no extra props', () => {
     render(<Icon name="home" />);
     const span = screen.getByText('home');
-    // Default rendering: material-symbols-rounded and icon classes only
     expect(span).toHaveClass('material-symbols-rounded');
     expect(span).toHaveClass('icon');
   });

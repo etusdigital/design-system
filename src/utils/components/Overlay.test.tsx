@@ -2,7 +2,6 @@ import { render } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { Overlay } from './Overlay';
 
-// Mock createPortal to render inline during tests
 vi.mock('react-dom', async (importOriginal) => {
   const actual = await importOriginal<typeof import('react-dom')>();
   return {
@@ -11,8 +10,6 @@ vi.mock('react-dom', async (importOriginal) => {
   };
 });
 
-// Polyfill RAF/cAF at module level — jsdom does not provide them
-// and vi.useRealTimers() removes them from beforeEach assignments.
 if (typeof globalThis.requestAnimationFrame === 'undefined') {
   globalThis.requestAnimationFrame = (cb: FrameRequestCallback) =>
     setTimeout(() => cb(0), 0) as unknown as number;
@@ -42,8 +39,6 @@ describe('Overlay', () => {
 
   it('renders backdrop when value=true', () => {
     render(<Overlay value={true} />);
-    // isMounted becomes true immediately when value=true
-    // createPortal is mocked to render inline in document.body
     expect(document.querySelector('.overlay-backdrop')).toBeInTheDocument();
   });
 
