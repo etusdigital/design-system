@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect, Children, isValidElement } from "react";
 import clsx from "clsx";
 import styles from "./FileUpload.module.css";
+import { Icon } from "../Icon";
 
-export type FileUploadSize = "xs" | "sm" | "base" | "lg" | "xl";
+export type FileUploadSize = "small" | "medium" | "large";
 
 export interface FileUploadProps {
   value?: File | File[] | null;
@@ -27,35 +28,9 @@ function Preview({ children }: { children: React.ReactNode }) {
 }
 
 const SVG_SIZE_MAP: Record<FileUploadSize, number> = {
-  xs: 56,
-  sm: 66,
-  base: 76,
-  lg: 86,
-  xl: 96,
-};
-
-const ICON_SIZE_MAP: Record<FileUploadSize, string> = {
-  xs: "text-4xl",
-  sm: "text-6xl",
-  base: "text-7xl",
-  lg: "text-8xl",
-  xl: "text-9xl",
-};
-
-const TRASH_SIZE_MAP: Record<FileUploadSize, string> = {
-  xs: "text-base",
-  sm: "text-lg",
-  base: "text-xl",
-  lg: "text-2xl",
-  xl: "text-3xl",
-};
-
-const FILENAME_SIZE_MAP: Record<FileUploadSize, string> = {
-  xs: "text-xs",
-  sm: "text-sm",
-  base: "text-base",
-  lg: "text-lg",
-  xl: "text-xl",
+  small: 66,
+  medium: 76,
+  large: 86,
 };
 
 export function FileUpload({
@@ -64,7 +39,7 @@ export function FileUpload({
   labelValue,
   errorMessage,
   infoMessage,
-  size = "base",
+  size = "medium",
   disabled = false,
   isError = false,
   placeholder = "or drag and drop it here",
@@ -120,23 +95,20 @@ export function FileUpload({
   }
 
   const svgSize = SVG_SIZE_MAP[size];
-  const iconSizeClass = ICON_SIZE_MAP[size];
-  const trashSizeClass = TRASH_SIZE_MAP[size];
-  const fileNameSizeClass = FILENAME_SIZE_MAP[size];
 
   let previewChild: React.ReactNode = null;
   Children.forEach(children, (child) => {
     if (isValidElement(child) && child.type === Preview) {
-      previewChild = (child.props as Record<string, unknown>).children as React.ReactNode;
+      previewChild = (child.props as Record<string, unknown>)
+        .children as React.ReactNode;
     }
   });
 
   return (
-    <div className={clsx('file-upload', className)}>
+    <div className={clsx("file-upload", className)}>
       <div
         className={clsx(
           styles.file,
-          styles[size],
           isDragging && styles.dragging,
           disabled && styles.disabled,
           isError && styles.error,
@@ -183,7 +155,12 @@ export function FileUpload({
                 fill="var(--neutral-border-default)"
               />
               <g clipPath="url(#clip0_2300_5309)">
-                <circle cx="63" cy="63" r="7" fill="var(--neutral-foreground-negative)" />
+                <circle
+                  cx="63"
+                  cy="63"
+                  r="7"
+                  fill="var(--neutral-foreground-negative)"
+                />
                 <path
                   d="M63 50C55.8319 50 50 55.8319 50 63C50 70.1681 55.8319 76 63 76C70.1681 76 76 70.1681 76 63C76 55.8319 70.1681 50 63 50ZM68 64H64V68C64 68.2652 63.8946 68.5196 63.7071 68.7071C63.5196 68.8946 63.2652 69 63 69C62.7348 69 62.4804 68.8946 62.2929 68.7071C62.1054 68.5196 62 68.2652 62 68V64H58C57.7348 64 57.4804 63.8946 57.2929 63.7071C57.1054 63.5196 57 63.2652 57 63C57 62.7348 57.1054 62.4804 57.2929 62.2929C57.4804 62.1054 57.7348 62 58 62H62V58C62 57.7348 62.1054 57.4804 62.2929 57.2929C62.4804 57.1054 62.7348 57 63 57C63.2652 57 63.5196 57.1054 63.7071 57.2929C63.8946 57.4804 64 57.7348 64 58V62H68C68.2652 62 68.5196 62.1054 68.7071 62.2929C68.8946 62.4804 69 62.7348 69 63C69 63.2652 68.8946 63.5196 68.7071 63.7071C68.5196 63.8946 68.2652 64 68 64Z"
                   fill="var(--primary-interaction-default)"
@@ -219,34 +196,32 @@ export function FileUpload({
           >
             {previewChild ?? (
               <div className="flex flex-col items-center gap-xs">
-                <span
+                <Icon
                   className={clsx(
-                    "material-symbols-rounded text-neutral-foreground-low",
-                    iconSizeClass,
+                    styles.draftIcon,
+                    styles[size],
                   )}
-                >
-                  draft
-                </span>
+                  name="draft"
+                />
                 <div className="flex items-center gap-xs">
                   <p
                     className={clsx(
-                      fileNameSizeClass,
-                      "text-neutral-foreground-low truncate max-w-[96px]",
+                      styles.fileName,
+                      styles[size],
                     )}
                   >
                     {fileName}
                   </p>
                   {!disabled && (
-                    <span
+                    <Icon
                       className={clsx(
-                        "material-symbols-rounded cursor-pointer text-neutral-interaction-default hover:text-danger-interaction-default",
-                        trashSizeClass,
+                        styles.trachIcon,
+                        styles[size],
                       )}
                       onClick={deleteFile}
                       aria-label="Remove file"
-                    >
-                      delete
-                    </span>
+                      name="delete"
+                    />
                   )}
                 </div>
               </div>

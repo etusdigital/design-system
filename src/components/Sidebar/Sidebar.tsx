@@ -1,19 +1,26 @@
-import React, { useState, useEffect, useRef, createContext, useContext } from 'react';
-import { useControllable } from '../../hooks/useControllable';
-import { checkPath, isObject } from '../../utils';
-import { type Option as SidebarOptionType } from '../../utils/types/SidebarOption';
-import styles from './Sidebar.module.css';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  createContext,
+  useContext,
+} from "react";
+import { useControllable } from "../../hooks/useControllable";
+import { checkPath, isObject } from "../../utils";
+import { type Option as SidebarOptionType } from "../../utils/types/SidebarOption";
+import styles from "./Sidebar.module.css";
+import { Icon } from "../Icon";
 
 let RouterLink: React.ComponentType<any> | null = null;
-let linkPropName: 'to' | 'href' = 'to';
+let linkPropName: "to" | "href" = "to";
 try {
-  RouterLink = require('react-router-dom').Link;
-  linkPropName = 'to';
+  RouterLink = require("react-router-dom").Link;
+  linkPropName = "to";
 } catch {}
 if (!RouterLink) {
   try {
-    RouterLink = require('next/link');
-    linkPropName = 'href';
+    RouterLink = require("next/link");
+    linkPropName = "href";
   } catch {}
 }
 interface SidebarContextValue {
@@ -32,8 +39,8 @@ function getValue(option: any): any {
 }
 
 function getPath(path: string | undefined): string {
-  if (!path) return '';
-  if (!path.startsWith('/')) return '/' + path;
+  if (!path) return "";
+  if (!path.startsWith("/")) return "/" + path;
   return path;
 }
 
@@ -43,22 +50,30 @@ interface SidebarSubOptionProps {
   parentPath?: string;
 }
 
-function SidebarSubOption({ option, depth, parentPath = '' }: SidebarSubOptionProps) {
+function SidebarSubOption({
+  option,
+  depth,
+  parentPath = "",
+}: SidebarSubOptionProps) {
   const [expanded, setExpanded] = useState(false);
   const { currentValue, onChange } = useContext(SidebarContext);
 
   let fullPath = parentPath;
   if (option.path) {
-    if (!fullPath.endsWith('/') && !option.path.startsWith('/')) fullPath += '/';
-    else if (fullPath.endsWith('/') && option.path.startsWith('/')) fullPath = fullPath.slice(0, -1);
+    if (!fullPath.endsWith("/") && !option.path.startsWith("/"))
+      fullPath += "/";
+    else if (fullPath.endsWith("/") && option.path.startsWith("/"))
+      fullPath = fullPath.slice(0, -1);
     fullPath += option.path;
   }
 
   const hasChildren = !!(option.options && option.options.length);
 
   function isSelected(opt: SidebarOptionType = option): boolean {
-    return getValue(currentValue) === getValue(opt) ||
-      (!!opt.options && opt.options.some((child) => isSelected(child)));
+    return (
+      getValue(currentValue) === getValue(opt) ||
+      (!!opt.options && opt.options.some((child) => isSelected(child)))
+    );
   }
 
   const selected = isSelected();
@@ -73,17 +88,21 @@ function SidebarSubOption({ option, depth, parentPath = '' }: SidebarSubOptionPr
   }
 
   function handleKeyUp(e: React.KeyboardEvent) {
-    if (e.key === 'Enter') handleClick(e);
+    if (e.key === "Enter") handleClick(e);
   }
 
   const subOptionClasses = [
     styles.subOption,
-    selected ? styles.subOptionActive : '',
-    expanded ? styles.subOptionExpanded : '',
-    option.disabled ? styles.disabled : '',
-  ].filter(Boolean).join(' ');
+    selected ? styles.subOptionActive : "",
+    expanded ? styles.subOptionExpanded : "",
+    option.disabled ? styles.disabled : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
-  const indentStyle: React.CSSProperties = { paddingLeft: `${depth * 16 + 16}px` };
+  const indentStyle: React.CSSProperties = {
+    paddingLeft: `${depth * 16 + 16}px`,
+  };
 
   const content = (
     <div
@@ -92,16 +111,17 @@ function SidebarSubOption({ option, depth, parentPath = '' }: SidebarSubOptionPr
       tabIndex={0}
       onClick={handleClick}
       onKeyUp={handleKeyUp}
-      role={hasChildren ? 'button' : undefined}
+      role={hasChildren ? "button" : undefined}
     >
-      {option.icon && <span className={`${styles.subOptionIcon} material-symbols-rounded`}>{option.icon}</span>}
+      {option.icon && (
+        <Icon className={`${styles.subOptionIcon}`} name={option.icon} />
+      )}
       <span className={styles.subOptionLabel}>{option.label}</span>
       {hasChildren && (
-        <span
-          className={`${styles.subOptionChevron} material-symbols-rounded${expanded ? ` ${styles.rotated}` : ''}`}
-        >
-          keyboard_arrow_down
-        </span>
+        <Icon
+          className={`${styles.subOptionChevron} ${expanded ? `${styles.rotated}` : ""}`}
+          name="keyboard_arrow_down"
+        />
       )}
     </div>
   );
@@ -111,7 +131,12 @@ function SidebarSubOption({ option, depth, parentPath = '' }: SidebarSubOptionPr
     wrapper = content;
   } else if (RouterLink && option.path) {
     wrapper = (
-      <RouterLink {...{ [linkPropName]: fullPath }} tabIndex={0} className={styles.subOptionLink} onClick={() => onChange(option)}>
+      <RouterLink
+        {...{ [linkPropName]: fullPath }}
+        tabIndex={0}
+        className={styles.subOptionLink}
+        onClick={() => onChange(option)}
+      >
         {content}
       </RouterLink>
     );
@@ -128,14 +153,16 @@ function SidebarSubOption({ option, depth, parentPath = '' }: SidebarSubOptionPr
   return (
     <>
       {wrapper}
-      {hasChildren && expanded && option.options?.map((child) => (
-        <SidebarSubOption
-          key={child.value}
-          option={child}
-          depth={depth + 1}
-          parentPath={fullPath}
-        />
-      ))}
+      {hasChildren &&
+        expanded &&
+        option.options?.map((child) => (
+          <SidebarSubOption
+            key={child.value}
+            option={child}
+            depth={depth + 1}
+            parentPath={fullPath}
+          />
+        ))}
     </>
   );
 }
@@ -147,15 +174,22 @@ interface SidebarOptionComponentProps {
   activeParentValue: any;
 }
 
-function SidebarOption({ option, sidebarExpanded, onRailClick, activeParentValue }: SidebarOptionComponentProps) {
+function SidebarOption({
+  option,
+  sidebarExpanded,
+  onRailClick,
+  activeParentValue,
+}: SidebarOptionComponentProps) {
   const hasChildren = !!(option.options && option.options.length);
   const isActive = getValue(option) === getValue(activeParentValue);
 
   const optionClasses = [
     styles.option,
-    isActive ? styles.optionActive : '',
-    option.disabled ? styles.disabled : '',
-  ].filter(Boolean).join(' ');
+    isActive ? styles.optionActive : "",
+    option.disabled ? styles.disabled : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   function handleClick() {
     if (option.disabled) return;
@@ -163,7 +197,7 @@ function SidebarOption({ option, sidebarExpanded, onRailClick, activeParentValue
   }
 
   function handleKeyUp(e: React.KeyboardEvent) {
-    if (e.key === 'Enter') handleClick();
+    if (e.key === "Enter") handleClick();
   }
 
   const optionContent = (
@@ -172,13 +206,17 @@ function SidebarOption({ option, sidebarExpanded, onRailClick, activeParentValue
       tabIndex={0}
       onClick={handleClick}
       onKeyUp={handleKeyUp}
-      role={hasChildren ? 'button' : undefined}
+      role={hasChildren ? "button" : undefined}
       aria-expanded={hasChildren ? isActive : undefined}
     >
       <span className={styles.optionIcon}>
-        {option.icon && <span className="material-symbols-rounded">{option.icon}</span>}
+        {option.icon && (
+          <Icon name={option.icon} />
+        )}
       </span>
-      {sidebarExpanded && <span className={styles.optionLabel}>{option.label}</span>}
+      {sidebarExpanded && (
+        <span className={styles.optionLabel}>{option.label}</span>
+      )}
     </div>
   );
 
@@ -188,7 +226,11 @@ function SidebarOption({ option, sidebarExpanded, onRailClick, activeParentValue
 
   if (RouterLink && option.path) {
     return (
-      <RouterLink {...{ [linkPropName]: getPath(option.path) }} tabIndex={0} className={styles.optionLink}>
+      <RouterLink
+        {...{ [linkPropName]: getPath(option.path) }}
+        tabIndex={0}
+        className={styles.optionLink}
+      >
         {optionContent}
       </RouterLink>
     );
@@ -228,19 +270,23 @@ export function Sidebar({
   });
 
   const [isSubPanelOpen, setIsSubPanelOpen] = useState(false);
-  const [clickedOption, setClickedOption] = useState<SidebarOptionType | undefined>(undefined);
-  const [height, setHeight] = useState<string>('100vh');
+  const [clickedOption, setClickedOption] = useState<
+    SidebarOptionType | undefined
+  >(undefined);
+  const [height, setHeight] = useState<string>("100vh");
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function calcHeight() {
-      const navBarHeight = document.querySelector('.navbar')?.getBoundingClientRect()?.height;
-      setHeight(navBarHeight ? `calc(100vh - ${navBarHeight}px)` : '100vh');
+      const navBarHeight = document
+        .querySelector(".navbar")
+        ?.getBoundingClientRect()?.height;
+      setHeight(navBarHeight ? `calc(100vh - ${navBarHeight}px)` : "100vh");
     }
 
     calcHeight();
-    window.addEventListener('resize', calcHeight);
-    return () => window.removeEventListener('resize', calcHeight);
+    window.addEventListener("resize", calcHeight);
+    return () => window.removeEventListener("resize", calcHeight);
   }, []);
 
   useEffect(() => {
@@ -248,7 +294,10 @@ export function Sidebar({
     if (found) handleChange(found);
   }, []); // eslint-disable-next-line react-hooks/exhaustive-deps
 
-  function getSelected(opts: SidebarOptionType[], parentPath = ''): SidebarOptionType | undefined {
+  function getSelected(
+    opts: SidebarOptionType[],
+    parentPath = "",
+  ): SidebarOptionType | undefined {
     for (const opt of opts) {
       const fullPath = buildPath(parentPath, opt.path);
       if (checkPath(fullPath)) return opt;
@@ -261,8 +310,8 @@ export function Sidebar({
   function buildPath(parent: string, child?: string): string {
     if (!child) return parent;
     let p = parent;
-    if (!p.endsWith('/') && !child.startsWith('/')) p += '/';
-    else if (p.endsWith('/') && child.startsWith('/')) p = p.slice(0, -1);
+    if (!p.endsWith("/") && !child.startsWith("/")) p += "/";
+    else if (p.endsWith("/") && child.startsWith("/")) p = p.slice(0, -1);
     return p + child;
   }
 
@@ -272,7 +321,10 @@ export function Sidebar({
     setCurrentValue(emitValue);
   }
 
-  function getParent(opts: SidebarOptionType[], val: any): SidebarOptionType | undefined {
+  function getParent(
+    opts: SidebarOptionType[],
+    val: any,
+  ): SidebarOptionType | undefined {
     return opts.find((opt) => {
       if (getValue(opt) === getValue(val)) return true;
       return !!getParent(opt.options || [], val);
@@ -308,16 +360,16 @@ export function Sidebar({
     }
   }
 
-  const sidebarClasses = [
-    styles.sidebar,
-    'sidebar',
-    className,
-  ].filter(Boolean).join(' ');
+  const sidebarClasses = [styles.sidebar, "sidebar", className]
+    .filter(Boolean)
+    .join(" ");
 
   const subPanelClasses = [
     styles.subPanel,
     isSubPanelOpen ? styles.subPanelVisible : styles.subPanelHidden,
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   const contextValue: SidebarContextValue = {
     currentValue,
@@ -358,7 +410,9 @@ export function Sidebar({
         </div>
 
         <div className={subPanelClasses}>
-          {clickedOption && clickedOption.options && clickedOption.options.length > 0 &&
+          {clickedOption &&
+            clickedOption.options &&
+            clickedOption.options.length > 0 &&
             clickedOption.options.map((subOpt) => (
               <SidebarSubOption
                 key={subOpt.value}

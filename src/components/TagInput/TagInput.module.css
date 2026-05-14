@@ -33,6 +33,14 @@
   @apply text-sm text-danger-foreground-low text-start mt-1;
 }
 
+.tagInputIcon {
+  @apply text-neutral-interaction-default;
+}
+
+.tagInputIcon.focused {
+  @apply text-primary-interaction-default;
+}
+
 .shake {
   animation: shake 0.5s;
 }

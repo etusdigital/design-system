@@ -32,22 +32,38 @@
   @apply text-sm text-neutral-foreground-low mt-1;
 }
 
-.xs {
-  @apply min-h-[80px];
+.draftIcon {
+  @apply text-7xl text-neutral-foreground-low;
 }
 
-.sm {
-  @apply min-h-[100px];
+.draftIcon.small {
+  @apply text-6xl;
 }
 
-.md {
-  @apply min-h-[120px];
+.draftIcon.large {
+  @apply text-8xl;
 }
 
-.lg {
-  @apply min-h-[140px];
+.trashIcon {
+  @apply text-xl cursor-pointer text-neutral-interaction-default hover:text-danger-interaction-default;
 }
 
-.xl {
-  @apply min-h-[160px];
+.trashIcon.small {
+  @apply text-lg;
+}
+
+.trashIcon.large {
+  @apply text-2xl;
+}
+
+.fileName {
+  @apply text-base text-neutral-foreground-low truncate;
+}
+
+.fileName.small {
+  @apply text-sm;
+}
+
+.fileName.large {
+  @apply text-lg;
 }

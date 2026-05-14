@@ -30,9 +30,9 @@ const meta = {
     },
     size: {
       control: 'select',
-      options: ['xs', 'sm', 'md', 'lg', 'xl'],
+      options: ['small', 'medium', 'large'],
       description: 'Size of the drop zone.',
-      table: { defaultValue: { summary: 'md' } },
+      table: { defaultValue: { summary: 'medium' } },
     },
     disabled: {
       control: 'boolean',
@@ -110,16 +110,16 @@ export const Required: Story = {
   },
 };
 
-export const ExtraSmall: Story = {
+export const Small: Story = {
   args: {
     labelValue: 'Extra Small',
-    size: 'xs',
+    size: 'small',
   },
 };
 
 export const Large: Story = {
   args: {
     labelValue: 'Large Upload',
-    size: 'lg',
+    size: 'large',
   },
 };

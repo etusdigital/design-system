@@ -76,7 +76,7 @@
 }
 
 .subOptionIcon {
-  @apply text-base leading-none;
+  @apply text-2xl leading-none;
 }
 
 .subOptionLabel {
@@ -84,7 +84,7 @@
 }
 
 .subOptionChevron {
-  @apply text-base leading-none transition-transform duration-200;
+  @apply text-xl leading-none transition-transform duration-200;
 }
 
 .rotated {

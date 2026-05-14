@@ -1,16 +1,17 @@
-import { useState, useRef, useEffect, Children, isValidElement } from 'react';
-import clsx from 'clsx';
-import { useControllable } from '../../hooks/useControllable';
-import { isNilAndBlank, applyMask } from '../../utils/index';
-import { Label } from '../../utils/components/Label';
-import { Tooltip } from '../Tooltip/Tooltip';
-import { StatusBadge } from '../StatusBadge/StatusBadge';
-import styles from './TagInput.module.css';
+import { useState, useRef, useEffect, Children, isValidElement } from "react";
+import clsx from "clsx";
+import { useControllable } from "../../hooks/useControllable";
+import { isNilAndBlank, applyMask } from "../../utils/index";
+import { Label } from "../../utils/components/Label";
+import { Tooltip } from "../Tooltip/Tooltip";
+import { StatusBadge } from "../StatusBadge/StatusBadge";
+import styles from "./TagInput.module.css";
+import { Icon } from "../Icon";
 
 const ERROR_MESSAGES = {
-  DUPLICATE: 'Duplicated values are not allowed',
-  INVALID_INPUT: 'Please provide a valid input',
-  MAX_VALUES: 'Max number of values reached',
+  DUPLICATE: "Duplicated values are not allowed",
+  INVALID_INPUT: "Please provide a valid input",
+  MAX_VALUES: "Max number of values reached",
 };
 
 export interface TagInputProps {
@@ -25,7 +26,7 @@ export interface TagInputProps {
   max?: number;
   isError?: boolean;
   placeholder?: string;
-  mask?: 'cpf' | 'cnpj' | 'cep' | 'domain' | 'url' | 'email';
+  mask?: "cpf" | "cnpj" | "cep" | "domain" | "url" | "email";
   icon?: string;
   appendIcon?: boolean;
   tooltipMinWidth?: number;
@@ -56,7 +57,7 @@ export function TagInput({
   allowDuplicate = false,
   max,
   isError = false,
-  placeholder = '',
+  placeholder = "",
   mask,
   icon,
   appendIcon = false,
@@ -70,12 +71,14 @@ export function TagInput({
     onChange,
   });
 
-  const [newTag, setNewTag] = useState('');
+  const [newTag, setNewTag] = useState("");
   const [hasError, setHasError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const errorTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const errorTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
     return () => clearTimeout(errorTimerRef.current);
@@ -87,7 +90,7 @@ export function TagInput({
     clearTimeout(errorTimerRef.current);
     errorTimerRef.current = setTimeout(() => {
       setHasError(false);
-      setErrorMsg('');
+      setErrorMsg("");
     }, 2000);
   }
 
@@ -116,22 +119,22 @@ export function TagInput({
     }
 
     setTags([...currentTags, trimmed]);
-    setNewTag('');
+    setNewTag("");
   }
 
   function removeTag(index: number) {
-    if (newTag !== '') return;
+    if (newTag !== "") return;
     setTags((tags ?? []).filter((_, i) => i !== index));
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       addTag(newTag);
-    } else if (e.key === 'Tab') {
+    } else if (e.key === "Tab") {
       e.preventDefault();
       if (newTag) addTag(newTag);
-    } else if (e.key === 'Backspace' && newTag === '') {
+    } else if (e.key === "Backspace" && newTag === "") {
       const currentTags = tags ?? [];
       removeTag(currentTags.length - 1);
     }
@@ -139,7 +142,7 @@ export function TagInput({
 
   function handlePaste(e: React.ClipboardEvent<HTMLTextAreaElement>) {
     e.preventDefault();
-    const text = e.clipboardData.getData('text');
+    const text = e.clipboardData.getData("text");
     const newItems = text
       .split(/[,\n]/)
       .map((s) => s.trim())
@@ -164,7 +167,7 @@ export function TagInput({
 
     if (toAdd.length > 0) {
       setTags([...currentTags, ...toAdd]);
-      setNewTag('');
+      setNewTag("");
     }
   }
 
@@ -175,16 +178,19 @@ export function TagInput({
   Children.forEach(children, (child) => {
     if (isValidElement(child)) {
       const childProps = child.props as Record<string, unknown>;
-      if (child.type === PrependIcon) prependIconChild = childProps.children as React.ReactNode;
-      else if (child.type === AppendIcon) appendIconChild = childProps.children as React.ReactNode;
-      else if (child.type === Hint) hintChild = childProps.children as React.ReactNode;
+      if (child.type === PrependIcon)
+        prependIconChild = childProps.children as React.ReactNode;
+      else if (child.type === AppendIcon)
+        appendIconChild = childProps.children as React.ReactNode;
+      else if (child.type === Hint)
+        hintChild = childProps.children as React.ReactNode;
     }
   });
 
   const currentTags = tags ?? [];
 
   return (
-    <div className={clsx(styles.tagInput, 'tag-input', className)}>
+    <div className={clsx(styles.tagInput, "tag-input", className)}>
       {labelValue && (
         <div className={styles.labelRow}>
           <Label
@@ -207,23 +213,30 @@ export function TagInput({
           isFocused && !disabled && styles.focused,
           (isError || hasError) && styles.error,
           disabled && styles.disabled,
-          hasError && styles.shake
+          hasError && styles.shake,
         )}
         onClick={() => textareaRef.current?.focus()}
       >
         {prependIconChild
           ? prependIconChild
-          : icon && !appendIcon && (
-              <span className="material-symbols-rounded text-neutral-interaction-default">
-                {icon}
-              </span>
+          : icon &&
+            !appendIcon && (
+              <Icon
+                className={clsx(
+                  styles.tagInputIcon,
+                  isFocused && !disabled && styles.focused,
+                )}
+                name={icon}
+              />
             )}
 
         {currentTags.map((tag, index) => (
           <Tooltip key={index} className="max-w-full">
             <Tooltip.Label>
               <div className="max-w-[100%]">
-                <span className="whitespace-normal break-all">{String(tag)}</span>
+                <span className="whitespace-normal break-all">
+                  {String(tag)}
+                </span>
               </div>
             </Tooltip.Label>
             <StatusBadge
@@ -246,21 +259,28 @@ export function TagInput({
           onPaste={handlePaste}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          placeholder={currentTags.length === 0 ? placeholder : ''}
+          placeholder={currentTags.length === 0 ? placeholder : ""}
           disabled={disabled}
         />
 
         {appendIconChild
           ? appendIconChild
-          : appendIcon && icon && (
-              <span className="material-symbols-rounded text-neutral-interaction-default">
-                {icon}
-              </span>
+          : appendIcon &&
+            icon && (
+              <Icon
+                className={clsx(
+                  styles.tagInputIcon,
+                  isFocused && !disabled && styles.focused,
+                )}
+                name={icon}
+              />
             )}
       </div>
 
       {hintChild && (
-        <label className="text-neutral-foreground-low text-sm">{hintChild}</label>
+        <label className="text-neutral-foreground-low text-sm">
+          {hintChild}
+        </label>
       )}
 
       {(isError || hasError) && (
