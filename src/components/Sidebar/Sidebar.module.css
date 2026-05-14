@@ -4,14 +4,6 @@
   @apply relative flex w-fit;
 }
 
-.collapsed {
-  @apply w-16;
-}
-
-.expanded {
-  @apply w-fit min-w-[200px];
-}
-
 .optionsList {
   @apply flex flex-col justify-between gap-sm w-fit h-full py-lg px-xs bg-default border-r-xxs border-r-neutral-default;
 }
