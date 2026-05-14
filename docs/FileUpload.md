@@ -61,7 +61,7 @@ Error message to display when in error state. Type: `string` (default: `""`)
 Informational message displayed with tooltip. Type: `string` (default: `""`)
 
 #### size
-File upload component size. Type: `'extra-small' | 'small' | 'medium' | 'large' | 'extra-large'` (default: `"medium"`)
+File upload component size. Type: `'small' | 'medium' | 'large'` (default: `"medium"`)
 
 #### disabled
 Disables file upload interaction. Type: `boolean` (default: `false`)
