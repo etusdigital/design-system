@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import clsx from 'clsx';
-import { useControllable } from '../../hooks/useControllable';
-import { isObject } from '../../utils';
-import { SelectContainer } from '../../utils/components/SelectContainer';
-import { Checkbox } from '../Checkbox/Checkbox';
-import { Button } from '../Button/Button';
-import { Icon } from '../Icon/Icon';
-import styles from './Filter.module.css';
+import { useState } from "react";
+import clsx from "clsx";
+import { useControllable } from "../../hooks/useControllable";
+import { isObject } from "../../utils";
+import { SelectContainer } from "../../utils/components/SelectContainer";
+import { Checkbox } from "../Checkbox/Checkbox";
+import { Button } from "../Button/Button";
+import { Icon } from "../Icon/Icon";
+import styles from "./Filter.module.css";
 
 export interface FilterProps {
   value?: Record<string, any[]>;
@@ -23,8 +23,10 @@ export interface FilterProps {
   applyLabel?: string;
   statusLabel?: string;
   isError?: boolean;
+  hideActions?: boolean;
   errorMessage?: string;
   className?: string;
+  actions?: React.ReactNode;
 }
 
 export function Filter({
@@ -32,18 +34,20 @@ export function Filter({
   onChange,
   onApply,
   options = [],
-  labelKey = 'label',
-  valueKey = 'value',
+  labelKey = "label",
+  valueKey = "value",
   disabled = false,
   searchable = false,
-  searchLabel = 'Search...',
-  labelValue = '',
-  clearLabel = 'Clear selection',
-  applyLabel = 'Apply filters',
-  statusLabel = 'Status',
+  searchLabel = "Search...",
+  labelValue = "",
+  clearLabel = "Clear selection",
+  applyLabel = "Apply filters",
+  statusLabel = "Status",
   isError = false,
-  errorMessage = '',
+  hideActions = false,
+  errorMessage = "",
   className,
+  actions,
 }: FilterProps) {
   const [model, setModel] = useControllable<Record<string, any[]>>({
     value,
@@ -52,8 +56,10 @@ export function Filter({
   });
 
   const [expanded, setExpanded] = useState(false);
-  const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({});
-  const [searchText, setSearchText] = useState('');
+  const [expandedCategories, setExpandedCategories] = useState<
+    Record<string, boolean>
+  >({});
+  const [searchText, setSearchText] = useState("");
 
   const currentModel: Record<string, any[]> = model ?? {};
 
@@ -62,7 +68,7 @@ export function Filter({
   }
 
   function getLabel(option: any): string {
-    return isObject(option) ? option[labelKey] : String(option ?? '');
+    return isObject(option) ? option[labelKey] : String(option ?? "");
   }
 
   function getOptionValue(option: any): any {
@@ -107,28 +113,34 @@ export function Filter({
 
   const totalSelected = Object.values(currentModel).reduce(
     (sum, arr) => sum + (Array.isArray(arr) ? arr.length : 0),
-    0
+    0,
   );
 
   const searchLower = searchText.toLowerCase();
 
-  const filteredCategories = searchable && searchText
-    ? options
-        .map((category) => {
-          const categoryLabel = getLabel(category).toLowerCase();
-          const matchingSubOptions = category.options.filter((sub) =>
-            getLabel(sub).toLowerCase().includes(searchLower)
-          );
-          if (categoryLabel.includes(searchLower) || matchingSubOptions.length > 0) {
-            return {
-              ...category,
-              options: categoryLabel.includes(searchLower) ? category.options : matchingSubOptions,
-            };
-          }
-          return null;
-        })
-        .filter(Boolean) as typeof options
-    : options;
+  const filteredCategories =
+    searchable && searchText
+      ? (options
+          .map((category) => {
+            const categoryLabel = getLabel(category).toLowerCase();
+            const matchingSubOptions = category.options.filter((sub) =>
+              getLabel(sub).toLowerCase().includes(searchLower),
+            );
+            if (
+              categoryLabel.includes(searchLower) ||
+              matchingSubOptions.length > 0
+            ) {
+              return {
+                ...category,
+                options: categoryLabel.includes(searchLower)
+                  ? category.options
+                  : matchingSubOptions,
+              };
+            }
+            return null;
+          })
+          .filter(Boolean) as typeof options)
+      : options;
 
   const optionsNode = (
     <div className="w-full">
@@ -145,7 +157,7 @@ export function Filter({
           {searchText && (
             <button
               className={styles.searchClear}
-              onClick={() => setSearchText('')}
+              onClick={() => setSearchText("")}
               aria-label="Clear search"
               type="button"
             >
@@ -168,7 +180,7 @@ export function Filter({
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
-                if (e.key === ' ' || e.key === 'Enter') toggleCategory(key);
+                if (e.key === " " || e.key === "Enter") toggleCategory(key);
               }}
             >
               <span className="text-sm text-neutral-interaction-default">
@@ -182,13 +194,17 @@ export function Filter({
                 )}
                 <Icon
                   name="expand_more"
-                  className={clsx(styles.chevron, { [styles.expanded]: isExpanded })}
+                  className={clsx(styles.chevron, {
+                    [styles.expanded]: isExpanded,
+                  })}
                 />
               </div>
             </div>
             <div
-              className={clsx(styles.categoryContent, { [styles.collapsed]: !isExpanded })}
-              style={{ maxHeight: isExpanded ? '400px' : '0' }}
+              className={clsx(styles.categoryContent, {
+                [styles.collapsed]: !isExpanded,
+              })}
+              style={{ maxHeight: isExpanded ? "400px" : "0" }}
             >
               <ul className="flex flex-col">
                 {category.options.map((subOption, subIdx) => (
@@ -203,7 +219,9 @@ export function Filter({
                       value={isSubOptionSelected(key, subOption)}
                       className="pointer-events-none"
                     />
-                    <span className={styles.subOptionLabel}>{getLabel(subOption)}</span>
+                    <span className={styles.subOptionLabel}>
+                      {getLabel(subOption)}
+                    </span>
                   </div>
                 ))}
               </ul>
@@ -220,25 +238,27 @@ export function Filter({
     </span>
   );
 
-  const actionsNode = (
-    <div className={styles.actions}>
-      <Button
-        variant="plain"
-        size="small"
-        disabled={totalSelected === 0}
-        onClick={clearAll}
-      >
-        {clearLabel}
-      </Button>
-      <Button
-        size="small"
-        disabled={totalSelected === 0}
-        onClick={applyFilters}
-      >
-        {applyLabel}
-      </Button>
-    </div>
-  );
+  const actionsNode =
+    !hideActions &&
+    (actions || (
+      <div className={styles.actions}>
+        <Button
+          variant="plain"
+          size="small"
+          disabled={totalSelected === 0}
+          onClick={clearAll}
+        >
+          {clearLabel}
+        </Button>
+        <Button
+          size="small"
+          disabled={totalSelected === 0}
+          onClick={applyFilters}
+        >
+          {applyLabel}
+        </Button>
+      </div>
+    ));
 
   return (
     <SelectContainer
@@ -252,7 +272,7 @@ export function Filter({
       minWidth="22em"
       content={optionsNode}
       actions={actionsNode}
-      className={clsx('filter', className)}
+      className={clsx("filter", className)}
     >
       {statusNode}
     </SelectContainer>
