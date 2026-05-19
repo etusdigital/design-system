@@ -71,6 +71,9 @@ Disables the filter interaction. Type: `boolean` (default: `false`)
 #### getObject
 Returns the full object instead of just the value. Type: `boolean` (default: `false`)
 
+#### hideActions
+Hides the default Clear and Apply buttons. Use with the `actions` callback prop for custom actions. Type: `boolean` (default: `false`)
+
 ---
 
 ### Events API
