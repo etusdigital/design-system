@@ -12,7 +12,7 @@ export interface FilterProps {
   value?: Record<string, any[]>;
   onChange?: (value: Record<string, any[]>) => void;
   onApply?: (value: Record<string, any[]>) => void;
-  options?: Array<{ label: string; value: string; options: any[] }>;
+  options?: any[];
   labelKey?: string;
   valueKey?: string;
   disabled?: boolean;
@@ -123,7 +123,7 @@ export function Filter({
       ? (options
           .map((category) => {
             const categoryLabel = getLabel(category).toLowerCase();
-            const matchingSubOptions = category.options.filter((sub) =>
+            const matchingSubOptions = category.options.filter((sub: any) =>
               getLabel(sub).toLowerCase().includes(searchLower),
             );
             if (
@@ -207,7 +207,7 @@ export function Filter({
               style={{ maxHeight: isExpanded ? "400px" : "0" }}
             >
               <ul className="flex flex-col">
-                {category.options.map((subOption, subIdx) => (
+                {category.options.map((subOption: any, subIdx: number) => (
                   <div
                     key={subIdx}
                     className={styles.subOption}
