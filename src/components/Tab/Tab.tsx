@@ -15,7 +15,6 @@ export interface TabProps {
   isIcon?: boolean;
   notCard?: boolean;
   getObject?: boolean;
-  children?: React.ReactNode;
   className?: string;
 }
 
@@ -28,7 +27,6 @@ export function Tab({
   isIcon = false,
   notCard = false,
   getObject = false,
-  children,
   className,
 }: TabProps) {
   const [model, setModel] = useControllable<any>({
@@ -58,7 +56,6 @@ export function Tab({
         className,
       )}
     >
-      <div className="flex flex-wrap font-bold text-sm gap-xs w-fit">
         {options.map((option, index) => (
           <button
             key={index}
@@ -80,8 +77,6 @@ export function Tab({
             )}
           </button>
         ))}
-      </div>
-      {children}
     </div>
   );
 }
