@@ -1,0 +1,66 @@
+@reference "../../assets/main.css";
+
+.tagInput {
+  @apply flex flex-col;
+}
+
+.labelRow {
+  @apply flex justify-between items-center mb-1;
+}
+
+.container {
+  @apply flex flex-wrap gap-1 items-center border border-neutral-default rounded-base py-xs px-sm bg-neutral-surface-default transition-colors cursor-text;
+}
+
+.focused {
+  @apply border-primary-interaction-default;
+}
+
+.error {
+  @apply border-danger-default;
+  animation: shake 0.5s;
+}
+
+.disabled {
+  @apply border-neutral-disabled bg-neutral-surface-disabled pointer-events-none;
+}
+
+.textarea {
+  @apply flex-1 bg-transparent outline-none text-sm text-neutral-foreground-high placeholder:text-neutral-foreground-low resize-none min-w-[60px] border-none;
+}
+
+.errorMessage {
+  @apply text-sm text-danger-foreground-low text-start mt-1;
+}
+
+.tagInputIcon {
+  @apply text-neutral-interaction-default;
+}
+
+.tagInputIcon.focused {
+  @apply text-primary-interaction-default;
+}
+
+.shake {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-5px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(5px);
+  }
+}

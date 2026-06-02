@@ -1,3 +1,4 @@
 import etusTheme from "./etusTheme";
+import etusThemeDark from "./etusThemeDark";
 
-export { etusTheme };
+export { etusTheme, etusThemeDark };

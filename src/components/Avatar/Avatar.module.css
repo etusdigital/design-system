@@ -1,0 +1,37 @@
+@reference "../../assets/main.css";
+
+.avatar {
+    @apply h-fit w-fit relative flex items-center justify-center rounded-full bg-primary-surface-default overflow-hidden;
+}
+
+.avatarImg {
+    @apply absolute inset-0 w-full h-full object-cover z-[1];
+}
+
+.avatarInitials {
+    @apply text-primary-interaction-default font-bold;
+}
+
+.small {
+    @apply p-xs;
+}
+
+.smallInitials {
+    @apply text-xxs;
+}
+
+.medium {
+    @apply p-sm;
+}
+
+.mediumInitials {
+    @apply text-xs;
+}
+
+.large {
+    @apply p-base;
+}
+
+.largeInitials {
+    @apply text-sm;
+}

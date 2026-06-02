@@ -7,23 +7,19 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <ActionCard 
-        icon="send"
-        @delete="handleDelete"
-        @dragstart="handleDragStart"
-        @dragend="handleDragEnd"
-    >
-        Label
-    </ActionCard>
-</template>
+```tsx
+const handleDelete = () => {};
+const handleDragStart = (event) => {};
+const handleDragEnd = (event) => {};
 
-<script setup lang="ts">
-const handleDelete = () => {}
-const handleDragStart = (event) => {}
-const handleDragEnd = (event) => {}
-</script>
+<ActionCard
+    icon="send"
+    onDelete={handleDelete}
+    onDragstart={handleDragStart}
+    onDragend={handleDragEnd}
+>
+    Label
+</ActionCard>
 ```
 
 ---
@@ -36,80 +32,49 @@ Icon displayed in the card header. Type: `string` (default: `""`)
 #### color
 Background color for the card header. Type: `string` (default: `""`)
 
-#### hide-drag
+#### hideDrag
 Hides the drag handle icon when enabled. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
-#### @dragstart
+#### onDragstart
 Triggered when the user starts dragging the drag handle. Receives the drag event.
 
-#### @dragging
+#### onDragging
 Triggered continuously while the user is dragging. Receives the current drag event.
 
-#### @dragend
+#### onDragend
 Triggered when the user stops dragging. Receives the final drag event.
 
-#### @delete
+#### onDelete
 Triggered when the delete icon is clicked.
 
-### Slots API
+### Children API
 
-#### #default
+#### children
 Content displayed as the card title in the header section.
 
-```vue
-<template>
-    <ActionCard icon="settings">
-        Slot: default
-    </ActionCard>
-</template>
+```tsx
+<ActionCard icon="settings">
+    Slot: default
+</ActionCard>
 ```
 
-#### #card
+#### card (via children composition)
 Main content area of the card, displayed below the header.
 
-```vue
-<template>
-    <ActionCard icon="mail">
-        <div class="flex justify-between items-center text-white w-full">
-            <div class="flex flex-col text-sm">
-                <p>Send Message:</p>
-                <p class="font-bold">cartaofeito-d-fluxo-cc-dia-05-e12</p>
-            </div>
-            <icon class="cursor-pointer" name="visibility" />
+```tsx
+<ActionCard icon="mail">
+    <div className="flex justify-between items-center text-neutral-foreground-negative w-full">
+        <div className="flex flex-col text-sm">
+            <p>Send Message:</p>
+            <p className="font-bold">cartaofeito-d-fluxo-cc-dia-05-e12</p>
         </div>
-        <template #card>
-        <div class="flex flex-col gap-sm">
-            <div class="flex flex-col gap-xxs">
-                <h4 class="text-neutral-foreground-high text-sm font-bold">Subject: %Email Subject%</h4>
-                <p class="text-xs text-neutral-foreground-high">Links: <a class="lowercase cursor-pointer">https://cartaofeito.com/cartao-santander-sx-p1/</a></p>
-            </div>
-            <div class="flex gap-xs overflow-x-auto max-w-full p-xxs">
-                <metric-card icon="science" title="Sample" type="dashed" color="info" value="10%" />
-                <metric-card icon="drafts" title="Open" value="50%" description="100.000.000" />
-                <metric-card icon="arrow_selector_tool" title="Click" value="34%" description="68.000.000" type="success" />
-                <metric-card icon="touch_app" title="CTOR" value="15%" />
-            </div>
-            <div class="flex justify-between items-center">
-                <div class="flex gap-xxs items-center text-neutral-foreground-high">
-                    <icon name="mail" class="small-icon" />
-                    <p class="text-sm font-bold">Total delivered: 200.000.000</p>
-                </div>
-                <button size="small">More statistics</button>
-            </div>
-        </div>
-        </template>
-    </ActionCard>
-</template>
-
-<style scoped>
-.icon.small-icon {
-    @apply text-xl;
-}
-</style>
+        <icon className="cursor-pointer" name="visibility" />
+    </div>
+</ActionCard>
 ```
 
 **Important Notes:**

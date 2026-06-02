@@ -1,5 +1,5 @@
 import { Canvas, Meta, Controls } from '@storybook/blocks';
-import * as Checkbox from './Checkbox.stories.ts';
+import * as Checkbox from './Checkbox.stories.tsx';
 
 <Meta of={Checkbox} />
 
@@ -20,21 +20,17 @@ import * as Checkbox from './Checkbox.stories.ts';
 
 ### Basic Usage
 
-```vue
-<template>
-    <Checkbox 
-        v-model="isChecked"
-        id="basic-checkbox"
-        name="basic"
-    >
-        Test label
-    </Checkbox>
-</template>
+```tsx
+const [isChecked, setIsChecked] = useState(false);
 
-<script setup lang="ts">
-import { ref } from 'vue'
-const isChecked = ref(false)
-</script>
+<Checkbox
+    value={isChecked}
+    onChange={setIsChecked}
+    id="basic-checkbox"
+    name="basic"
+>
+    Test label
+</Checkbox>
 ```
 
 <Canvas sourceState="none" of={Checkbox.Primary} />
@@ -43,7 +39,7 @@ const isChecked = ref(false)
 
 ### Props API
 
-#### v-model
+#### value / onChange
 Controls the checkbox state. Type: `boolean | null` (default: `false`)
 
 #### id
@@ -57,7 +53,7 @@ Positions the checkbox on the right-hand side. Type: `boolean` (default: `false`
 
 <Canvas sourceState="none" of={Checkbox.RHS} />
 
-#### allow-indeterminate
+#### allowIndeterminate
 Allows the checkbox to be in an indeterminate state. The `null` value is treated as indeterminate. Type: `boolean` (default: `false`)
 
 <Canvas sourceState="none" of={Checkbox.AllowIndeterminate} />
@@ -71,20 +67,20 @@ Disables the checkbox interaction. Type: `boolean` (default: `false`)
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the checkbox state changes.
 
-### Slots API
+### Children API
 
-#### #default
+#### children
 Content displayed next to the checkbox box (typically the label text).
 
-```vue
-<template>
-    <Checkbox v-model="isSelected" id="slot-example">
-        Slot: default
-    </Checkbox>
-</template>
+```tsx
+const [isSelected, setIsSelected] = useState(false);
+
+<Checkbox value={isSelected} onChange={setIsSelected} id="slot-example">
+    children: default
+</Checkbox>
 ```
 
 **Important Notes:**

@@ -1,5 +1,5 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as Sidebar from './Sidebar.stories';
+import * as Sidebar from './Sidebar.stories.tsx';
 
 <Meta of={Sidebar} />
 
@@ -20,27 +20,23 @@ import * as Sidebar from './Sidebar.stories';
 
 ### Basic Usage
 
-```vue
-<template>
-    <div class="h-screen flex">
-        <Sidebar 
-            v-model="selectedOption"
-            :expanded="isExpanded"
-            :options="sidebarOptions"
+```tsx
+const [selectedOption, setSelectedOption] = useState("dashboard")
+const [isExpanded, setIsExpanded] = useState(true)
+
+return (
+    <div className="h-screen flex">
+        <Sidebar
+            value={selectedOption}
+            onChange={setSelectedOption}
+            expanded={isExpanded}
+            options={sidebarOptions}
         />
-        <main class="flex-1 p-base">
-            <h1>Selected: {{ selectedOption }}</h1>
+        <main className="flex-1 p-base">
+            <h1>Selected: {selectedOption}</h1>
         </main>
     </div>
-</template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const selectedOption = ref("dashboard")
-const isExpanded = ref(true)
-const sidebarOptions = ref([...])
-</script>
+)
 ```
 
 <Canvas sourceState="none" of={Sidebar.Primary} />
@@ -49,8 +45,11 @@ const sidebarOptions = ref([...])
 
 ### Props API
 
-#### v-model
+#### value
 Controls the selected sidebar option value or object. Type: `any` (default: `undefined`)
+
+#### onChange
+Callback triggered when a sidebar option is selected. Type: `(value: any) => void`
 
 #### expanded
 Controls whether the sidebar is expanded to show labels. Type: `boolean` (default: `false`)
@@ -72,15 +71,15 @@ type Option = {
 }
 ```
 
-#### get-object
+#### getObject
 Returns the complete option object instead of just the value. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
-#### @update:model-value
-Triggered when a sidebar option is selected. Receives either the option value or complete object based on `get-object` prop.
+#### onChange
+Triggered when a sidebar option is selected. Receives either the option value or complete object based on `getObject` prop.
 
 ### Slots API
 
@@ -89,7 +88,6 @@ This component uses internal SidebarOption components and doesn't expose custom 
 ---
 
 **Important Notes:**
-- Automatic routing integration with Vue Router and Nuxt Link detection
 - Responsive height calculation based on navbar presence for optimal layout
 - Icon-only mode when collapsed with tooltip support for better UX
 - Bottom positioning support for logout, settings, and help options
@@ -97,7 +95,6 @@ This component uses internal SidebarOption components and doesn't expose custom 
 - Path normalization ensures proper navigation regardless of input format
 - Selected state management with visual highlighting of active options
 - Flexible return value (object vs value) for different use cases
-- Automatic current route detection and selection on component mount
 - CSS custom properties for dynamic height calculation
 - Border and spacing optimized for sidebar layouts
 - Z-index management for proper layering in complex layouts

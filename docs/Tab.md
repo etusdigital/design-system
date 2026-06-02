@@ -8,74 +8,58 @@
 ### Basic Usage
 
 #### String Array
-```vue
-<template>
-    <Tab 
-        v-model="selectedTab"
-        :options="['Home', 'About', 'Contact']"
+```tsx
+const [selectedTab, setSelectedTab] = useState<string | undefined>(undefined)
+
+return (
+    <Tab
+        value={selectedTab}
+        onChange={setSelectedTab}
+        options={['Home', 'About', 'Contact']}
     />
-</template>
-
-<script setup lang="ts">
-
-const selectedTab = ref<string | undefined>(undefined)
-</script>
+)
 ```
 
 #### Object Array
-```vue
-<template>
-    <Tab 
-        v-model="selectedTab"
-        :options="tabs"
-    />
-</template>
-
-<script setup lang="ts">
-
+```tsx
 interface TabOption {
   label: string
   value: string
   icon?: string
 }
 
-const selectedTab = ref<string | undefined>(undefined)
+const [selectedTab, setSelectedTab] = useState<string | undefined>(undefined)
 const tabs: TabOption[] = [
   { label: 'Home', value: 'home', icon: 'home' },
   { label: 'Settings', value: 'settings', icon: 'settings' },
   { label: 'Profile', value: 'profile', icon: 'person' }
 ]
-</script>
+
+return (
+    <Tab
+        value={selectedTab}
+        onChange={setSelectedTab}
+        options={tabs}
+    />
+)
 ```
 
 #### With Icons Only
-```vue
-<template>
-    <Tab 
-        v-model="selectedTab"
-        :options="['home', 'settings', 'person']"
-        is-icon
+```tsx
+const [selectedTab, setSelectedTab] = useState<string | undefined>(undefined)
+
+return (
+    <Tab
+        value={selectedTab}
+        onChange={setSelectedTab}
+        options={['home', 'settings', 'person']}
+        isIcon
     />
-</template>
-
-<script setup lang="ts">
-
-const selectedTab = ref<string | undefined>(undefined)
-</script>
+)
 ```
 
 #### Get Full Object
-```vue
-<template>
-    <Tab 
-        v-model="selectedTab"
-        :options="tabs"
-        get-object
-    />
-</template>
-
-<script setup lang="ts">
-
+```tsx
 interface TabOption {
   label: string
   value: string
@@ -83,28 +67,37 @@ interface TabOption {
   route: string
 }
 
-const selectedTab = ref<TabOption | undefined>(undefined)
+const [selectedTab, setSelectedTab] = useState<TabOption | undefined>(undefined)
 const tabs: TabOption[] = [
   { label: 'Home', value: 'home', icon: 'home', route: '/home' },
   { label: 'About', value: 'about', icon: 'info', route: '/about' }
 ]
 
-// Access full object: selectedTab.value.route
-</script>
+// Access full object: selectedTab?.route
+
+return (
+    <Tab
+        value={selectedTab}
+        onChange={setSelectedTab}
+        options={tabs}
+        getObject
+    />
+)
 ```
 
 ---
 
 ### Props API
 
-#### v-model
-Controls the currently selected tab. The value type depends on the `get-object` prop:
-- When `get-object="false"` (default): Returns the value from the selected option (string or `valueKey` property)
-- When `get-object="true"`: Returns the entire option object
+#### value
+Controls the currently selected tab. The value type depends on the `getObject` prop:
+- When `getObject={false}` (default): Returns the value from the selected option (string or `valueKey` property)
+- When `getObject={true}`: Returns the entire option object
 
 Type: `any` (default: `undefined`)
 
-**Note**: If no initial value is provided, the first option is automatically selected.
+#### onChange
+Callback triggered when the selected tab changes. Type: `(value: any) => void`
 
 #### options
 Array of tab options. Can be:
@@ -119,76 +112,69 @@ Array of tab options. Can be:
 
 Type: `any[]` (required)
 
-#### label-key
+#### labelKey
 Property name used for displaying option labels when using object arrays. Type: `string` (default: `"label"`)
 
-**Example**: If your objects use `title` instead of `label`, set `label-key="title"`.
+**Example**: If your objects use `title` instead of `label`, set `labelKey="title"`.
 
-#### value-key
+#### valueKey
 Property name used for option values when using object arrays. This is used for:
 - Comparing which tab is active
-- Returning the value when `get-object="false"`
+- Returning the value when `getObject={false}`
 
 Type: `string` (default: `"value"`)
 
-**Example**: If your objects use `id` instead of `value`, set `value-key="id"`.
+**Example**: If your objects use `id` instead of `value`, set `valueKey="id"`.
 
-#### is-icon
-When `true`, displays Material Design Icons instead of text labels. 
+#### isIcon
+When `true`, displays Material Design Icons instead of text labels.
 - For string arrays: Uses the string as the icon name
 - For object arrays: Uses the `icon` property if available, otherwise falls back to the label
 
 Type: `boolean` (default: `false`)
 
-#### not-card
+#### notCard
 Removes the card wrapper styling (background and padding) for a plain appearance. Useful for inline tab navigation without the elevated card look.
 
 Type: `boolean` (default: `false`)
 
-#### get-object
-When `true`, the `v-model` will emit and store the entire option object instead of just its value. Useful when you need access to all properties of the selected option (label, value, icon, etc.).
+#### getObject
+When `true`, the `value` prop will store the entire option object instead of just its value. Useful when you need access to all properties of the selected option (label, value, icon, etc.).
 
 Type: `boolean` (default: `false`)
 
 **Example**:
-```vue
-<!-- get-object="false" (default) -->
-<Tab v-model="selected" :options="tabs" />
-<!-- selected = "tab1" (just the value) -->
+```tsx
+{/* getObject={false} (default) */}
+<Tab value={selected} onChange={setSelected} options={tabs} />
+{/* selected = "tab1" (just the value) */}
 
-<!-- get-object="true" -->
-<Tab v-model="selected" :options="tabs" get-object />
-<!-- selected = { label: "Tab 1", value: "tab1", icon: "home" } -->
+{/* getObject={true} */}
+<Tab value={selected} onChange={setSelected} options={tabs} getObject />
+{/* selected = { label: "Tab 1", value: "tab1", icon: "home" } */}
 ```
 
 ---
 
 ### Events API
 
-#### @update:model-value
-Triggered when the selected tab changes. The emitted value depends on the `get-object` prop:
-- When `get-object="false"` (default): Emits the value (string or `valueKey` property)
-- When `get-object="true"`: Emits the entire option object
-
-**Note**: The event is emitted with the full option object, but the `v-model` binding will store either the value or the object based on `get-object`.
-
-### Slots API
-
-This component uses internal rendering for tab options and doesn't expose custom slots. All customization is done through props and the `options` array structure.
+#### onChange
+Triggered when the selected tab changes. The emitted value depends on the `getObject` prop:
+- When `getObject={false}` (default): Emits the value (string or `valueKey` property)
+- When `getObject={true}`: Emits the entire option object
 
 **Important Notes:**
-- **Auto-selection**: Automatically selects the first tab if no initial `v-model` value is provided
-- **Flexible data structures**: Supports both string arrays and object arrays with configurable property names via `label-key` and `value-key`
-- **Icon support**: 
-  - Use `is-icon` for icon-only tabs with string arrays
+- **Flexible data structures**: Supports both string arrays and object arrays with configurable property names via `labelKey` and `valueKey`
+- **Icon support**:
+  - Use `isIcon` for icon-only tabs with string arrays
   - Include `icon` property in object arrays to display icons alongside labels
   - Icons use Material Design Icons by name
-- **Value handling**: 
-  - By default, `v-model` stores only the value (string or `valueKey` property)
-  - Use `get-object="true"` to store the entire option object for access to all properties
+- **Value handling**:
+  - By default, `value` stores only the value (string or `valueKey` property)
+  - Use `getObject={true}` to store the entire option object for access to all properties
 - **Styling variants**:
   - Card styling (default) provides elevated appearance with background and shadow
-  - Plain styling (`not-card`) offers minimal visual styling for inline use
+  - Plain styling (`notCard`) offers minimal visual styling for inline use
 - **Active state**: The active tab is determined by comparing values using `valueKey` (for objects) or direct comparison (for strings)
 - **Responsive design**: Tab widths adapt based on content and container size
 - **User experience**: Smooth hover effects and active state transitions with visual feedback

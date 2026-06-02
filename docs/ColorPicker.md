@@ -1,31 +1,26 @@
 # Name: ColorPicker
 ## Component Overview
 
-**Purpose**: An advanced color picker component with multiple color format support, interactive canvas-based selection, and real-time preview for comprehensive color management and customization.
+**Purpose**: An advanced color picker React component with multiple color format support, interactive canvas-based selection, and real-time preview for comprehensive color management and customization.
 
 **Import**: Automatic - no need to import any DS components
 
 ### Basic Usage
 
-```vue
-<template>
-    <ColorPicker 
-        v-model="selectedColor"
-        @update:model-value="handleColorChange"
-    />
-</template>
+```tsx
+const [selectedColor, setSelectedColor] = useState("#ff0000");
 
-<script setup lang="ts">
-
-const selectedColor = ref("#ff0000")
-</script>
+<ColorPicker
+    value={selectedColor}
+    onChange={setSelectedColor}
+/>
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value / onChange
 Controls the selected color value in the specified format. Type: `string` (default: `undefined`)
 
 #### type
@@ -37,22 +32,22 @@ The color format for input and output values. Type: `'hexa' | 'hsla' | 'hwb' | '
 - **hsva**: Hue, Saturation, Value, Alpha (`h, s%, v%, a`)
 - **rgba**: Red, Green, Blue, Alpha (`r, g, b, a`)
 
-#### no-shadow
+#### noShadow
 Removes the card shadow and border for integration into custom layouts. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the color value changes through user interaction. Receives the new color value in the selected format.
 
-#### @update:type
+#### onTypeChange
 Triggered when the color format type is changed using the format selector. Receives the new format type.
 
-### Slots API
+### Children API
 
-This component uses internal canvas and control rendering and doesn't expose custom slots.
+This component uses internal canvas and control rendering and doesn't accept children.
 
 **Important Notes:**
 - Interactive canvas-based color selection with real-time preview and pixel-perfect accuracy

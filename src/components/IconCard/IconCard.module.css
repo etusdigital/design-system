@@ -1,0 +1,25 @@
+@reference "../../assets/main.css";
+
+.iconCard {
+  @apply relative min-w-20xl;
+}
+
+.iconContainer {
+  @apply flex items-center justify-center rounded-full bg-primary-interaction-default p-xs w-fit h-fit text-neutral-foreground-negative absolute -left-lg top-base;
+}
+
+.iconContainer :global(.icon) {
+  @apply text-xl leading-xxs;
+}
+
+.iconContainer.roundIcon {
+  @apply bg-transparent text-primary-interaction-default p-none -left-base;
+}
+
+.iconContainer.roundIcon :global(.icon) {
+  @apply text-4xl;
+}
+
+.cardTitle {
+  @apply text-primary-interaction-default font-bold text-base;
+}

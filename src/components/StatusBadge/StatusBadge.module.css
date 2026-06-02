@@ -1,0 +1,81 @@
+@reference "../../assets/main.css";
+
+.statusBadge.primary {
+  @apply bg-primary-surface-highlight border-primary-default text-primary-foreground-high;
+}
+
+.statusBadge.info {
+  @apply bg-informative-surface-highlight border-informative-default text-informative-foreground-high;
+}
+
+.statusBadge.success {
+  @apply bg-success-surface-highlight border-success-default text-success-foreground-high;
+}
+
+.statusBadge.warning {
+  @apply bg-warning-surface-highlight border-warning-default text-warning-foreground-high;
+}
+
+.statusBadge.danger {
+  @apply bg-danger-surface-highlight border-danger-default text-danger-foreground-high;
+}
+
+.statusBadge.neutral {
+  @apply bg-neutral-surface-highlight border-neutral-default text-neutral-foreground-low;
+}
+
+.statusBadge.secondary {
+  @apply bg-transparent;
+}
+
+.statusBadge.secondary.primary {
+  @apply text-primary-foreground-low;
+}
+
+.statusBadge.secondary.info {
+  @apply text-informative-foreground-low;
+}
+
+.statusBadge.secondary.success {
+  @apply text-success-foreground-low;
+}
+
+.statusBadge.secondary.warning {
+  @apply text-warning-foreground-low;
+}
+
+.statusBadge.secondary.danger {
+  @apply text-danger-foreground-low;
+}
+
+.statusBadge.secondary.neutral {
+  @apply text-neutral-foreground-low;
+}
+
+.statusBadge.heavy :global(.colored) {
+  @apply text-neutral-foreground-negative;
+}
+
+.statusBadge.heavy.primary {
+  @apply text-neutral-foreground-negative bg-primary-interaction-default border-primary-interaction-default;
+}
+
+.statusBadge.heavy.info {
+  @apply text-neutral-foreground-negative bg-informative-interaction-default border-informative-interaction-default;
+}
+
+.statusBadge.heavy.success {
+  @apply text-neutral-foreground-negative bg-success-interaction-default border-success-interaction-default;
+}
+
+.statusBadge.heavy.warning {
+  @apply text-neutral-foreground-negative bg-warning-interaction-default border-warning-interaction-default;
+}
+
+.statusBadge.heavy.danger {
+  @apply text-neutral-foreground-negative bg-danger-interaction-default border-danger-interaction-default;
+}
+
+.statusBadge.heavy.neutral {
+  @apply text-neutral-foreground-negative bg-neutral-interaction-default border-neutral-interaction-default;
+}

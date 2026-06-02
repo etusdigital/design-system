@@ -7,27 +7,24 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Filter 
-        v-model="selectedFilters"
-        :options="filterOptions"
-        label-value="label"
-    />
-</template>
+```tsx
 
-<script setup lang="ts">
+const [selectedFilters, setSelectedFilters] = useState({})
+const filterOptions = [...]
 
-const selectedFilters = ref({...})
-const filterOptions = ref([...])
-</script>
+<Filter
+    value={selectedFilters}
+    onChange={setSelectedFilters}
+    options={filterOptions}
+    labelValue="label"
+/>
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value
 Controls the selected filter values by category. Type: `SelectedFilters` (required)
 
 ```typescript
@@ -36,7 +33,7 @@ type SelectedFilters = {
 }
 ```
 
-#### v-model:expanded
+#### expanded / onExpandedChange
 Controls the filter dropdown expanded state. Type: `boolean` (default: `false`)
 
 #### options
@@ -50,61 +47,61 @@ type FilterOption = {
 }
 ```
 
-#### label-value
+#### labelValue
 The label displayed for the filter button. Type: `string` (default: `""`)
 
-#### label-key
+#### labelKey
 Property name used for displaying option labels. Type: `string` (default: `"label"`)
 
-#### value-key
+#### valueKey
 Property name used for option values in the data structure. Type: `string` (default: `"value"`)
 
 #### icon
 Icon displayed on the filter button. Type: `string` (default: `"filter_list"`)
 
-#### search-label
+#### searchLabel
 Placeholder text for search input when searchable is enabled. Type: `string` (default: `"Search"`)
 
 #### searchable
 Enables search functionality within filter categories. Type: `boolean` (default: `false`)
 
-#### absolute
-Controls absolute positioning of the filter dropdown. Type: `boolean` (default: `false`)
-
 #### disabled
 Disables the filter interaction. Type: `boolean` (default: `false`)
 
-#### get-object
+#### getObject
 Returns the full object instead of just the value. Type: `boolean` (default: `false`)
+
+#### hideActions
+Hides the default Clear and Apply buttons. Use with the `actions` callback prop for custom actions. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when filter selections change. Receives updated filter data and selection details.
 
-#### @update:expanded
+#### onExpandedChange
 Triggered when the filter dropdown expanded state changes.
 
-#### @apply
+#### onApply
 Triggered when the Apply button is clicked to confirm filter selections.
 
-### Slots API
+### Children API
 
-#### #status
+#### status
 Custom content for displaying filter status when options are selected.
 
-#### #status-label
+#### statusLabel
 Custom text for the filter status display.
 
-#### #clear-label
+#### clearLabel
 Custom text for the Clear button.
 
-#### #apply-label
+#### applyLabel
 Custom text for the Apply button.
 
-#### #actions
+#### actions
 Custom action buttons to replace the default Clear/Apply buttons.
 
 **Important Notes:**

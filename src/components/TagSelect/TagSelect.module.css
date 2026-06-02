@@ -1,0 +1,9 @@
+@reference "../../assets/main.css";
+
+.tagContainer { @apply flex flex-wrap gap-xxs; }
+.optionContainer { @apply p-none; }
+.containerText { @apply text-xs italic text-neutral-foreground-low flex justify-center p-xs; }
+.deleteIcon { @apply text-xs cursor-pointer ml-xxs; }
+.nodeIcon {
+    @apply text-neutral-interaction-default text-lg leading-sm;
+}

@@ -1,0 +1,45 @@
+@reference "../../assets/main.css";
+
+.toggleGroup {
+  @apply inline-flex;
+}
+
+.vertical {
+  @apply flex-col;
+}
+
+.default > * {
+  @apply rounded-none;
+}
+
+.default:not(.vertical) > * + * {
+  @apply border-l-0;
+}
+
+.default:not(.vertical) > *:first-child {
+  @apply rounded-l-sm;
+}
+
+.default:not(.vertical) > *:last-child {
+  @apply rounded-r-sm;
+}
+
+.default.vertical > * + * {
+  @apply border-t-0;
+}
+
+.default.vertical > *:first-child {
+  @apply rounded-t-sm;
+}
+
+.default.vertical > *:last-child {
+  @apply rounded-b-sm;
+}
+
+.secondary {
+  @apply gap-xs flex-wrap;
+}
+
+.secondaryVertical {
+  @apply flex-col gap-xs;
+}

@@ -1,5 +1,5 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as RichTextEditor from './RichTextEditor.stories.ts';
+import * as RichTextEditor from './RichTextEditor.stories.tsx';
 
 <Meta of={RichTextEditor} />
 
@@ -20,19 +20,17 @@ import * as RichTextEditor from './RichTextEditor.stories.ts';
 
 ### Basic Usage
 
-```vue
-<template>
-    <RichTextEditor 
-        v-model="editorContent"
-        label-value="Content"
-        placeholder="Start typing..."
-    />
-</template>
+```tsx
+import { useState } from 'react'
 
-<script setup lang="ts">
-import { ref } from 'vue'
-const editorContent = ref('')
-</script>
+const [editorContent, setEditorContent] = useState('')
+
+<RichTextEditor
+    value={editorContent}
+    onChange={setEditorContent}
+    labelValue="Content"
+    placeholder="Start typing..."
+/>
 ```
 
 <Canvas sourceState="none" of={RichTextEditor.Primary} />
@@ -49,7 +47,7 @@ The Rich Text Editor includes a comprehensive toolbar with the following feature
 
 #### Text Formatting
 - **Bold** - Makes text bold
-- **Italic** - Makes text italic  
+- **Italic** - Makes text italic
 - **Underline** - Underlines text
 - **Strikethrough** - Strikes through text
 
@@ -84,24 +82,27 @@ The Rich Text Editor includes a comprehensive toolbar with the following feature
 
 ### Props API
 
-#### v-model
+#### value
 Controls the HTML content of the editor. Type: `string` (default: `""`)
 
-#### label-value
+#### onChange
+Callback fired when the editor content changes. Type: `(html: string) => void`
+
+#### labelValue
 The label displayed above the editor. Type: `string` (default: `""`)
 
 #### placeholder
 Placeholder text shown when editor is empty. Type: `string`
 
-#### is-error
+#### hasError
 Activates error styling mode. Type: `boolean` (default: `false`)
 
 <Canvas sourceState="none" of={RichTextEditor.IsError} />
 
-#### error-message
+#### errorMessage
 Error message to display when in error state. Type: `string` (default: `""`)
 
-#### info-message
+#### infoMessage
 Informational message displayed with tooltip. Type: `string` (default: `""`)
 
 <Canvas sourceState="none" of={RichTextEditor.InfoMessage} />
@@ -116,98 +117,98 @@ Marks the field as required. Type: `boolean` (default: `false`)
 
 <Canvas sourceState="none" of={RichTextEditor.Required} />
 
-#### tooltip-min-width
+#### tooltipMinWidth
 Minimum width for tooltip displaying info messages. Type: `string` (default: `"none"`)
 
-#### no-border
+#### noBorder
 Removes border from editor. Type: `boolean` (default: `false`)
 
 <Canvas sourceState="none" of={RichTextEditor.NoBorder} />
 
-#### min-height
+#### minHeight
 Minimum height of editor content area. Type: `string` (default: `"200px"`)
 
-#### max-height
+#### maxHeight
 Maximum height of editor content area. Type: `string` (default: `"400px"`)
 
 ---
 
-### Slots API
+### Children API
 
-#### #undo-label
-Custom label for the Undo button tooltip.
+#### undoLabel
+Custom label for the Undo button tooltip. Pass via `undoLabel` prop.
 
-#### #redo-label
-Custom label for the Redo button tooltip.
+#### redoLabel
+Custom label for the Redo button tooltip. Pass via `redoLabel` prop.
 
-#### #font-size-label
-Custom label for the Font Size selector tooltip.
+#### fontSizeLabel
+Custom label for the Font Size selector tooltip. Pass via `fontSizeLabel` prop.
 
-#### #bold-label
-Custom label for the Bold button tooltip.
+#### boldLabel
+Custom label for the Bold button tooltip. Pass via `boldLabel` prop.
 
-#### #italic-label
-Custom label for the Italic button tooltip.
+#### italicLabel
+Custom label for the Italic button tooltip. Pass via `italicLabel` prop.
 
-#### #underline-label
-Custom label for the Underline button tooltip.
+#### underlineLabel
+Custom label for the Underline button tooltip. Pass via `underlineLabel` prop.
 
-#### #strike-through-label
-Custom label for the Strikethrough button tooltip.
+#### strikeThroughLabel
+Custom label for the Strikethrough button tooltip. Pass via `strikeThroughLabel` prop.
 
-#### #color-label
-Custom label for the Text Color picker tooltip.
+#### colorLabel
+Custom label for the Text Color picker tooltip. Pass via `colorLabel` prop.
 
-#### #background-color-label
-Custom label for the Background Color picker tooltip.
+#### backgroundColorLabel
+Custom label for the Background Color picker tooltip. Pass via `backgroundColorLabel` prop.
 
-#### #insert-unordered-list-label
-Custom label for the Bulleted List button tooltip.
+#### insertUnorderedListLabel
+Custom label for the Bulleted List button tooltip. Pass via `insertUnorderedListLabel` prop.
 
-#### #insert-ordered-list-label
-Custom label for the Numbered List button tooltip.
+#### insertOrderedListLabel
+Custom label for the Numbered List button tooltip. Pass via `insertOrderedListLabel` prop.
 
-#### #left-label
-Custom label for the Left Align button tooltip.
+#### leftLabel
+Custom label for the Left Align button tooltip. Pass via `leftLabel` prop.
 
-#### #center-label
-Custom label for the Center Align button tooltip.
+#### centerLabel
+Custom label for the Center Align button tooltip. Pass via `centerLabel` prop.
 
-#### #right-label
-Custom label for the Right Align button tooltip.
+#### rightLabel
+Custom label for the Right Align button tooltip. Pass via `rightLabel` prop.
 
-#### #justify-label
-Custom label for the Justify button tooltip.
+#### justifyLabel
+Custom label for the Justify button tooltip. Pass via `justifyLabel` prop.
 
-#### #link-label
-Custom label for the Insert Link button tooltip.
+#### linkLabel
+Custom label for the Insert Link button tooltip. Pass via `linkLabel` prop.
 
-#### #image-label
-Custom label for the Insert Image button tooltip.
+#### imageLabel
+Custom label for the Insert Image button tooltip. Pass via `imageLabel` prop.
 
-#### #blockquote-label
-Custom label for the Blockquote button tooltip.
+#### blockquoteLabel
+Custom label for the Blockquote button tooltip. Pass via `blockquoteLabel` prop.
 
-#### #remove-format-label
-Custom label for the Remove Formatting button tooltip.
+#### removeFormatLabel
+Custom label for the Remove Formatting button tooltip. Pass via `removeFormatLabel` prop.
 
-#### #add-label
-Custom label for the "Add" button in color picker.
+#### addLabel
+Custom label for the "Add" button in color picker. Pass via `addLabel` prop.
 
-#### #cancel-label
-Custom label for the "Cancel" button in color picker.
+#### cancelLabel
+Custom label for the "Cancel" button in color picker. Pass via `cancelLabel` prop.
 
 ---
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the editor content changes. Receives the HTML content string.
 
-#### @focus
+#### onFocus
 Triggered when the editor gains focus.
 
-#### @blur
+#### onBlur
 Triggered when the editor loses focus.
 
 **Important Notes:**

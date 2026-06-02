@@ -1,0 +1,45 @@
+@reference "../../assets/main.css";
+
+.accordion {
+  @apply bg-neutral-surface-default px-base py-xs w-full;
+  @apply hover:bg-neutral-surface-hover transition-colors duration-300;
+}
+
+.accordion:not(.noShadow) {
+  @apply shadow-neutral-default rounded-base;
+}
+
+.accordion.noShadow {
+  @apply border-none;
+}
+
+.header {
+  @apply flex justify-between items-center cursor-pointer;
+}
+
+.header.disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+
+.headerText {
+  @apply text-base font-semibold text-neutral-foreground-high flex-1;
+}
+
+.chevron :global(.icon) {
+  @apply text-2xl leading-xxs;
+}
+
+.chevron {
+  @apply text-neutral-interaction-default font-semibold;
+  transition: transform 0.3s ease;
+}
+
+.chevron.expanded {
+  transform: rotate(180deg);
+}
+
+.content {
+  overflow: hidden;
+  transition-property: max-height;
+  transition-timing-function: ease-in-out;
+}

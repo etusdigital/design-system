@@ -1,0 +1,42 @@
+@reference "../../assets/main.css";
+
+.drawer {
+  @apply z-[1001] fixed overflow-auto bg-neutral-surface-default border-xxs border-neutral-default;
+  transition: transform 0.5s ease;
+}
+
+.drawer.right, .drawer.left {
+  @apply w-full;
+}
+
+.drawer.top, .drawer.bottom {
+  @apply h-screen;
+}
+
+.drawer.right {
+  @apply top-0 right-0 h-full rounded-none rounded-l-base;
+  transform: translateX(100%);
+}
+
+.drawer.left {
+  @apply top-0 left-0 h-full rounded-none rounded-r-base;
+  transform: translateX(-100%);
+}
+
+.drawer.top {
+  @apply top-0 left-0 w-full rounded-none rounded-b-base;
+  transform: translateY(-100%);
+}
+
+.drawer.bottom {
+  @apply bottom-0 left-0 w-full rounded-none rounded-t-base;
+  transform: translateY(100%);
+}
+
+.drawer.active {
+  transform: translate(0, 0);
+}
+
+.drawer.no-outside-close-warning {
+  animation: bounce-warning 0.5s ease;
+}

@@ -1,0 +1,132 @@
+@reference "../../assets/main.css";
+
+.slider {
+  @apply flex justify-start w-full rounded-base relative bg-primary-surface-highlight h-[.5em] select-none;
+}
+
+.small {
+  @apply text-xs;
+}
+
+.medium {
+  @apply text-base;
+}
+
+.large {
+  @apply text-xl;
+}
+
+.vertical {
+  @apply w-[.5em] h-full flex-col items-end;
+}
+
+.disabled {
+  @apply pointer-events-none opacity-50;
+}
+
+.stepSlider {
+  @apply rounded-none;
+}
+
+.neutralBg {
+  @apply bg-neutral-surface-disabled;
+}
+
+.track {
+  @apply relative h-[.5em] w-full rounded-base bg-primary-surface-highlight;
+}
+
+.fillBar {
+  @apply absolute h-full rounded-base bg-primary-interaction-default overflow-hidden flex;
+  bottom: 50%;
+  transform: translateY(50%);
+  left: 0;
+}
+
+.fillBarVertical {
+  @apply flex-col-reverse;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: auto;
+  bottom: 0;
+}
+
+.haveFillColors {
+  @apply bg-transparent;
+}
+
+.cursor {
+  @apply absolute w-[1.25em] h-[1.25em] rounded-full border-2 border-primary-interaction-default bg-neutral-surface-default cursor-grab z-[1] select-none;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -50px;
+}
+
+.dragging {
+  @apply cursor-grabbing;
+}
+
+.stepsContainer {
+  @apply relative w-full mt-2;
+}
+
+.step {
+  @apply absolute bg-primary-surface-highlight rounded-base;
+}
+
+.stepActive, .stepActive.stepNeutral {
+  @apply bg-primary-interaction-default;
+}
+
+.stepNeutral {
+  @apply bg-neutral-surface-disabled;
+}
+
+.stepMarker {
+  @apply h-[1.25em] w-[0.35em] -translate-y-1/2 bg-primary-surface-highlight rounded-full;
+}
+
+.stepMarkerActive {
+  @apply bg-primary-interaction-default;
+}
+
+.stepMarkerNeutral {
+  @apply bg-neutral-surface-disabled;
+}
+
+.vertical .cursor {
+  top: auto;
+  transform: translateX(-50%);
+  left: 50%;
+  bottom: 0;
+}
+
+.vertical .fillBar {
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  width: 100%;
+  height: auto;
+}
+
+
+.vertical .stepMarker {
+  @apply h-[0.35em] w-[1.25em] translate-y-none translate-x-3/5;
+}
+
+.disabled {
+  @apply bg-neutral-surface-disabled;
+}
+
+.disabled .cursor {
+  @apply border-neutral-interaction-disabled;
+}
+
+.disabled .fillBar {
+  @apply bg-neutral-interaction-disabled;
+}
+
+.disabled .stepActive {
+  @apply bg-neutral-interaction-disabled;
+}

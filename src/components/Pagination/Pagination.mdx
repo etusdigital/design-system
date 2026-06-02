@@ -1,5 +1,5 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as Pagination from './Pagination.stories.ts';
+import * as Pagination from './Pagination.stories.tsx';
 
 <Meta of={Pagination} />
 
@@ -20,19 +20,17 @@ import * as Pagination from './Pagination.stories.ts';
 
 ### Basic Usage
 
-```vue
-<template>
-    <Pagination 
-        v-model="currentPage"
-        :length="totalPages"
-    />
-</template>
+```tsx
+import { useState } from 'react'
 
-<script setup lang="ts">
-import { ref } from 'vue'
-const currentPage = ref(1)
-const totalPages = ref(10)
-</script>
+const [currentPage, setCurrentPage] = useState(1)
+const totalPages = 10
+
+<Pagination
+    value={currentPage}
+    onChange={setCurrentPage}
+    length={totalPages}
+/>
 ```
 
 <Canvas sourceState="none" of={Pagination.Primary} />
@@ -41,8 +39,11 @@ const totalPages = ref(10)
 
 ### Props API
 
-#### v-model
+#### value
 Controls the current active page number. Type: `number` (default: `1`)
+
+#### onChange
+Callback fired when the current page changes. Type: `(page: number) => void`
 
 #### length
 Total number of pages available for navigation. Type: `number` (default: `1`)
@@ -51,12 +52,12 @@ Total number of pages available for navigation. Type: `number` (default: `1`)
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the current page changes. Receives the new page number and additional context.
 
-### Slots API
+### Children API
 
-This component uses internal logic for page display and doesn't expose custom slots.
+This component uses internal logic for page display and doesn't accept custom children.
 
 **Important Notes:**
 - Automatically handles ellipsis (...) for large page sets with intelligent positioning

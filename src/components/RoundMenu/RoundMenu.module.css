@@ -1,0 +1,21 @@
+@reference "../../assets/main.css";
+
+.roundMenu {
+  @apply relative inline-flex items-center justify-center;
+}
+
+.menuItem {
+  @apply z-[100] absolute;
+  left: 0;
+  top: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.menuItem.collapsed {
+  transform: translate3d(0, 0, 0) scale(0);
+  opacity: 0;
+}
+
+.trigger {
+  transform-origin: left center;
+}

@@ -1,5 +1,5 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as Navbar from './Navbar.stories';
+import * as Navbar from './Navbar.stories.tsx';
 
 <Meta of={Navbar} />
 
@@ -20,38 +20,17 @@ import * as Navbar from './Navbar.stories';
 
 ### Basic Usage
 
-```vue
-<template>
-    <Navbar
-        v-model="selectedOption"
-        title="My Application"
-        :options="navigationOptions"
-        :profile="userProfile"
-    >
-        <template #notifications>
-            <div class="p-base max-w-sm">
-                <h4 class="font-semibold msm">Recent Activity</h4>
-                <div class="space-y-xs">
-                    <div class="text-sm">New user registered</div>
-                    <div class="text-sm">System backup completed</div>
-                    <div class="text-sm">5 new messages</div>
-                </div>
-            </div>
-        </template>
-    </Navbar>
-</template>
+```tsx
+import { useState } from 'react'
 
-<script setup lang="ts">
-import { ref } from 'vue'
+const [selectedOption, setSelectedOption] = useState("dashboard")
 
-const selectedOption = ref("dashboard")
-
-const userProfile = ref({
+const userProfile = {
     name: "John Doe",
     src: "/avatar.jpg"
-})
+}
 
-const navigationOptions = ref([
+const navigationOptions = [
     {
         label: "Dashboard",
         value: "dashboard",
@@ -59,7 +38,7 @@ const navigationOptions = ref([
     },
     {
         label: "Analytics",
-        value: "analytics", 
+        value: "analytics",
         icon: "analytics",
         options: [
             { label: "Reports", value: "reports", icon: "assessment" },
@@ -72,8 +51,25 @@ const navigationOptions = ref([
         icon: "settings",
         bottom: true
     }
-])
-</script>
+]
+
+<Navbar
+    value={selectedOption}
+    onChange={setSelectedOption}
+    title="My Application"
+    options={navigationOptions}
+    profile={userProfile}
+    notifications={
+        <div className="p-base max-w-sm">
+            <h4 className="font-semibold msm">Recent Activity</h4>
+            <div className="space-y-xs">
+                <div className="text-sm">New user registered</div>
+                <div className="text-sm">System backup completed</div>
+                <div className="text-sm">5 new messages</div>
+            </div>
+        </div>
+    }
+/>
 ```
 
 <Canvas sourceState="none" of={Navbar.Primary} />
@@ -82,7 +78,7 @@ const navigationOptions = ref([
 
 ### Props API
 
-#### v-model
+#### value
 The currently selected navigation option. Type: `Option` (default: `undefined`)
 
 ```typescript
@@ -92,9 +88,12 @@ type Option = {
   icon?: string;        // Optional icon name
   disabled?: boolean;   // Whether the option is disabled
   bottom?: boolean;     // Whether to display at bottom of menu
-  options?: Option[];       // Nested suoptions
+  options?: Option[];       // Nested suboptions
 }
 ```
+
+#### onChange
+Callback fired when a navigation option is selected. Type: `(option: Option) => void`
 
 #### title
 Title text displayed in the navbar brand area. Type: `string` (default: `""`)
@@ -112,38 +111,38 @@ type Profile = {
 }
 ```
 
-#### label-key
+#### labelKey
 Property name used for displaying option labels when using object arrays. Type: `string` (default: `"label"`)
 
-#### value-key
+#### valueKey
 Property name used for option values when using object arrays. Type: `string` (default: `"value"`)
 
-#### get-object
+#### getObject
 Returns complete objects instead of just values when enabled. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when a navigation option is selected. Receives the selected option object.
 
-### Slots API
+### Children API
 
-#### #default
+#### children
 Custom navigation content in the center area.
 
-#### #logo
-Complete replacement for the logo and title area.
+#### logo
+Complete replacement for the logo and title area. Pass via `logo` prop.
 
-#### #title
+#### title (prop)
 Custom content for the title area (when using default logo).
 
-#### #actions
-Custom content for the right side actions area.
+#### actions
+Custom content for the right side actions area. Pass via `actions` prop.
 
-#### #notifications
-Content displayed in the notifications dropdown panel.
+#### notifications
+Content displayed in the notifications dropdown panel. Pass via `notifications` prop.
 
 <Canvas sourceState="none" of={Navbar.CustomSlots} />
 
@@ -151,7 +150,7 @@ Content displayed in the notifications dropdown panel.
 - Built-in notification system with customizable dropdown content and positioning
 - Dropdown menu integration with Dropdown component for navigation hierarchy
 - User profile avatar display with Avatar component integration
-- Flexible slot system allows complete customization of logo, navigation, and actions
+- Flexible prop system allows complete customization of logo, navigation, and actions
 - Responsive design adapts to different screen sizes and layouts
 - Dynamic positioning system for notifications dropdown prevents viewport overflow
 - Smooth transitions and animations for enhanced user experience

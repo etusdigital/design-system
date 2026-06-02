@@ -1,0 +1,9 @@
+@reference "../../assets/main.css";
+
+.floatCard {
+  @apply z-[1004] fixed opacity-0 transition-opacity duration-200;
+}
+
+.floatCard.active {
+  @apply opacity-100;
+}

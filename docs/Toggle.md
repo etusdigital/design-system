@@ -7,28 +7,29 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Toggle 
-        v-model="isSelected"
+```tsx
+const [isSelected, setIsSelected] = useState(false)
+
+return (
+    <Toggle
+        value={isSelected}
+        onChange={setIsSelected}
         name="buttonGroup"
     >
-      Test toggle
+        Test toggle
     </Toggle>
-</template>
-
-<script setup lang="ts">
-
-const isSelected = ref(false)
-</script>
+)
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value
 Controls the toggle button selection state. Type: `boolean` (default: `false`)
+
+#### onChange
+Callback triggered when the toggle button selection state changes. Type: `(value: boolean) => void`
 
 #### id
 Unique identifier for the toggle button element. Type: `string` (default: `undefined`)
@@ -36,7 +37,7 @@ Unique identifier for the toggle button element. Type: `string` (default: `undef
 #### name
 Name attribute for form grouping and accessibility. Type: `string` (default: `undefined`)
 
-#### group-value
+#### groupValue
 Value used when toggle is part of a Group component. Type: `any` (default: `undefined`)
 
 #### disabled
@@ -49,25 +50,22 @@ Visual variant of the toggle button. Type: `'default' | 'secondary'` (default: `
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the toggle button selection state changes.
 
 ### Slots API
 
-#### #default
+#### children
 Content displayed inside the toggle button.
 
-```vue
-<template>
-    <Toggle v-model="selected" name="options">
+```tsx
+const [selected, setSelected] = useState(false)
+
+return (
+    <Toggle value={selected} onChange={setSelected} name="options">
         Slot: default
     </Toggle>
-</template>
-
-<script setup lang="ts">
-
-const selected = ref(false)
-</script>
+)
 ```
 
 **Important Notes:**

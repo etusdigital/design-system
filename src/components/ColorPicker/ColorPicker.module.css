@@ -1,0 +1,117 @@
+@reference "../../assets/main.css";
+
+.colorPicker {
+  @apply bg-neutral-surface-default rounded-base shadow-neutral-default p-base;
+  @apply flex flex-col gap-sm;
+}
+
+.disabled {
+  @apply opacity-50 pointer-events-none;
+}
+
+.colorPicker.noShadow { box-shadow: none; }
+
+.colorAreaWrapper {
+  @apply relative;
+}
+
+.colorArea {
+  @apply w-full relative cursor-crosshair rounded-base overflow-hidden;
+  height: 8em;
+  display: block;
+}
+
+.colorAreaCursor {
+  @apply absolute z-[1] cursor-grab rounded-base select-none;
+  @apply w-[12px] h-[12px] bg-neutral-interaction-default;
+  @apply border border-neutral-default;
+  top: 0;
+  transform: translateY(-50%);
+}
+
+.sliderTrack {
+  @apply relative w-full cursor-pointer;
+  height: 8px;
+  border-radius: 9999px;
+}
+
+.sliderCursor {
+  @apply absolute cursor-grab rounded-base select-none;
+  @apply w-[12px] h-[12px] bg-neutral-interaction-default;
+  @apply border border-neutral-default;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hueTrack {
+  background: linear-gradient(
+    to right,
+    hsl(0, 100%, 50%),
+    hsl(60, 100%, 50%),
+    hsl(120, 100%, 50%),
+    hsl(180, 100%, 50%),
+    hsl(240, 100%, 50%),
+    hsl(300, 100%, 50%),
+    hsl(360, 100%, 50%)
+  );
+}
+
+.opacityTrack {
+  background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+    linear-gradient(-45deg, #ccc 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #ccc 75%),
+    linear-gradient(-45deg, transparent 75%, #ccc 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+}
+
+.colorCircle {
+  @apply shrink-0 rounded-full w-2xl h-2xl;
+  @apply border border-neutral-default;
+}
+
+.colorInput {
+  @apply min-w-0 outline-none text-xs text-center;
+  @apply bg-neutral-surface-default rounded-xs border border-neutral-default;
+  @apply px-xxs py-xxs;
+  @apply text-neutral-foreground-high;
+}
+
+.typeToggles {
+  @apply flex gap-xxs mt-sm;
+}
+
+.typeToggle {
+  @apply text-xs font-normal cursor-pointer border-none bg-transparent px-xxs py-xxs rounded-xs;
+  @apply text-neutral-foreground-low;
+}
+
+.typeToggle.active {
+  @apply bg-primary-interaction-default text-neutral-foreground-negative;
+}
+
+.colorArrows {
+  @apply cursor-pointer text-neutral-interaction-default text-xl leading-[.7em] select-none;
+}
+
+.colorArrows.disabled {
+  @apply text-neutral-interaction-disabled pointer-events-none;
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes slide-down {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}

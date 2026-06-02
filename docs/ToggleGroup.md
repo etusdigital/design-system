@@ -7,26 +7,27 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <ToggleGroup v-model="selectedValue" :options="options" />
-    
-    <p>Selected: {{ selectedValue }}</p>
-</template>
-
-<script setup lang="ts">
-
-const selectedValue = ref('option1')
+```tsx
+const [selectedValue, setSelectedValue] = useState('option1')
 const options = [...]
-</script>
+
+return (
+    <>
+        <ToggleGroup value={selectedValue} onChange={setSelectedValue} options={options} />
+        <p>Selected: {selectedValue}</p>
+    </>
+)
 ```
 
 ---
 
 ### Props API
 
-#### v-model
-Controls the currently selected component's group-value. Type: `any` (default: `null`)
+#### value
+Controls the currently selected component's groupValue. Type: `any` (default: `null`)
+
+#### onChange
+Callback triggered when the selection changes within the group. Type: `(value: any) => void`
 
 #### vertical
 Arranges grouped components vertically instead of horizontally. Type: `boolean` (default: `false`)
@@ -41,7 +42,7 @@ Visual variant applied to all toggle buttons in the group. Type: `'default' | 's
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the selection changes within the group.
 
 ### Slots API
@@ -49,5 +50,5 @@ Triggered when the selection changes within the group.
 This component uses `Toggle` internally and doesn't expose custom slots.
 
 **Important Notes:**
-- Model value synchronization works bidirectionally between ToggleGroup and child components
+- Value synchronization works bidirectionally between ToggleGroup and child components
 - Use `vertical` prop to change layout orientation for all grouped components

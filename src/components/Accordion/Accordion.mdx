@@ -1,5 +1,5 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as Accordion from './Accordion.stories.ts';
+import * as Accordion from './Accordion.stories.tsx';
 
 <Meta of={Accordion} />
 
@@ -20,26 +20,18 @@ import * as Accordion from './Accordion.stories.ts';
 
 ### Basic Usage
 
-```vue
-<template>
-    <Accordion v-model="isOpen">
-        <template #header>
-            <h4 class="text-neutral-foreground-high">Accordion component</h4>
-        </template>
-        <div class="flex items-end justify-start gap-base">
-            <p>
-                Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas
-                amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a
-                massa praesent ultricies.
-            </p>
-        </div>
-    </Accordion>
-</template>
+```tsx
+const [isOpen, setIsOpen] = useState(false);
 
-<script setup lang="ts">
-import { ref } from 'vue'
-const isOpen = ref(false)
-</script>
+<Accordion value={isOpen} onChange={setIsOpen} header={<h4 className="text-neutral-foreground-high">Accordion component</h4>}>
+    <div className="flex items-end justify-start gap-base">
+        <p>
+            Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas
+            amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a
+            massa praesent ultricies.
+        </p>
+    </div>
+</Accordion>
 ```
 
 <Canvas sourceState="none" of={Accordion.Primary} />
@@ -48,13 +40,13 @@ const isOpen = ref(false)
 
 ### Props API
 
-#### v-model
+#### value / onChange
 Controls the accordion state (open/closed). Type: `boolean` (default: `false`)
 
 #### duration
 Controls the animation duration in milliseconds. Type: `number` (default: `150`, min: `150`, max: `1000`)
 
-#### no-shadow
+#### noShadow
 Removes the card shadow and border. Type: `boolean` (default: `false`)
 
 <Canvas sourceState="none" of={Accordion.NoShadow} />
@@ -63,46 +55,31 @@ Removes the card shadow and border. Type: `boolean` (default: `false`)
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the accordion state changes.
 
-### Slots API
+### Children / Props API
 
-#### #default
+#### children
 The collapsible content that appears when the component is expanded.
 
-```vue
-<template>
-    <Accordion v-model="isOpen">
-        <template #header>Form Section</template>
-        
-        Slot: default
-    </Accordion>
-</template>
+```tsx
+const [isOpen, setIsOpen] = useState(false);
 
-<script setup lang="ts">
-import { ref } from 'vue'
-const isOpen = ref(false)
-</script>
+<Accordion value={isOpen} onChange={setIsOpen} header="Form Section">
+    Slot: default
+</Accordion>
 ```
 
-#### #header
-Content displayed in the accordion header section, next to the expand/accordion icon.
+#### header
+Content displayed in the accordion header section, next to the expand/accordion icon. Accepts a React node.
 
-```vue
-<template>
-    <Accordion v-model="isOpen">
-        <template #header>
-            Header
-        </template>
-        <p>Settings content goes here.</p>
-    </Accordion>
-</template>
+```tsx
+const [isOpen, setIsOpen] = useState(false);
 
-<script setup lang="ts">
-import { ref } from 'vue'
-const isOpen = ref(false)
-</script>
+<Accordion value={isOpen} onChange={setIsOpen} header={<span>Header</span>}>
+    <p>Settings content goes here.</p>
+</Accordion>
 ```
 
 **Important Notes:**

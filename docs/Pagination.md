@@ -7,27 +7,27 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Pagination 
-        v-model="currentPage"
-        :length="totalPages"
-    />
-</template>
+```tsx
 
-<script setup lang="ts">
+const [currentPage, setCurrentPage] = useState(1)
+const totalPages = 10
 
-const currentPage = ref(1)
-const totalPages = ref(10)
-</script>
+<Pagination
+    value={currentPage}
+    onChange={setCurrentPage}
+    length={totalPages}
+/>
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value
 Controls the current active page number. Type: `number` (default: `1`)
+
+#### onChange
+Callback fired when the current page changes. Type: `(page: number) => void`
 
 #### length
 Total number of pages available for navigation. Type: `number` (default: `1`)
@@ -36,12 +36,12 @@ Total number of pages available for navigation. Type: `number` (default: `1`)
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the current page changes. Receives the new page number and additional context.
 
-### Slots API
+### Children API
 
-This component uses internal logic for page display and doesn't expose custom slots.
+This component uses internal logic for page display and doesn't accept custom children.
 
 **Important Notes:**
 - Automatically handles ellipsis (...) for large page sets with intelligent positioning

@@ -395,27 +395,31 @@ export function applyMask(
 ) {
   switch (mask) {
     case "cpf":
-      value = value.replace(/\D/g, ""); // Remove non-numeric characters
-      value = value.slice(0, 11); // Limit the number of digit to 11
-      value = value.replace(/(\d{3})(\d)/, "$1.$2"); // Add dot after 3º digit
-      value = value.replace(/(\d{3})(\d)/, "$1.$2"); // Add dot after 6º digit
-      value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2"); // Add hyphen after 9º digit
+      value = value.replace(/\D/g, "");
+      value = value.slice(0, 11);
+      value = value.replace(/(\d{3})(\d)/, "$1.$2");
+      value = value.replace(/(\d{3})(\d)/, "$1.$2");
+      value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
       break;
     case "cnpj":
-      value = value.replace(/\D/g, ""); // Remove non-numeric characters
-      value = value.slice(0, 14); // Limit the number of digit to 14
-      value = value.replace(/(\d{2})(\d)/, "$1.$2"); // Add dot after 2º digit
-      value = value.replace(/(\d{2})\.(\d{3})(\d)/, "$1.$2.$3"); // Add dot after 5º digit
-      value = value.replace(/(\d{2})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3/$4"); // Add dot after 8º digit
+      value = value.replace(/\D/g, "");
+      value = value.slice(0, 14);
+      value = value.replace(/(\d{2})(\d)/, "$1.$2");
+      value = value.replace(/(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+      value = value.replace(/(\d{2})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3/$4");
       value = value.replace(
         /(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d)/,
         "$1.$2.$3/$4-$5"
-      ); // Add hyphen after 10º digit
+      );
       break;
     case "cep":
       value = value.replace(/\D/g, "");
       value = value.slice(0, 8);
-      value = value.replace(/(\d{5})(\d)/, "$1-$2"); // Add hyphen after 5º digit
+      value = value.replace(/(\d{5})(\d)/, "$1-$2");
+      break;
+    case "domain":
+    case "url":
+    case "email":
       break;
   }
 
@@ -460,6 +464,60 @@ export function blendColors(
   const b = Math.round(parsedColor[2] * percentage + bg[2] * (1 - percentage));
 
   return `rgb(${r}, ${g}, ${b})`;
+}
+
+export function getContrastColor(color: string): string {
+  let r = 0,
+    g = 0,
+    b = 0;
+
+  if (color.startsWith("rgb(")) {
+    const matches = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+    if (matches) {
+      r = parseInt(matches[1]);
+      g = parseInt(matches[2]);
+      b = parseInt(matches[3]);
+    }
+  } else if (color.startsWith("hsl(")) {
+    const matches = color.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
+    if (matches) {
+      const h = parseInt(matches[1]) / 360;
+      const s = parseInt(matches[2]) / 100;
+      const l = parseInt(matches[3]) / 100;
+
+      const hue2rgb = (p: number, q: number, t: number) => {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+      };
+
+      if (s === 0) {
+        r = g = b = l;
+      } else {
+        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        const p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1 / 3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1 / 3);
+      }
+      r = Math.round(r * 255);
+      g = Math.round(g * 255);
+      b = Math.round(b * 255);
+    }
+  } else if (color.startsWith("#")) {
+    const hex = color.replace("#", "");
+    if (/^[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$/i.test(hex)) {
+      r = parseInt(hex.substring(0, 2), 16);
+      g = parseInt(hex.substring(2, 4), 16);
+      b = parseInt(hex.substring(4, 6), 16);
+    }
+  }
+
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance < 0.5 ? "white" : "black";
 }
 
 export function checkPath(path: string) {

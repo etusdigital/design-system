@@ -1,0 +1,57 @@
+@reference "../../assets/main.css";
+
+.container {
+  @apply relative flex flex-col gap-xxs;
+}
+
+.label-container {
+  @apply w-fit relative;
+}
+
+.label-content {
+  @apply inline-flex items-center gap-xs outline-xxs rounded-sm cursor-pointer px-sm py-xs select-none transition-[outline,border-radius] p3
+    duration-0 delay-100 text-neutral-interaction-default bg-neutral-surface-default outline-neutral-default focus:outline-primary-default;
+}
+
+.secondary.label-content {
+  @apply bg-primary-interaction-default text-neutral-foreground-negative;
+}
+
+.expanded.label-content {
+  @apply delay-0 outline-primary-default;
+}
+
+.expanded.label-content.hide-bottom {
+  @apply rounded-none outline-neutral-default focus:outline-neutral-default;
+}
+
+.label-content.disabled {
+  @apply bg-neutral-surface-disabled text-neutral-foreground-disabled;
+}
+
+.label-content.error {
+  @apply text-danger-foreground-high outline-danger-default;
+}
+
+.arrow-icon.material-symbols-rounded.icon {
+  @apply shrink-0 flex items-center transition-transform duration-300 text-lg leading-sm;
+}
+
+.arrow-icon.expanded {
+  @apply rotate-180;
+}
+
+.expand-enter-active,
+.expand-leave-active {
+  @apply transition-all duration-300 overflow-hidden;
+}
+
+.expand-enter-from,
+.expand-leave-to {
+  @apply translate-y-[-10px] max-h-0;
+}
+
+.expand-enter-to,
+.expand-leave-from {
+  @apply translate-y-0 max-h-screen;
+}

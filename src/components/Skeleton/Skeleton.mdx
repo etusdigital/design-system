@@ -1,5 +1,5 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as Skeleton from './Skeleton.stories.ts';
+import * as Skeleton from './Skeleton.stories.tsx';
 
 <Meta of={Skeleton} />
 
@@ -20,10 +20,8 @@ import * as Skeleton from './Skeleton.stories.ts';
 
 ### Basic Usage
 
-```vue
-<template>
-    <Skeleton class="h-xs w-full" />
-</template>
+```tsx
+<Skeleton className="h-xs w-full" />
 ```
 
 <Canvas sourceState="none" of={Skeleton.Primary} />

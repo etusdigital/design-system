@@ -1,12 +1,12 @@
 import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
-import * as Connector from './Connector.stories.ts';
+import * as Connector from './Connector.stories.tsx';
 
 <Meta of={Connector} />
 
 # Name: Connector
 ## Component Overview
 
-**Purpose**: A visual connector component that adds connecting lines between grouped elements to show relationships and flow.
+**Purpose**: A visual connector React component that adds connecting lines between grouped elements to show relationships and flow.
 
 **Import**: Automatic - no need to import any DS components
 
@@ -20,30 +20,28 @@ import * as Connector from './Connector.stories.ts';
 
 ### Basic Usage
 
-```vue
-<template>
-    <Connector vertical class="items-center">
-        <Card class="p-base">
-            <Connector>
-                <Input label-value="label" placeholder="Type here" />
-                <Select
-                    label-value="label"
-                    :options="[
-                        { label: 'Option 1', something: 0, selected: false },
-                        { label: 'Option 2', something: 1, selected: true },
-                        { label: 'Option 3', something: 2, selected: false },
-                        { label: 'Option 4', something: 3, selected: false },
-                        { label: 'Option 5', something: 4, selected: false },
-                    ]"
-                >
-                    Select
-                </Select>
-                <Input label-value="label" placeholder="Type here" />
-            </Connector>
-        </Card>
-        <Button variant="success" size="small" round />
-    </Connector>
-</template>
+```tsx
+<Connector vertical className="items-center">
+    <Card className="p-base">
+        <Connector>
+            <Input labelValue="label" placeholder="Type here" />
+            <Select
+                labelValue="label"
+                options={[
+                    { label: 'Option 1', something: 0, selected: false },
+                    { label: 'Option 2', something: 1, selected: true },
+                    { label: 'Option 3', something: 2, selected: false },
+                    { label: 'Option 4', something: 3, selected: false },
+                    { label: 'Option 5', something: 4, selected: false },
+                ]}
+            >
+                Select
+            </Select>
+            <Input labelValue="label" placeholder="Type here" />
+        </Connector>
+    </Card>
+    <Button variant="success" size="small" round />
+</Connector>
 ```
 
 <Canvas sourceState="none" of={Connector.Primary} />
@@ -55,25 +53,25 @@ import * as Connector from './Connector.stories.ts';
 #### vertical
 Arranges connector lines vertically instead of horizontally. Type: `boolean` (default: `false`)
 
+<Canvas sourceState="none" of={Connector.Vertical} />
+
 ---
 
 ### Events API
 
-Connector does not emit any custom events. It's a simple connector component that passes through standard DOM events from the underlying div element.
+Connector does not emit any custom events. It's a simple connector React component that passes through standard DOM events from the underlying div element.
 
 ---
 
-### Slots API
+### Children API
 
-#### #default
+#### children
 Contains the elements to be connected with visual lines.
 
-```vue
-<template>
-    <Connector>
-        Slot: default
-    </Connector>
-</template>
+```tsx
+<Connector>
+    children: default
+</Connector>
 ```
 
 **Important Notes:**

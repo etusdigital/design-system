@@ -1,0 +1,31 @@
+@reference "../../assets/main.css";
+
+.toggle {
+  @apply relative inline-flex items-center justify-center cursor-pointer select-none
+         text-xs font-bold uppercase tracking-wider border border-current
+         transition-all duration-150 ease-out bg-transparent;
+}
+
+.default {
+  @apply min-h-3xl min-w-[128px] py-xs px-base;
+}
+
+.secondary {
+  @apply py-base px-2xl rounded-base;
+}
+
+.active {
+  @apply bg-primary-interaction-default text-neutral-foreground-negative border-primary-interaction-default;
+}
+
+.secondary.active {
+  @apply bg-primary-surface-highlight text-primary-interaction-default border-primary-interaction-default;
+}
+
+.disabled {
+  @apply pointer-events-none opacity-50;
+}
+
+.inGroup {
+  @apply rounded-none;
+}

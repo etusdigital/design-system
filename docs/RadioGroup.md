@@ -7,24 +7,27 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <RadioGroup v-model="selectedValue" :options="options" />
-</template>
+```tsx
 
-<script setup lang="ts">
+const [selectedValue, setSelectedValue] = useState('option1')
+const options = [...]
 
-const selectedValue = ref('option1')
-const options = ref([...])
-</script>
+<RadioGroup
+    value={selectedValue}
+    onChange={setSelectedValue}
+    options={options}
+/>
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value
 Controls the currently selected component's group-value. Type: `any` (default: `null`)
+
+#### onChange
+Callback fired when the selection changes within the group. Type: `(value: any) => void`
 
 #### vertical
 Arranges grouped components vertically instead of horizontally. Type: `boolean` (default: `false`)
@@ -35,26 +38,26 @@ Disables all grouped components. Type: `boolean` (default: `false`)
 #### options
 Array of objects or primitive values to render as radio options. Type: `any[]` (required)
 
-#### label-key
+#### labelKey
 Property name to use as display label when options are objects. Type: `string` (default: `"label"`)
 
-#### value-key
+#### valueKey
 Property name to use as option value when options are objects. Type: `string` (default: `"value"`)
 
-#### get-object
+#### getObject
 Whether to emit the full object instead of just the value when selection changes. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the selection changes within the group.
 
-### Slots API
+### Children API
 
-This component uses `Radio` internally and doesn't expose custom slots.
+This component uses `Radio` internally and doesn't accept custom children.
 
 **Important Notes:**
-- Model value synchronization works bidirectionally between RadioGroup and child components
+- Value synchronization works bidirectionally between RadioGroup and child components
 - Use `vertical` prop to change layout orientation for all grouped components

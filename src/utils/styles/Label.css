@@ -1,0 +1,5 @@
+@reference "../../assets/main.css";
+
+.info-icon.icon {
+    @apply text-lg leading-xxs text-primary-foreground-low;
+}

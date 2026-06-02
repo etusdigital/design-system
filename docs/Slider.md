@@ -7,32 +7,32 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Slider v-model="selectedValue" />
-</template>
+```tsx
+const [selectedValue, setSelectedValue] = useState(0)
 
-<script setup lang="ts">
-
-const selectedValue = ref(0)
-</script>
+return (
+    <Slider value={selectedValue} onChange={setSelectedValue} />
+)
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value
 Controls the selected value(s). Type: `number | number[]` (default: `0`)
+
+#### onChange
+Callback triggered when the slider value changes. Type: `(value: number | number[]) => void`
 
 #### size
 Controls the slider size variant. Type: `'small' | 'medium' | 'large'` (default: `'medium'`)
 
-#### is-range
+#### isRange
 Enables range slider mode with two thumbs for selecting a range of values. Type: `boolean` (default: `false`)
 
 #### max
-Maximum value for the slider. If specified, v-model will be multiplied by this value. Type: `number` (default: `0`)
+Maximum value for the slider. If specified, value will be multiplied by this value. Type: `number` (default: `0`)
 
 #### unit
 Unit displayed in tooltip alongside the value. Type: `string` (default: `""`)
@@ -40,7 +40,7 @@ Unit displayed in tooltip alongside the value. Type: `string` (default: `""`)
 #### color
 Custom color for the slider track and thumb. Type: `string` (default: `""`)
 
-#### show-tooltip
+#### showTooltip
 Shows tooltip with current value above/beside the thumb. Type: `boolean` (default: `false`)
 
 #### disabled
@@ -49,20 +49,20 @@ Disables slider interaction. Type: `boolean` (default: `false`)
 #### vertical
 Enables vertical orientation. Requires external container with specified height. Type: `boolean` (default: `false`)
 
-#### fill-colors
+#### fillColors
 Array of colors for dividing the fill area between multiple segments. Type: `any[]` (default: `[]`)
 
 #### steps
 Array of step positions (scale 0-1) where marks are placed and values snap to. Type: `any[]` (default: `[]`)
 
-#### neutral-background
+#### neutralBackground
 Applies neutral background styling to the slider track. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the slider value changes. Receives the new value.
 
 ---
@@ -74,7 +74,7 @@ This component uses the internal Slider component and doesn't expose custom slot
 **Important Notes:**
 - Returns values as percentages (0-1 scale) unless `max` prop is specified
 - When `max` is set, values are automatically scaled to the max value
-- Range mode (`is-range`) returns an array of two values for min/max selection
+- Range mode (`isRange`) returns an array of two values for min/max selection
 - Single mode returns a single number value
 - Vertical mode requires a parent container with explicit height
 - Step mode constrains values to predefined positions for precise control

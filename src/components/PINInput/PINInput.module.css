@@ -1,0 +1,31 @@
+@reference "../../assets/main.css";
+
+.pinInput {
+  @apply flex gap-xs items-center;
+}
+
+.field {
+  @apply w-[48px] h-[48px] text-center text-sm rounded-sm outline outline-xxs outline-neutral-default bg-neutral-surface-default transition-[outline-color] duration-100 focus:outline-primary-default;
+}
+
+.filled {
+  @apply outline-primary-default bg-primary-surface-default;
+}
+
+.separator {
+  @apply text-neutral-foreground-low text-lg mx-xxs;
+}
+
+.disabled {
+  @apply outline-neutral-disabled bg-neutral-surface-disabled pointer-events-none;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}

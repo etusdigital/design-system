@@ -1,0 +1,44 @@
+@reference "../../assets/main.css";
+
+.toast-container {
+  @apply z-[1100] fixed flex flex-col gap-sm p-sm;
+}
+
+.toast-container.top { @apply top-0; }
+.toast-container.bottom { @apply bottom-0; }
+.toast-container.right { @apply right-0 items-end; }
+.toast-container.left { @apply left-0; }
+
+.toast {
+  @apply w-fit max-w-[50em] break-all whitespace-normal;
+}
+
+.toast-wrapper {
+  transition: all 0.6s ease;
+}
+
+.toast-wrapper.slide-right {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.toast-wrapper.slide-right.active {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.toast-wrapper.slide-left {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.toast-wrapper.slide-left.active {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+@media screen and (max-width: 50em) {
+  .toast {
+    @apply max-w-[95%];
+  }
+}

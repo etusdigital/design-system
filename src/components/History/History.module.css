@@ -1,0 +1,356 @@
+@reference "../../assets/main.css";
+
+.history {
+  width: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.option {
+  @apply w-full relative cursor-pointer;
+}
+
+.option.disabled {
+  @apply hover:bg-transparent cursor-default;
+}
+
+.firstOption .dataList {
+  @apply border-none;
+}
+
+.firstOption .circle {
+  @apply z-[1];
+}
+
+.lastOption .dataList {
+  @apply border-none;
+}
+
+.firstOption.lastOption .customBorder {
+  @apply hidden;
+}
+
+.option {
+  @apply w-full relative cursor-pointer;
+}
+
+.option .roundIcon .icon {
+ @apply text-3xl leading-xs;
+}
+
+.option.primary {
+  @apply hover:bg-primary-surface-default;
+}
+.option.info {
+  @apply hover:bg-informative-surface-default;
+}
+.option.success {
+  @apply hover:bg-success-surface-default;
+}
+.option.warning {
+  @apply hover:bg-warning-surface-default;
+}
+.option.danger {
+  @apply hover:bg-danger-surface-default;
+}
+.option.neutral {
+  @apply hover:bg-neutral-surface-highlight;
+}
+
+.primary.active {
+  @apply bg-primary-surface-default;
+}
+.primary.active .circle {
+  @apply bg-primary-interaction-default z-[2];
+}
+.primary.active .roundIcon {
+  @apply text-primary-interaction-default bg-neutral-surface-default;
+}
+
+.info.active {
+  @apply bg-informative-surface-default;
+}
+.info.active .circle {
+  @apply bg-informative-interaction-default z-[2];
+}
+.info.active .roundIcon {
+  @apply text-informative-interaction-default bg-neutral-surface-default;
+}
+
+.success.active {
+  @apply bg-success-surface-default;
+}
+.success.active .circle {
+  @apply bg-success-interaction-default z-[2];
+}
+.success.active .roundIcon {
+  @apply text-success-interaction-default bg-neutral-surface-default;
+}
+
+.warning.active {
+  @apply bg-warning-surface-default;
+}
+.warning.active .circle {
+  @apply bg-warning-interaction-default z-[2];
+}
+.warning.active .roundIcon {
+  @apply text-warning-interaction-default bg-neutral-surface-default;
+}
+
+.danger.active {
+  @apply bg-danger-surface-default;
+}
+.danger.active .circle {
+  @apply bg-danger-interaction-default z-[2];
+}
+.danger.active .roundIcon {
+  @apply text-danger-interaction-default bg-neutral-surface-default;
+}
+
+.neutral.active {
+  @apply bg-neutral-surface-highlight;
+}
+.neutral.active .circle {
+  @apply bg-neutral-interaction-default z-[2];
+}
+.neutral.active .roundIcon {
+  @apply text-neutral-interaction-default bg-neutral-surface-default;
+}
+
+.option.disabled.primary {
+  @apply hover:bg-transparent;
+}
+.option.disabled.primary .circle {
+  @apply bg-primary-interaction-default z-[2];
+}
+.option.disabled.primary .roundIcon {
+  @apply text-primary-interaction-default bg-neutral-surface-default;
+}
+
+.option.disabled.info {
+  @apply hover:bg-transparent;
+}
+.option.disabled.info .circle {
+  @apply bg-informative-interaction-default z-[2];
+}
+.option.disabled.info .roundIcon {
+  @apply text-informative-interaction-default bg-neutral-surface-default;
+}
+
+.option.disabled.success {
+  @apply hover:bg-transparent;
+}
+.option.disabled.success .circle {
+  @apply bg-success-interaction-default z-[2];
+}
+.option.disabled.success .roundIcon {
+  @apply text-success-interaction-default bg-neutral-surface-default;
+}
+
+.option.disabled.warning {
+  @apply hover:bg-transparent;
+}
+.option.disabled.warning .circle {
+  @apply bg-warning-interaction-default z-[2];
+}
+.option.disabled.warning .roundIcon {
+  @apply text-warning-interaction-default bg-neutral-surface-default;
+}
+
+.option.disabled.danger {
+  @apply hover:bg-transparent;
+}
+.option.disabled.danger .circle {
+  @apply bg-danger-interaction-default z-[2];
+}
+.option.disabled.danger .roundIcon {
+  @apply text-danger-interaction-default bg-neutral-surface-default;
+}
+
+.option.disabled.neutral {
+  @apply hover:bg-transparent;
+}
+.option.disabled.neutral .circle {
+  @apply bg-neutral-interaction-default z-[2];
+}
+.option.disabled.neutral .roundIcon {
+  @apply text-neutral-interaction-default bg-neutral-surface-default;
+}
+
+.circle {
+  @apply bg-neutral-surface-disabled absolute w-[10px] h-[10px] rounded-full;
+}
+
+.customBorder {
+  @apply border-neutral-default absolute;
+}
+
+.dataList {
+  @apply border-neutral-default;
+}
+
+.circleIcon {
+  @apply flex items-center justify-center p-sm text-neutral-foreground-negative bg-neutral-surface-disabled;
+}
+
+.circleIcon span {
+  @apply text-base;
+}
+
+.roundIcon {
+  @apply bg-neutral-surface-default w-fit h-[20px] text-neutral-surface-disabled;
+}
+
+.roundIcon .icon {
+  @apply text-3xl;
+}
+
+.option.right {
+  @apply pl-[20.5px] pr-[16px];
+}
+.option.right .circle {
+  @apply top-[22px] left-[21px];
+}
+.option.right .roundIcon {
+  @apply top-[22px] left-[11px];
+}
+.option.right .circleIcon {
+  @apply top-[22px] left-[15px];
+}
+.option.right .dataList {
+  @apply border-l-[1.5px] p-[16px] pt-[20px] ml-[5px] pl-[20px];
+}
+
+.option.right.firstOption {
+  @apply pt-[20px];
+}
+.option.right.firstOption .customBorder {
+  @apply border-r-xxs h-full w-[.5px] mt-[10px] ml-[5px];
+}
+.option.right.firstOption .dataList {
+  @apply pt-[0px];
+}
+.option.right.firstOption .circle {
+  @apply top-[26px];
+}
+.option.right.firstOption .circleIcon,
+.option.right.firstOption .roundIcon {
+  @apply top-[22px];
+}
+
+.option.right.lastOption .customBorder {
+  @apply border-r-xxs h-[22px] w-[.5px] mt-[0] ml-[5px];
+}
+
+.option.left {
+  @apply pl-[16px] pr-[20.5px];
+}
+.option.left .circle {
+  @apply top-[22px] right-[21px];
+}
+.option.left .roundIcon {
+  @apply top-[22px] right-[13.5px];
+}
+.option.left .circleIcon {
+  @apply top-[22px] right-[14.5px];
+}
+.option.left .dataList {
+  @apply border-r-[1.5px] mr-[6px] pr-[20px] p-[16px] pt-[20px];
+}
+
+.option.left.firstOption {
+  @apply pt-[20px];
+}
+.option.left.firstOption .customBorder {
+  @apply border-l-xxs h-full w-[.5px] right-[26px] mt-[10px];
+}
+.option.left.firstOption .dataList {
+  @apply pt-[0px];
+}
+.option.left.firstOption .circle {
+  @apply top-[26px];
+}
+.option.left.firstOption .circleIcon,
+.option.left.firstOption .roundIcon {
+  @apply top-[22px];
+}
+
+.option.left.lastOption .customBorder {
+  @apply border-l-xxs h-[22px] w-[.5px] right-[26px];
+}
+
+.option.top {
+  @apply pt-[20px] pb-[16px];
+}
+.option.top .circle {
+  @apply top-[16px] left-[16px];
+}
+.option.top .roundIcon {
+  @apply top-[7px] left-[16px];
+}
+.option.top .circleIcon {
+  @apply top-[9.5px] left-[16px];
+}
+.option.top .dataList {
+  @apply border-t-[1.5px] pt-[20px] px-[16px] ml-0;
+}
+.option.top .customBorder {
+  @apply h-[.5px] w-full;
+}
+
+.option.top.firstOption .customBorder {
+  @apply border-t-xxs ml-[26px];
+}
+.option.top.firstOption .haveIcon {
+  @apply mt-[1px];
+}
+.option.top.firstOption .circle {
+  @apply left-[26px];
+}
+.option.top.firstOption .roundIcon,
+.option.top.firstOption .circleIcon {
+  @apply left-[17px];
+}
+
+.option.top.lastOption .customBorder {
+  @apply border-t-xxs w-[22px] left-[-5px] 2xl:mt-[-0.1%];
+}
+.option.top.lastOption .haveIcon {
+  @apply mt-[1px];
+}
+
+.option.bottom {
+  @apply pb-[20.5px] pt-[16px];
+}
+.option.bottom .circle {
+  @apply bottom-[16px] left-[16px];
+}
+.option.bottom .roundIcon {
+  @apply bottom-[14px] left-[16px];
+}
+.option.bottom .circleIcon {
+  @apply bottom-[10px] left-[16px];
+}
+.option.bottom .dataList {
+  @apply border-b-[1.5px] p-[20px] px-[16px];
+}
+.option.bottom .customBorder {
+  @apply h-[.5px] w-full;
+}
+
+.option.bottom.firstOption .customBorder {
+  @apply border-b-xxs ml-[26px] bottom-[20.5px];
+}
+.option.bottom.firstOption .circle {
+  @apply left-[26px];
+}
+.option.bottom.firstOption .roundIcon,
+.option.bottom.firstOption .circleIcon {
+  @apply left-[17px];
+}
+
+.option.bottom.lastOption .customBorder {
+  @apply border-b-xxs w-[22px] left-[-5px] bottom-[20.5px];
+}

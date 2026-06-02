@@ -1,0 +1,67 @@
+@reference "../../assets/main.css";
+
+.image {
+  @apply relative inline-block;
+}
+
+.imageContent {
+  @apply max-w-full h-auto;
+}
+
+.imagePreviewOverlay {
+  @apply absolute inset-0 w-full h-full cursor-pointer opacity-0 transition-opacity duration-300 bg-black/50;
+}
+
+.imagePreviewOverlayVisible {
+  @apply opacity-100;
+}
+
+.imagePreviewOverlayContent {
+  @apply absolute inset-0 flex items-center justify-center z-[2];
+}
+
+.imagePreviewOverlayContent :global(.icon) {
+  @apply text-2xl text-neutral-foreground-negative;
+}
+
+.backdrop {
+  @apply fixed inset-0 z-[1000] bg-black/70 opacity-0 transition-opacity duration-150;
+}
+
+.backdropActive {
+  @apply opacity-100;
+}
+
+.previewModal {
+  @apply z-[1001] fixed w-fit h-fit;
+}
+
+.imagePreviewContainer {
+  @apply top-[50%] left-[50%] flex items-center justify-center;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  max-width: calc(100% - var(--spacing-xl));
+  max-height: calc(100% - var(--spacing-xl));
+}
+
+.previewImageActive {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.imagePreviewToolbar {
+  @apply top-lg right-lg flex gap-xs bg-emphasis p-xxs rounded-base opacity-0 transition-opacity duration-150;
+}
+
+.toolbarActive {
+  @apply opacity-100;
+}
+
+.imagePreview {
+  @apply max-w-full max-h-[80vh] object-contain;
+}
+
+.tool {
+  @apply h-fit;
+}

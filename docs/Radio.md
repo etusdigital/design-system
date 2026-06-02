@@ -7,28 +7,28 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Radio 
-        v-model="isSelected"
-        name="radioGroup"
-    >
-      Test radio
-    </Radio>
-</template>
+```tsx
 
-<script setup lang="ts">
+const [isSelected, setIsSelected] = useState(false)
 
-const isSelected = ref(false)
-</script>
+<Radio
+    value={isSelected}
+    onChange={setIsSelected}
+    name="radioGroup"
+>
+    Test radio
+</Radio>
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value
 Controls the radio button selection state. Type: `boolean` (default: `false`)
+
+#### onChange
+Callback fired when the radio button selection state changes. Type: `(checked: boolean) => void`
 
 #### id
 Unique identifier for the radio button element. Type: `string` (default: `undefined`)
@@ -36,8 +36,8 @@ Unique identifier for the radio button element. Type: `string` (default: `undefi
 #### name
 Name attribute for form grouping and accessibility. Type: `string` (default: `undefined`)
 
-#### group-value
-Value used when radio is part of a Group component. Type: `any` (default: `undefined`)
+#### groupValue
+Value used when radio is part of a RadioGroup component. Type: `any` (default: `undefined`)
 
 #### disabled
 Disables radio button interaction. Type: `boolean` (default: `false`)
@@ -49,29 +49,25 @@ Visual styling variant for different contexts. Type: `'default' | 'onboarding'` 
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the radio button selection state changes.
 
-### Slots API
+### Children API
 
-#### #default
+#### children
 Content displayed next to the radio button circle.
 
-```vue
-<template>
-    <Radio v-model="selected" name="options">
-       Slot: default
-    </Radio>
-</template>
+```tsx
 
-<script setup lang="ts">
+const [selected, setSelected] = useState(false)
 
-const selected = ref(false)
-</script>
+<Radio value={selected} onChange={setSelected} name="options">
+    Option label
+</Radio>
 ```
 
 **Important Notes:**
-- Automatically integrates with Group component for grouped radio selections
+- Automatically integrates with RadioGroup component for grouped radio selections
 - Supports keyboard navigation with Space key activation
 - Provides proper ARIA attributes for screen reader accessibility
 - Label element automatically associates with input when name/id is provided

@@ -1,7 +1,21 @@
-# Version - 1.0.4
+# Version - 2.0.35
+
+This is the React migration release. The design system has been fully migrated from Vue to React.
 
 # Breaking changes
-The following components have been updated to version 1.0.4 and have breaking changes:
+The following components have been updated to version 2.0.0 and have breaking changes:
+
+## React Migration
+
+All components have been migrated from Vue to React. Key changes:
+
+- `v-model` bindings replaced with `value` + `onChange` props
+- Vue slots replaced with React `children` and named props
+- Vue event syntax (`@eventName`) replaced with React event props (`onEventName`)
+- Vue-specific directives (`v-if`, `v-for`, `v-show`) replaced with JSX conditional rendering and `.map()`
+- `inject('toast')` replaced with `useToast()` hook
+- `inject('confirm')` replaced with `useConfirm()` hook
+- `createApp` / `app.use(DesignSystem)` replaced with `<DesignSystemProvider>`
 
 ## Component Naming Convention Changes
 All components now remove the "B" prefix and use clean component names:
@@ -127,7 +141,7 @@ All components now remove the "B" prefix and use clean component names:
   - the prop items was renamed to options
   - thin size was removed and replaced with medium size
   - the prop text inside the options was removed and replaced with label
-  - added get-object prop for returning full option objects
+  - added getObject prop for returning full option objects
 
 ## Tab
   - color prop removed and replaced with background prop
@@ -138,7 +152,8 @@ All components now remove the "B" prefix and use clean component names:
 
 ## TagInput
   - the prop inputMask was removed and replaced with mask
-  - the prop tagList was removed and replaced with v-model
+  - the prop tagList was removed and replaced with value/onChange
 
 ## Toast
   - error type was removed and replaced with danger type
+  - inject('toast') replaced with useToast() hook

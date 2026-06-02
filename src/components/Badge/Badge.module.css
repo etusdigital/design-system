@@ -1,0 +1,45 @@
+@reference "../../assets/main.css";
+
+.badge {
+  @apply flex items-center justify-center gap-xxs text-center w-fit h-fit rounded-full border-xxs;
+}
+
+.label {
+  @apply font-semibold whitespace-nowrap truncate;
+}
+
+.small {
+  @apply text-xs py-xxs px-sm;
+}
+
+.small :global(.icon) {
+  @apply text-lg leading-xxs;
+}
+
+.medium {
+  @apply text-sm py-xs px-base;
+}
+
+.medium :global(.icon) {
+  @apply text-base leading-xxs;
+}
+
+.large {
+  @apply text-lg py-sm px-lg;
+}
+
+.large :global(.icon) {
+  @apply text-2xl leading-xxs;
+}
+
+.secondary {
+  @apply bg-transparent;
+}
+
+.heavy .colored {
+  @apply text-neutral-foreground-negative;
+}
+
+.clickable {
+  @apply cursor-pointer;
+}

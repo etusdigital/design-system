@@ -1,0 +1,50 @@
+@reference "../../assets/main.css";
+
+.tooltip {
+  @apply z-[1004] fixed flex items-center opacity-0 transition-opacity duration-500 ease-out;
+}
+
+.tooltip.active {
+  @apply opacity-1;
+  opacity: 1;
+}
+
+.tooltipTriangle {
+  @apply w-0 h-0 border-[9px] border-r-0 border-[9px] border-l-[11px] border-l-negative border-transparent relative;
+}
+
+.tooltipContent {
+  @apply flex items-center justify-center bg-negative p-xs rounded-base font-normal text-neutral-foreground-negative text-xs w-fit whitespace-nowrap;
+}
+
+.right {
+  @apply flex-row;
+}
+
+.right .tooltipTriangle {
+  @apply rotate-180 right-[-2px];
+}
+
+.left {
+  @apply flex-row-reverse;
+}
+
+.left .tooltipTriangle {
+  @apply left-[-2px];
+}
+
+.top {
+  @apply flex-col-reverse;
+}
+
+.top .tooltipTriangle {
+  @apply rotate-90 top-[-5px];
+}
+
+.bottom {
+  @apply flex-col;
+}
+
+.bottom .tooltipTriangle {
+  @apply rotate-[-90deg] bottom-[-5px];
+}

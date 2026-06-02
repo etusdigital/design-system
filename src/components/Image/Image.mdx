@@ -1,5 +1,5 @@
 import { Canvas, Meta, Controls } from '@storybook/blocks';
-import * as Image from './Image.stories.ts';
+import * as Image from './Image.stories.tsx';
 
 <Meta of={Image} />
 
@@ -20,10 +20,8 @@ import * as Image from './Image.stories.ts';
 
 ### Basic Usage
 
-```vue
-<template>
-    <Image src="/image.jpg" alt="Sample image" width="250" />
-</template>
+```tsx
+<Image src="/image.jpg" alt="Sample image" width="250" />
 ```
 
 <Canvas sourceState="none" of={Image.Primary} />
@@ -54,10 +52,8 @@ Enable preview mode with modal overlay and transformation controls. Type: `boole
 
 When enabled, clicking the image opens a modal with zoom and rotation controls.
 
-```vue
-<template>
-    <Image src="/image.jpg" alt="Sample image" width="250" preview />
-</template>
+```tsx
+<Image src="/image.jpg" alt="Sample image" width="250" preview />
 ```
 
 <Canvas sourceState="none" of={Image.Preview} />
@@ -66,23 +62,23 @@ When enabled, clicking the image opens a modal with zoom and rotation controls.
 
 ### Events API
 
-#### @show
-Emitted when the preview modal is opened.
+#### onShow
+Callback fired when the preview modal is opened. Type: `() => void`
 
-#### @hide
-Emitted when the preview modal is closed.
+#### onHide
+Callback fired when the preview modal is closed. Type: `() => void`
 
 ---
 
-### Slots API
+### Children API
 
-#### #image
+#### image (render prop)
 Custom slot for the main image content. Allows complete customization of the displayed image.
 
-#### #image-overlay
+#### imageOverlay (render prop)
 Custom slot for the preview overlay icon. Default shows a visibility icon.
 
-#### #preview
+#### preview (render prop)
 Custom slot for the preview modal image with access to transformation styles and click handler.
 
 ---
@@ -90,7 +86,7 @@ Custom slot for the preview modal image with access to transformation styles and
 ### Accessibility Features
 
 - **ARIA Support**: Preview modal uses proper `role="dialog"` and `aria-modal` attributes
-- **Keyboard Navigation**: 
+- **Keyboard Navigation**:
   - `Escape` key closes the preview modal
   - `Tab` navigation through preview controls
   - `Enter/Space` activates control buttons

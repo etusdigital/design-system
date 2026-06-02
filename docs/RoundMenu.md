@@ -7,15 +7,10 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <RoundMenu :options="menuOptions" />
-</template>
+```tsx
+const menuOptions = [...]
 
-<script setup lang="ts">
-
-const menuOptions = ref([...])
-</script>
+<RoundMenu options={menuOptions} />
 ```
 
 ---
@@ -27,10 +22,10 @@ Array of menu option objects that define the radial menu options. Type: `MenuOpt
 
 ```typescript
 type MenuOption = {
-  label: string;      // Display text for the menu option
-  icon: string;       // Icon name for the menu button
-  background: string; // Custom background color for the button
-  action: () => void; // Function to execute when option is clicked
+  label: string;        // Display text for the menu option
+  icon: string;         // Icon name for the menu button
+  background: string;   // Custom background color for the button
+  onClick: () => void;  // Callback to execute when option is clicked
 }
 ```
 
@@ -43,13 +38,13 @@ type MenuOption = {
 
 ### Events API
 
-The component doesn't emit custom events. Interactions are handled through the `action` functions defined in each menu option.
+The component doesn't emit custom events. Interactions are handled through the `onClick` callbacks defined in each menu option.
 
 ---
 
-### Slots API
+### Children API
 
-This component uses `Button` internally and doesn't expose custom slots.
+This component uses `Button` internally and doesn't accept custom children.
 
 ---
 

@@ -1,0 +1,25 @@
+@reference "../../assets/main.css";
+
+.crop {
+  @apply flex flex-col gap-xs rounded-xl w-full h-full;
+}
+
+.cropArea {
+  @apply z-[2] absolute w-full border-xxs border-primary-default bg-transparent top-0 cursor-move rounded-xl;
+}
+
+.cropImg {
+  @apply relative w-full h-full overflow-hidden rounded-xl bg-black;
+
+  img {
+    @apply absolute select-none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.footer {
+  @apply flex items-center gap-base;
+  margin: 0 10%;
+}

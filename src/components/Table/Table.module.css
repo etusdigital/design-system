@@ -1,0 +1,129 @@
+@reference "../../assets/main.css";
+
+.table {
+  @apply block w-full max-w-full;
+}
+
+.tableContent {
+  @apply min-w-full max-w-full overflow-x-auto rounded-xl bg-neutral-surface-default border-xxs border-neutral-default shadow-neutral-selected;
+}
+
+.tableContent.noShadow {
+  @apply shadow-none border-none;
+}
+
+.tableContent.headerFixed {
+  @apply overflow-y-auto max-h-[35em];
+}
+
+.tableContent.headerFixed .tableStyle thead {
+  @apply bg-neutral-surface-default top-0 sticky;
+}
+
+.tableStyle {
+  @apply w-full rounded-xl bg-neutral-surface-default;
+}
+
+.tableStyle thead {
+  @apply border-b-xxs border-b-neutral-default;
+}
+
+.tableStyle tbody {
+  @apply divide-y-xxs divide-neutral-default w-full;
+}
+
+.tableStyle tr {
+  @apply rounded-xl;
+}
+
+.tableStyle th {
+  @apply py-base px-lg hover:bg-neutral-surface-highlight;
+}
+
+.firstTh {
+  @apply rounded-ss-xl;
+}
+
+.lastTh {
+  @apply rounded-se-xl;
+}
+
+.pointerNone {
+  @apply pointer-events-none;
+}
+
+.hoverBg {
+  @apply hover:bg-neutral-surface-default;
+}
+
+.sortable {
+  cursor: pointer;
+}
+
+.thContent {
+  @apply flex w-full items-center gap-xs text-neutral-interaction-default;
+}
+
+.thLabel {
+  @apply truncate;
+}
+
+.sortIconContainer {
+  @apply opacity-0 h-fit w-fit flex items-center transition-transform ease-in-out duration-300;
+}
+
+.sortIcon {
+  @apply text-lg leading-xxs;
+}
+
+.sortIconRotated {
+  @apply rotate-180;
+}
+
+.sortIconActive {
+  @apply text-primary-interaction-default opacity-100;
+}
+
+.tableStyle th:hover .sortIconContainer {
+  @apply opacity-100;
+}
+
+.row {
+  @apply text-neutral-foreground-low;
+}
+
+.row > * {
+  @apply py-sm px-lg;
+}
+
+.cell {
+  @apply py-sm px-lg;
+}
+
+.rowHover:hover {
+  @apply bg-primary-surface-default;
+}
+
+.skeletonCell {
+  @apply p-base;
+}
+
+.skeletonCell .skeleton {
+  @apply h-sm w-full;
+}
+
+.footer {
+  @apply flex items-center justify-between mt-base text-neutral-foreground-low flex-wrap;
+}
+
+.footerLeft {
+  @apply flex items-center gap-xs;
+}
+
+.footerLabel {
+  @apply text-sm;
+}
+
+.emptyState {
+  @apply flex items-center justify-center py-xl text-neutral-foreground-low;
+}

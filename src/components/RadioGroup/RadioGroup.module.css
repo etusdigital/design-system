@@ -1,0 +1,13 @@
+@reference "../../assets/main.css";
+
+.radioGroup {
+  @apply inline-flex flex-wrap;
+}
+
+.horizontal {
+  @apply flex-row items-end [&>*+*]:ml-sm;
+}
+
+.vertical {
+  @apply flex-col [&>*+*]:mt-sm;
+}

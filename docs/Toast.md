@@ -3,33 +3,31 @@
 
 **Purpose**: A programmatic toast notification function that displays temporary messages with various types, positioning options, and action buttons for user feedback and status updates.
 
-**Usage**: Function-based API - no direct component import needed
+**Usage**: Hook-based API - access via `useToast()` hook
 
-**Import**: Import it using inject function `inject('toast')`
+**Import**: `import { useToast } from '@etus/design-system'`
 
 <br />
 ### Basic Usage
 
-```vue
-<template>
-   <button @click="showToast">Show Toast</button>
-</template>
+```tsx
 
-<script setup lang="ts">
+function MyComponent() {
+    const { toast } = useToast()
 
-const toast = inject('toast') as Function
+    const showToast = () => {
+        toast({
+            title: 'Success',
+            message: 'Your changes have been saved successfully!',
+            type: 'success',
+            top: true,
+            right: true,
+            timeout: 3500
+        })
+    }
 
-const showToast = () => {
-    toast({
-        title: 'Success',
-        message: 'Your changes have been saved successfully!',
-        type: 'success',
-        top: true,
-        right: true,
-        timeout: 3500
-    })
+    return <button onClick={showToast}>Show Toast</button>
 }
-</script>
 ```
 
 ---
@@ -58,32 +56,14 @@ type ToastOptions = {
 
 **Returns**: `void` (fire-and-forget function)
 
-#### Access Methods
-
-**Composition API (Recommended)**
-```javascript
-
-const toast = inject('toast') as Function
-```
-
-**Options API (Legacy)**
-```javascript
-this.$toast({
-    title: 'Notification',
-    message: 'Operation completed',
-    type: 'info',
-    top: true,
-    right: true,
-    timeout: 3500
-})
-```
-
 ---
 
 ### Usage Patterns
 
 #### Action Button
-```javascript
+```tsx
+const { toast } = useToast()
+
 const showLowStorageWarning = () => {
     toast({
         title: 'Storage Warning',
@@ -101,7 +81,9 @@ const showLowStorageWarning = () => {
 ```
 
 #### Positioning Examples
-```javascript
+```tsx
+const { toast } = useToast()
+
 toast({ message: 'Success!', type: 'success', top: true, right: true })
 toast({ message: 'Success!', type: 'success', top: true, left: true })
 toast({ message: 'Success!', type: 'success', bottom: true, left: true })
@@ -112,32 +94,27 @@ toast({ message: 'Success!', type: 'success', bottom: true, right: true })
 
 ### Setup Requirements
 
-#### Component Registration
-The `<toast />` component must be included **only once** in your application root, preferably in `App.vue`:
+#### Provider Setup
+Wrap your application with `DesignSystemProvider` which includes toast support:
 
-```vue
-<!-- App.vue -->
-<template>
-    <!-- Your app content -->
-    <router-view />
-    
-    <!-- Required for toast notifications - Add only once -->
-    <toast />
-</template>
+```tsx
+
+function App() {
+    return (
+        <DesignSystemProvider>
+            {/* Your app content */}
+        </DesignSystemProvider>
+    )
+}
 ```
-
-**Important**: Do not add `<toast />` to individual components. It should only be present once in your entire application.
-
-#### Service Injection
-The toast function is available through Vue's dependency injection system and requires proper setup in your application configuration.
 
 ---
 
 ### Event System
 
-The toast system uses an internal event system to communicate between the function call and the toast component:
+The toast system uses an internal event system to communicate between the hook call and the toast component:
 
-- **Function Call** → Triggers `open-toast` event
+- **Hook Call** → Triggers `open-toast` event
 - **Auto-dismiss/Manual Close** → Triggers `close-toast` event
 - **Action Button Click** → Executes provided action function
 
@@ -145,7 +122,7 @@ The toast system uses an internal event system to communicate between the functi
 - Multiple toasts can be displayed simultaneously in different positions
 - Toasts auto-dismiss based on timeout (if specified)
 - Position constraints: use only one vertical (top/bottom) and one horizontal (left/right) position
-- Requires `<toast />` component in application root **only once** (preferably in App.vue)
-- Uses dependency injection for clean API access
+- Requires `DesignSystemProvider` wrapping your application
+- Use `useToast()` hook for clean API access anywhere in the component tree
 - Fire-and-forget function - no return value needed
 - Responsive design automatically adjusts toast width on mobile devices

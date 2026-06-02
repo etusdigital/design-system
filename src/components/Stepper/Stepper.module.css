@@ -1,0 +1,57 @@
+@reference "../../assets/main.css";
+
+.stepper { @apply flex items-center w-full; }
+
+.stepContainer { @apply relative flex flex-col items-center cursor-pointer; }
+
+.step {
+  @apply rounded-full flex items-center justify-center relative z-[1] p-base border-xs;
+}
+.step.small { @apply p-sm; }
+.step.large { @apply p-lg; }
+
+.step.past {
+  @apply bg-primary-interaction-default border-primary-interaction-default text-neutral-foreground-negative;
+}
+
+.step.active {
+  @apply bg-transparent border-primary-default text-primary-interaction-default;
+}
+
+.step.future {
+  @apply bg-neutral-surface-default border-neutral-default text-neutral-foreground-low;
+}
+
+.step.skip {
+  @apply bg-transparent border-primary-interaction-default text-primary-interaction-default;
+}
+
+.label { @apply absolute translate-y-4xl text-xs font-normal text-center whitespace-nowrap; }
+
+.small .label { @apply translate-y-3xl; }
+
+.large .label { @apply translate-y-5xl; }
+
+.connector {
+  @apply z-[0] relative top-none flex-1 h-xxs;
+}
+
+.connector.past {
+  @apply bg-primary-interaction-default;
+}
+
+.connector.future {
+  background: var(--neutral-border-default);
+}
+
+.stepperIcon {
+  @apply text-lg leading-xxs;
+}
+
+.stepperIcon.small {
+  @apply text-base;
+}
+
+.stepperIcon.large {
+  @apply text-xl;
+}

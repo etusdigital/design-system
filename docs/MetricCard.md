@@ -1,52 +1,47 @@
 # Name: MetricCard
 ## Component Overview
 
-**Purpose**: A flexible metric display card component with multiple visual themes, loading states, and customizable content slots for showcasing key performance indicators and statistical data.
+**Purpose**: A flexible metric display card component with multiple visual themes, loading states, and customizable content children props for showcasing key performance indicators and statistical data.
 
 **Import**: Automatic - no need to import any DS components
 
 ### Basic Usage
 
-```vue
-<template>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-base">
-        <MetricCard
-            title="Total Revenue"
-            value="$124,500"
-            description="+12% from last month"
-            icon="trending_up"
-            type="success"
-            @click="viewDetails"
-        />
-        
-        <MetricCard
-            title="Active Users"
-            value="2,450"
-            description="+5% from last week"
-            icon="people"
-            :loading="isLoading"
-        />
-        
-        <MetricCard
-            title="Conversion Rate"
-            value="3.2%"
-            description="-0.5% from last month"
-            icon="analytics"
-            type="danger"
-            info-message="Below target"
-            info-type="warning"
-        />
-    </div>
-</template>
-
-<script setup lang="ts">
-
-const isLoading = ref(false)
+```tsx
+const [isLoading, setIsLoading] = useState(false)
 
 const viewDetails = () => {
     console.log('View revenue details')
 }
-</script>
+
+<div className="grid grid-cols-1 md:grid-cols-3 gap-base">
+    <MetricCard
+        title="Total Revenue"
+        value="$124,500"
+        description="+12% from last month"
+        icon="trending_up"
+        type="success"
+        onClick={viewDetails}
+    />
+
+    <MetricCard
+        title="Active Users"
+        value="2,450"
+        description="+5% from last week"
+        icon="people"
+        loading={isLoading}
+    />
+
+    <MetricCard
+        title="Conversion Rate"
+        value="3.2%"
+        description="-0.5% from last month"
+        icon="analytics"
+        type="danger"
+        infoMessage="Below target"
+        infoType="warning"
+    />
+</div>
 ```
 
 ---
@@ -74,92 +69,81 @@ Size variant affecting typography and spacing. Type: `"small" | "medium" | "larg
 #### color
 Custom color for the value text (only applies to 'card' type). Type: `"primary" | "info" | "success" | "danger" | "warning" | "neutral"` (default: `"neutral"`)
 
-#### info-message
+#### infoMessage
 Additional informational message displayed with tooltip or text. Type: `string` (default: `""`)
 
-#### info-type
+#### infoType
 Color theme for the info message display. Type: `"primary" | "info" | "success" | "danger" | "warning" | "neutral"` (default: `"neutral"`)
 
-#### tooltip-min-width
+#### tooltipMinWidth
 Minimum width for the info tooltip container. Type: `string` (default: `"none"`)
 
 #### loading
 Shows skeleton loading animation instead of content. Type: `boolean` (default: `false`)
 
-#### no-tooltip
+#### noTooltip
 Displays info message as text instead of in a tooltip. Type: `boolean` (default: `false`)
 
-#### bold-title
+#### boldTitle
 Makes the title text bold for emphasis. Type: `boolean` (default: `false`)
 
 ---
 
 ### Events API
 
-This component does not emit custom events but supports standard DOM events like `@click`.
+This React component supports standard DOM events like `onClick`.
 
-### Slots API
+### Children API
 
-#### #default
+#### children
 Additional content displayed below the main card information.
 
-```vue
-<template>
-    <MetricCard
-        class="w-fit"
-        title="Your June recipe"
-        value="$100,000.00"
-        color="primary"
-        type="card"
-        size="large"
-        bold-title
-    >
-        <template #description-slot>
-            <div class="flex items-center h-full pt-xs">
-                <tooltip text="info">
-                    <icon name="info" class="info-icon" />
-                </tooltip>
-            </div>
-        </template>
-        <div class="flex flex-col gap-sm mt-sm">
-            <div class="flex items-center gap-xs text-neutral-foreground-high">
-                <icon name="calendar_month" class="calendar-icon" />
-                <p class="text-sm">Payment will be made by 04/30/2024</p>
-            </div>
-        <div class="flex gap-xs self-end">
-            <tag text="Processing payment" size="small" />
+```tsx
+<MetricCard
+    className="w-fit"
+    title="Your June recipe"
+    value="$100,000.00"
+    color="primary"
+    type="card"
+    size="large"
+    boldTitle
+    descriptionSlot={
+        <div className="flex items-center h-full pt-xs">
+            <Tooltip text="info">
+                <Icon name="info" className="info-icon" />
+            </Tooltip>
+        </div>
+    }
+>
+    <div className="flex flex-col gap-sm mt-sm">
+        <div className="flex items-center gap-xs text-neutral-foreground-high">
+            <Icon name="calendar_month" className="calendar-icon" />
+            <p className="text-sm">Payment will be made by 04/30/2024</p>
+        </div>
+        <div className="flex gap-xs self-end">
+            <Tag text="Processing payment" size="small" />
             <button variant="secondary" size="small">
                 View Details
             </button>
         </div>
-        </div>
-    </MetricCard>
-</template>
-
-<style scoped>
-.info-icon.icon {
-    @apply text-lg text-neutral-interaction-default
-}
-
-.calendar-icon.icon {
-    @apply text-base;
-}
+    </div>
+</MetricCard>
 ```
 
-#### #title-slot
-Custom content to replace the default title text.
+#### titleSlot
+Custom content to replace the default title text. Pass via `titleSlot` prop.
 
-#### #value-slot
-Custom content to replace the default value display.
+#### valueSlot
+Custom content to replace the default value display. Pass via `valueSlot` prop.
 
-#### #description-slot
-Custom content to replace the default description text.
+#### descriptionSlot
+Custom content to replace the default description text. Pass via `descriptionSlot` prop.
 
-#### #content
-Custom content to replace both value and description sections.
+#### content
+Custom content to replace both value and description sections. Pass via `content` prop.
 
-#### #info
-Custom content displayed next to the title for additional information.
+#### info
+Custom content displayed next to the title for additional information. Pass via `info` prop.
 
 **Important Notes:**
 - Built on top of Card component for consistent styling and layout
@@ -168,7 +152,7 @@ Custom content displayed next to the title for additional information.
 - Flexible sizing system (small, medium, large) adapts to various dashboard layouts
 - Info message system with tooltip or text display options for additional context
 - Icon integration enhances visual hierarchy and quick recognition
-- Slot-based architecture allows complete customization of content areas
+- Prop-based architecture allows complete customization of content areas
 - Responsive typography that scales appropriately across different sizes
 - Loading state management prevents layout shift during data updates
 - Accessibility support with proper semantic structure and color contrast

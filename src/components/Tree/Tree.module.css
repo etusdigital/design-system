@@ -1,0 +1,42 @@
+@reference "../../assets/main.css";
+
+.tree {
+  @apply flex flex-col;
+}
+
+.treeOption {
+  @apply flex flex-col;
+}
+
+.nodeRow {
+  @apply flex items-center gap-xxs py-xxs px-xs cursor-pointer rounded-sm text-neutral-interaction-default;
+}
+
+.nodeRow:not(.multiple) {
+  @apply hover:bg-primary-surface-hover hover:text-primary-interaction-hover transition-colors duration-150;
+}
+
+.selected:not(.multiple) {
+  @apply bg-primary-surface-default text-primary-foreground-low;
+}
+
+.disabled {
+  @apply opacity-50 pointer-events-none;
+}
+
+.expandIcon {
+  @apply text-xl leading-base transition-transform duration-200;
+  transform: rotate(0deg);
+}
+
+.expandIconOpen {
+  transform: rotate(90deg);
+}
+
+.nodeIcon {
+  @apply text-xl leading-base;
+}
+
+.nodeLabel {
+  @apply text-sm flex-1;
+}

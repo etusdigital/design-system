@@ -1,0 +1,38 @@
+@reference "../../assets/main.css";
+
+.content-wrapper {
+  @apply top-full left-0 transition-[max-height] duration-100 w-full;
+}
+
+.sc-content {
+  @apply overflow-hidden flex flex-col items-center translate-y-[-100%] duration-100 ease-out
+    rounded-sm bg-neutral-surface-default text-xs;
+}
+
+.sc-content.secondary {
+  @apply bg-primary-interaction-default text-neutral-foreground-negative;
+}
+
+.sc-content.secondary .options-list::-webkit-scrollbar-thumb {
+  @apply bg-primary-surface-pressed;
+}
+
+.sc-content.secondary .options-list::-webkit-scrollbar {
+  @apply bg-primary-surface-default;
+}
+
+.sc-content.expanded {
+  @apply translate-y-[0];
+}
+
+.sc-content.has-max-height {
+  @apply max-h-[12em];
+}
+
+.options-list {
+  @apply overflow-auto rounded-sm w-full;
+}
+
+.sc-actions {
+  @apply flex gap-xxs items-center justify-end p-xs w-full border-t-xxs border-neutral-default;
+}

@@ -1,0 +1,9 @@
+@reference "../../assets/main.css";
+
+.separator {
+    @apply flex items-center gap-xs w-full text-neutral-foreground-high font-bold;
+}
+
+.separatorLine {
+    @apply border-t-xxs flex-1 border-neutral-default;
+}

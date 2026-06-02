@@ -1,0 +1,43 @@
+@reference "../../assets/main.css";
+
+.profile {
+  @apply relative inline-block;
+  min-width: 25em;
+}
+
+.absolute .dropdown {
+  @apply absolute;
+}
+
+.disabled {
+  @apply opacity-50 pointer-events-none;
+}
+
+.trigger {
+  @apply cursor-pointer;
+}
+
+.dropdown {
+  @apply w-full rounded-sm bg-neutral-surface-default text-xs shadow-md z-10;
+  min-width: 25em;
+}
+
+.profileOption {
+  @apply flex items-center gap-xs p-xs cursor-pointer;
+}
+
+.profileOptionAction {
+  @apply p-xs text-xl;
+}
+
+.searchIcon {
+  @apply absolute left-1.5 text-xl;
+}
+
+.inputDefault {
+  @apply w-full text-sm bg-neutral-surface-default border-xxs border-neutral-default placeholder:text-neutral-interaction-default py-xs pr-xs pl-2xl outline-none focus:border-neutral-default;
+}
+
+.profileIcon {
+  @apply text-xl leading-xs;
+}

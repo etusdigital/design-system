@@ -1,0 +1,17 @@
+@reference "../../assets/main.css";
+
+.actionCard {
+  @apply flex items-center gap-xxs transition-transform duration-150 ease-in-out;
+}
+
+.actionCard:hover {
+  @apply transition-transform duration-150 ease-in-out scale-105;
+}
+
+.actionCard:hover .sideIcon {
+  @apply text-neutral-interaction-default;
+}
+
+.sideIcon {
+  @apply flex items-center text-neutral-interaction-disabled leading-xxs;
+}

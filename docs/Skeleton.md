@@ -7,10 +7,8 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Skeleton class="h-xs w-full" />
-</template>
+```tsx
+<Skeleton className="h-xs w-full" />
 ```
 
 ---

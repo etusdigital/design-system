@@ -7,20 +7,18 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <StatusBadge 
-        label-value="StatusBadge component"
-        icon="star"
-    />
-</template>
+```tsx
+<StatusBadge
+    labelValue="StatusBadge component"
+    icon="star"
+/>
 ```
 
 ---
 
 ### Props API
 
-#### label-value
+#### labelValue
 The text content displayed in the tag. Type: `string` (default: `""`)
 
 #### color
@@ -38,7 +36,7 @@ Shows spinner animation instead of content. Type: `boolean` (default: `false`)
 #### icon
 Icon name to display within the tag. Type: `string` (default: `""`)
 
-#### is-appended-icon
+#### isAppendedIcon
 Controls icon position - when true, icon appears after text. Type: `boolean` (default: `false`)
 
 #### closeable
@@ -48,20 +46,18 @@ Adds close button functionality with click event emission. Type: `boolean` (defa
 
 ### Events API
 
-#### @close
+#### onClose
 Triggered when the close button is clicked (only when `closeable` is true).
 
 ### Slots API
 
-#### #default
+#### children
 Content displayed instead of text prop when provided.
 
-```vue
-<template>
-    <StatusBadge>
-       Slot: default
-    </StatusBadge>
-</template>
+```tsx
+<StatusBadge>
+   Slot: default
+</StatusBadge>
 ```
 
 **Important Notes:**

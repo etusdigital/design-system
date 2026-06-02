@@ -7,52 +7,52 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <TagSelect 
-        v-model="selectedTags"
-        label-value="Select Tags"
-        :options="availableTags"
-    >
-        <template #search-label>
-            Search
-        </template>
-        <template #no-options-found>
-            No result found
-        </template>
-        <template #empty-state>
-            No tags created yet
-        </template>
-    </TagSelect>
-</template>
+```tsx
+const [selectedTags, setSelectedTags] = useState([])
+const [availableTags] = useState([...])
 
-<script setup lang="ts">
-
-const selectedTags = ref([...])
-const availableTags = ref([...])
-</script>
+return (
+    <TagSelect
+        value={selectedTags}
+        onChange={setSelectedTags}
+        labelValue="Select Tags"
+        options={availableTags}
+        searchLabel="Search"
+        noOptionsFound="No result found"
+        emptyState="No tags created yet"
+    />
+)
 ```
 
 ---
 
 ### Props API
 
-#### v-model
+#### value
 Controls the selected tags array. Type: `any[]` (default: `[]`)
 
-#### v-model:expanded
+#### onChange
+Callback triggered when selected tags change. Type: `(tags: any[]) => void`
+
+#### expanded
 Controls the dropdown expanded state. Type: `boolean` (default: `false`)
 
-#### label-value
+#### onExpandedChange
+Callback triggered when the dropdown expanded state changes. Type: `(expanded: boolean) => void`
+
+#### labelValue
 The label displayed for the tag select input. Type: `string` (default: `""`)
 
 #### options
 Array of available tag options. Can be strings or objects. Type: `any[]` (default: `[]`)
 
+#### onOptionsChange
+Callback triggered when new tags are added to the options array. Type: `(options: any[]) => void`
+
 #### icon
 Icon displayed on the tag select input. Type: `string` (default: `""`)
 
-#### label-key
+#### labelKey
 Property name used for displaying option labels when using object arrays. Type: `string` (default: `"label"`)
 
 #### absolute
@@ -64,46 +64,44 @@ Disables the tag select interaction. Type: `boolean` (default: `false`)
 #### required
 Marks the field as required. Type: `boolean` (default: `false`)
 
-#### is-error
+#### isError
 Activates error styling mode. Type: `boolean` (default: `false`)
 
-#### error-message
+#### errorMessage
 Error message to display when in error state. Type: `string` (default: `""`)
 
-#### info-message
+#### infoMessage
 Informational message displayed with tooltip. Type: `string` (default: `""`)
 
-#### button-label
+#### buttonLabel
 Text displayed on the add button. Type: `string` (default: `"Add"`)
+
+#### searchLabel
+Custom placeholder text for the search input. Type: `string`
+
+#### noOptionsFound
+Custom content displayed when search yields no results. Type: `string | ReactNode`
+
+#### emptyState
+Custom content displayed when no options are available. Type: `string | ReactNode`
 
 ---
 
 ### Events API
 
-#### @update:model-value
+#### onChange
 Triggered when the selected tags change. Receives the updated tags array.
 
-#### @update:options
+#### onOptionsChange
 Triggered when new tags are added to the options array. Receives the updated options array.
 
-#### @update:expanded
+#### onExpandedChange
 Triggered when the dropdown expanded state changes.
 
----
+### Children API
 
-### Slots API
-
-#### #search-label
-Custom placeholder text for the search input.
-
-#### #no-options-found
-Custom content displayed when search yields no results.
-
-#### #empty-state
-Custom content displayed when no options are available.
-
-#### #option
-Custom rendering for individual options in the dropdown.
+#### children
+Custom trigger element to replace the default tag select button.
 
 **Important Notes:**
 - Prevents duplicate tag selection automatically

@@ -7,12 +7,10 @@
 
 ### Basic Usage
 
-```vue
-<template>
-    <Separator>
-        Separator
-    </Separator>
-</template>
+```tsx
+<Separator>
+    Separator
+</Separator>
 ```
 
 ---
@@ -28,21 +26,19 @@ Controls the position of the separator lines relative to the text. Type: `'left'
 
 This component doesn't emit any events.
 
-### Slots API
+### Children API
 
-#### #default
-The text content displayed between or alongside the separator lines. Text content is optional
+#### children
+The text content displayed between or alongside the separator lines. Text content is optional.
 
-```vue
-<template>
-    <Separator>
-        Slot: default
-    </Separator>
-</template>
+```tsx
+<Separator>
+    Section title
+</Separator>
 ```
 
 **Important Notes:**
-- Simple and lightweight component focused on visual content separation
+- Simple and lightweight React component focused on visual content separation
 - Three position modes: 'left' (line on right), 'both' (lines on both sides), 'right' (line on left)
 - Automatically spans full width with flexible line sizing
 - Uses semantic styling with neutral colors for universal application

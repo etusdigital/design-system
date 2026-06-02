@@ -1,0 +1,69 @@
+@reference "../../assets/main.css";
+
+.file {
+  @apply relative flex flex-col items-center justify-center gap-xs border border-dashed border-neutral-default rounded-sm py-xs px-sm text-center cursor-pointer w-full;
+}
+
+.dragging {
+  @apply border-primary-interaction-default;
+}
+
+.disabled {
+  @apply pointer-events-none opacity-50;
+}
+
+.error {
+  @apply border-danger-default;
+}
+
+.hiddenInput {
+  @apply absolute inset-0 opacity-0 z-[1] cursor-pointer;
+}
+
+.blurred {
+  @apply blur-[2px];
+}
+
+.errorMessage {
+  @apply text-sm text-danger-foreground-low mt-1;
+}
+
+.infoMessage {
+  @apply text-sm text-neutral-foreground-low mt-1;
+}
+
+.draftIcon {
+  @apply text-7xl text-neutral-foreground-low;
+}
+
+.draftIcon.small {
+  @apply text-6xl;
+}
+
+.draftIcon.large {
+  @apply text-8xl;
+}
+
+.trashIcon {
+  @apply text-xl cursor-pointer text-neutral-interaction-default hover:text-danger-interaction-default;
+}
+
+.trashIcon.small {
+  @apply text-lg;
+}
+
+.trashIcon.large {
+  @apply text-2xl;
+}
+
+.fileName {
+  @apply text-base text-neutral-foreground-low truncate;
+}
+
+.fileName.small {
+  @apply text-sm;
+}
+
+.fileName.large {
+  @apply text-lg;
+}

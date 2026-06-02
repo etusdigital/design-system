@@ -1,0 +1,165 @@
+@reference "../../assets/main.css";
+
+.alert {
+  @apply flex justify-between p-base rounded-base border-xxs gap-base transition-[height] duration-100;
+}
+
+.itemsStart {
+  @apply items-start;
+}
+
+.itemsCenter {
+  @apply items-center;
+}
+
+.contentWrapper {
+  @apply flex gap-sm transition-[max-height] duration-300;
+}
+
+.items-start {
+  @apply items-start;
+}
+
+.items-center {
+  @apply items-center;
+}
+
+.items-end {
+  @apply items-end;
+}
+
+.body {
+  @apply self-center flex-1;
+}
+
+.textContent {
+  @apply flex flex-col gap-xxs;
+}
+
+.small .title {
+  @apply text-sm;
+}
+
+.small .message {
+  @apply text-xs;
+}
+
+.small .typeIcon,
+.small :global(.icon) {
+  @apply text-xl leading-xxs;
+}
+
+.medium .title {
+  @apply text-base;
+}
+
+.medium .message {
+  @apply text-sm;
+}
+
+.medium .typeIcon,
+.medium :global(.icon) {
+  @apply text-2xl leading-xxs;
+}
+
+.large .title {
+  @apply text-xl;
+}
+
+.large .message {
+  @apply text-base;
+}
+
+.large .typeIcon,
+.large :global(.icon) {
+  @apply text-2xl leading-xxs;
+}
+
+.info {
+  @apply bg-informative-surface-default border-informative-default text-informative-interaction-default;
+}
+
+.info .title {
+  @apply text-informative-foreground-high;
+}
+
+.info .typeIcon,
+.info .message {
+  @apply text-informative-foreground-low;
+}
+
+.success {
+  @apply bg-success-surface-default border-success-default text-success-interaction-default;
+}
+
+.success .title {
+  @apply text-success-foreground-high;
+}
+
+.success .typeIcon,
+.success .message {
+  @apply text-success-foreground-low;
+}
+
+.warning {
+  @apply bg-warning-surface-default border-warning-default text-warning-interaction-default;
+}
+
+.warning .title {
+  @apply text-warning-foreground-high;
+}
+
+.warning .typeIcon,
+.warning .message {
+  @apply text-warning-foreground-low;
+}
+
+.danger {
+  @apply bg-danger-surface-default border-danger-default text-danger-interaction-default;
+}
+
+.danger .title {
+  @apply text-danger-foreground-high;
+}
+
+.danger .typeIcon,
+.danger .message {
+  @apply text-danger-foreground-low;
+}
+
+.neutral {
+  @apply bg-neutral-surface-default border-neutral-default text-neutral-interaction-default;
+}
+
+.neutral .title {
+  @apply text-neutral-foreground-high;
+}
+
+.neutral .typeIcon,
+.neutral .message {
+  @apply text-neutral-foreground-low;
+}
+
+.typeIcon {
+  @apply flex transition-transform duration-500;
+}
+
+.actionIcon {
+  @apply cursor-pointer;
+}
+
+.expandToggle {
+  @apply flex items-center transition-transform ease-in-out duration-300;
+}
+
+.rotated {
+  @apply rotate-180;
+}
+
+.clickable {
+  @apply cursor-pointer;
+}
+
+.title {
+  @apply font-bold;
+}
