@@ -98,6 +98,7 @@ function ToastWithActionTrigger() {
           top: true,
           right: true,
           buttonLabel: 'Undo',
+          timeout: 3000,
           action: () => alert('Undo clicked!'),
         })
       }
