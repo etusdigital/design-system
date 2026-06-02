@@ -68,12 +68,12 @@
   @apply truncate;
 }
 
-.sortIcon {
+.sortIconContainer {
   @apply opacity-0 h-fit w-fit flex items-center transition-transform ease-in-out duration-300;
 }
 
-.sortIcon .icon {
-  @apply text-lg;
+.sortIcon {
+  @apply text-lg leading-xxs;
 }
 
 .sortIconRotated {
@@ -84,7 +84,7 @@
   @apply text-primary-interaction-default opacity-100;
 }
 
-.tableStyle th:hover .sortIcon {
+.tableStyle th:hover .sortIconContainer {
   @apply opacity-100;
 }
 

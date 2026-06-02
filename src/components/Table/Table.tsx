@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
-import { useControllable } from '../../hooks/useControllable';
-import { Pagination } from '../Pagination/Pagination';
-import { Skeleton } from '../Skeleton/Skeleton';
-import { Checkbox } from '../Checkbox/Checkbox';
-import { Icon } from '../Icon/Icon';
-import { Select } from '../Select/Select';
-import styles from './Table.module.css';
+import React, { useState } from "react";
+import clsx from "clsx";
+import { useControllable } from "../../hooks/useControllable";
+import { Pagination } from "../Pagination/Pagination";
+import { Skeleton } from "../Skeleton/Skeleton";
+import { Checkbox } from "../Checkbox/Checkbox";
+import { Icon } from "../Icon/Icon";
+import { Select } from "../Select/Select";
+import styles from "./Table.module.css";
 
 export interface Column {
   label?: string;
   value: string;
   sortable?: boolean;
   width?: string;
-  align?: 'flex-start' | 'center' | 'flex-end';
+  align?: "flex-start" | "center" | "flex-end";
   render?: (value: any, item: any, index: number) => React.ReactNode;
 }
 
@@ -45,7 +45,11 @@ export interface TableProps {
   renderEmptyState?: () => React.ReactNode;
   renderFooter?: () => React.ReactNode;
   renderItemsPerPage?: () => React.ReactNode;
-  renderShowingPage?: (min: number, max: number, total: number) => React.ReactNode;
+  renderShowingPage?: (
+    min: number,
+    max: number,
+    total: number,
+  ) => React.ReactNode;
   children?: React.ReactNode;
   className?: string;
 }
@@ -55,14 +59,16 @@ function sortItems(items: any[], sortKey: string, desc: boolean): any[] {
     const aVal = a[sortKey];
     const bVal = b[sortKey];
 
-    if (typeof aVal === 'string' && typeof bVal === 'string') {
+    if (typeof aVal === "string" && typeof bVal === "string") {
       const lowerA = aVal.toLowerCase();
       const lowerB = bVal.toLowerCase();
       return desc ? lowerA.localeCompare(lowerB) : lowerB.localeCompare(lowerA);
-    } else if (typeof aVal === 'number' && typeof bVal === 'number') {
+    } else if (typeof aVal === "number" && typeof bVal === "number") {
       return desc ? aVal - bVal : bVal - aVal;
     } else if (aVal instanceof Date && bVal instanceof Date) {
-      return desc ? aVal.getTime() - bVal.getTime() : bVal.getTime() - aVal.getTime();
+      return desc
+        ? aVal.getTime() - bVal.getTime()
+        : bVal.getTime() - aVal.getTime();
     } else {
       const strA = String(aVal).toLowerCase();
       const strB = String(bVal).toLowerCase();
@@ -73,11 +79,11 @@ function sortItems(items: any[], sortKey: string, desc: boolean): any[] {
 
 function findSlot(
   children: React.ReactNode,
-  SlotType: React.ElementType
+  SlotType: React.ElementType,
 ): React.ReactNode | null {
   const arr = React.Children.toArray(children);
   const match = arr.find(
-    (child) => React.isValidElement(child) && child.type === SlotType
+    (child) => React.isValidElement(child) && child.type === SlotType,
   );
   return match || null;
 }
@@ -139,13 +145,13 @@ export function Table({
   });
 
   const [sortByName, setSortByName] = useState<string | null>(
-    sortOptions?.by || null
+    sortOptions?.by || null,
   );
   const [isDesc, setIsDesc] = useState<Record<string, boolean>>(() => {
     const map: Record<string, boolean> = {};
     columns.forEach((col) => {
       map[col.value] =
-        col.value === sortOptions?.by ? !!(sortOptions?.desc) : false;
+        col.value === sortOptions?.by ? !!sortOptions?.desc : false;
     });
     return map;
   });
@@ -155,10 +161,9 @@ export function Table({
   const currentPage = page ?? 1;
   const currentItemsPerPage = itemsPerPage ?? 10;
 
-  const sortedItems =
-    sortByName
-      ? sortItems(items, sortByName, isDesc[sortByName] ?? false)
-      : items;
+  const sortedItems = sortByName
+    ? sortItems(items, sortByName, isDesc[sortByName] ?? false)
+    : items;
 
   const totalItems = renderPaginationInBackEnd
     ? (numberOfItems ?? 0)
@@ -169,13 +174,11 @@ export function Table({
     ? sortedItems
     : sortedItems.slice(
         (currentPage - 1) * currentItemsPerPage,
-        currentPage * currentItemsPerPage
+        currentPage * currentItemsPerPage,
       );
 
   const min =
-    currentPage === 1
-      ? 1
-      : (currentPage - 1) * currentItemsPerPage + 1;
+    currentPage === 1 ? 1 : (currentPage - 1) * currentItemsPerPage + 1;
   const max = (currentPage - 1) * currentItemsPerPage + pagedItems.length;
 
   let colspan = columns.length;
@@ -218,7 +221,9 @@ export function Table({
     } else {
       setSelectedRows(new Set());
     }
-    items?.forEach((item: any) => { item.selected = selectAll; });
+    items?.forEach((item: any) => {
+      item.selected = selectAll;
+    });
     onSelectAll?.(selectAll);
   };
 
@@ -234,12 +239,12 @@ export function Table({
   };
 
   return (
-    <div className={clsx(styles.table, 'table', className)}>
+    <div className={clsx(styles.table, "table", className)}>
       <div
         className={clsx(
           styles.tableContent,
           noShadow && styles.noShadow,
-          isHeaderFixed && styles.headerFixed
+          isHeaderFixed && styles.headerFixed,
         )}
       >
         <table className={styles.tableStyle}>
@@ -249,30 +254,30 @@ export function Table({
                 {enableAggregation && (
                   <th
                     className={clsx(styles.firstTh, styles.pointerNone)}
-                    style={{ width: '2%' }}
+                    style={{ width: "2%" }}
                   />
                 )}
                 {enableSelection && (
                   <th
                     className={clsx(
                       !enableAggregation && styles.firstTh,
-                      styles.hoverBg
+                      styles.hoverBg,
                     )}
-                    style={{ width: '2%' }}
+                    style={{ width: "2%" }}
                   >
-                    <Checkbox
-                      value={allSelected}
-                      onChange={handleSelectAll}
-                    />
+                    <Checkbox value={allSelected} onChange={handleSelectAll} />
                   </th>
                 )}
                 {columns.map((col, index) => (
                   <th
                     key={col.value}
-                    style={{ width: col.width ?? 'fit-content' }}
+                    style={{ width: col.width ?? "fit-content" }}
                     className={clsx(
                       styles.sortable,
-                      index === 0 && !enableSelection && !enableAggregation && styles.firstTh,
+                      index === 0 &&
+                        !enableSelection &&
+                        !enableAggregation &&
+                        styles.firstTh,
                       !columns[index + 1] && !hasActions && styles.lastTh,
                       !col.sortable && styles.pointerNone,
                     )}
@@ -281,26 +286,32 @@ export function Table({
                     <div
                       className={styles.thContent}
                       style={{
-                        justifyContent: col.align ?? 'flex-start',
+                        justifyContent: col.align ?? "flex-start",
                       }}
                     >
                       <p className={styles.thLabel}>{col.label}</p>
                       {col.sortable && (
                         <span
                           className={clsx(
-                            styles.sortIcon,
+                            styles.sortIconContainer,
                             isDesc[col.value] && styles.sortIconRotated,
-                            col.value === sortByName && styles.sortIconActive
+                            col.value === sortByName && styles.sortIconActive,
                           )}
                         >
-                          <Icon name="arrow_upward" />
+                          <Icon
+                            name="arrow_upward"
+                            className={clsx(styles.sortIcon)}
+                          />
                         </span>
                       )}
                     </div>
                   </th>
                 ))}
                 {hasActions && (
-                  <th style={{ flex: 1 }} className={clsx(styles.pointerNone)} />
+                  <th
+                    style={{ flex: 1 }}
+                    className={clsx(styles.pointerNone)}
+                  />
                 )}
               </tr>
             </thead>
@@ -344,12 +355,7 @@ export function Table({
             <tbody>
               {pagedItems.map((item, rowIndex) => (
                 <React.Fragment key={rowIndex}>
-                  <tr
-                    className={clsx(
-                      styles.row,
-                      hasHover && styles.rowHover,
-                    )}
-                  >
+                  <tr className={clsx(styles.row, hasHover && styles.rowHover)}>
                     {enableAggregation && (
                       <td className={styles.cell}>
                         {renderAggregation?.(item, rowIndex)}
@@ -373,11 +379,11 @@ export function Table({
                         className={styles.cell}
                         style={{
                           textAlign:
-                            col.align === 'center'
-                              ? 'center'
-                              : col.align === 'flex-end'
-                              ? 'right'
-                              : 'left',
+                            col.align === "center"
+                              ? "center"
+                              : col.align === "flex-end"
+                                ? "right"
+                                : "left",
                         }}
                       >
                         {col.render
@@ -394,15 +400,15 @@ export function Table({
                       <td className={styles.cell}>{actionsSlot}</td>
                     )}
                   </tr>
-                  {item.expanded && renderChilds && renderChilds(item, rowIndex)}
+                  {item.expanded &&
+                    renderChilds &&
+                    renderChilds(item, rowIndex)}
                 </React.Fragment>
               ))}
             </tbody>
           )}
           {(renderFooter || footerSlot) && (
-            <tfoot>
-              {renderFooter?.() || footerSlot}
-            </tfoot>
+            <tfoot>{renderFooter?.() || footerSlot}</tfoot>
           )}
         </table>
       </div>
@@ -410,7 +416,7 @@ export function Table({
         <footer className={styles.footer}>
           <div className={styles.footerLeft}>
             <p className={styles.footerLabel}>
-              {renderItemsPerPage?.() || 'Items per page'}
+              {renderItemsPerPage?.() || "Items per page"}
             </p>
             <Select
               value={currentItemsPerPage}

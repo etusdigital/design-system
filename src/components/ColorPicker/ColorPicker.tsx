@@ -93,7 +93,7 @@ export function ColorPicker(props: ColorPickerProps) {
   const [circleBackground, setCircleBackground] = useState<string>(model || '');
   const [isMovingDown, setIsMovingDown] = useState(false);
   const [isMovingUp, setIsMovingUp] = useState(false);
-  const [opacityTrackBg, setOpacityTrackBg] = useState<string>('linear-gradient(to right, #ffffff 0%, hsl(0, 100%, 50%))');
+  const [opacityTrackBg, setOpacityTrackBg] = useState<string>('linear-gradient(to right, var(--neutral-surface-default) 0%, hsl(0, 100%, 50%))');
 
   const isDraggingColorSlider = useRef(false);
   const isDraggingOpacitySlider = useRef(false);
@@ -325,7 +325,7 @@ export function ColorPicker(props: ColorPickerProps) {
     const color = getPixelColor(sliderDiv, clamped.left);
     setSliderColor(color);
     sliderColorRef.current = color;
-    const newBg = `linear-gradient(to right, #ffffff 0%, ${color})`;
+    const newBg = `linear-gradient(to right, var(--neutral-surface-default) 0%, ${color})`;
     setOpacityTrackBg(newBg);
     changeCanvasColor(color, sliderOpacityRef.current);
     updatedCircleColorFromArea();
@@ -381,7 +381,7 @@ export function ColorPicker(props: ColorPickerProps) {
     const color = getPixelColor(sliderDiv, colorLeft);
     setSliderColor(color);
     sliderColorRef.current = color;
-    const newBg = `linear-gradient(to right, #ffffff 0%, ${color})`;
+    const newBg = `linear-gradient(to right, var(--neutral-surface-default) 0%, ${color})`;
     setOpacityTrackBg(newBg);
     changeCanvasColor(color, opacity);
 
