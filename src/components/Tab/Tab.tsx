@@ -58,7 +58,7 @@ export function Tab({
         className,
       )}
     >
-      <div className="flex font-bold text-sm gap-xs w-fit">
+      <div className="flex flex-wrap font-bold text-sm gap-xs w-fit">
         {options.map((option, index) => (
           <button
             key={index}
