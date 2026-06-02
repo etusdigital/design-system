@@ -163,13 +163,6 @@ Triggered when the selected tab changes. The emitted value depends on the `getOb
 - When `getObject={false}` (default): Emits the value (string or `valueKey` property)
 - When `getObject={true}`: Emits the entire option object
 
-### Slots API
-
-#### children
-Content rendered below the tab buttons. Use this to display tab panels or any content associated with the selected tab.
-
-Type: `React.ReactNode`
-
 **Important Notes:**
 - **Flexible data structures**: Supports both string arrays and object arrays with configurable property names via `labelKey` and `valueKey`
 - **Icon support**:
