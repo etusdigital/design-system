@@ -319,5 +319,5 @@ module.exports = {
       });
     }),
   ],
-  safelist: ["brius-theme", "p1", "p2", "p3", "p4", "caption-c1", "caption-c2"],
+  safelist: ["brius-theme", "dark", "p1", "p2", "p3", "p4", "caption-c1", "caption-c2"],
 };

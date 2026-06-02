@@ -3,7 +3,7 @@ import logo from './imgs/etus-logo.svg'
 
 export default create({
   base: 'light',
-  brandTitle: 'Etus Design Systeam',
+  brandTitle: 'Etus Design System',
   brandUrl: 'https://etus.digital/',
   brandImage: logo,
   brandTarget: '_blank',

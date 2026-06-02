@@ -1,7 +1,7 @@
 @reference "../../assets/main.css";
 
 .accordion {
-  @apply px-base py-xs w-full;
+  @apply bg-neutral-surface-default px-base py-xs w-full;
   @apply hover:bg-neutral-surface-hover transition-colors duration-300;
 }
 
