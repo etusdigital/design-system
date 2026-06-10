@@ -74,6 +74,14 @@ export default {
       description:
         "Will be the function that returns the object with the selected options.",
     },
+    hideActions: {
+      type: { name: "boolean" },
+      table: {
+        defaultValue: { summary: "false" },
+      },
+      description:
+        "Hides the default Clear and Apply buttons. Use with the #actions slot for custom actions.",
+    },
     onApply: {
       type: { name: "function" },
       table: {
@@ -144,6 +152,7 @@ const defaultArgs = {
   disabled: false,
   absolute: false,
   getObject: false,
+  hideActions: false,
   onApply: () => {},
 };
 
@@ -167,7 +176,8 @@ const defaultRender = (args: any) => ({
         :absolute="args.absolute"
         :search-label="args.searchLabel"
         :get-object="args.getObject"
-        @apply="args.onApply" 
+        :hide-actions="args.hideActions"
+        @apply="args.onApply"
     />
   `,
 });
@@ -198,5 +208,13 @@ export const Searchable: Story = {
   args: {
     ...defaultArgs,
     searchable: true,
+  },
+};
+
+export const HideActions: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    hideActions: true,
   },
 };

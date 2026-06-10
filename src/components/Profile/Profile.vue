@@ -207,7 +207,7 @@ function changeExpanded(expanded: boolean) {
           @click="emit('editOption')"
           v-if="model"
         >
-          <Icon name="person" size="xl" />
+          <Icon name="person" class="profile-icon" />
           <p class="text-sm font-bold">
             <slot name="edit-option"> Edit account </slot>
           </p>
@@ -216,7 +216,7 @@ function changeExpanded(expanded: boolean) {
           class="text-danger-interaction-default profile-option action hover:bg-danger-surface-default"
           @click="emit('logout')"
         >
-          <Icon name="logout" size="xl" />
+          <Icon name="logout" class="profile-icon" />
           <p class="text-sm font-bold">
             <slot name="logout-label"> Logout </slot>
           </p>
@@ -260,6 +260,10 @@ function changeExpanded(expanded: boolean) {
 }
 
 .input-default {
-  @apply w-full text-sm border-0 border-xxs border-neutral-default placeholder:text-neutral-interaction-default py-xs pr-xs pl-2xl outline-none focus:border-neutral-default;
+  @apply w-full text-sm bg-neutral-surface-default border-xxs border-neutral-default placeholder:text-neutral-interaction-default py-xs pr-xs pl-2xl outline-none focus:border-neutral-default;
+}
+
+.profile-icon {
+  @apply text-xl leading-xs;
 }
 </style>

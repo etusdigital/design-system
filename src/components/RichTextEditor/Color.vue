@@ -72,7 +72,7 @@ function getContrastColor(): string {
     <Icon
       v-if="modelValue === color"
       name="check"
-      :class="getContrastColor()"
+      :class="[getContrastColor(), 'rich-text-editor-icon']"
     />
   </div>
 </template>
@@ -95,5 +95,9 @@ function getContrastColor(): string {
 
 .color-option {
   font-size: 0;
+}
+
+.rich-text-editor-icon {
+  @apply leading-xs;
 }
 </style>

@@ -249,14 +249,14 @@ function crop(cropArea: HTMLDivElement, parent: HTMLElement) {
       />
     </div>
     <footer>
-      <Icon name="zoom_out" class="select-none" />
+      <Icon name="zoom_out" class="select-none leading-xxs" />
       <Slider
         v-model="zoom"
         size="small"
         :max="2"
         @update:model-value="(value: number | number[]) => changeZoom(value as number)"
       />
-      <Icon name="zoom_in" class="select-none" />
+      <Icon name="zoom_in" class="select-none leading-xxs" />
     </footer>
   </div>
 </template>

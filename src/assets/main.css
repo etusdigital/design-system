@@ -1,10 +1,11 @@
 @import url("https://fonts.googleapis.com/css?family=Inter&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap");
 
 @import "tailwindcss";
 
 @config "../../tailwind.config.cjs";
-@source inline("brius-theme p1 p2 p3 p4 caption-c1 caption-c2");
+@source inline("brius-theme dark p1 p2 p3 p4 caption-c1 caption-c2");
 
 @plugin "@tailwindcss/aspect-ratio";
 @plugin "@tailwindcss/typography";
@@ -147,7 +148,7 @@
     */
 
     /**
-    * @tokens color
+    * @tokens Color
     * @presenter Color
     */
     /* color */
@@ -182,6 +183,11 @@
     --neutral-border-pressed: #7a8d96;
     --neutral-border-disabled: #cad2d7;
     --neutral-border-selected: #cad2d7;
+
+    /* Box Shadow */
+    --neutral-shadow-default:
+      0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+    --neutral-shadow-selected: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 
     /* Primary */
 
@@ -312,6 +318,182 @@
     */
   }
 
+  .dark,
+  [data-theme="dark"] {
+    color-scheme: dark;
+
+    /**
+    * @tokens DarkColor
+    * @presenter Color
+    */
+    /* color */
+    /* Neutral */
+
+    /* Background */
+    --neutral-background-default: #06080f;
+    --neutral-background-emphasis: #090e1a;
+    --neutral-background-negative: #f5f5f5;
+
+    /* Surface */
+    --neutral-surface-default: #090e1a;
+    --neutral-surface-highlight: #131b2a;
+    --neutral-surface-hover: #131b2a;
+    --neutral-surface-disabled: #1d2839;
+
+    /* Interaction */
+    --neutral-interaction-default: #a0aec0;
+    --neutral-interaction-hover: #cbd5e0;
+    --neutral-interaction-pressed: #e2e8f0;
+    --neutral-interaction-disabled: #4a5568;
+
+    /* Foreground */
+    --neutral-foreground-default: #e2e8f0;
+    --neutral-foreground-disabled: #4a5568;
+    --neutral-foreground-low: #a0aec0;
+    --neutral-foreground-high: #f0f4f8;
+    --neutral-foreground-negative: #06080f;
+
+    /* Border */
+    --neutral-border-default: #1d2839;
+    --neutral-border-hover: #2d3f56;
+    --neutral-border-pressed: #3d5170;
+    --neutral-border-disabled: #1d2839;
+    --neutral-border-selected: #2d3f56;
+
+    /* Box Shadow */
+    --neutral-shadow-default:
+      0px 1px 3px 0px rgb(0, 0, 0), 0px 1px 2px 0px rgba(0, 0, 0, 0.95);
+    --neutral-shadow-selected: 0px 1px 2px 0px rgb(0, 0, 0);
+
+    /* Primary */
+
+    /* Surface */
+    --primary-surface-default: #0d2818;
+    --primary-surface-highlight: #143d24;
+    --primary-surface-hover: #184d2e;
+    --primary-surface-pressed: #1b6138;
+
+    /* Interaction */
+    --primary-interaction-default: #8df769;
+    --primary-interaction-hover: #a4f987;
+    --primary-interaction-pressed: #bbfba5;
+    --primary-interaction-selected: #7ad85c;
+
+    /* Foreground */
+    --primary-foreground-disabled: #1b614a;
+    --primary-foreground-low: #4fcc92;
+    --primary-foreground-high: #86cfae;
+
+    /* Border */
+    --primary-border-default: #8df769;
+    --primary-border-hover: #a4f987;
+    --primary-border-selected: #bbfba5;
+    --primary-border-pressed: #d2fcc3;
+
+    /* Informative */
+
+    /* Surface */
+    --informative-surface-default: #0c1e24;
+    --informative-surface-highlight: #132e38;
+    --informative-surface-hover: #1a3e4c;
+    --informative-surface-pressed: #1b5a6c;
+
+    /* Interaction */
+    --informative-interaction-default: #39c5d7;
+    --informative-interaction-hover: #5cd4e2;
+    --informative-interaction-pressed: #77dee9;
+    --informative-interaction-selected: #1b879f;
+
+    /* Foreground */
+    --informative-foreground-disabled: #20596a;
+    --informative-foreground-low: #39c5d7;
+    --informative-foreground-high: #77dee9;
+
+    /* Border */
+    --informative-border-default: #1b879f;
+    --informative-border-hover: #39c5d7;
+    --informative-border-selected: #5cd4e2;
+    --informative-border-pressed: #77dee9;
+
+    /* Success */
+
+    /* Surface */
+    --success-surface-default: #0a2018;
+    --success-surface-highlight: #0f3024;
+    --success-surface-hover: #0f3024;
+    --success-surface-pressed: #15422f;
+
+    /* Interaction */
+    --success-interaction-default: #0fb75c;
+    --success-interaction-hover: #4fcc92;
+    --success-interaction-pressed: #8ce2b9;
+    --success-interaction-selected: #056a33;
+
+    /* Foreground */
+    --success-foreground-disabled: #105732;
+    --success-foreground-low: #0fb75c;
+    --success-foreground-high: #4fcc92;
+
+    /* Border */
+    --success-border-default: #0a9e50;
+    --success-border-hover: #0fb75c;
+    --success-border-selected: #4fcc92;
+    --success-border-pressed: #8ce2b9;
+
+    /* Warning */
+
+    /* Surface */
+    --warning-surface-default: #1a1500;
+    --warning-surface-highlight: #2a2200;
+    --warning-surface-hover: #3a3000;
+    --warning-surface-pressed: #4a3e00;
+
+    /* Interaction */
+    --warning-interaction-default: #ffc500;
+    --warning-interaction-hover: #ffd133;
+    --warning-interaction-pressed: #ffdd66;
+    --warning-interaction-selected: #dba700;
+
+    /* Foreground */
+    --warning-foreground-disabled: #936d00;
+    --warning-foreground-low: #ffc500;
+    --warning-foreground-high: #ffd133;
+
+    /* Border */
+    --warning-border-default: #dba700;
+    --warning-border-hover: #ffc500;
+    --warning-border-selected: #ffd133;
+    --warning-border-pressed: #ffdd66;
+
+    /* Danger */
+
+    /* Surface */
+    --danger-surface-default: #1c0a0a;
+    --danger-surface-highlight: #2d1414;
+    --danger-surface-hover: #3a1a1a;
+    --danger-surface-pressed: #4d2020;
+
+    /* Interaction */
+    --danger-interaction-default: #e53e3e;
+    --danger-interaction-hover: #c53030;
+    --danger-interaction-pressed: #9b2c2c;
+    --danger-interaction-selected: #c53030;
+
+    /* Foreground */
+    --danger-foreground-disabled: #801c1c;
+    --danger-foreground-low: #f25c5c;
+    --danger-foreground-high: #f58a8a;
+
+    /* Border */
+    --danger-border-default: #f03232;
+    --danger-border-hover: #f25c5c;
+    --danger-border-selected: #f58a8a;
+    --danger-border-pressed: #fab8b8;
+    /**
+    * @tokens-end
+    */
+  }
+
   .brius-theme {
     /**
     * @tokens BFontFamily
@@ -324,7 +506,7 @@
     */
 
     /**
-    * @tokens Bcolor
+    * @tokens BColor
     * @presenter Color
     */
     /* color */
@@ -377,6 +559,70 @@
     --informative-border-hover: #362780;
     --informative-border-selected: #2b1d63;
     --informative-border-pressed: #1f144c;
+    /**
+    * @tokens-end
+    */
+  }
+
+  .brius-theme.dark,
+  .brius-theme[data-theme="dark"] {
+    color-scheme: dark;
+
+    /**
+    * @tokens BDarkColor
+    * @presenter Color
+    */
+    /* color */
+
+    /* Primary */
+
+    /* Surfaces */
+    --primary-surface-default: #0c1a33;
+    --primary-surface-highlight: #102747;
+    --primary-surface-hover: #15355c;
+    --primary-surface-pressed: #1a4470;
+
+    /* Interaction */
+    --primary-interaction-default: #5a93ff;
+    --primary-interaction-hover: #82adff;
+    --primary-interaction-pressed: #a7c8ff;
+    --primary-interaction-selected: #6f9eff;
+
+    /* Foreground */
+    --primary-foreground-disabled: #3a5a8c;
+    --primary-foreground-low: #8fb6ff;
+    --primary-foreground-high: #bcd6ff;
+
+    /* Border */
+    --primary-border-default: #4d8cff;
+    --primary-border-hover: #75a8ff;
+    --primary-border-selected: #82adff;
+    --primary-border-pressed: #9cc2ff;
+
+    /* Informative */
+
+    /* Surface */
+    --informative-surface-default: #16072b;
+    --informative-surface-highlight: #270b59;
+    --informative-surface-hover: #320e69;
+    --informative-surface-pressed: #372369;
+
+    /* Interaction */
+    --informative-interaction-default: #857cd0;
+    --informative-interaction-hover: #7c74db;
+    --informative-interaction-pressed: #584ee8;
+    --informative-interaction-selected: #4331e0;
+
+    /* Foreground */
+    --informative-foreground-disabled: #3a0e8d;
+    --informative-foreground-low: #5d53ce;
+    --informative-foreground-high: #7e79ee;
+
+    /* Border */
+    --informative-border-default: #4932c2;
+    --informative-border-hover: #5951dc;
+    --informative-border-selected: #635ce9;
+    --informative-border-pressed: #584ee8;
     /**
     * @tokens-end
     */
@@ -459,6 +705,22 @@
   }
 
   :root {
+    [type="text"],
+    input:where(:not([type])),
+    [type="email"],
+    [type="url"],
+    [type="password"],
+    [type="number"],
+    [type="date"],
+    [type="datetime-local"],
+    [type="month"],
+    [type="search"],
+    [type="tel"],
+    [type="time"],
+    [type="week"],
+    [multiple],
+    textarea,
+    select,
     [type="text"]:focus,
     input:where(:not([type])):focus,
     [type="email"]:focus,
@@ -483,6 +745,7 @@
       --tw-ring-shadow: 0;
       box-shadow: none;
       border-width: 0;
+      padding: 0;
     }
   }
 }

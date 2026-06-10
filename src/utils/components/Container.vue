@@ -1,7 +1,4 @@
 <script setup lang="ts">
-// @TODO: Fix the initial size of the label div. I think it's due to the dynamic loading
-// of ionicons not triggering a div resize event to the observer. Or it could be some
-// slot content shenanigans aswell, idk.
 // @TODO: Fix border width for container with sub items
 import { ref, onMounted, onUpdated, onBeforeUnmount, computed } from "vue";
 import type { ContainerModelExtra } from "../types/ContainerModelExtra";
@@ -24,7 +21,6 @@ const props = withDefaults(
     minWidth?: string;
     secondary?: boolean;
     hideArrow?: boolean;
-    disableLabelAutoWidth?: boolean;
   }>(),
   {
     modelValue: undefined,
@@ -41,7 +37,6 @@ const props = withDefaults(
     minWidth: "15em",
     secondary: false,
     hideArrow: false,
-    disableLabelAutoWidth: false,
   }
 );
 
@@ -58,7 +53,6 @@ const [model, setModel] = useOptionalModel<boolean>(
   false
 );
 const container = ref<HTMLDivElement>();
-const label = ref<HTMLDivElement>();
 
 const isExpanded = computed((): boolean =>
   props.disabled ? false : model.value
@@ -66,43 +60,20 @@ const isExpanded = computed((): boolean =>
 
 const contentMinWidth = ref(props.minWidth);
 
-function onBlur(e: MouseEvent) {
-  if (!props.closeOnBlur || !model.value || !container.value) return;
-
-  const containerRect = container.value.getBoundingClientRect();
-
-  let contentRect = null;
-  const contentSlot = container.value.querySelector(
-    '[slot="content"], .content'
-  );
-  if (isExpanded.value && contentSlot)
-    contentRect = contentSlot.getBoundingClientRect();
-
-  let isInsideBounds =
-    e.clientX >= containerRect.left &&
-    e.clientX <= containerRect.right &&
-    e.clientY >= containerRect.top &&
-    e.clientY <= containerRect.bottom;
-
-  if (!isInsideBounds && contentRect)
-    isInsideBounds =
-      e.clientX >= contentRect.left &&
-      e.clientX <= contentRect.right &&
-      e.clientY >= contentRect.top &&
-      e.clientY <= contentRect.bottom;
-
-  if (!isInsideBounds) setModel(false, { source: "blur" });
+// FloatCard owns the open/close lifecycle (positioning + outside-click), so the
+// Container only reacts to its open-state changes here instead of running its
+// own document click/bounds detection.
+function blur(value: boolean) {
+  const source = props.closeOnBlur && model.value ? "blur" : "click";
+  setModel(value, { source });
 }
 
 function resize() {
   contentMinWidth.value = container.value?.scrollWidth + "px";
-  if (!props.disableLabelAutoWidth && label.value)
-    label.value.style.width = contentMinWidth.value;
 }
 
 onMounted(() => {
   resize();
-  document.addEventListener("click", onBlur);
   if (container.value)
     mutationObserver.observe(container.value, { attributes: true });
 });
@@ -110,7 +81,6 @@ onMounted(() => {
 onUpdated(resize);
 
 onBeforeUnmount(() => {
-  document.removeEventListener("click", onBlur);
   mutationObserver.disconnect();
 });
 
@@ -122,64 +92,65 @@ function toggle() {
 </script>
 
 <template>
-  <div class="container">
-    <div v-if="labelValue" class="flex justify-between items-center">
-      <Label
-        :label-value="labelValue"
-        :info-message="infoMessage"
-        :required="required"
-      />
-    </div>
-    <div
-      ref="container"
-      :role="role"
-      :aria-disabled="disabled"
-      :aria-required="required"
-      class="label-container"
-      :class="{ 'pointer-events-none': disabled }"
-      tabindex="0"
-    >
-      <slot name="label">
-        <div
-          ref="label"
-          class="label-content"
-          :class="{
-            disabled,
-            secondary,
-            expanded: isExpanded,
-            'hide-bottom': hideBottom,
-            error: isError,
-          }"
-          :style="{ 'max-height': maxHeight, 'min-width': minWidth }"
-          @click="toggle"
-          @keyup.space="toggle"
-        >
-          <slot />
+  <FloatCard :model-value="isExpanded" @update:model-value="blur">
+    <div class="container">
+      <div v-if="labelValue" class="flex justify-between items-center">
+        <Label
+          :label-value="labelValue"
+          :info-message="infoMessage"
+          :required="required"
+        />
+      </div>
+      <div
+        ref="container"
+        :role="role"
+        :aria-disabled="disabled"
+        :aria-required="required"
+        class="label-container"
+        :class="{ 'pointer-events-none': disabled }"
+        tabindex="0"
+      >
+        <slot name="label">
+          <div
+            class="label-content"
+            :class="{
+              disabled,
+              secondary,
+              expanded: isExpanded,
+              'hide-bottom': hideBottom,
+              error: isError,
+            }"
+            :style="{ 'max-height': maxHeight, 'min-width': minWidth }"
+            @click="toggle"
+            @keyup.space="toggle"
+          >
+            <slot />
 
-          <div class="flex items-center gap-xs ml-auto">
-            <slot name="complement" />
-            <Icon
-              v-if="!hideArrow"
-              name="keyboard_arrow_down"
-              class="arrow-icon"
-              :class="{
-                'text-neutral-interaction-disabled': disabled,
-                'text-danger-interaction-default': isError,
-                expanded: isExpanded,
-              }"
-            />
+            <div class="flex items-center gap-xs ml-auto">
+              <slot name="complement" />
+              <Icon
+                v-if="!hideArrow"
+                name="keyboard_arrow_down"
+                class="arrow-icon"
+                :class="{
+                  'text-neutral-interaction-disabled': disabled,
+                  'text-danger-interaction-default': isError,
+                  expanded: isExpanded,
+                }"
+              />
+            </div>
           </div>
-        </div>
-      </slot>
-
-      <Transition name="expand">
-        <slot name="content" :min-width="contentMinWidth" />
-      </Transition>
+        </slot>
+      </div>
+      <small v-if="isError" class="text-danger-foreground-low text-start p3">{{
+        errorMessage
+      }}</small>
     </div>
-    <small v-if="isError" class="text-danger-foreground-low text-start p3">{{
-      errorMessage
-    }}</small>
-  </div>
+
+    <template #card>
+      <slot name="content" :min-width="contentMinWidth" />
+    </template>
+  </FloatCard>
 </template>
 
 <style scoped>
@@ -224,20 +195,5 @@ function toggle() {
 
 .arrow-icon.expanded {
   @apply rotate-180;
-}
-
-.expand-enter-active,
-.expand-leave-active {
-  @apply transition-all duration-300 overflow-hidden;
-}
-
-.expand-enter-from,
-.expand-leave-to {
-  @apply translate-y-[-10px] max-h-0;
-}
-
-.expand-enter-to,
-.expand-leave-from {
-  @apply translate-y-0 max-h-screen;
 }
 </style>

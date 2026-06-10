@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import Color from "./Color.vue";
 import { blendColors } from "../../utils";
 
@@ -27,7 +27,11 @@ const isExpanded = ref(props.expanded);
 const customColors = ref(props.custom);
 const customColor = ref(props.modelValue);
 const showColorPicker = ref(false);
-const palette = ref(generateColorPalette());
+const palette = ref<string[][]>([]);
+
+onMounted(() => {
+  palette.value = generateColorPalette();
+});
 
 watch(
   () => props.modelValue,
@@ -147,7 +151,7 @@ function closeColorPicker() {
           <Tooltip label-value="Add custom color" position="bottom">
             <Icon
               name="add_circle"
-              class="text-neutral-interactive-default cursor-pointer"
+              class="text-neutral-interactive-default cursor-pointer rich-text-editor-icon"
               @click="showColorPicker = true"
             />
           </Tooltip>
@@ -173,5 +177,9 @@ function closeColorPicker() {
 
 .color-row {
   @apply flex gap-xxs;
+}
+
+.rich-text-editor-icon {
+  @apply leading-xs;
 }
 </style>

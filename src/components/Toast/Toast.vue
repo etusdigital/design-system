@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Alert from "../Alert/Alert.vue";
+import Button from "../Button/Button.vue";
 import event from "@/utils/event";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
@@ -104,19 +105,19 @@ function removeToast(id: string) {
   @apply z-[1100] fixed flex flex-col gap-sm p-sm;
 }
 
-.top {
+.toast-container.top {
   @apply top-0;
 }
 
-.bottom {
+.toast-container.bottom {
   @apply bottom-0;
 }
 
-.right {
+.toast-container.right {
   @apply right-0 items-end;
 }
 
-.left {
+.toast-container.left {
   @apply left-0;
 }
 

@@ -29,14 +29,14 @@ onMounted(() => {
   window.addEventListener("mousemove", move);
   window.addEventListener("mouseup", end);
   window.addEventListener("touchmove", move);
-  window.addEventListener("touhend", end);
+  window.addEventListener("touchend", end);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("mousemove", move);
   window.removeEventListener("mouseup", end);
   window.removeEventListener("touchmove", move);
-  window.removeEventListener("touhend", end);
+  window.removeEventListener("touchend", end);
 });
 
 function changeState(value: boolean, event: Event) {
@@ -81,7 +81,7 @@ function getEvent(event: Event): Event {
         :class="{ 'rounded-b-none': $slots.card }"
         :style="{ background: color }"
       >
-        <Icon :name="icon" v-if="icon" />
+        <Icon :name="icon" v-if="icon" class="leading-xxs" />
         <slot />
       </header>
       <div class="py-sm" v-if="$slots.card">
@@ -108,6 +108,6 @@ function getEvent(event: Event): Event {
 }
 
 .side-icon {
-  @apply flex items-center text-neutral-interaction-disabled;
+  @apply flex items-center text-neutral-interaction-disabled leading-xxs;
 }
 </style>

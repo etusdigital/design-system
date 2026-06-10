@@ -163,7 +163,7 @@ function resize() {
 
   .type-icon .type-icon,
   .icon {
-    @apply text-xl;
+    @apply text-xl leading-xxs;
   }
 }
 
@@ -178,7 +178,7 @@ function resize() {
 
   .type-icon .type-icon,
   .icon {
-    @apply text-2xl;
+    @apply text-2xl leading-xxs;
   }
 }
 
@@ -193,7 +193,7 @@ function resize() {
 
   .type-icon .type-icon,
   .icon {
-    @apply text-2xl;
+    @apply text-2xl leading-xxs;
   }
 }
 

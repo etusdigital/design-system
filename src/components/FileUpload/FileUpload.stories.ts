@@ -32,7 +32,7 @@ export default {
       type: { name: "string" },
       description: "Will be file upload size.",
       control: "select",
-      options: ["extra-small", "small", "medium", "large", "extra-large"],
+      options: ["small", "medium", "large"],
       table: {
         defaultValue: { summary: "medium" },
       },
@@ -168,7 +168,7 @@ export const Sizes: Story = {
     },
     template: `
       <div class="flex flex-col gap-xs">
-        ${["extra-small", "small", "medium", "large", "extra-large"]
+        ${["small", "medium", "large"]
           .map((type) => {
             return defaultHtml
               .replace(/args\.size/g, `'${type}'`)

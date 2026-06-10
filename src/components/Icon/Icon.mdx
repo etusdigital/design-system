@@ -59,6 +59,15 @@ Changes the icon style to filled version. Type: `boolean` (default: `false`)
 
 <Canvas sourceState="none" of={Icon.Filled} />
 
+#### @click
+Allow the icon to have a click action. Native events fall through to the underlying `<span>`.
+
+```vue
+<template>
+    <Icon name="favorite" @click="onClick" />
+</template>
+```
+
 **Important Notes:**
 - Icons are based on Google Material Symbols with rounded style
 - Use meaningful icon names that match the action or content they represent

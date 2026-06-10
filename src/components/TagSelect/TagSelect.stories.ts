@@ -75,6 +75,10 @@ export default {
       description:
         "This slot will be displayed as an option. Params: option and index.",
     },
+    default: {
+      description:
+        "Custom trigger element to replace the default tag select button.",
+    },
   },
 } satisfies Meta<typeof TagSelect>;
 

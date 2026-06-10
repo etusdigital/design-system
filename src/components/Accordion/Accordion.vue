@@ -94,9 +94,11 @@ function changeModel() {
         :class="[$slots.header ? 'justify-between' : 'justify-end']"
         @click="changeModel"
       >
-        <slot name="header" />
+        <span v-if="$slots.header" class="flex-1">
+          <slot name="header" />
+        </span>
         <div
-          class="flex items-center w-fit h-fit transition-transform ease-in-out duration-300 text-2xl"
+          class="flex items-center w-fit h-fit transition-transform ease-in-out duration-300 text-2xl leading-xxs"
           :class="{ 'rotate-180': model }"
         >
           <Icon
@@ -126,10 +128,14 @@ function changeModel() {
 @reference "../../assets/main.css";
 
 .accordion {
-  @apply px-base py-xs w-full shadow-none transition-colors duration-300 hover:bg-neutral-surface-hover;
+  @apply bg-neutral-surface-default px-base py-xs w-full transition-colors duration-300 hover:bg-neutral-surface-hover;
 }
 
-.no-shadow {
-  @apply border-none;
+.accordion:not(.no-shadow) {
+  @apply shadow-neutral-default rounded-base;
+}
+
+.accordion.no-shadow {
+  @apply border-none shadow-none;
 }
 </style>

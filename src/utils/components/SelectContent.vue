@@ -60,7 +60,7 @@ watch(
   <Icon
     v-if="icon"
     :name="icon"
-    class="icon shrink-0"
+    class="icon"
     :class="{ expanded: expandedModel, disabled, error: isError }"
   />
   <span
@@ -94,7 +94,7 @@ watch(
 @reference "../../assets/main.css";
 
 .search {
-  @apply h-full w-full pl-xxs p-0 m-0 border-none shadow-none outline-none text-xs;
+  @apply h-full w-full pl-xxs p-0 m-0 border-none shadow-none outline-none text-xs bg-neutral-surface-default;
 }
 
 .secondary .search {
@@ -102,7 +102,7 @@ watch(
 }
 
 .icon.icon {
-  @apply text-neutral-interaction-default text-base;
+  @apply text-neutral-interaction-default text-base leading-sm shrink-0;
 }
 
 .secondary .icon.icon {

@@ -90,7 +90,7 @@ function getSelected(option: OptionType = props.option) {
         v-if="option.options && option.options.length"
         name="keyboard_arrow_down"
         :class="{ 'rotate-180': expanded }"
-        class="transition-transform"
+        class="sub-option-chevron transition-transform"
       />
     </Option>
     <Transition name="expand">
@@ -133,6 +133,14 @@ function getSelected(option: OptionType = props.option) {
 
 .options-container {
   @apply pl-xl rounded-sm;
+}
+
+.option > :deep(.sidebar-option) > .icon:not(.sub-option-chevron) {
+  @apply text-2xl leading-none;
+}
+
+.option > :deep(.sidebar-option) > .icon.sub-option-chevron {
+  @apply text-xl leading-none;
 }
 
 .expand-enter-active,

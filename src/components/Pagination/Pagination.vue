@@ -51,13 +51,11 @@ const options = computed(() => {
     }
   }
 
-  for (let i = 0; i < 2; i++) {
-    const index =
-      i == 0
-        ? result.findIndex((value: number) => value == -1)
-        : result.findLastIndex((value: number) => value == -1);
-    if (result[index + 1] - result[index - 1] == 2)
+  for (let pass = 0; pass < 2; pass++) {
+    const index = result.findIndex((value: number) => value == -1);
+    if (index !== -1 && result[index + 1] - result[index - 1] == 2) {
       result[index] = result[index - 1] + 1;
+    }
   }
 
   return result;
@@ -117,7 +115,7 @@ function changePage(page: number) {
 }
 
 .page-icon {
-  @apply h-fit w-fit flex items-center cursor-pointer text-neutral-interaction-default text-2xl hover:text-primary-interaction-hover;
+  @apply h-fit w-fit flex items-center cursor-pointer text-neutral-interaction-default text-2xl leading-xs hover:text-primary-interaction-hover;
 }
 
 .disabled {

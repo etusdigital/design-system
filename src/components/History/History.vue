@@ -295,7 +295,7 @@ const [model, setModel] = useOptionalModel<any>(
   @apply bg-neutral-surface-default w-fit h-[20px] text-neutral-surface-disabled;
 
   .icon {
-    @apply text-3xl;
+    @apply text-3xl leading-xs;
   }
 }
 

@@ -24,6 +24,21 @@ export default {
       description:
         "When noShadow property is true, the card will have no shadow.",
     },
+    showAlpha: {
+      type: { name: "boolean" },
+      table: {
+        defaultValue: { summary: "true" },
+      },
+      description: "When true, the opacity/alpha slider is shown.",
+    },
+    disabled: {
+      type: { name: "boolean" },
+      table: {
+        defaultValue: { summary: "false" },
+      },
+      description:
+        "When disabled is true, the color picker is non-interactive.",
+    },
   },
 } satisfies Meta<typeof ColorPicker>;
 
@@ -33,6 +48,8 @@ const defaultArgs = {
   modelValue: "",
   type: "hexa" as const,
   noShadow: false,
+  showAlpha: true,
+  disabled: false,
 };
 
 const defaultRender = (args: any) => ({
@@ -41,10 +58,12 @@ const defaultRender = (args: any) => ({
     return { args };
   },
   template: `
-    <ColorPicker 
-      v-model="args.modelValue" 
-      :type="args.type" 
-      :no-shadow="args.noShadow" 
+    <ColorPicker
+      v-model="args.modelValue"
+      :type="args.type"
+      :no-shadow="args.noShadow"
+      :show-alpha="args.showAlpha"
+      :disabled="args.disabled"
     />
   `,
 });
@@ -59,5 +78,13 @@ export const NoShadow: Story = {
   args: {
     ...defaultArgs,
     noShadow: true,
+  },
+};
+
+export const Disabled: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    disabled: true,
   },
 };

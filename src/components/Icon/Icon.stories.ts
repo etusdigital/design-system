@@ -10,11 +10,11 @@ export default {
     },
     size: {
       type: { name: "string" },
-      description: "This property will be the icon name.",
+      description: "Controls the icon size using CSS font-size values.",
     },
     filled: {
       type: { name: "boolean" },
-      description: "This property will be the icon name.",
+      description: "Whether to use the filled variant.",
     },
   },
 } satisfies Meta<typeof Icon>;

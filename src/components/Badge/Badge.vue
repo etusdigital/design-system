@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { blendColors } from "../../utils";
 
 const props = withDefaults(
@@ -38,7 +38,15 @@ const appendedIcon = computed(() => {
   return "";
 });
 
+const mounted = ref(false);
+
+onMounted(() => {
+  mounted.value = true;
+});
+
 const background = computed((): string => {
+  if (props.type === "secondary") return "transparent";
+  if (!mounted.value || props.type === "heavy") return props.color;
   return blendColors(props.color);
 });
 </script>
@@ -76,7 +84,7 @@ const background = computed((): string => {
   @apply text-xs py-xxs px-sm;
 
   .icon {
-    @apply text-lg;
+    @apply text-lg leading-xxs;
   }
 }
 
@@ -84,7 +92,7 @@ const background = computed((): string => {
   @apply text-sm py-xs px-base;
 
   .icon {
-    @apply text-base;
+    @apply text-base leading-xxs;
   }
 }
 
@@ -92,7 +100,7 @@ const background = computed((): string => {
   @apply text-lg py-sm px-lg;
 
   .icon {
-    @apply text-2xl;
+    @apply text-2xl leading-xxs;
   }
 }
 
@@ -100,11 +108,7 @@ const background = computed((): string => {
   @apply bg-transparent;
 }
 
-.badge.heavy {
-  background-color: v-bind(color);
-}
-
 .badge.heavy .colored {
-  @apply text-white;
+  @apply text-neutral-foreground-negative;
 }
 </style>

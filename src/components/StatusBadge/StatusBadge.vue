@@ -100,7 +100,7 @@ const emit = defineEmits(["close"]);
 }
 
 .status-badge.heavy .colored {
-  @apply text-white;
+  @apply text-neutral-foreground-negative;
 }
 
 .status-badge.heavy.primary {

@@ -2962,3 +2962,2163 @@ Alternative theme with blue primary colors
     </tr>
   </tbody>
 </table>
+
+## Dark Mode
+
+Every theme ships with a dark variant. Enable it by adding the `dark` class **or** the `data-theme="dark"` attribute to `:root` (or any wrapping element). The dark variant overrides the color tokens only — typography, spacing, border and radius tokens are shared with the light theme.
+
+```html
+<!-- whole document -->
+<html class="dark">
+  ...
+</html>
+<!-- or scoped to a subtree -->
+<div data-theme="dark">
+  <button>Dark Button</button>
+</div>
+```
+
+Combine the dark selector with `.brius-theme` to get the Brius dark palette (neutral tokens come from the default dark theme; Brius overrides the primary palette):
+
+```html
+<div class="brius-theme dark">
+  <button>Brius Dark Button</button>
+</div>
+```
+
+### Default Dark Theme
+
+#### Neutral Colors
+
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Value</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>--neutral-background-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#06080f",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #06080f
+      </td>
+      <td>Default background</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-background-emphasis</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#090e1a",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #090e1a
+      </td>
+      <td>Emphasized background</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-background-negative</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#f5f5f5",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #f5f5f5
+      </td>
+      <td>Negative background</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-surface-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#090e1a",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #090e1a
+      </td>
+      <td>Default surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-surface-highlight</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#131b2a",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #131b2a
+      </td>
+      <td>Highlighted surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-surface-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#131b2a",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #131b2a
+      </td>
+      <td>Hover state surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-surface-disabled</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#1d2839",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #1d2839
+      </td>
+      <td>Disabled surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-interaction-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#a0aec0",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #a0aec0
+      </td>
+      <td>Default interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-interaction-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#cbd5e0",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #cbd5e0
+      </td>
+      <td>Hover interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-interaction-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#e2e8f0",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #e2e8f0
+      </td>
+      <td>Pressed interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-interaction-disabled</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#4a5568",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #4a5568
+      </td>
+      <td>Disabled interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-foreground-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#e2e8f0",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #e2e8f0
+      </td>
+      <td>Default text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-foreground-disabled</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#4a5568",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #4a5568
+      </td>
+      <td>Disabled text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-foreground-low</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#a0aec0",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #a0aec0
+      </td>
+      <td>Low contrast text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-foreground-high</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#f0f4f8",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #f0f4f8
+      </td>
+      <td>High contrast text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-foreground-negative</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#06080f",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #06080f
+      </td>
+      <td>Negative text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-border-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#1d2839",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #1d2839
+      </td>
+      <td>Default border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-border-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#2d3f56",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #2d3f56
+      </td>
+      <td>Hover border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-border-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#3d5170",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #3d5170
+      </td>
+      <td>Pressed border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-border-disabled</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#1d2839",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #1d2839
+      </td>
+      <td>Disabled border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-border-selected</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#2d3f56",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #2d3f56
+      </td>
+      <td>Selected border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-shadow-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            boxShadow: "0px 1px 3px 0px rgb(0, 0, 0), 0px 1px 2px 0px rgba(0, 0, 0, 0.95)",
+            backgroundColor: "#1d2839",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        0px 1px 3px 0px rgb(0, 0, 0), 0px 1px 2px 0px rgba(0, 0, 0, 0.95)
+      </td>
+      <td>Default box shadow</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--neutral-shadow-selected</code>
+      </td>
+      <td>
+        <div
+          style={{
+            boxShadow: "0px 1px 2px 0px rgb(0, 0, 0)",
+            backgroundColor: "#1d2839",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        0px 1px 2px 0px rgb(0, 0, 0)
+      </td>
+      <td>Selected box shadow</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Primary Colors
+
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Value</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>--primary-surface-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#0d2818",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #0d2818
+      </td>
+      <td>Default primary surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-surface-highlight</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#143d24",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #143d24
+      </td>
+      <td>Highlighted primary surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-surface-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#184d2e",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #184d2e
+      </td>
+      <td>Hover state surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-surface-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#1b6138",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #1b6138
+      </td>
+      <td>Pressed state surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-interaction-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#8df769",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #8df769
+      </td>
+      <td>Default interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-interaction-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#a4f987",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #a4f987
+      </td>
+      <td>Hover interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-interaction-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#bbfba5",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #bbfba5
+      </td>
+      <td>Pressed interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-interaction-selected</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#7ad85c",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #7ad85c
+      </td>
+      <td>Selected interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-foreground-disabled</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#1b614a",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #1b614a
+      </td>
+      <td>Disabled text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-foreground-low</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#4fcc92",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #4fcc92
+      </td>
+      <td>Low contrast text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-foreground-high</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#86cfae",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #86cfae
+      </td>
+      <td>High contrast text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-border-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#8df769",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #8df769
+      </td>
+      <td>Default border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-border-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#a4f987",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #a4f987
+      </td>
+      <td>Hover border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-border-selected</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#bbfba5",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #bbfba5
+      </td>
+      <td>Selected border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-border-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#d2fcc3",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #d2fcc3
+      </td>
+      <td>Pressed border</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Informative Colors
+
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Value</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>--informative-surface-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#0c1e24",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #0c1e24
+      </td>
+      <td>Default info surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--informative-surface-highlight</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#132e38",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #132e38
+      </td>
+      <td>Highlighted info surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--informative-surface-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#1a3e4c",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #1a3e4c
+      </td>
+      <td>Hover state surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--informative-surface-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#1b5a6c",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #1b5a6c
+      </td>
+      <td>Pressed state surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--informative-interaction-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#39c5d7",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #39c5d7
+      </td>
+      <td>Default interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--informative-interaction-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#5cd4e2",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #5cd4e2
+      </td>
+      <td>Hover interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--informative-interaction-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#77dee9",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #77dee9
+      </td>
+      <td>Pressed interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--informative-interaction-selected</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#1b879f",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #1b879f
+      </td>
+      <td>Selected interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--informative-foreground-disabled</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#20596a",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #20596a
+      </td>
+      <td>Disabled text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--informative-foreground-low</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#39c5d7",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #39c5d7
+      </td>
+      <td>Low contrast text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--informative-foreground-high</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#77dee9",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #77dee9
+      </td>
+      <td>High contrast text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--informative-border-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#1b879f",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #1b879f
+      </td>
+      <td>Default border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--informative-border-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#39c5d7",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #39c5d7
+      </td>
+      <td>Hover border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--informative-border-selected</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#5cd4e2",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #5cd4e2
+      </td>
+      <td>Selected border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--informative-border-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#77dee9",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #77dee9
+      </td>
+      <td>Pressed border</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Success Colors
+
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Value</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>--success-surface-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#0a2018",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #0a2018
+      </td>
+      <td>Default success surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--success-surface-highlight</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#0f3024",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #0f3024
+      </td>
+      <td>Highlighted success surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--success-surface-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#0f3024",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #0f3024
+      </td>
+      <td>Hover state surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--success-surface-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#15422f",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #15422f
+      </td>
+      <td>Pressed state surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--success-interaction-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#0fb75c",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #0fb75c
+      </td>
+      <td>Default interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--success-interaction-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#4fcc92",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #4fcc92
+      </td>
+      <td>Hover interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--success-interaction-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#8ce2b9",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #8ce2b9
+      </td>
+      <td>Pressed interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--success-interaction-selected</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#056a33",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #056a33
+      </td>
+      <td>Selected interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--success-foreground-disabled</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#105732",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #105732
+      </td>
+      <td>Disabled text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--success-foreground-low</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#0fb75c",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #0fb75c
+      </td>
+      <td>Low contrast text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--success-foreground-high</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#4fcc92",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #4fcc92
+      </td>
+      <td>High contrast text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--success-border-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#0a9e50",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #0a9e50
+      </td>
+      <td>Default border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--success-border-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#0fb75c",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #0fb75c
+      </td>
+      <td>Hover border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--success-border-selected</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#4fcc92",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #4fcc92
+      </td>
+      <td>Selected border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--success-border-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#8ce2b9",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #8ce2b9
+      </td>
+      <td>Pressed border</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Warning Colors
+
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Value</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>--warning-surface-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#1a1500",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #1a1500
+      </td>
+      <td>Default warning surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--warning-surface-highlight</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#2a2200",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #2a2200
+      </td>
+      <td>Highlighted warning surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--warning-surface-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#3a3000",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #3a3000
+      </td>
+      <td>Hover state surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--warning-surface-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#4a3e00",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #4a3e00
+      </td>
+      <td>Pressed state surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--warning-interaction-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#ffc500",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #ffc500
+      </td>
+      <td>Default interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--warning-interaction-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#ffd133",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #ffd133
+      </td>
+      <td>Hover interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--warning-interaction-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#ffdd66",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #ffdd66
+      </td>
+      <td>Pressed interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--warning-interaction-selected</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#dba700",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #dba700
+      </td>
+      <td>Selected interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--warning-foreground-disabled</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#936d00",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #936d00
+      </td>
+      <td>Disabled text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--warning-foreground-low</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#ffc500",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #ffc500
+      </td>
+      <td>Low contrast text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--warning-foreground-high</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#ffd133",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #ffd133
+      </td>
+      <td>High contrast text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--warning-border-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#dba700",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #dba700
+      </td>
+      <td>Default border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--warning-border-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#ffc500",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #ffc500
+      </td>
+      <td>Hover border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--warning-border-selected</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#ffd133",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #ffd133
+      </td>
+      <td>Selected border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--warning-border-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#ffdd66",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #ffdd66
+      </td>
+      <td>Pressed border</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Danger Colors
+
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Value</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>--danger-surface-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#1c0a0a",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #1c0a0a
+      </td>
+      <td>Default danger surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--danger-surface-highlight</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#2d1414",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #2d1414
+      </td>
+      <td>Highlighted danger surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--danger-surface-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#3a1a1a",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #3a1a1a
+      </td>
+      <td>Hover state surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--danger-surface-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#4d2020",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #4d2020
+      </td>
+      <td>Pressed state surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--danger-interaction-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#e53e3e",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #e53e3e
+      </td>
+      <td>Default interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--danger-interaction-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#c53030",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #c53030
+      </td>
+      <td>Hover interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--danger-interaction-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#9b2c2c",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #9b2c2c
+      </td>
+      <td>Pressed interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--danger-interaction-selected</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#c53030",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #c53030
+      </td>
+      <td>Selected interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--danger-foreground-disabled</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#801c1c",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #801c1c
+      </td>
+      <td>Disabled text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--danger-foreground-low</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#f25c5c",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #f25c5c
+      </td>
+      <td>Low contrast text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--danger-foreground-high</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#f58a8a",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #f58a8a
+      </td>
+      <td>High contrast text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--danger-border-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#f03232",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #f03232
+      </td>
+      <td>Default border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--danger-border-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#f25c5c",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #f25c5c
+      </td>
+      <td>Hover border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--danger-border-selected</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#f58a8a",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #f58a8a
+      </td>
+      <td>Selected border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--danger-border-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#fab8b8",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #fab8b8
+      </td>
+      <td>Pressed border</td>
+    </tr>
+  </tbody>
+</table>
+
+### Brius Dark Theme
+
+In dark mode the Brius theme reuses the default dark neutral, informative, success, warning and danger tokens and overrides only the primary palette.
+
+#### Primary Colors
+
+<table>
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Value</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>--primary-surface-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#0c1a33",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #0c1a33
+      </td>
+      <td>Default primary surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-surface-highlight</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#102747",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #102747
+      </td>
+      <td>Highlighted primary surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-surface-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#15355c",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #15355c
+      </td>
+      <td>Hover state surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-surface-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#1a4470",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #1a4470
+      </td>
+      <td>Pressed state surface</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-interaction-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#5a93ff",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #5a93ff
+      </td>
+      <td>Default interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-interaction-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#82adff",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #82adff
+      </td>
+      <td>Hover interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-interaction-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#a7c8ff",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #a7c8ff
+      </td>
+      <td>Pressed interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-interaction-selected</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#6f9eff",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #6f9eff
+      </td>
+      <td>Selected interaction</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-foreground-disabled</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#3a5a8c",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #3a5a8c
+      </td>
+      <td>Disabled text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-foreground-low</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#8fb6ff",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #8fb6ff
+      </td>
+      <td>Low contrast text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-foreground-high</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#bcd6ff",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #bcd6ff
+      </td>
+      <td>High contrast text</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-border-default</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#4d8cff",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #4d8cff
+      </td>
+      <td>Default border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-border-hover</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#75a8ff",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #75a8ff
+      </td>
+      <td>Hover border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-border-selected</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#82adff",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #82adff
+      </td>
+      <td>Selected border</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--primary-border-pressed</code>
+      </td>
+      <td>
+        <div
+          style={{
+            backgroundColor: "#9cc2ff",
+            border: "1px solid #000000",
+            width: "15px",
+            height: "15px",
+            display: "inline-block"
+          }}
+        />
+        #9cc2ff
+      </td>
+      <td>Pressed border</td>
+    </tr>
+  </tbody>

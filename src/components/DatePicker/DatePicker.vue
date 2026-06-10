@@ -190,7 +190,6 @@ function changeType() {
     :is-error="isError"
     :error-message="errorMessage"
     :align-right="alignRight"
-    disable-label-auto-width
     hide-arrow
     @update:modelValue="emit('update:expanded', isExpanded)"
   >
@@ -202,7 +201,7 @@ function changeType() {
         disabled: disabled,
       }"
     >
-      <Icon name="calendar_month" size="lg" />
+      <Icon name="calendar_month" class="calendar-icon" />
     </div>
     <h5 class="whitespace-nowrap" :class="{ 'font-bold': isExpanded }">
       <span
@@ -274,6 +273,10 @@ function changeType() {
 
 <style scoped>
 @reference "../../assets/main.css";
+
+.calendar-icon.icon {
+  @apply text-xl leading-xxs;
+}
 
 .expanded .icon {
   @apply text-primary-interaction-default;

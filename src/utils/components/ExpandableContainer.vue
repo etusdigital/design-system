@@ -21,7 +21,6 @@ const props = withDefaults(
     minWidthCard?: string;
     secondary?: boolean;
     hideArrow?: boolean;
-    disableLabelAutoWidth?: boolean;
   }>(),
   {
     modelValue: undefined,
@@ -38,7 +37,6 @@ const props = withDefaults(
     minWidth: "unset",
     secondary: false,
     hideArrow: false,
-    disableLabelAutoWidth: false,
   }
 );
 
@@ -80,7 +78,6 @@ function changeModel(value: boolean, extra: ContainerModelExtra) {
     :min-width="minWidth"
     :secondary="secondary"
     :hide-arrow="hideArrow"
-    :disable-label-auto-width="disableLabelAutoWidth"
     @update:model-value="changeModel"
   >
     <slot />
