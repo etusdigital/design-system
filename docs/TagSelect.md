@@ -105,6 +105,9 @@ Custom content displayed when no options are available.
 #### #option
 Custom rendering for individual options in the dropdown.
 
+#### #default
+Custom trigger element to replace the default tag select button.
+
 **Important Notes:**
 - Prevents duplicate tag selection automatically
 - Supports both string arrays and object arrays with configurable label keys

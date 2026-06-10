@@ -40,6 +40,12 @@ The color format for input and output values. Type: `'hexa' | 'hsla' | 'hwb' | '
 #### no-shadow
 Removes the card shadow and border for integration into custom layouts. Type: `boolean` (default: `false`)
 
+#### show-alpha
+When `true`, the opacity/alpha slider is shown. Type: `boolean` (default: `true`)
+
+#### disabled
+When `true`, the color picker becomes non-interactive and is visually dimmed. Type: `boolean` (default: `false`)
+
 ---
 
 ### Events API
