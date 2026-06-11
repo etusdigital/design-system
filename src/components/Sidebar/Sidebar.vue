@@ -218,7 +218,7 @@ function handleBlur(event: FocusEvent) {
 }
 
 .sub-options {
-  @apply absolute left-[100%] min-w-max;
+  @apply z-[900] absolute left-[100%] min-w-max;
 }
 
 .expand-enter-active,
