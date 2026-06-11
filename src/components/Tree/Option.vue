@@ -107,7 +107,7 @@ function setModel(value: OptionType, add = !isSelected.value && !props.selected)
           v-if="option.options && option.options.length"
           name="keyboard_arrow_right"
           :class="{ 'rotate-90': expanded }"
-          class="transition-transform"
+          class="expand-icon transition-transform"
           @click="expanded = !expanded"
         />
         <div
@@ -169,8 +169,12 @@ function setModel(value: OptionType, add = !isSelected.value && !props.selected)
   @apply flex items-center gap-xxs flex-1;
 }
 
+.expand-icon {
+  @apply text-xl leading-base;
+}
+
 .tree-option-option .icon {
-  @apply text-xl;
+  @apply text-xl leading-base;
 }
 
 .tree-sub-options {

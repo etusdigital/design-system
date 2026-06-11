@@ -131,7 +131,6 @@ const defaultArgs = {
   isError: false,
   errorMessage: "",
   infoMessage: "",
-  absolute: false,
 };
 
 const defaultHtml = `
@@ -141,7 +140,6 @@ const defaultHtml = `
         :label-value="args.labelValue"
         :options="args.options" 
         :icon="args.icon" 
-        :absolute="args.absolute" 
         :label-key="args.labelKey" 
         :value-key="args.valueKey"
         :required="args.required" 
@@ -170,14 +168,6 @@ const defaultRender = (args: any) => ({
 export const Primary: Story = {
   render: defaultRender,
   args: defaultArgs,
-};
-
-export const Absolute: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    absolute: true,
-  },
 };
 
 export const Disabled: Story = {

@@ -122,9 +122,6 @@ Array of predefined date range options. Each option should have:
 
 Type: `OptionType[]` (default: predefined options)
 
-#### absolute
-Uses absolute positioning for the dropdown. Type: `boolean` (default: `false`)
-
 #### disabled
 Disables the filter interaction. Type: `boolean` (default: `false`)
 
@@ -136,9 +133,6 @@ Activates error visual state. Type: `boolean` (default: `false`)
 
 #### error-message
 Error message displayed when in error state. Type: `string` (default: `""`)
-
-#### align-right
-Aligns the dropdown to the right (requires absolute=true). Type: `boolean` (default: `false`)
 
 #### separator
 Custom separator text for comparison mode. Type: `string` (default: auto-detected based on language - "and" for English, "e" for Portuguese)

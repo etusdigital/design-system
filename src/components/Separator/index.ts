@@ -1,12 +1,12 @@
 import type { App, Plugin } from 'vue';
-import Divider from './Separator.vue';
+import Separator from './Separator.vue';
 
 export default {
     install(Vue: App) {
-        Vue.component('Divider', Divider);
+        Vue.component('Separator', Separator);
     },
 } as Plugin;
 
 export {
-    Divider,
+    Separator,
 }

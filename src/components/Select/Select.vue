@@ -29,7 +29,6 @@ const props = withDefaults(
     getObject?: boolean;
     errorMessage?: string;
     infoMessage?: string;
-    absolute?: boolean;
     clearable?: boolean;
   }>(),
   {
@@ -47,7 +46,6 @@ const props = withDefaults(
     getObject: false,
     errorMessage: "",
     infoMessage: "",
-    absolute: false,
     clearable: false,
   }
 );
@@ -210,21 +208,21 @@ function clearModel() {
 </script>
 
 <template>
-  <SelectContainer
-    v-model="expandedModel"
-    :label-value="labelValue"
-    :absolute="absolute"
-    class="select"
-    :disabled="disabled"
-    :required="required"
-    :is-error="isError"
-    :error-message="errorMessage"
-    :info-message="infoMessage"
-    :secondary="secondary"
-    :aria-multiselectable="multiple"
-    @keyup="onKeyUp"
-    @update:model-value="changeExpanded"
-  >
+  <div class="select">
+    <SelectContainer
+      v-model="expandedModel"
+      :label-value="labelValue"
+      class="select-content"
+      :disabled="disabled"
+      :required="required"
+      :is-error="isError"
+      :error-message="errorMessage"
+      :info-message="infoMessage"
+      :secondary="secondary"
+      :aria-multiselectable="multiple"
+      @keyup="onKeyUp"
+      @update:model-value="changeExpanded"
+    >
     <SelectContent
       v-model="searchText"
       v-model:expanded="expandedModel"
@@ -277,8 +275,7 @@ function clearModel() {
         :selected="!multiple && isSelected(option)"
         class="flex items-center gap-xxs"
         @click="selectOption(option)"
-        @keyup.space="selectOption(option)"
-        @keyup.enter="selectOption(option)"
+        @keyup.enter.space="selectOption(option)"
       >
         <Checkbox
           v-if="multiple"
@@ -298,7 +295,8 @@ function clearModel() {
         </Button>
       </slot>
     </template>
-  </SelectContainer>
+    </SelectContainer>
+  </div>
 </template>
 
 <style scoped>

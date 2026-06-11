@@ -13,7 +13,6 @@ const props = withDefaults(
     expanded?: boolean;
     labelValue?: string;
     options: OptionType[];
-    absolute?: boolean;
     disabled?: boolean;
     isError?: boolean;
     errorMessage?: string;
@@ -28,7 +27,6 @@ const props = withDefaults(
     modelValue: undefined,
     expanded: false,
     labelValue: "",
-    absolute: true,
     disabled: false,
     isError: false,
     errorMessage: "",
@@ -142,7 +140,6 @@ function getValue(option: any): any {
   <ExpandableContainer
     class="dropdown"
     v-model="isExpanded"
-    :absolute="absolute"
     :label-value="labelValue"
     :disabled="disabled"
     :is-error="isError"

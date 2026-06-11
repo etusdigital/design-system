@@ -25,7 +25,6 @@ const props = withDefaults(
     disabled?: boolean;
     required?: boolean;
     isError?: boolean;
-    absolute?: boolean;
     buttonLabel?: string;
   }>(),
   {
@@ -39,7 +38,6 @@ const props = withDefaults(
     disabled: false,
     required: false,
     isError: false,
-    absolute: false,
     buttonLabel: "Add",
   }
 );
@@ -169,7 +167,6 @@ function checkSource(value: boolean, extra: any) {
     :required="required"
     :label-value="labelValue"
     :disabled="disabled"
-    :absolute="absolute"
     :is-error="isError"
     :error-message="errorMessage"
     :info-message="infoMessage"
@@ -193,7 +190,13 @@ function checkSource(value: boolean, extra: any) {
         <slot name="search-label">Search</slot>
       </template>
       <template #status>
-        <div class="relative" v-if="expandedModel || !modelValue?.length">
+        <slot
+          v-if="$slots.default && !expandedModel && !modelValue?.length"
+        />
+        <div
+          class="relative"
+          v-else-if="expandedModel || !modelValue?.length"
+        >
           <div v-show="!searchText.length" class="pointer-events-none w-0 h-0">
             <span
               class="absolute text-neutral-foreground-low top-[50%] translate-y-[-50%]"
@@ -228,7 +231,7 @@ function checkSource(value: boolean, extra: any) {
               <p class="font-bold text-xs truncate">
                 {{ isObject(option) ? option[labelKey] : option }}
               </p>
-              <Icon name="close" @click="removeTag(index)" class="close-icon" />
+              <Icon name="close" @click="removeTag(Number(index))" class="close-icon" />
             </div>
           </StatusBadge>
         </div>
@@ -282,7 +285,7 @@ function checkSource(value: boolean, extra: any) {
 }
 
 .search {
-  @apply text-neutral-interaction-default h-full w-full p-none m-none border-none shadow-none outline-none p3;
+  @apply text-neutral-interaction-default h-full w-full bg-neutral-surface-default p-none m-none border-none shadow-none outline-none p3;
 }
 
 .tag {

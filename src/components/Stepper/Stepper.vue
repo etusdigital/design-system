@@ -309,16 +309,20 @@ function findIndex(option: any) {
 }
 
 .step-button-circle {
-  @apply flex items-center justify-center p-sm rounded-full text-neutral-interaction-default relative bg-default;
+  @apply flex items-center justify-center p-base rounded-full text-neutral-interaction-default relative bg-default;
   background: v-bind(background);
 }
 
 .large .step-button-circle {
-  @apply p-sm;
+  @apply p-lg;
+}
+
+.step-button-circle .icon {
+  @apply text-lg leading-xxs;
 }
 
 .large .step-button-circle .icon {
-  @apply text-3xl;
+  @apply text-xl;
 }
 
 .step-button-circle.active-button {

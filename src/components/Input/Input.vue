@@ -230,7 +230,7 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
             class="side-icon"
             :class="{
               'text-danger-interaction-default': isError,
-              'text-primary-foreground-low': isFocused,
+              focus: isFocused,
             }"
           />
         </slot>
@@ -271,7 +271,7 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
             class="side-icon"
             :class="{
               'text-danger-interaction-default': isError,
-              'text-primary-foreground-low': isFocused,
+              focus: isFocused,
               'cursor-pointer': isTypeValid('password'),
             }"
             @click="showPass = !showPass && isTypeValid('password')"
@@ -324,7 +324,11 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
 }
 
 .side-icon {
-  @apply text-neutral-interaction-default;
+  @apply text-lg leading-xxs text-neutral-foreground-low;
+}
+
+.side-icon.focus {
+  @apply text-primary-interaction-default;
 }
 
 .error-circle.icon {
@@ -372,7 +376,7 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
 
 /* #region COLOR DISPLAY STYLE */
 .color-display {
-  @apply w-2xl h-xl cursor-pointer border-xxs border-neutral-default rounded-sm;
+  @apply w-xl h-lg cursor-pointer border-xxs border-neutral-default rounded-xs;
 }
 
 .color-display.disabled {
@@ -382,7 +386,7 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
 
 /* #region INCREMENT AND DECREMENT STYLE */
 .number-icon {
-  @apply cursor-pointer text-2xl flex items-center h-[.7em] text-neutral-interaction-default;
+  @apply cursor-pointer text-2xl leading-[.7em] text-neutral-interaction-default;
 }
 /* #endregion INCREMENT AND DECREMENT STYLE */
 

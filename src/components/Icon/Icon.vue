@@ -20,6 +20,7 @@ withDefaults(
 
 <style>
 .material-symbols-rounded {
+  font-family: "Material Symbols Rounded";
   user-select: none;
   font-variation-settings:
     "FILL" 0,

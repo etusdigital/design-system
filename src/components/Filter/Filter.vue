@@ -24,8 +24,8 @@ const props = withDefaults(
     searchLabel?: string;
     searchable?: boolean;
     disabled?: boolean;
-    absolute?: boolean;
     getObject?: boolean;
+    hideActions?: boolean;
   }>(),
   {
     modelValue: undefined,
@@ -37,8 +37,8 @@ const props = withDefaults(
     icon: "filter_list",
     searchable: false,
     disabled: false,
-    absolute: false,
     getObject: false,
+    hideActions: false,
   }
 );
 
@@ -153,7 +153,6 @@ function apply() {
     :label-value="labelValue"
     class="filter"
     :disabled="disabled"
-    :absolute="absolute"
     aria-multiselectable="true"
     min-width="22em"
     :dont-have-max-height="true"
@@ -217,7 +216,7 @@ function apply() {
               </span>
             </slot>
             <div
-              class="flex items-center w-fit h-fit transition-transform ease-in-out duration-300 cursor-pointer text-xl"
+              class="flex items-center w-fit h-fit transition-transform ease-in-out duration-300 cursor-pointer text-xl leading-xs"
               :class="[
                 isActive(option)
                   ? 'rotate-180 text-primary-interaction-default'
@@ -277,7 +276,7 @@ function apply() {
       </li>
     </template>
 
-    <template #actions>
+    <template #actions v-if="!hideActions">
       <slot name="actions">
         <div class="flex items-center gap-xs">
           <Button

@@ -100,7 +100,12 @@ function calculatePosition(rect: DOMRect, tooltip: HTMLElement) {
 </script>
 
 <template>
-  <div ref="content" @mouseenter="showTooltip" @mouseleave="isHovering = false">
+  <div
+    ref="content"
+    class="tooltip"
+    @mouseenter="showTooltip"
+    @mouseleave="isHovering = false"
+  >
     <Teleport to="body">
       <Transition name="opacity">
         <div
@@ -135,7 +140,7 @@ function calculatePosition(rect: DOMRect, tooltip: HTMLElement) {
   @apply opacity-0;
 }
 
-.tooltip {
+.tooltip:has(> .tooltip-content) {
   @apply z-[1004] fixed flex items-center;
 
   .tooltip-triangle {

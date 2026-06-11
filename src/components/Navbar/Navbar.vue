@@ -124,7 +124,7 @@ const isDropdownOpen = ref(false);
 }
 
 .notification-icon {
-  @apply cursor-pointer text-neutral-interaction-default hover:text-neutral-interaction-hover;
+  @apply cursor-pointer text-xl leading-xs text-neutral-interaction-default hover:text-neutral-interaction-hover;
 }
 
 .fade-enter-active,

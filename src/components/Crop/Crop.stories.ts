@@ -55,7 +55,7 @@ export const Primary: Story = {
           :height="args.height"
       />
       <span class="block mt-sm">Model value (it can have a delay):</span>
-      <img class="mt-sm border-xxs border-black border-solid" :src="args.modelValue" />`,
+      <img class="mt-sm border-xxs border-neutral-background-negative border-solid" :src="args.modelValue" />`,
   }),
   args: defaultArgs,
 };

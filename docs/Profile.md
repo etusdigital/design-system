@@ -74,9 +74,6 @@ Property name for option labels in the options array. Type: `string` (default: `
 #### value-key
 Property name for option values in the options array. Type: `string` (default: `"value"`)
 
-#### absolute
-Controls absolute positioning of the dropdown. Type: `boolean` (default: `false`)
-
 #### disabled
 Disables the profile interaction. Type: `boolean` (default: `false`)
 
@@ -155,6 +152,5 @@ Custom content for the terms of use link.
 - Keyboard navigation support for accessibility compliance
 - Event-driven architecture enables integration with authentication and user management systems
 - Support for disabled state to prevent interaction during loading or unauthorized access
-- Absolute positioning option for complex layout scenarios
 - Search functionality helps users quickly find specific accounts in long lists
 - Professional styling suitable for both consumer and enterprise applications

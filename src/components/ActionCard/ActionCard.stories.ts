@@ -72,7 +72,7 @@ export const Card: Story = {
     },
     template: `
         <ActionCard class="w-fit" icon="mail" :color="args.color" :hide-drag="args.hideDrag">
-          <div class="flex justify-between items-center text-white w-full">
+          <div class="flex justify-between items-center text-neutral-foreground-negative w-full">
             <div class="flex flex-col text-sm">
               <p>Send Message:</p>
               <p class="font-bold">cartaofeito-d-fluxo-cc-dia-05-e12</p>

@@ -35,7 +35,7 @@ withDefaults(defineProps<{
 <template>
     <Card class="metric-card" :class="[type, color, size]">
         <div class="flex gap-xxs items-center" v-if="(title || icon || $slots['title-slot']) && !loading">
-            <Icon class="icon" :name="icon" v-if="icon" />
+            <Icon class="metric-card-icon" :class="[size]" :name="icon" v-if="icon" />
             <slot name="title-slot">
                 <p class="card-title" :class="{'font-bold': boldTitle}">{{ title }}</p>
             </slot>
@@ -53,7 +53,7 @@ withDefaults(defineProps<{
                                 {{ infoMessage }}
                             </div>
                         </template>
-                        <Icon name="info" class="info-icon info-label" :class="[infoType]" />
+                        <Icon name="info" class="info-icon info-label" :class="[size, infoType]" />
                     </Tooltip>
                     <p class="info-text info-label" :class="[infoType]" v-else>{{ infoMessage }}</p>
                 </template>
@@ -165,14 +165,6 @@ withDefaults(defineProps<{
         @apply text-lg;
     }
 
-    .card-description, .icon {
-        @apply text-xs;
-    }
-
-    .info-icon {
-        @apply text-base;
-    }
-
     .info-text {
         @apply text-xxs;
     }
@@ -197,14 +189,6 @@ withDefaults(defineProps<{
 
     .card-value {
         @apply text-xl;
-    }
-
-    .card-description, .icon {
-        @apply text-sm;
-    }
-
-    .info-icon {
-        @apply text-lg;
     }
 
     .info-text {
@@ -233,14 +217,6 @@ withDefaults(defineProps<{
         @apply text-sm;
     }
 
-    .icon {
-        @apply text-base;
-    }
-
-    .info-icon {
-        @apply text-xl;
-    }
-
     .info-text {
         @apply text-xs;
     }
@@ -254,8 +230,36 @@ withDefaults(defineProps<{
     }
 }
 
+.metric-card-icon {
+    @apply leading-xs;
+}
+
+.metric-card-icon.small {
+    @apply text-xs leading-xs p-none;
+}
+
+.metric-card-icon.medium {
+    @apply text-sm leading-xs;
+}
+
+.metric-card-icon.large {
+    @apply text-base leading-xs;
+}
+
 .info-icon {
-	@apply flex items-center;
+	@apply flex items-center leading-xs;
+}
+
+.info-icon.small {
+    @apply text-base leading-xs p-none;
+}
+
+.info-icon.medium {
+    @apply text-lg leading-xs;
+}
+
+.info-icon.large {
+    @apply text-xl leading-xs;
 }
 
 .info-text {

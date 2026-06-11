@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import Spinner from "../Spinner/Spinner.vue";
-import { blendColors } from "../../utils";
+import { blendColors, getContrastColor } from "../../utils";
 
 const props = withDefaults(
   defineProps<{
@@ -35,6 +35,11 @@ const props = withDefaults(
 );
 
 const isHovering = ref(false);
+const mounted = ref(false);
+
+onMounted(() => {
+  mounted.value = true;
+});
 
 const isLoading = computed(
   (): boolean => !!(props.progress > 0 || props.loading)
@@ -69,14 +74,14 @@ const style = computed((): any => {
     style.color = props.background;
   else style.background = props.background;
 
-  if (isHovering.value) {
+  if (isHovering.value && mounted.value) {
     if (props.background && props.variant == "default") {
       const background = blendColors(props.background, 0.5, [0, 0, 0]);
       style.background = background;
       style["border-color"] = background;
     } else if (props.background && props.variant == "reverse") {
       style.background = props.background;
-      style.color = "white";
+      style.color = getContrastColor(props.background);
     } else if (props.background) {
       const background = blendColors(props.background, 0.4);
       style.background = background;
@@ -200,7 +205,7 @@ const style = computed((): any => {
 }
 
 .round.small {
-  @apply text-xs py-none;
+  @apply text-xs;
 
   &.hovered .button-label,
   &.always-open .button-label {
@@ -208,12 +213,12 @@ const style = computed((): any => {
   }
 
   .icon {
-    @apply text-xl;
+    @apply text-xl leading-xxs;
   }
 }
 
 .round.medium {
-  @apply text-base leading-lg py-none;
+  @apply text-base leading-lg;
 
   &.hovered .button-label,
   &.always-open .button-label {
@@ -221,7 +226,7 @@ const style = computed((): any => {
   }
 
   .icon {
-    @apply text-3xl;
+    @apply text-3xl leading-xxs;
   }
 }
 
@@ -234,7 +239,7 @@ const style = computed((): any => {
   }
 
   .icon {
-    @apply text-5xl;
+    @apply text-5xl leading-xxs;
   }
 }
 </style>

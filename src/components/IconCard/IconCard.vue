@@ -47,10 +47,10 @@ withDefaults(
 }
 
 .icon-container {
-  @apply flex items-center justify-center rounded-full bg-primary-interaction-default py-xxs px-xs w-fit h-fit text-neutral-foreground-negative absolute -left-lg top-base;
+  @apply flex items-center justify-center rounded-full bg-primary-interaction-default p-xs w-fit h-fit text-neutral-foreground-negative absolute -left-lg top-base;
 
   .icon {
-    @apply text-xl;
+    @apply text-xl leading-xxs;
   }
 }
 

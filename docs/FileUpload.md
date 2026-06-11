@@ -64,7 +64,7 @@ Error message to display when in error state. Type: `string` (default: `""`)
 Informational message displayed with tooltip. Type: `string` (default: `""`)
 
 #### size
-File upload component size. Type: `'extra-small' | 'small' | 'medium' | 'large' | 'extra-large'` (default: `"medium"`)
+File upload component size. Type: `'small' | 'medium' | 'large'` (default: `"medium"`)
 
 #### disabled
 Disables file upload interaction. Type: `boolean` (default: `false`)
@@ -92,7 +92,7 @@ Custom content for displaying uploaded file information. This slot is shown when
 - Support for single or multiple file uploads
 - Visual feedback during drag operations with blur effect
 - Customizable file display through the `uploaded-file` slot
-- Responsive sizing options from extra small to full width
+- Responsive sizing options from small to large
 - Built-in accessibility features and keyboard navigation
 - Error handling and visual feedback for upload failures
 - Disabled state support to prevent uploads when needed

@@ -205,6 +205,7 @@ function applyMasks(e: any) {
           v-if="icon && !appendIcon"
           :name="icon"
           class="side-icon"
+          :class="{ focused: isFocused && !disabled }"
         />
       </slot>
       <Tooltip
@@ -213,7 +214,7 @@ function applyMasks(e: any) {
         position="bottom"
         class="max-w-full"
       >
-        <StatusBadge color="neutral" class="tag-padding max-w-full" :label-value="tag" closeable @close="removeTag(index)" />
+        <StatusBadge color="neutral" class="tag-padding max-w-full" :label-value="tag" closeable @close="removeTag(Number(index))" />
         <template #label>
           <div class="max-w-[100%]">
             <span class="whitespace-normal break-all">{{ tag }}</span>
@@ -244,6 +245,7 @@ function applyMasks(e: any) {
           v-if="appendIcon && icon"
           :name="icon"
           class="side-icon"
+          :class="{ focused: isFocused && !disabled }"
         />
       </slot>
     </div>
@@ -307,6 +309,10 @@ function applyMasks(e: any) {
 
 .side-icon {
   @apply text-neutral-interaction-default;
+}
+
+.side-icon.focused {
+  @apply text-primary-interaction-default;
 }
 
 @keyframes shake {

@@ -263,7 +263,7 @@ function changeYear(year: number) {
           class="calendar-arrow left-0"
           @click="setNewMonth(-1)"
         >
-          <Icon name="chevron_left" />
+          <Icon name="chevron_left" class="leading-xxs" />
         </div>
         <Transition :name="!isBack ? 'slide-fade' : 'slide-fade-out'">
           <h1
@@ -281,7 +281,7 @@ function changeYear(year: number) {
           class="calendar-arrow right-0"
           @click="setNewMonth(1)"
         >
-          <Icon name="chevron_right" />
+          <Icon name="chevron_right" class="leading-xxs" />
         </div>
       </header>
       <main>
@@ -308,7 +308,7 @@ function changeYear(year: number) {
                     v-model:hovered="hoveredDate"
                     :day="day"
                     :type="type"
-                    :index="index"
+                    :index="Number(index)"
                     :position="getPosition(day, week)"
                     :min-date="minDate"
                     :max-date="maxDate"

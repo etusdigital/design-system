@@ -47,13 +47,6 @@ export default {
         defaultValue: { summary: "false" },
       },
     },
-    absolute: {
-      type: { name: "boolean" },
-      table: {
-        defaultValue: { summary: "false" },
-      },
-      description: "Makes the content dropdown have an absolute position.",
-    },
     getObject: {
       type: { name: "boolean" },
       table: {
@@ -106,7 +99,6 @@ const defaultArgs = {
   modelValue: "personal-account",
   name: "John Doe",
   picture: undefined,
-  absolute: false,
   disabled: false,
   getObject: false,
   options: [
@@ -138,7 +130,6 @@ const defaultRender = (args: any) => ({
       :options="args.options"
       :label-key="args.labelKey"
       :value-key="args.valueKey"
-      :absolute="args.absolute"
       :disabled="args.disabled"
       :get-object="args.getObject"
       @logout="args.logout"
@@ -171,14 +162,6 @@ export const Primary: Story = {
   args: defaultArgs,
 };
 
-export const Absolute: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    absolute: true,
-  },
-};
-
 export const Disabled: Story = {
   render: defaultRender,
   args: {
@@ -201,7 +184,6 @@ export const Options: Story = {
           :options="args.options"
           :label-key="args.labelKey"
           :value-key="args.valueKey"
-          :absolute="args.absolute"
           :disabled="args.disabled"
           :get-object="args.getObject"
           @logout="args.logout"

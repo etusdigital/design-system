@@ -51,9 +51,6 @@ type Option = {
 }
 ```
 
-#### absolute
-Controls absolute positioning of dropdown menu. Type: `boolean` (default: `true`)
-
 #### disabled
 Disables the dropdown interaction. Type: `boolean` (default: `false`)
 
@@ -124,4 +121,3 @@ const menuOptions = [...]
 - Automatic option selection state management for nested structures
 - Bottom positioning option for special menu options (like logout/settings)
 - Keyboard navigation support for accessibility
-- Absolute positioning ensures dropdown menu doesn't affect layout

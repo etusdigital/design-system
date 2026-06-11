@@ -211,7 +211,7 @@ function onKeyDown(event: KeyboardEvent) {
 }
 
 .image-preview-overlay-content {
-  @apply z-[2] absolute inset-none flex items-center justify-center;
+  @apply z-[2] absolute inset-0 flex items-center justify-center;
 }
 
 .image-preview-overlay-content .icon {

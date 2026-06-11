@@ -25,7 +25,6 @@ const emit = defineEmits<{
 }>();
 
 const model = ref(props.modelValue);
-const carouselContainer = ref<HTMLElement>();
 const carouselOptionsContainer = ref<HTMLElement>();
 const contentStyle = ref<{ width?: string; height?: string }>({});
 const transform = ref("-0px");
@@ -211,7 +210,7 @@ function calculateContentStyle() {
 </script>
 
 <template>
-  <div class="carousel" ref="carouselContainer" tabindex="0" @keyup="onKeyUp">
+  <div class="carousel" tabindex="0" @keyup="onKeyUp">
     <div class="carousel-content" :class="{ vertical }">
       <div
         class="arrow-icon"
@@ -220,7 +219,10 @@ function calculateContentStyle() {
         @click="setModel(model - 1)"
         @keyup.enter="setModel(model - 1)"
       >
-        <Icon :name="vertical ? 'keyboard_arrow_up' : 'chevron_left'" />
+        <Icon
+          :name="vertical ? 'keyboard_arrow_up' : 'chevron_left'"
+          class="leading-xxs"
+        />
       </div>
       <div class="overflow-hidden shrink-0" :style="contentStyle">
         <div
@@ -258,7 +260,10 @@ function calculateContentStyle() {
         @click="setModel(model + 1)"
         @keyup.enter="setModel(model + 1)"
       >
-        <Icon :name="vertical ? 'keyboard_arrow_down' : 'chevron_right'" />
+        <Icon
+          :name="vertical ? 'keyboard_arrow_down' : 'chevron_right'"
+          class="leading-xxs"
+        />
       </div>
     </div>
     <div class="carousel-indicators">

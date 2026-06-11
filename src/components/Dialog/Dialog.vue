@@ -79,7 +79,7 @@ function closeDialog() {
   animation: bounce-in 0.5s reverse;
 }
 
-.no-outside-close-warning {
+.dialog.no-outside-close-warning {
   animation: bounce-warning 0.5s ease;
 }
 

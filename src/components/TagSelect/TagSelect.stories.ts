@@ -75,6 +75,10 @@ export default {
       description:
         "This slot will be displayed as an option. Params: option and index.",
     },
+    default: {
+      description:
+        "Custom trigger element to replace the default tag select button.",
+    },
   },
 } satisfies Meta<typeof TagSelect>;
 
@@ -93,7 +97,6 @@ const defaultArgs = {
   icon: "",
   isError: false,
   disabled: false,
-  absolute: false,
 };
 
 const defaultRender = (args: any) => ({
@@ -114,7 +117,6 @@ const defaultRender = (args: any) => ({
         :icon="args.icon"
         :required="args.required"
         :label-key="args.labelKey"
-        :absolute="args.absolute"
     >
         <template #search-label>
             Search
@@ -141,14 +143,6 @@ export const Icon: Story = {
   args: {
     ...defaultArgs,
     icon: "search",
-  },
-};
-
-export const Absolute: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    absolute: true,
   },
 };
 

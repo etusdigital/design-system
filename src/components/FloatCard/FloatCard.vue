@@ -50,6 +50,14 @@ function updateModel(value: boolean) {
   emit("update:modelValue", value);
 }
 
+function onTriggerClick(e: MouseEvent) {
+  if (props.mode !== "click") return;
+  // Only open when clicking the trigger content, not the teleported card
+  // content (teleported events still bubble through the Vue component tree
+  // but the DOM target lives in document.body, outside the content ref)
+  if (content.value?.contains(e.target as Node)) updateModel(true);
+}
+
 function closeCard() {
   updateModel(false);
   document.removeEventListener("click", closeHandler);
@@ -145,7 +153,8 @@ async function showCard() {
 <template>
   <div
     ref="content"
-    @click="mode == 'click' ? updateModel(true) : null"
+    class="float-card-container"
+    @click="onTriggerClick"
     @mouseenter="mode == 'hover' ? updateModel(true) : null"
     @mouseleave="mode == 'hover' ? closeCard() : null"
   >

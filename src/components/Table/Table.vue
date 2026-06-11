@@ -360,7 +360,6 @@ function selectAll(value: boolean | null) {
         <Select
           v-model="itemsPerPageHolder"
           :options="listPerPage"
-          absolute
           @update:model-value="changeItemsPerPage"
         >
           {{ itemsPerPageHolder }}

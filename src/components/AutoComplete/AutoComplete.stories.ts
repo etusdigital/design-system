@@ -44,12 +44,6 @@ export default {
       },
       description: "Activate error mode.",
     },
-    absolute: {
-      type: { name: "boolean" },
-      table: {
-        defaultValue: { summary: "true" },
-      },
-    },
     errorMessage: {
       type: { name: "string" },
       description: "Will be the error message.",
@@ -75,7 +69,6 @@ const defaultArgs = {
   placeholder: "Placeholder",
   disabled: false,
   required: false,
-  absolute: false,
   isError: false,
   errorMessage: "",
   infoMessage: "",
@@ -92,7 +85,6 @@ const defaultRender = (args: any) => ({
       :label-value="args.labelValue"
       :placeholder="args.placeholder"
       :options="args.options"
-      :absolute="args.absolute" 
       :required="args.required" 
       :disabled="args.disabled"
       :is-error="args.isError"
@@ -104,14 +96,6 @@ const defaultRender = (args: any) => ({
 export const Primary: Story = {
   render: defaultRender,
   args: defaultArgs,
-};
-
-export const Absolute: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    absolute: true,
-  },
 };
 
 export const Required: Story = {
@@ -159,7 +143,6 @@ export const CustomOption: Story = {
       :label-value="args.labelValue"
       :placeholder="args.placeholder"
       :options="args.options"
-      :absolute="args.absolute" 
       :required="args.required" 
       :disabled="args.disabled"
       :is-error="args.isError"

@@ -1595,7 +1595,6 @@ function camelToKebabCase(str: string): string {
             v-model="item.value"
             :options="(item as FontSize).options"
             :disabled="disabled"
-            absolute
             @update:model-value="(item as FontSize).action(item.value)"
           />
           <Tooltip position="bottom">
@@ -1615,7 +1614,7 @@ function camelToKebabCase(str: string): string {
                 <slot name="cancel-label"> Cancel </slot>
               </template>
               <Option :disabled="disabled">
-                <Icon :name="item.icon" />
+                <Icon :name="item.icon" class="rich-text-editor-icon" />
               </Option>
             </Colors>
             <Option
@@ -1629,7 +1628,7 @@ function camelToKebabCase(str: string): string {
                   : execCommand(item.command, item.style, item.value)
               "
             >
-              <Icon :name="item.icon" />
+              <Icon :name="item.icon" class="rich-text-editor-icon" />
               <input
                 v-if="item.type === 'image'"
                 type="file"
@@ -1789,5 +1788,9 @@ function camelToKebabCase(str: string): string {
 
 .error-message {
   @apply text-sm text-danger-foreground-low text-start;
+}
+
+.rich-text-editor-icon {
+  @apply leading-xs;
 }
 </style>

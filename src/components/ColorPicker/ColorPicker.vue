@@ -17,11 +17,15 @@ const props = withDefaults(
         modelValue?: string;
         type?: 'hexa' | 'hsla' | 'hwb' | 'hsva' | 'rgba';
         noShadow?: boolean;
+        showAlpha?: boolean;
+        disabled?: boolean;
     }>(),
     {
         modelValue: undefined,
         type: 'hexa',
         noShadow: false,
+        showAlpha: true,
+        disabled: false,
     }
 );
 
@@ -176,7 +180,7 @@ function updateColorSlider(event: MouseEvent) {
         sliderColor.value = color;
         sliderOpacityDiv.style.background = `linear-gradient(
             to right,
-            #ffffff 0%,
+            var(--neutral-surface-default) 0%,
             ${color}
         )`;
         changeCanvasColor(color, sliderOpacity.value);
@@ -333,7 +337,7 @@ function calculateCursor() {
     sliderColor.value = color;
     sliderOpacityDiv.style.background = `linear-gradient(
         to right,
-        #ffffff 0%,
+        var(--neutral-surface-default) 0%,
         ${color}
     )`;
     changeCanvasColor(color, opacity);
@@ -465,7 +469,7 @@ function move(updateType = true) {
 </script>
 
 <template>
-    <Card class="color-picker" :class="noShadow ? 'no-shadow' : ''">
+    <Card class="color-picker" :class="{ 'no-shadow': noShadow, disabled: disabled }">
         <div class="relative">
             <span class="cursor cursor-area" ref="cursorColorArea" @mousedown="startDraggingColorArea" @touchstart="startDraggingColorAreaTouch" />
             <canvas class="color-area" ref="colorArea" @mousedown="startDraggingColorArea" @touchstart="startDraggingColorAreaTouch" />
@@ -476,7 +480,7 @@ function move(updateType = true) {
                 <div class="slider" @mousedown="startDraggingColorSlider" @touchstart="startDraggingColorSliderTouch">
                     <span ref="cursorColorSlider" class="cursor cursor-slider" @mousedown="startDraggingColorSlider" @touchstart="startDraggingColorSliderTouch" />
                 </div>
-                <div class="slider-opacity slider flex justify-end" @mousedown="startDraggingOpacitySlider" @touchstart="startDraggingOpacitySliderTouch">
+                <div v-if="showAlpha" class="slider-opacity slider flex justify-end" @mousedown="startDraggingOpacitySlider" @touchstart="startDraggingOpacitySliderTouch">
                     <span
                         class="cursor cursor-slider"
                         ref="cursorOpacitySlider"
@@ -487,7 +491,7 @@ function move(updateType = true) {
             </div>
         </div>
         <div class="flex items-center gap-sm">
-            <Input v-model="inputColor" @update:model-value="calculateCursor" text-align="center" class="flex-1" />
+            <Input v-model="inputColor" @update:model-value="calculateCursor" text-align="center" class="flex-1" :disabled="disabled" />
             <div class="flex items-center gap-xxs">
                 <div class="flex flex-col items-center overflow-hidden relative h-lg w-fit text-neutral-interaction-default">
                     <p v-show="isMovingDown" class="font-bold slide-down">
@@ -503,12 +507,14 @@ function move(updateType = true) {
                 <div class="flex flex-col">
                     <Icon
                         name="arrow_drop_up"
-                        class="cursor-pointer flex items-center h-[.8em] text-neutral-interaction-default"
+                        class="color-arrows"
+                        :class="{ disabled: disabled }"
                         @click="moveUp"
                     />
                     <Icon
                         name="arrow_drop_down"
-                        class="cursor-pointer flex items-center h-[.8em] text-neutral-interaction-default"
+                        class="color-arrows"
+                        :class="{ disabled: disabled }"
                         @click="moveDown"
                     />
                 </div>
@@ -539,7 +545,7 @@ function move(updateType = true) {
 }
 
 .slider-opacity {
-    background: linear-gradient(to right, #ffffff 0%, hsl(0, 100%, 50%));
+    background: linear-gradient(to right, var(--neutral-surface-default) 0%, hsl(0, 100%, 50%));
 }
 
 .color-area {
@@ -559,7 +565,15 @@ function move(updateType = true) {
 }
 
 .color-circle {
-    @apply h-[2em] w-[2.2em] rounded-full border-xxs border-neutral-default;
+    @apply shrink-0 rounded-full w-2xl h-2xl border-xxs border-neutral-default;
+}
+
+.color-arrows {
+    @apply cursor-pointer flex items-center text-neutral-interaction-default text-xl leading-[.7em] select-none;
+}
+
+.color-arrows.disabled {
+    @apply text-neutral-interaction-disabled pointer-events-none;
 }
 
 .slide-up {
@@ -590,5 +604,9 @@ function move(updateType = true) {
 
 .no-shadow {
     @apply shadow-none border-none;
+}
+
+.disabled {
+    @apply opacity-50 pointer-events-none;
 }
 </style>

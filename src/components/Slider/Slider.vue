@@ -50,12 +50,15 @@ const tooltipText = computed((): string => {
   return `${getTooltipText(min)} - ${getTooltipText(max)}`;
 });
 
+const mounted = ref(false);
+
 const background = computed((): string => {
-  if (props.neutralBackground || !props.color) return "";
+  if (!mounted.value || props.neutralBackground || !props.color) return "";
   return blendColors(props.color);
 });
 
 onMounted(() => {
+  mounted.value = true;
   window.addEventListener("mousemove", updateCursor);
   window.addEventListener("mouseup", stopDragging);
   window.addEventListener("touchmove", updateCursorTouch);

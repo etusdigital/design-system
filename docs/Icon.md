@@ -42,6 +42,15 @@ Controls the icon size using CSS font-size values. Type: `string` (default: `"24
 #### filled
 Changes the icon style to filled version. Type: `boolean` (default: `false`)
 
+#### @click
+Allow the icon to have a click action. Native events fall through to the underlying `<span>`.
+
+```vue
+<template>
+    <Icon name="favorite" @click="onClick" />
+</template>
+```
+
 **Important Notes:**
 - Icons are based on Google Material Symbols with rounded style
 - Use meaningful icon names that match the action or content they represent

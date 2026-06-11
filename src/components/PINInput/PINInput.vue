@@ -153,7 +153,7 @@ function focusFirstEmpty() {
 </script>
 
 <template>
-  <div class="pin-input-container" @click="focusFirstEmpty">
+  <div class="pin-input-container pin-input" @click="focusFirstEmpty">
     <template v-for="(_, index) in length" :key="index">
       <input
         :ref="(el) => setInputRef(el as HTMLInputElement, index)"

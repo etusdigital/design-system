@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { blendColors } from "../../utils";
 
 const props = withDefaults(
@@ -35,6 +35,12 @@ const props = withDefaults(
   }
 );
 
+const mounted = ref(false);
+
+onMounted(() => {
+  mounted.value = true;
+});
+
 const progressWidth = computed((): string => {
   let value = props.modelValue * 100;
   if (props.steps) value = (props.modelValue / props.steps) * 100;
@@ -44,7 +50,7 @@ const progressWidth = computed((): string => {
 });
 
 const background = computed((): string => {
-  if (props.neutralBackground || !props.color) return "";
+  if (!mounted.value || props.neutralBackground || !props.color) return "";
   return blendColors(props.color);
 });
 
@@ -93,12 +99,12 @@ const component = computed((): string => {
       }"
     >
       <slot name="icon-slot">
-        <Icon :name="icon" />
+        <Icon :name="icon" class="slot-icon" />
       </slot>
     </component>
   </div>
   <div
-    class="step-bar flex flex-row gap-xs"
+    class="step-bar"
     :class="[size, type, { 'neutral-bg': neutralBackground }]"
     v-else
   >
@@ -120,6 +126,10 @@ const component = computed((): string => {
 
 <style scoped>
 @reference "../../assets/main.css";
+
+.step-bar {
+  @apply flex flex-row gap-xs;
+}
 
 .progress-bar,
 .step-bar .step {
@@ -270,6 +280,10 @@ const component = computed((): string => {
   .progress-icon {
     @apply text-neutral-foreground-low;
   }
+}
+
+.slot-icon {
+  @apply text-2xl leading-xs;
 }
 
 .progress-fill.indeterminate {

@@ -10,7 +10,6 @@ const props = withDefaults(
     expanded?: boolean;
     labelValue?: string;
     options?: number[] | string[];
-    absolute?: boolean;
     disabled?: boolean;
     isError?: boolean;
     errorMessage?: string;
@@ -24,7 +23,6 @@ const props = withDefaults(
     modelValue: undefined,
     expanded: false,
     labelValue: "",
-    absolute: true,
     disabled: false,
     isError: false,
     errorMessage: "",
@@ -60,48 +58,49 @@ function selectOption(option: number | string) {
 </script>
 
 <template>
-  <SelectContainer
-    class="auto-complete"
-    v-model="isExpanded"
-    :absolute="absolute"
-    :label-value="labelValue"
-    :disabled="disabled"
-    :is-error="isError"
-    :error-message="errorMessage"
-    :info-message="infoMessage"
-    :required="required"
-    :max-height="maxHeight"
-    :min-width="minWidth"
-  >
-    <template #label>
-      <Input
-        v-model="model"
-        :disabled="disabled"
-        :is-error="isError"
-        :info-message="infoMessage"
-        :placeholder="placeholder"
-        :min-width="minWidth"
-        icon="unfold_more"
-        append-icon
-        @focus="onFocus"
-      />
-    </template>
+  <div class="auto-complete">
+    <SelectContainer
+      class="auto-complete-content"
+      v-model="isExpanded"
+      :label-value="labelValue"
+      :disabled="disabled"
+      :is-error="isError"
+      :error-message="errorMessage"
+      :info-message="infoMessage"
+      :required="required"
+      :max-height="maxHeight"
+      :min-width="minWidth"
+    >
+      <template #label>
+        <Input
+          v-model="model"
+          :disabled="disabled"
+          :is-error="isError"
+          :info-message="infoMessage"
+          :placeholder="placeholder"
+          :min-width="minWidth"
+          icon="unfold_more"
+          append-icon
+          @focus="onFocus"
+        />
+      </template>
 
-    <template #options>
-      <Option
-        :aria-selected="model == option"
-        v-for="(option, index) in filteredOptions"
-        :key="index"
-        :class="{
-          'font-bold': model == option,
-        }"
-        @click="selectOption(option)"
-        @keyup.space="selectOption(option)"
-      >
-        <slot name="option" :option="option" :index="index">
-          {{ option }}
-        </slot>
-      </Option>
-    </template>
-  </SelectContainer>
+      <template #options>
+        <Option
+          :aria-selected="model == option"
+          v-for="(option, index) in filteredOptions"
+          :key="index"
+          :class="{
+            'font-bold': model == option,
+          }"
+          @click="selectOption(option)"
+          @keyup.space="selectOption(option)"
+        >
+          <slot name="option" :option="option" :index="index">
+            {{ option }}
+          </slot>
+        </Option>
+      </template>
+    </SelectContainer>
+  </div>
 </template>

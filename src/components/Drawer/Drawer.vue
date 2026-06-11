@@ -22,7 +22,6 @@ const emit = defineEmits<{
 }>();
 
 const model = ref(props.modelValue);
-const drawer = ref<HTMLElement>();
 
 const isMobile = computed(() => window.innerWidth < 768);
 
@@ -47,7 +46,6 @@ function closeDialog() {
       <Transition name="slide-in">
         <div
           v-if="model"
-          ref="drawer"
           class="drawer"
           :class="position"
           :style="{ 

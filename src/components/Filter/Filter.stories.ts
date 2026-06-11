@@ -62,17 +62,18 @@ export default {
         defaultValue: { summary: "false" },
       },
     },
-    absolute: {
-      type: { name: "boolean" },
-      table: {
-        defaultValue: { summary: "false" },
-      },
-      description: "Makes the content dropdown have an absolute position.",
-    },
     getObject: {
       type: { name: "function" },
       description:
         "Will be the function that returns the object with the selected options.",
+    },
+    hideActions: {
+      type: { name: "boolean" },
+      table: {
+        defaultValue: { summary: "false" },
+      },
+      description:
+        "Hides the default Clear and Apply buttons. Use with the #actions slot for custom actions.",
     },
     onApply: {
       type: { name: "function" },
@@ -142,8 +143,8 @@ const defaultArgs = {
   icon: "filter_list",
   searchable: false,
   disabled: false,
-  absolute: false,
   getObject: false,
+  hideActions: false,
   onApply: () => {},
 };
 
@@ -164,10 +165,10 @@ const defaultRender = (args: any) => ({
         :icon="args.icon" 
         :searchable="args.searchable" 
         :disabled="args.disabled"
-        :absolute="args.absolute"
         :search-label="args.searchLabel"
         :get-object="args.getObject"
-        @apply="args.onApply" 
+        :hide-actions="args.hideActions"
+        @apply="args.onApply"
     />
   `,
 });
@@ -175,14 +176,6 @@ const defaultRender = (args: any) => ({
 export const Primary: Story = {
   render: defaultRender,
   args: defaultArgs,
-};
-
-export const Absolute: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    absolute: true,
-  },
 };
 
 export const Disabled: Story = {
@@ -198,5 +191,13 @@ export const Searchable: Story = {
   args: {
     ...defaultArgs,
     searchable: true,
+  },
+};
+
+export const HideActions: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    hideActions: true,
   },
 };

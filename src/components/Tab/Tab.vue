@@ -40,7 +40,7 @@ const emit =
 
 function changeTab(option: any) {
   model.value = props.getObject ? option : getValue(option);
-  emit("update:modelValue", option);
+  emit("update:modelValue", model.value);
 }
 
 function getValue(option: any): string {
@@ -59,24 +59,22 @@ function getLabel(option: any): string {
       'bg-neutral-surface-highlight': !notCard,
     }"
   >
-    <div class="flex font-bold text-sm gap-xs w-fit">
-      <button
-        v-for="(option, index) in options"
-        :key="index"
-        class="default-tab"
-        :class="{ 'active-tab': getValue(model) == getValue(option) }"
-        @click="changeTab(option)"
-      >
-        <div v-if="isObject(option)" class="flex items-center gap-xxs">
-          <Icon :name="option.icon" v-if="option.icon" />
-          <h5 v-if="getLabel(option)">{{ getLabel(option) }}</h5>
-        </div>
-        <div v-else>
-          <Icon :name="option" v-if="isIcon" />
-          <h5 v-else>{{ option }}</h5>
-        </div>
-      </button>
-    </div>
+    <button
+      v-for="(option, index) in options"
+      :key="index"
+      class="default-tab"
+      :class="{ 'active-tab': getValue(model) == getValue(option) }"
+      @click="changeTab(option)"
+    >
+      <div v-if="isObject(option)" class="flex items-center gap-xxs">
+        <Icon :name="option.icon" v-if="option.icon" />
+        <h5 v-if="getLabel(option)">{{ getLabel(option) }}</h5>
+      </div>
+      <div v-else>
+        <Icon :name="option" v-if="isIcon" />
+        <h5 v-else>{{ option }}</h5>
+      </div>
+    </button>
   </div>
 </template>
 
@@ -84,7 +82,7 @@ function getLabel(option: any): string {
 @reference "../../assets/main.css";
 
 .tab {
-  @apply p-xxs rounded-sm;
+  @apply flex flex-wrap font-bold text-sm gap-xs p-xxs rounded-sm;
 }
 
 .default-tab {

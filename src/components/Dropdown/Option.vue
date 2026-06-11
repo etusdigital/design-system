@@ -116,7 +116,7 @@ function getValue(option: any): any {
   }
 
   .icon.icon {
-    @apply text-xl flex items-center;
+    @apply text-xl leading-xs flex items-center;
   }
 }
 
@@ -134,6 +134,6 @@ function getValue(option: any): any {
 }
 
 .option .icon.icon.icon-small {
-  @apply text-base;
+  @apply text-xl leading-xs;
 }
 </style>

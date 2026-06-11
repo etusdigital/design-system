@@ -121,8 +121,6 @@ Controls the currently selected tab. The value type depends on the `get-object` 
 
 Type: `any` (default: `undefined`)
 
-**Note**: If no initial value is provided, the first option is automatically selected.
-
 #### options
 Array of tab options. Can be:
 - **String array**: `["Option 1", "Option 2", "Option 3"]`
@@ -193,14 +191,8 @@ Triggered when the selected tab changes. The emitted value depends on the `get-o
 - When `get-object="false"` (default): Emits the value (string or `valueKey` property)
 - When `get-object="true"`: Emits the entire option object
 
-**Note**: The event is emitted with the full option object, but the `v-model` binding will store either the value or the object based on `get-object`.
-
-### Slots API
-
-This component uses internal rendering for tab options and doesn't expose custom slots. All customization is done through props and the `options` array structure.
 
 **Important Notes:**
-- **Auto-selection**: Automatically selects the first tab if no initial `v-model` value is provided
 - **Flexible data structures**: Supports both string arrays and object arrays with configurable property names via `label-key` and `value-key`
 - **Icon support**: 
   - Use `is-icon` for icon-only tabs with string arrays
