@@ -51,10 +51,6 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     infoMessage: {
         default: string;
     };
-    absolute: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     clearable: {
         type: BooleanConstructor;
         default: boolean;
@@ -114,10 +110,6 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     infoMessage: {
         default: string;
     };
-    absolute: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     clearable: {
         type: BooleanConstructor;
         default: boolean;
@@ -140,7 +132,6 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     getObject: boolean;
     errorMessage: string;
     infoMessage: string;
-    absolute: boolean;
     clearable: boolean;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 export default _default;

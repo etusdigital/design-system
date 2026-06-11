@@ -6,10 +6,6 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     labelValue: {
         default: string;
     };
-    absolute: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     disabled: {
         type: BooleanConstructor;
         default: boolean;
@@ -32,10 +28,6 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
-    alignRight: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     maxHeight: {
         default: string;
     };
@@ -51,10 +43,7 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
-    disableLabelAutoWidth: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
+    icon: {};
 }>, (_ctx: any, _cache: any) => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
     [key: string]: any;
 }>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
@@ -65,10 +54,6 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     labelValue: {
         default: string;
     };
-    absolute: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     disabled: {
         type: BooleanConstructor;
         default: boolean;
@@ -91,10 +76,6 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
-    alignRight: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     maxHeight: {
         default: string;
     };
@@ -110,28 +91,22 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
-    disableLabelAutoWidth: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
+    icon: {};
 }>> & Readonly<{
     "onUpdate:modelValue"?: (...args: any[]) => any;
 }>, {
     modelValue: boolean;
     required: boolean;
     labelValue: string;
-    absolute: boolean;
     disabled: boolean;
     isError: boolean;
     errorMessage: string;
     infoMessage: string;
     closeOnBlur: boolean;
-    alignRight: boolean;
     maxHeight: string;
     minWidth: string;
     secondary: boolean;
     hideArrow: boolean;
-    disableLabelAutoWidth: boolean;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 export default _default;
 //# sourceMappingURL=ExpandableContainer.vue?vue&type=script&setup=true&lang.d.ts.map

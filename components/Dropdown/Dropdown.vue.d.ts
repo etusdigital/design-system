@@ -10,10 +10,6 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         default: string;
     };
     options: {};
-    absolute: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     disabled: {
         type: BooleanConstructor;
         default: boolean;
@@ -60,10 +56,6 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         default: string;
     };
     options: {};
-    absolute: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     disabled: {
         type: BooleanConstructor;
         default: boolean;
@@ -104,7 +96,6 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     required: boolean;
     expanded: boolean;
     labelValue: string;
-    absolute: boolean;
     disabled: boolean;
     isError: boolean;
     errorMessage: string;

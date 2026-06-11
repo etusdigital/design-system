@@ -30,6 +30,28 @@ declare const _default: {
             };
             description: string;
         };
+        showAlpha: {
+            type: {
+                name: string;
+            };
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
+        disabled: {
+            type: {
+                name: string;
+            };
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
     };
 };
 export default _default;
@@ -47,6 +69,8 @@ export declare const Primary: {
         modelValue: string;
         type: string;
         noShadow: boolean;
+        showAlpha: boolean;
+        disabled: boolean;
     };
 };
 export declare const NoShadow: {
@@ -63,6 +87,26 @@ export declare const NoShadow: {
         noShadow: boolean;
         modelValue: string;
         type: string;
+        showAlpha: boolean;
+        disabled: boolean;
+    };
+};
+export declare const Disabled: {
+    render: (args: any) => {
+        components: {
+            ColorPicker: any;
+        };
+        setup(): {
+            args: any;
+        };
+        template: string;
+    };
+    args: {
+        disabled: boolean;
+        modelValue: string;
+        type: string;
+        noShadow: boolean;
+        showAlpha: boolean;
     };
 };
 //# sourceMappingURL=ColorPicker.stories.d.ts.map

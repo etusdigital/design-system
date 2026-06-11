@@ -90,17 +90,6 @@ declare const _default: {
             };
             description: string;
         };
-        absolute: {
-            type: {
-                name: string;
-            };
-            table: {
-                defaultValue: {
-                    summary: string;
-                };
-            };
-            description: string;
-        };
         disabled: {
             type: {
                 name: string;
@@ -159,17 +148,6 @@ declare const _default: {
                 };
             };
         };
-        alignRight: {
-            type: {
-                name: string;
-            };
-            table: {
-                defaultValue: {
-                    summary: string;
-                };
-            };
-            description: string;
-        };
         separator: {
             type: {
                 name: string;
@@ -217,9 +195,7 @@ export declare const Primary: {
         hideActions: boolean;
         isError: boolean;
         errorMessage: string;
-        absolute: boolean;
         expanded: boolean;
-        alignRight: boolean;
         separator: string;
         options: ({
             selected: boolean;
@@ -258,9 +234,7 @@ export declare const Lang: {
         hideActions: boolean;
         isError: boolean;
         errorMessage: string;
-        absolute: boolean;
         expanded: boolean;
-        alignRight: boolean;
         options: ({
             selected: boolean;
             value: string;
@@ -297,9 +271,7 @@ export declare const AllowChangeType: {
         hideActions: boolean;
         isError: boolean;
         errorMessage: string;
-        absolute: boolean;
         expanded: boolean;
-        alignRight: boolean;
         separator: string;
         options: ({
             selected: boolean;
@@ -337,9 +309,7 @@ export declare const Period: {
         hideActions: boolean;
         isError: boolean;
         errorMessage: string;
-        absolute: boolean;
         expanded: boolean;
-        alignRight: boolean;
         separator: string;
         options: ({
             selected: boolean;
@@ -377,9 +347,7 @@ export declare const Compare: {
         hideActions: boolean;
         isError: boolean;
         errorMessage: string;
-        absolute: boolean;
         expanded: boolean;
-        alignRight: boolean;
         separator: string;
         options: ({
             selected: boolean;
@@ -417,9 +385,7 @@ export declare const MinDate: {
         hideActions: boolean;
         isError: boolean;
         errorMessage: string;
-        absolute: boolean;
         expanded: boolean;
-        alignRight: boolean;
         separator: string;
         options: ({
             selected: boolean;
@@ -457,49 +423,7 @@ export declare const MaxDate: {
         hideActions: boolean;
         isError: boolean;
         errorMessage: string;
-        absolute: boolean;
         expanded: boolean;
-        alignRight: boolean;
-        separator: string;
-        options: ({
-            selected: boolean;
-            value: string;
-            label: string;
-            calculate: () => Date[];
-        } | {
-            value: string;
-            label: string;
-            calculate: () => Date[];
-            selected?: undefined;
-        })[];
-    };
-};
-export declare const Absolute: {
-    render: (args: any) => {
-        components: {
-            DatePicker: any;
-        };
-        setup(): {
-            args: any;
-        };
-        template: string;
-    };
-    args: {
-        absolute: boolean;
-        modelValue: any;
-        labelValue: string;
-        lang: string;
-        type: string;
-        allowChangeType: boolean;
-        minDate: any;
-        maxDate: any;
-        disabled: boolean;
-        required: boolean;
-        hideActions: boolean;
-        isError: boolean;
-        errorMessage: string;
-        expanded: boolean;
-        alignRight: boolean;
         separator: string;
         options: ({
             selected: boolean;
@@ -537,9 +461,7 @@ export declare const Disabled: {
         hideActions: boolean;
         isError: boolean;
         errorMessage: string;
-        absolute: boolean;
         expanded: boolean;
-        alignRight: boolean;
         separator: string;
         options: ({
             selected: boolean;
@@ -577,9 +499,7 @@ export declare const Required: {
         hideActions: boolean;
         isError: boolean;
         errorMessage: string;
-        absolute: boolean;
         expanded: boolean;
-        alignRight: boolean;
         separator: string;
         options: ({
             selected: boolean;
@@ -617,48 +537,6 @@ export declare const IsError: {
         disabled: boolean;
         required: boolean;
         hideActions: boolean;
-        absolute: boolean;
-        expanded: boolean;
-        alignRight: boolean;
-        separator: string;
-        options: ({
-            selected: boolean;
-            value: string;
-            label: string;
-            calculate: () => Date[];
-        } | {
-            value: string;
-            label: string;
-            calculate: () => Date[];
-            selected?: undefined;
-        })[];
-    };
-};
-export declare const AlignRight: {
-    render: (args: any) => {
-        components: {
-            DatePicker: any;
-        };
-        setup(): {
-            args: any;
-        };
-        template: string;
-    };
-    args: {
-        alignRight: boolean;
-        modelValue: any;
-        labelValue: string;
-        lang: string;
-        type: string;
-        allowChangeType: boolean;
-        minDate: any;
-        maxDate: any;
-        disabled: boolean;
-        required: boolean;
-        hideActions: boolean;
-        isError: boolean;
-        errorMessage: string;
-        absolute: boolean;
         expanded: boolean;
         separator: string;
         options: ({
@@ -698,9 +576,7 @@ export declare const Separator: {
         hideActions: boolean;
         isError: boolean;
         errorMessage: string;
-        absolute: boolean;
         expanded: boolean;
-        alignRight: boolean;
         options: ({
             selected: boolean;
             value: string;

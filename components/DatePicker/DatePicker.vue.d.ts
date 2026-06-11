@@ -35,15 +35,7 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     errorMessage: {
         default: string;
     };
-    absolute: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     expanded: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
-    alignRight: {
         type: BooleanConstructor;
         default: boolean;
     };
@@ -97,15 +89,7 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     errorMessage: {
         default: string;
     };
-    absolute: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     expanded: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
-    alignRight: {
         type: BooleanConstructor;
         default: boolean;
     };
@@ -136,9 +120,7 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     disabled: boolean;
     isError: boolean;
     errorMessage: string;
-    absolute: boolean;
     expanded: boolean;
-    alignRight: boolean;
     options: {
         value: string;
         label: string;

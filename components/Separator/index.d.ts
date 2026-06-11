@@ -1,7 +1,7 @@
-import Divider from "./Separator.vue";
+import Separator from "./Separator.vue";
 declare const _default: {
     install(Vue: any): void;
 };
 export default _default;
-export { Divider };
+export { Separator };
 //# sourceMappingURL=index.d.ts.map

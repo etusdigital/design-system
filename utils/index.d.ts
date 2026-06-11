@@ -66,6 +66,7 @@ export declare function isValidEmail(value: any): boolean;
 export declare function isValidDomain(value: any): boolean;
 export declare function isValidUrl(value: any): boolean;
 export declare function blendColors(color: any, percentage?: number, bg?: number[]): string;
+export declare function getContrastColor(color: any): "white" | "black";
 export declare function checkPath(path: any): boolean;
 export declare const dateOptions: {
     value: string;

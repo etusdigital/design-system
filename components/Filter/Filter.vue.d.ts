@@ -30,11 +30,11 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
-    absolute: {
+    getObject: {
         type: BooleanConstructor;
         default: boolean;
     };
-    getObject: {
+    hideActions: {
         type: BooleanConstructor;
         default: boolean;
     };
@@ -72,11 +72,11 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
-    absolute: {
+    getObject: {
         type: BooleanConstructor;
         default: boolean;
     };
-    getObject: {
+    hideActions: {
         type: BooleanConstructor;
         default: boolean;
     };
@@ -94,8 +94,8 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     valueKey: string;
     searchLabel: string;
     searchable: boolean;
-    absolute: boolean;
     getObject: boolean;
+    hideActions: boolean;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 export default _default;
 //# sourceMappingURL=Filter.vue?vue&type=script&setup=true&lang.d.ts.map
