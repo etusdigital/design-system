@@ -147,7 +147,7 @@ function onFocus() {
         py-xs
         px-sm
         focus:outline-primary-default
-        border-none bg-neutral-surface-default text-neutral-foreground-high min-h-xl;
+        border-none bg-neutral-surface-default text-neutral-foreground-high;
 }
 /* #endregion BASE FONT SIZES */
 

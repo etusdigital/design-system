@@ -64,7 +64,7 @@ watch(
     :class="{ expanded: expandedModel, disabled, error: isError }"
   />
   <span
-    class="flex items-center gap-xs truncate leading-xxs"
+    class="flex items-center gap-xs truncate text-sm flex-1"
     :class="{ 'text-neutral-foreground-low': !options }"
   >
     <div

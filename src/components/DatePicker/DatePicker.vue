@@ -188,7 +188,7 @@ function changeType() {
     @update:modelValue="emit('update:expanded', isExpanded)"
   >
     <div
-      class="flex items-center text-lg h-xl text-neutral-interaction-default"
+      class="flex items-center text-lg text-neutral-interaction-default"
       :class="{
         expanded: isExpanded,
         error: isError,

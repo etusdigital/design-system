@@ -193,7 +193,7 @@ function toggle() {
 }
 
 .arrow-icon {
-  @apply shrink-0 flex items-center transition-transform duration-300 text-lg leading-sm;
+  @apply shrink-0 flex items-center transition-transform duration-300 text-lg leading-xs;
 }
 
 .arrow-icon.expanded {

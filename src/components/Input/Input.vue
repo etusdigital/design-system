@@ -320,7 +320,7 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
 }
 
 .input-content {
-  @apply p3 flex-1 bg-transparent text-neutral-foreground-high outline-none p-0 border-none min-h-xl;
+  @apply flex-1 bg-transparent outline-none border-none text-sm text-neutral-foreground-high placeholder:text-neutral-foreground-low min-w-0;
 }
 
 .side-icon {
