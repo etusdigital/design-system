@@ -62,9 +62,6 @@ const isExpanded = computed((): boolean =>
 
 const contentMinWidth = ref(props.minWidth);
 
-// FloatCard owns the open/close lifecycle (positioning + outside-click), so the
-// Container only reacts to its open-state changes here instead of running its
-// own document click/bounds detection.
 function blur(value: boolean) {
   const source = props.closeOnBlur && model.value ? "blur" : "click";
   setModel(value, { source });

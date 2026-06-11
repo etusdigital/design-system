@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, ref, computed, watch } from "vue";
+import { nextTick, ref, computed, watch, onBeforeUnmount } from "vue";
 
 const props = withDefaults(
   defineProps<{
@@ -19,6 +19,7 @@ const emit = defineEmits<{
 const model = ref(props.modelValue);
 const content = ref<HTMLElement>();
 const card = ref<HTMLElement>();
+let openTimer: ReturnType<typeof setTimeout> | undefined;
 
 const computedPadding = computed((): number => {
   if (
@@ -42,6 +43,7 @@ watch(
   (value) => {
     model.value = value;
     if (value) showCard();
+    else removeCloseListeners();
   }
 );
 
@@ -52,14 +54,19 @@ function updateModel(value: boolean) {
 
 function onTriggerClick(e: MouseEvent) {
   if (props.mode !== "click") return;
-  // Only open when clicking the trigger content, not the teleported card
-  // content (teleported events still bubble through the Vue component tree
-  // but the DOM target lives in document.body, outside the content ref)
   if (content.value?.contains(e.target as Node)) updateModel(true);
 }
 
 function closeCard() {
   updateModel(false);
+  removeCloseListeners();
+}
+
+function removeCloseListeners() {
+  if (openTimer) {
+    clearTimeout(openTimer);
+    openTimer = undefined;
+  }
   document.removeEventListener("click", closeHandler);
   document.removeEventListener("wheel", closeHandler);
 }
@@ -143,11 +150,14 @@ async function showCard() {
     cardContent.style.top = `${rect.top - cardContent.offsetHeight - computedPadding.value}px`;
   else cardContent.style.top = `${rect.bottom + computedPadding.value}px`;
 
-  setTimeout(() => {
+  if (openTimer) clearTimeout(openTimer);
+  openTimer = setTimeout(() => {
     document.addEventListener("click", closeHandler);
     document.addEventListener("wheel", closeHandler);
   }, 200);
 }
+
+onBeforeUnmount(removeCloseListeners);
 </script>
 
 <template>

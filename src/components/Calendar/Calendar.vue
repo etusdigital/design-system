@@ -255,7 +255,7 @@ function changeYear(year: number) {
     <div
       v-for="(option, index) in options"
       :key="index"
-      class="w-fit p-sm overflow-hidden"
+      class="w-full p-sm overflow-hidden"
     >
       <header class="relative flex items-center justify-center gap-xs mb-xs">
         <div
@@ -284,42 +284,40 @@ function changeYear(year: number) {
           <Icon name="chevron_right" class="leading-xxs" />
         </div>
       </header>
-      <main>
-        <Transition :name="!isBack ? 'slide-fade' : 'slide-fade-out'">
-          <table v-if="showCalendar">
-            <thead>
-              <tr class="[&>*]:p-xxs">
-                <th v-for="(weekDay, index) in weekDays" :key="index">
-                  {{ weekDay }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(week, index) in option.weeks.filter((w) =>
-                  w.some((d: any) => d)
-                )"
-                :key="index"
-                class="[&>*]:py-xxs [&>*]:px-none"
-              >
-                <td v-for="(day, index) in week" :key="index">
-                  <Day
-                    v-model="model"
-                    v-model:hovered="hoveredDate"
-                    :day="day"
-                    :type="type"
-                    :index="Number(index)"
-                    :position="getPosition(day, week)"
-                    :min-date="minDate"
-                    :max-date="maxDate"
-                    @select="setModel"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </Transition>
-      </main>
+      <Transition :name="!isBack ? 'slide-fade' : 'slide-fade-out'">
+        <table v-if="showCalendar" class="w-full">
+          <thead>
+            <tr class="[&>*]:p-xxs">
+              <th v-for="(weekDay, index) in weekDays" :key="index">
+                {{ weekDay }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(week, index) in option.weeks.filter((w) =>
+                w.some((d: any) => d)
+              )"
+              :key="index"
+              class="[&>*]:py-xxs [&>*]:px-none"
+            >
+              <td v-for="(day, index) in week" :key="index">
+                <Day
+                  v-model="model"
+                  v-model:hovered="hoveredDate"
+                  :day="day"
+                  :type="type"
+                  :index="Number(index)"
+                  :position="getPosition(day, week)"
+                  :min-date="minDate"
+                  :max-date="maxDate"
+                  @select="setModel"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </Transition>
     </div>
     <DateDialog :model-value="show.month && !show.year" :options="months" wrap>
       <template #option="{ option }">
@@ -363,7 +361,7 @@ function changeYear(year: number) {
 @reference "../../assets/main.css";
 
 .calendar {
-  @apply flex relative w-fit;
+  @apply flex relative w-full;
 }
 
 th {
