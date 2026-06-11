@@ -91,9 +91,9 @@ const isDropdownOpen = ref(false);
               </linearGradient>
             </defs>
           </svg>
-          <slot name="title">
-            {{ title }}
-          </slot>
+        </slot>
+        <slot name="title">
+          {{ title }}
         </slot>
       </div>
       <div class="border-r-xxs border-r-neutral-default min-h-xl" />
