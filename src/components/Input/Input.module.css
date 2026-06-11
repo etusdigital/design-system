@@ -5,7 +5,7 @@
 }
 
 .inputContainer {
-  @apply flex items-center gap-xs py-xs px-sm min-h-[24px] rounded-sm outline outline-1 outline-neutral-default bg-neutral-surface-default transition-[outline-color] duration-100;
+  @apply flex items-center gap-xs py-xs px-sm min-h-xl rounded-sm outline outline-xxs outline-neutral-default bg-neutral-surface-default transition-[outline-color] duration-100;
 }
 
 .focused {
@@ -21,7 +21,7 @@
 }
 
 .inputContent {
-  @apply flex-1 bg-transparent outline-none border-0 text-sm text-neutral-foreground-high placeholder:text-neutral-foreground-low min-w-0;
+  @apply flex-1 bg-transparent outline-none border-none text-sm text-neutral-foreground-high placeholder:text-neutral-foreground-low min-w-0;
 }
 
 .left {
