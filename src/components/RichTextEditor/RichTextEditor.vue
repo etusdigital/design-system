@@ -1595,7 +1595,6 @@ function camelToKebabCase(str: string): string {
             v-model="item.value"
             :options="(item as FontSize).options"
             :disabled="disabled"
-            absolute
             @update:model-value="(item as FontSize).action(item.value)"
           />
           <Tooltip position="bottom">

@@ -10,7 +10,6 @@ const props = withDefaults(
     expanded?: boolean;
     labelValue?: string;
     options?: number[] | string[];
-    absolute?: boolean;
     disabled?: boolean;
     isError?: boolean;
     errorMessage?: string;
@@ -24,7 +23,6 @@ const props = withDefaults(
     modelValue: undefined,
     expanded: false,
     labelValue: "",
-    absolute: true,
     disabled: false,
     isError: false,
     errorMessage: "",
@@ -64,7 +62,6 @@ function selectOption(option: number | string) {
     <SelectContainer
       class="auto-complete-content"
       v-model="isExpanded"
-      :absolute="absolute"
       :label-value="labelValue"
       :disabled="disabled"
       :is-error="isError"

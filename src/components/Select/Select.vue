@@ -29,7 +29,6 @@ const props = withDefaults(
     getObject?: boolean;
     errorMessage?: string;
     infoMessage?: string;
-    absolute?: boolean;
     clearable?: boolean;
   }>(),
   {
@@ -47,7 +46,6 @@ const props = withDefaults(
     getObject: false,
     errorMessage: "",
     infoMessage: "",
-    absolute: false,
     clearable: false,
   }
 );
@@ -214,7 +212,6 @@ function clearModel() {
     <SelectContainer
       v-model="expandedModel"
       :label-value="labelValue"
-      :absolute="absolute"
       class="select-content"
       :disabled="disabled"
       :required="required"

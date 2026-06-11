@@ -25,7 +25,6 @@ const props = withDefaults(
     disabled?: boolean;
     required?: boolean;
     isError?: boolean;
-    absolute?: boolean;
     buttonLabel?: string;
   }>(),
   {
@@ -39,7 +38,6 @@ const props = withDefaults(
     disabled: false,
     required: false,
     isError: false,
-    absolute: false,
     buttonLabel: "Add",
   }
 );
@@ -169,7 +167,6 @@ function checkSource(value: boolean, extra: any) {
     :required="required"
     :label-value="labelValue"
     :disabled="disabled"
-    :absolute="absolute"
     :is-error="isError"
     :error-message="errorMessage"
     :info-message="infoMessage"

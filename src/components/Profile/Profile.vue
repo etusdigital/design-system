@@ -12,7 +12,6 @@ const props = withDefaults(
     options?: any[];
     labelKey?: string;
     valueKey?: string;
-    absolute?: boolean;
     disabled?: boolean;
     getObject?: boolean;
   }>(),
@@ -20,7 +19,6 @@ const props = withDefaults(
     modelValue: undefined,
     labelKey: "label",
     valueKey: "value",
-    absolute: false,
     disabled: false,
     getObject: false,
   }
@@ -83,7 +81,6 @@ function changeExpanded(expanded: boolean) {
     v-model="isExpanded"
     class="profile"
     aria-multiselectable="false"
-    :absolute="absolute"
     :disabled="disabled"
     dont-have-max-height
     min-width="25em"

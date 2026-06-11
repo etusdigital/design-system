@@ -21,6 +21,7 @@ const props = withDefaults(
     minWidth?: string;
     secondary?: boolean;
     hideArrow?: boolean;
+    icon?: string;
   }>(),
   {
     modelValue: undefined,
@@ -37,6 +38,7 @@ const props = withDefaults(
     minWidth: "15em",
     secondary: false,
     hideArrow: false,
+    icon: "keyboard_arrow_down",
   }
 );
 
@@ -124,13 +126,14 @@ function toggle() {
             @click="toggle"
             @keyup.space="toggle"
           >
+            <slot name="leading-complement" />
             <slot />
 
             <div class="flex items-center gap-xs ml-auto">
               <slot name="complement" />
               <Icon
                 v-if="!hideArrow"
-                name="keyboard_arrow_down"
+                :name="icon"
                 class="arrow-icon"
                 :class="{
                   'text-neutral-interaction-disabled': disabled,
@@ -190,7 +193,7 @@ function toggle() {
 }
 
 .arrow-icon {
-  @apply shrink-0 flex items-center transition-transform duration-300 text-2xl;
+  @apply shrink-0 flex items-center transition-transform duration-300 text-lg leading-sm;
 }
 
 .arrow-icon.expanded {

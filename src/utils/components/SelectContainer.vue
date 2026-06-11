@@ -1,8 +1,4 @@
 <script setup lang="ts">
-// @TODO: Fix the initial size of the label div. I think it's due to the dynamic loading
-// of ionicons not triggering a div resize event to the observer. Or it could be some
-// slot content shenanigans aswell, idk.
-// @TODO: Fix border width for container with sub options
 import { ref, onMounted, onBeforeUnmount, onUpdated, computed } from "vue";
 import type { ContainerModelExtra } from "../types/ContainerModelExtra";
 import { useOptionalModel } from "#composables";
@@ -13,7 +9,6 @@ const props = withDefaults(
     modelValue?: boolean;
     labelValue?: string;
     role?: string;
-    absolute?: boolean;
     disabled?: boolean;
     isError?: boolean;
     errorMessage?: string;
@@ -25,12 +20,12 @@ const props = withDefaults(
     minWidth?: string;
     secondary?: boolean;
     hideArrow?: boolean;
+    icon?: string;
   }>(),
   {
     modelValue: undefined,
     labelValue: "",
     role: "listbox",
-    absolute: false,
     disabled: false,
     isError: false,
     errorMessage: "",
@@ -108,24 +103,15 @@ function changeModel(value: boolean, extra: ContainerModelExtra) {
 
 <template>
   <div ref="fatherContainer">
-    <ExpandableContainer
-      class="select-container"
-      v-model="model"
-      :absolute="absolute"
-      :label-value="labelValue"
-      :close-on-blur="closeOnBlur"
-      :disabled="disabled"
-      :is-error="isError"
-      :error-message="errorMessage"
-      :info-message="infoMessage"
-      :required="required"
-      :max-height="maxHeight"
-      :min-width="minWidth"
-      :secondary="secondary"
-      :hide-arrow="hideArrow"
-      @update:model-value="changeModel"
-    >
+    <ExpandableContainer class="select-container" v-model="model" :label-value="labelValue"
+      :close-on-blur="closeOnBlur" :disabled="disabled" :is-error="isError" :error-message="errorMessage"
+      :info-message="infoMessage" :required="required" :max-height="maxHeight" :min-width="minWidth"
+      :secondary="secondary" :hide-arrow="hideArrow" :icon="icon" @update:model-value="changeModel">
       <slot />
+
+      <template #leading-complement v-if="$slots['leading-complement']">
+        <slot name="leading-complement" />
+      </template>
 
       <template #complement v-if="$slots.complement">
         <slot name="complement" />
@@ -136,32 +122,19 @@ function changeModel(value: boolean, extra: ContainerModelExtra) {
       </template>
 
       <template #content>
-        <div
-          v-show="isExpanded"
-          ref="content"
-          class="content-wrapper"
-        >
-          <div
-            class="content transition-translate"
-            :class="{
-              secondary,
-              expanded: isExpanded,
-              'has-max-height': !dontHaveMaxHeight,
-            }"
-          >
-            <slot name="content">
-              <ul
-                role="list"
-                class="options-list"
-                :class="[{ 'p-xxs [&>*]:p-xs': !dontHaveMaxHeight }]"
-              >
-                <slot name="options" />
-              </ul>
-            </slot>
+        <div class="content transition-translate" :class="{
+          secondary,
+          expanded: isExpanded,
+          'has-max-height': !dontHaveMaxHeight,
+        }">
+          <slot name="content">
+            <ul role="list" class="options-list" :class="[{ 'p-xxs [&>*]:p-xs': !dontHaveMaxHeight }]">
+              <slot name="options" />
+            </ul>
+          </slot>
 
-            <div v-if="$slots.actions" class="actions" tabindex="0">
-              <slot name="actions" />
-            </div>
+          <div v-if="$slots.actions" class="actions" tabindex="0">
+            <slot name="actions" />
           </div>
         </div>
       </template>
@@ -172,13 +145,8 @@ function changeModel(value: boolean, extra: ContainerModelExtra) {
 <style scoped>
 @reference "../../assets/main.css";
 
-.content-wrapper {
-  @apply top-full left-0 transition-[max-height] duration-100 w-full;
-}
-
 .content {
-  @apply overflow-hidden flex flex-col items-center translate-y-[-100%] duration-100 ease-out
-    rounded-sm bg-neutral-surface-default text-xs;
+  @apply overflow-hidden flex flex-col items-center translate-y-[-100%] duration-100 ease-out rounded-sm text-xs;
 }
 
 .content.secondary {

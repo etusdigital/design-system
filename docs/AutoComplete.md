@@ -45,9 +45,6 @@ Array of string options to filter and display. Type: `number[] | string[]` (requ
 #### placeholder
 Placeholder text for the input field. Type: `string` (default: `""`)
 
-#### absolute
-Uses absolute positioning for the dropdown. Type: `boolean` (default: `true`)
-
 #### required
 Marks the field as required for form validation. Type: `boolean` (default: `false`)
 

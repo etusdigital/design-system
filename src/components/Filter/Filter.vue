@@ -24,7 +24,6 @@ const props = withDefaults(
     searchLabel?: string;
     searchable?: boolean;
     disabled?: boolean;
-    absolute?: boolean;
     getObject?: boolean;
     hideActions?: boolean;
   }>(),
@@ -38,7 +37,6 @@ const props = withDefaults(
     icon: "filter_list",
     searchable: false,
     disabled: false,
-    absolute: false,
     getObject: false,
     hideActions: false,
   }
@@ -155,7 +153,6 @@ function apply() {
     :label-value="labelValue"
     class="filter"
     :disabled="disabled"
-    :absolute="absolute"
     aria-multiselectable="true"
     min-width="22em"
     :dont-have-max-height="true"

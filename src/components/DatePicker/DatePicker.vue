@@ -28,9 +28,7 @@ const props = withDefaults(
     required?: boolean;
     isError?: boolean;
     errorMessage?: string;
-    absolute?: boolean;
     expanded?: boolean;
-    alignRight?: boolean;
     options?: OptionType[] | any;
     hideActions?: boolean;
   }>(),
@@ -44,9 +42,7 @@ const props = withDefaults(
     required: false,
     isError: false,
     errorMessage: "",
-    absolute: false,
     expanded: false,
-    alignRight: false,
     options: dateOptions,
     hideActions: false,
   }
@@ -185,11 +181,9 @@ function changeType() {
     v-model="isExpanded"
     :disabled="disabled"
     :required="required"
-    :absolute="absolute"
     :label-value="labelValue"
     :is-error="isError"
     :error-message="errorMessage"
-    :align-right="alignRight"
     hide-arrow
     @update:modelValue="emit('update:expanded', isExpanded)"
   >

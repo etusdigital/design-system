@@ -50,9 +50,6 @@ Property name used for displaying option labels when using object arrays. Type: 
 #### value-key
 Property name used for option values when using object arrays. Type: `string` (default: `"value"`)
 
-#### absolute
-Controls absolute positioning of the dropdown. Type: `boolean` (default: `false`)
-
 #### disabled
 Disables the select interaction. Type: `boolean` (default: `false`)
 

@@ -57,13 +57,6 @@ export default {
       type: { name: "array", value: { name: "object", value: {} } },
       description: "Will the predetermined options.",
     },
-    absolute: {
-      type: { name: "boolean" },
-      table: {
-        defaultValue: { summary: "false" },
-      },
-      description: "Makes the content dropdown have an absolute position.",
-    },
     disabled: {
       type: { name: "boolean" },
       table: {
@@ -99,14 +92,6 @@ export default {
       table: {
         defaultValue: { summary: "false" },
       },
-    },
-    alignRight: {
-      type: { name: "boolean" },
-      table: {
-        defaultValue: { summary: "false" },
-      },
-      description:
-        "Determine if the dropdown will be right-aligned. To work absolute needs to be true.",
     },
     separator: {
       type: { name: "string" },
@@ -146,9 +131,7 @@ const defaultArgs = {
   hideActions: false,
   isError: false,
   errorMessage: "",
-  absolute: false,
   expanded: false,
-  alignRight: false,
   separator: "",
   options: [
     {
@@ -198,7 +181,7 @@ const defaultArgs = {
 };
 
 const defaultHtml = `
-    <div class="flex w-full" :class="{ 'justify-end': args.alignRight }">
+    <div class="flex w-full">
       <DatePicker
           v-model="args.modelValue"
           v-model:expanded="args.expanded"
@@ -214,9 +197,7 @@ const defaultHtml = `
           :hide-actions="args.hideActions"
           :is-error="args.isError"
           :error-message="args.errorMessage"
-          :absolute="args.absolute"
           :separator="args.separator"
-          :align-right="args.alignRight"
       >
           Date Filter
           <template #clear-label>
@@ -298,14 +279,6 @@ export const MaxDate: Story = {
   },
 };
 
-export const Absolute: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    absolute: true,
-  },
-};
-
 export const Disabled: Story = {
   render: defaultRender,
   args: {
@@ -328,14 +301,6 @@ export const IsError: Story = {
     ...defaultArgs,
     isError: true,
     errorMessage: "Error message",
-  },
-};
-
-export const AlignRight: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    alignRight: true,
   },
 };
 

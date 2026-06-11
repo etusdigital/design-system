@@ -55,9 +55,6 @@ Icon displayed on the tag select input. Type: `string` (default: `""`)
 #### label-key
 Property name used for displaying option labels when using object arrays. Type: `string` (default: `"label"`)
 
-#### absolute
-Controls absolute positioning of the dropdown. Type: `boolean` (default: `false`)
-
 #### disabled
 Disables the tag select interaction. Type: `boolean` (default: `false`)
 
@@ -115,4 +112,3 @@ Custom trigger element to replace the default tag select button.
 - Search input is accessible and maintains focus for continuous tag creation
 - Visual feedback distinguishes between available and selected options
 - Disabled state prevents tag creation while maintaining visual feedback
-- Absolute positioning option prevents layout shifts when dropdown opens

@@ -62,13 +62,6 @@ export default {
         defaultValue: { summary: "false" },
       },
     },
-    absolute: {
-      type: { name: "boolean" },
-      table: {
-        defaultValue: { summary: "false" },
-      },
-      description: "Makes the content dropdown have an absolute position.",
-    },
     getObject: {
       type: { name: "function" },
       description:
@@ -150,7 +143,6 @@ const defaultArgs = {
   icon: "filter_list",
   searchable: false,
   disabled: false,
-  absolute: false,
   getObject: false,
   hideActions: false,
   onApply: () => {},
@@ -173,7 +165,6 @@ const defaultRender = (args: any) => ({
         :icon="args.icon" 
         :searchable="args.searchable" 
         :disabled="args.disabled"
-        :absolute="args.absolute"
         :search-label="args.searchLabel"
         :get-object="args.getObject"
         :hide-actions="args.hideActions"
@@ -185,14 +176,6 @@ const defaultRender = (args: any) => ({
 export const Primary: Story = {
   render: defaultRender,
   args: defaultArgs,
-};
-
-export const Absolute: Story = {
-  render: defaultRender,
-  args: {
-    ...defaultArgs,
-    absolute: true,
-  },
 };
 
 export const Disabled: Story = {

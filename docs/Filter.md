@@ -68,9 +68,6 @@ Placeholder text for search input when searchable is enabled. Type: `string` (de
 #### searchable
 Enables search functionality within filter categories. Type: `boolean` (default: `false`)
 
-#### absolute
-Controls absolute positioning of the filter dropdown. Type: `boolean` (default: `false`)
-
 #### disabled
 Disables the filter interaction. Type: `boolean` (default: `false`)
 
@@ -118,4 +115,3 @@ Custom action buttons to replace the default Clear/Apply buttons.
 - Flexible data structure allows custom properties on filter options
 - Clear and Apply actions for batch filter management
 - Disabled state preserves selections while preventing modifications
-- Absolute positioning option prevents layout shifts when dropdown opens
