@@ -212,7 +212,7 @@ function changeType() {
       <slot v-else />
     </h5>
     <template #content>
-      <div class="flex content">
+      <div class="flex w-full content">
         <div
           class="flex flex-col justify-between border-r-xxs border-neutral-default w-fit truncate rounded-l-sm overflow-hidden p-xs"
           v-if="type !== 'date' && options.length"
@@ -235,7 +235,7 @@ function changeType() {
             </Checkbox>
           </div>
         </div>
-        <div class="flex flex-col items-end gap-base relative overflow-hidden">
+        <div class="flex flex-col items-end gap-base relative w-full overflow-hidden">
           <Calendar
             class="px-sm pt-xxs"
             v-model="model"
