@@ -95,12 +95,12 @@ function getSelected(
 ): OptionType | undefined {
   let founded = undefined;
   options.find((option: OptionType) => {
-    if (checkPath(parentPath + option.path || "")) {
+    if (checkPath(parentPath + (option.path || ""))) {
       founded = option;
       return founded;
     }
 
-    founded = getSelected(option.options || [], parentPath + option.path || "");
+    founded = getSelected(option.options || [], parentPath + (option.path || ""));
     return founded;
   });
 
