@@ -270,7 +270,7 @@ function selectAll(value: boolean | null) {
             <th
               v-if="$slots.actions"
               style="flex: 1"
-              class="bg-white pointer-events-none"
+              class="pointer-events-none"
             />
           </tr>
         </thead>
@@ -400,7 +400,7 @@ function selectAll(value: boolean | null) {
   @apply overflow-y-auto max-h-[35em];
 
   .table-style thead {
-    @apply bg-white top-0 sticky;
+    @apply top-none sticky;
   }
 }
 
