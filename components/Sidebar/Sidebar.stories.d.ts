@@ -63,7 +63,6 @@ export declare const Primary: {
         } | {
             label: string;
             value: string;
-            path: string;
             icon: string;
             options: ({
                 label: string;
@@ -80,6 +79,7 @@ export declare const Primary: {
                 path: string;
                 options?: undefined;
             })[];
+            path?: undefined;
             disabled?: undefined;
             bottom?: undefined;
         } | {
@@ -126,7 +126,6 @@ export declare const Expanded: {
         } | {
             label: string;
             value: string;
-            path: string;
             icon: string;
             options: ({
                 label: string;
@@ -143,6 +142,7 @@ export declare const Expanded: {
                 path: string;
                 options?: undefined;
             })[];
+            path?: undefined;
             disabled?: undefined;
             bottom?: undefined;
         } | {
