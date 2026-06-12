@@ -1,75 +1,68 @@
 <script setup lang="ts">
-import { computed, resolveComponent, ref, inject } from "vue";
+import { computed, resolveComponent, ref } from "vue";
+import { useOptionalModel } from "#composables";
 import { type Option as OptionType } from "../../utils/types/SidebarOption.ts";
 import Option from "./Option.vue";
 import { isObject } from "../../utils";
 
 const props = withDefaults(
   defineProps<{
+    modelValue?: OptionType | string | undefined;
     option: OptionType;
     parentPath?: string;
     bold?: boolean;
   }>(),
   {
+    modelValue: undefined,
     parentPath: "",
     bold: false,
   }
 );
 
-interface SidebarContext {
-  currentValue: { value: any };
-  onChange: (option: OptionType) => void;
-}
+const emit = defineEmits<{
+  "update:modelValue": [value: OptionType];
+}>();
 
-const ctx = inject<SidebarContext>("sidebarContext")!;
-
+const [model] = useOptionalModel<any>(props, "modelValue", emit, "");
 const expanded = ref(false);
-
-const hasChildren = computed(
-  () => !!(props.option.options && props.option.options.length)
-);
 
 const path = computed(() => {
   let path = props.parentPath;
   if (props.option.path) {
-    if (!path.endsWith("/") && !props.option.path.startsWith("/")) path += "/";
-    else if (path.endsWith("/") && props.option.path.startsWith("/"))
-      path = path.slice(0, -1);
+    if (!path.endsWith('/') && !props.option.path.startsWith('/')) path += '/';
+    else if (path.endsWith('/') && props.option.path.startsWith('/')) path = path.slice(0, -1);
     path += props.option.path;
   }
   return path;
 });
 
-const isSelected = computed(() => getSelected(props.option));
-
-function getSelected(option: OptionType): boolean {
-  return (
-    getValue(ctx.currentValue.value) === getValue(option) ||
-    !!(
-      option.options &&
-      option.options.length &&
-      option.options.some(getSelected)
-    )
-  );
-}
+const isSelected = computed(() => {
+  return !!getSelected();
+});
 
 function changeModel(option: OptionType) {
   if (option.options && option.options.length) {
     expanded.value = !expanded.value;
     return;
   }
-  ctx.onChange(option);
+
+  model.value = option;
+  emit("update:modelValue", option);
 }
 
-function getValue(option: any) {
+function getValue(option: OptionType) {
   return isObject(option) ? option.value : option;
 }
 
 function getLinkComponent() {
-  if (hasChildren.value) return "div";
-  if (typeof resolveComponent("router-link") != "string") return "router-link";
-  else if (typeof resolveComponent("nuxt-link") != "string") return "nuxt-link";
-  return "a";
+  if (typeof resolveComponent('router-link') != 'string') return 'router-link'
+  else if (typeof resolveComponent('nuxt-link') != 'string') return 'nuxt-link'
+  else if (props.option.options && props.option.options.length) return 'div'
+  return 'a'
+}
+
+function getSelected(option: OptionType = props.option) {
+  return getValue(model.value) === getValue(option) || (option.options && option.options.length && option.options.some(getSelected))
 }
 </script>
 
@@ -94,20 +87,25 @@ function getLinkComponent() {
       :disabled="option.disabled"
     >
       <Icon
-        v-if="hasChildren"
+        v-if="option.options && option.options.length"
         name="keyboard_arrow_down"
         :class="{ 'rotate-180': expanded }"
         class="sub-option-chevron transition-transform"
       />
     </Option>
     <Transition name="expand">
-      <div v-if="hasChildren && expanded" class="options-container">
+      <div
+        v-if="option.options && option.options.length && expanded"
+        class="options-container"
+      >
         <SubOption
           v-for="subOption in option.options"
+          v-model="model"
           :key="subOption.value"
           :option="subOption"
           :parent-path="path"
           bold
+          @update:model-value="changeModel"
         />
       </div>
     </Transition>

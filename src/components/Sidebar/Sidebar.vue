@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeMount, computed, resolveComponent, ref, watch, provide } from "vue";
+import { onBeforeMount, computed, resolveComponent, ref, watch } from "vue";
 import { checkPath, isObject } from "../../utils";
 import { type Option as OptionType } from "../../utils/types/SidebarOption.ts";
 import SubOption from "./SubOption.vue";
@@ -59,32 +59,21 @@ watch(
 
 onBeforeMount(() => {
   const option = getSelected(props.options);
-  if (option) handleChange(option);
+  if (option) changeModel(option);
 });
 
 function changeModel(option: OptionType, root: boolean = false) {
   if (option?.disabled) return;
 
   if (option?.options && option?.options.length && root) {
-    clicked.value = option;
+    clicked.value = option;     
     isExpanded.value = !isExpanded.value;
     return;
   }
 
-  handleChange(option);
-}
-
-function handleChange(option: OptionType) {
-  if (option?.disabled) return;
-
   model.value = props.getObject ? option : getValue(option);
   emit("update:modelValue", model.value);
 }
-
-provide("sidebarContext", {
-  currentValue: model,
-  onChange: handleChange,
-});
 
 function parseOptions(options: OptionType[] = props.options): OptionType[][] {
   return [
@@ -200,9 +189,11 @@ function handleBlur(event: FocusEvent) {
         >
           <SubOption
             v-for="option in options"
+            :model-value="model"
             :key="option.value"
             :option="option"
             :parent-path="getPath(clicked.path)"
+            @update:model-value="changeModel"
           />
         </div>
       </div>
