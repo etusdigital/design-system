@@ -102,7 +102,8 @@ function getSelected(
       return founded;
     }
 
-    return getSelected(option.options || [], parentPath + option.path || "");
+    founded = getSelected(option.options || [], parentPath + option.path || "");
+    return founded;
   });
 
   return founded;

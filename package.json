@@ -1,6 +1,6 @@
 {
   "name": "@etus/design-system",
-  "version": "1.0.9",
+  "version": "1.0.11",
   "type": "module",
   "description": "Vue 3 Design System Components with Tailwind CSS",
   "author": "Etus Digital",
