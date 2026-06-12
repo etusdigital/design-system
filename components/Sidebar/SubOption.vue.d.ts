@@ -1,4 +1,7 @@
 declare const _default: import("vue").DefineComponent<import("vue").ExtractPropTypes<{
+    modelValue: {
+        default: any;
+    };
     option: {};
     parentPath: {
         default: string;
@@ -9,7 +12,10 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     };
 }>, (_ctx: any, _cache: any) => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
     [key: string]: any;
-}>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+    modelValue: {
+        default: any;
+    };
     option: {};
     parentPath: {
         default: string;
@@ -18,7 +24,10 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
-}>> & Readonly<{}>, {
+}>> & Readonly<{
+    "onUpdate:modelValue"?: (...args: any[]) => any;
+}>, {
+    modelValue: any;
     parentPath: string;
     bold: boolean;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
