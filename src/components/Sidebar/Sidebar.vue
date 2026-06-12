@@ -28,6 +28,7 @@ const sidebar = ref<HTMLElement | null>(null);
 const isExpanded = ref(false);
 const clicked = ref<OptionType | undefined>(undefined);
 const parsedOptions = computed(() => parseOptions(props.options));
+const parent = computed(() => getParent(props.options));
 
 const computedMaxWidth = computed((): string => {
   if (!sidebar.value) return "100vw";
@@ -65,7 +66,7 @@ function changeModel(option: OptionType, root: boolean = false) {
   if (option?.disabled) return;
 
   if (option?.options && option?.options.length && root) {
-    clicked.value = option;     
+    clicked.value = option;
     isExpanded.value = !isExpanded.value;
     return;
   }
@@ -81,9 +82,11 @@ function parseOptions(options: OptionType[] = props.options): OptionType[][] {
   ];
 }
 
-
-function isSelected(option: OptionType) {
-  return getValue(model.value) === getValue(option) || !!(option.options && option.options.length && option.options.some(isSelected))
+function getParent(options: OptionType[]): OptionType | undefined {
+  return options.find((option: OptionType) => {
+    if (getValue(option) === getValue(model.value)) return option;
+    else if (getParent(option.options || [])) return option;
+  });
 }
 
 function getSelected(
@@ -166,7 +169,7 @@ function handleBlur(event: FocusEvent) {
               tabindex="-1"
               :icon="option.icon"
               :label="expanded ? option.label : ''"
-              :selected="isSelected(option)"
+              :selected="getValue(option) === getValue(parent)"
               :disabled="option.disabled"
             />
           </component>
@@ -205,7 +208,8 @@ function handleBlur(event: FocusEvent) {
   height: v-bind(computedHeight);
 }
 
-.sidebar-options, .sub-options {
+.sidebar-options,
+.sub-options {
   @apply flex flex-col justify-between gap-sm w-fit h-full py-lg px-xs bg-default border-r-xxs border-r-neutral-default;
 }
 
