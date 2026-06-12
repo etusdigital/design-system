@@ -44,7 +44,6 @@ const defaultArgs = {
     {
       label: "Projects",
       value: "projects",
-      path: "/projects",
       icon: "folder",
       options: [
         {

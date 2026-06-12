@@ -28,7 +28,6 @@ const sidebar = ref<HTMLElement | null>(null);
 const isExpanded = ref(false);
 const clicked = ref<OptionType | undefined>(undefined);
 const parsedOptions = computed(() => parseOptions(props.options));
-const parent = computed(() => getParent(props.options));
 
 const computedMaxWidth = computed((): string => {
   if (!sidebar.value) return "100vw";
@@ -82,13 +81,9 @@ function parseOptions(options: OptionType[] = props.options): OptionType[][] {
   ];
 }
 
-function getParent(options: OptionType[]): OptionType | undefined {
-  return options.find((option: OptionType) => {
-    const founded = getValue(option) === getValue(model.value);
-    if (founded) return founded;
 
-    return getParent(option.options || []);
-  });
+function isSelected(option: OptionType) {
+  return getValue(model.value) === getValue(option) || !!(option.options && option.options.length && option.options.some(isSelected))
 }
 
 function getSelected(
@@ -171,7 +166,7 @@ function handleBlur(event: FocusEvent) {
               tabindex="-1"
               :icon="option.icon"
               :label="expanded ? option.label : ''"
-              :selected="option.value == getValue(parent)"
+              :selected="isSelected(option)"
               :disabled="option.disabled"
             />
           </component>
