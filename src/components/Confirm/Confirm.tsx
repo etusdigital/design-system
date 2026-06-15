@@ -60,7 +60,7 @@ export function ConfirmProvider({ children }: { children: React.ReactNode }) {
   return (
     <ConfirmContext.Provider value={{ confirm }}>
       {children}
-      <Dialog value={open} noOutsideClose className="confirm">
+      <Dialog value={open} noOutsideClose className="confirm z-[1005]">
         {state && (
           <div className="flex flex-col p-xl gap-sm">
             {state.title && (
