@@ -316,7 +316,7 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
 /* #region BASE FONT SIZES */
 .max-length,
 .error-message {
-  @apply text-sm;
+  @apply text-sm leading-xs;
 }
 
 .input-content {
