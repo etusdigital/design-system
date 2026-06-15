@@ -100,7 +100,7 @@ const defaultArgs = {
   allowedSkip: false,
   getObject: false,
   version: 1 as const,
-  background: '#FFFFFF',
+  background: 'var(--neutral-background-emphasis)',
   onChangeStep: (_option: any, _index: number) => {},
 };
 

@@ -41,7 +41,7 @@ function openDialog(options: any) {
 </script>
 
 <template>
-    <Dialog v-model="visible" no-outside-close class="confirm z-[1005]">
+    <Dialog v-model="visible" no-outside-close class="confirm">
         <div class="flex flex-col p-xl gap-sm">
             <h2 class="font-bold text-lg text-neutral-foreground-high" v-if="props.title">{{ props.title }}</h2>
             <p class="text-sm text-neutral-foreground-low" v-if="props.message">{{ props.message }}</p>
@@ -52,3 +52,11 @@ function openDialog(options: any) {
         </div>
     </Dialog>
 </template>
+
+<style scoped>
+@reference "../../assets/main.css";
+
+:deep(.dialog.confirm) {
+  @apply z-[1005];
+}
+</style>

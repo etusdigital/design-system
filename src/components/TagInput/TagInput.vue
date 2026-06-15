@@ -292,7 +292,7 @@ function applyMasks(e: any) {
 }
 
 .input-default {
-  @apply p3 text-neutral-foreground-high rounded-base outline-none border-none flex-1 p-xxs focus:border-none focus:outline-none;
+  @apply p3 bg-neutral-surface-default text-neutral-foreground-high rounded-base outline-none border-none flex-1 p-xxs focus:border-none focus:outline-none;
 }
 
 .error-default {
