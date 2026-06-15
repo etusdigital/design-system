@@ -8,7 +8,7 @@ const props = withDefaults(
     width?: string;
     height?: string;
     noOutsideClose?: boolean;
-    class: string;
+    class?: string;
   }>(),
   {
     modelValue: false,
