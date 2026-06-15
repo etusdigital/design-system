@@ -41,7 +41,7 @@
 }
 
 .counter {
-  @apply text-sm font-bold text-neutral-foreground-low;
+  @apply text-sm leading-xs font-bold text-neutral-foreground-low;
 }
 
 .errorMessage {
