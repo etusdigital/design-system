@@ -40,6 +40,17 @@ declare const _default: {
             };
             description: string;
         };
+        class: {
+            type: {
+                name: string;
+            };
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
         default: {
             description: string;
         };
@@ -61,6 +72,7 @@ export declare const Primary: {
         width: string;
         height: string;
         noOutsideClose: boolean;
+        class: string;
     };
 };
 export declare const NoOutsideClose: {
@@ -78,6 +90,7 @@ export declare const NoOutsideClose: {
         modelValue: boolean;
         width: string;
         height: string;
+        class: string;
     };
 };
 //# sourceMappingURL=Dialog.stories.d.ts.map
