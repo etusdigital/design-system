@@ -57,6 +57,9 @@ Sets the dialog height. Type: `string` (default: `"fit-content"`)
 #### no-outside-close
 Prevents closing the dialog when clicking outside. When enabled, clicking outside triggers a warning bounce animation to indicate the dialog cannot be closed. Type: `boolean` (default: `false`)
 
+#### class
+Adds custom CSS classes to the dialog element, allowing you to override or extend its default styling. Type: `string` (default: `""`)
+
 ---
 
 ### Events API

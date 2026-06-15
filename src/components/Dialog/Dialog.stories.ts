@@ -30,6 +30,13 @@ export default {
       description:
         "Determine if the dialog will not close when the user click outside it.",
     },
+    class: {
+      type: { name: "string" },
+      table: {
+        defaultValue: { summary: "" },
+      },
+      description: "Add custom CSS classes to the dialog element.",
+    },
     default: {
       description: "This slot will be the dialog content.",
     },
@@ -43,6 +50,7 @@ const defaultArgs = {
   width: "60%",
   height: "fit-content",
   noOutsideClose: false,
+  class: "",
 };
 
 const defaultRender = (args: any) => ({
@@ -57,6 +65,7 @@ const defaultRender = (args: any) => ({
          :width="args.width"
          :height="args.height"
          :no-outside-close="args.noOutsideClose"
+         :class="args.class"
     >
         <div class="flex flex-col p-xl gap-sm">
             <h2 class="font-bold text-lg">Dialog</h2>

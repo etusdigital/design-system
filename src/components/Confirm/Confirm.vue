@@ -56,7 +56,7 @@ function openDialog(options: any) {
 <style scoped>
 @reference "../../assets/main.css";
 
-.dialog {
+.confirm {
   @apply z-[1005];
 }
 </style>

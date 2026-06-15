@@ -8,12 +8,14 @@ const props = withDefaults(
     width?: string;
     height?: string;
     noOutsideClose?: boolean;
+    class: string;
   }>(),
   {
     modelValue: false,
     width: "fit-content",
     height: "fit-content",
     noOutsideClose: false,
+    class: "",
   }
 );
 
@@ -52,6 +54,7 @@ function closeDialog() {
           v-if="model"
           ref="dialog"
           class="dialog"
+          :class="class"
           :style="{ width: width, height: height }"
         >
           <slot />
