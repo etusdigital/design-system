@@ -52,3 +52,11 @@ function openDialog(options: any) {
         </div>
     </Dialog>
 </template>
+
+<style scoped>
+@reference "../../assets/main.css";
+
+.dialog {
+  @apply z-[1005];
+}
+</style>
