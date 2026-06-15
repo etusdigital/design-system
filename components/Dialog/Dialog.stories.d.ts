@@ -51,6 +51,17 @@ declare const _default: {
             };
             description: string;
         };
+        zIndex: {
+            type: {
+                name: string;
+            };
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
         default: {
             description: string;
         };
@@ -73,6 +84,7 @@ export declare const Primary: {
         height: string;
         noOutsideClose: boolean;
         class: string;
+        zIndex: number;
     };
 };
 export declare const NoOutsideClose: {
@@ -91,6 +103,7 @@ export declare const NoOutsideClose: {
         width: string;
         height: string;
         class: string;
+        zIndex: number;
     };
 };
 //# sourceMappingURL=Dialog.stories.d.ts.map
