@@ -25,7 +25,7 @@ const emit = defineEmits<{
   "update:modelValue": [value: any];
 }>();
 
-let model = ref(props.modelValue);
+const model = ref(props.modelValue);
 const dialog = ref<HTMLElement>();
 
 watch(
@@ -57,7 +57,7 @@ function closeDialog() {
           ref="dialog"
           class="dialog"
           :class="class"
-          :style="{ width: width, height: height }"
+          :style="{ width: width, height: height, zIndex: zIndex + 1 }"
         >
           <slot />
         </div>
@@ -71,7 +71,6 @@ function closeDialog() {
 
 .dialog {
   @apply fixed top-[50%] left-[50%] bg-neutral-surface-default rounded-base border-xxs border-neutral-default;
-  z-index: v-bind(zIndex + 1);
   transform: translate(-50%, -50%) scale(1);
   max-width: calc(100% - var(--spacing-xl));
   max-height: calc(100% - var(--spacing-xl));
