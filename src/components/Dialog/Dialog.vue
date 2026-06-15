@@ -8,14 +8,16 @@ const props = withDefaults(
     width?: string;
     height?: string;
     noOutsideClose?: boolean;
-    class?: string;
+    class?: string,
+    zIndex?: number;
   }>(),
   {
     modelValue: false,
     width: "fit-content",
     height: "fit-content",
     noOutsideClose: false,
-    class: "",
+    class: '',
+    zIndex: 1002,
   }
 );
 
@@ -48,7 +50,7 @@ function closeDialog() {
 
 <template>
   <Teleport to="body">
-    <Overlay v-model="model" :z-index="1002" @click="closeDialog">
+    <Overlay v-model="model" :z-index="zIndex" @click="closeDialog">
       <Transition name="bounce">
         <div
           v-if="model"
@@ -68,7 +70,8 @@ function closeDialog() {
 @reference "../../assets/main.css";
 
 .dialog {
-  @apply fixed z-[1003] top-[50%] left-[50%] bg-neutral-surface-default rounded-base border-xxs border-neutral-default;
+  @apply fixed top-[50%] left-[50%] bg-neutral-surface-default rounded-base border-xxs border-neutral-default;
+  z-index: v-bind(zIndex + 1);
   transform: translate(-50%, -50%) scale(1);
   max-width: calc(100% - var(--spacing-xl));
   max-height: calc(100% - var(--spacing-xl));

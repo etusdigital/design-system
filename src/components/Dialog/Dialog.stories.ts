@@ -37,6 +37,13 @@ export default {
       },
       description: "Add custom CSS classes to the dialog element.",
     },
+    zIndex: {
+      type: { name: "number" },
+      table: {
+        defaultValue: { summary: "1002" },
+      },
+      description: "Determine the z-index of the dialog overlay (backdrop).",
+    },
     default: {
       description: "This slot will be the dialog content.",
     },
@@ -51,6 +58,7 @@ const defaultArgs = {
   height: "fit-content",
   noOutsideClose: false,
   class: "",
+  zIndex: 1002,
 };
 
 const defaultRender = (args: any) => ({
@@ -66,6 +74,7 @@ const defaultRender = (args: any) => ({
          :height="args.height"
          :no-outside-close="args.noOutsideClose"
          :class="args.class"
+         :z-index="args.zIndex"
     >
         <div class="flex flex-col p-xl gap-sm">
             <h2 class="font-bold text-lg">Dialog</h2>
