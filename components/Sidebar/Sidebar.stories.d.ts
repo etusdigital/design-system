@@ -24,6 +24,17 @@ declare const _default: {
             };
             description: string;
         };
+        collapsible: {
+            type: {
+                name: string;
+            };
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
         getObject: {
             type: {
                 name: string;
@@ -52,6 +63,7 @@ export declare const Primary: {
         modelValue: string;
         getObject: boolean;
         expanded: boolean;
+        collapsible: boolean;
         options: ({
             label: string;
             value: string;
@@ -115,6 +127,71 @@ export declare const Expanded: {
         expanded: boolean;
         modelValue: string;
         getObject: boolean;
+        collapsible: boolean;
+        options: ({
+            label: string;
+            value: string;
+            icon: string;
+            path: string;
+            options?: undefined;
+            disabled?: undefined;
+            bottom?: undefined;
+        } | {
+            label: string;
+            value: string;
+            icon: string;
+            options: ({
+                label: string;
+                value: string;
+                path: string;
+                options: {
+                    label: string;
+                    value: string;
+                    path: string;
+                }[];
+            } | {
+                label: string;
+                value: string;
+                path: string;
+                options?: undefined;
+            })[];
+            path?: undefined;
+            disabled?: undefined;
+            bottom?: undefined;
+        } | {
+            label: string;
+            value: string;
+            path: string;
+            icon: string;
+            disabled: boolean;
+            options?: undefined;
+            bottom?: undefined;
+        } | {
+            label: string;
+            value: string;
+            path: string;
+            icon: string;
+            bottom: boolean;
+            options?: undefined;
+            disabled?: undefined;
+        })[];
+    };
+};
+export declare const Collapsible: {
+    render: (args: any) => {
+        components: {
+            Sidebar: any;
+        };
+        setup(): {
+            args: any;
+        };
+        template: string;
+    };
+    args: {
+        collapsible: boolean;
+        modelValue: string;
+        getObject: boolean;
+        expanded: boolean;
         options: ({
             label: string;
             value: string;

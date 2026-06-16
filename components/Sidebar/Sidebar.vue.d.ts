@@ -6,6 +6,10 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
+    collapsible: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
     options: {};
     getObject: {
         type: BooleanConstructor;
@@ -13,11 +17,15 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     };
 }>, (_ctx: any, _cache: any) => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
     [key: string]: any;
-}>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "update:expanded")[], "update:modelValue" | "update:expanded", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: any;
     };
     expanded: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    collapsible: {
         type: BooleanConstructor;
         default: boolean;
     };
@@ -28,9 +36,11 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     };
 }>> & Readonly<{
     "onUpdate:modelValue"?: (...args: any[]) => any;
+    "onUpdate:expanded"?: (...args: any[]) => any;
 }>, {
     modelValue: any;
     expanded: boolean;
+    collapsible: boolean;
     getObject: boolean;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 export default _default;
