@@ -16,6 +16,14 @@
   @apply flex flex-col gap-sm mt-auto;
 }
 
+.toggleButton {
+  @apply w-fit transition-[rotate] duration-300;
+}
+
+.toggleOpen {
+  @apply rotate-180;
+}
+
 .option {
   @apply flex items-center gap-xs p-sm rounded-base cursor-pointer select-none
          text-neutral-interaction-default;
@@ -29,8 +37,12 @@
   @apply bg-primary-surface-default text-primary-interaction-selected;
 }
 
+.optionIconContainer {
+  @apply flex items-center justify-center;
+}
+
 .optionIcon {
-  @apply flex items-center justify-center text-xl leading-none;
+  @apply text-xl leading-xs;
 }
 
 .optionLabel {
@@ -73,10 +85,6 @@
 
 .subOptionActive {
   @apply bg-primary-surface-default text-primary-interaction-selected;
-}
-
-.subOptionIcon {
-  @apply text-2xl leading-none;
 }
 
 .subOptionLabel {

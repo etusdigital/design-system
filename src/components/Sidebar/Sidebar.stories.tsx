@@ -18,6 +18,14 @@ const meta = {
       type: { name: 'boolean' },
       description: 'If true, the sidebar will be expanded.',
     },
+    collapsible: {
+      type: { name: 'boolean' },
+      table: {
+        defaultValue: { summary: 'false' },
+      },
+      description:
+        'If true, shows a toggle button so the user can expand/collapse the sidebar themselves. Pair with onExpandedChange to track state.',
+    },
     getObject: {
       type: { name: 'boolean' },
       table: {
@@ -126,6 +134,26 @@ export const Expanded: Story = {
           value={value}
           onChange={setValue}
           expanded={true}
+          options={defaultOptions}
+          getObject={false}
+        />
+      </div>
+    );
+  },
+};
+
+export const Collapsible: Story = {
+  render: () => {
+    const [value, setValue] = useState<any>('dashboard');
+    const [expanded, setExpanded] = useState(false);
+    return (
+      <div className="h-screen">
+        <Sidebar
+          value={value}
+          onChange={setValue}
+          expanded={expanded}
+          onExpandedChange={setExpanded}
+          collapsible
           options={defaultOptions}
           getObject={false}
         />

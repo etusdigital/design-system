@@ -1,6 +1,6 @@
 {
   "name": "@etus/design-system",
-  "version": "2.0.39",
+  "version": "2.0.40",
   "type": "module",
   "description": "React Design System Components with Tailwind CSS",
   "author": "Etus Digital",

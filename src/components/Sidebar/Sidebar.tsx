@@ -10,6 +10,7 @@ import { checkPath, isObject } from "../../utils";
 import { type Option as SidebarOptionType } from "../../utils/types/SidebarOption";
 import styles from "./Sidebar.module.css";
 import { Icon } from "../Icon";
+import { Button } from "../Button";
 
 let RouterLink: React.ComponentType<any> | null = null;
 let linkPropName: "to" | "href" = "to";
@@ -114,7 +115,7 @@ function SidebarSubOption({
       role={hasChildren ? "button" : undefined}
     >
       {option.icon && (
-        <Icon className={`${styles.subOptionIcon}`} name={option.icon} />
+        <Icon className={`${styles.optionIcon}`} name={option.icon} />
       )}
       <span className={styles.subOptionLabel}>{option.label}</span>
       {hasChildren && (
@@ -209,9 +210,9 @@ function SidebarOption({
       role={hasChildren ? "button" : undefined}
       aria-expanded={hasChildren ? isActive : undefined}
     >
-      <span className={styles.optionIcon}>
+      <span className={styles.optionIconContainer}>
         {option.icon && (
-          <Icon name={option.icon} />
+          <Icon name={option.icon} className={styles.optionIcon} />
         )}
       </span>
       {sidebarExpanded && (
@@ -251,6 +252,8 @@ interface SidebarProps {
   value?: any;
   onChange?: (value: any) => void;
   expanded?: boolean;
+  collapsible?: boolean;
+  onExpandedChange?: (value: boolean) => void;
   options: SidebarOptionType[];
   getObject?: boolean;
   className?: string;
@@ -260,6 +263,8 @@ export function Sidebar({
   value,
   onChange,
   expanded = false,
+  collapsible = false,
+  onExpandedChange,
   options,
   getObject = false,
   className,
@@ -273,8 +278,21 @@ export function Sidebar({
   const [clickedOption, setClickedOption] = useState<
     SidebarOptionType | undefined
   >(undefined);
+  const [selfExpanded, setSelfExpanded] = useState(expanded);
   const [height, setHeight] = useState<string>("100vh");
   const sidebarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setSelfExpanded(expanded);
+  }, [expanded]);
+
+  function toggleExpanded() {
+    setSelfExpanded((prev) => {
+      const next = !prev;
+      onExpandedChange?.(next);
+      return next;
+    });
+  }
 
   useEffect(() => {
     function calcHeight() {
@@ -382,7 +400,7 @@ export function Sidebar({
       <SidebarOption
         key={option.value}
         option={option}
-        sidebarExpanded={expanded}
+        sidebarExpanded={selfExpanded}
         onRailClick={handleRailClick}
         activeParentValue={activeParent}
       />
@@ -402,9 +420,24 @@ export function Sidebar({
           <div className={styles.optionsContainer}>
             {topOptions.map(renderOption)}
           </div>
-          {bottomOptions.length > 0 && (
+          {(bottomOptions.length > 0 || collapsible) && (
             <div className={styles.bottomOptions}>
               {bottomOptions.map(renderOption)}
+              {collapsible && (
+                <Button
+                  className={[
+                    styles.toggleButton,
+                    selfExpanded ? styles.toggleOpen : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                  variant="plain"
+                  color="neutral"
+                  icon="keyboard_arrow_right"
+                  round
+                  onClick={toggleExpanded}
+                />
+              )}
             </div>
           )}
         </div>
