@@ -67,6 +67,9 @@ Sets the dialog height. Type: `string` (default: `"fit-content"`)
 #### noOutsideClose
 Prevents closing the dialog when clicking outside. When enabled, clicking outside triggers a warning bounce animation to indicate the dialog cannot be closed. Type: `boolean` (default: `false`)
 
+#### zIndex
+Sets the stacking order of the dialog. The overlay uses this value and the dialog content is rendered one level above it (`zIndex + 1`). Useful when stacking dialogs or layering above other overlay elements. Type: `number` (default: `1002`)
+
 <Canvas sourceState="none" of={Dialog.NoOutsideClose} />
 
 ---

@@ -13,6 +13,7 @@ export interface DialogProps {
   noOutsideClose?: boolean;
   children?: React.ReactNode;
   className?: string;
+  zIndex?: number
 }
 
 export function Dialog({
@@ -23,6 +24,7 @@ export function Dialog({
   noOutsideClose = false,
   children,
   className,
+  zIndex = 1002
 }: DialogProps) {
   const [isOpen, setOpen] = useControllable<boolean>({ value, defaultValue: false, onChange });
   const { isMounted, isActive } = useTransition(isOpen ?? false, { duration: 500 });
@@ -40,12 +42,12 @@ export function Dialog({
   }
 
   return (
-    <Overlay value={isOpen} zIndex={1002} onClick={handleOverlayClick}>
+    <Overlay value={isOpen} zIndex={zIndex} onClick={handleOverlayClick}>
       {isMounted && (
         <div
           ref={dialogRef}
           className={clsx('dialog', isActive && 'active', className)}
-          style={{ width, height }}
+          style={{ width, height, zIndex: zIndex + 1 }}
         >
           {children}
         </div>

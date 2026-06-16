@@ -10,6 +10,7 @@ const meta = {
     width: { control: 'text', table: { defaultValue: { summary: 'fit-content' } } },
     height: { control: 'text', table: { defaultValue: { summary: 'fit-content' } } },
     noOutsideClose: { table: { defaultValue: { summary: 'false' } } },
+    zIndex: { control: 'number', table: { defaultValue: { summary: '1002' } } },
   },
 } satisfies Meta<typeof Dialog>;
 

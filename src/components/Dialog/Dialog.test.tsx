@@ -99,6 +99,20 @@ describe('Dialog', () => {
     expect(dialogEl.style.height).toBe('300px');
   });
 
+  it('applies custom zIndex to dialog (zIndex + 1)', async () => {
+    render(
+      <Dialog value={true} zIndex={2000}>
+        <p>content</p>
+      </Dialog>
+    );
+    await act(async () => {
+      vi.runAllTimers();
+    });
+    const dialogEl = document.querySelector('.dialog') as HTMLElement;
+    expect(dialogEl).toBeTruthy();
+    expect(dialogEl.style.zIndex).toBe('2001');
+  });
+
   it('renders in portal (document.body)', async () => {
     const container = document.createElement('div');
     document.body.appendChild(container);
