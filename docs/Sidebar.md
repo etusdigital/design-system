@@ -39,6 +39,9 @@ Callback triggered when a sidebar option is selected. Type: `(value: any) => voi
 #### expanded
 Controls whether the sidebar is expanded to show labels. Type: `boolean` (default: `false`)
 
+#### collapsible
+Renders a toggle button at the bottom of the sidebar so the user can expand/collapse it themselves. Type: `boolean` (default: `false`). Pair with `onExpandedChange` to keep the parent in sync.
+
 #### options
 Array of sidebar options with navigation and display properties. Type: `Option[]` (required)
 
@@ -63,6 +66,9 @@ Returns the complete option object instead of just the value. Type: `boolean` (d
 
 #### onChange
 Triggered when a sidebar option is selected. Receives either the option value or complete object based on `getObject` prop.
+
+#### onExpandedChange
+Callback triggered when the user toggles the sidebar via the `collapsible` button. Type: `(expanded: boolean) => void`
 
 ### Slots API
 
