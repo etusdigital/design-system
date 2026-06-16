@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import { blendColors } from "../../utils";
+import { blendColors, getContrastColor } from "../../utils";
 
 const props = withDefaults(
   defineProps<{
@@ -47,25 +47,22 @@ onMounted(() => {
 const background = computed((): string => {
   if (props.type === "secondary") return "transparent";
   if (!mounted.value || props.type === "heavy") return props.color;
-  return blendColors(props.color);
+  return props.color ? `color-mix(in srgb, ${props.color} 30%, transparent)` : props.color;
 });
+
+const textColor = computed(() => props.type === 'heavy' ? getContrastColor(props.color) : props.color);
 </script>
 
 <template>
   <div :class="[type, size]" class="badge">
-    <Spinner v-if="loading" class="colored" />
+    <Spinner v-if="loading" />
     <template v-else>
-      <Icon class="colored" :name="prependIcon" v-if="prependIcon" />
-      <p class="colored font-semibold whitespace-nowrap truncate">
+      <Icon :name="prependIcon" v-if="prependIcon" />
+      <p class="font-semibold whitespace-nowrap truncate">
         <slot>{{ labelValue }}</slot>
       </p>
-      <Icon
-        class="colored"
-        :class="{ 'cursor-pointer': closeable }"
-        :name="appendedIcon"
-        v-if="appendedIcon"
-        @click="closeable && emit('close')"
-      />
+      <Icon :class="{ 'cursor-pointer': closeable }" :name="appendedIcon" v-if="appendedIcon"
+        @click="closeable && emit('close')" />
     </template>
   </div>
 </template>
@@ -75,7 +72,7 @@ const background = computed((): string => {
 
 .badge {
   @apply flex items-center justify-center gap-xxs text-center w-fit h-fit rounded-full border-xxs;
-  color: v-bind(color);
+  color: v-bind(textColor);
   border-color: v-bind(color);
   background: v-bind(background);
 }
@@ -106,9 +103,5 @@ const background = computed((): string => {
 
 .badge.secondary {
   @apply bg-transparent;
-}
-
-.badge.heavy .colored {
-  @apply text-neutral-foreground-negative;
 }
 </style>
