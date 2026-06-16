@@ -400,7 +400,7 @@ function selectAll(value: boolean | null) {
   @apply overflow-y-auto max-h-[35em];
 
   .table-style thead {
-    @apply top-none sticky;
+    @apply top-none sticky bg-neutral-surface-default;
   }
 }
 
