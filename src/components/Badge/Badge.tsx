@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import { Spinner } from '../Spinner/Spinner';
 import { Icon } from '../Icon/Icon';
-import { blendColors } from '../../utils';
+import { getContrastColor } from '../../utils';
 import styles from './Badge.module.css';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 export interface BadgeProps {
   labelValue?: string;
@@ -34,25 +34,20 @@ export function Badge({
 }: BadgeProps) {
   const prependIcon = !isAppendedIcon ? icon : '';
   const appendedIcon = closeable ? 'close' : isAppendedIcon ? icon : '';
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const computedBackground = (() => {
     if (type === 'secondary') return 'transparent';
-    if (!mounted || type === 'heavy') return color;
-    return blendColors(color);
+    if (type === 'heavy') return color;
+    return color ? `color-mix(in srgb, ${color} 30%, transparent)` : color;
   })();
 
-  const customStyle: React.CSSProperties = color
+  const customStyle: React.CSSProperties = useMemo(() => color
     ? {
-        color,
+        color: type === 'heavy' ? getContrastColor(color) : color,
         borderColor: color,
         background: computedBackground,
       }
-    : {};
+    : {}, [color, type]);
 
   return (
     <div
@@ -60,11 +55,11 @@ export function Badge({
       style={customStyle}
     >
       {loading ? (
-        <Spinner className={styles.colored} />
+        <Spinner />
       ) : (
         <>
           {prependIcon && (
-            <Icon name={prependIcon} className={styles.colored} />
+            <Icon name={prependIcon} />
           )}
           <p className={clsx(styles.colored, styles.label)}>
             {children || labelValue}
@@ -74,7 +69,7 @@ export function Badge({
               className={clsx(closeable && styles.clickable, 'leading-none')}
               onClick={closeable ? onClose : undefined}
             >
-              <Icon name={appendedIcon} className={styles.colored} />
+              <Icon name={appendedIcon} />
             </span>
           )}
         </>

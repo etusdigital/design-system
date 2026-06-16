@@ -36,10 +36,6 @@
   @apply bg-transparent;
 }
 
-.heavy .colored {
-  @apply text-neutral-foreground-negative;
-}
-
 .clickable {
   @apply cursor-pointer;
 }
