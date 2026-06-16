@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import { blendColors, getContrastColor } from "../../utils";
+import { getContrastColor } from "../../utils";
 
 const props = withDefaults(
   defineProps<{
