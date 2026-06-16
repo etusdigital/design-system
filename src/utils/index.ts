@@ -471,15 +471,26 @@ export function getContrastColor(color: string): string {
     g = 0,
     b = 0;
 
-  if (color.startsWith("rgb(")) {
-    const matches = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+  let resolved = color;
+  if (typeof document !== "undefined") {
+    const div = document.createElement("div");
+    div.style.color = color;
+    document.body.appendChild(div);
+
+    const computed = getComputedStyle(div).color;
+    document.body.removeChild(div);
+    if (computed) resolved = computed;
+  }
+
+  if (resolved.startsWith("rgb")) {
+    const matches = resolved.match(/\d+(?:\.\d+)?/g);
     if (matches) {
-      r = parseInt(matches[1]);
-      g = parseInt(matches[2]);
-      b = parseInt(matches[3]);
+      r = Number(matches[0]);
+      g = Number(matches[1]);
+      b = Number(matches[2]);
     }
-  } else if (color.startsWith("hsl(")) {
-    const matches = color.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
+  } else if (resolved.startsWith("hsl(")) {
+    const matches = resolved.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
     if (matches) {
       const h = parseInt(matches[1]) / 360;
       const s = parseInt(matches[2]) / 100;
@@ -507,8 +518,8 @@ export function getContrastColor(color: string): string {
       g = Math.round(g * 255);
       b = Math.round(b * 255);
     }
-  } else if (color.startsWith("#")) {
-    const hex = color.replace("#", "");
+  } else if (resolved.startsWith("#")) {
+    const hex = resolved.replace("#", "");
     if (/^[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$/i.test(hex)) {
       r = parseInt(hex.substring(0, 2), 16);
       g = parseInt(hex.substring(2, 4), 16);
