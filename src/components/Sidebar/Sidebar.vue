@@ -4,28 +4,33 @@ import { checkPath, isObject } from "../../utils";
 import { type Option as OptionType } from "../../utils/types/SidebarOption.ts";
 import SubOption from "./SubOption.vue";
 import Option from "./Option.vue";
+import Button from "../Button/Button.vue";
 
 const props = withDefaults(
   defineProps<{
     modelValue?: OptionType | string | undefined;
     expanded?: boolean;
+    collapsible?: boolean;
     options: OptionType[];
     getObject?: boolean;
   }>(),
   {
     modelValue: undefined,
     expanded: false,
+    collapsible: false,
     getObject: false,
   }
 );
 
 const emit = defineEmits<{
   "update:modelValue": [value: any];
+  "update:expanded": [value: boolean];
 }>();
 
 const model = ref<OptionType | string | undefined>(props.modelValue);
 const sidebar = ref<HTMLElement | null>(null);
 const isExpanded = ref(false);
+const selfExpanded = ref(props.expanded);
 const clicked = ref<OptionType | undefined>(undefined);
 const parsedOptions = computed(() => parseOptions(props.options));
 const parent = computed(() => getParent(props.options));
@@ -56,6 +61,18 @@ watch(
     model.value = props.modelValue;
   }
 );
+
+watch(
+  () => props.expanded,
+  (value) => {
+    selfExpanded.value = value;
+  }
+);
+
+function toggleExpanded() {
+  selfExpanded.value = !selfExpanded.value;
+  emit("update:expanded", selfExpanded.value);
+}
 
 onBeforeMount(() => {
   const option = getSelected(props.options);
@@ -118,7 +135,7 @@ function getPath(path: string | undefined): string {
 }
 
 function getContainer() {
-  if (props.expanded) return "div";
+  if (selfExpanded.value) return "div";
   return "tooltip";
 }
 
@@ -168,12 +185,24 @@ function handleBlur(event: FocusEvent) {
             <Option
               tabindex="-1"
               :icon="option.icon"
-              :label="expanded ? option.label : ''"
+              :label="selfExpanded ? option.label : ''"
               :selected="getValue(option) === getValue(parent)"
               :disabled="option.disabled"
             />
           </component>
         </component>
+        <Button
+          v-if="collapsible && index === parsedOptions.length - 1"
+          class="w-fit transition-[rotate]"
+          :class="{ 'rotate-180': selfExpanded }"
+          variant="plain"
+          color="neutral"
+          icon="keyboard_arrow_right"
+          :aria-label="selfExpanded ? 'Collapse sidebar' : 'Expand sidebar'"
+          :aria-expanded="selfExpanded"
+          round
+          @click="toggleExpanded"
+        />
       </div>
     </div>
     <Transition name="expand">

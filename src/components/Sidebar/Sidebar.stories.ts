@@ -17,6 +17,14 @@ export default {
       type: { name: "boolean" },
       description: "If true, the sidebar will be expanded.",
     },
+    collapsible: {
+      type: { name: "boolean" },
+      table: {
+        defaultValue: { summary: "false" },
+      },
+      description:
+        "If true, shows a toggle button so the user can expand/collapse the sidebar themselves. Use with v-model:expanded.",
+    },
     getObject: {
       type: { name: "boolean" },
       table: {
@@ -34,6 +42,7 @@ const defaultArgs = {
   modelValue: "dashboard",
   getObject: false,
   expanded: false,
+  collapsible: false,
   options: [
     {
       label: "Dashboard",
@@ -112,7 +121,8 @@ const defaultRender = (args: any) => ({
     <div class="h-screen">
       <Sidebar
         v-model="args.modelValue"
-        :expanded="args.expanded"
+        v-model:expanded="args.expanded"
+        :collapsible="args.collapsible"
         :options="args.options"
         :get-object="args.getObject"
       />
@@ -130,5 +140,13 @@ export const Expanded: Story = {
   args: {
     ...defaultArgs,
     expanded: true,
+  },
+};
+
+export const Collapsible: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    collapsible: true,
   },
 };

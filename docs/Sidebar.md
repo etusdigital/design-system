@@ -39,6 +39,11 @@ Controls the selected sidebar option value or object. Type: `any` (default: `und
 #### expanded
 Controls whether the sidebar is expanded to show labels. Type: `boolean` (default: `false`)
 
+Supports two-way binding via `v-model:expanded` so it stays in sync when the user toggles the sidebar themselves (see `collapsible`).
+
+#### collapsible
+Renders a toggle button at the bottom of the sidebar so the user can expand/collapse it themselves. Type: `boolean` (default: `false`). Pair with `v-model:expanded` to read the current state.
+
 #### options
 Array of sidebar options with navigation and display properties. Type: `Option[]` (required)
 
@@ -63,6 +68,9 @@ Returns the complete option object instead of just the value. Type: `boolean` (d
 
 #### @update:model-value
 Triggered when a sidebar option is selected. Receives either the option value or complete object based on `get-object` prop.
+
+#### @update:expanded
+Triggered when the user toggles the sidebar via the `collapsible` button. Receives the new `boolean` expanded state. Enables `v-model:expanded`.
 
 ### Slots API
 
