@@ -19,12 +19,12 @@ export function calculateDate(value: string): Date[] {
     const firstThisMonthDay = new Date(
       today.getFullYear(),
       today.getMonth(),
-      1
+      1,
     );
     const firstMonthDay = new Date(
       today.getFullYear(),
       today.getMonth() - 1,
-      1
+      1,
     );
     const lastMonthDay = new Date(firstThisMonthDay);
     lastMonthDay.setDate(0);
@@ -232,7 +232,7 @@ export function rgbaToHsva(r: number, g: number, b: number, a: number): any {
   rabs = r / 255;
   gabs = g / 255;
   babs = b / 255;
-  (v = Math.max(rabs, gabs, babs)), (diff = v - Math.min(rabs, gabs, babs));
+  ((v = Math.max(rabs, gabs, babs)), (diff = v - Math.min(rabs, gabs, babs)));
   diffc = (c: number) => (v - c) / 6 / diff + 1 / 2;
   percentRoundFn = (num: number) => Math.round(num * 100) / 100;
   if (diff == 0) {
@@ -292,28 +292,24 @@ export function isRange(start: Date, end: Date, day: Date, isSelected = false) {
   return fn(parsedStart, parsedEnd, parsedDay);
 }
 
-export function checkDateType(value: Date | Date[] | Date[][] | undefined, type: "date" | "period" | "compare") {
+export function checkDateType(
+  value: Date | Date[] | Date[][] | undefined,
+  type: "date" | "period" | "compare",
+) {
   let model: Date[] | Date[][] = [];
   if (type === "compare") {
     if (!value) model = [[], []];
-    else if (
-      Array.isArray(value) &&
-      !Array.isArray(value[0])
-    )
+    else if (Array.isArray(value) && !Array.isArray(value[0]))
       model = [[...(value as Date[])], []];
     else model = [...(value as Date[][])];
   } else if (!value) model = [];
   else if (!Array.isArray(value)) model = [value];
-  else if (
-    Array.isArray(value) &&
-    Array.isArray(value[0])
-  )
+  else if (Array.isArray(value) && Array.isArray(value[0]))
     model = [...value[0]];
   else model = [...(value as Date[])];
 
   return model;
 }
-
 
 export function capitalizeFirstLetter(string: string) {
   if (!string) return string;
@@ -363,7 +359,7 @@ export function getPosition(
   parent: Element,
   directions: any = { left: true },
   substract: any = {},
-  max: any = {}
+  max: any = {},
 ) {
   const offsetX =
     event.clientX - div.clientWidth / 2 - parent.getBoundingClientRect().left;
@@ -372,7 +368,7 @@ export function getPosition(
     (div.clientWidth - (typeof substract.x == "number" ? substract.x : 2));
   const clampedX = Math.min(
     maxX,
-    Math.max(max.x || 0, directions.left ? offsetX : maxX - offsetX)
+    Math.max(max.x || 0, directions.left ? offsetX : maxX - offsetX),
   );
 
   const offsetY =
@@ -380,7 +376,7 @@ export function getPosition(
   const maxY = parent.clientHeight - (div.clientHeight - (substract.y || 0));
   const clampedY = Math.min(
     maxY,
-    Math.max(max.y || 0, directions.top ? offsetY : maxY - offsetY)
+    Math.max(max.y || 0, directions.top ? offsetY : maxY - offsetY),
   );
 
   return {
@@ -391,7 +387,7 @@ export function getPosition(
 
 export function applyMask(
   value: string,
-  mask: "cpf" | "cnpj" | "cep" | "domain" | "url" | "email" | undefined
+  mask: "cpf" | "cnpj" | "cep" | "domain" | "url" | "email" | undefined,
 ) {
   switch (mask) {
     case "cpf":
@@ -409,7 +405,7 @@ export function applyMask(
       value = value.replace(/(\d{2})\.(\d{3})\.(\d{3})(\d)/, "$1.$2.$3/$4");
       value = value.replace(
         /(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d)/,
-        "$1.$2.$3/$4-$5"
+        "$1.$2.$3/$4-$5",
       );
       break;
     case "cep":
@@ -432,20 +428,20 @@ export function isValidEmail(value: any): boolean {
 
 export function isValidDomain(value: any): boolean {
   return /(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/.test(
-    value
+    value,
   );
 }
 
 export function isValidUrl(value: any): boolean {
   return /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(
-    value
+    value,
   );
 }
 
 export function blendColors(
   color: string,
   percentage = 0.3,
-  bg = [255, 255, 255]
+  bg = [255, 255, 255],
 ) {
   const div = document.createElement("div");
   div.style.color = color;
@@ -471,15 +467,26 @@ export function getContrastColor(color: string): string {
     g = 0,
     b = 0;
 
-  if (color.startsWith("rgb(")) {
-    const matches = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+  let resolved = color;
+  if (typeof document !== "undefined") {
+    const div = document.createElement("div");
+    div.style.color = color;
+    document.body.appendChild(div);
+
+    const computed = getComputedStyle(div).color;
+    document.body.removeChild(div);
+    if (computed) resolved = computed;
+  }
+
+  if (resolved.startsWith("rgb")) {
+    const matches = resolved.match(/\d+(?:\.\d+)?/g);
     if (matches) {
-      r = parseInt(matches[1]);
-      g = parseInt(matches[2]);
-      b = parseInt(matches[3]);
+      r = Number(matches[0]);
+      g = Number(matches[1]);
+      b = Number(matches[2]);
     }
-  } else if (color.startsWith("hsl(")) {
-    const matches = color.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
+  } else if (resolved.startsWith("hsl(")) {
+    const matches = resolved.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
     if (matches) {
       const h = parseInt(matches[1]) / 360;
       const s = parseInt(matches[2]) / 100;
@@ -507,8 +514,8 @@ export function getContrastColor(color: string): string {
       g = Math.round(g * 255);
       b = Math.round(b * 255);
     }
-  } else if (color.startsWith("#")) {
-    const hex = color.replace("#", "");
+  } else if (resolved.startsWith("#")) {
+    const hex = resolved.replace("#", "");
     if (/^[0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?$/i.test(hex)) {
       r = parseInt(hex.substring(0, 2), 16);
       g = parseInt(hex.substring(2, 4), 16);

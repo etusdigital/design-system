@@ -38,15 +38,9 @@ const appendedIcon = computed(() => {
   return "";
 });
 
-const mounted = ref(false);
-
-onMounted(() => {
-  mounted.value = true;
-});
-
 const background = computed((): string => {
   if (props.type === "secondary") return "transparent";
-  if (!mounted.value || props.type === "heavy") return props.color;
+  if (props.type === "heavy") return props.color;
   return props.color ? `color-mix(in srgb, ${props.color} 30%, transparent)` : props.color;
 });
 
