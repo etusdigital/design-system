@@ -60,8 +60,8 @@
   }
 }
 
-*.disabled {
-  @apply pointer-events-none border-neutral-default bg-neutral-surface-disabled text-neutral-interaction-disabled text-neutral-interaction-disabled;
+.button.disabled {
+  @apply pointer-events-none border-neutral-default bg-neutral-surface-disabled text-neutral-interaction-disabled;
 
   .progress {
     @apply bg-neutral-surface-disabled;
@@ -108,11 +108,11 @@
   @apply active:bg-neutral-surface-disabled active:border-neutral-interaction-pressed active:text-neutral-interaction-pressed;
 }
 
-.secondary.disabled {
-  @apply text-neutral-interaction-disabled bg-neutral-surface-disabled border-neutral-disabled;
+.button.secondary.disabled {
+  @apply text-neutral-interaction-disabled bg-transparent border-neutral-disabled;
 
   .progress {
-    @apply bg-neutral-surface-disabled;
+    @apply bg-transparent;
   }
 }
 
@@ -156,7 +156,7 @@
   @apply active:bg-neutral-interaction-pressed active:border-neutral-interaction-pressed;
 }
 
-.reverse.disabled {
+.button.reverse.disabled {
   @apply text-neutral-interaction-disabled bg-transparent border-neutral-disabled;
 }
 
@@ -200,6 +200,10 @@
   @apply active:bg-neutral-surface-disabled active:text-neutral-interaction-pressed;
 }
 
-.plain.disabled {
-  @apply text-neutral-interaction-disabled;
+.button.plain.disabled {
+  @apply text-neutral-interaction-disabled bg-transparent border-transparent;
+
+  .progress {
+    @apply bg-transparent;
+  }
 }
