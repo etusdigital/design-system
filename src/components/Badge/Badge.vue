@@ -52,7 +52,7 @@ const textColor = computed(() => props.type === 'heavy' ? getContrastColor(props
     <Spinner v-if="loading" />
     <template v-else>
       <Icon :name="prependIcon" v-if="prependIcon" />
-      <p class="font-semibold whitespace-nowrap truncate">
+      <p class="font-semibold whitespace-nowrap truncate" v-if="labelValue || $slots.default">
         <slot>{{ labelValue }}</slot>
       </p>
       <Icon :class="{ 'cursor-pointer': closeable }" :name="appendedIcon" v-if="appendedIcon"
@@ -69,13 +69,17 @@ const textColor = computed(() => props.type === 'heavy' ? getContrastColor(props
   color: v-bind(textColor);
   border-color: v-bind(color);
   background: v-bind(background);
+
+  .icon {
+    @apply leading-lg;
+  }
 }
 
 .small {
   @apply text-xs py-xxs px-sm;
 
   .icon {
-    @apply text-lg leading-xxs;
+    @apply text-lg;
   }
 }
 
@@ -83,7 +87,7 @@ const textColor = computed(() => props.type === 'heavy' ? getContrastColor(props
   @apply text-sm py-xs px-base;
 
   .icon {
-    @apply text-base leading-xxs;
+    @apply text-base;
   }
 }
 
@@ -91,7 +95,7 @@ const textColor = computed(() => props.type === 'heavy' ? getContrastColor(props
   @apply text-lg py-sm px-lg;
 
   .icon {
-    @apply text-2xl leading-xxs;
+    @apply text-2xl;
   }
 }
 
