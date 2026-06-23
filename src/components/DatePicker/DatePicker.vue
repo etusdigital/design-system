@@ -183,6 +183,7 @@ function changeType() {
     :is-error="isError"
     :error-message="errorMessage"
     hide-arrow
+    min-width="15em"
     @update:modelValue="emit('update:expanded', isExpanded)"
   >
     <div
