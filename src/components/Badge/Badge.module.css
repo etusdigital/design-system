@@ -4,6 +4,10 @@
   @apply flex items-center justify-center gap-xxs text-center w-fit h-fit rounded-full border-xxs;
 }
 
+.badge :global(.icon) {
+  @apply leading-lg;
+}
+
 .label {
   @apply font-semibold whitespace-nowrap truncate;
 }
@@ -13,7 +17,7 @@
 }
 
 .small :global(.icon) {
-  @apply text-lg leading-xxs;
+  @apply text-lg;
 }
 
 .medium {
@@ -21,7 +25,7 @@
 }
 
 .medium :global(.icon) {
-  @apply text-base leading-xxs;
+  @apply text-base;
 }
 
 .large {
@@ -29,7 +33,7 @@
 }
 
 .large :global(.icon) {
-  @apply text-2xl leading-xxs;
+  @apply text-2xl;
 }
 
 .secondary {
