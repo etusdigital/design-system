@@ -10,10 +10,6 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     type: {
         default: string;
     };
-    isCompare: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     allowChangeType: {
         type: BooleanConstructor;
         default: boolean;
@@ -64,10 +60,6 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     type: {
         default: string;
     };
-    isCompare: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     allowChangeType: {
         type: BooleanConstructor;
         default: boolean;
@@ -115,7 +107,6 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     required: boolean;
     labelValue: string;
     lang: string;
-    isCompare: boolean;
     allowChangeType: boolean;
     disabled: boolean;
     isError: boolean;
