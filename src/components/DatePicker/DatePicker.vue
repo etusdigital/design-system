@@ -20,7 +20,6 @@ const props = withDefaults(
     lang?: string;
     separator?: string;
     type?: Type;
-    isCompare?: boolean;
     allowChangeType?: boolean;
     minDate?: Date;
     maxDate?: Date;
@@ -36,7 +35,6 @@ const props = withDefaults(
     lang: "en-US",
     labelValue: "",
     type: "date",
-    isCompare: false,
     allowChangeType: false,
     disabled: false,
     required: false,
@@ -235,7 +233,7 @@ function changeType() {
             </Checkbox>
           </div>
         </div>
-        <div class="flex flex-col items-end gap-base relative w-full overflow-hidden">
+        <div class="flex flex-col items-end gap-base relative flex-1 overflow-hidden">
           <Calendar
             class="px-sm pt-xxs"
             v-model="model"

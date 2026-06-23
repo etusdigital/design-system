@@ -100,9 +100,6 @@ Language for date formatting and localization. Type: `string` (default: `"en-US"
 #### type
 Selection mode for the date picker. Type: `'date' | 'period' | 'compare'` (default: `'date'`)
 
-#### is-compare
-Legacy prop for comparison mode (use `type="compare"` instead). Type: `boolean` (default: `false`)
-
 #### allow-change-type
 Allows users to switch between different selection modes. Type: `boolean` (default: `false`)
 
