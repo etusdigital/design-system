@@ -30,7 +30,6 @@ export interface DatePickerProps {
   lang?: string;
   onApply?: (value: any) => void;
   separator?: string;
-  isCompare?: boolean;
   allowChangeType?: boolean;
   expanded?: boolean;
   onExpandedChange?: (expanded: boolean) => void;
@@ -121,7 +120,6 @@ export function DatePicker({
   lang = "en",
   onApply,
   separator,
-  isCompare = false,
   allowChangeType = false,
   expanded,
   onExpandedChange,
@@ -155,7 +153,7 @@ export function DatePicker({
   const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
 
   const [isMulti, setIsMulti] = useState(
-    isCompare || controlledType === "compare",
+    allowChangeType && controlledType === "compare",
   );
 
   function handleExpand(isOpenVal: boolean) {
@@ -199,6 +197,14 @@ export function DatePicker({
 
   function handleChangeType(checked: boolean | null) {
     const newIsMulti = !!checked;
+    if (controlledValue) {
+      if (newIsMulti) setControlledValue([controlledValue as Date[], []] as [Date[], Date[]]);
+      else setControlledValue((controlledValue as Date[][])[0] as Date[]);
+    } else {
+      if (newIsMulti) setControlledValue([[], []] as [Date[], Date[]]);
+      else setControlledValue([] as Date[]);
+    }
+
     setIsMulti(newIsMulti);
     setControlledType(newIsMulti ? "compare" : "period");
   }
@@ -319,6 +325,7 @@ export function DatePicker({
       card={cardContent}
       className={clsx("date-picker", className)}
       labelValue={labelValue}
+      minWidth="15em"
     >
       {triggerContent}
     </ExpandableContainer>
