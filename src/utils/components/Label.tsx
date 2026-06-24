@@ -29,7 +29,7 @@ export function Label({
         <Tooltip className="ml-xxs">
           <Tooltip.Label>
             <p
-              className="p-xxs text-neutral-foreground-negative"
+              className="text-neutral-foreground-negative"
               style={tooltipMinWidth ? { minWidth: tooltipMinWidth } : undefined}
             >
               {infoMessage}

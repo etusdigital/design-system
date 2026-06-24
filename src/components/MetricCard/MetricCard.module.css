@@ -129,7 +129,7 @@
 }
 
 .infoIcon.small {
-  @apply text-base leading-xs p-none;
+  @apply text-base leading-xxs p-none;
 }
 
 .small .infoText {
