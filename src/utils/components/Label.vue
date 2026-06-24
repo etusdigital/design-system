@@ -41,7 +41,7 @@ withDefaults(
 @reference "../../assets/main.css";
 
 .label-value {
-  @apply flex items-center;
+  @apply flex items-center leading-base;
 }
 
 .tooltip-text {
