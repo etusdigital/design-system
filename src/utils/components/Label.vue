@@ -49,6 +49,6 @@ withDefaults(
 }
 
 .info-icon.icon {
-  @apply flex items-center text-primary-foreground-low text-lg leading-xxs;
+  @apply flex items-center text-primary-foreground-low text-base leading-xxs;
 }
 </style>
