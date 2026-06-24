@@ -45,10 +45,10 @@ withDefaults(
 }
 
 .tooltip-text {
-  @apply p-1 text-neutral-foreground-negative;
+  @apply text-neutral-foreground-negative;
 }
 
 .info-icon.icon {
-  @apply flex items-center text-primary-foreground-low text-lg;
+  @apply flex items-center text-primary-foreground-low text-lg leading-xxs;
 }
 </style>

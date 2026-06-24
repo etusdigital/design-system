@@ -247,19 +247,19 @@ withDefaults(defineProps<{
 }
 
 .info-icon {
-	@apply flex items-center leading-xs;
+	@apply flex items-center leading-xxs;
 }
 
 .info-icon.small {
-    @apply text-base leading-xs p-none;
+    @apply text-base p-none;
 }
 
 .info-icon.medium {
-    @apply text-lg leading-xs;
+    @apply text-lg;
 }
 
 .info-icon.large {
-    @apply text-xl leading-xs;
+    @apply text-xl;
 }
 
 .info-text {
