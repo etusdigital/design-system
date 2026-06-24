@@ -20,7 +20,7 @@ export function Label({
   if (!labelValue) return null;
 
   return (
-    <h5 className={`inline-flex items-center text-sm font-semibold leading-xs${className ? ` ${className}` : ''}`}>
+    <h5 className={`inline-flex items-center text-sm font-semibold leading-base${className ? ` ${className}` : ''}`}>
       {labelValue}
       {required && (
         <span className="text-primary-foreground-low ml-xxs">*</span>
