@@ -1,8 +1,5 @@
 declare const _default: import("vue").DefineComponent<import("vue").ExtractPropTypes<{
     name: {};
-    size: {
-        default: string;
-    };
     filled: {
         type: BooleanConstructor;
         default: boolean;
@@ -11,15 +8,11 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     [key: string]: any;
 }>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     name: {};
-    size: {
-        default: string;
-    };
     filled: {
         type: BooleanConstructor;
         default: boolean;
     };
 }>> & Readonly<{}>, {
-    size: string;
     filled: boolean;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 export default _default;

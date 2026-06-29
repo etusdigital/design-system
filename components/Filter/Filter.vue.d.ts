@@ -85,7 +85,6 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     "onUpdate:expanded"?: (...args: any[]) => any;
     onApply?: (...args: any[]) => any;
 }>, {
-    disabled: boolean;
     modelValue: any;
     labelValue: string;
     icon: string;
@@ -94,6 +93,7 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     valueKey: string;
     searchLabel: string;
     searchable: boolean;
+    disabled: boolean;
     getObject: boolean;
     hideActions: boolean;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
