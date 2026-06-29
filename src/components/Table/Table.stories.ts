@@ -795,7 +795,7 @@ export const Primary: Story = {
 
           <template #empty-state>
               <div class="flex items-center justify-center p-xxs rounded-full text-xl">
-                  <Icon name="sentiment_dissatisfied" size="1em" />
+                  <Icon name="sentiment_dissatisfied" />
               </div>
           </template>
 
@@ -958,7 +958,7 @@ export const EmptyState: Story = {
       >
           <template #empty-state>
               <div class="flex items-center justify-center p-xxs rounded-full text-xl">
-                  <Icon name="sentiment_dissatisfied" size="1em" />
+                  <Icon name="sentiment_dissatisfied" />
               </div>
           </template>
       </Table>

@@ -85,7 +85,7 @@ export const Primary: Story = {
               </div>
               <div class="flex justify-between items-center">
                 <div class="flex gap-xxs items-center text-neutral-foreground-high">
-                  <Icon name="mail" size="20px" />
+                  <Icon name="mail" />
                   <p class="text-sm font-bold">Total delivered: 200.000.000</p>
                 </div>
                 <Button size="small">More statistics</Button>

@@ -112,7 +112,7 @@ const defaultHtml = `
             </div>
             <div class="flex justify-between items-center">
               <div class="flex gap-xxs items-center text-neutral-foreground-high">
-                <Icon name="mail" size="20px" />
+                <Icon name="mail" />
                 <p class="text-sm font-bold">Total delivered: {{ option.totalDelivered }}</p>
               </div>
               <Button size="small">More statistics</Button>

@@ -103,7 +103,6 @@ function changeModel() {
         >
           <Icon
             name="expand_more"
-            size="xl"
             class="text-neutral-interaction-default font-bold"
           />
         </div>

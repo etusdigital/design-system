@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import { useOptionalModel } from "#composables";
 import { type ContainerModelExtra } from "../../utils/types/ContainerModelExtra";
 import SelectContent from "../../utils/components/SelectContent.vue";
@@ -56,9 +56,35 @@ const [expandedModel, setExpandedModel] = useOptionalModel<boolean>(
 );
 
 const model = ref<any>(props.modelValue || {});
-const optionsSearch = ref<any>({});
+const searchText = ref("");
 const optionExpanded = ref("");
 const selected = ref(getSelected());
+
+const isSearching = computed(() => props.searchable && !!searchText.value);
+
+const filteredOptions = computed<any[]>(() => {
+  if (!isSearching.value) return props.options;
+
+  const search = searchText.value.toLowerCase();
+
+  return props.options
+    .map((option: any) => {
+      const labelMatches = getLabel(option).toLowerCase().includes(search);
+      const matchingSubOptions = option.options.filter((subOption: any) =>
+        getLabel(subOption).toLowerCase().includes(search)
+      );
+
+      if (labelMatches || matchingSubOptions.length) {
+        return {
+          ...option,
+          options: labelMatches ? option.options : matchingSubOptions,
+        };
+      }
+
+      return null;
+    })
+    .filter(Boolean);
+});
 
 watch(() => props.modelValue, (newVal) => {
   model.value = newVal || {};
@@ -117,17 +143,10 @@ function toggleSubList(option: any) {
 }
 
 function isActive(option: any): boolean {
+  if (isSearching.value) return true;
+
   const optionValue = getValue(option);
   return optionExpanded.value === optionValue;
-}
-
-function searchOption(options: any, search: string) {
-  if (!search) return options;
-
-  return options.filter((value: any) => {
-    if (value[props.labelKey].toLowerCase().includes(search.toLowerCase()))
-      return value;
-  });
 }
 
 function isSelected(option: any, subOption: any) {
@@ -180,12 +199,26 @@ function apply() {
 
     <template #options>
       <li
+        v-if="searchable && !disabled"
+        class="flex items-center gap-xs px-sm py-xs border-b-xxs border-neutral-default"
+      >
+        <Icon name="search" class="text-neutral-foreground-low" />
+        <input
+          v-model="searchText"
+          type="search"
+          class="flex-1 p-0 m-0 border-none text-sm bg-transparent placeholder:text-neutral-foreground-low outline-none"
+          style="box-shadow: none"
+          :placeholder="searchLabel"
+        />
+      </li>
+
+      <li
         role="option"
         :aria-selected="
           // @ts-ignore
           option[labelKey]
         "
-        v-for="(option, index) in options"
+        v-for="(option, index) in filteredOptions"
         :key="option[labelKey]"
         class="flex flex-col gap-xs select-none h-max transition-[height] max-h-[3em] overflow-hidden"
         :tabindex="index"
@@ -223,7 +256,7 @@ function apply() {
                   : 'text-neutral-interaction-default',
               ]"
             >
-              <Icon name="expand_more" size="xl" />
+              <Icon name="expand_more" />
             </div>
           </div>
         </div>
@@ -232,29 +265,8 @@ function apply() {
             v-if="isActive(option)"
             class="flex flex-col gap-xs overflow-auto custom-scroll max-h-[12em] m-xxs"
           >
-            <div
-              v-if="searchable && !disabled"
-              class="flex items-center text-xl gap-xs py-xxs px-xs border-xxs border-neutral-default m-xxs"
-            >
-              <Icon
-                name="search"
-                class="text-neutral-foreground-low"
-                size="xl"
-              />
-              <input
-                v-model="optionsSearch[getValue(option)]"
-                type="search"
-                class="h-full w-full p-0 m-0 border-none text-xs p-[.05em] placeholder:text-neutral-foreground-low outline-none border-none"
-                style="box-shadow: none"
-                :disabled="disabled"
-                :placeholder="searchLabel"
-              />
-            </div>
             <Option
-              v-for="(subOption, subOptionIndex) in searchOption(
-                option.options,
-                optionsSearch[getValue(option)]
-              )"
+              v-for="(subOption, subOptionIndex) in (option.options as any[])"
               no-hover
               :disabled="subOption.disabled"
               :key="subOptionIndex"

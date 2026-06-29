@@ -2,12 +2,10 @@
 withDefaults(
   defineProps<{
     name?: string;
-    size?: string;
     filled?: boolean;
   }>(),
   {
     filled: false,
-    size: "24px",
   }
 );
 </script>
@@ -35,9 +33,5 @@ withDefaults(
     "wght" 400,
     "GRAD" 0,
     "opsz" 24;
-}
-
-.icon.material-symbols-rounded {
-  font-size: v-bind(size);
 }
 </style>

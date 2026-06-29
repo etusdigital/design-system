@@ -277,7 +277,7 @@ Displayed when no data are available.
     <Table :columns="columns" :data="data">
           <template #empty-state>
               <div class="flex items-center justify-center p-xxs rounded-full text-xl">
-                  <Icon name="sentiment_dissatisfied" size="1em" />
+                  <Icon name="sentiment_dissatisfied" />
               </div>
           </template>
       </Table>
