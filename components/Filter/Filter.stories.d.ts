@@ -110,17 +110,6 @@ declare const _default: {
             };
             description: string;
         };
-        onApply: {
-            type: {
-                name: string;
-            };
-            table: {
-                defaultValue: {
-                    summary: string;
-                };
-            };
-            description: string;
-        };
         status: {
             description: string;
         };

@@ -40,7 +40,7 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     };
 }>, (_ctx: any, _cache: any) => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
     [key: string]: any;
-}>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "update:expanded" | "apply")[], "update:modelValue" | "update:expanded" | "apply", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "update:expanded" | "apply" | "clear")[], "update:modelValue" | "update:expanded" | "apply" | "clear", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: any;
     };
@@ -84,6 +84,7 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     "onUpdate:modelValue"?: (...args: any[]) => any;
     "onUpdate:expanded"?: (...args: any[]) => any;
     onApply?: (...args: any[]) => any;
+    onClear?: (...args: any[]) => any;
 }>, {
     modelValue: any;
     labelValue: string;
