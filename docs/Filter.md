@@ -90,6 +90,9 @@ Triggered when the filter dropdown expanded state changes.
 #### @apply
 Triggered when the Apply button is clicked to confirm filter selections.
 
+#### @clear
+Triggered when the Clear button is clicked to confirm filter selections.
+
 ### Slots API
 
 #### #status
