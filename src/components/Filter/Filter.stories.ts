@@ -75,14 +75,6 @@ export default {
       description:
         "Hides the default Clear and Apply buttons. Use with the #actions slot for custom actions.",
     },
-    onApply: {
-      type: { name: "function" },
-      table: {
-        defaultValue: { summary: "()=>{void}" },
-      },
-      description:
-        "Will be the function that execute when apply button is pressed.",
-    },
     status: {
       description:
         "This slot will be status when a option is selected. Param: selected (number of selected options).",

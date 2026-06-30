@@ -46,6 +46,7 @@ const emit = defineEmits<{
   "update:modelValue": [value: any, extra?: MultiSelectModelExtra];
   "update:expanded": [value: boolean, extra: ContainerModelExtra];
   apply: [];
+  clear: [];
 }>();
 
 const [expandedModel, setExpandedModel] = useOptionalModel<boolean>(
@@ -89,7 +90,7 @@ const filteredOptions = computed<any[]>(() => {
 watch(() => props.modelValue, (newVal) => {
   model.value = newVal || {};
   selected.value = getSelected();
-});
+}, { deep: true });
 
 function getLabel(value: any): string {
   return isObject(value) ? value[props.labelKey] : value;
@@ -159,6 +160,7 @@ function clear() {
   model.value = {};
   selected.value = 0;
   emit("update:modelValue", model.value);
+  emit('clear');
 }
 
 function apply() {
@@ -167,22 +169,10 @@ function apply() {
 </script>
 
 <template>
-  <SelectContainer
-    v-model="expandedModel"
-    :label-value="labelValue"
-    class="filter"
-    :disabled="disabled"
-    aria-multiselectable="true"
-    min-width="22em"
-    :dont-have-max-height="true"
-  >
-    <SelectContent
-      v-model:expanded="expandedModel"
-      :disabled="disabled"
-      :icon="icon"
-      :options="modelValue"
-      @update:expanded="setExpandedModel"
-    >
+  <SelectContainer v-model="expandedModel" :label-value="labelValue" class="filter" :disabled="disabled"
+    aria-multiselectable="true" min-width="22em" :dont-have-max-height="true">
+    <SelectContent v-model:expanded="expandedModel" :disabled="disabled" :icon="icon" :options="modelValue"
+      @update:expanded="setExpandedModel">
       <template #status>
         <slot v-if="!disabled" name="status" :selected="selected">
           <span class="font-bold text-neutral-interaction-default">
@@ -198,53 +188,34 @@ function apply() {
     </template>
 
     <template #options>
-      <li
-        v-if="searchable && !disabled"
-        class="flex items-center gap-xs px-sm py-xs border-b-xxs border-neutral-default"
-      >
+      <li v-if="searchable && !disabled"
+        class="flex items-center gap-xs px-sm py-xs border-b-xxs border-neutral-default">
         <Icon name="search" class="text-neutral-foreground-low" />
-        <input
-          v-model="searchText"
-          type="search"
+        <input v-model="searchText" type="search"
           class="flex-1 p-0 m-0 border-none text-sm bg-transparent placeholder:text-neutral-foreground-low outline-none"
-          style="box-shadow: none"
-          :placeholder="searchLabel"
-        />
+          style="box-shadow: none" :placeholder="searchLabel" />
       </li>
 
-      <li
-        role="option"
-        :aria-selected="
-          // @ts-ignore
-          option[labelKey]
-        "
-        v-for="(option, index) in filteredOptions"
-        :key="option[labelKey]"
-        class="flex flex-col gap-xs select-none h-max transition-[height] max-h-[3em] overflow-hidden"
-        :tabindex="index"
-        :class="{ active: isActive(option) }"
-        style="transition: max-height 0.2s ease"
-      >
+      <li role="option" :aria-selected="
+        // @ts-ignore
+        option[labelKey]
+        " v-for="(option, index) in filteredOptions" :key="option[labelKey]"
+        class="flex flex-col gap-xs select-none h-max transition-[height] max-h-[3em] overflow-hidden" :tabindex="index"
+        :class="{ active: isActive(option) }" style="transition: max-height 0.2s ease">
         <div
           class="flex items-center justify-between text-neutral-interaction-default w-full h-full cursor-pointer [&>*]:p-xs hover:text-primary-interaction-default hover:bg-primary-surface-hover"
           :class="{
             'bg-primary-surface-default text-primary-interaction-default font-bold':
               isActive(option),
-          }"
-          @click.prevent="toggleSubList(option)"
-          @keyup.space="toggleSubList(option)"
-        >
+          }" @click.prevent="toggleSubList(option)" @keyup.space="toggleSubList(option)">
           <p class="text-neutral-interaction-default">
             {{ option[labelKey] }}
           </p>
           <div class="flex items-center gap-xs">
-            <slot v-if="model[getValue(option)]" name="status">
-              <span
-                class="select-count font-normal"
-                :class="{
-                  active: isActive(option),
-                }"
-              >
+            <slot v-if="model[getValue(option)] && model[getValue(option)].length" name="status">
+              <span class="select-count font-normal" :class="{
+                active: isActive(option),
+              }">
                 {{ model[getValue(option)].length }}
               </span>
             </slot>
@@ -254,33 +225,20 @@ function apply() {
                 isActive(option)
                   ? 'rotate-180 text-primary-interaction-default'
                   : 'text-neutral-interaction-default',
-              ]"
-            >
+              ]">
               <Icon name="expand_more" />
             </div>
           </div>
         </div>
         <Transition name="content">
-          <ul
-            v-if="isActive(option)"
-            class="flex flex-col gap-xs overflow-auto custom-scroll max-h-[12em] m-xxs"
-          >
-            <Option
-              v-for="(subOption, subOptionIndex) in (option.options as any[])"
-              no-hover
-              :disabled="subOption.disabled"
-              :key="subOptionIndex"
-              @click="selectOption(option, subOption)"
-              @key.space="selectOption(option, subOption)"
-              class="flex items-center pl-xxs gap-xs"
-            >
-              <Checkbox
-                :modelValue="
-                  // @ts-ignore
-                  isSelected(option, subOption)
-                "
-                class="pointer-events-none"
-              />
+          <ul v-if="isActive(option)" class="flex flex-col gap-xs overflow-auto custom-scroll max-h-[12em] m-xxs">
+            <Option v-for="(subOption, subOptionIndex) in (option.options as any[])" no-hover
+              :disabled="subOption.disabled" :key="subOptionIndex" @click="selectOption(option, subOption)"
+              @key.space="selectOption(option, subOption)" class="flex items-center pl-xxs gap-xs">
+              <Checkbox :modelValue="
+                // @ts-ignore
+                isSelected(option, subOption)
+                " class="pointer-events-none" />
               {{ getLabel(subOption) }}
             </Option>
           </ul>
@@ -291,20 +249,10 @@ function apply() {
     <template #actions v-if="!hideActions">
       <slot name="actions">
         <div class="flex items-center gap-xs">
-          <Button
-            size="small"
-            variant="plain"
-            @click="clear"
-            :disabled="!selected"
-          >
+          <Button size="small" variant="plain" @click="clear" :disabled="!selected">
             <slot name="clear-label"> Clear </slot>
           </Button>
-          <Button
-            type="button"
-            :disabled="!selected"
-            size="small"
-            @click="apply"
-          >
+          <Button type="button" :disabled="!selected" size="small" @click="apply">
             <slot name="apply-label"> Apply </slot>
           </Button>
         </div>
