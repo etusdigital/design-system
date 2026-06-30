@@ -12,6 +12,7 @@ export interface FilterProps {
   value?: Record<string, any[]>;
   onChange?: (value: Record<string, any[]>) => void;
   onApply?: (value: Record<string, any[]>) => void;
+  onClear?: () => void;
   options?: any[];
   labelKey?: string;
   valueKey?: string;
@@ -33,6 +34,7 @@ export function Filter({
   value,
   onChange,
   onApply,
+  onClear,
   options = [],
   labelKey = "label",
   valueKey = "value",
@@ -105,6 +107,7 @@ export function Filter({
 
   function clearAll() {
     setModel({});
+    onClear?.();
   }
 
   function applyFilters() {
