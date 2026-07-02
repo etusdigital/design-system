@@ -38,7 +38,7 @@ const emit = defineEmits(["close"]);
     :is-appended-icon="isAppendedIcon"
     @close="emit('close')"
   >
-    <template #default>
+    <template #default v-if="labelValue || $slots.default">
       <slot>{{ labelValue }}</slot>
     </template>
   </Badge>
