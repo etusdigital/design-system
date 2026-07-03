@@ -86,14 +86,12 @@ const defaultArgs = {
 export const Primary: Story = {
   args: {
     ...defaultArgs,
-    defaultValue: 'personal-account',
   },
 };
 
 export const Absolute: Story = {
   args: {
     ...defaultArgs,
-    defaultValue: 'personal-account',
     absolute: true,
   },
 };
@@ -101,7 +99,6 @@ export const Absolute: Story = {
 export const Disabled: Story = {
   args: {
     ...defaultArgs,
-    defaultValue: 'personal-account',
     disabled: true,
   },
 };

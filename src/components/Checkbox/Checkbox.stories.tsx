@@ -110,7 +110,6 @@ export const Disabled: Story = {
   render: (args: any) => (
     <Checkbox
       id="disabled-checkbox"
-      defaultValue={false}
       disabled={args.disabled}
       rhs={args.rhs}
       allowIndeterminate={args.allowIndeterminate}
