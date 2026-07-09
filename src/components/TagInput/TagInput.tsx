@@ -231,7 +231,7 @@ export function TagInput({
             )}
 
         {currentTags.map((tag, index) => (
-          <Tooltip key={index} className="max-w-full">
+          <Tooltip key={index} position="bottom" className="max-w-full">
             <Tooltip.Label>
               <div className="max-w-[100%]">
                 <span className="whitespace-normal break-all">
@@ -242,9 +242,9 @@ export function TagInput({
             <StatusBadge
               labelValue={String(tag)}
               color="neutral"
+              size="small"
               closeable
               onClose={() => removeTag(index)}
-              className="py-xxs"
             />
           </Tooltip>
         ))}

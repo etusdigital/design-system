@@ -1,36 +1,36 @@
 @reference "../../assets/main.css";
 
 .tagInput {
-  @apply flex flex-col;
+  @apply flex flex-col gap-xxs;
 }
 
 .labelRow {
-  @apply flex justify-between items-center mb-1;
+  @apply flex justify-between items-center;
 }
 
 .container {
-  @apply flex flex-wrap gap-1 items-center border border-neutral-default rounded-base py-xs px-sm bg-neutral-surface-default transition-colors cursor-text;
+  @apply flex flex-wrap gap-xxs items-center outline-xxs outline-neutral-default rounded-base py-xs px-sm bg-neutral-surface-default transition-colors cursor-text;
 }
 
 .focused {
-  @apply border-primary-interaction-default;
+  @apply outline-primary-interaction-default;
 }
 
 .error {
-  @apply border-danger-default;
+  @apply outline-danger-default;
   animation: shake 0.5s;
 }
 
 .disabled {
-  @apply border-neutral-disabled bg-neutral-surface-disabled pointer-events-none;
+  @apply outline-neutral-disabled bg-neutral-surface-disabled pointer-events-none;
 }
 
 .textarea {
-  @apply flex-1 bg-transparent outline-none text-sm text-neutral-foreground-high placeholder:text-neutral-foreground-low resize-none min-w-[60px] border-none;
+  @apply flex-1 bg-transparent outline-none text-sm text-neutral-foreground-high placeholder:text-neutral-foreground-low resize-none min-w-5xl border-none;
 }
 
 .errorMessage {
-  @apply text-sm text-danger-foreground-low text-start mt-1;
+  @apply text-sm text-danger-foreground-low text-start;
 }
 
 .tagInputIcon {

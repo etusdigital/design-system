@@ -41,5 +41,5 @@
 }
 
 .clickable {
-  @apply cursor-pointer;
+  @apply flex cursor-pointer;
 }
