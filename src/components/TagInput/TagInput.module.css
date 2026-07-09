@@ -26,7 +26,7 @@
 }
 
 .textarea {
-  @apply flex-1 bg-transparent outline-none text-sm text-neutral-foreground-high placeholder:text-neutral-foreground-low resize-none min-w-5xl border-none;
+  @apply flex-1 bg-transparent outline-none text-sm text-neutral-foreground-high placeholder:text-neutral-foreground-low resize-none border-none;
 }
 
 .errorMessage {
