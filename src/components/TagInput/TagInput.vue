@@ -178,7 +178,7 @@ function applyMasks(e: any) {
 <template>
   <div ref="tagInput" class="tag-input">
     <div
-      class="flex flex-row justify-between items-center m-xxs"
+      class="flex justify-between items-center"
       v-if="labelValue"
     >
       <Label :label-value="labelValue" :info-message="infoMessage" :required="required" />
@@ -214,7 +214,7 @@ function applyMasks(e: any) {
         position="bottom"
         class="max-w-full"
       >
-        <StatusBadge color="neutral" class="tag-padding max-w-full" :label-value="tag" closeable @close="removeTag(Number(index))" />
+        <StatusBadge color="neutral" class="tag-padding" :label-value="tag" closeable @close="removeTag(Number(index))" />
         <template #label>
           <div class="max-w-[100%]">
             <span class="whitespace-normal break-all">{{ tag }}</span>
@@ -249,32 +249,32 @@ function applyMasks(e: any) {
         />
       </slot>
     </div>
-    <div v-if="$slots['hint-message']">
-      <label class="p3 text-neutral-foreground-low">
-        <slot name="hint-message" />
-      </label>
-    </div>
-    <div>
-      <label v-if="props.isError || hasError" class="error-default">{{
-        props.errorMessage || errMessage
-      }}</label>
-    </div>
+    <label v-if="$slots['hint-message']" class="p3 text-neutral-foreground-low">
+      <slot name="hint-message" />
+    </label>
+    <label v-if="props.isError || hasError" class="error-default">{{
+      props.errorMessage || errMessage
+    }}</label>
   </div>
 </template>
 
 <style scoped>
 @reference "../../assets/main.css";
 
+.tag-input {
+  @apply flex flex-col gap-xxs;
+}
+
 .tag-input-container {
-  @apply flex flex-row flex-wrap gap-xxs border-xxs border-neutral-default rounded-base items-center py-xs px-sm bg-neutral-surface-default;
+  @apply flex flex-wrap gap-xxs outline-xxs outline-neutral-default rounded-base items-center py-xs px-sm bg-neutral-surface-default;
 }
 
 .tag-input-container.active {
-  @apply border-primary-interaction-default;
+  @apply outline-primary-interaction-default;
 }
 
 .tag-input-container.error {
-  @apply border-xxs border-danger-default border-solid focus:border-solid;
+  @apply outline-danger-default;
   animation: shake 0.5s;
 
   .input-default {
@@ -284,15 +284,11 @@ function applyMasks(e: any) {
 
 .tag-input-container.disabled,
 .tag-input-container.disabled .input-default {
-  @apply bg-neutral-surface-disabled text-neutral-foreground-low border-neutral-default;
-}
-
-.info-icon.icon {
-  @apply text-lg text-primary-interaction-default h-[1em] flex items-center;
+  @apply bg-neutral-surface-disabled text-neutral-foreground-low outline-neutral-default;
 }
 
 .input-default {
-  @apply p3 bg-neutral-surface-default text-neutral-foreground-high rounded-base outline-none border-none flex-1 p-xxs focus:border-none focus:outline-none;
+  @apply p3 bg-neutral-surface-default text-neutral-foreground-high rounded-base outline-none flex-1 p-xxs focus:outline-none;
 }
 
 .error-default {
@@ -304,7 +300,7 @@ function applyMasks(e: any) {
 }
 
 .tag-padding {
-  @apply py-xxs;
+  @apply py-xxs max-w-full;
 }
 
 .side-icon {
