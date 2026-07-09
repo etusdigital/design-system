@@ -214,7 +214,7 @@ function applyMasks(e: any) {
         position="bottom"
         class="max-w-full"
       >
-        <StatusBadge color="neutral" class="tag-padding" :label-value="tag" closeable @close="removeTag(Number(index))" />
+        <StatusBadge color="neutral" class="tag-padding" size="small" :label-value="tag" closeable @close="removeTag(Number(index))" />
         <template #label>
           <div class="max-w-[100%]">
             <span class="whitespace-normal break-all">{{ tag }}</span>
@@ -288,7 +288,7 @@ function applyMasks(e: any) {
 }
 
 .input-default {
-  @apply p3 bg-neutral-surface-default text-neutral-foreground-high rounded-base outline-none flex-1 p-xxs focus:outline-none;
+  @apply p3 bg-transparent text-neutral-foreground-high rounded-base outline-none flex-1 p-xxs resize-none border-none placeholder:text-neutral-foreground-low;
 }
 
 .error-default {
