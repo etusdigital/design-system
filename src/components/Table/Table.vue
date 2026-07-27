@@ -152,14 +152,14 @@ function changeItemsPerPage(itemsPerPage: number, emitEvent = true) {
   if (emitEvent) emit("update:itemsPerPage", itemsPerPage);
   emit("update:page", 1);
 
-  sortBy(sortByName.value, isDesc.value[sortByName.value]);
+  sortBy(sortByName.value, isDesc.value[sortByName.value], false);
 }
 
 function sortBy(key: string, isDesc = true, emitEvent = true) {
+  sortByName.value = key;
   if (props.renderPaginationInBackEnd) {
     if (emitEvent) emit("sortBy", key, isDesc);
   } else {
-    sortByName.value = key;
     pagedItems.value = props.items?.sort((a: any, b: any) => {
       const valueA = a[key];
       const valueB = b[key];
