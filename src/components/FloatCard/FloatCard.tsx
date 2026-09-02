@@ -10,6 +10,7 @@ export interface FloatCardProps {
   value?: boolean;
   onChange?: (open: boolean) => void;
   mode?: 'click' | 'hover';
+  disabled?: boolean;
   children?: React.ReactNode;
   card?: React.ReactNode;
   className?: string;
@@ -19,6 +20,7 @@ export function FloatCard({
   value,
   onChange,
   mode = 'click',
+  disabled = false,
   children,
   card,
   className,
@@ -39,6 +41,8 @@ export function FloatCard({
   }, [setIsOpen]);
 
   const showCard = useCallback(() => {
+    if (disabled) return;
+
     if (!contentRef.current || !cardRef.current) return;
 
     const cardContent = cardRef.current.firstElementChild as HTMLElement;
@@ -114,12 +118,13 @@ export function FloatCard({
     <div
       ref={contentRef}
       onClick={mode === 'click' ? (e) => {
+        if (disabled) return;
         if (contentRef.current?.contains(e.target as Node)) {
           setIsOpen(true);
         }
       } : undefined}
-      onMouseEnter={mode === 'hover' ? () => setIsOpen(true) : undefined}
-      onMouseLeave={mode === 'hover' ? closeCard : undefined}
+      onMouseEnter={mode === 'hover' && !disabled ? () => setIsOpen(true) : undefined}
+      onMouseLeave={mode === 'hover' && !disabled ? closeCard : undefined}
       className={clsx('float-card-container', className)}
     >
       {isMounted &&

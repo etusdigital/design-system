@@ -102,7 +102,7 @@ export function Container({
   }
 
   return (
-    <FloatCard value={isExpanded} card={renderContent?.(contentMinWidth)} onChange={blur}>
+    <FloatCard value={isExpanded} disabled={disabled} card={renderContent?.(contentMinWidth)} onChange={blur}>
       <div className={clsx('container', className)}>
         {labelValue && (
           <div className="flex justify-between items-center">
