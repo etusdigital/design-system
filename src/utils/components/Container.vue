@@ -91,7 +91,7 @@ function toggle() {
 </script>
 
 <template>
-  <FloatCard :model-value="isExpanded" @update:model-value="blur">
+  <FloatCard :model-value="isExpanded" :disabled="disabled" @update:model-value="blur">
     <div class="container">
       <div v-if="labelValue" class="flex justify-between items-center">
         <Label

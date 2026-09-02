@@ -16,6 +16,14 @@ export default {
       },
       description: "Interaction mode for showing/hiding the card.",
     },
+    disabled: {
+      type: { name: "boolean" },
+      control: "boolean",
+      table: {
+        defaultValue: { summary: "false" },
+      },
+      description: "Whether the floating card is disabled.",
+    },
   },
 } satisfies Meta<typeof FloatCard>;
 
@@ -24,6 +32,7 @@ type Story = StoryObj<typeof FloatCard>;
 const defaultArgs = {
   modelValue: false,
   mode: "click" as const,
+  disabled: false,
 };
 
 const defaultRender = (args: any) => ({
@@ -35,6 +44,7 @@ const defaultRender = (args: any) => ({
     <FloatCard 
       v-model="args.modelValue"
       :mode="args.mode"
+      :disabled="args.disabled"
     >
       <Button>Click to show card</Button>
       

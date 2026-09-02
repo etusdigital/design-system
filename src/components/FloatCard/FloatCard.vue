@@ -5,10 +5,12 @@ const props = withDefaults(
   defineProps<{
     modelValue: boolean;
     mode?: "click" | "hover";
+    disabled?: boolean;
   }>(),
   {
     modelValue: false,
     mode: "click",
+    disabled: false,
   }
 );
 
@@ -48,6 +50,8 @@ watch(
 );
 
 function updateModel(value: boolean) {
+  if (props.disabled) return;
+
   model.value = value;
   emit("update:modelValue", value);
 }
@@ -164,7 +168,7 @@ onBeforeUnmount(removeCloseListeners);
   <div
     ref="content"
     class="float-card-container"
-    @click="onTriggerClick"
+    @click="disabled ? null : onTriggerClick"
     @mouseenter="mode == 'hover' ? updateModel(true) : null"
     @mouseleave="mode == 'hover' ? closeCard() : null"
   >
