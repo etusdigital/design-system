@@ -57,7 +57,7 @@ function updateModel(value: boolean) {
 }
 
 function onTriggerClick(e: MouseEvent) {
-  if (props.mode !== "click") return;
+  if (props.mode !== "click" || props.disabled) return;
   if (content.value?.contains(e.target as Node)) updateModel(true);
 }
 
@@ -168,7 +168,7 @@ onBeforeUnmount(removeCloseListeners);
   <div
     ref="content"
     class="float-card-container"
-    @click="disabled ? null : onTriggerClick"
+    @click="onTriggerClick"
     @mouseenter="mode == 'hover' ? updateModel(true) : null"
     @mouseleave="mode == 'hover' ? closeCard() : null"
   >
