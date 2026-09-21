@@ -143,7 +143,7 @@ const style = computed((): any => {
 @reference "../../assets/main.css";
 
 .button {
-  @apply p3 font-semibold leading-base rounded-base relative inline-flex cursor-pointer items-center justify-center tracking-wider capitalize select-none active:scale-95 border-xs text-neutral-foreground-negative;
+  @apply p3 font-semibold leading-(--font-size-base) rounded-base relative inline-flex cursor-pointer items-center justify-center tracking-wider capitalize select-none active:scale-95 border-xs text-neutral-foreground-negative;
 
   .spinner {
     @apply absolute;
@@ -167,7 +167,7 @@ const style = computed((): any => {
 }
 
 .button .icon {
-  @apply text-xl leading-none;
+  @apply text-xl leading-(--font-size-base);
 }
 
 .progress {
