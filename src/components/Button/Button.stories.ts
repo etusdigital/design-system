@@ -109,6 +109,7 @@ const defaultArgs: Partial<ComponentPropsAndSlots<typeof Button>> = {
   background: "",
   loading: false,
   progress: 0,
+  icon: ""
 };
 
 const defaultHtml: string = `
@@ -125,6 +126,7 @@ const defaultHtml: string = `
     :background="args.background"
     :loading="args.loading"
     :progress="args.progress"
+    :icon="args.icon"
     @click="args.click"
   >
     Label

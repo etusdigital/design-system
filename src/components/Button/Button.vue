@@ -166,6 +166,10 @@ const style = computed((): any => {
   @apply py-base px-xl;
 }
 
+.button .icon {
+  @apply text-xl leading-none;
+}
+
 .progress {
   @apply absolute overflow-hidden top-0 left-0 bottom-0 rounded-l-sm transition-[width] ease-out duration-300;
 }
