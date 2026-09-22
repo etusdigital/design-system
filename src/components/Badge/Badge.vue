@@ -65,37 +65,33 @@ const textColor = computed(() => props.type === 'heavy' ? getContrastColor(props
 @reference "../../assets/main.css";
 
 .badge {
-  @apply flex items-center justify-center gap-xxs text-center w-fit h-fit rounded-full border-xxs;
+  @apply flex items-center justify-center gap-xxs text-center w-fit h-fit rounded-full border-xxs py-xs;
   color: v-bind(textColor);
   border-color: v-bind(color);
   background: v-bind(background);
-
-  .icon {
-    @apply leading-lg;
-  }
 }
 
 .small {
-  @apply text-xs py-xxs px-sm;
+  @apply text-xs leading-(--font-size-sm) px-sm;
 
   .icon {
-    @apply text-lg;
+    @apply text-sm leading-(--font-size-sm);
   }
 }
 
 .medium {
-  @apply text-sm py-xs px-base;
+  @apply text-sm leading-(--font-size-base) px-base;
 
   .icon {
-    @apply text-base;
+    @apply text-base leading-(--font-size-base);
   }
 }
 
 .large {
-  @apply text-lg py-sm px-lg;
+  @apply text-base leading-(--font-size-xl) px-lg;
 
   .icon {
-    @apply text-2xl;
+    @apply text-xl leading-(--font-size-xl);
   }
 }
 
