@@ -1,8 +1,9 @@
-import { useRef, useEffect, useLayoutEffect } from 'react';
-import clsx from 'clsx';
-import { useControllable } from '../../hooks/useControllable';
-import styles from './Accordion.module.css';
-import { Icon } from '../Icon';
+import { useRef, useEffect, useLayoutEffect } from "react";
+import clsx from "clsx";
+import { useControllable } from "../../hooks/useControllable";
+import styles from "./Accordion.module.css";
+import { Icon } from "../Icon";
+import { Card } from "../Card";
 
 export interface AccordionProps {
   value?: boolean;
@@ -25,7 +26,11 @@ export function Accordion({
   children,
   className,
 }: AccordionProps) {
-  const [isExpanded, setExpanded] = useControllable<boolean>({ value, defaultValue: false, onChange });
+  const [isExpanded, setExpanded] = useControllable<boolean>({
+    value,
+    defaultValue: false,
+    onChange,
+  });
   const clampedDuration = Math.min(1000, Math.max(150, duration ?? 300));
 
   const cardRef = useRef<HTMLDivElement>(null);
@@ -36,7 +41,7 @@ export function Accordion({
 
   useLayoutEffect(() => {
     if (!isExpanded && contentRef.current) {
-      contentRef.current.style.maxHeight = '0px';
+      contentRef.current.style.maxHeight = "0px";
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -44,7 +49,7 @@ export function Accordion({
     if (!contentRef.current) return;
     contentRef.current.style.maxHeight = isExpandedRef.current
       ? `${contentRef.current.scrollHeight}px`
-      : '0px';
+      : "0px";
   }
 
   useEffect(() => {
@@ -54,14 +59,14 @@ export function Accordion({
     const resizeObs = new ResizeObserver(() => resize());
     const mutationObs = new MutationObserver(() => resize());
 
-    if (cardEl) resizeObs.observe(cardEl, { box: 'border-box' });
+    if (cardEl) resizeObs.observe(cardEl, { box: "border-box" });
     if (contentEl) {
-      resizeObs.observe(contentEl, { box: 'border-box' });
+      resizeObs.observe(contentEl, { box: "border-box" });
       mutationObs.observe(contentEl, {
         childList: true,
         subtree: true,
         attributes: true,
-        attributeFilter: ['data-max-height'],
+        attributeFilter: ["data-max-height"],
       });
     }
 
@@ -82,36 +87,45 @@ export function Accordion({
   }
 
   return (
-    <div
+    <Card
       className={clsx(
         styles.accordion,
-        'accordion',
+        "accordion",
         noShadow && styles.noShadow,
-        className
+        className,
       )}
     >
       <div ref={cardRef} className="w-full flex flex-col">
         <div
-          className={clsx(styles.header, disabled && styles.disabled)}
+          className={clsx(
+            styles.header,
+            disabled && styles.disabled,
+            isExpanded && styles.expanded,
+          )}
           onClick={handleToggle}
         >
           {header && <span className={styles.headerText}>{header}</span>}
           <Icon
-            className={clsx(
-              styles.chevron,
-              isExpanded && styles.expanded
-            )}
+            className={clsx(styles.chevron, isExpanded && styles.expanded)}
             name="expand_more"
           />
         </div>
         <div
-          ref={contentRef}
-          className={styles.content}
+          className={clsx(
+            styles.contentContainer,
+            isExpanded && styles.expanded,
+          )}
           style={{ transitionDuration: `${clampedDuration}ms` }}
         >
-          {children}
+          <div
+            ref={contentRef}
+            className={styles.content}
+            style={{ transitionDuration: `${clampedDuration}ms` }}
+          >
+            {children}
+          </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

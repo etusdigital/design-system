@@ -1,8 +1,7 @@
 @reference "../../assets/main.css";
 
 .accordion {
-  @apply bg-neutral-surface-default px-base py-xs w-full;
-  @apply hover:bg-neutral-surface-hover transition-colors duration-300;
+  @apply bg-neutral-surface-default w-full;
 }
 
 .accordion:not(.noShadow) {
@@ -10,11 +9,20 @@
 }
 
 .accordion.noShadow {
+  @apply shadow-none;
+}
+
+.accordion.noShadow {
   @apply border-none;
 }
 
 .header {
-  @apply flex justify-between items-center cursor-pointer;
+  @apply flex justify-between items-center cursor-pointer px-base py-xs rounded-base;
+  @apply hover:bg-neutral-surface-hover transition-colors duration-300;
+}
+
+.header.expanded {
+  @apply rounded-b-none;
 }
 
 .header.disabled {
@@ -30,16 +38,23 @@
 }
 
 .chevron {
-  @apply text-neutral-interaction-default font-semibold;
-  transition: transform 0.3s ease;
+  @apply text-neutral-interaction-default font-semibold transition-transform ease-in-out duration-300;
 }
 
 .chevron.expanded {
-  transform: rotate(180deg);
+  @apply rotate-180;
+}
+
+.contentContainer {
+  @apply transition-[padding];
+}
+
+.contentContainer.expanded {
+  @apply px-base pt-xxs pb-xs;
 }
 
 .content {
-  overflow: hidden;
+  @apply overflow-hidden;
   transition-property: max-height;
   transition-timing-function: ease-in-out;
 }
