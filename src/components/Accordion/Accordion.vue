@@ -88,10 +88,13 @@ function changeModel() {
 
 <template>
   <Card class="accordion" :class="{ 'no-shadow': noShadow }">
-    <div class="w-full flex flex-col gap-sm" ref="card">
+    <div class="w-full flex flex-col" ref="card">
       <div
-        class="flex items-center w-full text-base cursor-pointer"
-        :class="[$slots.header ? 'justify-between' : 'justify-end']"
+        class="accordion-header"
+        :class="[
+          $slots.header ? 'justify-between' : 'justify-end', 
+          { 'rounded-b-base': !model }
+        ]"
         @click="changeModel"
       >
         <span v-if="$slots.header" class="flex-1">
@@ -107,18 +110,24 @@ function changeModel() {
           />
         </div>
       </div>
-      <Transition name="content">
-        <div
-          ref="content"
-          v-show="model"
-          class="transition-[max-height] ease-in-out"
-          :class="{ 'overflow-hidden': !model }"
-          :style="{ 'transition-duration': `${parsedDuration}ms` }"
-          data-max-height="0px"
-        >
-          <slot />
-        </div>
-      </Transition>
+      <div
+        class="transition-[padding]"
+        :class="{ 'px-base pt-xxs pb-xs': model }"
+        :style="{ 'transition-duration': `${parsedDuration}ms` }"
+      >
+        <Transition name="content">
+          <div
+            ref="content"
+            v-show="model"
+            class="transition-[max-height] ease-in-out"
+            :class="{ 'overflow-hidden': !model }"
+            :style="{ 'transition-duration': `${parsedDuration}ms` }"
+            data-max-height="0px"
+          >
+            <slot />
+          </div>
+        </Transition>
+      </div>
     </div>
   </Card>
 </template>
@@ -127,7 +136,7 @@ function changeModel() {
 @reference "../../assets/main.css";
 
 .accordion {
-  @apply bg-neutral-surface-default px-base py-xs w-full transition-colors duration-300 hover:bg-neutral-surface-hover;
+  @apply bg-neutral-surface-default w-full;
 }
 
 .accordion:not(.no-shadow) {
@@ -136,5 +145,9 @@ function changeModel() {
 
 .accordion.no-shadow {
   @apply border-none shadow-none;
+}
+
+.accordion .accordion-header {
+  @apply flex items-center w-full px-base py-xs text-base cursor-pointer rounded-t-base transition-colors duration-300 hover:bg-neutral-surface-hover;
 }
 </style>
