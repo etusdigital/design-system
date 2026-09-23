@@ -1,11 +1,7 @@
 @reference "../../assets/main.css";
 
 .badge {
-  @apply flex items-center justify-center gap-xxs text-center w-fit h-fit rounded-full border-xxs;
-}
-
-.badge :global(.icon) {
-  @apply leading-lg;
+  @apply flex items-center justify-center gap-xxs text-center w-fit h-fit rounded-full border-xxs py-xs;
 }
 
 .label {
@@ -13,27 +9,27 @@
 }
 
 .small {
-  @apply text-xs py-xxs px-sm;
+  @apply text-xs leading-(--font-size-sm) px-sm;
 }
 
 .small :global(.icon) {
-  @apply text-lg;
+  @apply text-sm leading-(--font-size-sm);
 }
 
 .medium {
-  @apply text-sm py-xs px-base;
+  @apply text-sm leading-(--font-size-base) px-base;
 }
 
 .medium :global(.icon) {
-  @apply text-base;
+  @apply text-base leading-(--font-size-base);
 }
 
 .large {
-  @apply text-lg py-sm px-lg;
+  @apply text-base leading-(--font-size-xl) px-lg;
 }
 
 .large :global(.icon) {
-  @apply text-2xl;
+  @apply text-xl leading-(--font-size-xl);
 }
 
 .secondary {
