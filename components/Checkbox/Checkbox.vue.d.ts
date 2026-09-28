@@ -17,6 +17,9 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
+    tabindex: {
+        default: number;
+    };
 }>, (_ctx: any, _cache: any) => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
     [key: string]: any;
 }>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
@@ -38,9 +41,13 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
+    tabindex: {
+        default: number;
+    };
 }>> & Readonly<{
     "onUpdate:modelValue"?: (...args: any[]) => any;
 }>, {
+    tabindex: number;
     modelValue: boolean;
     rhs: boolean;
     allowIndeterminate: boolean;
