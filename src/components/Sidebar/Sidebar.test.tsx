@@ -28,15 +28,15 @@ describe('Sidebar', () => {
     expect(handleChange).toHaveBeenCalledWith('settings');
   });
 
-  it('collapsed mode applies collapsed CSS class', () => {
-    const { container } = render(<Sidebar options={options} />);
-    const sidebar = container.firstChild as HTMLElement;
-    expect(sidebar.className).toMatch(/collapsed/);
+  it('collapsed mode hides option labels', () => {
+    render(<Sidebar options={options} />);
+    expect(screen.queryByText('Home')).toBeNull();
+    expect(screen.queryByText('Settings')).toBeNull();
   });
 
-  it('expanded mode applies expanded CSS class', () => {
-    const { container } = render(<Sidebar options={options} expanded />);
-    const sidebar = container.firstChild as HTMLElement;
-    expect(sidebar.className).toMatch(/expanded/);
+  it('expanded mode shows option labels', () => {
+    render(<Sidebar options={options} expanded />);
+    expect(screen.getByText('Home')).toBeInTheDocument();
+    expect(screen.getByText('Settings')).toBeInTheDocument();
   });
 });

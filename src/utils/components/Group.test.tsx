@@ -60,7 +60,7 @@ describe('Group', () => {
 
   it('updates value in context when select() is called', () => {
     render(
-      <Group value={null}>
+      <Group>
         <TestConsumer />
       </Group>
     );

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
 import { isObject } from '../../utils';
@@ -84,7 +84,19 @@ export function Select({
     onChange: onExpandedChange,
   });
 
-  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const optionRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const pendingFocusRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (isOpen) return;
+    setSelectedIndex(null);
+    pendingFocusRef.current = null;
+  }, [isOpen]);
+
+  useEffect(() => {
+    setSelectedIndex(null);
+  }, [searchText]);
 
   function getLabel(option: any): string {
     return isObject(option) ? option[labelKey] : String(option ?? '');
@@ -117,7 +129,6 @@ export function Select({
     } else {
       setModel(emitValue);
       setIsOpen(false);
-      setHighlightedIndex(-1);
     }
   }
 
@@ -152,60 +163,51 @@ export function Select({
     ? (Array.isArray(model) && model.length > 0)
     : model != null;
 
+  function focusOption(index: number) {
+    setSelectedIndex(index);
+    const option = optionRefs.current[index];
+    if (option) option.focus();
+    else pendingFocusRef.current = index;
+  }
+
   function handleKeyDown(e: React.KeyboardEvent) {
     if (disabled) return;
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      setIsOpen(false);
+      return;
+    }
+
+    const last = filteredOptions.length - 1;
+    if (last < 0) return;
+
+    const hasSelection = selectedIndex != null;
     switch (e.key) {
-      case 'ArrowDown':
-        e.preventDefault();
-        if (!isOpen) {
-          setIsOpen(true);
-          setHighlightedIndex(0);
-        } else {
-          setHighlightedIndex((prev) =>
-            prev < filteredOptions.length - 1 ? prev + 1 : prev
-          );
-        }
-        break;
       case 'ArrowUp':
         e.preventDefault();
-        if (!isOpen) {
-          setIsOpen(true);
-          setHighlightedIndex(filteredOptions.length - 1);
-        } else {
-          setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : prev));
-        }
+        if (!isOpen) setIsOpen(true);
+        focusOption(hasSelection ? Math.max(selectedIndex - 1, 0) : last);
+        break;
+      case 'ArrowDown':
+        e.preventDefault();
+        if (!isOpen) setIsOpen(true);
+        focusOption(hasSelection ? Math.min(selectedIndex + 1, last) : 0);
         break;
       case 'Home':
+        if (!isOpen) break;
         e.preventDefault();
-        if (isOpen && filteredOptions.length > 0) {
-          setHighlightedIndex(0);
-        }
+        focusOption(0);
         break;
       case 'End':
+        if (!isOpen) break;
         e.preventDefault();
-        if (isOpen && filteredOptions.length > 0) {
-          setHighlightedIndex(filteredOptions.length - 1);
-        }
-        break;
-      case 'Enter':
-        e.preventDefault();
-        if (isOpen && highlightedIndex >= 0 && highlightedIndex < filteredOptions.length) {
-          selectOption(filteredOptions[highlightedIndex]);
-        }
-        break;
-      case 'Escape':
-        e.preventDefault();
-        setIsOpen(false);
-        setHighlightedIndex(-1);
+        focusOption(last);
         break;
     }
   }
 
   function handleExpandedChange(val: boolean) {
     setIsOpen(val);
-    if (!val) {
-      setHighlightedIndex(-1);
-    }
   }
 
   const childIsRenderFn = typeof children === 'function';
@@ -243,12 +245,20 @@ export function Select({
   const optionsNode = filteredOptions.map((option, index) => (
     <Option
       key={index}
+      ref={(el) => {
+        optionRefs.current[index] = el;
+        if (el && pendingFocusRef.current === index) {
+          pendingFocusRef.current = null;
+          el.focus();
+        }
+      }}
       selected={!multiple && isOptionSelected(option)}
       disabled={option?.disabled}
       secondary={secondary}
       noHover={multiple}
-      className={clsx(styles.optionContent, index === highlightedIndex && styles.highlighted)}
+      className={styles.optionContent}
       onClick={() => selectOption(option)}
+      onFocus={() => setSelectedIndex(index)}
     >
       {multiple && (
         <Checkbox value={isOptionSelected(option)} className="pointer-events-none" />

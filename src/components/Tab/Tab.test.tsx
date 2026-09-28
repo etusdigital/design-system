@@ -28,7 +28,7 @@ describe('Tab', () => {
   });
 
   it('active tab has active class', () => {
-    render(<Tab options={['First', 'Second', 'Third']} value={1} />);
+    render(<Tab options={['First', 'Second', 'Third']} value="Second" />);
     const buttons = screen.getAllByRole('button');
     expect(buttons[1].className).toContain('active');
     expect(buttons[0].className).not.toContain('active');
@@ -39,7 +39,7 @@ describe('Tab', () => {
     render(<Tab options={['First', 'Second', 'Third']} onChange={handleChange} />);
     const buttons = screen.getAllByRole('button');
     fireEvent.click(buttons[2]);
-    expect(handleChange).toHaveBeenCalledWith(2);
+    expect(handleChange).toHaveBeenCalledWith('Third');
   });
 
   it('switches active tab on click (uncontrolled)', () => {

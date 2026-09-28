@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { ToggleGroup } from './index';
@@ -22,9 +23,11 @@ describe('ToggleGroup', () => {
   });
 
   it('selecting one option updates the group selection', () => {
-    const { getAllByRole } = render(
-      <ToggleGroup options={defaultOptions} value={1} />
-    );
+    function StatefulToggleGroup() {
+      const [value, setValue] = useState<any>(1);
+      return <ToggleGroup options={defaultOptions} value={value} onChange={setValue} />;
+    }
+    const { getAllByRole } = render(<StatefulToggleGroup />);
     const buttons = getAllByRole('button');
     expect(buttons[0].getAttribute('aria-pressed')).toBe('true');
     fireEvent.click(buttons[1]);

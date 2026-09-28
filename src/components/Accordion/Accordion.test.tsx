@@ -37,7 +37,7 @@ describe('Accordion', () => {
     await act(async () => {
       vi.runAllTimers();
     });
-    const contentEl = document.querySelector('[class*="content"]') as HTMLElement;
+    const contentEl = screen.getByText('accordion body').parentElement as HTMLElement;
     expect(contentEl).toBeTruthy();
     expect(contentEl.style.maxHeight).toBe('0px');
   });

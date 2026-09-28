@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { TagInput } from './index';
@@ -30,7 +31,11 @@ describe('TagInput', () => {
   });
 
   it('removes tag on backspace when textarea is empty', () => {
-    render(<TagInput value={['tag1', 'tag2']} />);
+    function StatefulTagInput() {
+      const [tags, setTags] = useState<any[]>(['tag1', 'tag2']);
+      return <TagInput value={tags} onChange={setTags} />;
+    }
+    render(<StatefulTagInput />);
     const textarea = document.querySelector('textarea')!;
     fireEvent.keyDown(textarea, { key: 'Backspace' });
     expect(screen.queryByText('tag2')).toBeNull();

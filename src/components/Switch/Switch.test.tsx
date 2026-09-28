@@ -9,7 +9,7 @@ describe('Switch', () => {
   });
 
   it('toggles value on click', () => {
-    render(<Switch value={false} />);
+    render(<Switch />);
     const switchEl = document.querySelector('[role="switch"]')!;
     expect(switchEl).toHaveAttribute('aria-checked', 'false');
     fireEvent.click(switchEl);

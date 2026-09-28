@@ -91,7 +91,11 @@ export function FloatCard({
   }
 
   useEffect(() => {
-    if (isOpen) return;
+    if (isOpen) {
+      if (contentRef.current?.contains(document.activeElement))
+        previousFocusRef.current = document.activeElement as HTMLElement;
+      return;
+    }
 
     const previousFocus = previousFocusRef.current;
     previousFocusRef.current = null;

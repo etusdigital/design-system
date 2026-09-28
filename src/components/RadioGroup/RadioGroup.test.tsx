@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { RadioGroup } from './index';
@@ -36,7 +37,11 @@ describe('RadioGroup', () => {
       { label: 'B', value: 'b' },
       { label: 'C', value: 'c' },
     ];
-    render(<RadioGroup value="a" options={options} />);
+    function StatefulRadioGroup() {
+      const [value, setValue] = useState<any>('a');
+      return <RadioGroup value={value} onChange={setValue} options={options} />;
+    }
+    render(<StatefulRadioGroup />);
     const radios = screen.getAllByRole('radio');
 
     expect(radios[0]).toHaveAttribute('aria-checked', 'true');

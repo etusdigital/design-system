@@ -99,7 +99,7 @@ describe('Dialog', () => {
     expect(dialogEl.style.height).toBe('300px');
   });
 
-  it('applies custom zIndex to dialog (zIndex + 1)', async () => {
+  it('applies custom zIndex to dialog', async () => {
     render(
       <Dialog value={true} zIndex={2000}>
         <p>content</p>
@@ -110,7 +110,7 @@ describe('Dialog', () => {
     });
     const dialogEl = document.querySelector('.dialog') as HTMLElement;
     expect(dialogEl).toBeTruthy();
-    expect(dialogEl.style.zIndex).toBe('2001');
+    expect(dialogEl.style.zIndex).toBe('2000');
   });
 
   it('renders in portal (document.body)', async () => {

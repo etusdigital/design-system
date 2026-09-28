@@ -103,7 +103,8 @@ export function Container({
   }
 
   function onKeyDown(e: React.KeyboardEvent) {
-    if (label || (e.key !== 'Enter' && e.key !== ' ')) return;
+    if (label || e.target !== e.currentTarget) return;
+    if (e.key !== 'Enter' && e.key !== ' ') return;
     e.preventDefault();
     toggle();
   }
@@ -145,7 +146,7 @@ export function Container({
                 {!hideArrow && (
                   <Icon
                     name={icon}
-                    className={clsx('arrow-icon leading-xs', {
+                    className={clsx('arrow-icon', {
                       'text-neutral-interaction-disabled': disabled,
                       'text-danger-interaction-default': isError,
                       expanded: isExpanded,

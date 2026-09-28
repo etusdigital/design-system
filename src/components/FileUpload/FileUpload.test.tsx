@@ -37,7 +37,7 @@ describe('FileUpload', () => {
 
     expect(screen.getByText('my-document.pdf')).toBeTruthy();
 
-    const deleteBtn = screen.getByLabelText('Remove file');
+    const deleteBtn = screen.getByText('delete');
     fireEvent.click(deleteBtn);
 
     expect(screen.queryByText('my-document.pdf')).toBeNull();
@@ -65,10 +65,10 @@ describe('FileUpload', () => {
   it('controlled mode: value prop sets file, onChange fires on drop', () => {
     const existingFile = new File(['content'], 'existing.pdf', { type: 'application/pdf' });
     const handleChange = vi.fn();
-    render(<FileUpload value={existingFile} onChange={handleChange} />);
+    const { container } = render(<FileUpload value={existingFile} onChange={handleChange} />);
     expect(screen.getByText('existing.pdf')).toBeTruthy();
     const newFile = new File(['new'], 'new-file.pdf', { type: 'application/pdf' });
-    const dropZone = document.querySelector('[class]') as HTMLElement;
+    const dropZone = container.querySelector('.file-upload')!.firstElementChild as HTMLElement;
     fireEvent.drop(dropZone, {
       dataTransfer: { files: [newFile] },
     });
