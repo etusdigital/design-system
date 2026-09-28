@@ -29,6 +29,18 @@ declare const _default: {
             };
             description: string;
         };
+        manualFocus: {
+            type: {
+                name: string;
+            };
+            control: string;
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
     };
 };
 export default _default;
