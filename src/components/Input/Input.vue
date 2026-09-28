@@ -274,7 +274,9 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
               focus: isFocused,
               'cursor-pointer': isTypeValid('password'),
             }"
+            tabindex="0"
             @click="showPass = !showPass && isTypeValid('password')"
+            @keyup.enter.space="showPass = !showPass && isTypeValid('password')"
           />
         </slot>
       </div>
@@ -290,13 +292,17 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
       >
         <Icon
           name="arrow_drop_up"
+          tabindex="0"
           class="number-icon"
           @click="increaseOrDecrease(+step)"
+          @keyup.enter.space="increaseOrDecrease(+step)"
         />
         <Icon
           name="arrow_drop_down"
+          tabindex="0"
           class="number-icon"
           @click="increaseOrDecrease(-step)"
+          @keyup.enter.space="increaseOrDecrease(-step)"
         />
       </div>
     </div>

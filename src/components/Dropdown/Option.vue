@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { nextTick, ref } from "vue";
 import { useOptionalModel } from "#composables";
 import { type Option } from "#utils/types/DropOption";
 import { isObject } from "../../utils";
@@ -28,6 +28,7 @@ const [model] = useOptionalModel<any>(props, "modelValue", emit, "");
 const [isSelected] = useOptionalModel<boolean>(props, "selected", emit, false);
 
 const expanded = ref(false);
+const root = ref<HTMLElement>();
 
 function selectOption(option: Option) {
   if (!props.option.options?.length) {
@@ -44,8 +45,68 @@ function changeSelected(selected: boolean) {
   emit("update:selected", selected);
 }
 
-function handleBlur() {
+function handleFocusOut(e: FocusEvent) {
+  if (root.value?.contains(e.relatedTarget as Node)) return;
   expanded.value = false;
+}
+
+function getOptionElements(container?: Element | null): HTMLElement[] {
+  return Array.from(container?.children ?? []).filter((el) =>
+    el.hasAttribute("data-dropdown-option")
+  ) as HTMLElement[];
+}
+
+async function focusFirstSubOption() {
+  expanded.value = true;
+  await nextTick();
+  const subOptions = root.value?.querySelector(".sub-options");
+  getOptionElements(subOptions)[0]?.focus();
+}
+
+function onKeyDown(e: KeyboardEvent) {
+  if (e.target !== root.value) return;
+
+  const siblings = getOptionElements(root.value.parentElement);
+  const index = siblings.indexOf(root.value);
+  const hasSubOptions = !!props.option.options?.length;
+  switch (e.key) {
+    case "ArrowDown":
+      e.preventDefault();
+      siblings[Math.min(index + 1, siblings.length - 1)]?.focus();
+      break;
+    case "ArrowUp":
+      e.preventDefault();
+      siblings[Math.max(index - 1, 0)]?.focus();
+      break;
+    case "Home":
+      e.preventDefault();
+      siblings[0]?.focus();
+      break;
+    case "End":
+      e.preventDefault();
+      siblings[siblings.length - 1]?.focus();
+      break;
+    case "ArrowRight":
+      if (!hasSubOptions) break;
+      e.preventDefault();
+      focusFirstSubOption();
+      break;
+    case "ArrowLeft": {
+      const parentOption = root.value.parentElement?.closest<HTMLElement>(
+        "[data-dropdown-option]"
+      );
+      if (!parentOption) break;
+      e.preventDefault();
+      parentOption.focus();
+      break;
+    }
+    case "Enter":
+    case " ":
+      e.preventDefault();
+      if (hasSubOptions) focusFirstSubOption();
+      else selectOption(props.option);
+      break;
+  }
 }
 
 function getValue(option: any): any {
@@ -54,7 +115,14 @@ function getValue(option: any): any {
 </script>
 
 <template>
-  <div class="relative" tabindex="0" @blur="handleBlur">
+  <div
+    ref="root"
+    class="relative"
+    tabindex="0"
+    data-dropdown-option
+    @focusout="handleFocusOut"
+    @keydown="onKeyDown"
+  >
     <div
       class="option"
       :class="{
@@ -62,7 +130,6 @@ function getValue(option: any): any {
         disabled: option.disabled,
       }"
       @click="selectOption(option)"
-      @keydown.enter="selectOption(option)"
     >
       <div class="flex items-center gap-xs">
         <Icon :name="option.icon" class="icon" v-if="option.icon" />

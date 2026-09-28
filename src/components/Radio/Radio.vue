@@ -67,6 +67,7 @@ function toggle() {
     class="radio"
     :class="[variant, { disabled: isDisabled, active: model }]"
     @click="toggle"
+    @keyup.enter.space="toggle"
   >
     <span tabindex="0" class="out-circle" @keyup.space="toggle">
       <span class="inside-circle" />

@@ -12,12 +12,14 @@ const props = withDefaults(
     rhs?: boolean;
     allowIndeterminate?: boolean;
     disabled?: boolean;
+    tabindex?: number | string;
   }>(),
   {
     modelValue: undefined,
     rhs: false,
     allowIndeterminate: false,
     disabled: false,
+    tabindex: 0,
   }
 );
 
@@ -58,7 +60,7 @@ function toggle() {
     @click="toggle"
   >
     <div
-      tabindex="0"
+      :tabindex="tabindex"
       class="content"
       :class="{ active: isActive }"
       @keyup.space="toggle"

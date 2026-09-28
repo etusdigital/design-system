@@ -1613,7 +1613,7 @@ function camelToKebabCase(str: string): string {
               <template #cancel-label>
                 <slot name="cancel-label"> Cancel </slot>
               </template>
-              <Option :disabled="disabled">
+              <Option :disabled="disabled" :tabindex="-1">
                 <Icon :name="item.icon" class="rich-text-editor-icon" />
               </Option>
             </Colors>
@@ -1622,6 +1622,7 @@ function camelToKebabCase(str: string): string {
               class="relative"
               :selected="item.selected"
               :disabled="disabled || (item.disabled && item.disabled())"
+              :tabindex="-1"
               @click="
                 item.action
                   ? item.action(item.value)

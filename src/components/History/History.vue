@@ -27,6 +27,12 @@ const [model, setModel] = useOptionalModel<any>(
   emit,
   null
 );
+
+function changeModel(option: any, index: number) {
+  if (props.disabled) return
+
+  setModel(option, { index })
+}
 </script>
 
 <template>
@@ -35,6 +41,7 @@ const [model, setModel] = useOptionalModel<any>(
       v-for="(option, index) in options"
       :key="index"
       class="option"
+      tabindex="0"
       :class="[
         position,
         option.type ? option.type : type,
@@ -45,7 +52,8 @@ const [model, setModel] = useOptionalModel<any>(
           disabled: disabled,
         },
       ]"
-      @click="!disabled && setModel(option, { index })"
+      @click="changeModel(option, index)"
+      @keyup.enter.space="changeModel(option, index)"
     >
       <div
         class="circle"

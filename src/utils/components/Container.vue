@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // @TODO: Fix border width for container with sub items
-import { ref, onMounted, onUpdated, onBeforeUnmount, computed, useSlots } from "vue";
+import { ref, onMounted, onUpdated, onBeforeUnmount, computed } from "vue";
 import type { ContainerModelExtra } from "../types/ContainerModelExtra";
 import { useOptionalModel } from "#composables";
 import Label from "./Label.vue";
@@ -55,7 +55,7 @@ const [model, setModel] = useOptionalModel<boolean>(
   false
 );
 const container = ref<HTMLDivElement>();
-const slots = useSlots();
+const labelContent = ref<HTMLDivElement>();
 
 const isExpanded = computed((): boolean =>
   props.disabled ? false : model.value
@@ -91,7 +91,7 @@ function toggle() {
 }
 
 function onKeyDown(e: KeyboardEvent) {
-  if (slots.label || e.target !== e.currentTarget) return;
+  if (!labelContent.value || e.target !== e.currentTarget) return;
   if (e.key !== "Enter" && e.key !== " ") return;
 
   e.preventDefault();
@@ -121,6 +121,7 @@ function onKeyDown(e: KeyboardEvent) {
       >
         <slot name="label">
           <div
+            ref="labelContent"
             class="label-content"
             :class="{
               disabled,

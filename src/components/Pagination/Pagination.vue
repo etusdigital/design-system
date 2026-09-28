@@ -79,8 +79,10 @@ function changePage(page: number) {
   <div class="pagination">
     <div
       class="page-icon"
+      :tabindex="model == 1 ? -1 : 0"
       :class="{ disabled: model == 1 }"
       @click="changePage(model - 1)"
+      @keyup.enter.space="changePage(model - 1)"
     >
       <Icon name="chevron_left" />
     </div>
@@ -90,6 +92,8 @@ function changePage(page: number) {
         <div
           v-else
           @click="changePage(page as number)"
+          @keyup.enter.space="changePage(page as number)"
+          tabindex="0"
           class="page-number"
           :class="{ active: page === model }"
         >
@@ -99,8 +103,10 @@ function changePage(page: number) {
     </div>
     <div
       class="page-icon"
+      :tabindex="model == pageLength ? -1 : 0"
       :class="{ disabled: model == pageLength }"
       @click="changePage(model + 1)"
+      @keyup.enter.space="changePage(model + 1)"
     >
       <Icon name="chevron_right" />
     </div>

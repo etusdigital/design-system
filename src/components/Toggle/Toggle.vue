@@ -69,7 +69,7 @@ function toggle() {
     ]"
     tabindex="0"
     @click="toggle"
-    @keyup.space="toggle"
+    @keyup.enter.space="toggle"
   >
     <slot />
   </div>

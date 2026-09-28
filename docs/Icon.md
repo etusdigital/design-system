@@ -27,6 +27,13 @@ Find available icons at [Google Material Symbols](https://fonts.google.com/icons
 #### filled
 Changes the icon style to filled version. Type: `boolean` (default: `false`)
 
+#### tabindex
+Tab index of the focusable box. Type: `number | string` (default: `0`)
+
+Use `:tabindex="0"` when the icon is a focusable element.
+
+### Events API
+
 #### @click
 Allow the icon to have a click action. Native events fall through to the underlying `<span>`.
 

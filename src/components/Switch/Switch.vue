@@ -40,7 +40,7 @@ function switchState() {
             tabindex="0"
             class="container"
             :class="{ active: model }"
-            @keyup.space="switchState"
+            @keyup.enter.space="switchState"
         >
             <div
                 class="inline-block rounded-full w-[.85em] h-[.85em] bg-current transition"

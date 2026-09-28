@@ -134,8 +134,10 @@ function onKeyDown(event: KeyboardEvent) {
 <template>
   <span
     class="image"
+    :tabindex="preview ? 0 : -1"
     @mouseenter="isHovering = true"
     @mouseleave="isHovering = false"
+    @keyup.enter.space="showPreview"
   >
     <slot name="image">
       <img :src="src" :alt="alt" :style="imageStyle" class="image-content" />
@@ -190,6 +192,7 @@ function onKeyDown(event: KeyboardEvent) {
               class="tool"
               color="neutral"
               variant="plain"
+              size="small"
               round
               @click="tool.click"
             />

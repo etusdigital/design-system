@@ -77,13 +77,15 @@ function restoreFocus() {
   )
     return;
 
-  lastFocus.focus({ preventScroll: true });
-  if (document.activeElement !== lastFocus)
-    content.value
-      ?.querySelector<HTMLElement>(
-        '[tabindex="0"], button:not([disabled]), input:not([disabled]), a[href]'
-      )
-      ?.focus({ preventScroll: true });
+  nextTick(() => {
+    lastFocus.focus({ preventScroll: true });
+    if (document.activeElement !== lastFocus)
+      content.value
+        ?.querySelector<HTMLElement>(
+          '[tabindex="0"], button:not([disabled]), input:not([disabled]), a[href]'
+        )
+        ?.focus({ preventScroll: true });
+  });
 }
 
 function onTriggerKeyDown(e: KeyboardEvent) {
@@ -101,7 +103,7 @@ function updateModel(value: boolean) {
   emit("update:modelValue", value);
 }
 
-function onTriggerClick(e: MouseEvent) {
+function onTriggerClick(e: MouseEvent | KeyboardEvent) {
   if (props.mode !== "click" || props.disabled) return;
   if (content.value?.contains(e.target as Node)) updateModel(true);
 }
@@ -216,6 +218,7 @@ onBeforeUnmount(removeCloseListeners);
     ref="content"
     class="float-card-container"
     @click="onTriggerClick"
+    @keyup.enter.space="onTriggerClick"
     @mouseenter="mode == 'hover' ? updateModel(true) : null"
     @mouseleave="mode == 'hover' ? closeCard() : null"
     @keydown="onTriggerKeyDown"

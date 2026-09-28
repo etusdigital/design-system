@@ -45,6 +45,12 @@ const background = computed((): string => {
 });
 
 const textColor = computed(() => props.type === 'heavy' ? getContrastColor(props.color) : props.color);
+
+function close(e: Event) {
+  if (!props.closeable) return
+  e.stopPropagation()
+  emit('close')
+}
 </script>
 
 <template>
@@ -55,8 +61,8 @@ const textColor = computed(() => props.type === 'heavy' ? getContrastColor(props
       <p class="font-semibold whitespace-nowrap truncate" v-if="labelValue || $slots.default">
         <slot>{{ labelValue }}</slot>
       </p>
-      <Icon :class="{ 'cursor-pointer': closeable }" :name="appendedIcon" v-if="appendedIcon"
-        @click="closeable && emit('close')" />
+      <Icon class="close-icon" :class="{ 'cursor-pointer': closeable }" :tabindex="closeable ? 0 : -1" :name="appendedIcon"
+        v-if="appendedIcon" @click="close" @keyup.enter.space="close" />
     </template>
   </div>
 </template>

@@ -3,15 +3,17 @@ withDefaults(
   defineProps<{
     name?: string;
     filled?: boolean;
+    tabindex?: string | number
   }>(),
   {
     filled: false,
+    tabindex: -1
   }
 );
 </script>
 
 <template>
-  <span class="material-symbols-rounded icon" :class="{ filled: filled }">
+  <span class="material-symbols-rounded icon" :tabindex="tabindex" :class="{ filled: filled }">
     {{ name }}
   </span>
 </template>

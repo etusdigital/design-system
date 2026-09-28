@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useOptionalModel } from "#composables";
 import SelectContainer from "../../utils/components/SelectContainer.vue";
 import Option from "@/utils/components/Option.vue";
@@ -56,6 +56,8 @@ const [expanded, setExpanded] = useOptionalModel<boolean>(
 // (the trigger lives outside the teleported card, so FloatCard would otherwise
 // treat clicking/typing in it as an "outside" click) keep the dropdown open.
 const focus = ref(false);
+const selectedIndex = ref<number | null>(null);
+const optionRefs = ref<HTMLElement[]>([]);
 
 const filteredOptions = computed(() => {
   if (!model.value) return props.options ?? [];
@@ -66,6 +68,23 @@ const filteredOptions = computed(() => {
       .includes(model.value?.toString().toLowerCase())
   );
 });
+
+watch(expanded, (value) => {
+  if (!value) selectedIndex.value = null;
+});
+
+watch(model, () => {
+  selectedIndex.value = null;
+});
+
+watch(
+  selectedIndex,
+  (index) => {
+    if (index == null) return;
+    optionRefs.value[index]?.focus();
+  },
+  { flush: "post" }
+);
 
 function handleExpanded(value: boolean, extra?: any) {
   if (extra?.source === "blur") setExpanded(value && focus.value);
@@ -88,6 +107,47 @@ function selectOption(option: number | string) {
   setModel(option);
   setExpanded(false);
 }
+
+function onKeyDown(e: KeyboardEvent) {
+  const last = filteredOptions.value.length - 1;
+  if (last < 0) return;
+
+  const hasSelection = selectedIndex.value != null;
+  switch (e.key) {
+    case "ArrowUp":
+      e.preventDefault();
+      if (!expanded.value) setExpanded(true);
+      selectedIndex.value = hasSelection
+        ? Math.max(selectedIndex.value! - 1, 0)
+        : last;
+      break;
+    case "ArrowDown":
+      e.preventDefault();
+      if (!expanded.value) setExpanded(true);
+      selectedIndex.value = hasSelection
+        ? Math.min(selectedIndex.value! + 1, last)
+        : 0;
+      break;
+  }
+}
+
+function onOptionKeyDown(e: KeyboardEvent) {
+  switch (e.key) {
+    case " ":
+      e.preventDefault();
+      break;
+    case "Home":
+      e.preventDefault();
+      selectedIndex.value = 0;
+      break;
+    case "End":
+      e.preventDefault();
+      selectedIndex.value = filteredOptions.value.length - 1;
+      break;
+    default:
+      onKeyDown(e);
+  }
+}
 </script>
 
 <template>
@@ -103,6 +163,7 @@ function selectOption(option: number | string) {
       :required="required"
       :max-height="maxHeight"
       :min-width="minWidth"
+      @keydown="onKeyDown"
       @update:model-value="handleExpanded"
     >
       <template #label>
@@ -124,12 +185,15 @@ function selectOption(option: number | string) {
         <template v-if="filteredOptions.length">
           <Option
             v-for="(option, index) in filteredOptions"
+            :ref="(el: any) => (optionRefs[index] = el?.$el)"
             :key="index"
             :aria-selected="model == option"
             :selected="model == option"
             :class="{ 'font-bold': model == option }"
+            @focus="selectedIndex = index"
             @click="selectOption(option)"
-            @keyup.space="selectOption(option)"
+            @keydown="onOptionKeyDown"
+            @keyup.enter.space="selectOption(option)"
           >
             <slot name="option" :option="option" :index="index">
               {{ option }}

@@ -310,6 +310,38 @@ function updateSlider(
   setModel(getModel());
 }
 
+function onCursorKeyDown(event: KeyboardEvent, index: number) {
+  if (props.disabled) return;
+
+  const increaseKey = props.vertical ? "ArrowUp" : "ArrowRight";
+  const decreaseKey = props.vertical ? "ArrowDown" : "ArrowLeft";
+
+  let direction = 0;
+  if (event.key === increaseKey) direction = 1;
+  else if (event.key === decreaseKey) direction = -1;
+  else return;
+
+  event.preventDefault();
+  const current = percentage.value[index];
+  let next: number | undefined;
+
+  if (props.steps && props.steps.length) {
+    const steps = [...props.steps].sort((a: number, b: number) => a - b);
+    next =
+      direction > 0
+        ? steps.find((step: number) => step > current)
+        : steps.reverse().find((step: number) => step < current);
+  } else {
+    next = Math.min(1, Math.max(0, current + direction * 0.01));
+    next = Math.round(next * 10000) / 10000;
+  }
+
+  if (next === undefined || next === current) return;
+
+  percentage.value[index] = next;
+  setModel(getModel());
+}
+
 function calculateCursor() {
   cursors.value?.forEach((cursor, index) => {
     if (!cursor || !slider.value) return;
@@ -419,6 +451,8 @@ function changeFillBarPosition() {
       :key="index"
       class="cursor cursor-slider relative select-none"
       :class="{ grabbing: value, colored: color }"
+      :tabindex="disabled ? -1 : 0"
+      @keydown="(e: KeyboardEvent) => onCursorKeyDown(e, index)"
       @mousedown="(e: MouseEvent) => startDraggingSlider(e, index)"
       @touchstart="(e: TouchEvent) => startDraggingSliderTouch(e, index)"
     >

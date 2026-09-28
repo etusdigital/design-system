@@ -298,6 +298,7 @@ function clearModel() {
           v-if="multiple"
           :model-value="isSelected(option)"
           class="pointer-events-none"
+          :tabindex="-1"
         />
         <slot name="option" :option="option" :index="index">
           {{ getLabel(option) }}

@@ -59,6 +59,8 @@ const [optionsModel, setOptionsModel] = useOptionalModel<any>(
 
 const expandedModel = ref(props.expanded);
 const searchText = ref("");
+const selectedIndex = ref<number | null>(null);
+const optionRefs = ref<HTMLElement[]>([]);
 
 const searchedOptions = computed((): any[] => {
   if (!searchText.value) {
@@ -85,6 +87,23 @@ watch(
   }
 );
 
+watch(expandedModel, (value) => {
+  if (!value) selectedIndex.value = null;
+});
+
+watch(searchText, () => {
+  selectedIndex.value = null;
+});
+
+watch(
+  selectedIndex,
+  (index) => {
+    if (index == null) return;
+    optionRefs.value[index]?.focus();
+  },
+  { flush: "post" }
+);
+
 function addTag(tag: string) {
   if (props.isError || !tag) return;
 
@@ -103,25 +122,44 @@ function removeTag(index: number) {
   setModel(model.value, { index: index });
 }
 
-function onKeyUp(e: KeyboardEvent) {
-  function setSelection(index: number) {
-    setModel([...model.value, optionsModel.value[index]], { index });
-    e.preventDefault();
-  }
+function onKeyDown(e: KeyboardEvent) {
+  const last = searchedOptions.value.length - 1;
+  if (last < 0) return;
 
+  const hasSelection = selectedIndex.value != null;
   switch (e.key) {
-    case "Home":
-    case "ArrowDown":
-      setSelection(0);
-      break;
-
-    case "End":
     case "ArrowUp":
-      {
-        const index = optionsModel.value.length - 1;
-        setSelection(index);
-      }
+      e.preventDefault();
+      if (!expandedModel.value) changeExpanded(true, { source: "click" });
+      selectedIndex.value = hasSelection
+        ? Math.max(selectedIndex.value! - 1, 0)
+        : last;
       break;
+    case "ArrowDown":
+      e.preventDefault();
+      if (!expandedModel.value) changeExpanded(true, { source: "click" });
+      selectedIndex.value = hasSelection
+        ? Math.min(selectedIndex.value! + 1, last)
+        : 0;
+      break;
+  }
+}
+
+function onOptionKeyDown(e: KeyboardEvent) {
+  switch (e.key) {
+    case " ":
+      e.preventDefault();
+      break;
+    case "Home":
+      e.preventDefault();
+      selectedIndex.value = 0;
+      break;
+    case "End":
+      e.preventDefault();
+      selectedIndex.value = searchedOptions.value.length - 1;
+      break;
+    default:
+      onKeyDown(e);
   }
 }
 
@@ -137,16 +175,6 @@ function isIncluded(options: any, option: any) {
     return options.find((i: any) => i[props.labelKey] === option[props.labelKey]);
   }
   return options?.includes(option);
-}
-
-function handleSlotClick(e: MouseEvent) {
-  if (!e.target) return;
-  setTimeout(() => {
-    if (!(e.target as Element)?.classList?.contains("close-icon")) {
-      expandedModel.value = true;
-      emit("update:expanded", true, { source: "click" });
-    }
-  }, 1);
 }
 
 function changeExpanded(value: boolean, extra: any) {
@@ -172,7 +200,7 @@ function checkSource(value: boolean, extra: any) {
     :info-message="infoMessage"
     max-height="none"
     min-width="12em"
-    @keyup="onKeyUp"
+    @keydown="onKeyDown"
     @click="changeExpanded(true, { source: 'click' })"
     @update:model-value="checkSource"
   >
@@ -183,7 +211,6 @@ function checkSource(value: boolean, extra: any) {
       :icon="icon"
       :options="options"
       :is-error="isError"
-      @click="handleSlotClick"
       @update:expanded="changeExpanded"
     >
       <template #search-label>
@@ -226,12 +253,13 @@ function checkSource(value: boolean, extra: any) {
             class="tag"
             v-for="(option, index) in model"
             :key="index"
+            closeable
+            @close="removeTag(Number(index))"
           >
             <div class="tag-default py-xxs">
               <p class="font-bold text-xs truncate">
                 {{ isObject(option) ? option[labelKey] : option }}
               </p>
-              <Icon name="close" @click="removeTag(Number(index))" class="close-icon" />
             </div>
           </StatusBadge>
         </div>
@@ -254,12 +282,14 @@ function checkSource(value: boolean, extra: any) {
       <template v-else>
         <Option
           v-for="(option, index) in searchedOptions"
+          :ref="(el: any) => (optionRefs[index] = el?.$el)"
           :aria-selected="isIncluded(model, option)"
           :key="`${isObject(option) ? option[labelKey] : option}`"
-          tabindex="0"
           :class="{ 'font-bold': isIncluded(model, option) }"
+          @focus="selectedIndex = index"
           @click="selectOption(option, index)"
-          @keyup.space="selectOption(option, index)"
+          @keydown="onOptionKeyDown"
+          @keyup.enter.space="selectOption(option, index)"
         >
           <slot name="option" :option="option" :index="index">
             {{ isObject(option) ? option[labelKey] : option }}
@@ -290,9 +320,5 @@ function checkSource(value: boolean, extra: any) {
 
 .tag {
   @apply py-none max-w-full;
-}
-
-.close-icon {
-  @apply text-base text-neutral-interaction-default cursor-pointer;
 }
 </style>

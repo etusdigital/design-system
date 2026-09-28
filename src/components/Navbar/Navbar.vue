@@ -105,7 +105,7 @@ const isDropdownOpen = ref(false);
     <div class="flex items-center gap-base">
       <slot name="actions">
         <FloatCard class="flex items-center justify-center" v-model="isNotificationsOpen">
-          <Icon class="notification-icon" name="notifications" />
+          <Icon class="notification-icon" name="notifications" tabindex="0" />
           <template #card>
             <slot name="notifications" />
           </template>

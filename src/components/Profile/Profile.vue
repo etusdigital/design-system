@@ -166,8 +166,10 @@ function changeExpanded(expanded: boolean) {
             <div
               v-for="(option, index) in filteredOptions"
               :key="index"
+              tabindex="0"
               class="profile-option justify-start w-full [&>*]:text-sm hover:bg-neutral-surface-highlight"
               @click="updateModel(option)"
+              @keyup.enter.space="updateModel(option)"
             >
               <slot
                 name="option"
@@ -201,7 +203,9 @@ function changeExpanded(expanded: boolean) {
       >
         <div
           class="profile-option action text-neutral-interaction-default hover:bg-neutral-surface-highlight"
+          tabindex="0"
           @click="emit('editOption')"
+          @keyup.enter.space="emit('editOption')"
           v-if="model"
         >
           <Icon name="person" class="profile-icon" />
@@ -211,7 +215,9 @@ function changeExpanded(expanded: boolean) {
         </div>
         <div
           class="text-danger-interaction-default profile-option action hover:bg-danger-surface-default"
+          tabindex="0"
           @click="emit('logout')"
+          @keyup.enter.space="emit('logout')"
         >
           <Icon name="logout" class="profile-icon" />
           <p class="text-sm font-bold">
@@ -222,10 +228,20 @@ function changeExpanded(expanded: boolean) {
       <div
         class="flex items-center justify-center px-xs py-sm pt-xl text-neutral-interaction-default font-bold text-xxs gap-5 [&>*]:cursor-pointer"
       >
-        <p @click="emit('privacyPolicyFunction')" class="hover:underline">
+        <p
+          class="hover:underline"
+          tabindex="0"
+          @click="emit('privacyPolicyFunction')"
+          @keyup.enter.space="emit('privacyPolicyFunction')"
+        >
           <slot name="privacy-policy"> Privacy Policy </slot>
         </p>
-        <p @click="emit('termsOfUseFucntion')" class="hover:underline">
+        <p
+          class="hover:underline"
+          tabindex="0"
+          @click="emit('termsOfUseFucntion')"
+          @keyup.enter.space="emit('termsOfUseFucntion')"
+        >
           <slot name="terms-of-use"> Terms of use </slot>
         </p>
       </div>

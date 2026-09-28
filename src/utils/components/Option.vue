@@ -5,12 +5,14 @@ withDefaults(
     disabled?: boolean;
     secondary?: boolean;
     noHover?: boolean;
+    tabindex?: string | number
   }>(),
   {
     selected: false,
     disabled: false,
     secondary: false,
     noHover: false,
+    tabindex: 0
   }
 );
 </script>
@@ -18,7 +20,7 @@ withDefaults(
 <template>
   <div
     role="option"
-    tabindex="0"
+    :tabindex="tabindex"
     class="option-container"
     :class="{ secondary, disabled, noHover, selected }"
   >

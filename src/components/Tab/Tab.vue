@@ -65,6 +65,7 @@ function getLabel(option: any): string {
       class="default-tab"
       :class="{ 'active-tab': getValue(model) == getValue(option) }"
       @click="changeTab(option)"
+      @keyup.enter.space="changeTab(option)"
     >
       <div v-if="isObject(option)" class="flex items-center gap-xxs">
         <Icon :name="option.icon" v-if="option.icon" />

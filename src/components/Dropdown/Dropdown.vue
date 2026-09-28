@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, ref, useSlots } from "vue";
+import { computed, nextTick, onBeforeMount, ref, useSlots } from "vue";
 import { useOptionalModel } from "#composables";
 import { type Option as OptionType } from "#utils/types/DropOption";
 import ExpandableContainer from "../../utils/components/ExpandableContainer.vue";
@@ -48,6 +48,7 @@ const [model] = useOptionalModel<any>(props, "modelValue", emit, "");
 const [isExpanded] = useOptionalModel<boolean>(props, "expanded", emit, false);
 const search = ref("");
 const slots = useSlots();
+const optionsCard = ref<InstanceType<typeof Options>>();
 
 const selectedOption = computed(() => {
   if (!props.options) return undefined;
@@ -134,6 +135,18 @@ function updateSearch() {
 function getValue(option: any): any {
   return isObject(option) ? option.value : option;
 }
+
+async function onKeyDown(e: KeyboardEvent) {
+  if (props.disabled || (e.key !== "ArrowDown" && e.key !== "ArrowUp")) return;
+
+  e.preventDefault();
+  isExpanded.value = true;
+  await nextTick();
+  const options = Array.from(
+    (optionsCard.value?.$el as HTMLElement | undefined)?.children ?? []
+  ).filter((el) => el.hasAttribute("data-dropdown-option")) as HTMLElement[];
+  (e.key === "ArrowDown" ? options[0] : options[options.length - 1])?.focus();
+}
 </script>
 
 <template>
@@ -148,6 +161,7 @@ function getValue(option: any): any {
     :required="required"
     :max-height="maxHeight"
     :min-width="minWidth"
+    @keydown="onKeyDown"
     @update:model-value="updateSearch"
   >
     {{ selectedOption }}
@@ -165,7 +179,7 @@ function getValue(option: any): any {
       </slot>
     </template>
     <template #card>
-      <Options :options="filteredOptions">
+      <Options ref="optionsCard" :options="filteredOptions">
         <template #default="{ options }">
           <Option
             v-for="option in options"

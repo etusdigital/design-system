@@ -235,6 +235,7 @@ function selectAll(value: boolean | null) {
               v-for="(header, index) in columns"
               :key="index"
               class="cursor-pointer"
+              :tabindex="header.sortable ? 0 : -1"
               :class="{
                 'first-th': index === 0 && !enableSelection && !enableAggregation,
                 'last-th': !columns[index + 1] && !$slots.actions,
@@ -242,6 +243,12 @@ function selectAll(value: boolean | null) {
               }"
               :style="{ width: header.width ? header.width : 'fit-content' }"
               @click="
+                sortBy(
+                  header.value,
+                  (isDesc[header.value] = !isDesc[header.value])
+                )
+              "
+              @keyup.enter.space="
                 sortBy(
                   header.value,
                   (isDesc[header.value] = !isDesc[header.value])
@@ -257,7 +264,7 @@ function selectAll(value: boolean | null) {
                 <p class="truncate">{{ header.label }}</p>
                 <span
                   v-if="header.sortable"
-                  class="icon"
+                  class="icon-container"
                   :class="{
                     'rotate-180': isDesc[header.value],
                     'icon-active': header.value == sortByName,
@@ -404,7 +411,7 @@ function selectAll(value: boolean | null) {
   }
 }
 
-.icon {
+.icon-container {
   @apply h-fit w-fit flex items-center transition-transform ease-in-out duration-300;
 
   .icon {
@@ -430,17 +437,17 @@ function selectAll(value: boolean | null) {
   th {
     @apply py-base px-lg hover:bg-neutral-surface-highlight;
 
-    .icon.icon-active {
+    .icon-container.icon-active {
       @apply text-primary-interaction-default opacity-100;
     }
 
-    .icon {
+    .icon-container {
       @apply opacity-0;
       transition: opacity 0.2s ease, transform 0.3s ease;
     }
   }
 
-  th:hover .icon {
+  th:hover .icon-container {
     @apply opacity-100;
   }
 }
