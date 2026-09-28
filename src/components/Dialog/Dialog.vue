@@ -57,7 +57,7 @@ function closeDialog() {
           ref="dialog"
           class="dialog"
           :class="class"
-          :style="{ width: width, height: height, zIndex: zIndex + 1 }"
+          :style="{ width: width, height: height, zIndex: zIndex }"
         >
           <slot />
         </div>

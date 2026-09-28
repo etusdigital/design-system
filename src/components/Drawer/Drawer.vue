@@ -64,7 +64,7 @@ function closeDialog() {
 @reference "../../assets/main.css";
 
 .drawer {
-  @apply z-[1001] fixed bg-neutral-surface-default border-xxs border-neutral-default transform transition-transform;
+  @apply z-[1000] fixed bg-neutral-surface-default border-xxs border-neutral-default transform transition-transform;
 }
 
 .right {
