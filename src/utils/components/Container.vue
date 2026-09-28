@@ -199,7 +199,7 @@ function onKeyDown(e: KeyboardEvent) {
 }
 
 .arrow-icon {
-  @apply shrink-0 flex items-center transition-transform duration-300 text-lg leading-xs;
+  @apply shrink-0 flex items-center transition-transform duration-300 text-lg leading-(--font-size-xl);
 }
 
 .arrow-icon.expanded {
