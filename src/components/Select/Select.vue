@@ -190,6 +190,11 @@ function onKeyDown(e: KeyboardEvent) {
   }
 }
 
+function onOptionKeyDown(e: KeyboardEvent) {
+  if (e.key === " ") e.preventDefault();
+  onKeyDown(e);
+}
+
 function searchOption(search: string) {
   if (!search || !props.searchable) return props.options;
 
@@ -286,8 +291,7 @@ function clearModel() {
         class="flex items-center gap-xxs"
         @focus="selectedIndex = index"
         @click="selectOption(option)"
-        @keydown="onKeyDown"
-        @keydown.space.prevent
+        @keydown="onOptionKeyDown"
         @keyup.enter.space="selectOption(option)"
       >
         <Checkbox
