@@ -58,6 +58,7 @@ function toggle() {
     class="checkbox"
     :class="{ 'flex-row-reverse': rhs, disabled }"
     @click="toggle"
+    @keyup.enter.space="toggle"
   >
     <div
       :tabindex="tabindex"

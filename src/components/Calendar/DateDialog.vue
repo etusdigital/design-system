@@ -20,10 +20,10 @@ withDefaults(defineProps<{
         <Card
             v-if="modelValue"
             class="absolute z-[1] transition-transform top-[17%] left-[50%] -translate-x-1/2
-                flex items-center justify-center"
+                flex items-center"
             :class="{
                 'overflow-auto': maxHeight != 'none',
-                'flex-wrap': !vertical,
+                'justify-center flex-wrap': !vertical,
                 'flex-col': vertical,
                 'p-sm gap-xs': !noPadding
             }"

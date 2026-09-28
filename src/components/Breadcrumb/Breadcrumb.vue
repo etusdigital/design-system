@@ -94,22 +94,19 @@ function isActive(option: any): boolean {
     <template v-for="(option, index) in parsedOptions" :key="option">
       <div v-if="isObject(option) && option.icon == 'more_horiz'">
         <FloatCard v-model="expanded[index]" class="leading-none">
-          <Icon name="more_horiz" class="cursor-pointer leading-xxs" />
-            <template #card>
-              <div class="more-options">
-                <Option v-for="subOption in option.options" :key="subOption" @click="setModel(subOption)">
-                  {{ getLabel(subOption) }}
-                </Option>
-              </div>
-            </template>
+          <Icon name="more_horiz" tabindex="0" class="cursor-pointer leading-xxs" />
+          <template #card>
+            <div class="more-options">
+              <Option v-for="subOption in option.options" :key="subOption" @click="setModel(subOption)"
+                @keyup.enter.space="setModel(subOption)">
+                {{ getLabel(subOption) }}
+              </Option>
+            </div>
+          </template>
         </FloatCard>
       </div>
-      <h5
-        v-else
-        class="option"
-        :class="{ active: isActive(option) }"
-        @click="setModel(option)"
-      >
+      <h5 v-else class="option" :class="{ active: isActive(option) }" tabindex="0" @click="setModel(option)"
+        @keyup.enter.space="setModel(option)">
         {{ getLabel(option) }}
       </h5>
       <Icon v-if="index < parsedOptions.length - 1" name="chevron_right" class="leading-xxs" />

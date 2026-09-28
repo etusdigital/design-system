@@ -145,7 +145,9 @@ function getSvgSize() {
               v-if="!disabled"
               class="trash-icon"
               name="delete"
+              tabindex="0"
               @click="deleteFile"
+              @keyup.enter.space="deleteFile"
             />
           </div>
         </div>

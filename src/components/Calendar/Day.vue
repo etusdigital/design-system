@@ -118,9 +118,11 @@ function getDates(index = 0) {
       getDifference(day, 1),
       position,
     ]"
+    tabindex="0"
     @mouseover="emit('update:hovered', day)"
     @mouseleave="emit('update:hovered', null)"
     @click="emit('select', day)"
+    @keyup.enter.space="emit('select', day)"
   >
     <div
       v-if="

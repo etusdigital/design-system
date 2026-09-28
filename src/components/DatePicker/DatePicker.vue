@@ -224,6 +224,7 @@ function changeType() {
               :selected="optionSelected == option.value"
               :disabled="option.disabled"
               @click="changeDate(option)"
+              @keyup.enter.space="changeDate(option)"
             >
               {{ option.label }}
             </Option>

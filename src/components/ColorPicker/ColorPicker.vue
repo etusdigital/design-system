@@ -153,39 +153,97 @@ function updateColorTouch(event: TouchEvent) {
 function updateOpacitySlider(event: any) {
     if (isDraggingOpacitySlider.value && cursorOpacitySlider.value) {
         const slider = cursorOpacitySlider.value.closest('.slider');
-        const context = colorArea.value?.getContext('2d');
-        if (!slider || !colorArea.value || !context) return;
-        const clampedLeft = getCursorPosition(event, cursorOpacitySlider.value, slider).left;
-        cursorOpacitySlider.value.style.left = clampedLeft + 'px';
-        const opacityFull = slider.clientWidth - 10;
-        let opacity = clampedLeft / opacityFull;
-        
-        if (opacity >= 0.98) opacity = 1;
-        if (opacity <= 0.02) opacity = 0;
-        
-        sliderOpacity.value = opacity;
-        changeCanvasColor(sliderColor.value, opacity);
-        updatedCircleColor();
+        if (!slider) return;
+        setOpacitySliderPosition(getCursorPosition(event, cursorOpacitySlider.value, slider).left);
     }
+}
+
+function setOpacitySliderPosition(left: number) {
+    const slider = cursorOpacitySlider.value?.closest('.slider');
+    const context = colorArea.value?.getContext('2d');
+    if (!cursorOpacitySlider.value || !slider || !colorArea.value || !context) return;
+    cursorOpacitySlider.value.style.left = left + 'px';
+    const opacityFull = slider.clientWidth - 10;
+    let opacity = left / opacityFull;
+
+    if (opacity >= 0.98) opacity = 1;
+    if (opacity <= 0.02) opacity = 0;
+
+    sliderOpacity.value = opacity;
+    changeCanvasColor(sliderColor.value, opacity);
+    updatedCircleColor();
 }
 
 function updateColorSlider(event: MouseEvent) {
     if (isDraggingColorSlider.value && cursorColorSlider.value) {
-        const slider = cursorColorSlider.value?.closest('.slider');
-        const sliderOpacityDiv = cursorOpacitySlider.value?.closest('.slider') as HTMLDivElement;
-        if (!slider || !colorArea.value || !sliderOpacityDiv) return;
-        const clampedLeft = getCursorPosition(event, cursorColorSlider.value, slider).left;
-        cursorColorSlider.value.style.left = clampedLeft + 'px';
-        const color = getPixelColor(slider, clampedLeft);
-        sliderColor.value = color;
-        sliderOpacityDiv.style.background = `linear-gradient(
-            to right,
-            var(--neutral-surface-default) 0%,
-            ${color}
-        )`;
-        changeCanvasColor(color, sliderOpacity.value);
-        updatedCircleColor();
+        const slider = cursorColorSlider.value.closest('.slider');
+        if (!slider) return;
+        setColorSliderPosition(getCursorPosition(event, cursorColorSlider.value, slider).left);
     }
+}
+
+function setColorSliderPosition(left: number) {
+    const slider = cursorColorSlider.value?.closest('.slider');
+    const sliderOpacityDiv = cursorOpacitySlider.value?.closest('.slider') as HTMLDivElement;
+    if (!cursorColorSlider.value || !slider || !colorArea.value || !sliderOpacityDiv) return;
+    cursorColorSlider.value.style.left = left + 'px';
+    const color = getPixelColor(slider, left);
+    sliderColor.value = color;
+    sliderOpacityDiv.style.background = `linear-gradient(
+        to right,
+        var(--neutral-surface-default) 0%,
+        ${color}
+    )`;
+    changeCanvasColor(color, sliderOpacity.value);
+    updatedCircleColor();
+}
+
+function onSliderCursorKeyDown(
+    event: KeyboardEvent,
+    cursor: HTMLSpanElement | undefined,
+    setPosition: (left: number) => void
+) {
+    if (props.disabled || !cursor) return;
+
+    let direction = 0;
+    if (event.key === 'ArrowRight') direction = 1;
+    else if (event.key === 'ArrowLeft') direction = -1;
+    else return;
+
+    const slider = cursor.closest('.slider');
+    if (!slider) return;
+
+    event.preventDefault();
+    const max = slider.clientWidth - (cursor.clientWidth - 1);
+    const left = getStylePixels(cursor.style.left) + (direction * max) / 100;
+    setPosition(Math.min(max, Math.max(0, left)));
+}
+
+function onAreaCursorKeyDown(event: KeyboardEvent) {
+    const cursor = cursorColorArea.value;
+    const area = colorArea.value;
+    if (props.disabled || !cursor || !area) return;
+
+    const directions: Record<string, [number, number]> = {
+        ArrowLeft: [-1, 0],
+        ArrowRight: [1, 0],
+        ArrowUp: [0, -1],
+        ArrowDown: [0, 1],
+    };
+    const direction = directions[event.key];
+    if (!direction) return;
+
+    event.preventDefault();
+    const minX = -5;
+    const maxX = area.clientWidth - (cursor.clientWidth - 5);
+    const maxY = area.clientHeight;
+    const left = getStylePixels(cursor.style.left) + (direction[0] * (maxX - minX)) / 100;
+    const top = getStylePixels(cursor.style.top) + (direction[1] * maxY) / 100;
+    setColorAreaPosition(Math.min(maxX, Math.max(minX, left)), Math.min(maxY, Math.max(0, top)));
+}
+
+function getStylePixels(value: string) {
+    return Number(value.replace('px', '')) || 0;
 }
 
 function calculateColorFromPosition(x: number, y: number) {
@@ -239,12 +297,17 @@ function updateColorArea(event: MouseEvent) {
     if (isDraggingColorArea.value && cursorColorArea.value) {
         if (!colorArea.value) return;
         const clamped = getCursorPosition(event, cursorColorArea.value, colorArea.value, true);
-        cursorColorArea.value.style.left = clamped.left + 'px';
-        cursorColorArea.value.style.top = clamped.top + 'px';
-        
-        const pixel = calculateColorFromPosition(clamped.left + 5, clamped.top);
-        updateColorFromPixel(pixel);
+        setColorAreaPosition(clamped.left, clamped.top);
     }
+}
+
+function setColorAreaPosition(left: number, top: number) {
+    if (!cursorColorArea.value) return;
+    cursorColorArea.value.style.left = left + 'px';
+    cursorColorArea.value.style.top = top + 'px';
+
+    const pixel = calculateColorFromPosition(left + 5, top);
+    updateColorFromPixel(pixel);
 }
 
 function getPixelColor(element: Element, x: number): string {
@@ -471,21 +534,37 @@ function move(updateType = true) {
 <template>
     <Card class="color-picker" :class="{ 'no-shadow': noShadow, disabled: disabled }">
         <div class="relative">
-            <span class="cursor cursor-area" ref="cursorColorArea" @mousedown="startDraggingColorArea" @touchstart="startDraggingColorAreaTouch" />
+            <span
+                class="cursor cursor-area"
+                ref="cursorColorArea"
+                :tabindex="disabled ? -1 : 0"
+                @mousedown="startDraggingColorArea"
+                @touchstart="startDraggingColorAreaTouch"
+                @keydown="onAreaCursorKeyDown"
+            />
             <canvas class="color-area" ref="colorArea" @mousedown="startDraggingColorArea" @touchstart="startDraggingColorAreaTouch" />
         </div>
         <div class="flex items-center gap-sm">
             <div class="color-circle" :style="{ background: circleBackground }" />
             <div class="flex flex-col gap-xs w-full">
                 <div class="slider" @mousedown="startDraggingColorSlider" @touchstart="startDraggingColorSliderTouch">
-                    <span ref="cursorColorSlider" class="cursor cursor-slider" @mousedown="startDraggingColorSlider" @touchstart="startDraggingColorSliderTouch" />
+                    <span
+                        ref="cursorColorSlider"
+                        class="cursor cursor-slider"
+                        :tabindex="disabled ? -1 : 0"
+                        @mousedown="startDraggingColorSlider"
+                        @touchstart="startDraggingColorSliderTouch"
+                        @keydown="(e: KeyboardEvent) => onSliderCursorKeyDown(e, cursorColorSlider, setColorSliderPosition)"
+                    />
                 </div>
                 <div v-if="showAlpha" class="slider-opacity slider flex justify-end" @mousedown="startDraggingOpacitySlider" @touchstart="startDraggingOpacitySliderTouch">
                     <span
                         class="cursor cursor-slider"
                         ref="cursorOpacitySlider"
+                        :tabindex="disabled ? -1 : 0"
                         @mousedown="startDraggingOpacitySlider"
                         @touchstart="startDraggingOpacitySliderTouch"
+                        @keydown="(e: KeyboardEvent) => onSliderCursorKeyDown(e, cursorOpacitySlider, setOpacitySliderPosition)"
                     />
                 </div>
             </div>
@@ -509,13 +588,17 @@ function move(updateType = true) {
                         name="arrow_drop_up"
                         class="color-arrows"
                         :class="{ disabled: disabled }"
+                        :tabindex="disabled ? -1 : 0"
                         @click="moveUp"
+                        @keyup.enter.space="moveUp"
                     />
                     <Icon
                         name="arrow_drop_down"
                         class="color-arrows"
                         :class="{ disabled: disabled }"
+                        :tabindex="disabled ? -1 : 0"
                         @click="moveDown"
+                        @keyup.enter.space="moveDown"
                     />
                 </div>
             </div>

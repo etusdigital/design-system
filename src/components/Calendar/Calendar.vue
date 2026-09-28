@@ -46,6 +46,8 @@ const isBack = ref(true);
 const showCalendar = ref(true);
 const selectedIndex = ref(0);
 const hoveredDate = ref();
+const titles = ref<HTMLElement[]>([]);
+const popups = ref<HTMLDivElement>();
 
 const dates = computed(() => {
   if (props.doubleCalendar) {
@@ -84,7 +86,7 @@ const months = computed(() => getMonths(props.lang));
 const years = computed(() => {
   const years: any = [];
   const date = options.value[options.value.length - 1].date;
-  for (let i = date.getFullYear() + 56; i >= date.getFullYear() - 62; i--) {
+  for (let i = date.getFullYear(); i >= date.getFullYear() - 100; i--) {
     years.push(i);
   }
   return years;
@@ -154,6 +156,10 @@ function setNewMonth(value: number) {
 
 function hidePopup() {
   setTimeout(() => {
+    const active = document.activeElement as HTMLElement | null;
+    if (active && (popups.value?.contains(active) || titles.value.includes(active)))
+      return;
+
     Object.keys(show.value).forEach((key) => {
       show.value[key as keyof typeof show.value] = false;
     });
@@ -167,6 +173,24 @@ function showPopup(index: number) {
   show.value.month = !show.value.month || show.value.year;
 
   updateOptions();
+}
+
+function focusFirstPopupOption(event: KeyboardEvent) {
+  if (event.shiftKey || (!show.value.month && !show.value.year)) return;
+
+  const popup = show.value.year ? "year" : "month";
+  const option = popups.value?.querySelector<HTMLElement>(`[data-popup="${popup}"]`);
+  if (!option) return;
+
+  event.preventDefault();
+  option.focus();
+}
+
+function focusTitleOnLastTab(event: KeyboardEvent, isLast: boolean) {
+  if (!isLast || event.shiftKey) return;
+
+  event.preventDefault();
+  titles.value[selectedIndex.value]?.focus();
 }
 
 function getPosition(day: Date, week: any[]) {
@@ -227,6 +251,7 @@ function changeMonth(month: number) {
   primary.setMonth(month);
   if (options.value.length > 1) secondary.setMonth(primary.getMonth() + toAdd);
   updateOptions();
+  titles.value[index]?.focus();
 }
 
 function changeYear(year: number) {
@@ -247,6 +272,7 @@ function changeYear(year: number) {
   primary.setFullYear(year);
   if (options.value.length > 1) secondary.setFullYear(year + toAdd);
   updateOptions();
+  titles.value[index]?.focus();
 }
 </script>
 
@@ -261,7 +287,9 @@ function changeYear(year: number) {
         <div
           v-if="index == 0"
           class="calendar-arrow left-0"
+          tabindex="0"
           @click="setNewMonth(-1)"
+          @keyup.enter.space="setNewMonth(-1)"
         >
           <Icon name="chevron_left" class="leading-xxs" />
         </div>
@@ -269,9 +297,12 @@ function changeYear(year: number) {
           <h1
             class="text-base font-bold cursor-pointer text-neutral-foreground-high"
             v-if="show"
+            :ref="(el) => (titles[index] = el as HTMLElement)"
             tabindex="0"
             @blur="hidePopup"
             @click="showPopup(index)"
+            @keyup.enter.space="showPopup(index)"
+            @keydown.tab="focusFirstPopupOption"
           >
             {{ option.title }}
           </h1>
@@ -279,7 +310,9 @@ function changeYear(year: number) {
         <div
           v-if="options.length - 1 == index"
           class="calendar-arrow right-0"
+          tabindex="0"
           @click="setNewMonth(1)"
+          @keyup.enter.space="setNewMonth(1)"
         >
           <Icon name="chevron_right" class="leading-xxs" />
         </div>
@@ -319,41 +352,55 @@ function changeYear(year: number) {
         </table>
       </Transition>
     </div>
-    <DateDialog :model-value="show.month && !show.year" :options="months" wrap>
-      <template #option="{ option }">
-        <div
-          :class="[
-            option.value === options[selectedIndex].date.getMonth()
-              ? 'bg-primary-interaction-default'
-              : 'bg-primary-surface-highlight',
-          ]"
-          class="flex items-center justify-center flex-1 cursor-pointer min-w-[30%] text-neutral-foreground-negative text-sm p-sm border-xxs rounded-base hover:bg-primary-interaction-hover"
-          @click="changeMonth(option.value)"
-        >
-          {{ option.label }}
-        </div>
-      </template>
-    </DateDialog>
-    <DateDialog
-      :model-value="show.year"
-      :options="years"
-      vertical
-      max-height="70%"
-      no-padding
-    >
-      <template #option="{ option }">
-        <div
-          class="flex items-center justify-center cursor-pointer w-full p-xxs text-sm hover:bg-primary-surface-default hover:text-primary-interaction-default"
-          :class="{
-            'text-primary-interaction-default bg-primary-surface-default':
-              option === options[selectedIndex].date.getFullYear(),
-          }"
-          @click="changeYear(option)"
-        >
-          {{ option }}
-        </div>
-      </template>
-    </DateDialog>
+    <div ref="popups" @focusout="hidePopup">
+      <DateDialog :model-value="show.month && !show.year" :options="months" wrap>
+        <template #option="{ option }">
+          <div
+            data-popup="month"
+            :class="[
+              option.value === options[selectedIndex].date.getMonth()
+                ? 'bg-primary-interaction-default'
+                : 'bg-primary-surface-highlight',
+            ]"
+            class="flex items-center justify-center flex-1 cursor-pointer min-w-[30%] text-neutral-foreground-negative text-sm p-sm border-xxs rounded-base hover:bg-primary-interaction-hover"
+            tabindex="0"
+            @click="changeMonth(option.value)"
+            @keyup.enter.space="changeMonth(option.value)"
+            @keydown.tab="
+              focusTitleOnLastTab($event, option === months[months.length - 1])
+            "
+          >
+            {{ option.label }}
+          </div>
+        </template>
+      </DateDialog>
+      <DateDialog
+        :model-value="show.year"
+        :options="years"
+        vertical
+        max-height="70%"
+        no-padding
+      >
+        <template #option="{ option }">
+          <div
+            class="flex items-center justify-center cursor-pointer w-full p-xxs text-sm hover:bg-primary-surface-default hover:text-primary-interaction-default"
+            :class="{
+              'text-primary-interaction-default bg-primary-surface-default':
+                option === options[selectedIndex].date.getFullYear(),
+            }"
+            data-popup="year"
+            tabindex="0"
+            @click="changeYear(option)"
+            @keyup.enter.space="changeYear(option)"
+            @keydown.tab="
+              focusTitleOnLastTab($event, option === years[years.length - 1])
+            "
+          >
+            {{ option }}
+          </div>
+        </template>
+      </DateDialog>
+    </div>
   </div>
 </template>
 
