@@ -90,6 +90,10 @@ function getSelected(option: OptionType = props.option, model = props.modelValue
 function setModel(value: OptionType, add = !isSelected.value && !props.selected) {
   emit("update:modelValue", value, add);
 }
+
+function changeExpanded() {
+  expanded.value = !expanded.value
+}
 </script>
 
 <template>
@@ -108,7 +112,9 @@ function setModel(value: OptionType, add = !isSelected.value && !props.selected)
           name="keyboard_arrow_right"
           :class="{ 'rotate-90': expanded }"
           class="expand-icon transition-transform"
-          @click="expanded = !expanded"
+          tabindex="0"
+          @click="changeExpanded"
+          @keyup.enter.space="changeExpanded"
         />
         <div
           class="tree-option-option"

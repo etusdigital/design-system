@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, nextTick, onMounted, onUnmounted } from "vue";
+import { ref, computed, nextTick, onUnmounted } from "vue";
 import Icon from "../Icon/Icon.vue";
 import Overlay from "../../utils/components/Overlay.vue";
 
@@ -25,6 +25,7 @@ const emit = defineEmits<{
 const isHovering = ref(false);
 const previewVisible = ref(false);
 const toolbar = ref<HTMLElement>();
+const trigger = ref<HTMLElement>();
 const rotate = ref(0);
 const scale = ref(1);
 const tools = ref([
@@ -75,12 +76,7 @@ const previewImageStyle = computed(() => ({
   transition: "transform 0.15s",
 }));
 
-onMounted(() => {
-  window.addEventListener("keydown", onKeyDown);
-});
-
 onUnmounted(() => {
-  window.removeEventListener("keydown", onKeyDown);
   document.body.style.overflow = "";
 });
 
@@ -98,6 +94,7 @@ function hidePreview() {
   rotate.value = 0;
   scale.value = 1;
   document.body.style.overflow = "";
+  trigger.value?.focus({ preventScroll: true });
 }
 
 function rotateRight() {
@@ -120,19 +117,17 @@ function closePreview() {
   hidePreview();
 }
 
-function onKeyDown(event: KeyboardEvent) {
+function onEscape(event: KeyboardEvent) {
   if (!previewVisible.value) return;
 
-  switch (event.code) {
-    case "Escape":
-      hidePreview();
-      break;
-  }
+  event.stopPropagation();
+  hidePreview();
 }
 </script>
 
 <template>
   <span
+    ref="trigger"
     class="image"
     :tabindex="preview ? 0 : -1"
     @mouseenter="isHovering = true"
@@ -163,6 +158,8 @@ function onKeyDown(event: KeyboardEvent) {
           <div
             class="preview-modal image-preview-container"
             v-if="previewVisible"
+            tabindex="-1"
+            @keydown.esc="onEscape"
           >
             <slot name="preview">
               <img
@@ -182,6 +179,7 @@ function onKeyDown(event: KeyboardEvent) {
             role="dialog"
             aria-modal
             tabindex="-1"
+            @keydown.esc="onEscape"
           >
             <Button
               v-for="tool in tools"

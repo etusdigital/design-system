@@ -51,6 +51,13 @@ function closeDialog() {
     emit("update:modelValue", false);
   }
 }
+
+function onEscape(e: KeyboardEvent) {
+  if (props.noOutsideClose) return;
+
+  e.stopPropagation();
+  closeDialog();
+}
 </script>
 
 <template>
@@ -63,7 +70,8 @@ function closeDialog() {
           class="drawer"
           :class="position"
           tabindex="-1"
-          :style="{ 
+          @keydown.esc="onEscape"
+          :style="{
             width: position === 'left' || position === 'right' ? (isMobile ? '100%' : size) : '100%',
             height: position === 'top' || position === 'bottom' ? (isMobile ? '100%' : size) : '100%'
           }"

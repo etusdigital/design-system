@@ -154,10 +154,25 @@ function handleBlur(event: FocusEvent) {
   if (!relatedTarget || !currentTarget.contains(relatedTarget))
     isExpanded.value = false;
 }
+
+function onEscape(event: KeyboardEvent) {
+  if (!isExpanded.value) return;
+
+  event.stopPropagation();
+  isExpanded.value = false;
+  sidebar.value
+    ?.querySelector<HTMLElement>('[aria-expanded="true"]')
+    ?.focus();
+}
 </script>
 
 <template>
-  <div class="sidebar" tabindex="0" @focusout="handleBlur">
+  <div
+    class="sidebar"
+    tabindex="0"
+    @focusout="handleBlur"
+    @keydown.esc="onEscape"
+  >
     <div class="sidebar-options" ref="sidebar">
       <div
         class="options-container"
@@ -175,6 +190,11 @@ function handleBlur(event: FocusEvent) {
             tabindex="0"
             class="rounded-base hover:no-underline"
             :class="{ 'pointer-events-none': option.disabled }"
+            :aria-expanded="
+              option.options?.length
+                ? isExpanded && clicked === option
+                : undefined
+            "
             :to="getPath(option.path)"
             :href="
               getLinkComponent(option) == 'a' ? getPath(option.path) : undefined

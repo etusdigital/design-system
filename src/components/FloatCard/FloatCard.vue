@@ -96,6 +96,13 @@ function onTriggerKeyDown(e: KeyboardEvent) {
   focusCard();
 }
 
+function onEscape(e: KeyboardEvent) {
+  if (!model.value) return;
+
+  e.stopPropagation();
+  closeCard();
+}
+
 function updateModel(value: boolean) {
   if (props.disabled) return;
 
@@ -222,11 +229,17 @@ onBeforeUnmount(removeCloseListeners);
     @mouseenter="mode == 'hover' ? updateModel(true) : null"
     @mouseleave="mode == 'hover' ? closeCard() : null"
     @keydown="onTriggerKeyDown"
+    @keydown.esc="onEscape"
   >
     <Teleport to="body">
       <div ref="card">
         <Transition name="fade">
-          <Card v-if="model" class="float-card" tabindex="-1">
+          <Card
+            v-if="model"
+            class="float-card"
+            tabindex="-1"
+            @keydown.esc="onEscape"
+          >
             <slot name="card" />
           </Card>
         </Transition>
