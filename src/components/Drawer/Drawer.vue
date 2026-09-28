@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import Overlay from "../../utils/components/Overlay.vue";
 
 const props = withDefaults(
@@ -22,6 +22,7 @@ const emit = defineEmits<{
 }>();
 
 const model = ref(props.modelValue);
+const drawer = ref<HTMLElement>();
 
 const isMobile = computed(() => window.innerWidth < 768);
 
@@ -31,6 +32,18 @@ watch(
     model.value = cur;
   }
 );
+
+watch(
+  model,
+  (open) => {
+    if (open) drawer.value?.focus({ preventScroll: true });
+  },
+  { flush: "post" }
+);
+
+onMounted(() => {
+  if (model.value) drawer.value?.focus({ preventScroll: true });
+});
 
 function closeDialog() {
   if (!props.noOutsideClose) {
@@ -46,8 +59,10 @@ function closeDialog() {
       <Transition name="slide-in">
         <div
           v-if="model"
+          ref="drawer"
           class="drawer"
           :class="position"
+          tabindex="-1"
           :style="{ 
             width: position === 'left' || position === 'right' ? (isMobile ? '100%' : size) : '100%',
             height: position === 'top' || position === 'bottom' ? (isMobile ? '100%' : size) : '100%'
@@ -64,7 +79,7 @@ function closeDialog() {
 @reference "../../assets/main.css";
 
 .drawer {
-  @apply z-[1000] fixed bg-neutral-surface-default border-xxs border-neutral-default transform transition-transform;
+  @apply z-[1000] fixed bg-neutral-surface-default border-xxs border-neutral-default transform transition-transform outline-none;
 }
 
 .right {

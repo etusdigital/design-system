@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, nextTick, onMounted, onUnmounted } from "vue";
 import Icon from "../Icon/Icon.vue";
 import Overlay from "../../utils/components/Overlay.vue";
 
@@ -24,6 +24,7 @@ const emit = defineEmits<{
 
 const isHovering = ref(false);
 const previewVisible = ref(false);
+const toolbar = ref<HTMLElement>();
 const rotate = ref(0);
 const scale = ref(1);
 const tools = ref([
@@ -83,10 +84,12 @@ onUnmounted(() => {
   document.body.style.overflow = "";
 });
 
-function showPreview() {
+async function showPreview() {
   previewVisible.value = true;
   emit("show");
   document.body.style.overflow = "hidden";
+  await nextTick();
+  toolbar.value?.focus({ preventScroll: true });
 }
 
 function hidePreview() {
@@ -173,8 +176,10 @@ function onKeyDown(event: KeyboardEvent) {
           <div
             class="preview-modal image-preview-toolbar"
             v-if="previewVisible"
+            ref="toolbar"
             role="dialog"
             aria-modal
+            tabindex="-1"
           >
             <Button
               v-for="tool in tools"
@@ -223,7 +228,7 @@ function onKeyDown(event: KeyboardEvent) {
 }
 
 .image-preview-toolbar {
-  @apply top-lg right-lg flex gap-xs bg-emphasis p-xxs rounded-base;
+  @apply top-lg right-lg flex gap-xs bg-emphasis p-xxs rounded-base outline-none;
 }
 
 .tool {

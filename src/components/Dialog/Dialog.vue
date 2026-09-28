@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import Overlay from "../../utils/components/Overlay.vue";
 
 const props = withDefaults(
@@ -35,6 +35,18 @@ watch(
   }
 );
 
+watch(
+  model,
+  (open) => {
+    if (open) dialog.value?.focus({ preventScroll: true });
+  },
+  { flush: "post" }
+);
+
+onMounted(() => {
+  if (model.value) dialog.value?.focus({ preventScroll: true });
+});
+
 function closeDialog() {
   if (props.noOutsideClose) {
     dialog.value?.classList.add("no-outside-close-warning");
@@ -57,6 +69,7 @@ function closeDialog() {
           ref="dialog"
           class="dialog"
           :class="class"
+          tabindex="-1"
           :style="{ width: width, height: height, zIndex: zIndex }"
         >
           <slot />
@@ -70,7 +83,7 @@ function closeDialog() {
 @reference "../../assets/main.css";
 
 .dialog {
-  @apply fixed top-[50%] left-[50%] bg-neutral-surface-default rounded-base border-xxs border-neutral-default;
+  @apply fixed top-[50%] left-[50%] bg-neutral-surface-default rounded-base border-xxs border-neutral-default outline-none;
   transform: translate(-50%, -50%) scale(1);
   max-width: calc(100% - var(--spacing-xl));
   max-height: calc(100% - var(--spacing-xl));

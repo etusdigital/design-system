@@ -154,6 +154,8 @@ async function showCard() {
     cardContent.style.top = `${rect.top - cardContent.offsetHeight - computedPadding.value}px`;
   else cardContent.style.top = `${rect.bottom + computedPadding.value}px`;
 
+  if (props.mode === "click") cardContent.focus({ preventScroll: true });
+
   if (openTimer) clearTimeout(openTimer);
   openTimer = setTimeout(() => {
     document.addEventListener("click", closeHandler);
@@ -175,7 +177,7 @@ onBeforeUnmount(removeCloseListeners);
     <Teleport to="body">
       <div ref="card">
         <Transition name="fade">
-          <Card v-if="model" class="float-card">
+          <Card v-if="model" class="float-card" tabindex="-1">
             <slot name="card" />
           </Card>
         </Transition>
@@ -189,7 +191,7 @@ onBeforeUnmount(removeCloseListeners);
 @reference "../../assets/main.css";
 
 .float-card {
-  @apply z-[1004] fixed;
+  @apply z-[1004] fixed outline-none;
 }
 
 .fade-enter-active,
