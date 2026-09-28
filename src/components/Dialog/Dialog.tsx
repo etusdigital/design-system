@@ -47,7 +47,7 @@ export function Dialog({
         <div
           ref={dialogRef}
           className={clsx('dialog', isActive && 'active', className)}
-          style={{ width, height, zIndex: zIndex + 1 }}
+          style={{ width, height, zIndex: zIndex }}
         >
           {children}
         </div>
