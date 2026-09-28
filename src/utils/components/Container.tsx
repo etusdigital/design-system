@@ -99,10 +99,17 @@ export function Container({
   function toggle() {
     if (disabled) return;
     setModel(!model);
+    onChange?.(!model, { source: 'click' });
+  }
+
+  function onKeyDown(e: React.KeyboardEvent) {
+    if (label || (e.key !== 'Enter' && e.key !== ' ')) return;
+    e.preventDefault();
+    toggle();
   }
 
   return (
-    <FloatCard value={isExpanded} disabled={disabled} card={renderContent?.(contentMinWidth)} onChange={blur}>
+    <FloatCard value={isExpanded} disabled={disabled} manualFocus={true} card={renderContent?.(contentMinWidth)} onChange={blur}>
       <div className={clsx('container', className)}>
         {labelValue && (
           <div className="flex justify-between items-center">
@@ -116,6 +123,7 @@ export function Container({
           aria-required={required || undefined}
           className="label-container"
           tabIndex={0}
+          onKeyDown={onKeyDown}
         >
           {label || (
             <div
@@ -128,7 +136,6 @@ export function Container({
               })}
               style={{ maxHeight, minWidth }}
               onClick={toggle}
-              onKeyUp={(e) => { if (e.key === ' ') toggle(); }}
             >
               {leadingComplement}
               {children}

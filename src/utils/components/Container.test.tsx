@@ -21,9 +21,10 @@ describe('Container', () => {
   it('click toggles expanded back — expanded class removed on second toggle via keyboard', () => {
     const { container } = render(<Container />);
     const labelContent = container.querySelector('.label-content')!;
+    const labelContainer = container.querySelector('.label-container')!;
     fireEvent.click(labelContent);
     expect(labelContent.classList.contains('expanded')).toBe(true);
-    fireEvent.keyUp(labelContent, { key: ' ' });
+    fireEvent.keyDown(labelContainer, { key: ' ' });
     expect(labelContent.classList.contains('expanded')).toBe(false);
   });
 
@@ -74,7 +75,14 @@ describe('Container', () => {
   it('Space key toggles expanded state', () => {
     const { container } = render(<Container />);
     const labelContent = container.querySelector('.label-content')!;
-    fireEvent.keyUp(labelContent, { key: ' ' });
+    fireEvent.keyDown(container.querySelector('.label-container')!, { key: ' ' });
+    expect(labelContent.classList.contains('expanded')).toBe(true);
+  });
+
+  it('Enter key toggles expanded state', () => {
+    const { container } = render(<Container />);
+    const labelContent = container.querySelector('.label-content')!;
+    fireEvent.keyDown(container.querySelector('.label-container')!, { key: 'Enter' });
     expect(labelContent.classList.contains('expanded')).toBe(true);
   });
 

@@ -11,6 +11,7 @@ export interface FloatCardProps {
   onChange?: (open: boolean) => void;
   mode?: 'click' | 'hover';
   disabled?: boolean;
+  manualFocus?: boolean;
   children?: React.ReactNode;
   card?: React.ReactNode;
   className?: string;
@@ -21,6 +22,7 @@ export function FloatCard({
   onChange,
   mode = 'click',
   disabled = false,
+  manualFocus = false,
   children,
   card,
   className,
@@ -33,6 +35,7 @@ export function FloatCard({
 
   const contentRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   const { isMounted, isActive } = useTransition(!!isOpen, { duration: 200 });
 
@@ -66,7 +69,45 @@ export function FloatCard({
     } else {
       cardContent.style.top = `${rect.bottom + padding}px`;
     }
-  }, []);
+
+    if (mode === 'click' && !manualFocus) focusCard();
+  }, [mode, manualFocus]);
+
+  function focusCard() {
+    const cardContent = cardRef.current?.firstElementChild as HTMLElement | null;
+    if (!cardContent) return;
+
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
+    cardContent.tabIndex = -1;
+    cardContent.focus({ preventScroll: true });
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (!isOpen || e.key !== 'Tab' || e.shiftKey) return;
+    if (!contentRef.current?.contains(e.target as Node)) return;
+
+    e.preventDefault();
+    focusCard();
+  }
+
+  useEffect(() => {
+    if (isOpen) return;
+
+    const previousFocus = previousFocusRef.current;
+    previousFocusRef.current = null;
+    const activeElement = document.activeElement;
+    if (
+      previousFocus &&
+      (activeElement === document.body || cardRef.current?.contains(activeElement))
+    ) {
+      previousFocus.focus({ preventScroll: true });
+      if (document.activeElement !== previousFocus) {
+        contentRef.current
+          ?.querySelector<HTMLElement>('[tabindex="0"], button:not([disabled]), input:not([disabled]), a[href]')
+          ?.focus({ preventScroll: true });
+      }
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isMounted) return;
@@ -125,6 +166,7 @@ export function FloatCard({
       } : undefined}
       onMouseEnter={mode === 'hover' && !disabled ? () => setIsOpen(true) : undefined}
       onMouseLeave={mode === 'hover' && !disabled ? closeCard : undefined}
+      onKeyDown={handleKeyDown}
       className={clsx('float-card-container', className)}
     >
       {isMounted &&

@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { Overlay } from '../../utils/components/Overlay';
 import { useControllable } from '../../hooks/useControllable';
@@ -28,6 +28,10 @@ export function Drawer({
   const { isMounted, isActive } = useTransition(isOpen ?? false, { duration: 500 });
   const drawerRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (isOpen && isMounted) drawerRef.current?.focus({ preventScroll: true });
+  }, [isOpen, isMounted]);
+
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const effectivePosition = isMobile ? 'bottom' : position;
   const effectiveWidth = isMobile ? '100%' : size;
@@ -56,12 +60,13 @@ export function Drawer({
   }
 
   return (
-    <Overlay value={isOpen} zIndex={1001} onClick={handleOverlayClick}>
+    <Overlay value={isOpen} onClick={handleOverlayClick}>
       {isMounted && (
         <div
           ref={drawerRef}
           className={clsx('drawer', effectivePosition, isActive && 'active', className)}
           style={getStyle()}
+          tabIndex={-1}
         >
           {children}
         </div>

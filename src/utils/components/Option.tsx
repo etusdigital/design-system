@@ -26,6 +26,12 @@ export function Option({
       tabIndex={0}
       className={clsx('option-container', { selected, disabled, secondary, noHover }, className)}
       onClick={disabled ? undefined : onClick}
+      onKeyDown={(e) => {
+        if (disabled || (e.key !== 'Enter' && e.key !== ' ')) return;
+        e.preventDefault();
+        e.stopPropagation();
+        onClick?.();
+      }}
     >
       {children}
     </div>

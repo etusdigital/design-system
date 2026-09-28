@@ -1,7 +1,7 @@
 @reference "../../assets/main.css";
 
 .drawer {
-  @apply z-[1000] fixed overflow-auto bg-neutral-surface-default border-xxs border-neutral-default;
+  @apply z-[1000] fixed overflow-auto bg-neutral-surface-default border-xxs border-neutral-default outline-none;
   transition: transform 0.5s ease;
 }
 

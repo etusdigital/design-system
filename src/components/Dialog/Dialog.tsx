@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { Overlay } from '../../utils/components/Overlay';
 import { useControllable } from '../../hooks/useControllable';
@@ -30,6 +30,10 @@ export function Dialog({
   const { isMounted, isActive } = useTransition(isOpen ?? false, { duration: 500 });
   const dialogRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (isOpen && isMounted) dialogRef.current?.focus({ preventScroll: true });
+  }, [isOpen, isMounted]);
+
   function handleOverlayClick() {
     if (noOutsideClose) {
       dialogRef.current?.classList.add('no-outside-close-warning');
@@ -48,6 +52,7 @@ export function Dialog({
           ref={dialogRef}
           className={clsx('dialog', isActive && 'active', className)}
           style={{ width, height, zIndex: zIndex }}
+          tabIndex={-1}
         >
           {children}
         </div>

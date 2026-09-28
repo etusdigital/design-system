@@ -51,7 +51,7 @@
 }
 
 .imagePreviewToolbar {
-  @apply top-lg right-lg flex gap-xs bg-emphasis p-xxs rounded-base opacity-0 transition-opacity duration-150;
+  @apply top-lg right-lg flex gap-xs bg-emphasis p-xxs rounded-base opacity-0 transition-opacity duration-150 outline-none;
 }
 
 .toolbarActive {

@@ -11,6 +11,11 @@ const meta = {
       table: { defaultValue: { summary: 'click' } },
       description: 'Interaction mode for showing/hiding the card.',
     },
+    manualFocus: {
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+      description: "Doesn't move focus to the card when it opens in click mode.",
+    },
   },
 } satisfies Meta<typeof FloatCard>;
 

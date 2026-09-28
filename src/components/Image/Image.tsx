@@ -132,6 +132,11 @@ export function Image({
   ];
 
   const backdropRef = useRef<HTMLDivElement>(null);
+  const toolbarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isPreviewOpen && isMounted) toolbarRef.current?.focus({ preventScroll: true });
+  }, [isPreviewOpen, isMounted]);
 
   function handleBackdropClick(e: React.MouseEvent<HTMLDivElement>) {
     if (e.target === backdropRef.current) {
@@ -186,8 +191,10 @@ export function Image({
                 styles.imagePreviewToolbar,
                 isActive && styles.toolbarActive
               )}
+              ref={toolbarRef}
               role="dialog"
               aria-modal
+              tabIndex={-1}
             >
               {tools.map((tool) => (
                 <Button
