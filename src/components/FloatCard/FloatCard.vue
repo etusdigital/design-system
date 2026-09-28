@@ -6,11 +6,13 @@ const props = withDefaults(
     modelValue: boolean;
     mode?: "click" | "hover";
     disabled?: boolean;
+    manualFocus?: boolean;
   }>(),
   {
     modelValue: false,
     mode: "click",
     disabled: false,
+    manualFocus: false,
   }
 );
 
@@ -22,6 +24,7 @@ const model = ref(props.modelValue);
 const content = ref<HTMLElement>();
 const card = ref<HTMLElement>();
 let openTimer: ReturnType<typeof setTimeout> | undefined;
+let previousFocus: HTMLElement | null = null;
 
 const computedPadding = computed((): number => {
   if (
@@ -44,10 +47,52 @@ watch(
   () => props.modelValue,
   (value) => {
     model.value = value;
-    if (value) showCard();
-    else removeCloseListeners();
+    if (value) {
+      if (content.value?.contains(document.activeElement))
+        previousFocus = document.activeElement as HTMLElement;
+      showCard();
+    } else removeCloseListeners();
   }
 );
+
+watch(model, (value) => {
+  if (!value) restoreFocus();
+});
+
+function focusCard() {
+  const cardContent = card.value?.querySelector(".float-card") as HTMLElement;
+  if (!cardContent) return;
+
+  previousFocus = document.activeElement as HTMLElement | null;
+  cardContent.focus({ preventScroll: true });
+}
+
+function restoreFocus() {
+  const lastFocus = previousFocus;
+  previousFocus = null;
+  const activeElement = document.activeElement;
+  if (
+    !lastFocus ||
+    (activeElement !== document.body && !card.value?.contains(activeElement))
+  )
+    return;
+
+  lastFocus.focus({ preventScroll: true });
+  if (document.activeElement !== lastFocus)
+    content.value
+      ?.querySelector<HTMLElement>(
+        '[tabindex="0"], button:not([disabled]), input:not([disabled]), a[href]'
+      )
+      ?.focus({ preventScroll: true });
+}
+
+function onTriggerKeyDown(e: KeyboardEvent) {
+  if (!model.value || e.key !== "Tab" || e.shiftKey) return;
+  if (!content.value?.contains(e.target as Node)) return;
+
+  e.preventDefault();
+  focusCard();
+}
 
 function updateModel(value: boolean) {
   if (props.disabled) return;
@@ -154,7 +199,7 @@ async function showCard() {
     cardContent.style.top = `${rect.top - cardContent.offsetHeight - computedPadding.value}px`;
   else cardContent.style.top = `${rect.bottom + computedPadding.value}px`;
 
-  if (props.mode === "click") cardContent.focus({ preventScroll: true });
+  if (props.mode === "click" && !props.manualFocus) focusCard();
 
   if (openTimer) clearTimeout(openTimer);
   openTimer = setTimeout(() => {
@@ -173,6 +218,7 @@ onBeforeUnmount(removeCloseListeners);
     @click="onTriggerClick"
     @mouseenter="mode == 'hover' ? updateModel(true) : null"
     @mouseleave="mode == 'hover' ? closeCard() : null"
+    @keydown="onTriggerKeyDown"
   >
     <Teleport to="body">
       <div ref="card">

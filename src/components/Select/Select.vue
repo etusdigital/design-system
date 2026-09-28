@@ -64,6 +64,7 @@ const [expandedModel, setExpandedModel] = useOptionalModel<boolean>(
 );
 const selectedIndex = ref<number | null>(null);
 const searchText = ref("");
+const optionRefs = ref<HTMLElement[]>([]);
 
 const showSelected = computed(
   () =>
@@ -82,6 +83,23 @@ watch(
     checkValidModel();
     updateModel();
   }
+);
+
+watch(expandedModel, (value) => {
+  if (!value) selectedIndex.value = null;
+});
+
+watch(searchText, () => {
+  selectedIndex.value = null;
+});
+
+watch(
+  selectedIndex,
+  (index) => {
+    if (index == null) return;
+    optionRefs.value[index]?.focus();
+  },
+  { flush: "post" }
 );
 
 function checkValidModel() {
@@ -135,48 +153,39 @@ function isSelected(option: any) {
 function selectOption(option: any) {
   if (props.disabled) return;
 
-  selectedIndex.value = null;
   setModel(getOption(option));
   if (!props.multiple) setExpandedModel(false, { source: "value-selected" });
 }
 
-function setSelection(e: KeyboardEvent, index: number) {
-  setModel(getOption(props.options[index]));
-  e.preventDefault();
-}
+function onKeyDown(e: KeyboardEvent) {
+  const last = searchOption(searchText.value).length - 1;
+  if (last < 0) return;
 
-function onKeyUp(e: KeyboardEvent) {
+  const hasSelection = selectedIndex.value != null;
   switch (e.key) {
     case "ArrowUp":
-      {
-        if (selectedIndex.value == 0) break;
-        selectedIndex.value = selectedIndex.value
-          ? selectedIndex.value - 1
-          : props.options.length - 1;
-      }
+      e.preventDefault();
+      if (!expandedModel.value) setExpandedModel(true, { source: "click" });
+      selectedIndex.value = hasSelection
+        ? Math.max(selectedIndex.value! - 1, 0)
+        : last;
       break;
-
     case "ArrowDown":
-      {
-        if (selectedIndex.value == props.options.length - 1) break;
-        selectedIndex.value = selectedIndex.value ? selectedIndex.value + 1 : 0;
-      }
+      e.preventDefault();
+      if (!expandedModel.value) setExpandedModel(true, { source: "click" });
+      selectedIndex.value = hasSelection
+        ? Math.min(selectedIndex.value! + 1, last)
+        : 0;
       break;
     case "Home":
-      setSelection(e, 0);
+      if (!expandedModel.value) break;
+      e.preventDefault();
+      selectedIndex.value = 0;
       break;
-
     case "End":
-      {
-        const index = props.options.length - 1;
-        setSelection(e, index);
-      }
-      break;
-
-    case "Enter":
-      if (selectedIndex.value == null) break;
-      setSelection(e, selectedIndex.value);
-      selectedIndex.value = null;
+      if (!expandedModel.value) break;
+      e.preventDefault();
+      selectedIndex.value = last;
       break;
   }
 }
@@ -220,7 +229,7 @@ function clearModel() {
       :info-message="infoMessage"
       :secondary="secondary"
       :aria-multiselectable="multiple"
-      @keyup="onKeyUp"
+      @keydown="onKeyDown"
       @update:model-value="changeExpanded"
     >
     <SelectContent
@@ -267,6 +276,7 @@ function clearModel() {
     <template #options>
       <Option
         v-for="(option, index) in searchOption(searchText)"
+        :ref="(el: any) => (optionRefs[index] = el?.$el)"
         :aria-selected="isSelected(option)"
         :key="index"
         :secondary="secondary"
@@ -274,7 +284,10 @@ function clearModel() {
         :no-hover="multiple"
         :selected="!multiple && isSelected(option)"
         class="flex items-center gap-xxs"
+        @focus="selectedIndex = index"
         @click="selectOption(option)"
+        @keydown="onKeyDown"
+        @keydown.space.prevent
         @keyup.enter.space="selectOption(option)"
       >
         <Checkbox

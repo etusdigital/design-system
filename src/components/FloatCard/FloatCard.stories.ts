@@ -24,6 +24,14 @@ export default {
       },
       description: "Whether the floating card is disabled.",
     },
+    manualFocus: {
+      type: { name: "boolean" },
+      control: "boolean",
+      table: {
+        defaultValue: { summary: "false" },
+      },
+      description: "Doesn't move focus to the card when it opens in click mode.",
+    },
   },
 } satisfies Meta<typeof FloatCard>;
 

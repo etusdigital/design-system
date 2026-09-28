@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // @TODO: Fix border width for container with sub items
-import { ref, onMounted, onUpdated, onBeforeUnmount, computed } from "vue";
+import { ref, onMounted, onUpdated, onBeforeUnmount, computed, useSlots } from "vue";
 import type { ContainerModelExtra } from "../types/ContainerModelExtra";
 import { useOptionalModel } from "#composables";
 import Label from "./Label.vue";
@@ -55,6 +55,7 @@ const [model, setModel] = useOptionalModel<boolean>(
   false
 );
 const container = ref<HTMLDivElement>();
+const slots = useSlots();
 
 const isExpanded = computed((): boolean =>
   props.disabled ? false : model.value
@@ -88,10 +89,18 @@ function toggle() {
 
   setModel(!model.value, { source: "click" });
 }
+
+function onKeyDown(e: KeyboardEvent) {
+  if (slots.label || e.target !== e.currentTarget) return;
+  if (e.key !== "Enter" && e.key !== " ") return;
+
+  e.preventDefault();
+  toggle();
+}
 </script>
 
 <template>
-  <FloatCard :model-value="isExpanded" :disabled="disabled" @update:model-value="blur">
+  <FloatCard :model-value="isExpanded" :disabled="disabled" manual-focus @update:model-value="blur">
     <div class="container">
       <div v-if="labelValue" class="flex justify-between items-center">
         <Label
@@ -108,6 +117,7 @@ function toggle() {
         class="label-container"
         :class="{ 'pointer-events-none': disabled }"
         tabindex="0"
+        @keydown="onKeyDown"
       >
         <slot name="label">
           <div
@@ -121,7 +131,6 @@ function toggle() {
             }"
             :style="{ 'max-height': maxHeight, 'min-width': minWidth }"
             @click="toggle"
-            @keyup.space="toggle"
           >
             <slot name="leading-complement" />
             <slot />

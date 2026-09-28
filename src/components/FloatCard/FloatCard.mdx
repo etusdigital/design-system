@@ -55,8 +55,21 @@ Interaction mode for showing/hiding the card. Type: `"click" | "hover"` (default
 - **click**: Card appears on click and closes on outside click or scroll
 - **hover**: Card appears on mouse enter and closes on mouse leave
 
-### disabled
+#### disabled
 Disables the float card interaction. Type: `boolean` (default: `false`)
+
+#### manual-focus
+Doesn't move focus to the card when it opens in `click` mode. Type: `boolean` (default: `false`)
+
+Set it to `true` when focus should stay on the trigger, e.g. when the trigger contains an input the user keeps typing in. Hover mode never moves focus.
+
+---
+
+### Keyboard & Focus
+
+- **Open (click mode)**: focus moves to the card, unless `manual-focus` is `true`
+- **Tab**: from the trigger while the card is open, focus moves into the card. The card is rendered at the end of the `body`, so without this the natural tab order would skip it
+- **Close**: if focus is inside the card, it returns to the element that had it before the card opened (or to the first focusable element of the trigger when that one is no longer visible)
 
 ---
 
@@ -105,5 +118,6 @@ Content displayed within the floating card when visible.
 - Smooth fade animations provide polished user experience with optimized timing
 - Click-outside detection works seamlessly with other page interactions
 - Hover mode includes proper mouse leave detection to prevent flickering
+- Keyboard users can reach the teleported card with Tab, and focus is restored to the trigger when it closes
 - Card positioning considers both horizontal and vertical viewport constraints
 - Responsive design maintains usability across different screen sizes and orientations
