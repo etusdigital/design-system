@@ -129,6 +129,32 @@ function updateCropArea(event: any) {
   crop(cropArea.value, cropArea.value.parentElement);
 }
 
+function onCropAreaKeyDown(event: KeyboardEvent) {
+  const directions: Record<string, [number, number]> = {
+    ArrowLeft: [-1, 0],
+    ArrowRight: [1, 0],
+    ArrowUp: [0, -1],
+    ArrowDown: [0, 1],
+  };
+  const direction = directions[event.key];
+  const area = cropArea.value;
+  const parent = area?.parentElement;
+  if (!direction || !area || !parent || !selectedArea.value) return;
+
+  event.preventDefault();
+  const step = event.shiftKey ? 50 : 10;
+  const maxX = parent.clientWidth - area.offsetWidth;
+  const maxY = parent.clientHeight - area.offsetHeight;
+  const x = Math.min(maxX, Math.max(0, area.offsetLeft + direction[0] * step));
+  const y = Math.min(maxY, Math.max(0, area.offsetTop + direction[1] * step));
+
+  area.style.left = `${x}px`;
+  area.style.top = `${y}px`;
+  selectedArea.value.setAttribute("x", x.toString());
+  selectedArea.value.setAttribute("y", y.toString());
+  crop(area, parent);
+}
+
 function changeZoom(zoom: number) {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
@@ -244,8 +270,11 @@ function crop(cropArea: HTMLDivElement, parent: HTMLElement) {
         ref="cropArea"
         class="crop-area"
         :style="{ width: width, height: height }"
+        tabindex="0"
+        aria-label="Crop area"
         @mousedown="startDraggingArea"
         @touchstart="startDraggingAreaTouch"
+        @keydown="onCropAreaKeyDown"
       />
     </div>
     <footer>

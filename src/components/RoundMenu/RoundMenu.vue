@@ -32,6 +32,16 @@ function calculateButtonPosition() {
 
 <template>
     <div class="round-menu">
+      <div class="option" :class="{'z-[1]': !isExpanded}">
+        <Button
+          :color="!isExpanded ? 'success' : 'neutral'"
+          size="small"
+          :aria-label="isExpanded ? 'Close menu' : 'Open menu'"
+          :aria-expanded="isExpanded"
+          @click="isExpanded = !isExpanded"
+          round
+        />
+      </div>
       <div
         v-for="option, index in options"
         :key="index"
@@ -46,21 +56,16 @@ function calculateButtonPosition() {
           :icon="option.icon"
           round
           size="small"
+          :tabindex="isExpanded ? 0 : -1"
           @click="option.action()"
           @mouseenter="isHovering[index] = true"
           @mouseleave="isHovering[index] = false"
+          @focus="isHovering[index] = true"
+          @blur="isHovering[index] = false"
           :class="{'z-[50]': isHovering[index]}"
         >
           {{ option.label }}
         </Button>
-      </div>
-      <div class="option" :class="{'z-[1]': !isExpanded}">
-        <Button
-          :color="!isExpanded ? 'success' : 'neutral'"
-          size="small"
-          @click="isExpanded = !isExpanded"
-          round
-        />
       </div>
     </div>
 </template>

@@ -25,6 +25,7 @@ const content = ref<HTMLElement>();
 const card = ref<HTMLElement>();
 let openTimer: ReturnType<typeof setTimeout> | undefined;
 let previousFocus: HTMLElement | null = null;
+let pressedKey: string | null = null;
 
 const computedPadding = computed((): number => {
   if (
@@ -89,6 +90,7 @@ function restoreFocus() {
 }
 
 function onTriggerKeyDown(e: KeyboardEvent) {
+  pressedKey = content.value?.contains(e.target as Node) ? e.key : null;
   if (!model.value || e.key !== "Tab" || e.shiftKey) return;
   if (!content.value?.contains(e.target as Node)) return;
 
@@ -113,6 +115,13 @@ function updateModel(value: boolean) {
 function onTriggerClick(e: MouseEvent | KeyboardEvent) {
   if (props.mode !== "click" || props.disabled) return;
   if (content.value?.contains(e.target as Node)) updateModel(true);
+}
+
+function onTriggerKeyUp(e: KeyboardEvent) {
+  if (pressedKey !== e.key) return;
+
+  pressedKey = null;
+  onTriggerClick(e);
 }
 
 function closeCard() {
@@ -155,6 +164,7 @@ function isClickInsideElement(
   element: HTMLElement
 ): boolean {
   if (!element) return false;
+  if (element.contains(e.target as Node)) return true;
 
   const rect = element.getBoundingClientRect();
   
@@ -225,7 +235,7 @@ onBeforeUnmount(removeCloseListeners);
     ref="content"
     class="float-card-container"
     @click="onTriggerClick"
-    @keyup.enter.space="onTriggerClick"
+    @keyup.enter.space="onTriggerKeyUp"
     @mouseenter="mode == 'hover' ? updateModel(true) : null"
     @mouseleave="mode == 'hover' ? closeCard() : null"
     @keydown="onTriggerKeyDown"

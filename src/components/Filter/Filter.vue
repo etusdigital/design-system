@@ -102,16 +102,16 @@ function getValue(option: any): any {
 }
 
 function getSelected() {
-  const selected = props.options.filter((option: any) => {
-    const key = getValue(option);
-    const selected = model.value[key];
+  return props.options.reduce((total: number, option: any) => {
+    const selected = model.value[getValue(option)];
 
-    return option.options.filter((subOption: any) =>
-      selected?.some((x: any) => getValue(x) === getValue(subOption))
-    ).length;
-  });
-
-  return selected.length;
+    return (
+      total +
+      option.options.filter((subOption: any) =>
+        selected?.some((x: any) => getValue(x) === getValue(subOption))
+      ).length
+    );
+  }, 0);
 }
 
 function selectOption(option: any, subOption: any) {
@@ -170,7 +170,9 @@ function apply() {
 
 function getItems(): HTMLElement[] {
   const list = groupRefs.value.find(Boolean)?.parentElement;
-  return Array.from(list?.querySelectorAll<HTMLElement>("[data-filter-item]") ?? []);
+  return Array.from(
+    list?.querySelectorAll<HTMLElement>("[data-filter-item]") ?? []
+  ).filter((item) => item.tabIndex >= 0);
 }
 
 function focusItem(index: number) {

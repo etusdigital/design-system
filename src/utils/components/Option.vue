@@ -20,7 +20,7 @@ withDefaults(
 <template>
   <div
     role="option"
-    :tabindex="tabindex"
+    :tabindex="disabled ? -1 : tabindex"
     class="option-container"
     :class="{ secondary, disabled, noHover, selected }"
   >

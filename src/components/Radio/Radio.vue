@@ -69,7 +69,7 @@ function toggle() {
     @click="toggle"
     @keyup.enter.space="toggle"
   >
-    <span tabindex="0" class="out-circle" @keyup.space="toggle">
+    <span :tabindex="isDisabled ? -1 : 0" class="out-circle" @keydown.space.prevent>
       <span class="inside-circle" />
     </span>
     <template v-if="$slots.default">

@@ -132,10 +132,22 @@ function resize() {
           <Icon
             name="expand_more"
             v-if="expandable"
+            tabindex="0"
+            :aria-expanded="isExpanded"
             @click="isExpanded = !isExpanded"
+            @keydown.space.prevent
+            @keyup.enter.space="isExpanded = !isExpanded"
           />
         </div>
-        <Icon name="close" v-if="closable" @click="emit('close')" />
+        <Icon
+          name="close"
+          v-if="closable"
+          tabindex="0"
+          aria-label="Close"
+          @click="emit('close')"
+          @keydown.space.prevent
+          @keyup.enter.space="emit('close')"
+        />
       </div>
     </slot>
   </div>

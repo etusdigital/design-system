@@ -210,12 +210,12 @@ function calculateContentStyle() {
 </script>
 
 <template>
-  <div class="carousel" tabindex="0" @keyup="onKeyUp">
+  <div class="carousel" :tabindex="disabled ? -1 : 0" @keyup="onKeyUp">
     <div class="carousel-content" :class="{ vertical }">
       <div
         class="arrow-icon"
         :class="{ disabled: (model == 0 && !props.circular) || disabled }"
-        tabindex="0"
+        :tabindex="(model == 0 && !props.circular) || disabled ? -1 : 0"
         @click="setModel(model - 1)"
         @keyup.enter="setModel(model - 1)"
       >
@@ -240,7 +240,7 @@ function calculateContentStyle() {
             <div
               v-for="(option, index) in section"
               :key="index"
-              :inert="sectionIndex !== model"
+              :inert="sectionIndex !== model || disabled"
             >
               <slot
                 name="option"
@@ -256,7 +256,7 @@ function calculateContentStyle() {
         :class="{
           disabled: (model >= maxIndex && !props.circular) || disabled,
         }"
-        tabindex="0"
+        :tabindex="(model >= maxIndex && !props.circular) || disabled ? -1 : 0"
         @click="setModel(model + 1)"
         @keyup.enter="setModel(model + 1)"
       >
@@ -272,7 +272,7 @@ function calculateContentStyle() {
         :key="i"
         class="carousel-indicator"
         :class="{ active: model == i - 1, disabled }"
-        tabindex="0"
+        :tabindex="disabled ? -1 : 0"
         @click="setModel(i - 1)"
         @keyup.enter="setModel(i - 1)"
       />

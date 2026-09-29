@@ -191,7 +191,7 @@ function applyMasks(e: any) {
     </div>
     <div
       class="tag-input-container"
-      tabindex="0"
+      :tabindex="disabled ? -1 : 0"
       :class="{
         active: isFocused && !disabled,
         error: hasError || isError,
@@ -214,7 +214,7 @@ function applyMasks(e: any) {
         position="bottom"
         class="max-w-full"
       >
-        <StatusBadge color="neutral" class="tag-padding" size="small" :label-value="tag" closeable @close="removeTag(Number(index))" />
+        <StatusBadge color="neutral" class="tag-padding" size="small" :label-value="tag" :closeable="!disabled" @close="removeTag(Number(index))" />
         <template #label>
           <div class="max-w-[100%]">
             <span class="whitespace-normal break-all">{{ tag }}</span>

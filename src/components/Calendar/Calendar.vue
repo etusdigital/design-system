@@ -175,6 +175,16 @@ function showPopup(index: number) {
   updateOptions();
 }
 
+function closePopup(event: KeyboardEvent) {
+  if (!show.value.month && !show.value.year) return;
+
+  event.stopPropagation();
+  show.value.month = false;
+  show.value.year = false;
+  updateOptions();
+  titles.value[selectedIndex.value]?.focus();
+}
+
 function focusFirstPopupOption(event: KeyboardEvent) {
   if (event.shiftKey || (!show.value.month && !show.value.year)) return;
 
@@ -303,6 +313,7 @@ function changeYear(year: number) {
             @click="showPopup(index)"
             @keyup.enter.space="showPopup(index)"
             @keydown.tab="focusFirstPopupOption"
+            @keydown.esc="closePopup"
           >
             {{ option.title }}
           </h1>
@@ -352,7 +363,7 @@ function changeYear(year: number) {
         </table>
       </Transition>
     </div>
-    <div ref="popups" @focusout="hidePopup">
+    <div ref="popups" @focusout="hidePopup" @keydown.esc="closePopup">
       <DateDialog :model-value="show.month && !show.year" :options="months" wrap>
         <template #option="{ option }">
           <div

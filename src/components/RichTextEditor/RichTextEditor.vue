@@ -1635,6 +1635,8 @@ function camelToKebabCase(str: string): string {
                 type="file"
                 ref="imageInputRef"
                 accept="image/*"
+                tabindex="-1"
+                :disabled="disabled"
                 class="z-[1] absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
                 @change="handleImageUpload"
               />
@@ -1656,6 +1658,7 @@ function camelToKebabCase(str: string): string {
       role="textbox"
       :style="editorStyle"
       :contenteditable="!disabled"
+      :inert="disabled"
       :placeholder="placeholder"
       :aria-label="labelValue"
       :aria-required="required"

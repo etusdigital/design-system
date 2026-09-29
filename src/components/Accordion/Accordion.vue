@@ -107,6 +107,9 @@ function changeModel() {
           <Icon
             name="expand_more"
             class="text-neutral-interaction-default font-bold"
+            tabindex="0"
+            @keydown.space.prevent
+            @keyup.enter.space="changeModel"
           />
         </div>
       </div>

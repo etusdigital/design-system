@@ -67,7 +67,7 @@ function toggle() {
       type,
       { active: model, disabled: isDisabled },
     ]"
-    tabindex="0"
+    :tabindex="isDisabled ? -1 : 0"
     @click="toggle"
     @keyup.enter.space="toggle"
   >

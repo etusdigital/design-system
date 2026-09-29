@@ -115,6 +115,7 @@ function findIndex(option: any) {
           'past-button': index <= biggerStepSelected,
         },
       ]"
+      :tabindex="disabled ? -1 : 0"
       @click="changeActiveStep(option, index)"
     >
       <span class="step-value mr-[.6em]">{{
@@ -153,6 +154,7 @@ function findIndex(option: any) {
             'past-button': index <= biggerStepSelected,
             'skip-button': isSkipped(index),
           }"
+          :tabindex="disabled ? -1 : 0"
           @click="changeActiveStep(option, index)"
         >
           <Icon :name="option.icon ? option.icon : 'image'" />

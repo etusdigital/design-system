@@ -41,7 +41,7 @@ function changeModel(option: any, index: number) {
       v-for="(option, index) in options"
       :key="index"
       class="option"
-      tabindex="0"
+      :tabindex="disabled ? -1 : 0"
       :class="[
         position,
         option.type ? option.type : type,
@@ -401,6 +401,31 @@ function changeModel(option: any, index: number) {
   }
 }
 
+.top,
+.bottom {
+  .circle {
+    @apply z-[1];
+  }
+
+  .custom-border {
+    @apply left-0 right-0 h-0 border-t-[1.5px];
+  }
+
+  .custom-border.have-icon {
+    @apply mt-[1px];
+  }
+}
+
+.top.first-option .custom-border,
+.bottom.first-option .custom-border {
+  @apply left-[31px];
+}
+
+.top.last-option .custom-border,
+.bottom.last-option .custom-border {
+  @apply right-auto w-[21px];
+}
+
 .top {
   .circle {
     @apply top-[16px] left-[16px];
@@ -414,12 +439,12 @@ function changeModel(option: any, index: number) {
     @apply top-[9.5px] left-[16px];
   }
 
-  .data-list {
-    @apply border-t-[1.5px] pt-[20px] px-[16px] ml-0;
+  .custom-border {
+    @apply top-[20.25px];
   }
 
-  .custom-border {
-    @apply h-[.5px] w-full;
+  .data-list {
+    @apply pt-[20px] px-[16px] ml-0;
   }
 }
 
@@ -428,14 +453,6 @@ function changeModel(option: any, index: number) {
 }
 
 .top.first-option {
-  .custom-border {
-    @apply border-t-xxs ml-[26px] 2xl:mt-[0.5%];
-  }
-
-  .custom-border.have-icon {
-    @apply mt-[1px];
-  }
-
   .circle {
     @apply left-[26px];
   }
@@ -443,16 +460,6 @@ function changeModel(option: any, index: number) {
   .circle.round-icon,
   .circle.circle-icon {
     @apply left-[17px];
-  }
-}
-
-.top.last-option {
-  .custom-border {
-    @apply border-t-xxs w-[22px] left-[-5px] 2xl:mt-[0.5%];
-  }
-
-  .custom-border.have-icon {
-    @apply mt-[1px];
   }
 }
 
@@ -471,20 +478,16 @@ function changeModel(option: any, index: number) {
     @apply bottom-[10px] left-[16px];
   }
 
-  .data-list {
-    @apply border-[1.5px] p-[20px] px-[16px];
+  .custom-border {
+    @apply bottom-[20.25px];
   }
 
-  .custom-border {
-    @apply h-[.5px] w-full;
+  .data-list {
+    @apply p-[20px] px-[16px];
   }
 }
 
 .bottom.first-option {
-  .custom-border {
-    @apply border-xxs ml-[26px] bottom-[20.5px];
-  }
-
   .circle {
     @apply left-[26px];
   }
@@ -492,12 +495,6 @@ function changeModel(option: any, index: number) {
   .circle.round-icon,
   .circle.circle-icon {
     @apply left-[17px];
-  }
-}
-
-.bottom.last-option {
-  .custom-border {
-    @apply border-xxs w-[22px] left-[-5px] bottom-[20.5px];
   }
 }
 </style>

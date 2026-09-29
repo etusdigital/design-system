@@ -61,10 +61,10 @@ function toggle() {
     @keyup.enter.space="toggle"
   >
     <div
-      :tabindex="tabindex"
+      :tabindex="disabled ? -1 : tabindex"
       class="content"
       :class="{ active: isActive }"
-      @keyup.space="toggle"
+      @keydown.space.prevent
     >
       <svg
         v-show="model === null"

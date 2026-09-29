@@ -113,6 +113,8 @@ const style = computed((): any => {
     :style="style"
     @mouseover="isHovering = true"
     @mouseout="isHovering = false"
+    @focus="isHovering = true"
+    @blur="isHovering = false"
   >
     <div
       v-if="isLoading"

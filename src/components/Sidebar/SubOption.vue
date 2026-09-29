@@ -70,7 +70,7 @@ function getSelected(option: OptionType = props.option) {
   <component
     :key="option.value"
     :is="getLinkComponent()"
-    tabindex="0"
+    :tabindex="option.disabled ? -1 : 0"
     class="option"
     :class="{ selected: isSelected, 'pointer-events-none': option.disabled }"
     :to="path"

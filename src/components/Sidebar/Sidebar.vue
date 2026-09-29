@@ -187,7 +187,7 @@ function onEscape(event: KeyboardEvent) {
         >
           <component
             :is="getLinkComponent(option)"
-            tabindex="0"
+            :tabindex="option.disabled ? -1 : 0"
             class="rounded-base hover:no-underline"
             :class="{ 'pointer-events-none': option.disabled }"
             :aria-expanded="

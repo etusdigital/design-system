@@ -97,6 +97,11 @@ function onKeyDown(e: KeyboardEvent) {
   e.preventDefault();
   toggle();
 }
+
+function onKeyUp(e: KeyboardEvent) {
+  if (!labelContent.value || e.target !== e.currentTarget) return;
+  if (e.key === "Enter" || e.key === " ") e.stopPropagation();
+}
 </script>
 
 <template>
@@ -116,8 +121,9 @@ function onKeyDown(e: KeyboardEvent) {
         :aria-required="required"
         class="label-container"
         :class="{ 'pointer-events-none': disabled }"
-        tabindex="0"
+        :tabindex="disabled ? -1 : 0"
         @keydown="onKeyDown"
+        @keyup="onKeyUp"
       >
         <slot name="label">
           <div

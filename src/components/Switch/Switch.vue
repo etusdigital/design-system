@@ -37,7 +37,7 @@ function switchState() {
         @click="switchState"
     >
         <div
-            tabindex="0"
+            :tabindex="disabled ? -1 : 0"
             class="container"
             :class="{ active: model }"
             @keyup.enter.space="switchState"

@@ -253,12 +253,17 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
         <FloatCard
           v-model="showColor"
           :class="{ disabled: disabled }"
+          :disabled="disabled"
           v-if="isTypeValid('color')"
         >
           <div
             class="color-display"
             :class="{ disabled: disabled }"
             :style="{ backgroundColor: inputValue }"
+            role="button"
+            aria-label="Open color picker"
+            :tabindex="disabled ? -1 : 0"
+            @keydown.space.prevent
           />
           <template #card>
             <ColorPicker v-model="inputValue" no-shadow @update:model-value="onInput" />
@@ -274,7 +279,7 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
               focus: isFocused,
               'cursor-pointer': isTypeValid('password'),
             }"
-            tabindex="0"
+            :tabindex="disabled ? -1 : 0"
             @click="showPass = !showPass && isTypeValid('password')"
             @keyup.enter.space="showPass = !showPass && isTypeValid('password')"
           />
@@ -292,14 +297,14 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
       >
         <Icon
           name="arrow_drop_up"
-          tabindex="0"
+          :tabindex="disabled ? -1 : 0"
           class="number-icon"
           @click="increaseOrDecrease(+step)"
           @keyup.enter.space="increaseOrDecrease(+step)"
         />
         <Icon
           name="arrow_drop_down"
-          tabindex="0"
+          :tabindex="disabled ? -1 : 0"
           class="number-icon"
           @click="increaseOrDecrease(-step)"
           @keyup.enter.space="increaseOrDecrease(-step)"

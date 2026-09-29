@@ -112,14 +112,14 @@ function changeExpanded() {
           name="keyboard_arrow_right"
           :class="{ 'rotate-90': expanded }"
           class="expand-icon transition-transform"
-          tabindex="0"
+          :tabindex="option.disabled || disabled ? -1 : 0"
           @click="changeExpanded"
           @keyup.enter.space="changeExpanded"
         />
         <div
           class="tree-option-option"
           :class="{ 'pointer-events-none': option.disabled || disabled }"
-          tabindex="0"
+          :tabindex="option.disabled || disabled ? -1 : 0"
           @click="setModel(option)"
           @keyup.space="setModel(option)"
           @keyup.enter="setModel(option)"

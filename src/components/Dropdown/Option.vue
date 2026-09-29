@@ -51,9 +51,9 @@ function handleFocusOut(e: FocusEvent) {
 }
 
 function getOptionElements(container?: Element | null): HTMLElement[] {
-  return Array.from(container?.children ?? []).filter((el) =>
-    el.hasAttribute("data-dropdown-option")
-  ) as HTMLElement[];
+  return (Array.from(container?.children ?? []) as HTMLElement[]).filter(
+    (el) => el.hasAttribute("data-dropdown-option") && el.tabIndex >= 0
+  );
 }
 
 async function focusFirstSubOption() {
@@ -103,6 +103,7 @@ function onKeyDown(e: KeyboardEvent) {
     case "Enter":
     case " ":
       e.preventDefault();
+      if (props.option.disabled) break;
       if (hasSubOptions) focusFirstSubOption();
       else selectOption(props.option);
       break;
@@ -118,7 +119,7 @@ function getValue(option: any): any {
   <div
     ref="root"
     class="relative"
-    tabindex="0"
+    :tabindex="option.disabled ? -1 : 0"
     data-dropdown-option
     @focusout="handleFocusOut"
     @keydown="onKeyDown"

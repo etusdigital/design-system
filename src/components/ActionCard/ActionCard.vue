@@ -67,20 +67,12 @@ function getEvent(event: Event): Event {
 
 <template>
   <div class="action-card">
-    <Icon
-      v-if="!hideDrag"
-      class="side-icon cursor-grab"
-      :class="{ 'cursor-grabbing': isDragging }"
-      name="drag_indicator"
-      @mousedown="start"
-      @touchstart="start"
-    />
+    <Icon v-if="!hideDrag" class="side-icon cursor-grab" :class="{ 'cursor-grabbing': isDragging }"
+      name="drag_indicator" @mousedown="start" @touchstart="start" />
     <Card class="rounded-base [&>*]:px-xl">
       <header
         class="flex items-center gap-xs bg-primary-interaction-default text-neutral-foreground-negative rounded-base py-sm"
-        :class="{ 'rounded-b-none': $slots.card }"
-        :style="{ background: color }"
-      >
+        :class="{ 'rounded-b-none': $slots.card }" :style="{ background: color }">
         <Icon :name="icon" v-if="icon" class="leading-xxs" />
         <slot />
       </header>
@@ -88,7 +80,8 @@ function getEvent(event: Event): Event {
         <slot name="card" />
       </div>
     </Card>
-    <Icon class="side-icon cursor-pointer" name="delete" @click="emit('delete')" />
+    <Icon class="side-icon cursor-pointer" tabindex="0" name="delete" @click="emit('delete')"
+      @keyup.enter.space="emit('delete')" />
   </div>
 </template>
 

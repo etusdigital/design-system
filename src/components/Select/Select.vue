@@ -158,34 +158,34 @@ function selectOption(option: any) {
 }
 
 function onKeyDown(e: KeyboardEvent) {
-  const last = searchOption(searchText.value).length - 1;
+  const enabled = searchOption(searchText.value)
+    .map((option: any, index: number) => (option?.disabled ? -1 : index))
+    .filter((index: number) => index >= 0);
+  const last = enabled.length - 1;
   if (last < 0) return;
 
-  const hasSelection = selectedIndex.value != null;
+  const position =
+    selectedIndex.value != null ? enabled.indexOf(selectedIndex.value) : -1;
   switch (e.key) {
     case "ArrowUp":
       e.preventDefault();
       if (!expandedModel.value) setExpandedModel(true, { source: "click" });
-      selectedIndex.value = hasSelection
-        ? Math.max(selectedIndex.value! - 1, 0)
-        : last;
+      selectedIndex.value = enabled[position > -1 ? Math.max(position - 1, 0) : last];
       break;
     case "ArrowDown":
       e.preventDefault();
       if (!expandedModel.value) setExpandedModel(true, { source: "click" });
-      selectedIndex.value = hasSelection
-        ? Math.min(selectedIndex.value! + 1, last)
-        : 0;
+      selectedIndex.value = enabled[position > -1 ? Math.min(position + 1, last) : 0];
       break;
     case "Home":
       if (!expandedModel.value) break;
       e.preventDefault();
-      selectedIndex.value = 0;
+      selectedIndex.value = enabled[0];
       break;
     case "End":
       if (!expandedModel.value) break;
       e.preventDefault();
-      selectedIndex.value = last;
+      selectedIndex.value = enabled[last];
       break;
   }
 }
