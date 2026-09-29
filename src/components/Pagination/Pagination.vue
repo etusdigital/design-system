@@ -67,7 +67,7 @@ watch(() => props.length, () => {
 
 watch(() => props.modelValue, (newVal) => {
   if (newVal < 1) setModel(1);
-  else if (newVal > props.length) setModel(props.length);
+  else if (newVal > props.length && props.length > 0) setModel(props.length);
 });
 
 function changePage(page: number) {

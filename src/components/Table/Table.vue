@@ -70,14 +70,14 @@ const numberPage = computed((): number => {
 
   return Math.ceil(props.items?.length / itemsPerPageHolder.value);
 });
-const min = computed((): number =>
-  pageHolder.value === 1
-    ? 1
-    : (pageHolder.value - 1) * itemsPerPageHolder.value + 1
-);
 const max = computed(
   (): number =>
     (pageHolder.value - 1) * itemsPerPageHolder.value + pagedItems.value.length
+);
+const min = computed((): number =>
+  Math.min(max.value, pageHolder.value === 1
+    ? 1
+    : (pageHolder.value - 1) * itemsPerPageHolder.value + 1)
 );
 const total = computed((): number =>
   props.renderPaginationInBackEnd
