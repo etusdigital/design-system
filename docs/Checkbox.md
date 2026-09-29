@@ -42,6 +42,11 @@ Allows the checkbox to be in an indeterminate state. The `null` value is treated
 #### disabled
 Disables the checkbox interaction. Type: `boolean` (default: `false`)
 
+#### tabIndex
+Tab index of the focusable box. Type: `number` (default: `0`)
+
+Use `tabIndex={-1}` when the checkbox is only a visual indicator inside another focusable element, e.g. a multiple Select option.
+
 ---
 
 ### Events API
