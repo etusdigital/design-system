@@ -178,9 +178,9 @@ export function Table({
         currentPage * currentItemsPerPage,
       );
 
-  const min =
-    currentPage === 1 ? 1 : (currentPage - 1) * currentItemsPerPage + 1;
   const max = (currentPage - 1) * currentItemsPerPage + pagedItems.length;
+  const min =
+    Math.min(max, currentPage === 1 ? 1 : (currentPage - 1) * currentItemsPerPage + 1);
 
   let colspan = columns.length;
   if (enableSelection) colspan++;

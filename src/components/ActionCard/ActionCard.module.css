@@ -4,11 +4,13 @@
   @apply flex items-center gap-xxs transition-transform duration-150 ease-in-out;
 }
 
-.actionCard:hover {
+.actionCard:hover,
+.actionCard:focus-within {
   @apply transition-transform duration-150 ease-in-out scale-105;
 }
 
-.actionCard:hover .sideIcon {
+.actionCard:hover .sideIcon,
+.actionCard:focus-within .sideIcon {
   @apply text-neutral-interaction-default;
 }
 

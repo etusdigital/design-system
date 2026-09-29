@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback, Children, isValidElement } fr
 import clsx from 'clsx';
 import { Card } from '../Card/Card';
 import { Icon } from '../Icon/Icon';
+import { onEnterOrSpace, preventSpaceScroll } from '../../utils';
 import styles from './ActionCard.module.css';
 
 export interface ActionCardProps {
@@ -117,8 +118,15 @@ export function ActionCard({
         </header>
         {hasCardSlot && cardChildren}
       </Card>
-      <span className={clsx(styles.sideIcon, 'cursor-pointer')} onClick={onDelete}>
-        <Icon name="delete" />
+      <span className={clsx(styles.sideIcon, 'cursor-pointer')}>
+        <Icon
+          name="delete"
+          tabIndex={0}
+          aria-label="Delete"
+          onClick={() => onDelete?.()}
+          onKeyDown={preventSpaceScroll}
+          onKeyUp={onEnterOrSpace(() => onDelete?.())}
+        />
       </span>
     </div>
   );
