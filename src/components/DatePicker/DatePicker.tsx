@@ -1,7 +1,7 @@
 import { useState } from "react";
 import clsx from "clsx";
 import { useControllable } from "../../hooks";
-import { checkDateType } from "../../utils";
+import { checkDateType, dateOptions } from "../../utils";
 import { ExpandableContainer } from "../../utils/components/ExpandableContainer";
 import { Calendar } from "../Calendar/Calendar";
 import { Button } from "../Button/Button";
@@ -123,7 +123,7 @@ export function DatePicker({
   allowChangeType = false,
   expanded,
   onExpandedChange,
-  options,
+  options = dateOptions,
   hideActions = false,
   onClear,
   onTypeChange,
@@ -280,6 +280,7 @@ export function DatePicker({
               maxDate={maxDate}
               disabledDates={disabledDates}
               lang={lang}
+              doubleCalendar={controlledType !== "date"}
             />
           </div>
 

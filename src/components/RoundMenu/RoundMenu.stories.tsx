@@ -19,8 +19,9 @@ export default meta;
 type Story = StoryObj<typeof RoundMenu>;
 
 export const Primary: Story = {
-  render: () => (
-    <div className="px-[3em] py-[4em]">
+  render: () => {
+    return (
+    <div className="flex flex-col items-start gap-6xl px-[3em] py-[4em]">
       <RoundMenu
         options={[
           { icon: 'email', label: 'Send email', background: "#0057F4", onClick: () => {} },
@@ -35,5 +36,6 @@ export const Primary: Story = {
         ]}
       />
     </div>
-  ),
+    );
+  },
 };

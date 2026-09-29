@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import { Button } from '../Button/Button';
 import { Icon } from '../Icon/Icon';
+import { onEnterOrSpace } from '../../utils/index';
 import { useTransition } from '../../hooks/useTransition';
 import styles from './Image.module.css';
 
@@ -36,6 +37,8 @@ export function Image({
 
   const { isMounted, isActive } = useTransition(isPreviewOpen, { duration: 150 });
 
+  const triggerRef = useRef<HTMLSpanElement>(null);
+
   const imageStyle: React.CSSProperties = {};
   if (width) {
     imageStyle.width = typeof width === 'number' ? `${width}px` : width;
@@ -60,6 +63,7 @@ export function Image({
     document.body.style.overflow = '';
     setRotate(0);
     setScale(1);
+    triggerRef.current?.focus({ preventScroll: true });
     onHide?.();
   }
 
@@ -79,18 +83,6 @@ export function Image({
     setScale((s) => Math.max(s - 0.1, 0.5));
   }
 
-  useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      if (!isPreviewOpen) return;
-      if (event.code === 'Escape') {
-        hidePreview();
-      }
-    }
-    document.addEventListener('keydown', onKeyDown);
-    return () => {
-      document.removeEventListener('keydown', onKeyDown);
-    };
-  }, [isPreviewOpen]);
 
   useEffect(() => {
     return () => {
@@ -144,11 +136,20 @@ export function Image({
     }
   }
 
+  function handlePreviewEscape(e: React.KeyboardEvent<HTMLDivElement>) {
+    if (e.key !== 'Escape') return;
+    e.stopPropagation();
+    hidePreview();
+  }
+
   return (
     <span
+      ref={triggerRef}
+      tabIndex={preview ? 0 : -1}
       className={clsx(styles.image, 'image', className)}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
+      onKeyUp={preview ? onEnterOrSpace(showPreview) : undefined}
     >
       <img src={src} alt={alt} style={imageStyle} className={styles.imageContent} />
 
@@ -176,6 +177,8 @@ export function Image({
                 styles.imagePreviewContainer,
                 isActive && styles.previewImageActive
               )}
+              tabIndex={-1}
+              onKeyDown={handlePreviewEscape}
             >
               <img
                 src={src}
@@ -195,6 +198,7 @@ export function Image({
               role="dialog"
               aria-modal
               tabIndex={-1}
+              onKeyDown={handlePreviewEscape}
             >
               {tools.map((tool) => (
                 <Button
@@ -205,6 +209,7 @@ export function Image({
                   className={styles.tool}
                   color="neutral"
                   variant="plain"
+                  size="small"
                   round
                   onClick={tool.onClick}
                 />

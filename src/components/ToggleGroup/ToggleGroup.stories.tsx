@@ -1,8 +1,13 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ToggleGroup } from './ToggleGroup';
 
 const meta: Meta<typeof ToggleGroup> = {
   component: ToggleGroup,
+  render: (args: any) => {
+    const [value, setValue] = useState(args.value);
+    return <ToggleGroup {...args} value={value} onChange={setValue} />;
+  },
   argTypes: {
     value: {
       type: { name: 'other', value: 'any' },
@@ -93,10 +98,14 @@ export const Disabled: Story = {
 };
 
 export const Types: Story = {
-  render: () => (
-    <div className="flex flex-col gap-xs">
-      <ToggleGroup value={1} options={defaultOptions} type="default" />
-      <ToggleGroup value={1} options={defaultOptions} type="secondary" />
-    </div>
-  ),
+  render: () => {
+    const [defaultValue, setDefaultValue] = useState<any>(1);
+    const [secondaryValue, setSecondaryValue] = useState<any>(1);
+    return (
+      <div className="flex flex-col gap-xs">
+        <ToggleGroup value={defaultValue} onChange={setDefaultValue} options={defaultOptions} type="default" />
+        <ToggleGroup value={secondaryValue} onChange={setSecondaryValue} options={defaultOptions} type="secondary" />
+      </div>
+    );
+  },
 };

@@ -30,6 +30,7 @@ export interface ContainerProps {
   leadingComplement?: React.ReactNode;
   renderContent?: (minWidth: string) => React.ReactNode;
   className?: string;
+  onKeyDown?: (e: React.KeyboardEvent) => void;
 }
 
 export function Container({
@@ -55,6 +56,7 @@ export function Container({
   leadingComplement,
   renderContent,
   className,
+  onKeyDown: onKeyDownProp,
 }: ContainerProps) {
   const [model, setModel] = useControllable<boolean>({
     value,
@@ -103,10 +105,16 @@ export function Container({
   }
 
   function onKeyDown(e: React.KeyboardEvent) {
+    onKeyDownProp?.(e);
     if (label || e.target !== e.currentTarget) return;
     if (e.key !== 'Enter' && e.key !== ' ') return;
     e.preventDefault();
     toggle();
+  }
+
+  function onKeyUp(e: React.KeyboardEvent) {
+    if (label || e.target !== e.currentTarget) return;
+    if (e.key === 'Enter' || e.key === ' ') e.stopPropagation();
   }
 
   return (
@@ -123,8 +131,9 @@ export function Container({
           aria-disabled={disabled || undefined}
           aria-required={required || undefined}
           className="label-container"
-          tabIndex={0}
+          tabIndex={disabled ? -1 : 0}
           onKeyDown={onKeyDown}
+          onKeyUp={onKeyUp}
         >
           {label || (
             <div

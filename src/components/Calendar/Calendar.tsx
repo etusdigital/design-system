@@ -7,6 +7,7 @@ import {
   checkDateType,
   capitalizeFirstLetter,
   isRange,
+  onEnterOrSpace,
 } from "../../utils/index";
 import { useTransition } from "../../hooks/useTransition";
 import { Icon } from "../Icon/Icon";
@@ -90,7 +91,9 @@ function CalendarDay({
         isOutsideMonth && styles.outsideMonth,
         isDisabled && styles.disabled,
       )}
+      tabIndex={isDisabled ? -1 : 0}
       onClick={isDisabled ? undefined : onClick}
+      onKeyUp={isDisabled ? undefined : onEnterOrSpace(() => onClick())}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       role="gridcell"
@@ -134,9 +137,10 @@ function CalendarDateDialog({
     "month",
   );
   const yearListRef = useRef<HTMLDivElement>(null);
+  const popupsRef = useRef<HTMLDivElement>(null);
 
   const yearRange: number[] = [];
-  for (let y = currentYear - 10; y <= currentYear + 10; y++) {
+  for (let y = currentYear; y >= currentYear - 100; y--) {
     yearRange.push(y);
   }
 
@@ -158,6 +162,27 @@ function CalendarDateDialog({
     }
   }, [activePanel]);
 
+  function focusFirstPopupOption(event: React.KeyboardEvent<HTMLButtonElement>) {
+    if (event.key !== "Tab" || event.shiftKey || !activePanel) return;
+
+    const popup = activePanel === "year" ? "year" : "month";
+    const option = popupsRef.current?.querySelector<HTMLElement>(`[data-popup="${popup}"]`);
+    if (!option) return;
+
+    event.preventDefault();
+    option.focus();
+  }
+
+  function focusHeaderOnLastTab(event: React.KeyboardEvent<HTMLButtonElement>, isLast: boolean, headerButton: HTMLButtonElement | null) {
+    if (event.key !== "Tab" || !isLast || event.shiftKey) return;
+
+    event.preventDefault();
+    headerButton?.focus();
+  }
+
+  const monthButtonRef = useRef<HTMLButtonElement>(null);
+  const yearButtonRef = useRef<HTMLButtonElement>(null);
+
   return (
     <Card
       className={clsx(
@@ -168,6 +193,7 @@ function CalendarDateDialog({
     >
       <div className={styles.dialogHeader}>
         <button
+          ref={monthButtonRef}
           className={clsx(
             styles.headerToggle,
             activePanel === "month" && styles.headerToggleActive,
@@ -179,6 +205,7 @@ function CalendarDateDialog({
           {months[currentMonth]?.label ?? ""}
         </button>
         <button
+          ref={yearButtonRef}
           className={clsx(
             styles.headerToggle,
             activePanel === "year" && styles.headerToggleActive,
@@ -186,50 +213,68 @@ function CalendarDateDialog({
           onClick={() =>
             setActivePanel((prev) => (prev === "year" ? null : "year"))
           }
+          onKeyDown={focusFirstPopupOption}
         >
           {currentYear}
         </button>
       </div>
 
-      {activePanel === "month" && (
-        <div className={styles.monthGrid}>
-          {months.map((m) => (
-            <button
-              key={m.value}
-              className={clsx(
-                styles.monthButton,
-                m.value === currentMonth && styles.monthActive,
-              )}
-              onClick={() => {
-                onSelectMonth(m.value);
-                setActivePanel(null);
-              }}
-            >
-              {m.label}
-            </button>
-          ))}
-        </div>
-      )}
+      <div ref={popupsRef} onBlur={(e: React.FocusEvent<HTMLDivElement>) => {
+        const related = e.relatedTarget as Node | null;
+        if (
+          popupsRef.current?.contains(related) ||
+          related === monthButtonRef.current ||
+          related === yearButtonRef.current
+        )
+          return;
+        setActivePanel(null);
+      }}>
+        {activePanel === "month" && (
+          <div className={styles.monthGrid}>
+            {months.map((m, idx) => (
+              <button
+                key={m.value}
+                data-popup="month"
+                className={clsx(
+                  styles.monthButton,
+                  m.value === currentMonth && styles.monthActive,
+                )}
+                tabIndex={0}
+                onClick={() => {
+                  onSelectMonth(m.value);
+                  setActivePanel(null);
+                }}
+                onKeyDown={(e) => focusHeaderOnLastTab(e, idx === months.length - 1, monthButtonRef.current)}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+        )}
 
-      {activePanel === "year" && (
-        <div className={styles.yearList} ref={yearListRef}>
-          {yearRange.map((yr) => (
-            <button
-              key={yr}
-              className={clsx(
-                styles.yearButton,
-                yr === currentYear && styles.yearActive,
-              )}
-              onClick={() => {
-                onSelectYear(yr);
-                setActivePanel(null);
-              }}
-            >
-              {yr}
-            </button>
-          ))}
-        </div>
-      )}
+        {activePanel === "year" && (
+          <div className={styles.yearList} ref={yearListRef}>
+            {yearRange.map((yr, idx) => (
+              <button
+                key={yr}
+                data-popup="year"
+                className={clsx(
+                  styles.yearButton,
+                  yr === currentYear && styles.yearActive,
+                )}
+                tabIndex={0}
+                onClick={() => {
+                  onSelectYear(yr);
+                  setActivePanel(null);
+                }}
+                onKeyDown={(e) => focusHeaderOnLastTab(e, idx === yearRange.length - 1, yearButtonRef.current)}
+              >
+                {yr}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     </Card>
   );
 }
@@ -432,6 +477,8 @@ export function Calendar({
   const [transitionKey, setTransitionKey] = useState(0);
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
   const header = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLButtonElement>(null);
+  const dateDialogRef = useRef<HTMLDivElement>(null);
 
   const isBackRef = useRef(false);
   const { isMounted: _gridMounted, isActive: _gridActive } = useTransition(
@@ -545,6 +592,7 @@ export function Calendar({
     setTransitionKey((k) => k + 1);
     setCurrentMonth(month);
     setShowDateDialog(false);
+    titleRef.current?.focus();
   }
 
   function handleSelectYear(year: number) {
@@ -552,6 +600,27 @@ export function Calendar({
     setTransitionKey((k) => k + 1);
     setCurrentYear(year);
     setShowDateDialog(false);
+    titleRef.current?.focus();
+  }
+
+  function closeDateDialog(e: React.KeyboardEvent) {
+    if (e.key !== "Escape" || !showDateDialog) return false;
+
+    e.stopPropagation();
+    setShowDateDialog(false);
+    titleRef.current?.focus();
+    return true;
+  }
+
+  function focusDateDialog(e: React.KeyboardEvent) {
+    if (closeDateDialog(e)) return;
+    if (e.key !== "Tab" || e.shiftKey || !showDateDialog) return;
+
+    const firstButton = dateDialogRef.current?.querySelector<HTMLElement>("button");
+    if (!firstButton) return;
+
+    e.preventDefault();
+    firstButton.focus();
   }
 
   function getPosition(week: any[], index: number) {
@@ -625,21 +694,26 @@ export function Calendar({
       <div className={styles.header} ref={header}>
         <button
           className={styles.navButton}
+          tabIndex={0}
           onClick={prevMonth}
           aria-label="Previous month"
         >
           <Icon name="chevron_left" className="leading-xxs" />
         </button>
 
-        <span
+        <button
+          ref={titleRef}
           className={styles.monthYear}
+          tabIndex={0}
           onClick={() => setShowDateDialog((v) => !v)}
+          onKeyDown={focusDateDialog}
         >
           {doubleCalendar ? `${monthLabel} – ${nextMonthLabel}` : monthLabel}
-        </span>
+        </button>
 
         <button
           className={styles.navButton}
+          tabIndex={0}
           onClick={nextMonth}
           aria-label="Next month"
         >
@@ -648,15 +722,17 @@ export function Calendar({
       </div>
 
       {showDateDialog && (
-        <CalendarDateDialog
-          header={header}
-          months={months}
-          currentMonth={currentMonth}
-          currentYear={currentYear}
-          isOpen={showDateDialog}
-          onSelectMonth={handleSelectMonth}
-          onSelectYear={handleSelectYear}
-        />
+        <div ref={dateDialogRef} onKeyDown={closeDateDialog}>
+          <CalendarDateDialog
+            header={header}
+            months={months}
+            currentMonth={currentMonth}
+            currentYear={currentYear}
+            isOpen={showDateDialog}
+            onSelectMonth={handleSelectMonth}
+            onSelectYear={handleSelectYear}
+          />
+        </div>
       )}
 
       <div className={styles.slideContainer}>

@@ -281,7 +281,7 @@ export const Options: Story = {
       <DatePicker
         value={value}
         onChange={setValue}
-        type="date"
+        type="period"
         labelValue="Date Filter"
         clearLabel="Clear"
         applyLabel="Apply"

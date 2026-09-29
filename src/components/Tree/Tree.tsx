@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from 'react';
 import clsx from 'clsx';
 import { type Option as DropOption } from '../../utils/types/DropOption';
 import { useControllable } from '../../hooks/useControllable';
+import { onEnterOrSpace, preventSpaceScroll } from '../../utils/index';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { Icon } from '../Icon/Icon';
 import styles from './Tree.module.css';
@@ -197,6 +198,11 @@ function TreeNode({ option, depth = 0 }: { option: DropOption; depth?: number })
   const isExpanded = ctx.expandedNodes.has(nodeValue);
   const hasChildren = Boolean(option.options && option.options.length > 0);
   const isSelected = checkIsSelected(ctx.selectedValue, nodeValue, ctx, option);
+  const isDisabled = ctx.disabled || option.disabled;
+
+  function selectNode() {
+    if (!isDisabled) ctx.onSelect(option, !isSelected);
+  }
 
   return (
     <div className={styles.treeOption} style={{ paddingLeft: depth * 16 }}>
@@ -205,38 +211,49 @@ function TreeNode({ option, depth = 0 }: { option: DropOption; depth?: number })
           styles.nodeRow,
           isSelected === true && styles.selected,
           ctx.multiple && styles.multiple,
-          (ctx.disabled || option.disabled) && styles.disabled
+          isDisabled && styles.disabled
         )}
-        onClick={() => {
-          if (!ctx.disabled && !option.disabled) {
-            ctx.onSelect(option, !isSelected);
-          }
-        }}
+        role="option"
+        aria-selected={isSelected === true}
+        onClick={selectNode}
       >
         {hasChildren && (
           <Icon
+            tabIndex={isDisabled ? -1 : 0}
             name="keyboard_arrow_right"
             className={clsx(styles.expandIcon, isExpanded && styles.expandIconOpen)}
             onClick={(e: any) => {
               e.stopPropagation();
               ctx.onToggleExpand(nodeValue);
             }}
+            onKeyUp={onEnterOrSpace((e: any) => {
+              e.stopPropagation();
+              ctx.onToggleExpand(nodeValue);
+            })}
           />
         )}
-        {ctx.multiple && (
-          <Checkbox
-            value={isSelected}
-            onChange={() => {}}
-            disabled={ctx.disabled || option.disabled}
-            allowIndeterminate
-          />
-        )}
-        {option.icon && (
-          <Icon name={option.icon} className={styles.nodeIcon} />
-        )}
-        <span className={clsx(styles.nodeLabel)}>
-          {nodeLabel}
-        </span>
+        <div
+          className={styles.nodeOption}
+          tabIndex={isDisabled ? -1 : 0}
+          onKeyDown={preventSpaceScroll}
+          onKeyUp={onEnterOrSpace(selectNode)}
+        >
+          {ctx.multiple && (
+            <Checkbox
+              value={isSelected}
+              onChange={() => {}}
+              disabled={isDisabled}
+              allowIndeterminate
+              tabIndex={-1}
+            />
+          )}
+          {option.icon && (
+            <Icon name={option.icon} className={styles.nodeIcon} />
+          )}
+          <span className={clsx(styles.nodeLabel)}>
+            {nodeLabel}
+          </span>
+        </div>
       </div>
       {isExpanded && hasChildren &&
         option.options!.map((child) => (

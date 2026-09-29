@@ -303,6 +303,52 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     const effectiveValue = dragValue ?? currentValue;
     const modelArray = getModelArray(effectiveValue);
 
+    const handleCursorKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>, index: number) => {
+      if (disabled) return;
+
+      const increaseKey = vertical ? "ArrowUp" : "ArrowRight";
+      const decreaseKey = vertical ? "ArrowDown" : "ArrowLeft";
+
+      let direction = 0;
+      if (event.key === increaseKey) direction = 1;
+      else if (event.key === decreaseKey) direction = -1;
+      else return;
+
+      event.preventDefault();
+      const modelArray = getModelArray(currentValueRef.current);
+      const current = toPercentage(modelArray[index]);
+      let next: number | undefined;
+
+      if (steps && steps.length) {
+        const sortedSteps = [...steps].sort((a, b) => a.value - b.value);
+        const stepPercentages = sortedSteps.map((s) => toPercentage(s.value));
+        const nextStep = direction > 0
+          ? stepPercentages.find((step) => step > current)
+          : [...stepPercentages].reverse().find((step) => step < current);
+        next = nextStep;
+      } else {
+        next = Math.min(1, Math.max(0, current + direction * 0.01));
+        next = Math.round(next * 10000) / 10000;
+      }
+
+      if (next === undefined || next === current) return;
+
+      const rawValue = fromPercentage(next);
+      let newValue: number | [number, number];
+      if (isRange) {
+        const arr: [number, number] = [...modelArray] as [number, number];
+        arr[index] = rawValue;
+        newValue = arr;
+      } else {
+        newValue = rawValue;
+      }
+
+      currentValueRef.current = newValue;
+      setValue(newValue);
+      setDragValue(newValue);
+      setTimeout(() => calculateCursor(), 0);
+    }, [disabled, vertical, steps, isRange, calculateCursor, setValue, max]);
+
     const getStepStyle = (step: { label: string; value: number }) => {
       const pct = max ? step.value / max : step.value;
       const style: React.CSSProperties = {};
@@ -443,6 +489,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                   color && styles.coloredCursor
                 )}
                 style={getCursorStyle(index)}
+                tabIndex={disabled ? -1 : 0}
                 onMouseDown={(e) => {
                   e.stopPropagation();
                   startDragging(index);
@@ -451,6 +498,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                   e.stopPropagation();
                   startDragging(index);
                 }}
+                onKeyDown={(e) => handleCursorKeyDown(e, index)}
               />
             </Tooltip>
           ) : (
@@ -463,6 +511,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                 color && styles.coloredCursor
               )}
               style={getCursorStyle(index)}
+              tabIndex={disabled ? -1 : 0}
               onMouseDown={(e) => {
                 e.stopPropagation();
                 startDragging(index);
@@ -471,6 +520,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
                 e.stopPropagation();
                 startDragging(index);
               }}
+              onKeyDown={(e) => handleCursorKeyDown(e, index)}
             />
           )
         ))}

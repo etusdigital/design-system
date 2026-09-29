@@ -4,6 +4,7 @@ import { Avatar } from '../Avatar/Avatar';
 import { Button } from '../Button/Button';
 import { Icon } from '../Icon/Icon';
 import { useControllable } from '../../hooks/useControllable';
+import { onEnterOrSpace } from '../../utils/index';
 import styles from './Profile.module.css';
 import { isObject } from '#utils/index';
 
@@ -69,6 +70,20 @@ export function Profile({
   const [searchValue, setSearchValue] = useState('');
   const [onFocusInput, setOnFocusInput] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const wasOpenRef = useRef(false);
+
+  useEffect(() => {
+    const activeElement = document.activeElement;
+    if (isOpen) dropdownRef.current?.focus({ preventScroll: true });
+    else if (
+      wasOpenRef.current &&
+      (activeElement === document.body || wrapperRef.current?.contains(activeElement))
+    )
+      triggerRef.current?.focus({ preventScroll: true });
+    wasOpenRef.current = isOpen;
+  }, [isOpen]);
 
   useEffect(() => {
     function handleMouseDown(event: MouseEvent) {
@@ -131,7 +146,10 @@ export function Profile({
             styles.trigger,
             'flex items-center gap-xs text-2xl mr-xxs text-neutral-interaction-default'
           )}
+          ref={triggerRef}
+          tabIndex={disabled ? -1 : 0}
           onClick={toggleOpen}
+          onKeyUp={onEnterOrSpace(toggleOpen)}
         >
           <Avatar name={name} src={picture} size="small" alt="profile picture" />
           <p className="text-sm font-bold">{displayName}</p>
@@ -139,7 +157,16 @@ export function Profile({
       )}
 
       {isOpen && (
-        <div className={styles.dropdown}>
+        <div
+          ref={dropdownRef}
+          className={clsx(styles.dropdown, 'outline-none')}
+          tabIndex={-1}
+          onKeyDown={(e) => {
+            if (e.key !== 'Escape') return;
+            e.stopPropagation();
+            setIsOpen(false);
+          }}
+        >
           <div className="flex flex-col items-center gap-xs text-9xl px-xs py-sm text-neutral-interaction-default">
             <Avatar name={name} src={picture} size="large" alt="profile picture" />
             {!!(model && getLabel(selected) && name) && (
@@ -192,11 +219,13 @@ export function Profile({
                     return (
                       <div
                         key={index}
+                        tabIndex={0}
                         className={clsx(
                           styles.profileOption,
                           'justify-start w-full [&>*]:text-sm hover:bg-neutral-surface-highlight'
                         )}
                         onClick={() => updateModel(option)}
+                        onKeyUp={onEnterOrSpace(() => updateModel(option))}
                       >
                         {renderOption ? (
                           renderOption({ option, index, active })
@@ -228,24 +257,28 @@ export function Profile({
           >
             {!!model && (
               <div
+                tabIndex={0}
                 className={clsx(
                   styles.profileOption,
                   styles.profileOptionAction,
                   'text-neutral-interaction-default hover:bg-neutral-surface-highlight'
                 )}
                 onClick={onEditOption}
+                onKeyUp={onEditOption ? onEnterOrSpace(onEditOption) : undefined}
               >
                 <Icon name="person" className={styles.profileIcon} />
                 <p className="text-sm font-bold">{editOptionLabel}</p>
               </div>
             )}
             <div
+              tabIndex={0}
               className={clsx(
                 styles.profileOption,
                 styles.profileOptionAction,
                 'text-danger-interaction-default hover:bg-danger-surface-default'
               )}
               onClick={onLogout}
+              onKeyUp={onLogout ? onEnterOrSpace(onLogout) : undefined}
             >
               <Icon name="logout" className={styles.profileIcon} />
               <p className="text-sm font-bold">{logoutLabel}</p>
@@ -253,10 +286,20 @@ export function Profile({
           </div>
 
           <div className="flex items-center justify-center px-xs py-sm pt-xl text-neutral-interaction-default font-bold text-xxs gap-5 [&>*]:cursor-pointer">
-            <p onClick={onPrivacyPolicy} className="hover:underline">
+            <p
+              tabIndex={0}
+              onClick={onPrivacyPolicy}
+              onKeyUp={onPrivacyPolicy ? onEnterOrSpace(onPrivacyPolicy) : undefined}
+              className="hover:underline"
+            >
               {privacyPolicyLabel}
             </p>
-            <p onClick={onTermsOfUse} className="hover:underline">
+            <p
+              tabIndex={0}
+              onClick={onTermsOfUse}
+              onKeyUp={onTermsOfUse ? onEnterOrSpace(onTermsOfUse) : undefined}
+              className="hover:underline"
+            >
               {termsOfUseLabel}
             </p>
           </div>

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, Children, isValidElement } from "react";
 import clsx from "clsx";
+import { onEnterOrSpace } from "../../utils/index";
 import styles from "./FileUpload.module.css";
 import { Icon } from "../Icon";
 
@@ -214,11 +215,13 @@ export function FileUpload({
                   </p>
                   {!disabled && (
                     <Icon
+                      tabIndex={0}
                       className={clsx(
                         styles.trachIcon,
                         styles[size],
                       )}
                       onClick={deleteFile}
+                      onKeyUp={onEnterOrSpace(deleteFile)}
                       aria-label="Remove file"
                       name="delete"
                     />

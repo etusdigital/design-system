@@ -1,8 +1,13 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Radio } from './Radio';
 
 const meta = {
   component: Radio,
+  render: (args: any) => {
+    const [value, setValue] = useState(args.value);
+    return <Radio {...args} value={value} onChange={setValue} />;
+  },
   argTypes: {
     value: {
       type: { name: 'boolean' },

@@ -112,7 +112,7 @@ export function Navbar({
             {showNotifications && (
               <FloatCard card={notifications}>
                 <button className={styles.notificationButton} type="button" aria-label="Notifications">
-                  <Icon name="notifications" className={styles.navbarIcon} />
+                  <Icon tabIndex={0} name="notifications" className={styles.navbarIcon} />
                 </button>
               </FloatCard>
             )}

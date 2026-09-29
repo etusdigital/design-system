@@ -22,6 +22,9 @@ export interface ButtonProps {
   background?: string;
   children?: React.ReactNode;
   className?: string;
+  tabIndex?: number;
+  'aria-label'?: string;
+  'aria-expanded'?: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -41,6 +44,9 @@ export function Button({
   background = '',
   children,
   className,
+  tabIndex,
+  'aria-label': ariaLabel,
+  'aria-expanded': ariaExpanded,
   onClick,
 }: ButtonProps) {
   const [isHovering, setIsHovering] = useState(false);
@@ -114,8 +120,13 @@ export function Button({
         className
       )}
       style={computedStyle}
+      tabIndex={tabIndex}
+      aria-label={ariaLabel}
+      aria-expanded={ariaExpanded}
       onMouseOver={() => setIsHovering(true)}
       onMouseOut={() => setIsHovering(false)}
+      onFocus={() => setIsHovering(true)}
+      onBlur={() => setIsHovering(false)}
       onClick={onClick}
     >
       {isLoading && (

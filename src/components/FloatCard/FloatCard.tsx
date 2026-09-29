@@ -36,6 +36,8 @@ export function FloatCard({
   const contentRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+  const pressedKeyRef = useRef<string | null>(null);
+  const shouldAutoFocusRef = useRef(false);
 
   const { isMounted, isActive } = useTransition(!!isOpen, { duration: 200 });
 
@@ -70,19 +72,28 @@ export function FloatCard({
       cardContent.style.top = `${rect.bottom + padding}px`;
     }
 
-    if (mode === 'click' && !manualFocus) focusCard();
+    if (mode === 'click' && !manualFocus && shouldAutoFocusRef.current) {
+      shouldAutoFocusRef.current = false;
+      focusCard();
+    }
   }, [mode, manualFocus]);
 
   function focusCard() {
     const cardContent = cardRef.current?.firstElementChild as HTMLElement | null;
     if (!cardContent) return;
 
-    previousFocusRef.current = document.activeElement as HTMLElement | null;
+    if (contentRef.current?.contains(document.activeElement))
+      previousFocusRef.current = document.activeElement as HTMLElement;
     cardContent.tabIndex = -1;
     cardContent.focus({ preventScroll: true });
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {
+    pressedKeyRef.current = contentRef.current?.contains(e.target as Node) ? e.key : null;
+    if (e.key === 'Escape') {
+      handleEscape(e);
+      return;
+    }
     if (!isOpen || e.key !== 'Tab' || e.shiftKey) return;
     if (!contentRef.current?.contains(e.target as Node)) return;
 
@@ -90,7 +101,23 @@ export function FloatCard({
     focusCard();
   }
 
+  function handleEscape(e: React.KeyboardEvent) {
+    if (!isOpen) return;
+
+    e.stopPropagation();
+    closeCard();
+  }
+
+  function handleKeyUp(e: React.KeyboardEvent) {
+    if (mode !== 'click' || disabled) return;
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    if (pressedKeyRef.current !== e.key) return;
+    pressedKeyRef.current = null;
+    if (contentRef.current?.contains(e.target as Node)) setIsOpen(true);
+  }
+
   useEffect(() => {
+    shouldAutoFocusRef.current = !!isOpen;
     if (isOpen) {
       if (contentRef.current?.contains(document.activeElement))
         previousFocusRef.current = document.activeElement as HTMLElement;
@@ -129,10 +156,11 @@ export function FloatCard({
       const clientX = 'clientX' in e ? e.clientX : 0;
       const clientY = 'clientY' in e ? e.clientY : 0;
       const isInsideCard =
-        clientX >= rect.left &&
-        clientX <= rect.right &&
-        clientY >= rect.top &&
-        clientY <= rect.bottom;
+        cardContent.contains(e.target as Node) ||
+        (clientX >= rect.left &&
+          clientX <= rect.right &&
+          clientY >= rect.top &&
+          clientY <= rect.bottom);
 
       if (isWheel && isInsideCard) {
         let current = e.target as HTMLElement;
@@ -171,6 +199,7 @@ export function FloatCard({
       onMouseEnter={mode === 'hover' && !disabled ? () => setIsOpen(true) : undefined}
       onMouseLeave={mode === 'hover' && !disabled ? closeCard : undefined}
       onKeyDown={handleKeyDown}
+      onKeyUp={handleKeyUp}
       className={clsx('float-card-container', className)}
     >
       {isMounted &&

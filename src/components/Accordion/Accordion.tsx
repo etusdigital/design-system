@@ -1,6 +1,7 @@
 import { useRef, useEffect, useLayoutEffect } from "react";
 import clsx from "clsx";
 import { useControllable } from "../../hooks/useControllable";
+import { onEnterOrSpace, preventSpaceScroll } from "../../utils";
 import styles from "./Accordion.module.css";
 import { Icon } from "../Icon";
 import { Card } from "../Card";
@@ -108,6 +109,9 @@ export function Accordion({
           <Icon
             className={clsx(styles.chevron, isExpanded && styles.expanded)}
             name="expand_more"
+            tabIndex={disabled ? -1 : 0}
+            onKeyDown={preventSpaceScroll}
+            onKeyUp={onEnterOrSpace(handleToggle)}
           />
         </div>
         <div

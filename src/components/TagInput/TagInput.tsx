@@ -243,7 +243,7 @@ export function TagInput({
               labelValue={String(tag)}
               color="neutral"
               size="small"
-              closeable
+              closeable={!disabled}
               onClose={() => removeTag(index)}
             />
           </Tooltip>

@@ -11,6 +11,7 @@ import {
   rgbaToHexa,
   rgbaToHsla,
   getPosition,
+  onEnterOrSpace,
 } from '../../utils/index';
 import styles from './ColorPicker.module.css';
 import { Icon } from '../Icon/Icon';
@@ -295,15 +296,13 @@ export function ColorPicker(props: ColorPickerProps) {
     return () => clearTimeout(timer);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  function updateOpacitySlider(event: MouseEvent | Touch) {
-    if (!isDraggingOpacitySlider.current) return;
+  function setOpacitySliderPosition(left: number) {
     const cursor = cursorOpacitySliderRef.current;
     const sliderDiv = sliderOpacityDivRef.current;
     if (!cursor || !sliderDiv) return;
-    const clamped = getCursorPosition(event, cursor, sliderDiv);
-    cursor.style.left = clamped.left + 'px';
+    cursor.style.left = left + 'px';
     const opacityFull = sliderDiv.clientWidth - 10;
-    let opacity = clamped.left / opacityFull;
+    let opacity = left / opacityFull;
     if (opacity >= 0.98) opacity = 1;
     if (opacity <= 0.02) opacity = 0;
     setSliderOpacity(opacity);
@@ -312,17 +311,15 @@ export function ColorPicker(props: ColorPickerProps) {
     updatedCircleColorFromArea();
   }
 
-  function updateColorSlider(event: MouseEvent | Touch) {
-    if (!isDraggingColorSlider.current) return;
+  function setColorSliderPosition(left: number) {
     const cursor = cursorColorSliderRef.current;
     const sliderDiv = sliderColorDivRef.current;
     const sliderOpacityDiv = sliderOpacityDivRef.current;
     if (!cursor || !sliderDiv || !sliderOpacityDiv) return;
-    const clamped = getCursorPosition(event, cursor, sliderDiv);
-    cursor.style.left = clamped.left + 'px';
+    cursor.style.left = left + 'px';
     const trackWidth = sliderDiv.clientWidth - 10;
-    hueRef.current = trackWidth > 0 ? Math.round((clamped.left / trackWidth) * 360) : 0;
-    const color = getPixelColor(sliderDiv, clamped.left);
+    hueRef.current = trackWidth > 0 ? Math.round((left / trackWidth) * 360) : 0;
+    const color = getPixelColor(sliderDiv, left);
     setSliderColor(color);
     sliderColorRef.current = color;
     const newBg = `linear-gradient(to right, var(--neutral-surface-default) 0%, ${color})`;
@@ -331,16 +328,40 @@ export function ColorPicker(props: ColorPickerProps) {
     updatedCircleColorFromArea();
   }
 
+  function setColorAreaPosition(left: number, top: number) {
+    const cursor = cursorColorAreaRef.current;
+    if (!cursor) return;
+    cursor.style.left = left + 'px';
+    cursor.style.top = top + 'px';
+    const pixel = calculateColorFromPosition(left + 5, top);
+    updateColorFromPixel(pixel);
+  }
+
+  function updateOpacitySlider(event: MouseEvent | Touch) {
+    if (!isDraggingOpacitySlider.current) return;
+    const cursor = cursorOpacitySliderRef.current;
+    const sliderDiv = sliderOpacityDivRef.current;
+    if (!cursor || !sliderDiv) return;
+    const clamped = getCursorPosition(event, cursor, sliderDiv);
+    setOpacitySliderPosition(clamped.left);
+  }
+
+  function updateColorSlider(event: MouseEvent | Touch) {
+    if (!isDraggingColorSlider.current) return;
+    const cursor = cursorColorSliderRef.current;
+    const sliderDiv = sliderColorDivRef.current;
+    if (!cursor || !sliderDiv) return;
+    const clamped = getCursorPosition(event, cursor, sliderDiv);
+    setColorSliderPosition(clamped.left);
+  }
+
   function updateColorArea(event: MouseEvent | Touch) {
     if (!isDraggingColorArea.current) return;
     const cursor = cursorColorAreaRef.current;
     const canvas = colorAreaRef.current;
     if (!cursor || !canvas) return;
     const clamped = getCursorPosition(event, cursor, canvas, true);
-    cursor.style.left = clamped.left + 'px';
-    cursor.style.top = clamped.top + 'px';
-    const pixel = calculateColorFromPosition(clamped.left + 5, clamped.top);
-    updateColorFromPixel(pixel);
+    setColorAreaPosition(clamped.left, clamped.top);
   }
 
   function findColorPosition(color: any) {
@@ -428,6 +449,54 @@ export function ColorPicker(props: ColorPickerProps) {
     setModel(newInput);
   }
 
+  function onSliderCursorKeyDown(
+    event: React.KeyboardEvent<HTMLSpanElement>,
+    cursor: HTMLSpanElement | null,
+    setPosition: (left: number) => void
+  ) {
+    if (disabled || !cursor) return;
+
+    let direction = 0;
+    if (event.key === 'ArrowRight') direction = 1;
+    else if (event.key === 'ArrowLeft') direction = -1;
+    else return;
+
+    const slider = cursor.closest('.slider');
+    if (!slider) return;
+
+    event.preventDefault();
+    const max = slider.clientWidth - (cursor.clientWidth - 1);
+    const left = getStylePixels(cursor.style.left) + (direction * max) / 100;
+    setPosition(Math.min(max, Math.max(0, left)));
+  }
+
+  function onAreaCursorKeyDown(event: React.KeyboardEvent<HTMLSpanElement>) {
+    const cursor = cursorColorAreaRef.current;
+    const area = colorAreaRef.current;
+    if (disabled || !cursor || !area) return;
+
+    const directions: Record<string, [number, number]> = {
+      ArrowLeft: [-1, 0],
+      ArrowRight: [1, 0],
+      ArrowUp: [0, -1],
+      ArrowDown: [0, 1],
+    };
+    const direction = directions[event.key];
+    if (!direction) return;
+
+    event.preventDefault();
+    const minX = -5;
+    const maxX = area.clientWidth - (cursor.clientWidth - 5);
+    const maxY = area.clientHeight;
+    const left = getStylePixels(cursor.style.left) + (direction[0] * (maxX - minX)) / 100;
+    const top = getStylePixels(cursor.style.top) + (direction[1] * maxY) / 100;
+    setColorAreaPosition(Math.min(maxX, Math.max(minX, left)), Math.min(maxY, Math.max(0, top)));
+  }
+
+  function getStylePixels(value: string) {
+    return Number(value.replace('px', '')) || 0;
+  }
+
   const currentTypeName = COLOR_TYPES[colorTypeIndex];
   const nextTypeName = COLOR_TYPES[colorTypeIndex + 1 > COLOR_TYPES.length - 1 ? 0 : colorTypeIndex + 1];
   const prevTypeName = COLOR_TYPES[colorTypeIndex - 1 < 0 ? COLOR_TYPES.length - 1 : colorTypeIndex - 1];
@@ -442,6 +511,7 @@ export function ColorPicker(props: ColorPickerProps) {
           ref={cursorColorAreaRef}
           className={styles.colorAreaCursor}
           style={{ left: '-5px', top: '0px' }}
+          tabIndex={disabled ? -1 : 0}
           onMouseDown={(e) => {
             if (disabled) return;
             isDraggingColorArea.current = true;
@@ -452,6 +522,7 @@ export function ColorPicker(props: ColorPickerProps) {
             isDraggingColorArea.current = true;
             updateColorArea(e.touches[0] as any);
           }}
+          onKeyDown={onAreaCursorKeyDown}
         />
         <canvas
           ref={colorAreaRef}
@@ -494,6 +565,7 @@ export function ColorPicker(props: ColorPickerProps) {
               ref={cursorColorSliderRef}
               className={clsx(styles.sliderCursor)}
               style={{ left: '0px' }}
+              tabIndex={disabled ? -1 : 0}
               onMouseDown={(e) => {
                 e.stopPropagation();
                 if (disabled) return;
@@ -504,6 +576,7 @@ export function ColorPicker(props: ColorPickerProps) {
                 if (disabled) return;
                 isDraggingColorSlider.current = true;
               }}
+              onKeyDown={(e) => onSliderCursorKeyDown(e, cursorColorSliderRef.current, setColorSliderPosition)}
             />
           </div>
 
@@ -527,6 +600,7 @@ export function ColorPicker(props: ColorPickerProps) {
                 ref={cursorOpacitySliderRef}
                 className={clsx(styles.sliderCursor)}
                 style={{ left: '0px' }}
+                tabIndex={disabled ? -1 : 0}
                 onMouseDown={(e) => {
                   e.stopPropagation();
                   if (disabled) return;
@@ -537,6 +611,7 @@ export function ColorPicker(props: ColorPickerProps) {
                   if (disabled) return;
                   isDraggingOpacitySlider.current = true;
                 }}
+                onKeyDown={(e) => onSliderCursorKeyDown(e, cursorOpacitySliderRef.current, setOpacitySliderPosition)}
               />
             </div>
           )}
@@ -581,13 +656,17 @@ export function ColorPicker(props: ColorPickerProps) {
             <Icon
               name="arrow_drop_up"
               className={clsx(styles.colorArrows, disabled && styles.disabled)}
+              tabIndex={disabled ? -1 : 0}
               onClick={moveUp}
+              onKeyUp={onEnterOrSpace(moveUp)}
               aria-label="Previous color type"
             />
             <Icon
               name="arrow_drop_down"
               className={clsx(styles.colorArrows, disabled && styles.disabled)}
+              tabIndex={disabled ? -1 : 0}
               onClick={moveDown}
+              onKeyUp={onEnterOrSpace(moveDown)}
               aria-label="Next color type"
             />
           </div>

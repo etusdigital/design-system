@@ -52,11 +52,10 @@ describe('TagSelect', () => {
         onChange={handleChange}
       />
     );
-    const closeSpans = Array.from(document.querySelectorAll('span')).filter(
-      (el) => el.textContent === 'close'
-    );
-    if (closeSpans.length > 0) {
-      fireEvent.click(closeSpans[0]);
+    // Look for the close icon span specifically
+    const closeIcon = document.querySelector('.close-icon');
+    if (closeIcon) {
+      fireEvent.click(closeIcon);
       expect(handleChange).toHaveBeenCalledWith([]);
     }
   });

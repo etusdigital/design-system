@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
+import { onEnterOrSpace } from '../../utils';
 import styles from './Checkbox.module.css';
 
 export interface CheckboxProps {
@@ -10,6 +11,7 @@ export interface CheckboxProps {
   rhs?: boolean;
   allowIndeterminate?: boolean;
   disabled?: boolean;
+  tabIndex?: number;
   children?: React.ReactNode;
   className?: string;
 }
@@ -22,6 +24,7 @@ export function Checkbox({
   rhs = false,
   allowIndeterminate = false,
   disabled = false,
+  tabIndex = 0,
   children,
   className,
 }: CheckboxProps) {
@@ -61,8 +64,10 @@ export function Checkbox({
       aria-disabled={disabled}
       className={clsx(styles.checkbox, 'checkbox', rhs && styles.rhs, disabled && styles.disabled, className)}
       onClick={handleClick}
+      onKeyUp={onEnterOrSpace(handleClick)}
     >
       <div
+        tabIndex={disabled ? -1 : tabIndex}
         className={clsx(
           styles.box,
           currentValue === true && styles.active,

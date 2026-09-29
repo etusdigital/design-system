@@ -12,7 +12,7 @@ export interface SelectContainerProps {
   role?: string;
   absolute?: boolean;
   disabled?: boolean;
-  isError?: boolean; 
+  isError?: boolean;
   errorMessage?: string;
   infoMessage?: string;
   required?: boolean;
@@ -31,6 +31,7 @@ export interface SelectContainerProps {
   options?: React.ReactNode;
   actions?: React.ReactNode;
   className?: string;
+  onKeyDown?: (e: React.KeyboardEvent) => void;
 }
 
 export function SelectContainer({
@@ -58,6 +59,7 @@ export function SelectContainer({
   options,
   actions,
   className,
+  onKeyDown,
 }: SelectContainerProps) {
   const [model, setModel] = useControllable<boolean>({
     value,
@@ -131,6 +133,7 @@ export function SelectContainer({
         complement={complement}
         leadingComplement={leadingComplement}
         icon={icon}
+        onKeyDown={onKeyDown}
         content={
           <div
             ref={contentRef}
@@ -155,7 +158,7 @@ export function SelectContainer({
               )}
 
               {actions && (
-                <div className="sc-actions" tabIndex={0}>
+                <div className="sc-actions">
                   {actions}
                 </div>
               )}

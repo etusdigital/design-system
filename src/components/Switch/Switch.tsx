@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
+import { onEnterOrSpace, preventSpaceScroll } from '../../utils';
 import styles from './Switch.module.css';
 
 export interface SwitchProps {
@@ -54,7 +55,12 @@ export function Switch({
       className={clsx(styles.switch, 'switch', rhs && styles.rhs, disabled && styles.disabled, className)}
       onClick={handleClick}
     >
-      <div className={clsx(styles.track, currentValue && styles.active)}>
+      <div
+        className={clsx(styles.track, currentValue && styles.active)}
+        tabIndex={disabled ? -1 : 0}
+        onKeyDown={preventSpaceScroll}
+        onKeyUp={onEnterOrSpace(handleClick)}
+      >
         <div className={clsx(styles.thumb, currentValue && styles.thumbActive)} />
       </div>
       {renderLabel()}

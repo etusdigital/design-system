@@ -1,3 +1,5 @@
+import type React from "react";
+
 export function calculateDate(value: string): Date[] {
   const today = new Date();
   let firstDate;
@@ -424,6 +426,28 @@ export function applyMask(
   }
 
   return value;
+}
+
+export function onEnterOrSpace<T = Element>(
+  handler: (e: React.KeyboardEvent<T>) => void
+) {
+  return (e: React.KeyboardEvent<T>) => {
+    if (e.key === "Enter" || e.key === " ") handler(e);
+  };
+}
+
+export function preventSpaceScroll(e: React.KeyboardEvent) {
+  if (e.key === " ") e.preventDefault();
+}
+
+export function focusWhenReady(
+  getElement: () => HTMLElement | null | undefined,
+  attempts = 30
+) {
+  const element = getElement();
+  if (element) element.focus();
+  else if (attempts > 0)
+    requestAnimationFrame(() => focusWhenReady(getElement, attempts - 1));
 }
 
 export function isValidEmail(value: any): boolean {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import clsx from "clsx";
 import { useControllable } from "../../hooks/useControllable";
+import { onEnterOrSpace } from "../../utils/index";
 import { Pagination } from "../Pagination/Pagination";
 import { Skeleton } from "../Skeleton/Skeleton";
 import { Checkbox } from "../Checkbox/Checkbox";
@@ -271,6 +272,7 @@ export function Table({
                 {columns.map((col, index) => (
                   <th
                     key={col.value}
+                    tabIndex={col.sortable ? 0 : -1}
                     style={{ width: col.width ?? "fit-content" }}
                     className={clsx(
                       styles.sortable,
@@ -282,6 +284,7 @@ export function Table({
                       !col.sortable && styles.pointerNone,
                     )}
                     onClick={() => handleSort(col)}
+                    onKeyUp={col.sortable ? onEnterOrSpace(() => handleSort(col)) : undefined}
                   >
                     <div
                       className={styles.thContent}

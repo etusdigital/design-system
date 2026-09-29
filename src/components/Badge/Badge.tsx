@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Spinner } from "../Spinner/Spinner";
 import { Icon } from "../Icon/Icon";
-import { getContrastColor } from "../../utils";
+import { getContrastColor, onEnterOrSpace } from "../../utils";
 import styles from "./Badge.module.css";
 import { useMemo } from "react";
 
@@ -53,6 +53,12 @@ export function Badge({
     [color, type],
   );
 
+  function close(e: React.SyntheticEvent) {
+    if (!closeable) return;
+    e.stopPropagation();
+    onClose?.();
+  }
+
   return (
     <div
       className={clsx(
@@ -75,11 +81,14 @@ export function Badge({
             </p>
           )}
           {appendedIcon && (
-            <span
-              className={clsx(closeable && styles.clickable)}
-              onClick={closeable ? onClose : undefined}
-            >
-              <Icon name={appendedIcon} />
+            <span className={clsx(closeable && styles.clickable)}>
+              <Icon
+                name={appendedIcon}
+                className="close-icon"
+                tabIndex={closeable ? 0 : -1}
+                onClick={close}
+                onKeyUp={onEnterOrSpace(close)}
+              />
             </span>
           )}
         </>

@@ -59,6 +59,14 @@ export function Drawer({
     }
   }
 
+  function handleEscape(e: React.KeyboardEvent<HTMLDivElement>) {
+    if (noOutsideClose) return;
+    if (e.key !== 'Escape') return;
+
+    e.stopPropagation();
+    setOpen(false);
+  }
+
   return (
     <Overlay value={isOpen} onClick={handleOverlayClick}>
       {isMounted && (
@@ -67,6 +75,7 @@ export function Drawer({
           className={clsx('drawer', effectivePosition, isActive && 'active', className)}
           style={getStyle()}
           tabIndex={-1}
+          onKeyDown={handleEscape}
         >
           {children}
         </div>

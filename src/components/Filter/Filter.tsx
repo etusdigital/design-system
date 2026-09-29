@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import clsx from "clsx";
 import { useControllable } from "../../hooks/useControllable";
-import { isObject } from "../../utils";
+import { focusWhenReady, isObject } from "../../utils";
 import { SelectContainer } from "../../utils/components/SelectContainer";
 import { Checkbox } from "../Checkbox/Checkbox";
 import { Button } from "../Button/Button";
@@ -62,6 +62,7 @@ export function Filter({
     Record<string, boolean>
   >({});
   const [searchText, setSearchText] = useState("");
+  const listRef = useRef<HTMLDivElement>(null);
 
   const currentModel: Record<string, any[]> = model ?? {};
 
@@ -91,7 +92,7 @@ export function Filter({
   }
 
   function toggleSubOption(category: any, subOption: any) {
-    if (disabled) return;
+    if (disabled || subOption?.disabled) return;
     const key = getCategoryKey(category);
     const selected = [...(currentModel[key] ?? [])];
     const subVal = getOptionValue(subOption);
@@ -112,6 +113,83 @@ export function Filter({
 
   function applyFilters() {
     onApply?.(currentModel);
+  }
+
+  function getItems(): HTMLElement[] {
+    return Array.from(
+      listRef.current?.querySelectorAll<HTMLElement>("[data-filter-item]") ?? []
+    ).filter((item) => item.tabIndex >= 0);
+  }
+
+  function focusItem(index: number) {
+    const items = getItems();
+    items[Math.min(Math.max(index, 0), items.length - 1)]?.focus();
+  }
+
+  function onTriggerKeyDown(e: React.KeyboardEvent) {
+    if (disabled || (e.key !== "ArrowDown" && e.key !== "ArrowUp")) return;
+
+    e.preventDefault();
+    if (!expanded) setExpanded(true);
+    const first = e.key === "ArrowDown";
+    focusWhenReady(() => {
+      const items = getItems();
+      return first ? items[0] : items[items.length - 1];
+    });
+  }
+
+  function onSearchKeyDown(e: React.KeyboardEvent) {
+    if (e.key !== "ArrowDown") return;
+
+    e.preventDefault();
+    focusItem(0);
+  }
+
+  function onItemKeyDown(e: React.KeyboardEvent, option: any, subOption?: any) {
+    const item = e.currentTarget as HTMLElement;
+    if (e.target !== item) return;
+
+    const index = getItems().indexOf(item);
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        focusItem(index + 1);
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        focusItem(index - 1);
+        break;
+      case "Home":
+        e.preventDefault();
+        focusItem(0);
+        break;
+      case "End":
+        e.preventDefault();
+        focusItem(getItems().length - 1);
+        break;
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        e.stopPropagation();
+        if (subOption) toggleSubOption(option, subOption);
+        else toggleCategory(getCategoryKey(option));
+        break;
+      case "ArrowRight":
+        if (subOption || expandedCategories[getCategoryKey(option)]) break;
+        e.preventDefault();
+        toggleCategory(getCategoryKey(option));
+        break;
+      case "ArrowLeft":
+        e.preventDefault();
+        if (subOption)
+          item
+          .closest("[data-filter-category]")
+          ?.querySelector<HTMLElement>("[data-filter-item]")
+          ?.focus();
+        else if (expandedCategories[getCategoryKey(option)] && !searchText)
+          toggleCategory(getCategoryKey(option));
+        break;
+    }
   }
 
   const totalSelected = Object.values(currentModel).reduce(
@@ -146,7 +224,7 @@ export function Filter({
       : options;
 
   const optionsNode = (
-    <div className="w-full">
+    <div ref={listRef} className="w-full">
       {searchable && (
         <div className={styles.searchBox}>
           <Icon name="search" className="text-lg text-neutral-foreground-low" />
@@ -156,6 +234,7 @@ export function Filter({
             placeholder={searchLabel}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
+            onKeyDown={onSearchKeyDown}
           />
           {searchText && (
             <button
@@ -176,15 +255,14 @@ export function Filter({
         const categorySelectedCount = (currentModel[key] ?? []).length;
 
         return (
-          <div key={key} className="w-full">
+          <div key={key} className="w-full" data-filter-category>
             <div
               className={styles.categoryHeader}
               onClick={() => toggleCategory(key)}
               role="button"
               tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === " " || e.key === "Enter") toggleCategory(key);
-              }}
+              data-filter-item
+              onKeyDown={(e) => onItemKeyDown(e, category)}
             >
               <span className="text-sm text-neutral-interaction-default">
                 {getLabel(category)}
@@ -213,14 +291,23 @@ export function Filter({
                 {category.options.map((subOption: any, subIdx: number) => (
                   <div
                     key={subIdx}
-                    className={styles.subOption}
+                    className={clsx(
+                      styles.subOption,
+                      subOption?.disabled && "pointer-events-none text-neutral-interaction-disabled",
+                    )}
                     role="option"
                     aria-selected={isSubOptionSelected(key, subOption)}
+                    aria-disabled={!!subOption?.disabled}
+                    tabIndex={isExpanded && !subOption?.disabled ? 0 : -1}
+                    data-filter-item
                     onClick={() => toggleSubOption(category, subOption)}
+                    onKeyDown={(e) => onItemKeyDown(e, category, subOption)}
                   >
                     <Checkbox
                       value={isSubOptionSelected(key, subOption)}
                       className="pointer-events-none"
+                      disabled={!!subOption?.disabled}
+                      tabIndex={-1}
                     />
                     <span className={styles.subOptionLabel}>
                       {getLabel(subOption)}
@@ -237,9 +324,14 @@ export function Filter({
 
   const statusNode = (
     <span className="font-bold text-neutral-interaction-default">
-      {totalSelected > 0 ? `${statusLabel}: ${totalSelected}` : statusLabel}
+      {statusLabel}
     </span>
   );
+
+  const complementNode =
+    totalSelected > 0 && !disabled ? (
+      <span className={styles.selectCount}>{totalSelected}</span>
+    ) : undefined;
 
   const actionsNode =
     !hideActions &&
@@ -275,7 +367,9 @@ export function Filter({
       minWidth="22em"
       content={optionsNode}
       actions={actionsNode}
+      complement={complementNode}
       className={clsx("filter", className)}
+      onKeyDown={onTriggerKeyDown}
     >
       {statusNode}
     </SelectContainer>

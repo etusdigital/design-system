@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
+import { onEnterOrSpace } from '../../utils/index';
 import { Icon } from '../Icon';
 import styles from './History.module.css';
 
@@ -36,6 +37,11 @@ export function History({
 
   const isHorizontal = position === 'top' || position === 'bottom';
 
+  function changeModel(option: any) {
+    if (disabled) return;
+    setModel(option);
+  }
+
   return (
     <div className={clsx(styles.history, 'history', isHorizontal && styles.flex, className)}>
       {options.map((option, index) => {
@@ -50,6 +56,7 @@ export function History({
         return (
           <div
             key={index}
+            tabIndex={disabled ? -1 : 0}
             className={clsx(
               styles.option,
               styles[position],
@@ -59,7 +66,8 @@ export function History({
               active && styles.active,
               disabled && styles.disabled,
             )}
-            onClick={() => !disabled && setModel(option)}
+            onClick={() => changeModel(option)}
+            onKeyUp={onEnterOrSpace(() => changeModel(option))}
           >
             <div
               className={clsx(

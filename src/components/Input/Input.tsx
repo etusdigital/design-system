@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
 import { Label } from '../../utils/components/Label';
 import { Icon } from '../Icon/Icon';
-import { applyMask, isValidEmail, isValidDomain, isValidUrl } from '../../utils/index';
+import { applyMask, isValidEmail, isValidDomain, isValidUrl, onEnterOrSpace, preventSpaceScroll } from '../../utils/index';
 import styles from './Input.module.css';
 
 export interface InputProps {
@@ -200,6 +200,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
             placeholder="#000000ff"
           />
           <FloatCard
+            disabled={disabled}
             card={
               <ColorPicker
                 value={colorValue}
@@ -212,7 +213,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
               style={{
                 background: colorValue,
               }}
+              role="button"
+              tabIndex={disabled ? -1 : 0}
               aria-label="Open color picker"
+              onKeyDown={preventSpaceScroll}
             />
           </FloatCard>
         </div>
@@ -272,9 +276,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
 
           {type === 'password' ? (
             <Icon
+              tabIndex={disabled ? -1 : 0}
               name={showPassword ? 'visibility_off' : 'visibility'}
               className={clsx(styles.inputIcon, isFocused && styles.focused, "cursor-pointer")}
               onClick={() => setShowPassword(!showPassword)}
+              onKeyUp={onEnterOrSpace(() => setShowPassword(!showPassword))}
             />
           ) : appendIcon ? (
             <Icon name={appendIcon} className={clsx(styles.inputIcon, isFocused && styles.focused)} />
@@ -286,14 +292,18 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
         {type === 'number' && (
           <div className={clsx(styles.numberArrows, 'ml-xxs')}>
             <Icon
+              tabIndex={disabled ? -1 : 0}
               name="arrow_drop_up"
               className={styles.arrowIcon}
               onClick={increment}
+              onKeyUp={onEnterOrSpace(increment)}
             />
             <Icon
+              tabIndex={disabled ? -1 : 0}
               name="arrow_drop_down"
               className={styles.arrowIcon}
               onClick={decrement}
+              onKeyUp={onEnterOrSpace(decrement)}
             />
           </div>
         )}

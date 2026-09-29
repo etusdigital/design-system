@@ -67,11 +67,13 @@
   @apply opacity-0;
   transform: translateX(-10px);
   pointer-events: none;
+  visibility: hidden;
 }
 
 .subPanelVisible {
   @apply opacity-100;
   transform: translateX(0);
+  visibility: visible;
 }
 
 .subOption {

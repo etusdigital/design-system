@@ -7,10 +7,12 @@ export interface OptionProps {
   disabled?: boolean;
   secondary?: boolean;
   noHover?: boolean;
+  tabIndex?: number;
   children?: React.ReactNode;
   className?: string;
   onClick?: () => void;
   onFocus?: () => void;
+  onKeyDown?: (e: React.KeyboardEvent) => void;
 }
 
 export const Option = React.forwardRef<HTMLDivElement, OptionProps>(function Option(
@@ -19,10 +21,12 @@ export const Option = React.forwardRef<HTMLDivElement, OptionProps>(function Opt
     disabled = false,
     secondary = false,
     noHover = false,
+    tabIndex = 0,
     children,
     className,
     onClick,
     onFocus,
+    onKeyDown: onKeyDownProp,
   },
   ref
 ) {
@@ -30,11 +34,13 @@ export const Option = React.forwardRef<HTMLDivElement, OptionProps>(function Opt
     <div
       ref={ref}
       role="option"
-      tabIndex={0}
+      tabIndex={disabled ? -1 : tabIndex}
       className={clsx('option-container', { selected, disabled, secondary, noHover }, className)}
       onClick={disabled ? undefined : onClick}
       onFocus={onFocus}
       onKeyDown={(e) => {
+        onKeyDownProp?.(e);
+        if (e.isPropagationStopped()) return;
         if (disabled || (e.key !== 'Enter' && e.key !== ' ')) return;
         e.preventDefault();
         e.stopPropagation();

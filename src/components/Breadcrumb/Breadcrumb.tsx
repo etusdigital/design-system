@@ -109,7 +109,14 @@ export function Breadcrumb({
                     <div
                       key={subIndex}
                       className={styles.subOption}
+                      tabIndex={0}
                       onClick={() => handleSelect(subOption)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          handleSelect(subOption);
+                        }
+                      }}
                     >
                       {getLabel(subOption)}
                     </div>
@@ -117,12 +124,19 @@ export function Breadcrumb({
                 </div>
               }
             >
-              <Icon name="more_horiz" className={styles.moreIcon} />
+              <Icon name="more_horiz" className={styles.moreIcon} tabIndex={0} />
             </FloatCard>
           ) : (
             <h5
               className={clsx(styles.option, isActive(option) && styles.active)}
+              tabIndex={0}
               onClick={() => handleSelect(option)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleSelect(option);
+                }
+              }}
             >
               {getLabel(option)}
             </h5>

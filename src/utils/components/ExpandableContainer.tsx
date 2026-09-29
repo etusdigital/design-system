@@ -28,6 +28,7 @@ export interface ExpandableContainerProps {
   card?: React.ReactNode;
   content?: React.ReactNode;
   className?: string;
+  onKeyDown?: (e: React.KeyboardEvent) => void;
 }
 
 export function ExpandableContainer({
@@ -52,6 +53,7 @@ export function ExpandableContainer({
   card,
   content,
   className,
+  onKeyDown,
 }: ExpandableContainerProps) {
   const [model, setModel] = useControllable<boolean>({
     value,
@@ -85,6 +87,7 @@ export function ExpandableContainer({
       renderContent={(contentMinWidth) => (
         <div style={{ minWidth: contentMinWidth }}>{card || content}</div>
       )}
+      onKeyDown={onKeyDown}
     >
       {children}
     </Container>

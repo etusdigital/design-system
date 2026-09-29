@@ -33,6 +33,10 @@
   transform: rotate(90deg);
 }
 
+.nodeOption {
+  @apply flex flex-1 items-center gap-xxs rounded-sm;
+}
+
 .nodeIcon {
   @apply text-xl leading-base;
 }

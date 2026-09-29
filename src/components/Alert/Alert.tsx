@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import clsx from 'clsx';
 import { Icon } from '../Icon/Icon';
+import { onEnterOrSpace, preventSpaceScroll } from '../../utils';
 import styles from './Alert.module.css';
 
 export interface AlertProps {
@@ -129,13 +130,25 @@ export function Alert({
                 styles.expandToggle,
                 isExpanded && styles.rotated
               )}
+              tabIndex={0}
+              aria-expanded={isExpanded}
               onClick={() => setIsExpanded(!isExpanded)}
+              onKeyDown={preventSpaceScroll}
+              onKeyUp={onEnterOrSpace(() => setIsExpanded(!isExpanded))}
             >
               <Icon name="expand_more" />
             </div>
           )}
           {closable && (
-            <Icon name="close" onClick={onClose} className={styles.clickable} />
+            <Icon
+              name="close"
+              aria-label="Close"
+              tabIndex={0}
+              onClick={onClose}
+              onKeyDown={preventSpaceScroll}
+              onKeyUp={onEnterOrSpace(() => onClose?.())}
+              className={styles.clickable}
+            />
           )}
         </div>
       )}

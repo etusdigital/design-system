@@ -45,6 +45,14 @@ export function Dialog({
     }
   }
 
+  function handleEscape(e: React.KeyboardEvent<HTMLDivElement>) {
+    if (noOutsideClose) return;
+    if (e.key !== 'Escape') return;
+
+    e.stopPropagation();
+    setOpen(false);
+  }
+
   return (
     <Overlay value={isOpen} zIndex={zIndex} onClick={handleOverlayClick}>
       {isMounted && (
@@ -53,6 +61,7 @@ export function Dialog({
           className={clsx('dialog', isActive && 'active', className)}
           style={{ width, height, zIndex: zIndex }}
           tabIndex={-1}
+          onKeyDown={handleEscape}
         >
           {children}
         </div>

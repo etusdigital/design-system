@@ -31,3 +31,6 @@
 }
 
 .searchClear { @apply flex items-center text-neutral-foreground-low cursor-pointer hover:text-neutral-foreground-high; }
+.selectCount {
+  @apply flex items-center justify-center text-neutral-foreground-negative bg-primary-interaction-selected text-xs w-[1.6em] h-[1.6em] rounded-full;
+}

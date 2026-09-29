@@ -258,6 +258,10 @@ export function RichTextEditor({
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    editorRef.current?.toggleAttribute('inert', disabled);
+  }, [disabled]);
+
+  useEffect(() => {
     if (!editorRef.current || editorRef.current.innerHTML === value) return;
     editorRef.current.innerHTML = sanitizeHTML(value ?? '');
     applyContentStyles();
@@ -592,6 +596,7 @@ export function RichTextEditor({
     return (
       <Tooltip position="bottom" labelValue={title}>
         <button
+          tabIndex={-1}
           key={command}
           className={clsx(styles.toolbarBtn, activeStates[command] && styles.toolbarBtnActive)}
           title={title}
@@ -628,6 +633,7 @@ export function RichTextEditor({
       <div className={styles.toolbar}>
         <div className={styles.toolbarGroup}>
           <button
+            tabIndex={-1}
             className={styles.toolbarBtn}
             title="Undo (Ctrl+Z)"
             disabled={historyIndexRef.current <= 0}
@@ -637,6 +643,7 @@ export function RichTextEditor({
             <Icon name="undo" className={styles.richTextEditorIcon} />
           </button>
           <button
+            tabIndex={-1}
             className={styles.toolbarBtn}
             title="Redo (Ctrl+Y)"
             disabled={historyIndexRef.current >= historyRef.current.length - 1}
@@ -679,6 +686,7 @@ export function RichTextEditor({
             onCustomChange={setCustomColors}
           >
             <button
+              tabIndex={-1}
               className={styles.toolbarBtn}
               title="Text color"
               onMouseDown={(e) => { e.preventDefault(); saveCurrentSelection(); }}
@@ -702,6 +710,7 @@ export function RichTextEditor({
             onCustomChange={setCustomColors}
           >
             <button
+              tabIndex={-1}
               className={styles.toolbarBtn}
               title="Background color"
               onMouseDown={(e) => { e.preventDefault(); saveCurrentSelection(); }}
@@ -727,6 +736,7 @@ export function RichTextEditor({
         <div className={styles.toolbarGroup}>
           {toolbarBtn('createLink', 'link', 'Insert link', handleCreateLink)}
           <button
+            tabIndex={-1}
             className={styles.toolbarBtn}
             title="Insert image"
             onMouseDown={(e) => { e.preventDefault(); saveCurrentSelection(); }}
@@ -735,6 +745,7 @@ export function RichTextEditor({
             <input
               type="file"
               accept="image/*"
+              tabIndex={-1}
               className={styles.imageInput}
               onChange={handleImageUpload}
             />

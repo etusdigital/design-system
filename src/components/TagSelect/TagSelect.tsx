@@ -70,6 +70,8 @@ export function TagSelect({
     defaultValue: false,
     onChange: onExpandedChange,
   });
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const optionRefs = useRef<(HTMLDivElement | null)[]>([]);
   const expanded = isOpen ?? false;
   const input = useRef<HTMLInputElement>(null);
 
@@ -79,6 +81,20 @@ export function TagSelect({
     if (!isOpen) input.current?.blur();
     else input.current?.focus();
   }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen) return;
+    setSelectedIndex(null);
+  }, [isOpen]);
+
+  useEffect(() => {
+    setSelectedIndex(null);
+  }, [searchText]);
+
+  useEffect(() => {
+    if (selectedIndex == null) return;
+    optionRefs.current[selectedIndex]?.focus();
+  }, [selectedIndex]);
 
   function getLabel(option: any): string {
     return isObject(option) ? option[labelKey] : String(option ?? "");
@@ -152,6 +168,8 @@ export function TagSelect({
       )
     : allOptions;
 
+  const searchedOptions = filteredOptions;
+
   const showAddButton =
     creatable &&
     searchText &&
@@ -214,37 +232,45 @@ export function TagSelect({
         ? searchNode
         : children;
 
-  function handleOptionsKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
-    const items = Array.from(
-      (e.currentTarget as HTMLElement).querySelectorAll<HTMLElement>(
-        '[role="option"],[data-option]',
-      ),
-    );
-    if (items.length === 0) return;
-    const focused = document.activeElement as HTMLElement;
-    const idx = items.indexOf(focused);
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      const next = idx < items.length - 1 ? items[idx + 1] : items[0];
-      next?.focus();
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      const prev = idx > 0 ? items[idx - 1] : items[items.length - 1];
-      prev?.focus();
-    } else if (e.key === "Home") {
-      e.preventDefault();
-      items[0]?.focus();
-    } else if (e.key === "End") {
-      e.preventDefault();
-      items[items.length - 1]?.focus();
-    } else if (e.key === "Tab" && creatable && searchText) {
-      e.preventDefault();
-      addCreatableOption();
+  function onKeyDown(e: React.KeyboardEvent) {
+    const last = searchedOptions.length - 1;
+    if (last < 0) return;
+
+    const hasSelection = selectedIndex != null;
+    switch (e.key) {
+      case "ArrowUp":
+        e.preventDefault();
+        if (!isOpen) setIsOpen(true);
+        setSelectedIndex(hasSelection ? Math.max(selectedIndex - 1, 0) : last);
+        break;
+      case "ArrowDown":
+        e.preventDefault();
+        if (!isOpen) setIsOpen(true);
+        setSelectedIndex(hasSelection ? Math.min(selectedIndex + 1, last) : 0);
+        break;
+    }
+  }
+
+  function onOptionKeyDown(e: React.KeyboardEvent) {
+    switch (e.key) {
+      case " ":
+        e.preventDefault();
+        break;
+      case "Home":
+        e.preventDefault();
+        setSelectedIndex(0);
+        break;
+      case "End":
+        e.preventDefault();
+        setSelectedIndex(searchedOptions.length - 1);
+        break;
+      default:
+        onKeyDown(e);
     }
   }
 
   const optionsNode = (
-    <div className={styles.optionContainer} onKeyDown={handleOptionsKeyDown}>
+    <div className={styles.optionContainer}>
       {filteredOptions.length === 0 && searchText ? (
         <div className={styles.containerText}>No result found</div>
       ) : allOptions.length === 0 ? (
@@ -253,8 +279,13 @@ export function TagSelect({
         filteredOptions.map((option, index) => (
           <Option
             key={index}
+            ref={(el) => {
+              optionRefs.current[index] = el;
+            }}
             selected={isIncluded(selectedValues, option)}
             onClick={() => toggleOption(option)}
+            onFocus={() => setSelectedIndex(index)}
+            onKeyDown={onOptionKeyDown}
             className={clsx(
               { "font-bold": isIncluded(selectedValues, option) },
               "p-xs",
@@ -300,6 +331,7 @@ export function TagSelect({
       options={optionsNode}
       actions={actionsNode}
       className={clsx("tag-select", className)}
+      onKeyDown={onKeyDown}
     >
       {statusNode}
     </SelectContainer>

@@ -1,8 +1,8 @@
 import clsx from "clsx";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useRef } from "react";
 import { useControllable } from "../../hooks";
 import { ExpandableContainer } from "../../utils/components/ExpandableContainer";
-import { isObject } from "../../utils";
+import { focusWhenReady, isObject } from "../../utils";
 import { Icon } from "../Icon/Icon";
 import { SelectContent } from "../../utils/components/SelectContent";
 import { Separator } from "../Separator";
@@ -35,6 +35,7 @@ function DropdownOption({
   depth = 0,
 }: DropdownOptionProps) {
   const [subExpanded, setSubExpanded] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
   const label = getLabel(option);
   const value = getValue(option);
   const isSelected =
@@ -50,6 +51,73 @@ function DropdownOption({
     return isObject(option) ? option[valueKey] || option.value : option;
   }
 
+  function getOptionElements(container?: Element | null): HTMLElement[] {
+    return (Array.from(container?.children ?? []) as HTMLElement[]).filter(
+      (el) => el.hasAttribute("data-dropdown-option") && el.tabIndex >= 0
+    );
+  }
+
+  function focusFirstSubOption() {
+    setSubExpanded(true);
+    focusWhenReady(() => {
+      const listbox = root.current?.querySelector(".sub-options [role=listbox]");
+      return getOptionElements(listbox)[0];
+    });
+  }
+
+  function handleBlur(e: React.FocusEvent<HTMLDivElement>) {
+    if (root.current?.contains(e.relatedTarget as Node)) return;
+    setSubExpanded(false);
+  }
+
+  function onKeyDown(e: React.KeyboardEvent) {
+    if (e.target !== root.current) return;
+
+    const siblings = getOptionElements(root.current.parentElement);
+    const index = siblings.indexOf(root.current);
+    const hasSubOptions = !!option.options?.length;
+
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault();
+        siblings[Math.min(index + 1, siblings.length - 1)]?.focus();
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        siblings[Math.max(index - 1, 0)]?.focus();
+        break;
+      case "Home":
+        e.preventDefault();
+        siblings[0]?.focus();
+        break;
+      case "End":
+        e.preventDefault();
+        siblings[siblings.length - 1]?.focus();
+        break;
+      case "ArrowRight":
+        if (!hasSubOptions) break;
+        e.preventDefault();
+        focusFirstSubOption();
+        break;
+      case "ArrowLeft": {
+        const parentOption = root.current.parentElement?.closest<HTMLElement>(
+          "[data-dropdown-option]"
+        );
+        if (!parentOption) break;
+        e.preventDefault();
+        parentOption.focus();
+        break;
+      }
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        if (option.disabled) break;
+        if (hasSubOptions) focusFirstSubOption();
+        else onSelect(option);
+        break;
+    }
+  }
+
   if (option.options && option.options.length > 0) {
     function isChildSelected(options: any) {
       return options.find((option: any) => {
@@ -59,7 +127,7 @@ function DropdownOption({
     }
 
     return (
-      <div className="relative">
+      <div ref={root} className="relative" data-dropdown-option tabIndex={option.disabled ? -1 : 0} onKeyDown={onKeyDown} onBlur={handleBlur}>
         <div
           className={clsx(
             styles.optionItem,
@@ -70,14 +138,6 @@ function DropdownOption({
             "justify-between",
           )}
           onClick={() => !option.disabled && setSubExpanded((prev) => !prev)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !option.disabled)
-              setSubExpanded((prev) => !prev);
-          }}
-          tabIndex={option.disabled ? -1 : 0}
-          role="option"
-          aria-haspopup="listbox"
-          aria-expanded={subExpanded}
         >
           <div className="flex item-center gap-xs">
             {option.icon && (
@@ -88,7 +148,7 @@ function DropdownOption({
           <Icon className={styles.chevronIcon} name="chevron_right" />
         </div>
         {subExpanded && (
-          <div className={styles.flyoutCard}>
+          <div className={clsx(styles.flyoutCard, "sub-options")}>
             <div className="bg-neutral-surface-default shadow-neutral-selected border-xxs border-neutral-default rounded-sm">
               <DropdownOptions
                 options={option.options}
@@ -107,17 +167,18 @@ function DropdownOption({
 
   return (
     <div
+      ref={root}
       className={clsx(styles.optionItem, {
         [styles.selected]: isSelected,
         [styles.disabled]: option.disabled,
       })}
-      onClick={() => !option.disabled && onSelect(option)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" && !option.disabled) onSelect(option);
-      }}
+      data-dropdown-option
       tabIndex={option.disabled ? -1 : 0}
       role="option"
       aria-selected={isSelected}
+      onClick={() => !option.disabled && onSelect(option)}
+      onKeyDown={onKeyDown}
+      onBlur={handleBlur}
     >
       {option.icon && (
         <Icon className={styles.dropwdownIcon} name={option.icon} />
@@ -269,6 +330,7 @@ export function Dropdown({
 
   const [searchText, setSearchText] = useState("");
   const [expanded, setExpanded] = useState(false);
+  const optionsCard = useRef<HTMLDivElement>(null);
 
   function getValue(option: any): any {
     return isObject(option) ? (option[valueKey] ?? option.value) : option;
@@ -291,6 +353,22 @@ export function Dropdown({
       ? findOptionByValue(options, selectedValue, valueKey, labelKey)
       : undefined;
 
+  function onKeyDown(e: React.KeyboardEvent) {
+    if (disabled || (e.key !== "ArrowDown" && e.key !== "ArrowUp")) return;
+
+    e.preventDefault();
+    setExpanded(true);
+    const first = e.key === "ArrowDown";
+    focusWhenReady(() => {
+      const optionElements = Array.from(
+        optionsCard.current?.querySelectorAll<HTMLElement>(
+          ":scope > [role=listbox] > [data-dropdown-option]"
+        ) ?? []
+      ).filter((el) => el.tabIndex >= 0);
+      return first ? optionElements[0] : optionElements[optionElements.length - 1];
+    });
+  }
+
   let statusNode: React.ReactNode;
   if (selectedOption)
     statusNode = (
@@ -299,13 +377,15 @@ export function Dropdown({
   else statusNode = children;
 
   const card = (
-    <DropdownOptions
-      options={filteredOptions}
-      labelKey={labelKey}
-      valueKey={valueKey}
-      selectedValue={selectedValue != null ? getValue(selectedValue) : null}
-      onSelect={selectOption}
-    />
+    <div ref={optionsCard}>
+      <DropdownOptions
+        options={filteredOptions}
+        labelKey={labelKey}
+        valueKey={valueKey}
+        selectedValue={selectedValue != null ? getValue(selectedValue) : null}
+        onSelect={selectOption}
+      />
+    </div>
   );
 
   return (
@@ -323,6 +403,7 @@ export function Dropdown({
       minWidth={minWidth}
       card={card}
       className={clsx("dropdown", className)}
+      onKeyDown={onKeyDown}
     >
       <SelectContent
         value={searchText}

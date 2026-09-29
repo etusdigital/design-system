@@ -178,30 +178,33 @@ export function Select({
       return;
     }
 
-    const last = filteredOptions.length - 1;
+    const enabled = filteredOptions
+      .map((option, index) => (option?.disabled ? -1 : index))
+      .filter((index) => index >= 0);
+    const last = enabled.length - 1;
     if (last < 0) return;
 
-    const hasSelection = selectedIndex != null;
+    const position = selectedIndex != null ? enabled.indexOf(selectedIndex) : -1;
     switch (e.key) {
       case 'ArrowUp':
         e.preventDefault();
         if (!isOpen) setIsOpen(true);
-        focusOption(hasSelection ? Math.max(selectedIndex - 1, 0) : last);
+        focusOption(enabled[position > -1 ? Math.max(position - 1, 0) : last]);
         break;
       case 'ArrowDown':
         e.preventDefault();
         if (!isOpen) setIsOpen(true);
-        focusOption(hasSelection ? Math.min(selectedIndex + 1, last) : 0);
+        focusOption(enabled[position > -1 ? Math.min(position + 1, last) : 0]);
         break;
       case 'Home':
         if (!isOpen) break;
         e.preventDefault();
-        focusOption(0);
+        focusOption(enabled[0]);
         break;
       case 'End':
         if (!isOpen) break;
         e.preventDefault();
-        focusOption(last);
+        focusOption(enabled[last]);
         break;
     }
   }
@@ -261,7 +264,7 @@ export function Select({
       onFocus={() => setSelectedIndex(index)}
     >
       {multiple && (
-        <Checkbox value={isOptionSelected(option)} className="pointer-events-none" />
+        <Checkbox value={isOptionSelected(option)} className="pointer-events-none" tabIndex={-1} />
       )}
       {renderOptionContent(option, index)}
     </Option>

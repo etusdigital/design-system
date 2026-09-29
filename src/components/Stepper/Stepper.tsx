@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { useControllable } from "../../hooks/useControllable";
-import { isObject } from "../../utils";
+import { isObject, onEnterOrSpace, preventSpaceScroll } from "../../utils";
 import styles from "./Stepper.module.css";
 import { Icon } from "../Icon/Icon";
 
@@ -115,7 +115,12 @@ export function Stepper({
           >
             <div
               className={clsx(styles.stepContainer)}
+              role="button"
+              tabIndex={disabled ? -1 : 0}
+              aria-current={getValue(model) == getValue(option) ? "step" : undefined}
               onClick={() => handleStepClick(option, index)}
+              onKeyDown={preventSpaceScroll}
+              onKeyUp={onEnterOrSpace(() => handleStepClick(option, index))}
             >
                 <div
                   className={clsx(

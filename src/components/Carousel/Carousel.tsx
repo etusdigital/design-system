@@ -205,6 +205,7 @@ export function Carousel({
               i === currentIndex && styles.indicatorActive,
               disabled && styles.indicatorDisabled
             )}
+            disabled={disabled}
             onClick={() => !disabled && setModel(i)}
             aria-label={`Go to slide ${i + 1}`}
           />

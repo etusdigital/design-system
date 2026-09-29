@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
+import { onEnterOrSpace, preventSpaceScroll } from '../../utils';
 import { RadioGroupContext } from '../RadioGroup/RadioGroup';
 import styles from './Radio.module.css';
 
@@ -73,13 +74,12 @@ export function Radio({
         className,
       )}
       onClick={handleClick}
+      onKeyUp={onEnterOrSpace(handleClick)}
     >
       <span
-        tabIndex={0}
         className={styles.outerCircle}
-        onKeyUp={(e) => {
-          if (e.key === ' ') handleClick();
-        }}
+        tabIndex={isDisabled ? -1 : 0}
+        onKeyDown={preventSpaceScroll}
       >
         <span
           className={clsx(

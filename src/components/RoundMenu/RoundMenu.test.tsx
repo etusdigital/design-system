@@ -9,8 +9,7 @@ const options = [
 ];
 
 function getTrigger() {
-  const buttons = screen.getAllByRole('button');
-  return buttons[buttons.length - 1];
+  return screen.getByRole('button', { name: /open menu|close menu/i });
 }
 
 describe('RoundMenu', () => {

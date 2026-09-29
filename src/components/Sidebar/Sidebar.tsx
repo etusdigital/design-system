@@ -105,13 +105,16 @@ function SidebarSubOption({
     paddingLeft: `${depth * 16 + 16}px`,
   };
 
+  const isLink = !hasChildren && !!option.path;
+  const focusIndex = option.disabled ? -1 : 0;
+
   const content = (
     <div
       className={subOptionClasses}
       style={indentStyle}
-      tabIndex={0}
-      onClick={handleClick}
-      onKeyUp={handleKeyUp}
+      tabIndex={isLink ? undefined : focusIndex}
+      onClick={isLink ? undefined : handleClick}
+      onKeyUp={isLink ? undefined : handleKeyUp}
       role={hasChildren ? "button" : undefined}
     >
       {option.icon && (
@@ -134,16 +137,16 @@ function SidebarSubOption({
     wrapper = (
       <RouterLink
         {...{ [linkPropName]: fullPath }}
-        tabIndex={0}
+        tabIndex={focusIndex}
         className={styles.subOptionLink}
-        onClick={() => onChange(option)}
+        onClick={handleClick}
       >
         {content}
       </RouterLink>
     );
   } else if (option.path) {
     wrapper = (
-      <a href={fullPath} tabIndex={0} className={styles.subOptionLink}>
+      <a href={fullPath} tabIndex={focusIndex} className={styles.subOptionLink} onClick={handleClick}>
         {content}
       </a>
     );
@@ -173,6 +176,7 @@ interface SidebarOptionComponentProps {
   sidebarExpanded: boolean;
   onRailClick: (option: SidebarOptionType) => void;
   activeParentValue: any;
+  openedParentValue?: any;
 }
 
 function SidebarOption({
@@ -180,6 +184,7 @@ function SidebarOption({
   sidebarExpanded,
   onRailClick,
   activeParentValue,
+  openedParentValue,
 }: SidebarOptionComponentProps) {
   const hasChildren = !!(option.options && option.options.length);
   const isActive = getValue(option) === getValue(activeParentValue);
@@ -201,14 +206,19 @@ function SidebarOption({
     if (e.key === "Enter") handleClick();
   }
 
+  const isLink = !hasChildren && !!option.path;
+  const focusIndex = option.disabled ? -1 : 0;
+
   const optionContent = (
     <div
       className={optionClasses}
-      tabIndex={0}
-      onClick={handleClick}
-      onKeyUp={handleKeyUp}
+      tabIndex={isLink ? undefined : focusIndex}
+      onClick={isLink ? undefined : handleClick}
+      onKeyUp={isLink ? undefined : handleKeyUp}
       role={hasChildren ? "button" : undefined}
-      aria-expanded={hasChildren ? isActive : undefined}
+      aria-expanded={
+        hasChildren ? getValue(option) === getValue(openedParentValue) : undefined
+      }
     >
       <span className={styles.optionIconContainer}>
         {option.icon && (
@@ -229,8 +239,9 @@ function SidebarOption({
     return (
       <RouterLink
         {...{ [linkPropName]: getPath(option.path) }}
-        tabIndex={0}
+        tabIndex={focusIndex}
         className={styles.optionLink}
+        onClick={handleClick}
       >
         {optionContent}
       </RouterLink>
@@ -239,7 +250,7 @@ function SidebarOption({
 
   if (option.path) {
     return (
-      <a href={getPath(option.path)} tabIndex={0} className={styles.optionLink}>
+      <a href={getPath(option.path)} tabIndex={focusIndex} className={styles.optionLink} onClick={handleClick}>
         {optionContent}
       </a>
     );
@@ -281,6 +292,8 @@ export function Sidebar({
   const [selfExpanded, setSelfExpanded] = useState(expanded);
   const [height, setHeight] = useState<string>("100vh");
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const subPanelRef = useRef<HTMLDivElement>(null);
+  const optionsListRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setSelfExpanded(expanded);
@@ -378,6 +391,41 @@ export function Sidebar({
     }
   }
 
+  function getFocusables(container?: HTMLElement | null): HTMLElement[] {
+    return Array.from(
+      container?.querySelectorAll<HTMLElement>("a[href], [tabindex]") ?? []
+    ).filter((el) => el.tabIndex >= 0);
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (!isSubPanelOpen) return;
+
+    const openedOption = sidebarRef.current?.querySelector<HTMLElement>('[aria-expanded="true"]');
+    if (e.key === 'Escape') {
+      e.stopPropagation();
+      setIsSubPanelOpen(false);
+      openedOption?.focus();
+      return;
+    }
+    if (e.key !== 'Tab' || !openedOption) return;
+
+    const subItems = getFocusables(subPanelRef.current);
+    const target = e.target as HTMLElement;
+    let next: HTMLElement | undefined;
+    if (target === openedOption && !e.shiftKey) {
+      next = subItems[0];
+    } else if (target === subItems[0] && e.shiftKey) {
+      next = openedOption;
+    } else if (target === subItems[subItems.length - 1] && !e.shiftKey) {
+      const railItems = getFocusables(optionsListRef.current);
+      next = railItems[railItems.indexOf(openedOption) + 1];
+    }
+    if (!next) return;
+
+    e.preventDefault();
+    next.focus();
+  }
+
   const sidebarClasses = [styles.sidebar, "sidebar", className]
     .filter(Boolean)
     .join(" ");
@@ -403,6 +451,7 @@ export function Sidebar({
         sidebarExpanded={selfExpanded}
         onRailClick={handleRailClick}
         activeParentValue={activeParent}
+        openedParentValue={isSubPanelOpen ? clickedOption : undefined}
       />
     );
   }
@@ -415,8 +464,9 @@ export function Sidebar({
         style={{ height }}
         tabIndex={0}
         onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
       >
-        <div className={styles.optionsList}>
+        <div ref={optionsListRef} className={styles.optionsList}>
           <div className={styles.optionsContainer}>
             {topOptions.map(renderOption)}
           </div>
@@ -442,7 +492,7 @@ export function Sidebar({
           )}
         </div>
 
-        <div className={subPanelClasses}>
+        <div ref={subPanelRef} className={subPanelClasses}>
           {clickedOption &&
             clickedOption.options &&
             clickedOption.options.length > 0 &&

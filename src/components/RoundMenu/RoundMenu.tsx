@@ -31,6 +31,15 @@ export function RoundMenu({
 
   return (
     <div className={clsx(styles.roundMenu, 'round-menu', className)}>
+      <Button
+        round
+        className={clsx(styles.trigger, isExpanded && styles.expanded)}
+        aria-label={isExpanded ? 'Close menu' : 'Open menu'}
+        aria-expanded={isExpanded}
+        onClick={() => setIsExpanded((prev) => !prev)}
+        color={isExpanded ? 'neutral': 'success'}
+        icon={isExpanded ? 'close' : 'add'}
+      />
       {options.map((option, index) => {
         const positionStyle = isExpanded
           ? calculatePosition(index, options.length)
@@ -48,6 +57,7 @@ export function RoundMenu({
               round
               background={option.background}
               icon={option[iconKey] ?? option.icon}
+              tabIndex={isExpanded ? 0 : -1}
               onClick={option.onClick}
             >
               {option[labelKey] ?? option.label}
@@ -55,14 +65,6 @@ export function RoundMenu({
           </div>
         );
       })}
-
-      <Button
-        round
-        className={clsx(styles.trigger, isExpanded && styles.expanded)}
-        onClick={() => setIsExpanded((prev) => !prev)}
-        color={isExpanded ? 'neutral': 'success'}
-        icon={isExpanded ? 'close' : 'add'}
-      />
     </div>
   );
 }

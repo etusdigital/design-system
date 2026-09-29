@@ -1,8 +1,13 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Breadcrumb } from './Breadcrumb';
 
 const meta = {
   component: Breadcrumb,
+  render: (args: any) => {
+    const [value, setValue] = useState(args.value);
+    return <Breadcrumb {...args} value={value} onChange={setValue} />;
+  },
   argTypes: {
     labelKey: {
       table: { defaultValue: { summary: 'label' } },

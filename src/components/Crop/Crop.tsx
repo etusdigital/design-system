@@ -179,6 +179,32 @@ export function Crop({
     updateCropArea(event.touches[0]);
   }
 
+  function onCropAreaKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    const directions: Record<string, [number, number]> = {
+      ArrowLeft: [-1, 0],
+      ArrowRight: [1, 0],
+      ArrowUp: [0, -1],
+      ArrowDown: [0, 1],
+    };
+    const direction = directions[event.key];
+    const area = cropAreaRef.current;
+    const parent = area?.parentElement;
+    if (!direction || !area || !parent || !selectedAreaRef.current) return;
+
+    event.preventDefault();
+    const step = event.shiftKey ? 50 : 10;
+    const maxX = parent.clientWidth - area.offsetWidth;
+    const maxY = parent.clientHeight - area.offsetHeight;
+    const x = Math.min(maxX, Math.max(0, area.offsetLeft + direction[0] * step));
+    const y = Math.min(maxY, Math.max(0, area.offsetTop + direction[1] * step));
+
+    area.style.left = `${x}px`;
+    area.style.top = `${y}px`;
+    selectedAreaRef.current.setAttribute('x', x.toString());
+    selectedAreaRef.current.setAttribute('y', y.toString());
+    crop(area, parent);
+  }
+
   function handleZoomChange(val: number | [number, number]) {
     const v = typeof val === 'number' ? val : val[0];
     setZoom(v);
@@ -235,8 +261,11 @@ export function Crop({
           ref={cropAreaRef}
           className={styles.cropArea}
           style={{ width, height }}
+          tabIndex={0}
+          aria-label="Crop area"
           onMouseDown={startDragging}
           onTouchStart={startDraggingTouch}
+          onKeyDown={onCropAreaKeyDown}
         />
       </div>
       <footer className={styles.footer}>
