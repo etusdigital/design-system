@@ -87,13 +87,13 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     onFocus?: (...args: any[]) => any;
     onBlur?: (...args: any[]) => any;
 }>, {
+    disabled: boolean;
     placeholder: string;
     modelValue: string;
     required: boolean;
     labelValue: string;
     errorMessage: string;
     infoMessage: string;
-    disabled: boolean;
     isError: boolean;
     tooltipMinWidth: string;
     minHeight: string;
