@@ -422,6 +422,16 @@ export function applyMask(
   return value;
 }
 
+export function focusWhenReady(
+  getElement: () => HTMLElement | null | undefined,
+  attempts = 30
+) {
+  const element = getElement();
+  if (element) element.focus();
+  else if (attempts > 0)
+    requestAnimationFrame(() => focusWhenReady(getElement, attempts - 1));
+}
+
 export function isValidEmail(value: any): boolean {
   return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
 }

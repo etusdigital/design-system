@@ -5,6 +5,7 @@ import {
   getArrayMonthDay,
   getMonths,
   checkDateType,
+  focusWhenReady,
 } from "../../utils/index";
 import Day from "./Day.vue";
 import DateDialog from "./DateDialog.vue";
@@ -48,6 +49,7 @@ const selectedIndex = ref(0);
 const hoveredDate = ref();
 const titles = ref<HTMLElement[]>([]);
 const popups = ref<HTMLDivElement>();
+const calendar = ref<HTMLDivElement>();
 
 const dates = computed(() => {
   if (props.doubleCalendar) {
@@ -114,7 +116,8 @@ function checkValidModel() {
 
 function updateOptions(value?: number, changeWeeks = true) {
   options.value.forEach((option: any) => {
-    if (value) option.date.setMonth(option.date.getMonth() + value);
+    if (value)
+      option.date = new Date(option.date.getFullYear(), option.date.getMonth() + value, 1);
     if (changeWeeks) option.weeks = getArrayMonthDay(option.date);
     option.title = getTitle(option.date);
   });
@@ -125,6 +128,7 @@ function getOptions() {
 }
 
 function getDateObject(date: Date, value = 1): Option {
+  date = new Date(date.getFullYear(), date.getMonth(), 1);
   return {
     title: getTitle(date),
     weeks: getArrayMonthDay(date),
@@ -152,6 +156,73 @@ function setNewMonth(value: number) {
   setTimeout(() => {
     showCalendar.value = true;
   }, 100);
+}
+
+function isDateDisabled(date: Date) {
+  const iso = date.toISOString().substring(0, 10);
+  if (props.minDate && iso < props.minDate.toISOString().substring(0, 10)) return true;
+  if (props.maxDate && iso > props.maxDate.toISOString().substring(0, 10)) return true;
+  return false;
+}
+
+function addMonths(date: Date, months: number): Date {
+  const lastDay = new Date(date.getFullYear(), date.getMonth() + months + 1, 0).getDate();
+  return new Date(date.getFullYear(), date.getMonth() + months, Math.min(date.getDate(), lastDay));
+}
+
+function getMonthDifference(from: Date, to: Date) {
+  return (to.getFullYear() - from.getFullYear()) * 12 + to.getMonth() - from.getMonth();
+}
+
+function showMonthOf(date: Date) {
+  const first = options.value[0].date;
+  const last = options.value[options.value.length - 1].date;
+  let difference = getMonthDifference(first, date);
+  if (difference > 0) difference = Math.max(getMonthDifference(last, date), 0);
+  if (!difference) return;
+
+  isBack.value = difference < 0;
+  showCalendar.value = false;
+  updateOptions(difference);
+
+  setTimeout(() => {
+    showCalendar.value = true;
+  }, 100);
+}
+
+function onGridKeyDown(event: KeyboardEvent) {
+  const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-date]");
+  if (!cell) return;
+
+  const [year, month, day] = cell.dataset.date!.split("-").map(Number);
+  const current = new Date(year, month - 1, day);
+  const moves: Record<string, (date: Date) => Date> = {
+    ArrowLeft: (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate() - 1),
+    ArrowRight: (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1),
+    ArrowUp: (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate() - 7),
+    ArrowDown: (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + 7),
+    Home: (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate() - d.getDay()),
+    End: (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + 6 - d.getDay()),
+    PageUp: (d) => addMonths(d, -1),
+    PageDown: (d) => addMonths(d, 1),
+  };
+  const move = moves[event.key];
+  if (!move) return;
+  event.preventDefault();
+
+  const step = ["Home", "End"].includes(event.key)
+    ? moves[event.key === "Home" ? "ArrowRight" : "ArrowLeft"]
+    : move;
+  let next = move(current);
+  for (let i = 0; i < 366 && isDateDisabled(next); i++) {
+    if (next.getTime() === current.getTime()) return;
+    next = step(next);
+  }
+  if (isDateDisabled(next)) return;
+
+  const key = `${next.getFullYear()}-${next.getMonth() + 1}-${next.getDate()}`;
+  if (!calendar.value?.querySelector(`[data-date="${key}"]`)) showMonthOf(next);
+  focusWhenReady(() => calendar.value?.querySelector<HTMLElement>(`[data-date="${key}"]`));
 }
 
 function hidePopup() {
@@ -287,7 +358,7 @@ function changeYear(year: number) {
 </script>
 
 <template>
-  <div class="calendar">
+  <div ref="calendar" class="calendar" @keydown="onGridKeyDown">
     <div
       v-for="(option, index) in options"
       :key="index"

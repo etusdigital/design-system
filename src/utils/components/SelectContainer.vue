@@ -133,7 +133,7 @@ function changeModel(value: boolean, extra: ContainerModelExtra) {
             </ul>
           </slot>
 
-          <div v-if="$slots.actions" class="actions" tabindex="0">
+          <div v-if="$slots.actions" class="actions">
             <slot name="actions" />
           </div>
         </div>

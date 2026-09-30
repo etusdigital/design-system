@@ -119,6 +119,7 @@ function getDates(index = 0) {
       position,
     ]"
     :tabindex="getDisabled(day) ? -1 : 0"
+    :data-date="`${day.getFullYear()}-${day.getMonth() + 1}-${day.getDate()}`"
     @mouseover="emit('update:hovered', day)"
     @mouseleave="emit('update:hovered', null)"
     @click="emit('select', day)"

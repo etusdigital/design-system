@@ -174,49 +174,29 @@ function closeColorPicker() {
       <div class="flex flex-col gap-xxs" v-if="showColorPicker">
         <ColorPicker v-model="customColor" no-shadow />
         <div class="flex justify-end gap-xxs px-xs pb-xs">
-          <Button variant="plain" size="small" @click="closeColorPicker"
-            ><slot name="cancel-label"
-          /></Button>
-          <Button
-            variant="secondary"
-            size="small"
-            @click="setCustom(customColor)"
-            ><slot name="add-label"
-          /></Button>
+          <Button variant="plain" size="small" color="neutral" @click="closeColorPicker">
+            <slot name="cancel-label" />
+          </Button>
+          <Button size="small" @click="setCustom(customColor)">
+            <slot name="add-label" />
+          </Button>
         </div>
       </div>
-      <div ref="grid" class="flex flex-col gap-xxs w-fit" v-else @keydown="onGridKeyDown">
+      <div ref="grid" class="color-picker" v-else @keydown="onGridKeyDown">
         <div class="color-column">
           <div class="color-row" v-for="row in palette">
-            <Color
-              v-for="color in row"
-              :key="color"
-              :model-value="model"
-              :color="color"
-              @click="setModel(color)"
-              @keyup.enter.space="setModel(color)"
-            />
+            <Color v-for="color in row" :key="color" :model-value="model" :color="color" @click="setModel(color)"
+              @keyup.enter.space="setModel(color)" />
           </div>
         </div>
-        <Divider />
-        <div class="color-row p-xs">
+        <hr class="color-divider" />
+        <div class="color-row custom-row">
           <Tooltip label-value="Add custom color" position="bottom">
-            <Icon
-              name="add_circle"
-              class="text-neutral-interactive-default cursor-pointer rich-text-editor-icon"
-              tabindex="0"
-              @click="showColorPicker = true"
-              @keyup.enter.space="showColorPicker = true"
-            />
+            <Icon name="add_circle" class="text-neutral-interactive-default cursor-pointer rich-text-editor-icon"
+              tabindex="0" @click="showColorPicker = true" @keyup.enter.space="showColorPicker = true" />
           </Tooltip>
-          <Color
-            v-for="color in custom"
-            :key="color"
-            :model-value="model"
-            :color="color"
-            @click="setModel(color)"
-            @keyup.enter.space="setModel(color)"
-          />
+          <Color v-for="color in custom" :key="color" :model-value="model" :color="color" @click="setModel(color)"
+            @keyup.enter.space="setModel(color)" />
         </div>
       </div>
     </template>
@@ -226,12 +206,24 @@ function closeColorPicker() {
 <style scoped>
 @reference "../../assets/main.css";
 
+.color-picker {
+  @apply flex flex-col gap-xxs w-fit p-xs min-w-15xl;
+}
+
 .color-column {
-  @apply flex flex-col gap-xxs p-xs;
+  @apply flex flex-col;
 }
 
 .color-row {
-  @apply flex gap-xxs;
+  @apply flex;
+}
+
+.custom-row {
+  @apply items-center py-xxs px-xs gap-xxs;
+}
+
+.color-divider {
+  @apply border-neutral-default my-xxs;
 }
 
 .rich-text-editor-icon {

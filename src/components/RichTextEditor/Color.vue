@@ -81,16 +81,12 @@ function getContrastColor(): string {
 @reference "../../assets/main.css";
 
 .color-option {
-  @apply flex items-center justify-center w-xl h-xl rounded-full cursor-pointer border-xxs border-neutral-default
-  hover:scale-110 hover:shadow-default transition-all duration-200;
-}
-
-.color-option:active {
-  @apply scale-95;
+  @apply flex items-center justify-center w-5 h-5 cursor-pointer rounded-none
+  hover:ring-2 hover:ring-[var(--primary-border-default)] hover:z-10 transition-shadow;
 }
 
 .color-option .icon {
-  @apply text-xl;
+  @apply text-base;
 }
 
 .color-option {

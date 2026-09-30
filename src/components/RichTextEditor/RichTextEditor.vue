@@ -278,6 +278,7 @@ const options = ref<Record<string, Record<string, ToolbarOption>>>({
 });
 const customColorOptions = ref<string[]>([]);
 const savedSelection = ref<Range | null>(null);
+let tabLeavesEditor = false;
 
 const isFocused = ref(false);
 
@@ -422,6 +423,11 @@ function saveCurrentSelection() {
   } catch (error) {
     savedSelection.value = null;
   }
+}
+
+function onColorsExpanded(expanded: boolean) {
+  if (expanded) saveCurrentSelection();
+  else if (document.activeElement?.closest(".float-card")) restoreSavedSelection();
 }
 
 function restoreSavedSelection() {
@@ -1325,14 +1331,14 @@ function handleBlockquoteIndentation(
   } catch (error) {}
 }
 
-function removeIndentation() {
+function removeIndentation(): boolean {
   try {
-    if (!editorRef.value) return;
+    if (!editorRef.value) return false;
 
     const allIndentSpans =
       editorRef.value.querySelectorAll('span[class*="tab"]');
 
-    if (allIndentSpans.length === 0) return;
+    if (allIndentSpans.length === 0) return false;
 
     let spanToRemove: HTMLElement | null = null;
 
@@ -1346,8 +1352,13 @@ function removeIndentation() {
       }
     }
 
-    if (spanToRemove) spanToRemove.remove();
-  } catch (error) {}
+    if (!spanToRemove) return false;
+
+    spanToRemove.remove();
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
 
 function removeNewLineFormatting(
@@ -1460,6 +1471,13 @@ function removeNewLineFormatting(
 function onKeyDown(event: KeyboardEvent) {
   if (props.disabled) return;
 
+  if (event.key === "Escape") {
+    tabLeavesEditor = true;
+    return;
+  }
+  if (!["Shift", "Control", "Alt", "Meta", "Tab"].includes(event.key))
+    tabLeavesEditor = false;
+
   if (event.ctrlKey && !event.shiftKey && event.key === "z") {
     event.preventDefault();
     undoAction();
@@ -1480,29 +1498,43 @@ function onKeyDown(event: KeyboardEvent) {
   if (handleListIndentation(event, selection, range)) return;
   handleBlockquoteIndentation(event, selection, range);
 
+  let indentedList = false;
   if (event.key === "Tab") {
-    event.preventDefault();
+    if (tabLeavesEditor) {
+      tabLeavesEditor = false;
+      return;
+    }
 
-    try {
-      let currentElement = range.startContainer;
-      let inList = false;
+    let currentElement = range.startContainer;
+    let inList = false;
 
-      while (currentElement && currentElement !== editorRef.value) {
-        if (currentElement.nodeType === Node.ELEMENT_NODE) {
-          const tagName = (currentElement as Element).tagName?.toLowerCase();
-          if (["li", "ul", "ol"].includes(tagName)) {
-            inList = true;
-            break;
-          }
+    while (currentElement && currentElement !== editorRef.value) {
+      if (currentElement.nodeType === Node.ELEMENT_NODE) {
+        const tagName = (currentElement as Element).tagName?.toLowerCase();
+        if (["li", "ul", "ol"].includes(tagName)) {
+          inList = true;
+          break;
         }
-        const parent = currentElement.parentNode;
-        if (!parent) break;
-        currentElement = parent;
       }
+      const parent = currentElement.parentNode;
+      if (!parent) break;
+      currentElement = parent;
+    }
 
+    if (!inList && event.shiftKey) {
+      if (!removeIndentation()) return;
+
+      event.preventDefault();
+      onInput();
+      return;
+    }
+
+    event.preventDefault();
+    indentedList = inList;
+    try {
       if (inList && !event.shiftKey) document.execCommand("indent", false);
       else if (inList && event.shiftKey) document.execCommand("outdent", false);
-      else if (!event.shiftKey) {
+      else {
         const tab = document.createElement("span");
         tab.classList.add("tab");
         tab.innerHTML = "\t";
@@ -1510,7 +1542,7 @@ function onKeyDown(event: KeyboardEvent) {
         range.deleteContents();
         range.insertNode(tab);
         range.setStartAfter(tab);
-      } else removeIndentation();
+      }
     } catch (error) {}
   }
 
@@ -1521,7 +1553,7 @@ function onKeyDown(event: KeyboardEvent) {
     event.key === "Tab" ||
     event.key === "Backspace"
   ) {
-    if (event.key != "Backspace") {
+    if (event.key != "Backspace" && !indentedList) {
       range.collapse(true);
       selection.removeAllRanges();
       selection.addRange(range);
@@ -1604,7 +1636,7 @@ function camelToKebabCase(str: string): string {
               v-model:custom="customColorOptions"
               :expanded="(item as Color).expanded"
               @update:model-value="(value) => setColor(value, item as Color)"
-              @update:expanded="saveCurrentSelection"
+              @update:expanded="onColorsExpanded"
               @update:custom="(value) => (customColorOptions = value)"
             >
               <template #add-label>
