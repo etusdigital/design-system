@@ -96,7 +96,7 @@ const style = computed((): any => {
     :id="id"
     :name="name || id"
     :type="type"
-    :disabled="disabled"
+    :disabled="disabled || isLoading"
     class="button"
     :class="[
       {
