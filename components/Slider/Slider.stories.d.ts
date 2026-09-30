@@ -179,8 +179,8 @@ export declare const IsRange: {
         template: string;
     };
     args: {
+        modelValue: number[];
         isRange: boolean;
-        modelValue: number;
         size: string;
         max: number;
         unit: string;
