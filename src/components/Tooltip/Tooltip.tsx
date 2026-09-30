@@ -10,6 +10,7 @@ export interface TooltipProps {
   children?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
+  tabIndex?: number;
 }
 
 function TooltipLabel({ children }: { children?: React.ReactNode }) {
@@ -22,6 +23,7 @@ export function Tooltip({
   children,
   className,
   style,
+  tabIndex,
 }: TooltipProps) {
   let labelSlotContent: React.ReactNode = null;
   const triggerChildren: React.ReactNode[] = [];
@@ -96,15 +98,27 @@ export function Tooltip({
     const closeHandler = () => setIsHovering(false);
     document.addEventListener('wheel', closeHandler);
     return () => document.removeEventListener('wheel', closeHandler);
-  }, [isMounted, calculatePosition]);
+  }, [isMounted, calculatePosition, labelValue]);
+
+  function hideOnFocusOut(event: React.FocusEvent) {
+    if (contentRef.current?.contains(event.relatedTarget as Node)) return;
+
+    setIsHovering(false);
+  }
 
   return (
     <div
       ref={contentRef}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
+      onFocus={() => setIsHovering(true)}
+      onBlur={hideOnFocusOut}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape') setIsHovering(false);
+      }}
       className={clsx('tooltip', className)}
       style={style}
+      tabIndex={tabIndex}
     >
       {isMounted &&
         createPortal(

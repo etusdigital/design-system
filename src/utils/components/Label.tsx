@@ -35,7 +35,7 @@ export function Label({
               {infoMessage}
             </p>
           </Tooltip.Label>
-          <Icon name="info" className="info-icon" />
+          <Icon name="info" className="info-icon" tabIndex={0} />
         </Tooltip>
       )}
     </h5>

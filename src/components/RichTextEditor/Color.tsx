@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Icon } from "../Icon/Icon";
 import styles from "./RichTextEditor.module.css";
-import { getContrastColor } from "#utils/index";
+import { getContrastColor, onEnterOrSpace, preventSpaceScroll } from "#utils/index";
 
 interface ColorProps {
   color: string;
@@ -17,7 +17,11 @@ export function Color({ color, selected, onClick, className }: ColorProps) {
     <div
       className={clsx(styles.colorOption, className)}
       style={{ backgroundColor: color }}
+      tabIndex={0}
+      data-selected={selected || undefined}
       onClick={() => onClick?.(color)}
+      onKeyDown={preventSpaceScroll}
+      onKeyUp={onEnterOrSpace(() => onClick?.(color))}
     >
       {selected && (
         <Icon

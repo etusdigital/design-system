@@ -1,5 +1,10 @@
-import { useEffect, useState } from "react";
-import { blendColors } from "../../utils";
+import { useEffect, useRef, useState } from "react";
+import {
+  blendColors,
+  focusWhenReady,
+  onEnterOrSpace,
+  preventSpaceScroll,
+} from "../../utils";
 import { Icon } from "../Icon/Icon";
 import { Color } from "./Color";
 import styles from "./RichTextEditor.module.css";
@@ -73,10 +78,65 @@ export function Colors({
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [customColorInput, setCustomColorInput] = useState(value);
   const [mounted, setMounted] = useState(false);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!expanded) return;
+
+    focusWhenReady(
+      () =>
+        gridRef.current?.querySelector<HTMLElement>("[data-selected]") ??
+        getGridRows()[0]?.[0],
+    );
+  }, [expanded]);
+
+  function getGridRows(): HTMLElement[][] {
+    return Array.from(
+      gridRef.current?.querySelectorAll<HTMLElement>(`.${styles.colorRow}`) ?? [],
+    )
+      .map((row) => Array.from(row.querySelectorAll<HTMLElement>('[tabindex="0"]')))
+      .filter((row) => row.length);
+  }
+
+  function handleGridKeyDown(event: React.KeyboardEvent) {
+    const keys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"];
+    if (!keys.includes(event.key)) return;
+
+    const rows = getGridRows();
+    const target = event.target as HTMLElement;
+    const rowIndex = rows.findIndex((row) => row.includes(target));
+    if (rowIndex === -1) return;
+    event.preventDefault();
+
+    const row = rows[rowIndex];
+    const column = row.indexOf(target);
+    let next: HTMLElement | undefined;
+    switch (event.key) {
+      case "ArrowLeft":
+        next = row[Math.max(column - 1, 0)];
+        break;
+      case "ArrowRight":
+        next = row[Math.min(column + 1, row.length - 1)];
+        break;
+      case "ArrowUp":
+      case "ArrowDown": {
+        const targetRow = rows[rowIndex + (event.key === "ArrowUp" ? -1 : 1)];
+        next = targetRow?.[Math.min(column, targetRow.length - 1)];
+        break;
+      }
+      case "Home":
+        next = row[0];
+        break;
+      case "End":
+        next = row[row.length - 1];
+        break;
+    }
+    next?.focus();
+  }
 
   const palette = (() => {
     if (!mounted) return [];
@@ -105,6 +165,7 @@ export function Colors({
     <FloatCard
       value={expanded}
       onChange={onExpandedChange}
+      manualFocus
       card={
         <div
           className={clsx(
@@ -134,7 +195,11 @@ export function Colors({
               </div>
             </>
           ) : (
-            <div className={styles.colorColumn}>
+            <div
+              ref={gridRef}
+              className={styles.colorColumn}
+              onKeyDown={handleGridKeyDown}
+            >
               <div className={styles.colorGrid}>
                 {palette.map((row, rowIndex) => (
                   <div key={rowIndex} className={styles.colorRow}>
@@ -154,7 +219,12 @@ export function Colors({
                 <div
                   className={styles.addColorBtn}
                   title="Add custom color"
+                  role="button"
+                  aria-label="Add custom color"
+                  tabIndex={0}
                   onClick={() => setShowColorPicker(true)}
+                  onKeyDown={preventSpaceScroll}
+                  onKeyUp={onEnterOrSpace(() => setShowColorPicker(true))}
                 >
                   <Icon
                     name="add_circle"

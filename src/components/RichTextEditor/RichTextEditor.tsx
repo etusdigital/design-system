@@ -90,6 +90,7 @@ export function RichTextEditor({
 
   const editorRef = useRef<HTMLDivElement>(null);
   const savedSelectionRef = useRef<Range | null>(null);
+  const tabLeavesEditorRef = useRef(false);
   const historyRef = useRef<string[]>([]);
   const historyIndexRef = useRef(-1);
   const isRestoringHistoryRef = useRef(false);
@@ -155,6 +156,12 @@ export function RichTextEditor({
     } catch {
       savedSelectionRef.current = null;
     }
+  }
+
+  function handleColorsExpanded(expanded: boolean, setExpanded: (value: boolean) => void) {
+    if (expanded) saveCurrentSelection();
+    else if (document.activeElement?.closest('.float-card')) restoreSavedSelection();
+    setExpanded(expanded);
   }
 
   function isSelectionWithinEditor(selection?: Selection | null): boolean {
@@ -538,8 +545,19 @@ export function RichTextEditor({
       return;
     }
 
+    if (event.key === 'Escape') {
+      tabLeavesEditorRef.current = true;
+      return;
+    }
+    if (!['Shift', 'Control', 'Alt', 'Meta', 'Tab'].includes(event.key))
+      tabLeavesEditorRef.current = false;
+
     if (event.key === 'Tab') {
-      event.preventDefault();
+      if (tabLeavesEditorRef.current) {
+        tabLeavesEditorRef.current = false;
+        return;
+      }
+
       const selection = window.getSelection();
       if (!selection || selection.rangeCount === 0) return;
       const range = selection.getRangeAt(0);
@@ -554,6 +572,9 @@ export function RichTextEditor({
         currentNode = currentNode.parentNode;
       }
 
+      if (!inList && event.shiftKey) return;
+
+      event.preventDefault();
       if (inList && !event.shiftKey) document.execCommand('indent', false);
       else if (inList && event.shiftKey) document.execCommand('outdent', false);
       else if (!event.shiftKey) {
@@ -679,10 +700,7 @@ export function RichTextEditor({
               setForeColor(color);
               handleColorCommand(color, 'foreColor');
             }}
-            onExpandedChange={(expanded) => {
-              if (expanded) saveCurrentSelection();
-              setForeColorExpanded(expanded);
-            }}
+            onExpandedChange={(expanded) => handleColorsExpanded(expanded, setForeColorExpanded)}
             onCustomChange={setCustomColors}
           >
             <button
@@ -703,10 +721,7 @@ export function RichTextEditor({
               setBackColor(color);
               handleColorCommand(color, 'backColor');
             }}
-            onExpandedChange={(expanded) => {
-              if (expanded) saveCurrentSelection();
-              setBackColorExpanded(expanded);
-            }}
+            onExpandedChange={(expanded) => handleColorsExpanded(expanded, setBackColorExpanded)}
             onCustomChange={setCustomColors}
           >
             <button

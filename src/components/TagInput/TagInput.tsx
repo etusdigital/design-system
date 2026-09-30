@@ -131,9 +131,9 @@ export function TagInput({
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       addTag(newTag);
-    } else if (e.key === "Tab") {
+    } else if (e.key === "Tab" && !e.shiftKey && newTag.trim()) {
       e.preventDefault();
-      if (newTag) addTag(newTag);
+      addTag(newTag);
     } else if (e.key === "Backspace" && newTag === "") {
       const currentTags = tags ?? [];
       removeTag(currentTags.length - 1);
@@ -215,7 +215,7 @@ export function TagInput({
           disabled && styles.disabled,
           hasError && styles.shake,
         )}
-        onClick={() => textareaRef.current?.focus()}
+        onClick={() => !disabled && textareaRef.current?.focus()}
       >
         {prependIconChild
           ? prependIconChild

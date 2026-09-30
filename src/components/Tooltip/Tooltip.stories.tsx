@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Tooltip } from './Tooltip';
+import { Button } from '../Button/Button';
 
 const meta = {
   component: Tooltip,
@@ -38,7 +39,7 @@ export const Primary: Story = {
   args: defaultArgs,
   render: (args: any) => (
     <Tooltip {...args}>
-      <span>Hover me</span>
+      <Button>Hover me</Button>
     </Tooltip>
   ),
 };
@@ -48,16 +49,16 @@ export const Positions: Story = {
   render: (args: any) => (
     <div style={{ display: 'flex', gap: '16px' }}>
       <Tooltip labelValue={args.labelValue} position="right">
-        <span>Right</span>
+        <Button>Right</Button>
       </Tooltip>
       <Tooltip labelValue={args.labelValue} position="top">
-        <span>Top</span>
+        <Button>Top</Button>
       </Tooltip>
       <Tooltip labelValue={args.labelValue} position="left">
-        <span>Left</span>
+        <Button>Left</Button>
       </Tooltip>
       <Tooltip labelValue={args.labelValue} position="bottom">
-        <span>Bottom</span>
+        <Button>Bottom</Button>
       </Tooltip>
     </div>
   ),
@@ -67,7 +68,7 @@ export const Label: Story = {
   args: defaultArgs,
   render: (args: any) => (
     <Tooltip position={args.position}>
-      <span>Rich tooltip</span>
+      <Button>Rich tooltip</Button>
       <Tooltip.Label>
         <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
           <span>Rich content here</span>

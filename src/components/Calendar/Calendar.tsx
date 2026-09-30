@@ -8,6 +8,7 @@ import {
   capitalizeFirstLetter,
   isRange,
   onEnterOrSpace,
+  focusWhenReady,
 } from "../../utils/index";
 import { useTransition } from "../../hooks/useTransition";
 import { Icon } from "../Icon/Icon";
@@ -97,6 +98,7 @@ function CalendarDay({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       role="gridcell"
+      data-date={getDateKey(date)}
       aria-selected={selectedPrimary || selectedSecondary}
     >
       {showSplit && (
@@ -285,6 +287,15 @@ function isSameDay(a: Date, b: Date): boolean {
     a.getMonth() === b.getMonth() &&
     a.getDate() === b.getDate()
   );
+}
+
+function addMonths(date: Date, months: number): Date {
+  const lastDay = new Date(date.getFullYear(), date.getMonth() + months + 1, 0).getDate();
+  return new Date(date.getFullYear(), date.getMonth() + months, Math.min(date.getDate(), lastDay));
+}
+
+function getDateKey(date: Date): string {
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 }
 
 function isDateDisabled(
@@ -523,6 +534,53 @@ export function Calendar({
     }),
   );
 
+  function showMonthOf(date: Date) {
+    const first = new Date(currentYear, currentMonth, 1);
+    const target = new Date(date.getFullYear(), date.getMonth(), 1);
+    if (doubleCalendar && target > first) target.setMonth(target.getMonth() - 1);
+
+    isBackRef.current = target < first;
+    setTransitionKey((k) => k + 1);
+    setCurrentMonth(target.getMonth());
+    setCurrentYear(target.getFullYear());
+  }
+
+  function handleGridKeyDown(event: React.KeyboardEvent) {
+    const cell = (event.target as HTMLElement).closest<HTMLElement>("[data-date]");
+    if (!cell) return;
+
+    const [year, month, day] = cell.dataset.date!.split("-").map(Number);
+    const current = new Date(year, month - 1, day);
+    const moves: Record<string, (date: Date) => Date> = {
+      ArrowLeft: (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate() - 1),
+      ArrowRight: (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1),
+      ArrowUp: (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate() - 7),
+      ArrowDown: (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + 7),
+      Home: (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate() - d.getDay()),
+      End: (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + 6 - d.getDay()),
+      PageUp: (d) => addMonths(d, -1),
+      PageDown: (d) => addMonths(d, 1),
+    };
+    const move = moves[event.key];
+    if (!move) return;
+    event.preventDefault();
+
+    const step = ["Home", "End"].includes(event.key)
+      ? moves[event.key === "Home" ? "ArrowRight" : "ArrowLeft"]
+      : move;
+    let next = move(current);
+    for (let i = 0; i < 366 && isDateDisabled(next, minDate, maxDate, disabledDates); i++) {
+      if (next.getTime() === current.getTime()) return;
+      next = step(next);
+    }
+    if (isDateDisabled(next, minDate, maxDate, disabledDates)) return;
+
+    const key = getDateKey(next);
+    const root = event.currentTarget as HTMLElement;
+    if (!root.querySelector(`[data-date="${key}"]`)) showMonthOf(next);
+    focusWhenReady(() => root.querySelector<HTMLElement>(`[data-date="${key}"]`));
+  }
+
   function prevMonth() {
     isBackRef.current = true;
     setTransitionKey((k) => k + 1);
@@ -735,7 +793,7 @@ export function Calendar({
         </div>
       )}
 
-      <div className={styles.slideContainer}>
+      <div className={styles.slideContainer} onKeyDown={handleGridKeyDown}>
         <div
           key={transitionKey}
           className={clsx(animationClass, doubleCalendar && styles.doubleGrid)}
