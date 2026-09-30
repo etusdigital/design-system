@@ -71,9 +71,17 @@ watch(
 );
 
 function focusInput() {
+  if (props.disabled) return;
+
   const input = tagInput.value?.querySelector("#input-default") as HTMLTextAreaElement;
-  isFocused.value = true;
   if (input) input.focus();
+}
+
+function addTagOnTab(e: KeyboardEvent) {
+  if (e.shiftKey || isNilAndBlank(newTag.value)) return;
+
+  e.preventDefault();
+  addTag(newTag.value);
 }
 
 function addToTagList() {
@@ -191,14 +199,12 @@ function applyMasks(e: any) {
     </div>
     <div
       class="tag-input-container"
-      :tabindex="disabled ? -1 : 0"
       :class="{
         active: isFocused && !disabled,
         error: hasError || isError,
         disabled: disabled,
       }"
-      @focus="focusInput"
-      @blur="isFocused = false"
+      @click="focusInput"
     >
       <slot name="icon-slot">
         <Icon
@@ -214,7 +220,14 @@ function applyMasks(e: any) {
         position="bottom"
         class="max-w-full"
       >
-        <StatusBadge color="neutral" class="tag-padding" size="small" :label-value="tag" :closeable="!disabled" @close="removeTag(Number(index))" />
+        <StatusBadge
+          color="neutral"
+          class="tag-padding"
+          size="small"
+          :label-value="tag"
+          :closeable="!disabled"
+          @close="removeTag(Number(index))"
+        />
         <template #label>
           <div class="max-w-[100%]">
             <span class="whitespace-normal break-all">{{ tag }}</span>
@@ -237,7 +250,7 @@ function applyMasks(e: any) {
             addTag(newTag);
           }
         "
-        @keydown.prevent.tab="addTag(newTag)"
+        @keydown.tab="addTagOnTab"
         @keydown.backspace="removeTag(tags.length - 1)"
       />
       <slot name="appended-icon-slot">

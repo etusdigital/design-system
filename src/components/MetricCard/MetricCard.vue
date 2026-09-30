@@ -53,7 +53,7 @@ withDefaults(defineProps<{
                                 {{ infoMessage }}
                             </div>
                         </template>
-                        <Icon name="info" class="info-icon info-label" :class="[size, infoType]" />
+                        <Icon name="info" class="info-icon info-label" tabindex="0" :class="[size, infoType]" />
                     </Tooltip>
                     <p class="info-text info-label" :class="[infoType]" v-else>{{ infoMessage }}</p>
                 </template>

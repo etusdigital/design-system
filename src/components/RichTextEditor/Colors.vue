@@ -28,6 +28,7 @@ const customColors = ref(props.custom);
 const customColor = ref(props.modelValue);
 const showColorPicker = ref(false);
 const palette = ref<string[][]>([]);
+const grid = ref<HTMLElement>();
 
 onMounted(() => {
   palette.value = generateColorPalette();
@@ -47,6 +48,10 @@ watch(
     customColors.value = newValue;
   }
 );
+
+watch(isExpanded, (value) => {
+  if (value) setTimeout(focusSelectedColor);
+});
 
 function generateColorPalette() {
   const palette = [];
@@ -109,6 +114,52 @@ function setCustom(value: string) {
   emit("update:custom", customColors.value);
 }
 
+function focusSelectedColor() {
+  const selected = grid.value?.querySelector<HTMLElement>(".color-option:has(.icon)");
+  (selected ?? getGridRows()[0]?.[0])?.focus();
+}
+
+function getGridRows(): HTMLElement[][] {
+  return Array.from(grid.value?.querySelectorAll<HTMLElement>(".color-row") ?? [])
+    .map((row) => Array.from(row.querySelectorAll<HTMLElement>('[tabindex="0"]')))
+    .filter((row) => row.length);
+}
+
+function onGridKeyDown(event: KeyboardEvent) {
+  const keys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"];
+  if (!keys.includes(event.key)) return;
+
+  const rows = getGridRows();
+  const rowIndex = rows.findIndex((row) => row.includes(event.target as HTMLElement));
+  if (rowIndex === -1) return;
+  event.preventDefault();
+
+  const row = rows[rowIndex];
+  const column = row.indexOf(event.target as HTMLElement);
+  let next: HTMLElement | undefined;
+  switch (event.key) {
+    case "ArrowLeft":
+      next = row[Math.max(column - 1, 0)];
+      break;
+    case "ArrowRight":
+      next = row[Math.min(column + 1, row.length - 1)];
+      break;
+    case "ArrowUp":
+    case "ArrowDown": {
+      const target = rows[rowIndex + (event.key === "ArrowUp" ? -1 : 1)];
+      next = target?.[Math.min(column, target.length - 1)];
+      break;
+    }
+    case "Home":
+      next = row[0];
+      break;
+    case "End":
+      next = row[row.length - 1];
+      break;
+  }
+  next?.focus();
+}
+
 function closeColorPicker() {
   setTimeout(() => {
     showColorPicker.value = false;
@@ -134,7 +185,7 @@ function closeColorPicker() {
           /></Button>
         </div>
       </div>
-      <div class="flex flex-col gap-xxs w-fit" v-else>
+      <div ref="grid" class="flex flex-col gap-xxs w-fit" v-else @keydown="onGridKeyDown">
         <div class="color-column">
           <div class="color-row" v-for="row in palette">
             <Color
@@ -143,6 +194,7 @@ function closeColorPicker() {
               :model-value="model"
               :color="color"
               @click="setModel(color)"
+              @keyup.enter.space="setModel(color)"
             />
           </div>
         </div>
@@ -152,7 +204,9 @@ function closeColorPicker() {
             <Icon
               name="add_circle"
               class="text-neutral-interactive-default cursor-pointer rich-text-editor-icon"
+              tabindex="0"
               @click="showColorPicker = true"
+              @keyup.enter.space="showColorPicker = true"
             />
           </Tooltip>
           <Color
@@ -161,6 +215,7 @@ function closeColorPicker() {
             :model-value="model"
             :color="color"
             @click="setModel(color)"
+            @keyup.enter.space="setModel(color)"
           />
         </div>
       </div>

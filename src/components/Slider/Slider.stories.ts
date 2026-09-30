@@ -157,6 +157,7 @@ export const IsRange: Story = {
   render: defaultRender,
   args: {
     ...defaultArgs,
+    modelValue: [0.25, 0.75],
     isRange: true,
   },
 };

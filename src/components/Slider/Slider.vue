@@ -451,7 +451,7 @@ function changeFillBarPosition() {
       :key="index"
       class="cursor cursor-slider relative select-none"
       :class="{ grabbing: value, colored: color }"
-      :tabindex="disabled ? -1 : 0"
+      :tabindex="disabled || showTooltip ? -1 : 0"
       @keydown="(e: KeyboardEvent) => onCursorKeyDown(e, index)"
       @mousedown="(e: MouseEvent) => startDraggingSlider(e, index)"
       @touchstart="(e: TouchEvent) => startDraggingSliderTouch(e, index)"
@@ -460,6 +460,7 @@ function changeFillBarPosition() {
         :label-value="tooltipText"
         :position="vertical ? 'right' : 'top'"
         class="cursor-tooltip select-none"
+        :tabindex="disabled ? -1 : 0"
         v-if="showTooltip"
       />
     </span>
@@ -592,6 +593,15 @@ function changeFillBarPosition() {
 
 .cursor {
   @apply cursor-grab border-xs absolute z-[1] border-primary-interaction-default bg-neutral-surface-default rounded-full;
+}
+
+.cursor > .cursor-tooltip {
+  @apply absolute inset-0 w-auto h-auto rounded-full outline-none;
+}
+
+.cursor:has(> .cursor-tooltip:focus-visible) {
+  outline: auto 1px Highlight;
+  outline: auto 1px -webkit-focus-ring-color;
 }
 
 .cursor.grabbing {

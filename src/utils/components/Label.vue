@@ -31,7 +31,7 @@ withDefaults(
           {{ infoMessage }}
         </div>
       </template>
-      <Icon name="info" class="info-icon" />
+      <Icon name="info" class="info-icon" tabindex="0" />
     </Tooltip>
     <span v-if="required" class="text-primary-foreground-low ml-xxs">*</span>
   </h5>

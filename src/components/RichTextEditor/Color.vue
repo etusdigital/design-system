@@ -68,7 +68,7 @@ function getContrastColor(): string {
 </script>
 
 <template>
-  <div :style="{ backgroundColor: color }" class="color-option">
+  <div :style="{ backgroundColor: color }" class="color-option" tabindex="0">
     <Icon
       v-if="modelValue === color"
       name="check"

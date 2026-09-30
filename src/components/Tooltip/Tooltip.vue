@@ -3,6 +3,7 @@ import {
   ref,
   nextTick,
   computed,
+  watch,
 } from "vue";
 
 const props = withDefaults(
@@ -37,16 +38,21 @@ const computedPadding = computed((): number => {
   return 4;
 });
 
+watch(
+  () => props.labelValue,
+  async () => {
+    if (!isHovering.value) return;
+    await nextTick();
+    updatePosition();
+  }
+);
+
 async function showTooltip() {
+  const wasOpen = isHovering.value;
   isHovering.value = true;
   await nextTick();
-
-  if (!content.value || !tooltip.value) return;
-
-  const rect = (content.value.firstElementChild || content.value).getBoundingClientRect();
-  const viewportWidth = window.innerWidth;
-
-  calculatePosition(rect, tooltip.value);
+  updatePosition();
+  if (wasOpen) return;
 
   const closeHandler = () => {
     isHovering.value = false;
@@ -54,6 +60,15 @@ async function showTooltip() {
   };
 
   document.addEventListener("wheel", closeHandler);
+}
+
+function updatePosition() {
+  if (!content.value || !tooltip.value) return;
+
+  const rect = (content.value.firstElementChild || content.value).getBoundingClientRect();
+  const viewportWidth = window.innerWidth;
+
+  calculatePosition(rect, tooltip.value);
 
   const tooltipRect = tooltip.value.getBoundingClientRect();
   const tooltipContent = tooltip.value.querySelector(
@@ -74,6 +89,12 @@ async function showTooltip() {
     tooltipContent.style.whiteSpace = "wrap";
     calculatePosition(rect, tooltip.value);
   }
+}
+
+function hideOnFocusOut(event: FocusEvent) {
+  if (content.value?.contains(event.relatedTarget as Node)) return;
+
+  isHovering.value = false;
 }
 
 function calculatePosition(rect: DOMRect, tooltip: HTMLElement) {
@@ -105,6 +126,9 @@ function calculatePosition(rect: DOMRect, tooltip: HTMLElement) {
     class="tooltip"
     @mouseenter="showTooltip"
     @mouseleave="isHovering = false"
+    @focusin="showTooltip"
+    @focusout="hideOnFocusOut"
+    @keydown.esc="isHovering = false"
   >
     <Teleport to="body">
       <Transition name="opacity">
