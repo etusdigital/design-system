@@ -99,7 +99,7 @@ export function Button({
       id={id}
       name={name || id}
       type={type}
-      disabled={disabled}
+      disabled={disabled || isLoading}
       className={clsx(
         styles.button,
         'button',
