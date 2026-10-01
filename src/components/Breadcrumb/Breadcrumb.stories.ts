@@ -41,7 +41,7 @@ type Story = StoryObj<typeof Breadcrumb>;
 
 const defaultArgs = {
   modelValue: "Home",
-  options: ["Home", "Dashboard", "Profile", "Profile", "Profile", "Profile", "Profile", "Profile", "Profile", "Profile", "Profile", "Profile", "Settings"],
+  options: ["Home", "Dashboard", "Profile", "Settings"],
   labelKey: "label",
   valueKey: "value",
   getObject: false,
