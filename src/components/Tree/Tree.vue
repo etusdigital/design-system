@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, onBeforeMount } from "vue";
 import { type Option as OptionType } from "#utils/types/DropOption";
-import { isObject } from "../../utils";
+import { focusByArrowKey, getFocusableItems, isObject } from "../../utils";
 import Option from "./Option.vue";
 
 type ModelValue =
@@ -180,10 +180,38 @@ function setModel(value: OptionType, add = false) {
   parseModel(value, add);
   updateModel();
 }
+
+function getRowParts(row: HTMLElement) {
+  return getFocusableItems(row, ":scope > .expand-icon, :scope > .tree-option-option");
+}
+
+function onKeyDown(event: KeyboardEvent) {
+  const target = event.target as HTMLElement;
+  const row = target.closest<HTMLElement>(".tree-option-container");
+  if (!row) return;
+
+  if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+    focusByArrowKey(event, getRowParts(row), "horizontal");
+    return;
+  }
+
+  const rows = Array.from(
+    (event.currentTarget as HTMLElement).querySelectorAll<HTMLElement>(
+      ".tree-option-container"
+    )
+  ).filter((item) => !item.closest(".expand-leave-active") && getRowParts(item).length);
+  const onExpandIcon = target.classList.contains("expand-icon");
+  const items = rows.map((item) => {
+    const parts = getRowParts(item);
+    return onExpandIcon ? parts[0] : parts[parts.length - 1];
+  });
+
+  focusByArrowKey(event, items, "vertical", { current: rows.indexOf(row) });
+}
 </script>
 
 <template>
-  <div class="tree">
+  <div class="tree" @keydown="onKeyDown">
     <Option
       v-for="option in options"
       :key="getValue(option)"

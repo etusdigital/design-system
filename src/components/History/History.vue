@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useOptionalModel } from "#composables";
+import { focusByArrowKey, getFocusableItems } from "../../utils";
 
 const props = withDefaults(
   defineProps<{
@@ -33,10 +34,23 @@ function changeModel(option: any, index: number) {
 
   setModel(option, { index })
 }
+
+function onKeyDown(event: KeyboardEvent) {
+  const horizontal = props.position === "top" || props.position === "bottom";
+  focusByArrowKey(
+    event,
+    getFocusableItems(event.currentTarget as HTMLElement, ".option"),
+    horizontal ? "horizontal" : "vertical"
+  );
+}
 </script>
 
 <template>
-  <div class="history" :class="{ flex: position === 'top' || position === 'bottom' }">
+  <div
+    class="history"
+    :class="{ flex: position === 'top' || position === 'bottom' }"
+    @keydown="onKeyDown"
+  >
     <div
       v-for="(option, index) in options"
       :key="index"

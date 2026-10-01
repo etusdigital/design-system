@@ -8,12 +8,14 @@ const props = withDefaults(
     size?: string;
     noOutsideClose?: boolean;
     position?: "top" | "bottom" | "left" | "right";
+    zIndex?: number;
   }>(),
   {
     modelValue: false,
     size: "fit-content",
     noOutsideClose: false,
     position: "right",
+    zIndex: 1002,
   }
 );
 
@@ -62,7 +64,7 @@ function onEscape(e: KeyboardEvent) {
 
 <template>
   <Teleport to="body">
-    <Overlay v-model="model" @click="closeDialog">
+    <Overlay v-model="model" :z-index="zIndex" @click="closeDialog">
       <Transition name="slide-in">
         <div
           v-if="model"
@@ -72,6 +74,7 @@ function onEscape(e: KeyboardEvent) {
           tabindex="-1"
           @keydown.esc="onEscape"
           :style="{
+            zIndex: zIndex,
             width: position === 'left' || position === 'right' ? (isMobile ? '100%' : size) : '100%',
             height: position === 'top' || position === 'bottom' ? (isMobile ? '100%' : size) : '100%'
           }"
@@ -87,7 +90,7 @@ function onEscape(e: KeyboardEvent) {
 @reference "../../assets/main.css";
 
 .drawer {
-  @apply z-[1000] fixed bg-neutral-surface-default border-xxs border-neutral-default transform transition-transform outline-none;
+  @apply fixed bg-neutral-surface-default border-xxs border-neutral-default transform transition-transform outline-none;
 }
 
 .right {

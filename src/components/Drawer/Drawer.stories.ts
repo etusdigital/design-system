@@ -32,6 +32,13 @@ export default {
       },
       description: "Position where the drawer will slide from.",
     },
+    zIndex: {
+      type: { name: "number" },
+      table: {
+        defaultValue: { summary: "1002" },
+      },
+      description: "Determine the z-index of the drawer and its overlay (backdrop).",
+    },
     default: {
       description: "This slot will be the dialog content.",
     },
@@ -45,6 +52,7 @@ const defaultArgs = {
   size: "40%",
   noOutsideClose: false,
   position: "right" as const,
+  zIndex: 1002,
 };
 
 const defaultHtml = `
@@ -54,6 +62,7 @@ const defaultHtml = `
         :size="args.size"
         :no-outside-close="args.noOutsideClose"
         :position="args.position"
+        :z-index="args.zIndex"
   >
       <div class="flex flex-col justify-between h-full p-xl">
           <div class="flex flex-col gap-sm">

@@ -94,6 +94,16 @@ function setModel(value: OptionType, add = !isSelected.value && !props.selected)
 function changeExpanded() {
   expanded.value = !expanded.value
 }
+
+function onExpandKeyDown(event: KeyboardEvent) {
+  const open = event.key === "ArrowDown" && !expanded.value;
+  const close = event.key === "ArrowUp" && expanded.value;
+  if (!open && !close) return;
+
+  event.preventDefault();
+  event.stopPropagation();
+  changeExpanded();
+}
 </script>
 
 <template>
@@ -115,6 +125,7 @@ function changeExpanded() {
           :tabindex="option.disabled || disabled ? -1 : 0"
           @click="changeExpanded"
           @keyup.enter.space="changeExpanded"
+          @keydown="onExpandKeyDown"
         />
         <div
           class="tree-option-option"

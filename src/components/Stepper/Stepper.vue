@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onBeforeMount } from "vue";
-import { isObject } from "../../utils";
+import { focusByArrowKey, getFocusableItems, isObject } from "../../utils";
 
 const props = withDefaults(
   defineProps<{
@@ -97,9 +97,17 @@ function getValue(option: any) {
 function findIndex(option: any) {
   return props.options.findIndex((i) => getValue(i) == getValue(option));
 }
+
+function onKeyDown(event: KeyboardEvent) {
+  focusByArrowKey(
+    event,
+    getFocusableItems(event.currentTarget as HTMLElement, "button"),
+    "horizontal"
+  );
+}
 </script>
 <template>
-  <div class="stepper flex w-full" v-if="version == 1">
+  <div class="stepper flex w-full" v-if="version == 1" @keydown="onKeyDown">
     <button
       v-for="(option, index) in options"
       :key="`step-button-${index}`"
@@ -125,7 +133,7 @@ function findIndex(option: any) {
       <span class="after-triangle-cover" v-if="options[index + 1]"></span>
     </button>
   </div>
-  <div class="stepper flex justify-end" v-if="version == 2">
+  <div class="stepper flex justify-end" v-if="version == 2" @keydown="onKeyDown">
     <div
       v-for="(option, index) in options"
       :key="`step-button-${index}`"

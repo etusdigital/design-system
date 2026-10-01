@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
+import { ref } from "vue";
 import FloatCard from "./FloatCard.vue";
 
 export default {
@@ -77,4 +78,51 @@ export const ClickMode: Story = {
     ...defaultArgs,
     mode: "click" as const,
   },
+};
+
+export const ActionItems: Story = {
+  render: (args: any) => ({
+    components: { FloatCard },
+    setup() {
+      const dialog = ref(false);
+      const lastAction = ref("");
+
+      function openDialog() {
+        args.modelValue = false;
+        dialog.value = true;
+      }
+
+      function closeOnly() {
+        args.modelValue = false;
+        lastAction.value = "Closed without opening anything";
+      }
+
+      return { args, dialog, lastAction, openDialog, closeOnly };
+    },
+    template: `
+      <FloatCard
+        v-model="args.modelValue"
+        :mode="args.mode"
+        :disabled="args.disabled"
+      >
+        <Button>Actions</Button>
+
+        <template #card>
+          <div class="flex flex-col p-xxs">
+            <Button variant="plain" color="neutral" @click="openDialog">Open dialog</Button>
+            <Button variant="plain" color="neutral" @click="closeOnly">Close only</Button>
+          </div>
+        </template>
+      </FloatCard>
+      <p class="text-sm mt-sm">{{ lastAction }}</p>
+
+      <Dialog v-model="dialog">
+        <div class="flex flex-col gap-sm p-xl">
+          <h4>Dialog opened from the card</h4>
+          <Button @click="dialog = false">Close</Button>
+        </div>
+      </Dialog>
+    `,
+  }),
+  args: defaultArgs,
 };

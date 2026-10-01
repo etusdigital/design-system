@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useOptionalModel } from "#composables";
-import { isObject } from "../../utils";
+import {
+  focusByArrowKey,
+  focusWhenReady,
+  getFocusableItems,
+  isObject,
+} from "../../utils";
 import SelectContainer from "../../utils/components/SelectContainer.vue";
 
 const props = withDefaults(
@@ -37,6 +42,8 @@ const [model] = useOptionalModel<any>(props, "modelValue", emit, null);
 const isExpanded = ref(false);
 const onFocusInput = ref(false);
 const searchValue = ref("");
+const menu = ref<HTMLElement>();
+const footer = ref<HTMLElement>();
 
 const filteredOptions = computed(() => {
   if (!props.options) return [];
@@ -74,6 +81,39 @@ function changeExpanded(expanded: boolean) {
     isExpanded.value = expanded;
   });
 }
+
+function onTriggerKeyDown(event: KeyboardEvent) {
+  if (props.disabled || (event.key !== "ArrowDown" && event.key !== "ArrowUp"))
+    return;
+
+  event.preventDefault();
+  isExpanded.value = true;
+  focusWhenReady(() => {
+    const items = getMenuItems();
+    return event.key === "ArrowDown" ? items[0] : items[items.length - 1];
+  });
+}
+
+function getMenuItems(footerStop?: HTMLElement) {
+  const links = getFocusableItems(footer.value);
+  const stop = footerStop ?? links[0];
+  return getFocusableItems(menu.value).filter(
+    (item) => !links.includes(item) || item === stop
+  );
+}
+
+function onMenuKeyDown(event: KeyboardEvent) {
+  const target = event.target as HTMLElement;
+  const links = getFocusableItems(footer.value);
+  const inFooter = links.includes(target);
+
+  if (inFooter && (event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+    focusByArrowKey(event, links, "horizontal");
+    return;
+  }
+
+  focusByArrowKey(event, getMenuItems(inFooter ? target : undefined), "vertical");
+}
 </script>
 
 <template>
@@ -84,6 +124,7 @@ function changeExpanded(expanded: boolean) {
     :disabled="disabled"
     dont-have-max-height
     min-width="25em"
+    @keydown="onTriggerKeyDown"
   >
     <div
       v-if="!isExpanded"
@@ -102,148 +143,151 @@ function changeExpanded(expanded: boolean) {
     </div>
 
     <template #options>
-      <div
-        class="flex flex-col items-center gap-xs text-9xl px-xs py-sm text-neutral-interaction-default"
-      >
-        <Avatar
-          :name="name"
-          :src="picture"
-          size="large"
-          alt="profile picture"
-        />
-        <p
-          class="text-sm text-center"
-          v-if="model && getLabel(selected) && name"
+      <div ref="menu" @keydown="onMenuKeyDown">
+        <div
+          class="flex flex-col items-center gap-xs text-9xl px-xs py-sm text-neutral-interaction-default"
         >
-          {{ name }}
-        </p>
-        <h4
-          class="text-3xl font-bold m-xxs text-center"
-          v-if="(model && getLabel(selected)) || name"
-        >
-          {{ model ? getLabel(selected) || name : name }}
-        </h4>
-        <Button
-          type="submit"
-          color="primary"
-          @click="emit('edit')"
-          class="m-xxs truncate"
-          :disabled="!name && !picture"
-        >
-          <slot name="edit-label"> Edit profile </slot>
-        </Button>
-      </div>
-      <div
-        class="flex flex-col items-center text-neutral-interaction-default"
-        v-if="options && options.length"
-      >
-        <div class="flex items-center w-full relative">
-          <Icon
-            name="search"
-            class="search-icon"
-            :class="{
-              'text-primary-interaction-default': onFocusInput === true,
-            }"
+          <Avatar
+            :name="name"
+            :src="picture"
+            size="large"
+            alt="profile picture"
           />
-          <input
-            v-model="searchValue"
-            type="search"
-            class="input-default"
-            @focus="onFocusInput = true"
-            @blur="onFocusInput = false"
-            placeholder="Search"
-          />
+          <p
+            class="text-sm text-center"
+            v-if="model && getLabel(selected) && name"
+          >
+            {{ name }}
+          </p>
+          <h4
+            class="text-3xl font-bold m-xxs text-center"
+            v-if="(model && getLabel(selected)) || name"
+          >
+            {{ model ? getLabel(selected) || name : name }}
+          </h4>
+          <Button
+            type="submit"
+            color="primary"
+            @click="emit('edit')"
+            class="m-xxs truncate"
+            :disabled="!name && !picture"
+          >
+            <slot name="edit-label"> Edit profile </slot>
+          </Button>
         </div>
         <div
-          class="w-full text-neutral-interaction-default"
-          :class="{
-            'pr-xxs py-xxs': filteredOptions.length > 4,
-          }"
+          class="flex flex-col items-center text-neutral-interaction-default"
+          v-if="options && options.length"
         >
+          <div class="flex items-center w-full relative">
+            <Icon
+              name="search"
+              class="search-icon"
+              :class="{
+                'text-primary-interaction-default': onFocusInput === true,
+              }"
+            />
+            <input
+              v-model="searchValue"
+              type="search"
+              class="input-default"
+              @focus="onFocusInput = true"
+              @blur="onFocusInput = false"
+              placeholder="Search"
+            />
+          </div>
           <div
-            class="w-full flex flex-col divide-y-xxs divide-neutral-default font-bold max-h-[12em] overflow-auto custom-scroll"
+            class="w-full text-neutral-interaction-default"
+            :class="{
+              'pr-xxs py-xxs': filteredOptions.length > 4,
+            }"
           >
             <div
-              v-for="(option, index) in filteredOptions"
-              :key="index"
-              tabindex="0"
-              class="profile-option justify-start w-full [&>*]:text-sm hover:bg-neutral-surface-highlight"
-              @click="updateModel(option)"
-              @keyup.enter.space="updateModel(option)"
+              class="w-full flex flex-col divide-y-xxs divide-neutral-default font-bold max-h-[12em] overflow-auto custom-scroll"
             >
-              <slot
-                name="option"
-                :option="option"
-                :index="index"
-                :active="
-                  JSON.stringify(model || {}) == JSON.stringify(option || {})
-                "
+              <div
+                v-for="(option, index) in filteredOptions"
+                :key="index"
+                tabindex="0"
+                class="profile-option justify-start w-full [&>*]:text-sm hover:bg-neutral-surface-highlight"
+                @click="updateModel(option)"
+                @keyup.enter.space="updateModel(option)"
               >
-                <p
-                  class="text-sm"
-                  :class="{
-                    '[&>*]:underline':
-                      JSON.stringify(model || {}) ==
-                      JSON.stringify(option || {}),
-                  }"
+                <slot
+                  name="option"
+                  :option="option"
+                  :index="index"
+                  :active="
+                    JSON.stringify(model || {}) == JSON.stringify(option || {})
+                  "
                 >
-                  {{ getLabel(option) }}
-                </p>
-              </slot>
+                  <p
+                    class="text-sm"
+                    :class="{
+                      '[&>*]:underline':
+                        JSON.stringify(model || {}) ==
+                        JSON.stringify(option || {}),
+                    }"
+                  >
+                    {{ getLabel(option) }}
+                  </p>
+                </slot>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="flex flex-col divide-y-xxs divide-neutral-default"
-        :class="{
-          'border-t-xxs border-t-neutral-default':
-            filteredOptions && filteredOptions.length,
-        }"
-      >
         <div
-          class="profile-option action text-neutral-interaction-default hover:bg-neutral-surface-highlight"
-          tabindex="0"
-          @click="emit('editOption')"
-          @keyup.enter.space="emit('editOption')"
-          v-if="model"
+          class="flex flex-col divide-y-xxs divide-neutral-default"
+          :class="{
+            'border-t-xxs border-t-neutral-default':
+              filteredOptions && filteredOptions.length,
+          }"
         >
-          <Icon name="person" class="profile-icon" />
-          <p class="text-sm font-bold">
-            <slot name="edit-option"> Edit account </slot>
-          </p>
+          <div
+            class="profile-option action text-neutral-interaction-default hover:bg-neutral-surface-highlight"
+            tabindex="0"
+            @click="emit('editOption')"
+            @keyup.enter.space="emit('editOption')"
+            v-if="model"
+          >
+            <Icon name="person" class="profile-icon" />
+            <p class="text-sm font-bold">
+              <slot name="edit-option"> Edit account </slot>
+            </p>
+          </div>
+          <div
+            class="text-danger-interaction-default profile-option action hover:bg-danger-surface-default"
+            tabindex="0"
+            @click="emit('logout')"
+            @keyup.enter.space="emit('logout')"
+          >
+            <Icon name="logout" class="profile-icon" />
+            <p class="text-sm font-bold">
+              <slot name="logout-label"> Logout </slot>
+            </p>
+          </div>
         </div>
         <div
-          class="text-danger-interaction-default profile-option action hover:bg-danger-surface-default"
-          tabindex="0"
-          @click="emit('logout')"
-          @keyup.enter.space="emit('logout')"
+          ref="footer"
+          class="flex items-center justify-center px-xs py-sm pt-xl text-neutral-interaction-default font-bold text-xxs gap-5 [&>*]:cursor-pointer"
         >
-          <Icon name="logout" class="profile-icon" />
-          <p class="text-sm font-bold">
-            <slot name="logout-label"> Logout </slot>
+          <p
+            class="hover:underline"
+            tabindex="0"
+            @click="emit('privacyPolicyFunction')"
+            @keyup.enter.space="emit('privacyPolicyFunction')"
+          >
+            <slot name="privacy-policy"> Privacy Policy </slot>
+          </p>
+          <p
+            class="hover:underline"
+            tabindex="0"
+            @click="emit('termsOfUseFucntion')"
+            @keyup.enter.space="emit('termsOfUseFucntion')"
+          >
+            <slot name="terms-of-use"> Terms of use </slot>
           </p>
         </div>
-      </div>
-      <div
-        class="flex items-center justify-center px-xs py-sm pt-xl text-neutral-interaction-default font-bold text-xxs gap-5 [&>*]:cursor-pointer"
-      >
-        <p
-          class="hover:underline"
-          tabindex="0"
-          @click="emit('privacyPolicyFunction')"
-          @keyup.enter.space="emit('privacyPolicyFunction')"
-        >
-          <slot name="privacy-policy"> Privacy Policy </slot>
-        </p>
-        <p
-          class="hover:underline"
-          tabindex="0"
-          @click="emit('termsOfUseFucntion')"
-          @keyup.enter.space="emit('termsOfUseFucntion')"
-        >
-          <slot name="terms-of-use"> Terms of use </slot>
-        </p>
       </div>
     </template>
   </SelectContainer>

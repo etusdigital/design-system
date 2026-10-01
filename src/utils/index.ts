@@ -432,6 +432,64 @@ export function focusWhenReady(
     requestAnimationFrame(() => focusWhenReady(getElement, attempts - 1));
 }
 
+const FOCUSABLE_SELECTOR = "a[href], button, input, textarea, select, [tabindex]";
+
+export function getFocusableItems(
+  container: HTMLElement | null | undefined,
+  selector = FOCUSABLE_SELECTOR
+): HTMLElement[] {
+  return Array.from(container?.querySelectorAll<HTMLElement>(selector) ?? []).filter(
+    (element) => element.tabIndex >= 0 && !(element as HTMLButtonElement).disabled
+  );
+}
+
+type ArrowOrientation = "horizontal" | "vertical" | "both";
+
+const PREVIOUS_KEYS: Record<ArrowOrientation, string[]> = {
+  horizontal: ["ArrowLeft"],
+  vertical: ["ArrowUp"],
+  both: ["ArrowLeft", "ArrowUp"],
+};
+
+const NEXT_KEYS: Record<ArrowOrientation, string[]> = {
+  horizontal: ["ArrowRight"],
+  vertical: ["ArrowDown"],
+  both: ["ArrowRight", "ArrowDown"],
+};
+
+export function focusByArrowKey(
+  event: KeyboardEvent,
+  items: HTMLElement[],
+  orientation: ArrowOrientation = "horizontal",
+  { loop = false, current }: { loop?: boolean; current?: number } = {}
+): HTMLElement | undefined {
+  const target = event.target as HTMLElement;
+  const isTextField = target.matches("input, textarea");
+  if (!items.length) return;
+
+  const last = items.length - 1;
+  let index = current ?? -1;
+  if (current === undefined)
+    items.forEach((item, i) => {
+      if (item.contains(target)) index = i;
+    });
+  let next: number;
+
+  if (PREVIOUS_KEYS[orientation].includes(event.key)) {
+    if (isTextField && event.key === "ArrowLeft") return;
+    next = index === -1 ? last : index === 0 ? (loop ? last : 0) : index - 1;
+  } else if (NEXT_KEYS[orientation].includes(event.key)) {
+    if (isTextField && event.key === "ArrowRight") return;
+    next = index === -1 ? 0 : index === last ? (loop ? 0 : last) : index + 1;
+  } else if (event.key === "Home" && !isTextField) next = 0;
+  else if (event.key === "End" && !isTextField) next = last;
+  else return;
+
+  event.preventDefault();
+  items[next].focus();
+  return items[next];
+}
+
 export function isValidEmail(value: any): boolean {
   return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value);
 }

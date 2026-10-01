@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Group from "../../utils/components/Group.vue";
 import Toggle from "../Toggle/Toggle.vue";
-import { isObject } from "../../utils";
+import { focusByArrowKey, getFocusableItems, isObject } from "../../utils";
 import { ref, watch } from "vue";
 
 const props = withDefaults(
@@ -60,6 +60,14 @@ function getValue(option: any): any {
 function getDisabled(option: any): boolean {
   return isObject(option) ? option.disabled : false;
 }
+
+function onKeyDown(event: KeyboardEvent) {
+  focusByArrowKey(
+    event,
+    getFocusableItems(event.currentTarget as HTMLElement, ".toggle"),
+    props.vertical ? "vertical" : "horizontal"
+  );
+}
 </script>
 
 <template>
@@ -69,6 +77,7 @@ function getDisabled(option: any): boolean {
     :disabled="disabled"
     class="toggle-group"
     @update:model-value="setModel"
+    @keydown="onKeyDown"
   >
     <Toggle
       v-for="option in options"

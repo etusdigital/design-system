@@ -6,6 +6,8 @@ import {
   isValidEmail,
   isValidDomain,
   isValidUrl,
+  focusByArrowKey,
+  getFocusableItems,
 } from "../../utils/index";
 import Label from "../../utils/components/Label.vue";
 
@@ -82,6 +84,28 @@ function addTagOnTab(e: KeyboardEvent) {
 
   e.preventDefault();
   addTag(newTag.value);
+}
+
+function onKeyDown(event: KeyboardEvent) {
+  if (props.disabled) return;
+
+  const items = getFocusableItems(
+    event.currentTarget as HTMLElement,
+    ".close-icon, textarea"
+  );
+  const target = event.target as HTMLTextAreaElement;
+  const caretAtStart =
+    target.tagName === "TEXTAREA" &&
+    target.selectionStart === 0 &&
+    target.selectionEnd === 0;
+
+  if (event.key === "ArrowLeft" && caretAtStart && items.length > 1) {
+    event.preventDefault();
+    items[items.length - 2].focus();
+    return;
+  }
+
+  focusByArrowKey(event, items, "horizontal");
 }
 
 function addToTagList() {
@@ -205,6 +229,7 @@ function applyMasks(e: any) {
         disabled: disabled,
       }"
       @click="focusInput"
+      @keydown="onKeyDown"
     >
       <slot name="icon-slot">
         <Icon

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onBeforeMount, watch } from "vue";
+import { ref, nextTick, onBeforeMount, watch } from "vue";
 
 type Size = "small" | "medium" | "large";
 
@@ -41,6 +41,8 @@ const emit = defineEmits<{
 let haveFile = ref(false);
 let dragging = ref(false);
 let fileName = ref("");
+const file = ref<HTMLElement>();
+const inputFile = ref<HTMLInputElement>();
 
 onBeforeMount(setFileValue);
 
@@ -76,6 +78,12 @@ function deleteFile() {
   haveFile.value = false;
   fileName.value = "";
   emit("update:modelValue", undefined);
+  nextTick(() => file.value?.focus());
+}
+
+function openFileDialog() {
+  if (props.disabled || haveFile.value) return;
+  inputFile.value?.click();
 }
 
 function getSvgSize() {
@@ -92,8 +100,15 @@ function getSvgSize() {
 
 <template>
   <div
+    ref="file"
     class="file"
     :class="[size, { 'blur-[2px]': dragging, disabled: disabled }]"
+    :role="haveFile ? undefined : 'button'"
+    :aria-label="haveFile ? undefined : labelValue || 'Select a file'"
+    :aria-disabled="disabled"
+    :tabindex="disabled || haveFile ? -1 : 0"
+    @keydown.self.space.prevent
+    @keyup.self.enter.space="openFileDialog"
     @dragenter="!disabled && (dragging = true)"
     @dragleave="dragging = false"
     @dragover.prevent
@@ -168,6 +183,7 @@ function getSvgSize() {
       :accept="accept"
       :multiple="multiple"
       :disabled="disabled"
+      tabindex="-1"
       class="w-full h-full top-0 left-0 right-0 bottom-0 absolute opacity-0 z-[1] cursor-pointer"
       @change="onChangeFile"
     />

@@ -10,11 +10,13 @@ interface ImageProps {
   height?: string | number;
   icon?: string;
   preview?: boolean;
+  zIndex?: number;
 }
 
 const props = withDefaults(defineProps<ImageProps>(), {
   icon: "visibility",
   preview: false,
+  zIndex: 1002,
 });
 
 const emit = defineEmits<{
@@ -153,11 +155,12 @@ function onEscape(event: KeyboardEvent) {
     </div>
 
     <Teleport to="body">
-      <Overlay v-model="previewVisible" :z-index="1000" @click="closePreview">
+      <Overlay v-model="previewVisible" :z-index="zIndex" @click="closePreview">
         <Transition name="bounce">
           <div
             class="preview-modal image-preview-container"
             v-if="previewVisible"
+            :style="{ zIndex: zIndex }"
             tabindex="-1"
             @keydown.esc="onEscape"
           >
@@ -176,6 +179,7 @@ function onEscape(event: KeyboardEvent) {
             class="preview-modal image-preview-toolbar"
             v-if="previewVisible"
             ref="toolbar"
+            :style="{ zIndex: zIndex }"
             role="dialog"
             aria-modal
             tabindex="-1"
@@ -225,7 +229,7 @@ function onEscape(event: KeyboardEvent) {
 }
 
 .preview-modal {
-  @apply z-[1001] fixed w-fit h-fit;
+  @apply fixed w-fit h-fit;
 }
 
 .image-preview-toolbar {

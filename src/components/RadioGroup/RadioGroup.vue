@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Group from "../../utils/components/Group.vue";
-import { isObject } from "../../utils";
+import { focusByArrowKey, getFocusableItems, isObject } from "../../utils";
 import { ref, watch } from "vue";
 
 const props = withDefaults(
@@ -57,6 +57,14 @@ function getValue(option: any): any {
 function getDisabled(option: any): boolean {
   return isObject(option) ? option.disabled : false;
 }
+
+function onKeyDown(event: KeyboardEvent) {
+  focusByArrowKey(
+    event,
+    getFocusableItems(event.currentTarget as HTMLElement, ".out-circle"),
+    props.vertical ? "vertical" : "horizontal"
+  );
+}
 </script>
 
 <template>
@@ -66,6 +74,7 @@ function getDisabled(option: any): boolean {
     :disabled="disabled"
     class="radio-group"
     @update:model-value="setModel"
+    @keydown="onKeyDown"
   >
     <Radio
       v-for="option in options"

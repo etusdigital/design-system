@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onBeforeMount } from 'vue';
+import { focusByArrowKey, getFocusableItems } from '../../utils';
 
 const props = withDefaults(defineProps<{
   options: any[];
@@ -28,10 +29,19 @@ function calculateButtonPosition() {
     positions.value.push(`${x}px, ${y}px, 0`);
   }
 }
+
+function onKeyDown(event: KeyboardEvent) {
+  focusByArrowKey(
+    event,
+    getFocusableItems(event.currentTarget as HTMLElement, 'button'),
+    'both',
+    { loop: true }
+  );
+}
 </script>
 
 <template>
-    <div class="round-menu">
+    <div class="round-menu" @keydown="onKeyDown">
       <div class="option" :class="{'z-[1]': !isExpanded}">
         <Button
           :color="!isExpanded ? 'success' : 'neutral'"

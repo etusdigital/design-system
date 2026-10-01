@@ -2,7 +2,12 @@
 import { computed, ref } from "vue";
 import { useOptionalModel } from "#composables";
 import Option from "../../utils/components/Option.vue";
-import { isObject } from "../../utils";
+import {
+  focusByArrowKey,
+  focusWhenReady,
+  getFocusableItems,
+  isObject,
+} from "../../utils";
 
 const props = withDefaults(
   defineProps<{
@@ -27,6 +32,7 @@ const emit = defineEmits<{
 
 const [model] = useOptionalModel<any>(props, "modelValue", emit, undefined);
 const expanded = ref<any[]>([]);
+const moreOptions = ref<Record<number, HTMLElement>>({});
 
 const parsedOptions = computed(() => {
   if (!props.options?.length) return [];
@@ -87,16 +93,61 @@ function isActive(option: any): boolean {
   const selectedValue = getValue(model.value);
   return selectedValue == value;
 }
+
+function onKeyDown(event: KeyboardEvent) {
+  focusByArrowKey(
+    event,
+    getFocusableItems(event.currentTarget as HTMLElement, ".breadcrumb-item"),
+    "horizontal"
+  );
+}
+
+function onMoreKeyDown(event: KeyboardEvent, index: number) {
+  if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+
+  event.preventDefault();
+  expanded.value[index] = true;
+  focusWhenReady(() => {
+    const items = getFocusableItems(moreOptions.value[index]);
+    return event.key === "ArrowDown" ? items[0] : items[items.length - 1];
+  });
+}
+
+function onMoreToggle(open: boolean, index: number) {
+  if (open) focusWhenReady(() => moreOptions.value[index]);
+}
+
+function onMoreOptionsKeyDown(event: KeyboardEvent) {
+  focusByArrowKey(
+    event,
+    getFocusableItems(event.currentTarget as HTMLElement),
+    "vertical"
+  );
+}
 </script>
 
 <template>
-  <div class="breadcrumb">
+  <div class="breadcrumb" @keydown="onKeyDown">
     <template v-for="(option, index) in parsedOptions" :key="option">
       <div v-if="isObject(option) && option.icon == 'more_horiz'">
-        <FloatCard v-model="expanded[index]" class="leading-none">
-          <Icon name="more_horiz" tabindex="0" class="cursor-pointer leading-xxs" />
+        <FloatCard
+          v-model="expanded[index]"
+          class="leading-none"
+          @update:model-value="onMoreToggle($event, index)"
+        >
+          <Icon
+            name="more_horiz"
+            tabindex="0"
+            class="breadcrumb-item cursor-pointer leading-xxs"
+            @keydown="onMoreKeyDown($event, index)"
+          />
           <template #card>
-            <div class="more-options">
+            <div
+              :ref="(el) => (moreOptions[index] = el as HTMLElement)"
+              class="more-options"
+              tabindex="-1"
+              @keydown="onMoreOptionsKeyDown"
+            >
               <Option v-for="subOption in option.options" :key="subOption" @click="setModel(subOption)"
                 @keyup.enter.space="setModel(subOption)">
                 {{ getLabel(subOption) }}
@@ -105,7 +156,7 @@ function isActive(option: any): boolean {
           </template>
         </FloatCard>
       </div>
-      <h5 v-else class="option" :class="{ active: isActive(option) }" tabindex="0" @click="setModel(option)"
+      <h5 v-else class="breadcrumb-item option" :class="{ active: isActive(option) }" tabindex="0" @click="setModel(option)"
         @keyup.enter.space="setModel(option)">
         {{ getLabel(option) }}
       </h5>
@@ -130,7 +181,7 @@ function isActive(option: any): boolean {
 }
 
 .more-options {
-  @apply overflow-auto min-w-9xl max-h-9xl p-xxs [&>*]:p-xs;
+  @apply overflow-auto min-w-9xl max-h-9xl p-xxs outline-none [&>*]:p-xs;
 }
 
 .fade-enter-active,

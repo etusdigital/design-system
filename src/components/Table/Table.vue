@@ -367,6 +367,7 @@ function selectAll(value: boolean | null) {
         <Select
           v-model="itemsPerPageHolder"
           :options="listPerPage"
+          :disabled="loading"
           @update:model-value="changeItemsPerPage"
         >
           {{ itemsPerPageHolder }}
@@ -375,6 +376,7 @@ function selectAll(value: boolean | null) {
       <Pagination
         v-model="pageHolder"
         :length="numberPage"
+        :disabled="loading"
         @update:model-value="changePage"
       />
       <div>

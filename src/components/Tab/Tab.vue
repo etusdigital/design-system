@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, onBeforeMount } from "vue";
-import { isObject } from "../../utils";
+import { focusByArrowKey, getFocusableItems, isObject } from "../../utils";
 
 const props = withDefaults(
   defineProps<{
@@ -50,6 +50,14 @@ function getValue(option: any): string {
 function getLabel(option: any): string {
   return isObject(option) ? option[props.labelKey] : option;
 }
+
+function onKeyDown(event: KeyboardEvent) {
+  focusByArrowKey(
+    event,
+    getFocusableItems(event.currentTarget as HTMLElement, "button"),
+    "horizontal"
+  );
+}
 </script>
 
 <template>
@@ -58,6 +66,7 @@ function getLabel(option: any): string {
     :class="{
       'bg-neutral-surface-highlight': !notCard,
     }"
+    @keydown="onKeyDown"
   >
     <button
       v-for="(option, index) in options"

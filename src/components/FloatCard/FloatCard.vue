@@ -57,6 +57,7 @@ watch(
 );
 
 watch(model, (value) => {
+  pressedKey = null;
   if (!value) restoreFocus();
 });
 
@@ -71,14 +72,12 @@ function focusCard() {
 function restoreFocus() {
   const lastFocus = previousFocus;
   previousFocus = null;
-  const activeElement = document.activeElement;
-  if (
-    !lastFocus ||
-    (activeElement !== document.body && !card.value?.contains(activeElement))
-  )
-    return;
+  if (!lastFocus) return;
 
   nextTick(() => {
+    const activeElement = document.activeElement;
+    if (activeElement !== document.body && !card.value?.contains(activeElement)) return;
+
     lastFocus.focus({ preventScroll: true });
     if (document.activeElement !== lastFocus)
       content.value

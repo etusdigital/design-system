@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { onBeforeMount, computed, resolveComponent, ref, watch } from "vue";
-import { checkPath, isObject } from "../../utils";
+import {
+  checkPath,
+  focusByArrowKey,
+  focusWhenReady,
+  getFocusableItems,
+  isObject,
+} from "../../utils";
 import { type Option as OptionType } from "../../utils/types/SidebarOption.ts";
 import SubOption from "./SubOption.vue";
 import Option from "./Option.vue";
@@ -29,6 +35,7 @@ const emit = defineEmits<{
 
 const model = ref<OptionType | string | undefined>(props.modelValue);
 const sidebar = ref<HTMLElement | null>(null);
+const subOptions = ref<HTMLElement | null>(null);
 const isExpanded = ref(false);
 const selfExpanded = ref(props.expanded);
 const clicked = ref<OptionType | undefined>(undefined);
@@ -155,14 +162,45 @@ function handleBlur(event: FocusEvent) {
     isExpanded.value = false;
 }
 
-function onEscape(event: KeyboardEvent) {
-  if (!isExpanded.value) return;
-
-  event.stopPropagation();
+function closeSubOptions() {
   isExpanded.value = false;
   sidebar.value
     ?.querySelector<HTMLElement>('[aria-expanded="true"]')
     ?.focus();
+}
+
+function onEscape(event: KeyboardEvent) {
+  if (!isExpanded.value) return;
+
+  event.stopPropagation();
+  closeSubOptions();
+}
+
+function openSubOptions(option: OptionType) {
+  if (option.disabled || !option.options?.length) return;
+
+  clicked.value = option;
+  isExpanded.value = true;
+  focusWhenReady(() => getFocusableItems(subOptions.value, ".option")[0]);
+}
+
+function onKeyDown(event: KeyboardEvent) {
+  const target = event.target as HTMLElement;
+  const inSubOptions = !!subOptions.value?.contains(target);
+
+  if (event.key === "ArrowLeft" && inSubOptions) {
+    event.preventDefault();
+    closeSubOptions();
+    return;
+  }
+
+  focusByArrowKey(
+    event,
+    inSubOptions
+      ? getFocusableItems(subOptions.value, ".option")
+      : getFocusableItems(sidebar.value),
+    "vertical"
+  );
 }
 </script>
 
@@ -172,6 +210,7 @@ function onEscape(event: KeyboardEvent) {
     tabindex="0"
     @focusout="handleBlur"
     @keydown.esc="onEscape"
+    @keydown="onKeyDown"
   >
     <div class="sidebar-options" ref="sidebar">
       <div
@@ -201,6 +240,7 @@ function onEscape(event: KeyboardEvent) {
             "
             @click="changeModel(option, true)"
             @keyup.enter="changeModel(option, true)"
+            @keydown.right.prevent="openSubOptions(option)"
           >
             <Option
               tabindex="-1"
@@ -228,6 +268,7 @@ function onEscape(event: KeyboardEvent) {
     <Transition name="expand">
       <div
         v-if="isExpanded && clicked && clicked.options && clicked.options.length"
+        ref="subOptions"
         class="sub-options"
       >
         <div

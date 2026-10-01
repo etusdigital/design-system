@@ -33,6 +33,13 @@ export default {
         defaultValue: { summary: "false" },
       },
     },
+    zIndex: {
+      type: { name: "number" },
+      table: {
+        defaultValue: { summary: "1002" },
+      },
+      description: "Determine the z-index of the preview modal and its overlay (backdrop).",
+    },
   },
 } satisfies Meta<typeof Image>;
 
@@ -44,6 +51,7 @@ const defaultArgs = {
   width: "250",
   icon: "visibility",
   preview: false,
+  zIndex: 1002,
 };
 
 const defaultRender = (args: any) => ({
@@ -59,6 +67,7 @@ const defaultRender = (args: any) => ({
         :height="args.height"
         :icon="args.icon"
         :preview="args.preview"
+        :z-index="args.zIndex"
       />
     `,
 });
