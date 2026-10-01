@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useId } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
 import { onEnterOrSpace, preventSpaceScroll } from '../../utils';
@@ -7,27 +7,28 @@ import styles from './Radio.module.css';
 
 export interface RadioProps {
   id?: string;
-  name?: string;
   value?: boolean;
   onChange?: (value: boolean) => void;
   groupValue?: any;
   disabled?: boolean;
   variant?: 'default' | 'onboarding';
+  ariaLabel?: string;
   children?: React.ReactNode;
   className?: string;
 }
 
 export function Radio({
   id,
-  name,
   value,
   onChange,
   groupValue,
   disabled,
   variant = 'default',
+  ariaLabel,
   children,
   className,
 }: RadioProps) {
+  const labelId = useId();
   const groupCtx = useContext(RadioGroupContext);
 
   const [standaloneValue, setStandaloneValue] = useControllable<boolean>({
@@ -50,21 +51,17 @@ export function Radio({
   }
 
   const labelContent = children ? (
-    id || name ? (
-      <label htmlFor={id || name} className={clsx(styles.radioLabel, 'cursor-[inherit]')}>
-        {children}
-      </label>
-    ) : (
-      <div className={styles.radioText}>{children}</div>
-    )
+    <div
+      id={labelId}
+      className={clsx((id || name) ? styles.radioLabel : styles.radioText, 'cursor-[inherit]')}
+    >
+      {children}
+    </div>
   ) : null;
 
   return (
     <div
       id={id}
-      role="radio"
-      aria-checked={isSelected}
-      aria-disabled={isDisabled}
       className={clsx(
         styles.radio,
         'radio',
@@ -77,6 +74,11 @@ export function Radio({
       onKeyUp={onEnterOrSpace(handleClick)}
     >
       <span
+        role="radio"
+        aria-checked={isSelected}
+        aria-disabled={isDisabled}
+        aria-label={ariaLabel}
+        aria-labelledby={children && !ariaLabel ? labelId : undefined}
         className={styles.outerCircle}
         tabIndex={isDisabled ? -1 : 0}
         onKeyDown={preventSpaceScroll}

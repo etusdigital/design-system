@@ -13,7 +13,7 @@
 }
 
 .small {
-    @apply p-xs;
+    @apply size-2xl p-xs;
 }
 
 .smallInitials {
@@ -21,6 +21,8 @@
 }
 
 .medium {
+    width: calc(var(--spacing-xxs) * 10);
+    height: calc(var(--spacing-xxs) * 10);
     @apply p-sm;
 }
 
@@ -29,7 +31,7 @@
 }
 
 .large {
-    @apply p-base;
+    @apply size-3xl p-base;
 }
 
 .largeInitials {

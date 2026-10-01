@@ -3,10 +3,19 @@ import { describe, it, expect, vi } from 'vitest';
 import { Container } from './Container';
 
 describe('Container', () => {
-  it('renders with role="listbox" by default', () => {
+  it('renders a combobox trigger with a listbox popup by default', () => {
     const { container } = render(<Container />);
-    const el = container.querySelector('[role="listbox"]');
+    const el = container.querySelector('[role="combobox"]');
     expect(el).not.toBeNull();
+    expect(el).toHaveAttribute('aria-haspopup', 'listbox');
+    expect(el).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('renders a button trigger for non-listbox popups', () => {
+    const { container } = render(<Container popupRole="dialog" />);
+    const el = container.querySelector('.label-container');
+    expect(el).toHaveAttribute('role', 'button');
+    expect(el).toHaveAttribute('aria-haspopup', 'dialog');
   });
 
   it('click toggles expanded — expanded class appears on label-content', () => {

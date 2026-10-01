@@ -23,9 +23,9 @@ export const Primary: Story = {
     return (
       <>
         <Button onClick={() => setOpen(true)}>Show Dialog</Button>
-        <Dialog value={open} onChange={setOpen} width="60%">
+        <Dialog aria-labelledby="dialog-title-1" value={open} onChange={setOpen} width="60%">
           <div className="flex flex-col p-xl gap-sm">
-            <h2 className="font-bold text-lg">Dialog</h2>
+            <h2 id="dialog-title-1" className="font-bold text-lg">Dialog</h2>
             <p className="text-sm text-neutral-foreground-low">
               Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas
               amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a
@@ -48,9 +48,9 @@ export const NoOutsideClose: Story = {
     return (
       <>
         <Button onClick={() => setOpen(true)}>Show Dialog</Button>
-        <Dialog value={open} onChange={setOpen} width="60%" noOutsideClose>
+        <Dialog aria-labelledby="dialog-title-2" value={open} onChange={setOpen} width="60%" noOutsideClose>
           <div className="flex flex-col p-xl gap-sm">
-            <h2 className="font-bold text-lg">Dialog</h2>
+            <h2 id="dialog-title-2" className="font-bold text-lg">Dialog</h2>
             <p className="text-sm text-neutral-foreground-low">
               Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas
               amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a

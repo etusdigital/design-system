@@ -659,7 +659,7 @@ export function ColorPicker(props: ColorPickerProps) {
               tabIndex={disabled ? -1 : 0}
               onClick={moveUp}
               onKeyUp={onEnterOrSpace(moveUp)}
-              aria-label="Previous color type"
+              aria-label="Previous color format"
             />
             <Icon
               name="arrow_drop_down"
@@ -667,7 +667,7 @@ export function ColorPicker(props: ColorPickerProps) {
               tabIndex={disabled ? -1 : 0}
               onClick={moveDown}
               onKeyUp={onEnterOrSpace(moveDown)}
-              aria-label="Next color type"
+              aria-label="Next color format"
             />
           </div>
         </div>

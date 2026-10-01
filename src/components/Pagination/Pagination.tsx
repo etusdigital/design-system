@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
 import { Icon } from '../Icon/Icon';
@@ -9,6 +9,7 @@ export interface PaginationProps {
   onChange?: (value: number) => void;
   length: number;
   visiblePages?: number;
+  disabled?: boolean;
   className?: string;
 }
 
@@ -49,6 +50,7 @@ export function Pagination({
   value,
   onChange,
   length,
+  disabled = false,
   className,
 }: PaginationProps) {
   const [model, setModel] = useControllable<number>({
@@ -56,6 +58,9 @@ export function Pagination({
     defaultValue: 1,
     onChange,
   });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const focusActivePage = useRef(false);
+  const pageLength = length < 1 ? 1 : length;
 
   useEffect(() => {
     if (model !== undefined && length >= 1 && model > length) {
@@ -63,32 +68,68 @@ export function Pagination({
     }
   }, [length]);
 
+  useEffect(() => {
+    if (!focusActivePage.current) return;
+    focusActivePage.current = false;
+    containerRef.current?.querySelector<HTMLButtonElement>(`.${styles.active}`)?.focus();
+  }, [model]);
+
+  const changePage = (page: number) => {
+    if (disabled) return;
+    setModel(page);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const pageMap: Record<string, number> = {
+      ArrowLeft: (model ?? 1) - 1,
+      ArrowRight: (model ?? 1) + 1,
+      Home: 1,
+      End: pageLength,
+    };
+    const nextPage = pageMap[event.key];
+
+    if (disabled || nextPage === undefined) return;
+    event.preventDefault();
+
+    if (nextPage >= 1 && nextPage <= pageLength && nextPage !== model) {
+      focusActivePage.current = true;
+      changePage(nextPage);
+    }
+  };
+
   if (length < 1) return null;
 
   const pages = buildPages(model ?? 1, length);
   const currentPage = model ?? 1;
 
   return (
-    <div className={clsx(styles.pagination, 'pagination', className)}>
+    <div
+      ref={containerRef}
+      className={clsx(styles.pagination, 'pagination', disabled && styles.disabled, className)}
+      aria-disabled={disabled}
+      onKeyDown={handleKeyDown}
+    >
       <button
         className={styles.navButton}
-        disabled={currentPage === 1}
-        onClick={() => setModel(currentPage - 1)}
+        disabled={disabled || currentPage === 1}
+        onClick={() => changePage(currentPage - 1)}
         aria-label="Previous page"
       >
         <Icon name="chevron_left" className={styles.navIcon} />
       </button>
       <div className="flex">
         {pages.map((page, idx) => (
-          <div key={`${page}-${idx}`} className="flex gap-xs">
+          <div key={page === -1 ? `ellipsis-${idx}` : page} className="flex gap-xs">
             {page === -1 ? (
               <button className={clsx(styles.pageButton, styles.ellipsis)} disabled>
                 ...
               </button>
             ) : (
               <button
-                className={clsx(styles.pageButton, page === currentPage && styles.active)}
-                onClick={() => setModel(page)}
+                className={clsx(styles.pageButton, 'page-number', page === currentPage && styles.active)}
+                disabled={disabled}
+                onClick={() => changePage(page)}
+                tabIndex={disabled ? -1 : 0}
               >
                 {page}
               </button>
@@ -98,8 +139,8 @@ export function Pagination({
       </div>
       <button
         className={styles.navButton}
-        disabled={currentPage === length}
-        onClick={() => setModel(currentPage + 1)}
+        disabled={disabled || currentPage === length}
+        onClick={() => changePage(currentPage + 1)}
         aria-label="Next page"
       >
         <Icon name="chevron_right" className={styles.navIcon} />

@@ -1,0 +1,5 @@
+@reference "../../assets/main.css";
+
+.chip:global(.status-badge) {
+  @apply py-2xxs px-xs border-none rounded-sm whitespace-nowrap;
+}

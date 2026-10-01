@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
 import { FloatCard } from './FloatCard';
 import { Button } from '../Button/Button';
+import { Dialog } from '../Dialog/Dialog';
 
 const meta = {
   component: FloatCard,
@@ -46,5 +48,58 @@ export const HoverMode: Story = {
         <p>Hovering content</p>
       </div>
     ),
+  },
+};
+
+export const ActionItems: Story = {
+  render: (args) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [showDialog, setShowDialog] = useState(false);
+    const [lastAction, setLastAction] = useState('');
+
+    const handleOpenDialog = () => {
+      setIsOpen(false);
+      setShowDialog(true);
+    };
+
+    const handleCloseOnly = () => {
+      setIsOpen(false);
+      setLastAction('Closed without opening anything');
+    };
+
+    return (
+      <>
+        <FloatCard
+          value={isOpen}
+          onChange={setIsOpen}
+          mode={args.mode}
+          disabled={args.disabled}
+          card={
+            <div style={{ display: 'flex', flexDirection: 'column', padding: '0.25rem' }}>
+              <Button variant="plain" color="neutral" onClick={handleOpenDialog}>
+                Open dialog
+              </Button>
+              <Button variant="plain" color="neutral" onClick={handleCloseOnly}>
+                Close only
+              </Button>
+            </div>
+          }
+        >
+          <Button>Actions</Button>
+        </FloatCard>
+        <p style={{ marginTop: '1rem', fontSize: '0.875rem' }}>{lastAction}</p>
+
+        <Dialog value={showDialog} onChange={setShowDialog}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', padding: '2rem' }}>
+            <h4>Dialog opened from the card</h4>
+            <Button onClick={() => setShowDialog(false)}>Close</Button>
+          </div>
+        </Dialog>
+      </>
+    );
+  },
+  args: {
+    mode: 'click',
+    disabled: false,
   },
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
-import { onEnterOrSpace } from '../../utils/index';
+import { onEnterOrSpace, focusByArrowKey, getFocusableItems } from '../../utils/index';
 import { Icon } from '../Icon';
 import styles from './History.module.css';
 
@@ -42,8 +42,20 @@ export function History({
     setModel(option);
   }
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const orientation = isHorizontal ? 'horizontal' : 'vertical';
+    focusByArrowKey(
+      event,
+      getFocusableItems(event.currentTarget, ':scope > [tabindex]'),
+      orientation
+    );
+  };
+
   return (
-    <div className={clsx(styles.history, 'history', isHorizontal && styles.flex, className)}>
+    <div
+      className={clsx(styles.history, 'history', isHorizontal && styles.flex, className)}
+      onKeyDown={handleKeyDown}
+    >
       {options.map((option, index) => {
         const active = isActive(option, index);
         const optionType = option.type ?? type;

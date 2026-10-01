@@ -1,8 +1,8 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { type Option as DropOption } from '../../utils/types/DropOption';
 import { useControllable } from '../../hooks/useControllable';
-import { onEnterOrSpace, preventSpaceScroll } from '../../utils/index';
+import { onEnterOrSpace, preventSpaceScroll, focusByArrowKey, getFocusableItems } from '../../utils/index';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { Icon } from '../Icon/Icon';
 import styles from './Tree.module.css';
@@ -204,24 +204,36 @@ function TreeNode({ option, depth = 0 }: { option: DropOption; depth?: number })
     if (!isDisabled) ctx.onSelect(option, !isSelected);
   }
 
+  const handleExpandKeyDown = (e: React.KeyboardEvent) => {
+    const isOpen = isExpanded;
+    const shouldOpen = e.key === 'ArrowDown' && !isOpen;
+    const shouldClose = e.key === 'ArrowUp' && isOpen;
+
+    if (!shouldOpen && !shouldClose) return;
+    e.preventDefault();
+    e.stopPropagation();
+    ctx.onToggleExpand(nodeValue);
+  };
+
   return (
     <div className={styles.treeOption} style={{ paddingLeft: depth * 16 }}>
       <div
         className={clsx(
           styles.nodeRow,
+          'tree-option-container',
           isSelected === true && styles.selected,
           ctx.multiple && styles.multiple,
           isDisabled && styles.disabled
         )}
-        role="option"
-        aria-selected={isSelected === true}
         onClick={selectNode}
       >
         {hasChildren && (
           <Icon
             tabIndex={isDisabled ? -1 : 0}
             name="keyboard_arrow_right"
-            className={clsx(styles.expandIcon, isExpanded && styles.expandIconOpen)}
+            className={clsx(styles.expandIcon, 'expand-icon', isExpanded && styles.expandIconOpen)}
+            aria-label="Expand"
+            aria-expanded={isExpanded}
             onClick={(e: any) => {
               e.stopPropagation();
               ctx.onToggleExpand(nodeValue);
@@ -230,10 +242,11 @@ function TreeNode({ option, depth = 0 }: { option: DropOption; depth?: number })
               e.stopPropagation();
               ctx.onToggleExpand(nodeValue);
             })}
+            onKeyDown={handleExpandKeyDown}
           />
         )}
         <div
-          className={styles.nodeOption}
+          className={clsx(styles.nodeOption, 'tree-option-option')}
           tabIndex={isDisabled ? -1 : 0}
           onKeyDown={preventSpaceScroll}
           onKeyUp={onEnterOrSpace(selectNode)}
@@ -245,6 +258,7 @@ function TreeNode({ option, depth = 0 }: { option: DropOption; depth?: number })
               disabled={isDisabled}
               allowIndeterminate
               tabIndex={-1}
+              aria-hidden={true}
             />
           )}
           {option.icon && (
@@ -294,6 +308,7 @@ export function Tree({
   });
 
   const [expandedNodes, setExpandedNodes] = useState<Set<any>>(new Set());
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleToggle = (nodeKey: any) => {
     setExpandedNodes((prev) => {
@@ -323,6 +338,36 @@ export function Tree({
     }
   };
 
+  const getRowParts = (row: HTMLElement) => {
+    return getFocusableItems(row, ':scope > .expand-icon, :scope > .tree-option-option');
+  };
+
+  const handleTreeKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const target = event.target as HTMLElement;
+    const row = target.closest<HTMLElement>('.tree-option-container');
+    if (!row) return;
+
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      focusByArrowKey(event, getRowParts(row), 'horizontal');
+      return;
+    }
+
+    const rows = Array.from(
+      containerRef.current?.querySelectorAll<HTMLElement>('.tree-option-container') ?? []
+    ).filter((item) => {
+      const parts = getRowParts(item);
+      return parts.length > 0;
+    });
+
+    const onExpandIcon = target.classList.contains('expand-icon');
+    const items = rows.map((item) => {
+      const parts = getRowParts(item);
+      return onExpandIcon ? parts[0] : parts[parts.length - 1];
+    });
+
+    focusByArrowKey(event, items, 'vertical', { current: rows.indexOf(row) });
+  };
+
   return (
     <TreeContext.Provider
       value={{
@@ -337,7 +382,7 @@ export function Tree({
         disabled,
       }}
     >
-      <div className={clsx(styles.tree, 'tree', className)}>
+      <div ref={containerRef} className={clsx(styles.tree, 'tree', className)} onKeyDown={handleTreeKeyDown}>
         {options.map((option) => (
           <TreeNode key={(option as any)[valueKey]} option={option} />
         ))}

@@ -41,6 +41,9 @@ When enabled, clicking the image opens a modal with zoom and rotation controls.
 <Image src="/image.jpg" alt="Sample image" width="250" preview />
 ```
 
+#### zIndex
+Sets the z-index of the preview modal and its overlay (backdrop). Defaults to the same value as `Dialog` and `Drawer`, so a preview opened from inside one of them always stacks on top without changing it manually. Type: `number` (default: `1002`)
+
 ---
 
 ### Events API

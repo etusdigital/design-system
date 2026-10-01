@@ -266,7 +266,7 @@ export function Table({
                     )}
                     style={{ width: "2%" }}
                   >
-                    <Checkbox value={allSelected} onChange={handleSelectAll} />
+                    <Checkbox value={allSelected} onChange={handleSelectAll} aria-label="Select all rows" />
                   </th>
                 )}
                 {columns.map((col, index) => (
@@ -372,6 +372,7 @@ export function Table({
                           <Checkbox
                             value={selectedRows.has(rowIndex)}
                             onChange={() => handleSelectRow(rowIndex, item)}
+                            aria-label="Select row"
                           />
                         )}
                       </td>
@@ -424,6 +425,8 @@ export function Table({
             <Select
               value={currentItemsPerPage}
               options={listPerPage}
+              ariaLabel="Items per page"
+              disabled={loading}
               onChange={(v: any) => handleChangeItemsPerPage(v)}
             />
           </div>
@@ -431,6 +434,7 @@ export function Table({
             value={currentPage}
             onChange={handleChangePage}
             length={pageCount}
+            disabled={loading}
           />
           <div>
             <p className={styles.footerLabel}>

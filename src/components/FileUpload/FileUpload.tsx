@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, Children, isValidElement } from "react";
+import { useState, useRef, useEffect, Children, isValidElement, useId } from "react";
 import clsx from "clsx";
 import { onEnterOrSpace } from "../../utils/index";
 import styles from "./FileUpload.module.css";
@@ -43,17 +43,22 @@ export function FileUpload({
   size = "medium",
   disabled = false,
   isError = false,
+  required = false,
   placeholder = "or drag and drop it here",
   accept,
   multiple = false,
   children,
   className,
 }: FileUploadProps) {
+  const id = useId();
+  const focusDeleteIcon = useRef(false);
+  const focusFileInput = useRef(false);
   const [currentFile, setCurrentFile] = useState<File | File[] | null>(
     value !== undefined ? value : null,
   );
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const dropZoneRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (value !== undefined) {
@@ -77,6 +82,7 @@ export function FileUpload({
 
   function onChangeFile(files: FileList | null) {
     if (!files || files.length === 0) return;
+    const hadFocus = document.activeElement === fileInputRef.current;
     if (multiple) {
       const fileArray = Array.from(files);
       setCurrentFile(fileArray);
@@ -85,14 +91,25 @@ export function FileUpload({
       setCurrentFile(files[0]);
       onChange?.(files[0]);
     }
+    focusDeleteIcon.current = hadFocus;
   }
 
+  useEffect(() => {
+    if (!currentFile && focusFileInput.current) {
+      focusFileInput.current = false;
+      fileInputRef.current?.focus();
+      return;
+    }
+    if (!currentFile || !focusDeleteIcon.current) return;
+    focusDeleteIcon.current = false;
+    dropZoneRef.current?.querySelector<HTMLElement>('[aria-label="Remove file"]')?.focus();
+  }, [currentFile]);
+
   function deleteFile() {
+    if (fileInputRef.current) fileInputRef.current.value = "";
+    focusFileInput.current = true;
     setCurrentFile(null);
     onChange?.(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
   }
 
   const svgSize = SVG_SIZE_MAP[size];
@@ -108,6 +125,7 @@ export function FileUpload({
   return (
     <div className={clsx("file-upload", className)}>
       <div
+        ref={dropZoneRef}
         className={clsx(
           styles.file,
           isDragging && styles.dragging,
@@ -130,10 +148,19 @@ export function FileUpload({
           <input
             ref={fileInputRef}
             type="file"
+            id={id}
             className={styles.hiddenInput}
             accept={accept}
             multiple={multiple}
             disabled={disabled}
+            aria-label={labelValue || "Select a file"}
+            aria-required={required}
+            aria-invalid={isError}
+            aria-describedby={
+              [infoMessage && `${id}-info`, isError && `${id}-error`]
+                .filter(Boolean)
+                .join(' ') || undefined
+            }
             onChange={(e) => onChangeFile(e.target.files)}
           />
         )}
@@ -217,7 +244,7 @@ export function FileUpload({
                     <Icon
                       tabIndex={0}
                       className={clsx(
-                        styles.trachIcon,
+                        styles.trashIcon,
                         styles[size],
                       )}
                       onClick={deleteFile}
@@ -233,10 +260,10 @@ export function FileUpload({
         )}
       </div>
 
+      {infoMessage && <p id={`${id}-info`} className={styles.infoMessage}>{infoMessage}</p>}
       {isError && errorMessage && (
-        <p className={styles.errorMessage}>{errorMessage}</p>
+        <p id={`${id}-error`} className={styles.errorMessage}>{errorMessage}</p>
       )}
-      {infoMessage && <p className={styles.infoMessage}>{infoMessage}</p>}
     </div>
   );
 }

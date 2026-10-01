@@ -53,7 +53,7 @@ describe('Navbar', () => {
     const { container } = render(<Navbar options={options as any} />);
     const labelContent = container.querySelector('.label-content') as HTMLElement;
     if (labelContent) fireEvent.click(labelContent);
-    const optionEl = document.querySelector('[role="option"]');
+    const optionEl = document.querySelector('[role="menuitem"]');
     expect(optionEl).toBeTruthy();
   });
 

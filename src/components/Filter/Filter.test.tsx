@@ -51,7 +51,7 @@ describe('Filter', () => {
     const { container } = render(<Filter options={filterOptions} />);
     openFilter(container);
     const categoryHeader = Array.from(
-      document.querySelectorAll('[role="button"]')
+      document.querySelectorAll('[data-filter-item]')
     ).find((el) => el.textContent?.includes('Color'));
     expect(categoryHeader).toBeTruthy();
     if (categoryHeader) {
@@ -65,7 +65,7 @@ describe('Filter', () => {
     const { container } = render(<Filter options={filterOptions} />);
     openFilter(container);
     const categoryHeader = Array.from(
-      document.querySelectorAll('[role="button"]')
+      document.querySelectorAll('[data-filter-item]')
     ).find((el) => el.textContent?.includes('Color'));
     if (categoryHeader) {
       fireEvent.click(categoryHeader);
@@ -81,11 +81,11 @@ describe('Filter', () => {
     );
     openFilter(container);
     const colorHeader = Array.from(
-      document.querySelectorAll('[role="button"]')
-    ).find((el) => el.textContent?.includes('Color'));
+      document.querySelectorAll('[data-filter-item]')
+    ).find((el) => el.textContent?.includes('Color') && !el.hasAttribute('aria-disabled'));
     if (colorHeader) {
       fireEvent.click(colorHeader);
-      const subOptions = document.querySelectorAll('[role="option"]');
+      const subOptions = document.querySelectorAll('[data-filter-item][aria-disabled]');
       if (subOptions.length > 0) {
         fireEvent.click(subOptions[0]);
         expect(handleChange).toHaveBeenCalledWith({ color: ['red'] });
@@ -104,11 +104,11 @@ describe('Filter', () => {
     );
     openFilter(container);
     const colorHeader = Array.from(
-      document.querySelectorAll('[role="button"]')
-    ).find((el) => el.textContent?.includes('Color'));
+      document.querySelectorAll('[data-filter-item]')
+    ).find((el) => el.textContent?.includes('Color') && !el.hasAttribute('aria-disabled'));
     if (colorHeader) {
       fireEvent.click(colorHeader);
-      const subOptions = document.querySelectorAll('[role="option"]');
+      const subOptions = document.querySelectorAll('[data-filter-item][aria-disabled]');
       if (subOptions.length > 0) {
         fireEvent.click(subOptions[0]);
         expect(handleChange).toHaveBeenCalledWith({ color: [] });

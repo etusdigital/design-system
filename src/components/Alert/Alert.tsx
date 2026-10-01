@@ -130,7 +130,9 @@ export function Alert({
                 styles.expandToggle,
                 isExpanded && styles.rotated
               )}
+              role="button"
               tabIndex={0}
+              aria-label="Expand"
               aria-expanded={isExpanded}
               onClick={() => setIsExpanded(!isExpanded)}
               onKeyDown={preventSpaceScroll}

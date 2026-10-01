@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect, Children, isValidElement } from "react";
+import { useState, useRef, useEffect, Children, isValidElement, useId } from "react";
 import clsx from "clsx";
 import { useControllable } from "../../hooks/useControllable";
-import { isNilAndBlank, applyMask } from "../../utils/index";
+import { isNilAndBlank, applyMask, focusByArrowKey, getFocusableItems } from "../../utils/index";
 import { Label } from "../../utils/components/Label";
 import { Tooltip } from "../Tooltip/Tooltip";
 import { StatusBadge } from "../StatusBadge/StatusBadge";
@@ -65,6 +65,7 @@ export function TagInput({
   children,
   className,
 }: TagInputProps) {
+  const id = useId();
   const [tags, setTags] = useControllable<any[]>({
     value,
     defaultValue: [],
@@ -76,6 +77,7 @@ export function TagInput({
   const [errorMsg, setErrorMsg] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const errorTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
   );
@@ -137,7 +139,28 @@ export function TagInput({
     } else if (e.key === "Backspace" && newTag === "") {
       const currentTags = tags ?? [];
       removeTag(currentTags.length - 1);
+    } else if (e.key === "ArrowLeft") {
+      const target = e.target as HTMLTextAreaElement;
+      if (target.selectionStart === 0 && target.selectionEnd === 0 && containerRef.current) {
+        const items = getFocusableItems(containerRef.current, ".close-icon, textarea");
+        if (items.length > 1) {
+          e.preventDefault();
+          items[items.length - 2].focus();
+        }
+      }
+    } else if (containerRef.current) {
+      const items = getFocusableItems(containerRef.current, ".close-icon, textarea");
+      focusByArrowKey(e, items, "horizontal");
     }
+  }
+
+  function handleTagKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+    if (disabled || e.target === textareaRef.current) return;
+    focusByArrowKey(
+      e,
+      getFocusableItems(e.currentTarget, ".close-icon, textarea"),
+      "horizontal"
+    );
   }
 
   function handlePaste(e: React.ClipboardEvent<HTMLTextAreaElement>) {
@@ -194,6 +217,7 @@ export function TagInput({
       {labelValue && (
         <div className={styles.labelRow}>
           <Label
+            htmlFor={`${id}-input`}
             labelValue={labelValue}
             infoMessage={infoMessage}
             tooltipMinWidth={tooltipMinWidth}
@@ -208,6 +232,7 @@ export function TagInput({
       )}
 
       <div
+        ref={containerRef}
         className={clsx(
           styles.container,
           isFocused && !disabled && styles.focused,
@@ -216,6 +241,7 @@ export function TagInput({
           hasError && styles.shake,
         )}
         onClick={() => !disabled && textareaRef.current?.focus()}
+        onKeyDown={handleTagKeyDown}
       >
         {prependIconChild
           ? prependIconChild
@@ -251,6 +277,7 @@ export function TagInput({
 
         <textarea
           ref={textareaRef}
+          id={`${id}-input`}
           className={styles.textarea}
           rows={1}
           value={newTag}
@@ -261,6 +288,11 @@ export function TagInput({
           onBlur={() => setIsFocused(false)}
           placeholder={currentTags.length === 0 ? placeholder : ""}
           disabled={disabled}
+          aria-invalid={isError || hasError}
+          aria-required={required}
+          aria-describedby={
+            isError || hasError ? `${id}-error` : undefined
+          }
         />
 
         {appendIconChild
@@ -284,7 +316,7 @@ export function TagInput({
       )}
 
       {(isError || hasError) && (
-        <p className={styles.errorMessage}>{errorMsg || errorMessage}</p>
+        <p id={`${id}-error`} className={styles.errorMessage}>{errorMsg || errorMessage}</p>
       )}
     </div>
   );

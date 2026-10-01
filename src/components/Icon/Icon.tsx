@@ -9,7 +9,10 @@ export interface IconProps {
   style?: React.CSSProperties;
   size?: string;
   tabIndex?: number;
+  role?: string;
   'aria-label'?: string;
+  'aria-hidden'?: boolean | 'true' | 'false';
+  'aria-expanded'?: boolean;
   onClick?: React.MouseEventHandler<HTMLSpanElement>;
   onKeyUp?: React.KeyboardEventHandler<HTMLSpanElement>;
   onKeyDown?: React.KeyboardEventHandler<HTMLSpanElement>;
@@ -21,17 +24,25 @@ export function Icon({
   className,
   style,
   tabIndex = -1,
+  role,
   'aria-label': ariaLabel,
+  'aria-hidden': ariaHidden,
+  'aria-expanded': ariaExpanded,
   onClick = () => {},
   onKeyUp,
   onKeyDown,
 }: IconProps) {
+  const interactive = tabIndex >= 0;
+
   return (
     <span
       className={clsx('material-symbols-rounded', 'icon', filled && 'filled', className)}
       style={style}
       tabIndex={tabIndex}
+      role={role ?? (interactive ? 'button' : undefined)}
       aria-label={ariaLabel}
+      aria-hidden={ariaHidden ?? (interactive ? undefined : true)}
+      aria-expanded={ariaExpanded}
       onClick={onClick}
       onKeyUp={onKeyUp}
       onKeyDown={onKeyDown}

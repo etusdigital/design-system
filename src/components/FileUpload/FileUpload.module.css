@@ -20,6 +20,10 @@
   @apply absolute inset-0 opacity-0 z-[1] cursor-pointer;
 }
 
+.file:has(input:focus-visible) {
+  @apply outline-xxs outline-primary-interaction-default;
+}
+
 .blurred {
   @apply blur-[2px];
 }

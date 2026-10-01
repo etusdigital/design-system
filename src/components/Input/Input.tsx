@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useId } from 'react';
 import { ColorPicker } from '../ColorPicker';
 import { FloatCard } from '../FloatCard/FloatCard';
 import clsx from 'clsx';
@@ -72,6 +72,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
     className,
   } = props;
 
+  const id = useId();
   const [currentValue, setValue] = useControllable<string>({
     value,
     defaultValue: '',
@@ -232,6 +233,8 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
       {(labelValue || max !== undefined) && (
         <div className={styles.labelRow}>
           <Label
+            id={labelValue ? `${id}-label` : undefined}
+            htmlFor={`${id}-input`}
             labelValue={labelValue}
             infoMessage={infoMessage}
             tooltipMinWidth={tooltipMinWidth}
@@ -262,6 +265,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
           ) : null}
 
           <input
+              id={`${id}-input`}
               ref={mergedRef}
               type={resolvedType}
               className={clsx(styles.inputContent, textAlign && styles[textAlign])}
@@ -272,6 +276,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
               placeholder={placeholder}
               disabled={disabled}
               spellCheck={false}
+              aria-invalid={showError}
+              aria-required={required}
+              aria-describedby={showError ? `${id}-error` : undefined}
             />
 
           {type === 'password' ? (
@@ -279,6 +286,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
               tabIndex={disabled ? -1 : 0}
               name={showPassword ? 'visibility_off' : 'visibility'}
               className={clsx(styles.inputIcon, isFocused && styles.focused, "cursor-pointer")}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
               onClick={() => setShowPassword(!showPassword)}
               onKeyUp={onEnterOrSpace(() => setShowPassword(!showPassword))}
             />
@@ -294,6 +302,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
             <Icon
               tabIndex={disabled ? -1 : 0}
               name="arrow_drop_up"
+              aria-label="Increase"
               className={styles.arrowIcon}
               onClick={increment}
               onKeyUp={onEnterOrSpace(increment)}
@@ -301,6 +310,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
             <Icon
               tabIndex={disabled ? -1 : 0}
               name="arrow_drop_down"
+              aria-label="Decrease"
               className={styles.arrowIcon}
               onClick={decrement}
               onKeyUp={onEnterOrSpace(decrement)}
@@ -310,7 +320,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
       </div>
 
       {(errorMessage || validationError) && (showError || !!validationError) && (
-        <p className={styles.errorMessage}>{errorMessage || validationError}</p>
+        <p id={`${id}-error`} className={styles.errorMessage}>{errorMessage || validationError}</p>
       )}
     </div>
   );

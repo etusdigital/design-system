@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
 import { Label } from '../../utils/components/Label';
@@ -43,6 +43,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     },
     ref
   ) {
+    const id = useId();
     const [currentValue, setValue] = useControllable<string>({
       value,
       defaultValue: '',
@@ -74,6 +75,8 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         {showLabelRow && (
           <div className={styles.labelRow}>
             <Label
+              id={labelValue ? `${id}-label` : undefined}
+              htmlFor={`${id}-textarea`}
               labelValue={labelValue}
               infoMessage={infoMessage}
               tooltipMinWidth={tooltipMinWidth}
@@ -95,6 +98,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           )}
         >
           <textarea
+            id={`${id}-textarea`}
             ref={ref}
             className={styles.textareaContent}
             value={currentValue ?? ''}
@@ -104,10 +108,13 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
             placeholder={placeholder}
             disabled={disabled}
             style={textAlign ? { textAlign } : undefined}
+            aria-invalid={isError}
+            aria-required={required}
+            aria-describedby={isError && errorMessage ? `${id}-error` : undefined}
           />
         </div>
         {(isError || errorMessage) && errorMessage && (
-          <small className={styles.errorMessage}>{errorMessage}</small>
+          <small id={`${id}-error`} className={styles.errorMessage}>{errorMessage}</small>
         )}
       </div>
     );

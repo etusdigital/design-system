@@ -127,7 +127,7 @@ function DropdownOption({
     }
 
     return (
-      <div ref={root} className="relative" data-dropdown-option tabIndex={option.disabled ? -1 : 0} onKeyDown={onKeyDown} onBlur={handleBlur}>
+      <div ref={root} className="relative" data-dropdown-option tabIndex={option.disabled ? -1 : 0} role="menuitem" aria-disabled={option.disabled} aria-haspopup="menu" aria-expanded={subExpanded} onKeyDown={onKeyDown} onBlur={handleBlur}>
         <div
           className={clsx(
             styles.optionItem,
@@ -174,8 +174,9 @@ function DropdownOption({
       })}
       data-dropdown-option
       tabIndex={option.disabled ? -1 : 0}
-      role="option"
-      aria-selected={isSelected}
+      role="menuitem"
+      aria-current={isSelected || undefined}
+      aria-disabled={option.disabled}
       onClick={() => !option.disabled && onSelect(option)}
       onKeyDown={onKeyDown}
       onBlur={handleBlur}
@@ -210,7 +211,7 @@ function DropdownOptions({
     options.filter((option) => option.bottom),
   ].filter((options) => options.length);
   return (
-    <div role="listbox" className={styles.optionsContainer}>
+    <div role="menu" className={styles.optionsContainer}>
       {parsedOptions.map((options, index) => (
         <Fragment key={"options-" + index}>
           {options.map((option, index) => (
@@ -401,6 +402,7 @@ export function Dropdown({
       infoMessage={infoMessage}
       maxHeight={maxHeight}
       minWidth={minWidth}
+      popupRole="menu"
       card={card}
       className={clsx("dropdown", className)}
       onKeyDown={onKeyDown}

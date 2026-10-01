@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Button } from '../Button/Button';
+import { focusByArrowKey, getFocusableItems } from '../../utils';
 import styles from './RoundMenu.module.css';
 
 export interface RoundMenuProps {
@@ -19,6 +20,7 @@ export function RoundMenu({
   className,
 }: RoundMenuProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   function calculatePosition(index: number, total: number): React.CSSProperties {
     const angle = (2 * Math.PI * index) / total - Math.PI / 2;
@@ -29,8 +31,21 @@ export function RoundMenu({
     };
   }
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    focusByArrowKey(
+      event,
+      getFocusableItems(event.currentTarget, 'button'),
+      'both',
+      { loop: true }
+    );
+  };
+
   return (
-    <div className={clsx(styles.roundMenu, 'round-menu', className)}>
+    <div
+      ref={containerRef}
+      className={clsx(styles.roundMenu, 'round-menu', className)}
+      onKeyDown={handleKeyDown}
+    >
       <Button
         round
         className={clsx(styles.trigger, isExpanded && styles.expanded)}
@@ -39,6 +54,7 @@ export function RoundMenu({
         onClick={() => setIsExpanded((prev) => !prev)}
         color={isExpanded ? 'neutral': 'success'}
         icon={isExpanded ? 'close' : 'add'}
+        size="small"
       />
       {options.map((option, index) => {
         const positionStyle = isExpanded
@@ -54,6 +70,7 @@ export function RoundMenu({
             title={option[labelKey] ?? option.label}
           >
             <Button
+              size="small"
               round
               background={option.background}
               icon={option[iconKey] ?? option.icon}

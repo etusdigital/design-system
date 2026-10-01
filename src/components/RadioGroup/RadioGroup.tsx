@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
-import { isObject } from '../../utils';
+import { isObject, focusByArrowKey, getFocusableItems } from '../../utils';
 import { Radio } from '../Radio/Radio';
 import styles from './RadioGroup.module.css';
 
@@ -71,17 +71,24 @@ export function RadioGroup({
       ? (currentValue as Record<string, any>)[valueKey]
       : currentValue;
 
+  function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+    const items = getFocusableItems(e.currentTarget, '[role="radio"]');
+    focusByArrowKey(e, items, vertical ? 'vertical' : 'horizontal');
+  }
+
   return (
     <RadioGroupContext.Provider
       value={{ selected: contextSelected, disabled, select: setValue }}
     >
       <div
+        role="radiogroup"
         className={clsx(
           styles.radioGroup,
           'radio-group',
           vertical ? styles.vertical : styles.horizontal,
           className,
         )}
+        onKeyDown={handleKeyDown}
       >
         {options
           ? options.map((opt) => {

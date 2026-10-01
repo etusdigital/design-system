@@ -8,6 +8,8 @@ export interface LabelProps {
   tooltipMinWidth?: number;
   required?: boolean;
   className?: string;
+  id?: string;
+  htmlFor?: string;
 }
 
 export function Label({
@@ -16,14 +18,18 @@ export function Label({
   tooltipMinWidth,
   required,
   className,
+  id,
+  htmlFor,
 }: LabelProps) {
   if (!labelValue) return null;
 
   return (
-    <h5 className={`inline-flex items-center text-sm font-semibold leading-base${className ? ` ${className}` : ''}`}>
-      {labelValue}
+    <div className={`inline-flex items-center text-sm font-semibold leading-base${className ? ` ${className}` : ''}`}>
+      <label id={id} htmlFor={htmlFor}>
+        {labelValue}
+      </label>
       {required && (
-        <span className="text-primary-foreground-low ml-xxs">*</span>
+        <span className="text-primary-foreground-low ml-xxs" aria-hidden="true">*</span>
       )}
       {infoMessage && (
         <Tooltip className="ml-xxs">
@@ -35,9 +41,9 @@ export function Label({
               {infoMessage}
             </p>
           </Tooltip.Label>
-          <Icon name="info" className="info-icon" tabIndex={0} />
+          <Icon name="info" className="info-icon" tabIndex={0} aria-label="More information" />
         </Tooltip>
       )}
-    </h5>
+    </div>
   );
 }

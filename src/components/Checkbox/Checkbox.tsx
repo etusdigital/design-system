@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
 import { onEnterOrSpace } from '../../utils';
@@ -5,29 +6,35 @@ import styles from './Checkbox.module.css';
 
 export interface CheckboxProps {
   id?: string;
-  name?: string;
   value?: boolean | null;
   onChange?: (value: boolean | null) => void;
   rhs?: boolean;
   allowIndeterminate?: boolean;
   disabled?: boolean;
   tabIndex?: number;
+  ariaLabel?: string;
+  'aria-label'?: string;
+  'aria-hidden'?: boolean | 'true' | 'false';
   children?: React.ReactNode;
   className?: string;
 }
 
 export function Checkbox({
   id,
-  name,
   value,
   onChange,
   rhs = false,
   allowIndeterminate = false,
   disabled = false,
   tabIndex = 0,
+  ariaLabel: ariaLabelProp,
+  'aria-label': ariaLabelAttr,
+  'aria-hidden': ariaHidden,
   children,
   className,
 }: CheckboxProps) {
+  const ariaLabel = ariaLabelAttr ?? ariaLabelProp;
+  const labelId = useId();
   const [currentValue, setValue] = useControllable<boolean | null>({
     value: value as boolean | undefined,
     defaultValue: false,
@@ -47,32 +54,37 @@ export function Checkbox({
 
   const renderLabel = () => {
     if (!children) return null;
-    if (id || name) {
-      return (
-        <label htmlFor={id || name} className={`text-sm cursor-[inherit]`}>
-          {children}
-        </label>
-      );
-    }
-    return <span className="text-sm">{children}</span>;
+    return (
+      <div
+        id={labelId}
+        className={`text-sm cursor-[inherit]`}
+      >
+        {children}
+      </div>
+    );
   };
 
   return (
     <div
-      role="checkbox"
-      aria-checked={currentValue === null ? 'mixed' : !!currentValue}
-      aria-disabled={disabled}
+      id={id}
       className={clsx(styles.checkbox, 'checkbox', rhs && styles.rhs, disabled && styles.disabled, className)}
+      aria-hidden={ariaHidden}
       onClick={handleClick}
       onKeyUp={onEnterOrSpace(handleClick)}
     >
       <div
-        tabIndex={disabled ? -1 : tabIndex}
+        role="checkbox"
+        aria-checked={currentValue === null ? 'mixed' : !!currentValue}
+        aria-disabled={disabled}
+        aria-label={ariaLabel}
+        aria-labelledby={children && !ariaLabel ? labelId : undefined}
+        tabIndex={ariaHidden ? undefined : disabled ? -1 : tabIndex}
         className={clsx(
           styles.box,
           currentValue === true && styles.active,
           currentValue === null && styles.indeterminate
         )}
+        onKeyDown={(e) => e.code === 'Space' && e.preventDefault()}
       >
         {currentValue === true && (
           <svg viewBox="0 0 16 16" className="w-full h-full" fill="none">

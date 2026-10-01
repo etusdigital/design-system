@@ -53,7 +53,16 @@ Sets the dialog height. Type: `string` (default: `"fit-content"`)
 Prevents closing the dialog when clicking outside. When enabled, clicking outside triggers a warning bounce animation to indicate the dialog cannot be closed. Type: `boolean` (default: `false`)
 
 #### zIndex
-Sets the stacking order of the dialog. The overlay uses this value and the dialog content is rendered one level above it (`zIndex + 1`). Useful when stacking dialogs or layering above other overlay elements. Type: `number` (default: `1002`)
+Sets the stacking order of the dialog and its overlay (backdrop). `Dialog`, `Drawer` and `Image` share the same default, so whichever one is opened from inside another always stacks on top without changing it manually. Type: `number` (default: `1002`)
+
+#### Accessible name
+The panel is rendered with `role="dialog"` and `aria-modal="true"`, keeps keyboard focus inside while open and returns focus to the element that opened it when it closes. Pass `aria-labelledby` (usually pointing at its title) or `aria-label` to give it a name.
+
+```tsx
+<Dialog value={open} onChange={setOpen} aria-labelledby="dialog-title">
+  <h2 id="dialog-title">Edit price rule</h2>
+</Dialog>
+```
 
 ---
 

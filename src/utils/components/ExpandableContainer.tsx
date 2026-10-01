@@ -21,6 +21,9 @@ export interface ExpandableContainerProps {
   icon?: string;
   secondary?: boolean;
   hideArrow?: boolean;
+  popupRole?: 'listbox' | 'menu' | 'dialog';
+  popupId?: string;
+  ariaLabel?: string;
   children?: React.ReactNode;
   complement?: React.ReactNode;
   leadingComplement?: React.ReactNode;
@@ -45,6 +48,9 @@ export function ExpandableContainer({
   minWidth = "unset",
   secondary = false,
   hideArrow = false,
+  popupRole = "listbox",
+  popupId,
+  ariaLabel,
   icon,
   children,
   complement,
@@ -80,6 +86,9 @@ export function ExpandableContainer({
       minWidth={minWidth}
       secondary={secondary}
       hideArrow={hideArrow}
+      popupRole={popupRole}
+      popupId={popupId}
+      ariaLabel={ariaLabel}
       label={label}
       complement={complement}
       leadingComplement={leadingComplement}

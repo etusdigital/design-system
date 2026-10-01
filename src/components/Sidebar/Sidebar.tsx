@@ -6,7 +6,7 @@ import React, {
   useContext,
 } from "react";
 import { useControllable } from "../../hooks/useControllable";
-import { checkPath, isObject } from "../../utils";
+import { checkPath, isObject, focusByArrowKey } from "../../utils";
 import { type Option as SidebarOptionType } from "../../utils/types/SidebarOption";
 import styles from "./Sidebar.module.css";
 import { Icon } from "../Icon";
@@ -140,13 +140,22 @@ function SidebarSubOption({
         tabIndex={focusIndex}
         className={styles.subOptionLink}
         onClick={handleClick}
+        aria-label={option.label}
+        aria-current={selected ? 'page' : undefined}
       >
         {content}
       </RouterLink>
     );
   } else if (option.path) {
     wrapper = (
-      <a href={fullPath} tabIndex={focusIndex} className={styles.subOptionLink} onClick={handleClick}>
+      <a
+        href={fullPath}
+        tabIndex={focusIndex}
+        className={styles.subOptionLink}
+        onClick={handleClick}
+        aria-label={option.label}
+        aria-current={selected ? 'page' : undefined}
+      >
         {content}
       </a>
     );
@@ -212,13 +221,15 @@ function SidebarOption({
   const optionContent = (
     <div
       className={optionClasses}
+      role={hasChildren ? "button" : undefined}
       tabIndex={isLink ? undefined : focusIndex}
       onClick={isLink ? undefined : handleClick}
       onKeyUp={isLink ? undefined : handleKeyUp}
-      role={hasChildren ? "button" : undefined}
       aria-expanded={
         hasChildren ? getValue(option) === getValue(openedParentValue) : undefined
       }
+      aria-label={hasChildren ? option.label : undefined}
+      data-sidebar-value={hasChildren ? String(getValue(option)) : undefined}
     >
       <span className={styles.optionIconContainer}>
         {option.icon && (
@@ -242,6 +253,8 @@ function SidebarOption({
         tabIndex={focusIndex}
         className={styles.optionLink}
         onClick={handleClick}
+        aria-label={option.label}
+        aria-current={isActive ? 'page' : undefined}
       >
         {optionContent}
       </RouterLink>
@@ -250,7 +263,14 @@ function SidebarOption({
 
   if (option.path) {
     return (
-      <a href={getPath(option.path)} tabIndex={focusIndex} className={styles.optionLink} onClick={handleClick}>
+      <a
+        href={getPath(option.path)}
+        tabIndex={focusIndex}
+        className={styles.optionLink}
+        onClick={handleClick}
+        aria-label={option.label}
+        aria-current={isActive ? 'page' : undefined}
+      >
         {optionContent}
       </a>
     );
@@ -293,6 +313,7 @@ export function Sidebar({
   const [height, setHeight] = useState<string>("100vh");
   const sidebarRef = useRef<HTMLDivElement>(null);
   const subPanelRef = useRef<HTMLDivElement>(null);
+  const focusFirstSubOption = useRef(false);
   const optionsListRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -397,33 +418,70 @@ export function Sidebar({
     ).filter((el) => el.tabIndex >= 0);
   }
 
-  function handleKeyDown(e: React.KeyboardEvent) {
-    if (!isSubPanelOpen) return;
+  useEffect(() => {
+    if (!isSubPanelOpen || !focusFirstSubOption.current) return;
+    focusFirstSubOption.current = false;
 
+    let attempts = 30;
+    const tryFocus = () => {
+      const first = getFocusables(subPanelRef.current)[0];
+      first?.focus();
+      if (document.activeElement !== first && attempts-- > 0) requestAnimationFrame(tryFocus);
+    };
+    tryFocus();
+  }, [isSubPanelOpen, clickedOption]);
+
+  function closeSubOptions() {
+    setIsSubPanelOpen(false);
     const openedOption = sidebarRef.current?.querySelector<HTMLElement>('[aria-expanded="true"]');
-    if (e.key === 'Escape') {
-      e.stopPropagation();
-      setIsSubPanelOpen(false);
-      openedOption?.focus();
+    if (openedOption) {
+      openedOption.focus();
+    }
+  }
+
+  function openSubOptions(option: SidebarOptionType) {
+    if (option.disabled || !option.options?.length) return;
+    setClickedOption(option);
+    setIsSubPanelOpen(true);
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent) {
+    const target = e.target as HTMLElement;
+    const inSubPanel = subPanelRef.current?.contains(target);
+
+    if (inSubPanel && e.key === 'ArrowLeft') {
+      e.preventDefault();
+      closeSubOptions();
       return;
     }
-    if (e.key !== 'Tab' || !openedOption) return;
 
-    const subItems = getFocusables(subPanelRef.current);
-    const target = e.target as HTMLElement;
-    let next: HTMLElement | undefined;
-    if (target === openedOption && !e.shiftKey) {
-      next = subItems[0];
-    } else if (target === subItems[0] && e.shiftKey) {
-      next = openedOption;
-    } else if (target === subItems[subItems.length - 1] && !e.shiftKey) {
-      const railItems = getFocusables(optionsListRef.current);
-      next = railItems[railItems.indexOf(openedOption) + 1];
+    if (inSubPanel && (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'Home' || e.key === 'End')) {
+      const subItems = getFocusables(subPanelRef.current);
+      focusByArrowKey(e, subItems, 'vertical');
+      return;
     }
-    if (!next) return;
 
-    e.preventDefault();
-    next.focus();
+    if (!inSubPanel && (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'Home' || e.key === 'End')) {
+      const mainItems = getFocusables(optionsListRef.current);
+      focusByArrowKey(e, mainItems, 'vertical');
+      return;
+    }
+
+    if (!inSubPanel && e.key === 'ArrowRight') {
+      const value = target.closest<HTMLElement>('[data-sidebar-value]')?.dataset.sidebarValue;
+      const targetOption = options.find((opt) => String(getValue(opt)) === value);
+      if (!targetOption?.options?.length || targetOption.disabled) return;
+      e.preventDefault();
+      focusFirstSubOption.current = true;
+      openSubOptions(targetOption);
+      return;
+    }
+
+    if (e.key === 'Escape' && isSubPanelOpen) {
+      e.stopPropagation();
+      closeSubOptions();
+      return;
+    }
   }
 
   const sidebarClasses = [styles.sidebar, "sidebar", className]

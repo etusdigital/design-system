@@ -56,7 +56,7 @@ describe('Dropdown', () => {
       />
     );
 
-    const appleOption = container.querySelector('[role="option"]');
+    const appleOption = container.querySelector('[role="menuitem"]');
     expect(appleOption).toBeTruthy();
     fireEvent.click(appleOption!);
     expect(onChange).toHaveBeenCalledWith('apple');
@@ -74,7 +74,7 @@ describe('Dropdown', () => {
       />
     );
 
-    const options = screen.getAllByRole('option');
+    const options = screen.getAllByRole('menuitem');
     fireEvent.click(options[0]);
     expect(onChange).toHaveBeenCalledWith(flatOptions[0]);
   });
@@ -118,9 +118,9 @@ describe('Dropdown', () => {
       />
     );
 
-    const options = container.querySelectorAll('[role="option"]');
-    expect(options[1].getAttribute('aria-selected')).toBe('true');
-    expect(options[0].getAttribute('aria-selected')).toBe('false');
+    const options = container.querySelectorAll('[role="menuitem"]');
+    expect(options[1].getAttribute('aria-current')).toBe('true');
+    expect(options[0].hasAttribute('aria-current')).toBe(false);
   });
 
   it('renders DropdownOption as a single option item', () => {
@@ -136,7 +136,7 @@ describe('Dropdown', () => {
       />
     );
 
-    const el = screen.getByRole('option');
+    const el = screen.getByRole('menuitem');
     expect(el).toBeTruthy();
     fireEvent.click(el);
     expect(onSelect).toHaveBeenCalledWith(option);

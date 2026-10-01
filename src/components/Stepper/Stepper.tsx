@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { useControllable } from "../../hooks/useControllable";
-import { isObject, onEnterOrSpace, preventSpaceScroll } from "../../utils";
+import { isObject, onEnterOrSpace, preventSpaceScroll, focusByArrowKey, getFocusableItems } from "../../utils";
 import styles from "./Stepper.module.css";
 import { Icon } from "../Icon/Icon";
 
@@ -42,6 +42,7 @@ export function Stepper({
 
   const currentIndex = getIndex(model)
   const pastIndexsRef = useRef(new Set([currentIndex]))
+  const containerRef = useRef<HTMLDivElement>(null);
   const [biggerStepSelected, setBiggerStepSelected] = useState<number>(() =>
     Math.max(0, (currentIndex != -1 ? currentIndex : 0)),
   );
@@ -96,9 +97,19 @@ export function Stepper({
     if (onChangeStep) onChangeStep(value, index)
   }
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    focusByArrowKey(
+      event,
+      getFocusableItems(event.currentTarget, '[role="button"]'),
+      'horizontal'
+    );
+  };
+
   return (
     <div
+      ref={containerRef}
       className={clsx(styles.stepper, 'stepper', className)}
+      onKeyDown={handleKeyDown}
     >
       {options.map((option, index) => {
         const stepState = getStepState(index);
@@ -117,6 +128,7 @@ export function Stepper({
               className={clsx(styles.stepContainer)}
               role="button"
               tabIndex={disabled ? -1 : 0}
+              aria-disabled={disabled || undefined}
               aria-current={getValue(model) == getValue(option) ? "step" : undefined}
               onClick={() => handleStepClick(option, index)}
               onKeyDown={preventSpaceScroll}

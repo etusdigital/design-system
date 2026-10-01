@@ -69,3 +69,5 @@ Avatar does not use children. All content is controlled through props (`name`, `
 - Image takes priority over initials when both name and src are provided
 - All sizes maintain the same circular aspect ratio
 - Use semantic alt text for better accessibility when providing images
+- If an image fails to load, initials are displayed automatically as a fallback
+- The initials span is marked `aria-hidden` when an image successfully loads

@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect, useCallback, useId } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
 import { isValidUrl } from '../../utils';
@@ -25,6 +25,13 @@ interface RichTextEditorProps {
   maxHeight?: string;
   noBorder?: boolean;
   className?: string;
+  linkDialogLabel?: string;
+  linkUrlLabel?: string;
+  linkUrlPlaceholder?: string;
+  linkTextLabel?: string;
+  linkTextPlaceholder?: string;
+  cancelLabel?: React.ReactNode;
+  insertLinkLabel?: React.ReactNode;
 }
 
 const ALLOWED_TAGS = ['b', 'i', 'u', 'strong', 'em', 'br', 'div', 'ul', 'ol', 'li', 'blockquote', 'a', 'img', 'span', 'font'];
@@ -81,7 +88,15 @@ export function RichTextEditor({
   maxHeight = '400px',
   noBorder = false,
   className,
+  linkDialogLabel = 'Insert link',
+  linkUrlLabel = 'URL',
+  linkUrlPlaceholder = 'URL (e.g. https://example.com)',
+  linkTextLabel = 'Text',
+  linkTextPlaceholder = 'Text to display',
+  cancelLabel = 'Cancel',
+  insertLinkLabel = 'Insert Link',
 }: RichTextEditorProps) {
+  const id = useId();
   const [currentValue, setValue] = useControllable<string>({
     value,
     defaultValue: '',
@@ -614,6 +629,7 @@ export function RichTextEditor({
     title: string,
     action?: () => void
   ) {
+    const isToggle = ['bold', 'italic', 'underline', 'strikeThrough', 'insertUnorderedList', 'insertOrderedList'].includes(command);
     return (
       <Tooltip position="bottom" labelValue={title}>
         <button
@@ -621,6 +637,7 @@ export function RichTextEditor({
           key={command}
           className={clsx(styles.toolbarBtn, activeStates[command] && styles.toolbarBtnActive)}
           title={title}
+          aria-pressed={isToggle ? activeStates[command] : undefined}
           onMouseDown={(e) => { e.preventDefault(); saveCurrentSelection(); }}
           onClick={() => action ? action() : execFormatCommand(command)}
         >
@@ -644,6 +661,7 @@ export function RichTextEditor({
     <div className={editorClasses}>
       {labelValue && (
         <Label
+          id={`${id}-label`}
           labelValue={labelValue}
           infoMessage={infoMessage}
           required={required}
@@ -681,6 +699,7 @@ export function RichTextEditor({
             onChange={handleFontSizeUpdate}
             options={FONT_SIZES.map((s) => ({ label: String(s), value: s }))}
             disabled={disabled}
+            ariaLabel="Font size"
           />
         </div>
 
@@ -780,9 +799,11 @@ export function RichTextEditor({
         style={{ minHeight, maxHeight }}
         contentEditable={!disabled}
         data-placeholder={placeholder}
-        aria-label={labelValue}
+        aria-multiline="true"
+        aria-labelledby={labelValue ? `${id}-label` : undefined}
         aria-required={required}
         aria-invalid={hasError}
+        aria-describedby={hasError && errorMessage ? `${id}-error` : undefined}
         onInput={handleInput}
         onFocus={handleFocus}
         onBlur={handleBlur}
@@ -792,20 +813,24 @@ export function RichTextEditor({
         onPaste={handlePaste}
       />
 
-      <Dialog value={showLinkDialog} onChange={setShowLinkDialog}>
+      <Dialog value={showLinkDialog} onChange={setShowLinkDialog} aria-label={linkDialogLabel}>
           <div className={styles.linkDialogContent}>
+            <label htmlFor={`${id}-link-url`} className={styles.linkInputLabel}>{linkUrlLabel}</label>
             <input
+              id={`${id}-link-url`}
               type="text"
-              placeholder="URL (e.g. https://example.com)"
+              placeholder={linkUrlPlaceholder}
               value={linkUrl}
               onChange={(e) => setLinkUrl(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') handleInsertLink(); }}
               className={styles.linkInput}
               autoFocus
             />
+            <label htmlFor={`${id}-link-text`} className={styles.linkInputLabel}>{linkTextLabel}</label>
             <input
+              id={`${id}-link-text`}
               type="text"
-              placeholder="Link text (optional)"
+              placeholder={linkTextPlaceholder}
               value={linkText}
               onChange={(e) => setLinkText(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') handleInsertLink(); }}
@@ -818,21 +843,21 @@ export function RichTextEditor({
                 color="neutral"
                 onClick={() => { setShowLinkDialog(false); setLinkUrl(''); setLinkText(''); }}
               >
-                Cancel
+                {cancelLabel}
               </Button>
               <Button
                 className={styles.linkInsertBtn}
                 disabled={!linkUrl.trim()}
                 onClick={handleInsertLink}
               >
-                Insert Link
+                {insertLinkLabel}
               </Button>
             </div>
           </div>
       </Dialog>
 
       {hasError && errorMessage && (
-        <small className={styles.errorMessage}>{errorMessage}</small>
+        <small id={`${id}-error`} className={styles.errorMessage}>{errorMessage}</small>
       )}
     </div>
   );

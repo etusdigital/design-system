@@ -63,3 +63,11 @@ export const Sizes: Story = {
     src: undefined,
   },
 };
+
+export const BrokenImage: Story = {
+  render: (args: any) => <Avatar {...args} />,
+  args: {
+    ...defaultArgs,
+    src: 'https://invalid-url-that-fails.example.com/image.jpg',
+  },
+};

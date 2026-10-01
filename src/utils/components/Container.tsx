@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useId } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks';
 import { Label } from './Label';
@@ -11,7 +11,9 @@ export interface ContainerProps {
   value?: boolean;
   onChange?: (value: boolean, extra: ContainerModelExtra) => void;
   labelValue?: string;
-  role?: string;
+  popupRole?: 'listbox' | 'menu' | 'dialog';
+  popupId?: string;
+  ariaLabel?: string;
   disabled?: boolean;
   isError?: boolean;
   errorMessage?: string;
@@ -37,7 +39,9 @@ export function Container({
   value,
   onChange,
   labelValue = '',
-  role = 'listbox',
+  popupRole = 'listbox',
+  popupId,
+  ariaLabel,
   disabled = false,
   isError = false,
   errorMessage = '',
@@ -64,7 +68,9 @@ export function Container({
 
   const isExpanded = disabled ? false : (model ?? false);
 
+  const id = useId();
   const containerRef = useRef<HTMLDivElement>(null);
+  const isCombobox = popupRole === 'listbox';
 
   const [contentMinWidth, setContentMinWidth] = useState(minWidth);
 
@@ -118,58 +124,67 @@ export function Container({
   }
 
   return (
-    <FloatCard value={isExpanded} disabled={disabled} manualFocus={true} card={renderContent?.(contentMinWidth)} onChange={blur}>
-      <div className={clsx('container', className)}>
-        {labelValue && (
-          <div className="flex justify-between items-center">
-            <Label labelValue={labelValue} infoMessage={infoMessage} required={required} />
-          </div>
-        )}
-        <div
-          ref={containerRef}
-          role={role}
-          aria-disabled={disabled || undefined}
-          aria-required={required || undefined}
-          className="label-container"
-          tabIndex={disabled ? -1 : 0}
-          onKeyDown={onKeyDown}
-          onKeyUp={onKeyUp}
-        >
-          {label || (
-            <div
-              className={clsx('label-content', {
-                disabled,
-                secondary,
-                expanded: isExpanded,
-                'hide-bottom': hideBottom,
-                error: isError,
-              })}
-              style={{ maxHeight, minWidth }}
-              onClick={toggle}
-            >
-              {leadingComplement}
-              {children}
-
-              <div className="flex items-center gap-xs ml-auto">
-                {complement}
-                {!hideArrow && (
-                  <Icon
-                    name={icon}
-                    className={clsx('arrow-icon', {
-                      'text-neutral-interaction-disabled': disabled,
-                      'text-danger-interaction-default': isError,
-                      expanded: isExpanded,
-                    })}
-                  />
-                )}
-              </div>
+    <div>
+      <FloatCard value={isExpanded} disabled={disabled} manualFocus={true} card={renderContent?.(contentMinWidth)} onChange={blur}>
+        <div className={clsx('container', className)}>
+          {labelValue && (
+            <div className="flex justify-between items-center">
+              <Label id={`${id}-label`} labelValue={labelValue} infoMessage={infoMessage} required={required} />
             </div>
           )}
+          <div
+            ref={containerRef}
+            role={isCombobox ? 'combobox' : 'button'}
+            aria-haspopup={popupRole}
+            aria-expanded={isExpanded}
+            aria-controls={isExpanded ? popupId : undefined}
+            aria-label={labelValue ? undefined : ariaLabel}
+            aria-labelledby={labelValue ? `${id}-label` : undefined}
+            aria-describedby={isError ? `${id}-error` : undefined}
+            aria-invalid={isCombobox ? isError : undefined}
+            aria-required={isCombobox ? required : undefined}
+            aria-disabled={disabled || undefined}
+            className="label-container"
+            tabIndex={disabled ? -1 : 0}
+            onKeyDown={onKeyDown}
+            onKeyUp={onKeyUp}
+          >
+            {label || (
+              <div
+                className={clsx('label-content', {
+                  disabled,
+                  secondary,
+                  expanded: isExpanded,
+                  'hide-bottom': hideBottom,
+                  error: isError,
+                })}
+                style={{ maxHeight, minWidth }}
+                onClick={toggle}
+              >
+                {leadingComplement}
+                {children}
+
+                <div className="flex items-center gap-xs ml-auto">
+                  {complement}
+                  {!hideArrow && (
+                    <Icon
+                      name={icon}
+                      className={clsx('arrow-icon', {
+                        'text-neutral-interaction-disabled': disabled,
+                        'text-danger-interaction-default': isError,
+                        expanded: isExpanded,
+                      })}
+                    />
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-        {isError && (
-          <small className="text-danger-foreground-low text-start p3">{errorMessage}</small>
-        )}
-      </div>
-    </FloatCard>
+      </FloatCard>
+      {isError && (
+        <small id={`${id}-error`} className="text-danger-foreground-low text-start p3">{errorMessage}</small>
+      )}
+    </div>
   );
 }

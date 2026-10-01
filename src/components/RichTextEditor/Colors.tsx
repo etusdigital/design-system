@@ -220,7 +220,6 @@ export function Colors({
                   className={styles.addColorBtn}
                   title="Add custom color"
                   role="button"
-                  aria-label="Add custom color"
                   tabIndex={0}
                   onClick={() => setShowColorPicker(true)}
                   onKeyDown={preventSpaceScroll}
@@ -232,6 +231,7 @@ export function Colors({
                       styles.richTextEditorIcon,
                       "text-neutral-interactive-default cursor-pointer",
                     )}
+                    aria-label="Add custom color"
                   />
                 </div>
                 {custom.map((color) => (

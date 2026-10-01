@@ -4,7 +4,7 @@ import { Avatar } from '../Avatar/Avatar';
 import { Button } from '../Button/Button';
 import { Icon } from '../Icon/Icon';
 import { useControllable } from '../../hooks/useControllable';
-import { onEnterOrSpace } from '../../utils/index';
+import { onEnterOrSpace, focusByArrowKey, getFocusableItems, focusWhenReady } from '../../utils/index';
 import styles from './Profile.module.css';
 import { isObject } from '#utils/index';
 
@@ -72,6 +72,8 @@ export function Profile({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
   const wasOpenRef = useRef(false);
 
   useEffect(() => {
@@ -127,6 +129,38 @@ export function Profile({
     }
   }
 
+  function onTriggerKeyDown(e: React.KeyboardEvent) {
+    if (disabled || (e.key !== 'ArrowDown' && e.key !== 'ArrowUp')) return;
+
+    e.preventDefault();
+    setIsOpen(true);
+    focusWhenReady(() => {
+      const items = getMenuItems();
+      return e.key === 'ArrowDown' ? items[0] : items[items.length - 1];
+    });
+  }
+
+  function getMenuItems(footerStop?: HTMLElement) {
+    const footerLinks = getFocusableItems(footerRef.current);
+    const stop = footerStop ?? footerLinks[0];
+    return getFocusableItems(menuRef.current).filter(
+      (item) => !footerLinks.includes(item) || item === stop
+    );
+  }
+
+  function onMenuKeyDown(e: React.KeyboardEvent) {
+    const target = e.target as HTMLElement;
+    const footerLinks = getFocusableItems(footerRef.current);
+    const inFooter = footerLinks.includes(target);
+
+    if (inFooter && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+      focusByArrowKey(e, footerLinks, 'horizontal');
+      return;
+    }
+
+    focusByArrowKey(e, getMenuItems(inFooter ? target : undefined), 'vertical');
+  }
+
   const displayName = model && selected ? getLabel(selected) || name : name;
 
   return (
@@ -150,6 +184,7 @@ export function Profile({
           tabIndex={disabled ? -1 : 0}
           onClick={toggleOpen}
           onKeyUp={onEnterOrSpace(toggleOpen)}
+          onKeyDown={onTriggerKeyDown}
         >
           <Avatar name={name} src={picture} size="small" alt="profile picture" />
           <p className="text-sm font-bold">{displayName}</p>
@@ -167,141 +202,143 @@ export function Profile({
             setIsOpen(false);
           }}
         >
-          <div className="flex flex-col items-center gap-xs text-9xl px-xs py-sm text-neutral-interaction-default">
-            <Avatar name={name} src={picture} size="large" alt="profile picture" />
-            {!!(model && getLabel(selected) && name) && (
-              <p className="text-sm text-center">{name}</p>
-            )}
-            {((model && getLabel(selected)) || name) && (
-              <h4 className="text-3xl font-bold m-xxs text-center">{displayName}</h4>
-            )}
-            <Button
-              type="submit"
-              color="primary"
-              onClick={onEdit}
-              className="m-xxs truncate"
-              disabled={!name && !picture}
-            >
-              {editLabel}
-            </Button>
-          </div>
-
-          {options && options.length > 0 && (
-            <div className="flex flex-col items-center text-neutral-interaction-default">
-              <div className="flex items-center w-full relative">
-                <Icon
-                  name="search"
-                  className={clsx(
-                    styles.searchIcon,
-                    onFocusInput && 'text-primary-interaction-default'
-                  )}
-                />
-                <input
-                  type="search"
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
-                  className={styles.inputDefault}
-                  onFocus={() => setOnFocusInput(true)}
-                  onBlur={() => setOnFocusInput(false)}
-                  placeholder="Search"
-                />
-              </div>
-              <div
-                className={clsx(
-                  'w-full text-neutral-interaction-default',
-                  filteredOptions.length > 4 && 'pr-xxs py-xxs'
-                )}
+          <div ref={menuRef} onKeyDown={onMenuKeyDown}>
+            <div className="flex flex-col items-center gap-xs text-9xl px-xs py-sm text-neutral-interaction-default">
+              <Avatar name={name} src={picture} size="large" alt="profile picture" />
+              {!!(model && getLabel(selected) && name) && (
+                <p className="text-sm text-center">{name}</p>
+              )}
+              {((model && getLabel(selected)) || name) && (
+                <h4 className="text-3xl font-bold m-xxs text-center">{displayName}</h4>
+              )}
+              <Button
+                type="submit"
+                color="primary"
+                onClick={onEdit}
+                className="m-xxs truncate"
+                disabled={!name && !picture}
               >
-                <div className="w-full flex flex-col divide-y-xxs divide-neutral-default font-bold max-h-[12em] overflow-auto custom-scroll">
-                  {filteredOptions.map((option, index) => {
-                    const active =
-                      JSON.stringify(model || {}) === JSON.stringify(option || {});
-                    return (
-                      <div
-                        key={index}
-                        tabIndex={0}
-                        className={clsx(
-                          styles.profileOption,
-                          'justify-start w-full [&>*]:text-sm hover:bg-neutral-surface-highlight'
-                        )}
-                        onClick={() => updateModel(option)}
-                        onKeyUp={onEnterOrSpace(() => updateModel(option))}
-                      >
-                        {renderOption ? (
-                          renderOption({ option, index, active })
-                        ) : (
-                          <p
-                            className={clsx(
-                              'text-sm',
-                              active && '[&>*]:underline'
-                            )}
-                          >
-                            {getLabel(option)}
-                          </p>
-                        )}
-                      </div>
-                    );
-                  })}
+                {editLabel}
+              </Button>
+            </div>
+
+            {options && options.length > 0 && (
+              <div className="flex flex-col items-center text-neutral-interaction-default">
+                <div className="flex items-center w-full relative">
+                  <Icon
+                    name="search"
+                    className={clsx(
+                      styles.searchIcon,
+                      onFocusInput && 'text-primary-interaction-default'
+                    )}
+                  />
+                  <input
+                    type="search"
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    className={styles.inputDefault}
+                    onFocus={() => setOnFocusInput(true)}
+                    onBlur={() => setOnFocusInput(false)}
+                    placeholder="Search"
+                  />
+                </div>
+                <div
+                  className={clsx(
+                    'w-full text-neutral-interaction-default',
+                    filteredOptions.length > 4 && 'pr-xxs py-xxs'
+                  )}
+                >
+                  <div className="w-full flex flex-col divide-y-xxs divide-neutral-default font-bold max-h-[12em] overflow-auto custom-scroll">
+                    {filteredOptions.map((option, index) => {
+                      const active =
+                        JSON.stringify(model || {}) === JSON.stringify(option || {});
+                      return (
+                        <div
+                          key={index}
+                          tabIndex={0}
+                          className={clsx(
+                            styles.profileOption,
+                            'justify-start w-full [&>*]:text-sm hover:bg-neutral-surface-highlight'
+                          )}
+                          onClick={() => updateModel(option)}
+                          onKeyUp={onEnterOrSpace(() => updateModel(option))}
+                        >
+                          {renderOption ? (
+                            renderOption({ option, index, active })
+                          ) : (
+                            <p
+                              className={clsx(
+                                'text-sm',
+                                active && '[&>*]:underline'
+                              )}
+                            >
+                              {getLabel(option)}
+                            </p>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-
-          <div
-            className={clsx(
-              'flex flex-col divide-y-xxs divide-neutral-default',
-              filteredOptions && filteredOptions.length
-                ? 'border-t-xxs border-t-neutral-default'
-                : ''
             )}
-          >
-            {!!model && (
+
+            <div
+              className={clsx(
+                'flex flex-col divide-y-xxs divide-neutral-default',
+                filteredOptions && filteredOptions.length
+                  ? 'border-t-xxs border-t-neutral-default'
+                  : ''
+              )}
+            >
+              {!!model && (
+                <div
+                  tabIndex={0}
+                  className={clsx(
+                    styles.profileOption,
+                    styles.profileOptionAction,
+                    'text-neutral-interaction-default hover:bg-neutral-surface-highlight'
+                  )}
+                  onClick={onEditOption}
+                  onKeyUp={onEditOption ? onEnterOrSpace(onEditOption) : undefined}
+                >
+                  <Icon name="person" className={styles.profileIcon} />
+                  <p className="text-sm font-bold">{editOptionLabel}</p>
+                </div>
+              )}
               <div
                 tabIndex={0}
                 className={clsx(
                   styles.profileOption,
                   styles.profileOptionAction,
-                  'text-neutral-interaction-default hover:bg-neutral-surface-highlight'
+                  'text-danger-interaction-default hover:bg-danger-surface-default'
                 )}
-                onClick={onEditOption}
-                onKeyUp={onEditOption ? onEnterOrSpace(onEditOption) : undefined}
+                onClick={onLogout}
+                onKeyUp={onLogout ? onEnterOrSpace(onLogout) : undefined}
               >
-                <Icon name="person" className={styles.profileIcon} />
-                <p className="text-sm font-bold">{editOptionLabel}</p>
+                <Icon name="logout" className={styles.profileIcon} />
+                <p className="text-sm font-bold">{logoutLabel}</p>
               </div>
-            )}
-            <div
-              tabIndex={0}
-              className={clsx(
-                styles.profileOption,
-                styles.profileOptionAction,
-                'text-danger-interaction-default hover:bg-danger-surface-default'
-              )}
-              onClick={onLogout}
-              onKeyUp={onLogout ? onEnterOrSpace(onLogout) : undefined}
-            >
-              <Icon name="logout" className={styles.profileIcon} />
-              <p className="text-sm font-bold">{logoutLabel}</p>
             </div>
-          </div>
 
-          <div className="flex items-center justify-center px-xs py-sm pt-xl text-neutral-interaction-default font-bold text-xxs gap-5 [&>*]:cursor-pointer">
-            <p
-              tabIndex={0}
-              onClick={onPrivacyPolicy}
-              onKeyUp={onPrivacyPolicy ? onEnterOrSpace(onPrivacyPolicy) : undefined}
-              className="hover:underline"
-            >
-              {privacyPolicyLabel}
-            </p>
-            <p
-              tabIndex={0}
-              onClick={onTermsOfUse}
-              onKeyUp={onTermsOfUse ? onEnterOrSpace(onTermsOfUse) : undefined}
-              className="hover:underline"
-            >
-              {termsOfUseLabel}
-            </p>
+            <div ref={footerRef} className="flex items-center justify-center px-xs py-sm pt-xl text-neutral-interaction-default font-bold text-xxs gap-5 [&>*]:cursor-pointer">
+              <p
+                tabIndex={0}
+                onClick={onPrivacyPolicy}
+                onKeyUp={onPrivacyPolicy ? onEnterOrSpace(onPrivacyPolicy) : undefined}
+                className="hover:underline"
+              >
+                {privacyPolicyLabel}
+              </p>
+              <p
+                tabIndex={0}
+                onClick={onTermsOfUse}
+                onKeyUp={onTermsOfUse ? onEnterOrSpace(onTermsOfUse) : undefined}
+                className="hover:underline"
+              >
+                {termsOfUseLabel}
+              </p>
+            </div>
           </div>
         </div>
       )}

@@ -19,6 +19,13 @@ const meta = {
       },
       description: 'This property will be the number of pages.',
     },
+    disabled: {
+      type: { name: 'boolean' },
+      table: {
+        defaultValue: { summary: 'false' },
+      },
+      description: 'Disables all page navigation.',
+    },
   },
 } satisfies Meta<typeof Pagination>;
 
@@ -30,6 +37,15 @@ export const Primary: Story = {
     const [page, setPage] = useState(1);
     return (
       <Pagination value={page} onChange={setPage} length={10} />
+    );
+  },
+};
+
+export const Disabled: Story = {
+  render: () => {
+    const [page, setPage] = useState(5);
+    return (
+      <Pagination value={page} onChange={setPage} length={10} disabled />
     );
   },
 };

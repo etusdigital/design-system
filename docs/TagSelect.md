@@ -55,6 +55,24 @@ Icon displayed on the tag select input. Type: `string` (default: `""`)
 #### labelKey
 Property name used for displaying option labels when using object arrays. Type: `string` (default: `"label"`)
 
+#### valueKey
+Property name used to identify object options. Type: `string` (default: `"value"`)
+
+#### getObject
+When `true` the value holds the whole selected option; when `false` it holds only the option value (`valueKey`). Tags always show the option label. Type: `boolean` (default: `false`)
+
+#### searchable
+Shows a search input that filters the options. The input receives focus when the list opens. Type: `boolean` (default: `false`)
+
+#### creatable
+Lets the user add the typed text as a new option with Enter or Tab. When `false`, Tab moves focus normally. Type: `boolean` (default: `false`)
+
+#### placeholder
+Placeholder of the search input. Type: `string` (default: `"Search"`)
+
+#### ariaLabel
+Accessible name used when there is no `labelValue`. Type: `string`
+
 #### absolute
 Controls absolute positioning of the dropdown. Type: `boolean` (default: `false`)
 

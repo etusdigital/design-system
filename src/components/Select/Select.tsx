@@ -29,6 +29,7 @@ export interface SelectProps {
   secondary?: boolean;
   icon?: string;
   expanded?: boolean;
+  ariaLabel?: string;
   onExpandedChange?: (expanded: boolean) => void;
   renderSearchLabel?: () => React.ReactNode;
   renderOption?: (option: any, isSelected: boolean) => React.ReactNode;
@@ -60,6 +61,7 @@ export function Select({
   secondary = false,
   icon,
   expanded,
+  ariaLabel,
   onExpandedChange,
   renderSearchLabel,
   renderOption,
@@ -264,7 +266,7 @@ export function Select({
       onFocus={() => setSelectedIndex(index)}
     >
       {multiple && (
-        <Checkbox value={isOptionSelected(option)} className="pointer-events-none" tabIndex={-1} />
+        <Checkbox value={isOptionSelected(option)} className="pointer-events-none" tabIndex={-1} aria-hidden="true" />
       )}
       {renderOptionContent(option, index)}
     </Option>
@@ -286,6 +288,7 @@ export function Select({
         value={isOpen}
         onChange={handleExpandedChange}
         labelValue={labelValue}
+        ariaLabel={ariaLabel}
         disabled={disabled}
         isError={isError}
         errorMessage={errorMessage}

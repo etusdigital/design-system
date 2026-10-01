@@ -17,7 +17,7 @@
 }
 
 .moreOptions {
-  @apply overflow-auto min-w-9xl max-h-9xl p-xxs;
+  @apply overflow-auto min-w-9xl max-h-9xl p-xxs outline-none;
 }
 
 .moreOptions > * {

@@ -1,0 +1,100 @@
+@reference "../../assets/main.css";
+
+.profilePicture {
+}
+
+.profilePictureTrigger {
+  @apply flex items-center cursor-pointer rounded-full;
+}
+
+.profilePictureTrigger.disabled {
+  @apply pointer-events-none;
+}
+
+.profilePictureArrow {
+  @apply text-neutral-interaction-default transition-[rotate];
+}
+
+.profilePictureTrigger.disabled .profilePictureArrow {
+  @apply text-neutral-interaction-disabled;
+}
+
+.profilePictureArrow.rotated {
+  @apply rotate-180;
+}
+
+.profilePictureCard {
+  @apply min-w-12xl p-xs;
+}
+
+.profilePictureHeader {
+  @apply flex items-center gap-xs p-xs;
+}
+
+.profilePictureInfo {
+  @apply flex flex-col min-w-0;
+}
+
+.profilePictureName {
+  @apply text-sm font-bold text-neutral-foreground-high truncate;
+}
+
+.profilePictureDescription {
+  @apply text-xs text-neutral-foreground-low truncate;
+}
+
+.profilePictureOption {
+  @apply p3 flex items-center gap-xs p-xs cursor-pointer select-none rounded-sm text-neutral-interaction-default hover:text-primary-interaction-default hover:bg-primary-surface-default;
+}
+
+.profilePictureOption :global(.icon) {
+  @apply text-lg leading-none;
+}
+
+.profilePictureOption.selected {
+  @apply text-primary-interaction-selected bg-primary-surface-default;
+}
+
+.profilePictureOption.disabled {
+  @apply pointer-events-none text-neutral-interaction-disabled;
+}
+
+.profilePictureOption.primary {
+  @apply text-primary-interaction-default;
+}
+
+.profilePictureOption.info {
+  @apply text-informative-interaction-default hover:bg-informative-surface-default;
+}
+
+.profilePictureOption.success {
+  @apply text-success-interaction-default hover:bg-success-surface-default;
+}
+
+.profilePictureOption.warning {
+  @apply text-warning-interaction-default hover:bg-warning-surface-default;
+}
+
+.profilePictureOption.danger {
+  @apply text-danger-interaction-default hover:bg-danger-surface-default;
+}
+
+.profilePictureOption.neutral {
+  @apply text-neutral-interaction-default;
+}
+
+.profilePictureChevron {
+  @apply transition-[rotate];
+}
+
+.profilePictureChevron.rotated {
+  @apply rotate-90;
+}
+
+.profilePictureItems {
+  @apply flex flex-col pl-xs;
+}
+
+.profilePictureImage {
+  @apply w-[1.25em] h-[1.25em] object-cover rounded-xxs;
+}

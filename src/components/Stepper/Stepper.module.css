@@ -4,6 +4,13 @@
 
 .stepContainer { @apply relative flex flex-col items-center cursor-pointer; }
 
+.stepContainer:focus-visible { outline: none; }
+
+.stepContainer:focus-visible .step {
+  outline: auto 1px;
+  outline: -webkit-focus-ring-color auto 1px;
+}
+
 .step {
   @apply rounded-full flex items-center justify-center relative z-[1] p-base border-xs;
 }

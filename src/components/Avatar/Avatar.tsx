@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import clsx from 'clsx';
 import styles from './Avatar.module.css';
 
@@ -19,15 +20,27 @@ function parseInitials(name?: string): string {
 }
 
 export function Avatar({ name, src, alt, size = 'medium', className }: AvatarProps = {}) {
+  const [imageFailed, setImageFailed] = useState(false);
   const initials = parseInitials(name);
+  const showImage = !!src && !imageFailed;
 
   const sizeClass = size === 'small' ? styles.small : size === 'large' ? styles.large : styles.medium;
   const initialsSize = size === 'small' ? styles.smallInitials : size === 'large' ? styles.largeInitials : styles.mediumInitials;
 
   return (
     <div className={clsx(styles.avatar, 'avatar', sizeClass, className)}>
-      {src && <img className={styles.avatarImg} src={src} alt={alt || name} />}
-      <span className={clsx(styles.avatarInitials, initialsSize, src && 'opacity-0')}>
+      {showImage && (
+        <img
+          className={styles.avatarImg}
+          src={src}
+          alt={alt || name}
+          onError={() => setImageFailed(true)}
+        />
+      )}
+      <span
+        className={clsx(styles.avatarInitials, initialsSize, showImage && 'opacity-0')}
+        aria-hidden={showImage || undefined}
+      >
         {initials}
       </span>
     </div>

@@ -94,6 +94,8 @@ export function Button({
 
   const LabelComponent = name || id ? 'label' : 'div';
 
+  const computedAriaLabel = ariaLabel || (!children && computedIcon ? computedIcon.replace(/_/g, ' ') : undefined);
+
   return (
     <button
       id={id}
@@ -121,8 +123,9 @@ export function Button({
       )}
       style={computedStyle}
       tabIndex={tabIndex}
-      aria-label={ariaLabel}
+      aria-label={computedAriaLabel}
       aria-expanded={ariaExpanded}
+      aria-busy={isLoading || undefined}
       onMouseOver={() => setIsHovering(true)}
       onMouseOut={() => setIsHovering(false)}
       onFocus={() => setIsHovering(true)}

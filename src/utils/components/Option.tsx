@@ -8,6 +8,7 @@ export interface OptionProps {
   secondary?: boolean;
   noHover?: boolean;
   tabIndex?: number;
+  'aria-selected'?: boolean;
   children?: React.ReactNode;
   className?: string;
   onClick?: () => void;
@@ -22,6 +23,7 @@ export const Option = React.forwardRef<HTMLDivElement, OptionProps>(function Opt
     secondary = false,
     noHover = false,
     tabIndex = 0,
+    'aria-selected': ariaSelected,
     children,
     className,
     onClick,
@@ -34,6 +36,8 @@ export const Option = React.forwardRef<HTMLDivElement, OptionProps>(function Opt
     <div
       ref={ref}
       role="option"
+      aria-selected={ariaSelected ?? selected}
+      aria-disabled={disabled || undefined}
       tabIndex={disabled ? -1 : tabIndex}
       className={clsx('option-container', { selected, disabled, secondary, noHover }, className)}
       onClick={disabled ? undefined : onClick}

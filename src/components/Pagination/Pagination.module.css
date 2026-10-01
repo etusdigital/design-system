@@ -11,3 +11,12 @@
 .navIcon {
     @apply text-2xl leading-xs;
 }
+.disabled {
+  @apply pointer-events-none text-neutral-interaction-disabled;
+}
+.disabled .pageButton {
+  @apply text-neutral-interaction-disabled;
+}
+.disabled .pageButton.active {
+  @apply border-neutral-disabled;
+}

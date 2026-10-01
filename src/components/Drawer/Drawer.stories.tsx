@@ -38,10 +38,10 @@ export const Primary: Story = {
     return (
       <>
         <Button onClick={() => setOpen(true)}>Show Drawer</Button>
-        <Drawer value={open} onChange={setOpen} position="right" size="40%" noOutsideClose={false}>
+        <Drawer aria-labelledby="drawer-title-1" value={open} onChange={setOpen} position="right" size="40%" noOutsideClose={false}>
           <div className="flex flex-col justify-between h-full p-xl">
             <div className="flex flex-col gap-sm">
-              <h2 className="font-bold text-lg">Drawer</h2>
+              <h2 id="drawer-title-1" className="font-bold text-lg">Drawer</h2>
               <p className="text-sm text-neutral-foreground-low">
                 Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas
                 amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a
@@ -65,10 +65,10 @@ export const NoOutsideClose: Story = {
     return (
       <>
         <Button onClick={() => setOpen(true)}>Show Drawer</Button>
-        <Drawer value={open} onChange={setOpen} position="right" size="40%" noOutsideClose={true}>
+        <Drawer aria-labelledby="drawer-title-2" value={open} onChange={setOpen} position="right" size="40%" noOutsideClose={true}>
           <div className="flex flex-col justify-between h-full p-xl">
             <div className="flex flex-col gap-sm">
-              <h2 className="font-bold text-lg">Drawer</h2>
+              <h2 id="drawer-title-2" className="font-bold text-lg">Drawer</h2>
               <p className="text-sm text-neutral-foreground-low">
                 Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas
                 amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a
@@ -108,10 +108,10 @@ export const Positions: Story = {
             </Button>
           ))}
         </div>
-        <Drawer value={open} onChange={setOpen} position={position} size="40%">
+        <Drawer aria-labelledby="drawer-title-3" value={open} onChange={setOpen} position={position} size="40%">
           <div className="flex flex-col justify-between h-full p-xl">
             <div className="flex flex-col gap-sm">
-              <h2 className="font-bold text-lg">Drawer</h2>
+              <h2 id="drawer-title-3" className="font-bold text-lg">Drawer</h2>
               <p className="text-sm text-neutral-foreground-low">
                 Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas
                 amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a

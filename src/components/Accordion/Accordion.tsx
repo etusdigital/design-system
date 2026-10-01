@@ -110,6 +110,8 @@ export function Accordion({
             className={clsx(styles.chevron, isExpanded && styles.expanded)}
             name="expand_more"
             tabIndex={disabled ? -1 : 0}
+            aria-label="Expand"
+            aria-expanded={isExpanded}
             onKeyDown={preventSpaceScroll}
             onKeyUp={onEnterOrSpace(handleToggle)}
           />

@@ -86,6 +86,7 @@ export function Badge({
                 name={appendedIcon}
                 className="close-icon"
                 tabIndex={closeable ? 0 : -1}
+                aria-label={closeable ? "Remove" : undefined}
                 onClick={close}
                 onKeyUp={onEnterOrSpace(close)}
               />

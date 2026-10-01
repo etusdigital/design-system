@@ -117,6 +117,7 @@ export function FloatCard({
   }
 
   useEffect(() => {
+    pressedKeyRef.current = null;
     shouldAutoFocusRef.current = !!isOpen;
     if (isOpen) {
       if (contentRef.current?.contains(document.activeElement))
@@ -126,18 +127,19 @@ export function FloatCard({
 
     const previousFocus = previousFocusRef.current;
     previousFocusRef.current = null;
-    const activeElement = document.activeElement;
-    if (
-      previousFocus &&
-      (activeElement === document.body || cardRef.current?.contains(activeElement))
-    ) {
+    if (!previousFocus) return;
+
+    requestAnimationFrame(() => {
+      const activeElement = document.activeElement;
+      if (activeElement !== document.body && !cardRef.current?.contains(activeElement)) return;
+
       previousFocus.focus({ preventScroll: true });
       if (document.activeElement !== previousFocus) {
         contentRef.current
           ?.querySelector<HTMLElement>('[tabindex="0"], button:not([disabled]), input:not([disabled]), a[href]')
           ?.focus({ preventScroll: true });
       }
-    }
+    });
   }, [isOpen]);
 
   useEffect(() => {

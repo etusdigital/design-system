@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks/useControllable';
-import { isObject } from '../../utils';
+import { isObject, focusByArrowKey, getFocusableItems } from '../../utils';
 import { Toggle } from '../Toggle/Toggle';
 import styles from './ToggleGroup.module.css';
 
@@ -71,9 +71,15 @@ export function ToggleGroup({
     select,
   };
 
+  function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+    const items = getFocusableItems(e.currentTarget, '[role="button"]');
+    focusByArrowKey(e, items, vertical ? 'vertical' : 'horizontal');
+  }
+
   return (
     <ToggleGroupContext.Provider value={contextValue}>
       <div
+        role="group"
         className={clsx(
           styles.toggleGroup,
           'toggle-group',
@@ -83,6 +89,7 @@ export function ToggleGroup({
           type === 'secondary' && vertical && styles.secondaryVertical,
           className
         )}
+        onKeyDown={handleKeyDown}
       >
         {options
           ? options.map((opt: any) => (

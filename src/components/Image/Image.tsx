@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import { Button } from '../Button/Button';
 import { Icon } from '../Icon/Icon';
-import { onEnterOrSpace } from '../../utils/index';
+import { onEnterOrSpace, trapFocus } from '../../utils/index';
 import { useTransition } from '../../hooks/useTransition';
 import styles from './Image.module.css';
 
@@ -14,6 +14,7 @@ export interface ImageProps {
   height?: string | number;
   icon?: string;
   preview?: boolean;
+  zIndex?: number;
   className?: string;
   onShow?: () => void;
   onHide?: () => void;
@@ -26,6 +27,7 @@ export function Image({
   height,
   icon = 'visibility',
   preview = false,
+  zIndex = 1002,
   className,
   onShow,
   onHide,
@@ -146,6 +148,8 @@ export function Image({
     <span
       ref={triggerRef}
       tabIndex={preview ? 0 : -1}
+      role={preview ? 'button' : undefined}
+      aria-label={preview ? (alt ? `Open preview: ${alt}` : 'Open image preview') : undefined}
       className={clsx(styles.image, 'image', className)}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
@@ -169,6 +173,7 @@ export function Image({
           <div
             ref={backdropRef}
             className={clsx(styles.backdrop, isActive && styles.backdropActive)}
+            style={{ zIndex }}
             onClick={handleBackdropClick}
           >
             <div
@@ -177,6 +182,7 @@ export function Image({
                 styles.imagePreviewContainer,
                 isActive && styles.previewImageActive
               )}
+              style={{ zIndex }}
               tabIndex={-1}
               onKeyDown={handlePreviewEscape}
             >
@@ -196,9 +202,14 @@ export function Image({
               )}
               ref={toolbarRef}
               role="dialog"
-              aria-modal
+              aria-modal="true"
+              aria-label={alt ? `Preview: ${alt}` : 'Image preview'}
+              style={{ zIndex }}
               tabIndex={-1}
-              onKeyDown={handlePreviewEscape}
+              onKeyDown={(e) => {
+                handlePreviewEscape(e);
+                trapFocus(e, toolbarRef.current);
+              }}
             >
               {tools.map((tool) => (
                 <Button

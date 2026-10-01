@@ -124,6 +124,9 @@ function ToastContainers({ toasts, onClose }: ToastContainersProps) {
             container.vertical,
             container.horizontal
           )}
+          role="status"
+          aria-live="polite"
+          aria-atomic="false"
         >
           {toasts
             .filter(

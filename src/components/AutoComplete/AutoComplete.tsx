@@ -12,6 +12,7 @@ export interface AutoCompleteProps {
   options: string[] | number[];
   disabled?: boolean;
   labelValue?: string;
+  ariaLabel?: string;
   isError?: boolean;
   errorMessage?: string;
   infoMessage?: string;
@@ -26,6 +27,7 @@ export function AutoComplete({
   options,
   disabled = false,
   labelValue = "",
+  ariaLabel,
   isError = false,
   errorMessage = "",
   infoMessage = "",
@@ -145,6 +147,7 @@ export function AutoComplete({
         value={expanded}
         onChange={handleExpanded}
         labelValue={labelValue}
+        ariaLabel={ariaLabel}
         absolute={true}
         disabled={disabled}
         isError={isError}

@@ -20,6 +20,7 @@ export interface FilterProps {
   searchable?: boolean;
   searchLabel?: string;
   labelValue?: string;
+  ariaLabel?: string;
   clearLabel?: string;
   applyLabel?: string;
   statusLabel?: string;
@@ -42,6 +43,7 @@ export function Filter({
   searchable = false,
   searchLabel = "Search...",
   labelValue = "",
+  ariaLabel,
   clearLabel = "Clear selection",
   applyLabel = "Apply filters",
   statusLabel = "Status",
@@ -259,7 +261,8 @@ export function Filter({
             <div
               className={styles.categoryHeader}
               onClick={() => toggleCategory(key)}
-              role="button"
+              role="option"
+              aria-selected={categorySelectedCount > 0}
               tabIndex={0}
               data-filter-item
               onKeyDown={(e) => onItemKeyDown(e, category)}
@@ -308,6 +311,7 @@ export function Filter({
                       className="pointer-events-none"
                       disabled={!!subOption?.disabled}
                       tabIndex={-1}
+                      aria-hidden="true"
                     />
                     <span className={styles.subOptionLabel}>
                       {getLabel(subOption)}
@@ -360,6 +364,8 @@ export function Filter({
       value={expanded}
       onChange={(val) => setExpanded(val)}
       labelValue={labelValue}
+      ariaLabel={ariaLabel}
+      ariaMultiselectable
       disabled={disabled}
       isError={isError}
       errorMessage={errorMessage}

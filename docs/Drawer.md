@@ -51,6 +51,18 @@ Prevents the drawer from closing when clicking on the overlay. Type: `boolean` (
 #### position
 Sets the position from which the drawer will slide. Type: `"right" | "left" | "top" | "bottom"` (default: `"right"`)
 
+#### zIndex
+Sets the z-index of the drawer and its overlay (backdrop). Defaults to the same value as `Dialog` and `Image`, so whichever one is opened from inside another always stacks on top without changing it manually. Type: `number` (default: `1002`)
+
+#### Accessible name
+The panel is rendered with `role="dialog"` and `aria-modal="true"`, keeps keyboard focus inside while open and returns focus to the element that opened it when it closes. Pass `aria-labelledby` (usually pointing at its title) or `aria-label` to give it a name.
+
+```tsx
+<Drawer value={open} onChange={setOpen} aria-labelledby="drawer-title">
+  <h2 id="drawer-title">Edit price rule</h2>
+</Drawer>
+```
+
 ---
 
 ### Events API

@@ -406,6 +406,7 @@ export const Selection: Story = {
         enableSelection
         renderSelect={(item, _index) => (
           <Checkbox
+            aria-label="Select row"
             value={item.selected}
             onChange={(v) => {
               setData((prev) =>

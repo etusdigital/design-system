@@ -84,7 +84,7 @@ export function MetricCard({
             infoMessage && (
               !noTooltip ? (
                 <Tooltip labelValue={infoMessage}>
-                  <Icon name="info" tabIndex={0} className={clsx(styles.infoIcon, styles[size], styles.infoLabel, styles[`info-${infoType}`])} />
+                  <Icon name="info" tabIndex={0} aria-label="More information" className={clsx(styles.infoIcon, styles[size], styles.infoLabel, styles[`info-${infoType}`])} />
                 </Tooltip>
               ) : (
                 <p className={clsx(styles.infoText, styles.infoLabel, styles[`info-${infoType}`])}>{infoMessage}</p>

@@ -281,8 +281,29 @@
   @apply border-l-xxs h-[22px] w-[.5px] right-[26px];
 }
 
+.option.top .circle,
+.option.bottom .circle {
+  @apply z-[1];
+}
+.option.top .customBorder,
+.option.bottom .customBorder {
+  @apply left-0 right-0 h-0 border-t-[1.5px];
+}
+.option.top .customBorder.haveIcon,
+.option.bottom .customBorder.haveIcon {
+  @apply mt-[1px];
+}
+.option.top.firstOption .customBorder,
+.option.bottom.firstOption .customBorder {
+  @apply left-[31px];
+}
+.option.top.lastOption .customBorder,
+.option.bottom.lastOption .customBorder {
+  @apply right-auto w-[21px];
+}
+
 .option.top {
-  @apply pt-[20px] pb-[16px];
+  @apply p-[16px] pt-[20px];
 }
 .option.top .circle {
   @apply top-[16px] left-[16px];
@@ -293,18 +314,11 @@
 .option.top .circleIcon {
   @apply top-[9.5px] left-[16px];
 }
-.option.top .dataList {
-  @apply border-t-[1.5px] pt-[20px] px-[16px] ml-0;
-}
 .option.top .customBorder {
-  @apply h-[.5px] w-full;
+  @apply top-[20.25px];
 }
-
-.option.top.firstOption .customBorder {
-  @apply border-t-xxs ml-[26px];
-}
-.option.top.firstOption .haveIcon {
-  @apply mt-[1px];
+.option.top .dataList {
+  @apply pt-[20px] px-[16px] ml-0;
 }
 .option.top.firstOption .circle {
   @apply left-[26px];
@@ -314,15 +328,8 @@
   @apply left-[17px];
 }
 
-.option.top.lastOption .customBorder {
-  @apply border-t-xxs w-[22px] left-[-5px] 2xl:mt-[-0.1%];
-}
-.option.top.lastOption .haveIcon {
-  @apply mt-[1px];
-}
-
 .option.bottom {
-  @apply pb-[20.5px] pt-[16px];
+  @apply p-[20.5px] pt-[16px];
 }
 .option.bottom .circle {
   @apply bottom-[16px] left-[16px];
@@ -333,15 +340,11 @@
 .option.bottom .circleIcon {
   @apply bottom-[10px] left-[16px];
 }
-.option.bottom .dataList {
-  @apply border-b-[1.5px] p-[20px] px-[16px];
-}
 .option.bottom .customBorder {
-  @apply h-[.5px] w-full;
+  @apply bottom-[20.25px];
 }
-
-.option.bottom.firstOption .customBorder {
-  @apply border-b-xxs ml-[26px] bottom-[20.5px];
+.option.bottom .dataList {
+  @apply p-[20px] px-[16px];
 }
 .option.bottom.firstOption .circle {
   @apply left-[26px];
@@ -349,8 +352,4 @@
 .option.bottom.firstOption .roundIcon,
 .option.bottom.firstOption .circleIcon {
   @apply left-[17px];
-}
-
-.option.bottom.lastOption .customBorder {
-  @apply border-b-xxs w-[22px] left-[-5px] bottom-[20.5px];
 }

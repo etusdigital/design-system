@@ -323,6 +323,7 @@ export function DatePicker({
       infoMessage={infoMessage}
       required={required}
       hideArrow
+      popupRole="dialog"
       card={cardContent}
       className={clsx("date-picker", className)}
       labelValue={labelValue}

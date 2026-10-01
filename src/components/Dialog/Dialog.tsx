@@ -1,8 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import clsx from 'clsx';
 import { Overlay } from '../../utils/components/Overlay';
 import { useControllable } from '../../hooks/useControllable';
 import { useTransition } from '../../hooks/useTransition';
+import { useModalFocus } from '../../hooks/useModalFocus';
+import { trapFocus } from '../../utils';
 import './Dialog.css';
 
 export interface DialogProps {
@@ -13,7 +15,9 @@ export interface DialogProps {
   noOutsideClose?: boolean;
   children?: React.ReactNode;
   className?: string;
-  zIndex?: number
+  zIndex?: number;
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
 }
 
 export function Dialog({
@@ -24,15 +28,15 @@ export function Dialog({
   noOutsideClose = false,
   children,
   className,
-  zIndex = 1002
+  zIndex = 1002,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledby,
 }: DialogProps) {
   const [isOpen, setOpen] = useControllable<boolean>({ value, defaultValue: false, onChange });
   const { isMounted, isActive } = useTransition(isOpen ?? false, { duration: 500 });
   const dialogRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (isOpen && isMounted) dialogRef.current?.focus({ preventScroll: true });
-  }, [isOpen, isMounted]);
+  useModalFocus(dialogRef, isOpen ?? false);
 
   function handleOverlayClick() {
     if (noOutsideClose) {
@@ -61,7 +65,14 @@ export function Dialog({
           className={clsx('dialog', isActive && 'active', className)}
           style={{ width, height, zIndex: zIndex }}
           tabIndex={-1}
-          onKeyDown={handleEscape}
+          role="dialog"
+          aria-modal="true"
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledby}
+          onKeyDown={(e) => {
+            handleEscape(e);
+            trapFocus(e, dialogRef.current);
+          }}
         >
           {children}
         </div>

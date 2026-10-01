@@ -3,3 +3,4 @@ export type { UseControllableOptions } from './useControllable';
 export { useTransition } from './useTransition';
 export type { UseTransitionOptions } from './useTransition';
 export { useClickOutside } from './useClickOutside';
+export { useModalFocus } from './useModalFocus';

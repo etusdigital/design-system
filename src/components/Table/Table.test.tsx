@@ -56,4 +56,11 @@ describe('Table', () => {
     );
     expect(screen.getByText('No rows to display')).toBeInTheDocument();
   });
+
+  it('disables the footer pagination and items-per-page select while loading', () => {
+    const { container } = render(<Table columns={columns} items={items} loading />);
+    const pagination = container.querySelector('.pagination');
+    expect(pagination).toHaveAttribute('aria-disabled', 'true');
+    expect(screen.getByRole('combobox', { name: 'Items per page' })).toHaveAttribute('aria-disabled', 'true');
+  });
 });

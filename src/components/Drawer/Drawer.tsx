@@ -1,8 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import clsx from 'clsx';
 import { Overlay } from '../../utils/components/Overlay';
 import { useControllable } from '../../hooks/useControllable';
 import { useTransition } from '../../hooks/useTransition';
+import { useModalFocus } from '../../hooks/useModalFocus';
+import { trapFocus } from '../../utils';
 import './Drawer.css';
 
 export interface DrawerProps {
@@ -11,8 +13,11 @@ export interface DrawerProps {
   position?: 'right' | 'left' | 'top' | 'bottom';
   size?: string;
   noOutsideClose?: boolean;
+  zIndex?: number;
   children?: React.ReactNode;
   className?: string;
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
 }
 
 export function Drawer({
@@ -21,16 +26,17 @@ export function Drawer({
   position = 'right',
   size = 'fit-content',
   noOutsideClose = false,
+  zIndex = 1002,
   children,
   className,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledby,
 }: DrawerProps) {
   const [isOpen, setOpen] = useControllable<boolean>({ value, defaultValue: false, onChange });
   const { isMounted, isActive } = useTransition(isOpen ?? false, { duration: 500 });
   const drawerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (isOpen && isMounted) drawerRef.current?.focus({ preventScroll: true });
-  }, [isOpen, isMounted]);
+  useModalFocus(drawerRef, isOpen ?? false);
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const effectivePosition = isMobile ? 'bottom' : position;
@@ -68,14 +74,21 @@ export function Drawer({
   }
 
   return (
-    <Overlay value={isOpen} onClick={handleOverlayClick}>
+    <Overlay value={isOpen} zIndex={zIndex} onClick={handleOverlayClick}>
       {isMounted && (
         <div
           ref={drawerRef}
           className={clsx('drawer', effectivePosition, isActive && 'active', className)}
-          style={getStyle()}
+          style={{ ...getStyle(), zIndex }}
           tabIndex={-1}
-          onKeyDown={handleEscape}
+          role="dialog"
+          aria-modal="true"
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledby}
+          onKeyDown={(e) => {
+            handleEscape(e);
+            trapFocus(e, drawerRef.current);
+          }}
         >
           {children}
         </div>

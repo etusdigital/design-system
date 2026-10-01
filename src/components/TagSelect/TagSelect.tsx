@@ -6,7 +6,9 @@ import { SelectContainer } from "../../utils/components/SelectContainer";
 import { Option } from "../../utils/components/Option";
 import { StatusBadge } from "../StatusBadge/StatusBadge";
 import { Icon } from "../Icon/Icon";
+import { Checkbox } from "../Checkbox/Checkbox";
 import styles from "./TagSelect.module.css";
+import { Button } from "../Button";
 
 export interface TagSelectProps {
   value?: any[];
@@ -17,6 +19,7 @@ export interface TagSelectProps {
   getObject?: boolean;
   disabled?: boolean;
   labelValue?: string;
+  ariaLabel?: string;
   searchable?: boolean;
   creatable?: boolean;
   isError?: boolean;
@@ -42,6 +45,7 @@ export function TagSelect({
   getObject: getObjectProp = false,
   disabled = false,
   labelValue = "",
+  ariaLabel,
   searchable = false,
   creatable = false,
   isError = false,
@@ -101,26 +105,24 @@ export function TagSelect({
   }
 
   function getValue(option: any): any {
-    return isObject(option) ? option[valueKey] : option;
+    return isObject(option) ? option[valueKey] ?? option[labelKey] : option;
+  }
+
+  function getTagLabel(tag: any): string {
+    if (isObject(tag)) return getLabel(tag);
+    const option = allOptions?.find((o: any) => getValue(o) === tag);
+    return option ? getLabel(option) : String(tag ?? "");
   }
 
   function isIncluded(arr: any[], option: any): boolean {
-    const optionValue = isObject(option) ? option[valueKey] : option;
-    return arr.some((i) => {
-      const iValue = isObject(i) ? i[valueKey] : i;
-      return iValue === optionValue;
-    });
+    return arr.some((i) => getValue(i) === getValue(option));
   }
 
   function toggleOption(option: any) {
     if (disabled) return;
     const emitValue = getObjectProp ? option : getValue(option);
     const arr = [...selectedValues];
-    const idx = arr.findIndex((m) =>
-      isObject(option)
-        ? getLabel(m) === getLabel(option)
-        : getValue(m) === getValue(option),
-    );
+    const idx = arr.findIndex((m) => getValue(m) === getValue(option));
     if (idx !== -1) {
       arr.splice(idx, 1);
     } else {
@@ -191,7 +193,7 @@ export function TagSelect({
             closeable
             onClose={() => removeTag(index)}
           >
-            {isObject(option) ? option[labelKey] : option}
+            {getTagLabel(option)}
           </StatusBadge>
         ))}
       </div>
@@ -207,7 +209,13 @@ export function TagSelect({
           onChange={(e) => setSearchText(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter" && creatable) addCreatableOption();
+            if (e.key === "Tab" && creatable && searchText) {
+              e.preventDefault();
+              e.stopPropagation();
+              addCreatableOption();
+            }
           }}
+          aria-label={labelValue || ariaLabel || placeholder}
           placeholder={placeholder ?? "Search"}
           disabled={disabled}
           className={clsx(
@@ -272,9 +280,9 @@ export function TagSelect({
   const optionsNode = (
     <div className={styles.optionContainer}>
       {filteredOptions.length === 0 && searchText ? (
-        <div className={styles.containerText}>No result found</div>
+        <div className={styles.containerText} role="option" aria-disabled="true">No result found</div>
       ) : allOptions.length === 0 ? (
-        <div className={styles.containerText}>No tags created yet</div>
+        <div className={styles.containerText} role="option" aria-disabled="true">No tags created yet</div>
       ) : (
         filteredOptions.map((option, index) => (
           <Option
@@ -282,7 +290,8 @@ export function TagSelect({
             ref={(el) => {
               optionRefs.current[index] = el;
             }}
-            selected={isIncluded(selectedValues, option)}
+            aria-selected={isIncluded(selectedValues, option)}
+            noHover
             onClick={() => toggleOption(option)}
             onFocus={() => setSelectedIndex(index)}
             onKeyDown={onOptionKeyDown}
@@ -291,6 +300,12 @@ export function TagSelect({
               "p-xs",
             )}
           >
+            <Checkbox
+              value={isIncluded(selectedValues, option)}
+              className="pointer-events-none"
+              tabIndex={-1}
+              aria-hidden="true"
+            />
             {getLabel(option)}
           </Option>
         ))
@@ -300,13 +315,9 @@ export function TagSelect({
 
   const actionsNode = showAddButton ? (
     <div className="flex justify-center w-full">
-      <button
-        type="button"
-        className="text-xs text-primary-interaction-default hover:underline px-xs py-xxs"
-        onClick={addCreatableOption}
-      >
-        Add &quot;{searchText}&quot;
-      </button>
+      <Button size="small" round={true} alwaysOpen={true} onClick={addCreatableOption}>
+        Add
+      </Button>
     </div>
   ) : undefined;
 
@@ -319,6 +330,8 @@ export function TagSelect({
       value={expanded}
       onChange={(val) => setIsOpen(val)}
       labelValue={buttonLabel ?? labelValue}
+      ariaLabel={ariaLabel}
+      ariaMultiselectable
       disabled={disabled}
       isError={isError}
       errorMessage={errorMessage}

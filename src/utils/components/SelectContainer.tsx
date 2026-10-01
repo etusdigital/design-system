@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useId } from 'react';
 import clsx from 'clsx';
 import { useControllable } from '../../hooks';
 import { ExpandableContainer } from './ExpandableContainer';
@@ -9,7 +9,9 @@ export interface SelectContainerProps {
   value?: boolean;
   onChange?: (value: boolean, extra: ContainerModelExtra) => void;
   labelValue?: string;
-  role?: string;
+  popupRole?: 'listbox' | 'menu' | 'dialog';
+  ariaMultiselectable?: boolean;
+  ariaLabel?: string;
   absolute?: boolean;
   disabled?: boolean;
   isError?: boolean;
@@ -39,6 +41,9 @@ export function SelectContainer({
   onChange,
   labelValue = '',
   absolute = false,
+  popupRole = 'listbox',
+  ariaMultiselectable,
+  ariaLabel,
   disabled = false,
   isError = false,
   errorMessage = '',
@@ -70,6 +75,7 @@ export function SelectContainer({
   const isExpandedRef = useRef(isExpanded);
   isExpandedRef.current = isExpanded;
 
+  const popupId = useId();
   const fatherRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -129,6 +135,9 @@ export function SelectContainer({
         minWidth={minWidth}
         secondary={secondary}
         hideArrow={hideArrow}
+        popupRole={popupRole}
+        popupId={popupRole === 'listbox' ? popupId : undefined}
+        ariaLabel={ariaLabel}
         label={label}
         complement={complement}
         leadingComplement={leadingComplement}
@@ -140,6 +149,7 @@ export function SelectContainer({
             className="content-wrapper"
           >
             <div
+              id={content ? popupId : undefined}
               className={clsx('sc-content', 'transition-translate', {
                 secondary,
                 expanded: isExpanded,
@@ -148,7 +158,10 @@ export function SelectContainer({
             >
               {content || (
                 <ul
-                  role="list"
+                  id={popupId}
+                  role={popupRole === 'listbox' ? 'listbox' : 'none'}
+                  aria-label={popupRole === 'listbox' ? labelValue || ariaLabel : undefined}
+                  aria-multiselectable={popupRole === 'listbox' ? ariaMultiselectable : undefined}
                   className={clsx('options-list', {
                     'p-xxs [&>*]:p-xs': !dontHaveMaxHeight,
                   })}

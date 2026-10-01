@@ -31,11 +31,11 @@ describe('SelectContainer', () => {
     expect(wrapper?.style.display).not.toBe('none');
   });
 
-  it('renders options in a ul with role list', () => {
+  it('renders options in a ul with role listbox', () => {
     render(
-      <SelectContainer value={true} options={<li>Item A</li>} />
+      <SelectContainer value={true} labelValue="Fruits" options={<li role="option" aria-selected="false">Item A</li>} />
     );
-    const list = screen.getByRole('list');
+    const list = screen.getByRole('listbox', { name: 'Fruits' });
     expect(list).toBeTruthy();
   });
 
