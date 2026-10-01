@@ -99,6 +99,17 @@ Minimum width for tooltip displaying info messages. Type: `string` (default: `"n
 #### no-border
 Removes border from editor. Type: `boolean` (default: `false`)
 
+#### Link dialog text
+The insert-link dialog texts can be translated with these props. Its buttons use the `#cancel-label` and `#insert-link-label` slots.
+
+| Prop | Default |
+|---|---|
+| `link-dialog-label` (accessible name of the dialog) | `"Insert link"` |
+| `link-url-label` | `"URL"` |
+| `link-url-placeholder` | `"URL (e.g. https://example.com)"` |
+| `link-text-label` | `"Text"` |
+| `link-text-placeholder` | `"Text to display"` |
+
 #### min-height
 Minimum height of editor content area. Type: `string` (default: `"200px"`)
 
@@ -170,7 +181,10 @@ Custom label for the Remove Formatting button tooltip.
 Custom label for the "Add" button in color picker.
 
 #### #cancel-label
-Custom label for the "Cancel" button in color picker.
+Custom label for the "Cancel" button in the color picker and in the insert-link dialog.
+
+#### #insert-link-label
+Custom label for the "Insert Link" button in the insert-link dialog.
 
 ---
 
