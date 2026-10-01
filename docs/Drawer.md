@@ -56,6 +56,9 @@ Prevents the drawer from closing when clicking on the overlay. Type: `boolean` (
 #### position
 Sets the position from which the drawer will slide. Type: `"right" | "left" | "top" | "bottom"` (default: `"right"`)
 
+#### z-index
+Sets the z-index of the drawer and its overlay (backdrop). Defaults to the same value as `Dialog` and `Image`, so whichever one is opened from inside another always stacks on top without changing it manually. Type: `number` (default: `1002`)
+
 ---
 
 ### Events API

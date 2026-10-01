@@ -32,6 +32,9 @@ Controls the current active page number. Type: `number` (default: `1`)
 #### length
 Total number of pages available for navigation. Type: `number` (default: `1`)
 
+#### disabled
+Disables all page navigation (click and keyboard) and removes the controls from the tab order. Type: `boolean` (default: `false`)
+
 ---
 
 ### Events API
