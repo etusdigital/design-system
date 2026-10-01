@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // @TODO: Fix border width for container with sub items
-import { ref, onMounted, onUpdated, onBeforeUnmount, computed } from "vue";
+import { ref, onMounted, onUpdated, onBeforeUnmount, computed, useId } from "vue";
 import type { ContainerModelExtra } from "../types/ContainerModelExtra";
 import { useOptionalModel } from "#composables";
 import Label from "./Label.vue";
@@ -9,7 +9,9 @@ const props = withDefaults(
   defineProps<{
     modelValue?: boolean;
     labelValue?: string;
-    role?: string;
+    popupRole?: "listbox" | "menu" | "dialog";
+    popupId?: string;
+    ariaLabel?: string;
     disabled?: boolean;
     isError?: boolean;
     errorMessage?: string;
@@ -26,7 +28,9 @@ const props = withDefaults(
   {
     modelValue: undefined,
     labelValue: "",
-    role: "listbox",
+    popupRole: "listbox",
+    popupId: undefined,
+    ariaLabel: undefined,
     disabled: false,
     isError: false,
     errorMessage: "",
@@ -54,6 +58,7 @@ const [model, setModel] = useOptionalModel<boolean>(
   emit,
   false
 );
+const id = useId();
 const container = ref<HTMLDivElement>();
 const labelContent = ref<HTMLDivElement>();
 
@@ -109,6 +114,7 @@ function onKeyUp(e: KeyboardEvent) {
     <div class="container">
       <div v-if="labelValue" class="flex justify-between items-center">
         <Label
+          :id="`${id}-label`"
           :label-value="labelValue"
           :info-message="infoMessage"
           :required="required"
@@ -116,9 +122,16 @@ function onKeyUp(e: KeyboardEvent) {
       </div>
       <div
         ref="container"
-        :role="role"
+        :role="popupRole === 'listbox' ? 'combobox' : 'button'"
+        :aria-haspopup="popupRole"
+        :aria-expanded="isExpanded"
+        :aria-controls="isExpanded ? popupId : undefined"
+        :aria-label="labelValue ? undefined : ariaLabel"
+        :aria-labelledby="labelValue ? `${id}-label` : undefined"
+        :aria-describedby="isError ? `${id}-error` : undefined"
+        :aria-invalid="popupRole === 'listbox' ? isError : undefined"
+        :aria-required="popupRole === 'listbox' ? required : undefined"
         :aria-disabled="disabled"
-        :aria-required="required"
         class="label-container"
         :class="{ 'pointer-events-none': disabled }"
         :tabindex="disabled ? -1 : 0"
@@ -158,7 +171,7 @@ function onKeyUp(e: KeyboardEvent) {
           </div>
         </slot>
       </div>
-      <small v-if="isError" class="text-danger-foreground-low text-start p3">{{
+      <small v-if="isError" :id="`${id}-error`" class="text-danger-foreground-low text-start p3">{{
         errorMessage
       }}</small>
     </div>

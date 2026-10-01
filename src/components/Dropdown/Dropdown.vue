@@ -152,6 +152,7 @@ async function onKeyDown(e: KeyboardEvent) {
 <template>
   <ExpandableContainer
     class="dropdown"
+    popup-role="menu"
     v-model="isExpanded"
     :label-value="labelValue"
     :disabled="disabled"

@@ -138,6 +138,7 @@ function onMoreOptionsKeyDown(event: KeyboardEvent) {
           <Icon
             name="more_horiz"
             tabindex="0"
+            aria-label="Show more"
             class="breadcrumb-item cursor-pointer leading-xxs"
             @keydown="onMoreKeyDown($event, index)"
           />

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, useId } from "vue";
 import { useOptionalModel } from "#composables";
 
 type CheckState = boolean | null;
@@ -13,6 +13,7 @@ const props = withDefaults(
     allowIndeterminate?: boolean;
     disabled?: boolean;
     tabindex?: number | string;
+    ariaLabel?: string;
   }>(),
   {
     modelValue: undefined,
@@ -20,6 +21,7 @@ const props = withDefaults(
     allowIndeterminate: false,
     disabled: false,
     tabindex: 0,
+    ariaLabel: undefined,
   }
 );
 
@@ -28,6 +30,7 @@ const emit = defineEmits<{
 }>();
 
 const [model] = useOptionalModel<CheckState>(props, "modelValue", emit, false);
+const labelId = useId();
 
 const isActive = computed((): boolean => {
   if (props.allowIndeterminate) return model.value !== false;
@@ -52,15 +55,17 @@ function toggle() {
   <div
     :id="id"
     :name="name || id"
-    role="checkbox"
-    :aria-checked="ariaChecked"
-    :aria-disabled="disabled"
     class="checkbox"
     :class="{ 'flex-row-reverse': rhs, disabled }"
     @click="toggle"
     @keyup.enter.space="toggle"
   >
     <div
+      role="checkbox"
+      :aria-checked="ariaChecked"
+      :aria-disabled="disabled"
+      :aria-label="ariaLabel"
+      :aria-labelledby="$slots.default && !ariaLabel ? labelId : undefined"
       :tabindex="disabled ? -1 : tabindex"
       class="content"
       :class="{ active: isActive }"
@@ -100,14 +105,7 @@ function toggle() {
       </svg>
     </div>
     <template v-if="$slots.default">
-      <label
-        v-if="name || id"
-        :for="name || id"
-        class="checkbox-label cursor-[inherit]"
-      >
-        <slot />
-      </label>
-      <div v-else class="checkbox-label">
+      <div :id="labelId" class="checkbox-label cursor-[inherit]">
         <slot />
       </div>
     </template>

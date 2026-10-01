@@ -229,7 +229,7 @@ function selectAll(value: boolean | null) {
               :class="{ 'first-th': !enableAggregation }"
               :style="{ width: '2%' }"
             >
-              <Checkbox v-model="allSelected" @update:model-value="selectAll" />
+              <Checkbox v-model="allSelected" aria-label="Select all rows" @update:model-value="selectAll" />
             </th>
             <th
               v-for="(header, index) in columns"
@@ -366,6 +366,7 @@ function selectAll(value: boolean | null) {
         </p>
         <Select
           v-model="itemsPerPageHolder"
+          aria-label="Items per page"
           :options="listPerPage"
           :disabled="loading"
           @update:model-value="changeItemsPerPage"

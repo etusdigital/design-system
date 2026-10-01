@@ -30,6 +30,7 @@ const props = withDefaults(
     errorMessage?: string;
     infoMessage?: string;
     clearable?: boolean;
+    ariaLabel?: string;
   }>(),
   {
     modelValue: undefined,
@@ -47,6 +48,7 @@ const props = withDefaults(
     errorMessage: "",
     infoMessage: "",
     clearable: false,
+    ariaLabel: undefined,
   }
 );
 
@@ -224,6 +226,7 @@ function clearModel() {
 <template>
   <div class="select">
     <SelectContainer
+      :aria-label="ariaLabel"
       v-model="expandedModel"
       :label-value="labelValue"
       class="select-content"
@@ -299,6 +302,7 @@ function clearModel() {
           :model-value="isSelected(option)"
           class="pointer-events-none"
           :tabindex="-1"
+          aria-hidden="true"
         />
         <slot name="option" :option="option" :index="index">
           {{ getLabel(option) }}

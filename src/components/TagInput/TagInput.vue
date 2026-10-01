@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch, useId } from "vue";
 import {
   isNilAndBlank,
   applyMask,
@@ -53,6 +53,7 @@ onMounted(() => {
 });
 
 let tags: any = ref([]);
+const id = useId();
 const isFocused = ref(false);
 const newTag = ref("");
 const hasError = ref(false);
@@ -75,7 +76,7 @@ watch(
 function focusInput() {
   if (props.disabled) return;
 
-  const input = tagInput.value?.querySelector("#input-default") as HTMLTextAreaElement;
+  const input = tagInput.value?.querySelector("textarea") as HTMLTextAreaElement;
   if (input) input.focus();
 }
 
@@ -213,7 +214,12 @@ function applyMasks(e: any) {
       class="flex justify-between items-center"
       v-if="labelValue"
     >
-      <Label :label-value="labelValue" :info-message="infoMessage" :required="required" />
+      <Label
+        :for="`${id}-input`"
+        :label-value="labelValue"
+        :info-message="infoMessage"
+        :required="required"
+      />
       <span
         v-if="max !== undefined && max > 0"
         class="text-neutral-foreground-low font-bold text-xs"
@@ -262,8 +268,11 @@ function applyMasks(e: any) {
       <textarea
         rows="1"
         v-model="newTag"
-        id="input-default"
+        :id="`${id}-input`"
         class="input-default"
+        :aria-invalid="isError || hasError"
+        :aria-required="required"
+        :aria-describedby="isError || hasError ? `${id}-error` : undefined"
         :disabled="disabled"
         :placeholder="placeholder"
         @input="applyMasks"
@@ -290,7 +299,7 @@ function applyMasks(e: any) {
     <label v-if="$slots['hint-message']" class="p3 text-neutral-foreground-low">
       <slot name="hint-message" />
     </label>
-    <label v-if="props.isError || hasError" class="error-default">{{
+    <label v-if="props.isError || hasError" :id="`${id}-error`" class="error-default">{{
       props.errorMessage || errMessage
     }}</label>
   </div>

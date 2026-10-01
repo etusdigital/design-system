@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from "vue";
+import { ref, watch } from "vue";
+import { useModalFocus } from "#composables";
+import { trapFocus } from "../../utils";
 import Overlay from "../../utils/components/Overlay.vue";
+
+defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
@@ -35,17 +39,7 @@ watch(
   }
 );
 
-watch(
-  model,
-  (open) => {
-    if (open) dialog.value?.focus({ preventScroll: true });
-  },
-  { flush: "post" }
-);
-
-onMounted(() => {
-  if (model.value) dialog.value?.focus({ preventScroll: true });
-});
+useModalFocus(dialog, model);
 
 function closeDialog() {
   if (props.noOutsideClose) {
@@ -73,12 +67,16 @@ function onEscape(e: KeyboardEvent) {
       <Transition name="bounce">
         <div
           v-if="model"
+          v-bind="$attrs"
           ref="dialog"
           class="dialog"
           :class="class"
+          role="dialog"
+          aria-modal="true"
           tabindex="-1"
           :style="{ width: width, height: height, zIndex: zIndex }"
           @keydown.esc="onEscape"
+          @keydown="trapFocus($event, dialog)"
         >
           <slot />
         </div>

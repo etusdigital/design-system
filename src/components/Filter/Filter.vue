@@ -26,6 +26,7 @@ const props = withDefaults(
     disabled?: boolean;
     getObject?: boolean;
     hideActions?: boolean;
+    ariaLabel?: string;
   }>(),
   {
     modelValue: undefined,
@@ -39,6 +40,7 @@ const props = withDefaults(
     disabled: false,
     getObject: false,
     hideActions: false,
+    ariaLabel: undefined,
   }
 );
 
@@ -241,7 +243,8 @@ function onItemKeyDown(e: KeyboardEvent, option: any, subOption?: any) {
 
 <template>
   <SelectContainer v-model="expandedModel" :label-value="labelValue" class="filter" :disabled="disabled"
-    aria-multiselectable="true" min-width="22em" :dont-have-max-height="true" @keydown="onTriggerKeyDown">
+    aria-multiselectable="true" :aria-label="ariaLabel" min-width="22em" :dont-have-max-height="true"
+    @keydown="onTriggerKeyDown">
     <SelectContent v-model:expanded="expandedModel" :disabled="disabled" :icon="icon" :options="modelValue"
       @update:expanded="setExpandedModel">
       <template #status>
@@ -267,10 +270,8 @@ function onItemKeyDown(e: KeyboardEvent, option: any, subOption?: any) {
           style="box-shadow: none" :placeholder="searchLabel" @keydown="onSearchKeyDown" />
       </li>
 
-      <li role="option" :aria-selected="
-        // @ts-ignore
-        option[labelKey]
-        " v-for="(option, index) in filteredOptions" :key="option[labelKey]"
+      <li role="option" :aria-selected="!!model[getValue(option)]?.length"
+        v-for="(option, index) in filteredOptions" :key="option[labelKey]"
         :ref="(el: any) => (groupRefs[index] = el)"
         class="flex flex-col gap-xs select-none h-max transition-[height] max-h-[3em] overflow-hidden" tabindex="0"
         data-filter-item :class="{ active: isActive(option) }" style="transition: max-height 0.2s ease"
@@ -312,7 +313,7 @@ function onItemKeyDown(e: KeyboardEvent, option: any, subOption?: any) {
               <Checkbox :modelValue="
                 // @ts-ignore
                 isSelected(option, subOption)
-                " class="pointer-events-none" :tabindex="-1" />
+                " class="pointer-events-none" :tabindex="-1" aria-hidden="true" />
               {{ getLabel(subOption) }}
             </Option>
           </ul>

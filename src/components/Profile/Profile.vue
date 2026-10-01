@@ -120,7 +120,7 @@ function onMenuKeyDown(event: KeyboardEvent) {
   <SelectContainer
     v-model="isExpanded"
     class="profile"
-    aria-multiselectable="false"
+    popup-role="dialog"
     :disabled="disabled"
     dont-have-max-height
     min-width="25em"
@@ -141,6 +141,7 @@ function onMenuKeyDown(event: KeyboardEvent) {
         {{ model ? getLabel(selected) || name : name }}
       </p>
     </div>
+    <span v-else class="sr-only">{{ model ? getLabel(selected) || name : name }}</span>
 
     <template #options>
       <div ref="menu" @keydown="onMenuKeyDown">

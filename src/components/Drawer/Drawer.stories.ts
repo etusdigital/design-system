@@ -63,10 +63,11 @@ const defaultHtml = `
         :no-outside-close="args.noOutsideClose"
         :position="args.position"
         :z-index="args.zIndex"
+        aria-labelledby="drawer-title"
   >
       <div class="flex flex-col justify-between h-full p-xl">
           <div class="flex flex-col gap-sm">
-            <h2 class="font-bold text-lg">Drawer</h2>
+            <h2 id="drawer-title" class="font-bold text-lg">Drawer</h2>
             <p class="text-sm text-neutral-foreground-low">Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a massa praesent ultricies.</p>
           </div>
           <div class="flex justify-end w-full gap-xs">

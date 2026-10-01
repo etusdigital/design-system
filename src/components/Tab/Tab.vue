@@ -73,6 +73,11 @@ function onKeyDown(event: KeyboardEvent) {
       :key="index"
       class="default-tab"
       :class="{ 'active-tab': getValue(model) == getValue(option) }"
+      :aria-label="
+        isObject(option)
+          ? getLabel(option) ? undefined : option.icon
+          : isIcon ? option : undefined
+      "
       @click="changeTab(option)"
       @keyup.enter.space="changeTab(option)"
     >

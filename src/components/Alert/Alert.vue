@@ -133,6 +133,7 @@ function resize() {
             name="expand_more"
             v-if="expandable"
             tabindex="0"
+            aria-label="Expand"
             :aria-expanded="isExpanded"
             @click="isExpanded = !isExpanded"
             @keydown.space.prevent

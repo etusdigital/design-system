@@ -76,6 +76,7 @@ function onKeyDown(event: KeyboardEvent) {
     :vertical="vertical"
     :disabled="disabled"
     class="toggle-group"
+    role="group"
     @update:model-value="setModel"
     @keydown="onKeyDown"
   >

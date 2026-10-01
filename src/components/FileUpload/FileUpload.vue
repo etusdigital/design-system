@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, nextTick, onBeforeMount, watch } from "vue";
+import { ref, nextTick, onBeforeMount, watch, useId } from "vue";
 
 type Size = "small" | "medium" | "large";
 
@@ -41,7 +41,8 @@ const emit = defineEmits<{
 let haveFile = ref(false);
 let dragging = ref(false);
 let fileName = ref("");
-const file = ref<HTMLElement>();
+const id = useId();
+const root = ref<HTMLElement>();
 const inputFile = ref<HTMLInputElement>();
 
 onBeforeMount(setFileValue);
@@ -61,6 +62,7 @@ function setFileValue() {
 
 function onChangeFile(e: any) {
   const files = e.target.files || e.dataTransfer.files;
+  const hadFocus = document.activeElement === inputFile.value;
   dragging.value = false;
   haveFile.value = true;
 
@@ -72,18 +74,16 @@ function onChangeFile(e: any) {
     fileName.value = files[0]?.name || "";
     emit("update:modelValue", files[0]);
   }
+
+  if (hadFocus)
+    nextTick(() => root.value?.querySelector<HTMLElement>(".trash-icon")?.focus());
 }
 
 function deleteFile() {
   haveFile.value = false;
   fileName.value = "";
   emit("update:modelValue", undefined);
-  nextTick(() => file.value?.focus());
-}
-
-function openFileDialog() {
-  if (props.disabled || haveFile.value) return;
-  inputFile.value?.click();
+  nextTick(() => inputFile.value?.focus());
 }
 
 function getSvgSize() {
@@ -100,15 +100,9 @@ function getSvgSize() {
 
 <template>
   <div
-    ref="file"
+    ref="root"
     class="file"
     :class="[size, { 'blur-[2px]': dragging, disabled: disabled }]"
-    :role="haveFile ? undefined : 'button'"
-    :aria-label="haveFile ? undefined : labelValue || 'Select a file'"
-    :aria-disabled="disabled"
-    :tabindex="disabled || haveFile ? -1 : 0"
-    @keydown.self.space.prevent
-    @keyup.self.enter.space="openFileDialog"
     @dragenter="!disabled && (dragging = true)"
     @dragleave="dragging = false"
     @dragover.prevent
@@ -161,6 +155,7 @@ function getSvgSize() {
               class="trash-icon"
               name="delete"
               tabindex="0"
+              aria-label="Remove file"
               @click="deleteFile"
               @keyup.enter.space="deleteFile"
             />
@@ -183,14 +178,20 @@ function getSvgSize() {
       :accept="accept"
       :multiple="multiple"
       :disabled="disabled"
-      tabindex="-1"
+      :aria-label="labelValue || 'Select a file'"
+      :aria-required="required"
+      :aria-invalid="isError"
+      :aria-describedby="
+        [infoMessage && `${id}-info`, isError && `${id}-error`].filter(Boolean).join(' ') ||
+        undefined
+      "
       class="w-full h-full top-0 left-0 right-0 bottom-0 absolute opacity-0 z-[1] cursor-pointer"
       @change="onChangeFile"
     />
-    <small v-if="infoMessage" class="info-message">
+    <small v-if="infoMessage" :id="`${id}-info`" class="info-message">
       {{ infoMessage }}
     </small>
-    <small v-if="isError" class="error-message">
+    <small v-if="isError" :id="`${id}-error`" class="error-message">
       {{ errorMessage }}
     </small>
   </div>
@@ -209,6 +210,10 @@ function getSvgSize() {
   .trash-icon {
     @apply cursor-pointer text-neutral-interaction-default hover:text-danger-interaction-default;
   }
+}
+
+.file:has(input:focus-visible) {
+  @apply outline-xxs outline-primary-interaction-default;
 }
 
 .file.disabled {

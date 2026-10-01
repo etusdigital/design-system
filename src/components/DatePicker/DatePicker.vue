@@ -176,6 +176,7 @@ function changeType() {
 <template>
   <ExpandableContainer
     class="date-picker"
+    popup-role="dialog"
     v-model="isExpanded"
     :disabled="disabled"
     :required="required"

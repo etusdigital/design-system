@@ -108,6 +108,8 @@ function changeModel() {
             name="expand_more"
             class="text-neutral-interaction-default font-bold"
             tabindex="0"
+            aria-label="Expand"
+            :aria-expanded="!!model"
             @keydown.space.prevent
             @keyup.enter.space="changeModel"
           />

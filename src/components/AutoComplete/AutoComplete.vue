@@ -18,6 +18,7 @@ const props = withDefaults(
     placeholder?: string;
     maxHeight?: string;
     minWidth?: string;
+    ariaLabel?: string;
   }>(),
   {
     modelValue: undefined,
@@ -31,6 +32,7 @@ const props = withDefaults(
     placeholder: "Search...",
     maxHeight: "40px",
     minWidth: "15em",
+    ariaLabel: undefined,
   }
 );
 
@@ -153,6 +155,7 @@ function onOptionKeyDown(e: KeyboardEvent) {
 <template>
   <div class="auto-complete" @click="onRootClick">
     <SelectContainer
+      :aria-label="ariaLabel"
       class="auto-complete-content"
       :model-value="expanded"
       :label-value="labelValue"

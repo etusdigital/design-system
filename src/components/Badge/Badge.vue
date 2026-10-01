@@ -61,7 +61,7 @@ function close(e: Event) {
       <p class="font-semibold whitespace-nowrap truncate" v-if="labelValue || $slots.default">
         <slot>{{ labelValue }}</slot>
       </p>
-      <Icon class="close-icon" :class="{ 'cursor-pointer': closeable }" :tabindex="closeable ? 0 : -1" :name="appendedIcon"
+      <Icon class="close-icon" :class="{ 'cursor-pointer': closeable }" :tabindex="closeable ? 0 : -1" :aria-label="closeable ? 'Remove' : undefined" :name="appendedIcon"
         v-if="appendedIcon" @click="close" @keyup.enter.space="close" />
     </template>
   </div>

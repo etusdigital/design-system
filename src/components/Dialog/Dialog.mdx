@@ -80,6 +80,17 @@ Adds custom CSS classes to the dialog element, allowing you to override or exten
 #### z-index
 Sets the z-index of the dialog overlay (backdrop). Useful for stacking the dialog above other layered content. Type: `number` (default: `1002`)
 
+#### Accessible name
+The panel is rendered with `role="dialog"` and `aria-modal="true"`, keeps keyboard focus inside while open and returns focus to the element that opened it when it closes. Any other attribute passed to the component (such as `aria-labelledby` or `aria-label`) is forwarded to the panel, so give it a name, usually by pointing `aria-labelledby` at its title.
+
+```vue
+<template>
+    <Dialog v-model="open" aria-labelledby="dialog-title">
+        <h2 id="dialog-title">Edit price rule</h2>
+    </Dialog>
+</template>
+```
+
 ---
 
 ### Events API

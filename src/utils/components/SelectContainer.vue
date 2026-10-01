@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, onUpdated, computed } from "vue";
+import { ref, onMounted, onBeforeUnmount, onUpdated, computed, useId } from "vue";
 import type { ContainerModelExtra } from "../types/ContainerModelExtra";
 import { useOptionalModel } from "#composables";
 import ExpandableContainer from "./ExpandableContainer.vue";
@@ -8,7 +8,9 @@ const props = withDefaults(
   defineProps<{
     modelValue?: boolean;
     labelValue?: string;
-    role?: string;
+    popupRole?: "listbox" | "menu" | "dialog";
+    ariaMultiselectable?: boolean | "true" | "false";
+    ariaLabel?: string;
     disabled?: boolean;
     isError?: boolean;
     errorMessage?: string;
@@ -25,7 +27,9 @@ const props = withDefaults(
   {
     modelValue: undefined,
     labelValue: "",
-    role: "listbox",
+    popupRole: "listbox",
+    ariaMultiselectable: undefined,
+    ariaLabel: undefined,
     disabled: false,
     isError: false,
     errorMessage: "",
@@ -50,6 +54,7 @@ const [model, setModel] = useOptionalModel<boolean>(
   emit,
   false
 );
+const popupId = useId();
 const container = ref<HTMLDivElement>();
 const fatherContainer = ref<HTMLDivElement>();
 const content = ref<HTMLDivElement>();
@@ -106,7 +111,9 @@ function changeModel(value: boolean, extra: ContainerModelExtra) {
     <ExpandableContainer class="select-container" v-model="model" :label-value="labelValue"
       :close-on-blur="closeOnBlur" :disabled="disabled" :is-error="isError" :error-message="errorMessage"
       :info-message="infoMessage" :required="required" :max-height="maxHeight" :min-width="minWidth"
-      :secondary="secondary" :hide-arrow="hideArrow" :icon="icon" @update:model-value="changeModel">
+      :secondary="secondary" :hide-arrow="hideArrow" :icon="icon" :popup-role="popupRole"
+      :popup-id="popupRole === 'listbox' && !$slots.content ? popupId : undefined" :aria-label="ariaLabel"
+      @update:model-value="changeModel">
       <slot />
 
       <template #leading-complement v-if="$slots['leading-complement']">
@@ -128,7 +135,12 @@ function changeModel(value: boolean, extra: ContainerModelExtra) {
           'has-max-height': !dontHaveMaxHeight,
         }">
           <slot name="content">
-            <ul role="list" class="options-list" :class="[{ 'p-xxs [&>*]:p-xs': !dontHaveMaxHeight }]">
+            <ul
+              :id="popupId"
+              :role="popupRole === 'listbox' ? 'listbox' : 'none'"
+              :aria-label="popupRole === 'listbox' ? labelValue || ariaLabel : undefined"
+              :aria-multiselectable="popupRole === 'listbox' ? ariaMultiselectable : undefined"
+              class="options-list" :class="[{ 'p-xxs [&>*]:p-xs': !dontHaveMaxHeight }]">
               <slot name="options" />
             </ul>
           </slot>

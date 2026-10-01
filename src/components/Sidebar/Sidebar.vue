@@ -227,6 +227,9 @@ function onKeyDown(event: KeyboardEvent) {
           <component
             :is="getLinkComponent(option)"
             :tabindex="option.disabled ? -1 : 0"
+            :aria-label="option.label"
+            :role="getLinkComponent(option) === 'div' ? 'button' : undefined"
+            :aria-current="getValue(option) === getValue(parent) ? 'page' : undefined"
             class="rounded-base hover:no-underline"
             :class="{ 'pointer-events-none': option.disabled }"
             :aria-expanded="

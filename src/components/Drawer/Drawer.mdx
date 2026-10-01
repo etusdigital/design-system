@@ -79,6 +79,17 @@ Sets the position from which the drawer will slide. Type: `"right" | "left" | "t
 #### z-index
 Sets the z-index of the drawer and its overlay (backdrop). Defaults to the same value as `Dialog` and `Image`, so whichever one is opened from inside another always stacks on top without changing it manually. Type: `number` (default: `1002`)
 
+#### Accessible name
+The panel is rendered with `role="dialog"` and `aria-modal="true"`, keeps keyboard focus inside while open and returns focus to the element that opened it when it closes. Any other attribute passed to the component (such as `aria-labelledby` or `aria-label`) is forwarded to the panel, so give it a name, usually by pointing `aria-labelledby` at its title.
+
+```vue
+<template>
+    <Drawer v-model="open" aria-labelledby="drawer-title">
+        <h2 id="drawer-title">Edit price rule</h2>
+    </Drawer>
+</template>
+```
+
 ---
 
 ### Events API

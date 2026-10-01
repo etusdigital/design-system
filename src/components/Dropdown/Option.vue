@@ -120,6 +120,10 @@ function getValue(option: any): any {
     ref="root"
     class="relative"
     :tabindex="option.disabled ? -1 : 0"
+    role="menuitem"
+    :aria-disabled="option.disabled"
+    :aria-haspopup="option.options?.length ? 'menu' : undefined"
+    :aria-expanded="option.options?.length ? expanded : undefined"
     data-dropdown-option
     @focusout="handleFocusOut"
     @keydown="onKeyDown"

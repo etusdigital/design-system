@@ -589,6 +589,7 @@ function move(updateType = true) {
                         class="color-arrows"
                         :class="{ disabled: disabled }"
                         :tabindex="disabled ? -1 : 0"
+                        aria-label="Previous color format"
                         @click="moveUp"
                         @keyup.enter.space="moveUp"
                     />
@@ -597,6 +598,7 @@ function move(updateType = true) {
                         class="color-arrows"
                         :class="{ disabled: disabled }"
                         :tabindex="disabled ? -1 : 0"
+                        aria-label="Next color format"
                         @click="moveDown"
                         @keyup.enter.space="moveDown"
                     />

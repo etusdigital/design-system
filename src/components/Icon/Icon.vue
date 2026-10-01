@@ -1,5 +1,7 @@
 <script setup lang="ts">
-withDefaults(
+import { computed } from "vue";
+
+const props = withDefaults(
   defineProps<{
     name?: string;
     filled?: boolean;
@@ -10,10 +12,18 @@ withDefaults(
     tabindex: -1
   }
 );
+
+const interactive = computed(() => Number(props.tabindex) >= 0);
 </script>
 
 <template>
-  <span class="material-symbols-rounded icon" :tabindex="tabindex" :class="{ filled: filled }">
+  <span
+    class="material-symbols-rounded icon"
+    :tabindex="tabindex"
+    :class="{ filled: filled }"
+    :role="interactive ? 'button' : undefined"
+    :aria-hidden="interactive ? undefined : 'true'"
+  >
     {{ name }}
   </span>
 </template>

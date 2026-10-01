@@ -69,6 +69,9 @@ function removeToast(id: string) {
     v-for="container in containers"
     :key="container.vertical + container.horizontal"
     :class="[container.vertical, container.horizontal]"
+    role="status"
+    aria-live="polite"
+    aria-atomic="false"
   >
     <Transition
       v-for="toast in toasts.filter(

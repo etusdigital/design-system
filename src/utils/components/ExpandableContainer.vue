@@ -19,6 +19,9 @@ const props = withDefaults(
     secondary?: boolean;
     hideArrow?: boolean;
     icon?: string;
+    popupRole?: "listbox" | "menu" | "dialog";
+    popupId?: string;
+    ariaLabel?: string;
   }>(),
   {
     modelValue: undefined,
@@ -33,6 +36,9 @@ const props = withDefaults(
     minWidth: "unset",
     secondary: false,
     hideArrow: false,
+    popupRole: "listbox",
+    popupId: undefined,
+    ariaLabel: undefined,
   }
 );
 
@@ -56,7 +62,7 @@ function changeModel(value: boolean, extra: ContainerModelExtra) {
   <Container class="expandable-container" v-model="model" :label-value="labelValue" :close-on-blur="closeOnBlur"
     :disabled="disabled" :is-error="isError" :error-message="errorMessage" :info-message="infoMessage"
     :required="required" :max-height="maxHeight" :min-width="minWidth" :secondary="secondary" :hide-arrow="hideArrow"
-    :icon="icon" @update:model-value="changeModel">
+    :icon="icon" :popup-role="popupRole" :popup-id="popupId" :aria-label="ariaLabel" @update:model-value="changeModel">
     <slot />
 
     <template #leading-complement v-if="$slots['leading-complement']">

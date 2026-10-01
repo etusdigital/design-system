@@ -73,6 +73,7 @@ function onKeyDown(event: KeyboardEvent) {
     :vertical="vertical"
     :disabled="disabled"
     class="radio-group"
+    role="radiogroup"
     @update:model-value="setModel"
     @keydown="onKeyDown"
   >

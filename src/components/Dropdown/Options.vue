@@ -14,7 +14,7 @@ const parsedOptions = computed((): Option[][] => {
 </script>
 
 <template>
-  <Card class="custom-card">
+  <Card class="custom-card" role="menu">
     <template v-for="(options, index) in parsedOptions">
       <slot :options="options" />
       <Divider v-if="index == 0 && options.length > 1" />

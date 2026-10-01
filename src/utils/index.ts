@@ -443,6 +443,32 @@ export function getFocusableItems(
   );
 }
 
+export function trapFocus(
+  event: KeyboardEvent,
+  container: HTMLElement | null | undefined
+) {
+  if (event.key !== "Tab" || event.defaultPrevented || !container) return;
+
+  const items = getFocusableItems(container).filter(
+    (element) => element.getClientRects().length > 0
+  );
+  const active = document.activeElement;
+  if (!items.length) {
+    event.preventDefault();
+    return;
+  }
+
+  const first = items[0];
+  const last = items[items.length - 1];
+  if (event.shiftKey && (active === first || active === container)) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && active === last) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
 type ArrowOrientation = "horizontal" | "vertical" | "both";
 
 const PREVIOUS_KEYS: Record<ArrowOrientation, string[]> = {

@@ -18,7 +18,7 @@ withDefaults(
 </script>
 
 <template>
-  <Option :selected="selected" :disabled="disabled" class="sidebar-option">
+  <Option :selected="selected" :disabled="disabled" class="sidebar-option" role="none">
     <Icon v-if="icon" :name="icon" />
     <span v-if="label" class="flex-1">{{ label }}</span>
     <slot />

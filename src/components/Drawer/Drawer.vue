@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from "vue";
+import { ref, computed, watch } from "vue";
+import { useModalFocus } from "#composables";
+import { trapFocus } from "../../utils";
 import Overlay from "../../utils/components/Overlay.vue";
+
+defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
@@ -35,17 +39,7 @@ watch(
   }
 );
 
-watch(
-  model,
-  (open) => {
-    if (open) drawer.value?.focus({ preventScroll: true });
-  },
-  { flush: "post" }
-);
-
-onMounted(() => {
-  if (model.value) drawer.value?.focus({ preventScroll: true });
-});
+useModalFocus(drawer, model);
 
 function closeDialog() {
   if (!props.noOutsideClose) {
@@ -68,11 +62,15 @@ function onEscape(e: KeyboardEvent) {
       <Transition name="slide-in">
         <div
           v-if="model"
+          v-bind="$attrs"
           ref="drawer"
           class="drawer"
           :class="position"
+          role="dialog"
+          aria-modal="true"
           tabindex="-1"
           @keydown.esc="onEscape"
+          @keydown="trapFocus($event, drawer)"
           :style="{
             zIndex: zIndex,
             width: position === 'left' || position === 'right' ? (isMobile ? '100%' : size) : '100%',

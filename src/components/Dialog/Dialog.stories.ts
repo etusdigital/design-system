@@ -75,9 +75,10 @@ const defaultRender = (args: any) => ({
          :no-outside-close="args.noOutsideClose"
          :class="args.class"
          :z-index="args.zIndex"
+         aria-labelledby="dialog-title"
     >
         <div class="flex flex-col p-xl gap-sm">
-            <h2 class="font-bold text-lg">Dialog</h2>
+            <h2 id="dialog-title" class="font-bold text-lg">Dialog</h2>
             <p class="text-sm text-neutral-foreground-low">
               Lorem ipsum dolor sit amet consectetur. Ultricies urna mattis purus maecenas
               amet hac viverra id feugiat. Et dui maecenas at dui. Sagittis phasellus a

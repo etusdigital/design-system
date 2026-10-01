@@ -97,6 +97,8 @@ const style = computed((): any => {
     :name="name || id"
     :type="type"
     :disabled="disabled || isLoading"
+    :aria-label="!$slots.default && computedIcon ? computedIcon.replace(/_/g, ' ') : undefined"
+    :aria-busy="isLoading || undefined"
     class="button"
     :class="[
       {

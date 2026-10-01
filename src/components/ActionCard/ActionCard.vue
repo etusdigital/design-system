@@ -80,7 +80,7 @@ function getEvent(event: Event): Event {
         <slot name="card" />
       </div>
     </Card>
-    <Icon class="side-icon cursor-pointer" tabindex="0" name="delete" @click="emit('delete')"
+    <Icon class="side-icon cursor-pointer" tabindex="0" name="delete" aria-label="Delete" @click="emit('delete')"
       @keyup.enter.space="emit('delete')" />
   </div>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onBeforeMount, watch, computed } from "vue";
+import { ref, onBeforeMount, watch, computed, useId } from "vue";
 import {
   applyMask,
   isValidEmail,
@@ -66,6 +66,7 @@ const emit = defineEmits<{
   blur: [value: any];
 }>();
 
+const id = useId();
 const inputValue = ref();
 const hasError = ref(false);
 const isFocused = ref(false);
@@ -212,6 +213,7 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
       v-if="labelValue || max || max == 0"
     >
       <Label
+        :for="`${id}-input`"
         :label-value="labelValue"
         :info-message="infoMessage"
         :tooltip-min-width="tooltipMinWidth"
@@ -235,8 +237,12 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
           />
         </slot>
         <input
+          :id="`${id}-input`"
           v-model="inputValue"
           class="input-content"
+          :aria-invalid="isError || hasError"
+          :aria-required="required"
+          :aria-describedby="isError || hasError ? `${id}-error` : undefined"
           :style="inputStyle"
           :disabled="disabled"
           :value="inputValue"
@@ -279,7 +285,14 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
               focus: isFocused,
               'cursor-pointer': isTypeValid('password'),
             }"
-            :tabindex="disabled ? -1 : 0"
+            :tabindex="disabled || !isTypeValid('password') ? -1 : 0"
+            :aria-label="
+              isTypeValid('password')
+                ? showPass
+                  ? 'Hide password'
+                  : 'Show password'
+                : undefined
+            "
             @click="showPass = !showPass && isTypeValid('password')"
             @keyup.enter.space="showPass = !showPass && isTypeValid('password')"
           />
@@ -298,6 +311,7 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
         <Icon
           name="arrow_drop_up"
           :tabindex="disabled ? -1 : 0"
+          aria-label="Increase"
           class="number-icon"
           @click="increaseOrDecrease(+step)"
           @keyup.enter.space="increaseOrDecrease(+step)"
@@ -305,13 +319,14 @@ function isValueValid(prop: any, value: any | any[], opposite = false) {
         <Icon
           name="arrow_drop_down"
           :tabindex="disabled ? -1 : 0"
+          aria-label="Decrease"
           class="number-icon"
           @click="increaseOrDecrease(-step)"
           @keyup.enter.space="increaseOrDecrease(-step)"
         />
       </div>
     </div>
-    <small v-if="isError || hasError" class="error-message">
+    <small v-if="isError || hasError" :id="`${id}-error`" class="error-message">
       {{ errorMessage }}
     </small>
   </div>

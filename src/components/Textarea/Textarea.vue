@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onBeforeMount, watch, computed } from "vue";
+import { ref, onBeforeMount, watch, computed, useId } from "vue";
 import Label from "../../utils/components/Label.vue";
 
 type TextAlign = "start" | "center" | "end";
@@ -39,6 +39,7 @@ const emit = defineEmits<{
   blur: [value: string];
 }>();
 
+const id = useId();
 let inputValue = ref("");
 let hasError = ref(false);
 let isFocused = ref(false);
@@ -97,6 +98,7 @@ function onFocus() {
   <div class="textarea">
     <div class="flex justify-between items-center" v-if="labelValue || max || max == 0">
       <Label
+        :for="`${id}-textarea`"
         :label-value="labelValue"
         :info-message="infoMessage"
         :tooltip-min-width="tooltipMinWidth"
@@ -107,8 +109,12 @@ function onFocus() {
       </span>
     </div>
     <textarea
+      :id="`${id}-textarea`"
       v-model="inputValue"
       class="textarea-content"
+      :aria-invalid="isError || hasError"
+      :aria-required="required"
+      :aria-describedby="isError || hasError ? `${id}-error` : undefined"
       :class="inputClasses"
       :style="inputStyle"
       :maxlength="computedMax"
@@ -118,7 +124,7 @@ function onFocus() {
       @focus="onFocus"
       @input="onInput"
     />
-    <small v-if="isError || hasError" class="error-message">
+    <small v-if="isError || hasError" :id="`${id}-error`" class="error-message">
       {{ errorMessage }}
     </small>
   </div>

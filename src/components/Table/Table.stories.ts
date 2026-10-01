@@ -735,7 +735,7 @@ export const Primary: Story = {
       >
           <template v-slot:select="{ item }" v-if="args.enableSelection">
             <td>
-              <Checkbox v-model="item.selected"/>
+              <Checkbox v-model="item.selected" aria-label="Select row" />
             </td>
           </template>
           <template v-slot:aggregation="{ item }" v-if="args.enableAggregation">
@@ -777,7 +777,7 @@ export const Primary: Story = {
               >
                   <td />
                   <td v-if="args.enableSelection">
-                    <Checkbox v-model="child.selected" />
+                    <Checkbox v-model="child.selected" aria-label="Select row" />
                   </td>
                   <td>
                       {{ child.name }}
@@ -845,7 +845,7 @@ export const Selection: Story = {
       >
           <template #select="{ item }">
             <td>
-              <Checkbox v-model="item.selected" />
+              <Checkbox v-model="item.selected" aria-label="Select row" />
             </td>
           </template>
 

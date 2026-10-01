@@ -123,6 +123,8 @@ function onExpandKeyDown(event: KeyboardEvent) {
           :class="{ 'rotate-90': expanded }"
           class="expand-icon transition-transform"
           :tabindex="option.disabled || disabled ? -1 : 0"
+          aria-label="Expand"
+          :aria-expanded="expanded"
           @click="changeExpanded"
           @keyup.enter.space="changeExpanded"
           @keydown="onExpandKeyDown"
@@ -141,6 +143,8 @@ function onExpandKeyDown(event: KeyboardEvent) {
             allow-indeterminate
             :disabled="option.disabled || disabled"
             class="pointer-events-none"
+            :tabindex="-1"
+            aria-hidden="true"
             @update:model-value="setModel(option)"
           />
           <Icon v-if="getIcon(option)" :name="getIcon(option)" />

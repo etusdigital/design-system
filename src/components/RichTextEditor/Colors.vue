@@ -193,7 +193,7 @@ function closeColorPicker() {
         <div class="color-row custom-row">
           <Tooltip label-value="Add custom color" position="bottom">
             <Icon name="add_circle" class="text-neutral-interactive-default cursor-pointer rich-text-editor-icon"
-              tabindex="0" @click="showColorPicker = true" @keyup.enter.space="showColorPicker = true" />
+              tabindex="0" aria-label="Add custom color" @click="showColorPicker = true" @keyup.enter.space="showColorPicker = true" />
           </Tooltip>
           <Color v-for="color in custom" :key="color" :model-value="model" :color="color" @click="setModel(color)"
             @keyup.enter.space="setModel(color)" />

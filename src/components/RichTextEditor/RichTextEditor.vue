@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch, computed, nextTick } from "vue";
+import { ref, onMounted, watch, computed, nextTick, useId } from "vue";
 import Label from "../../utils/components/Label.vue";
 import Option from "../../utils/components/Option.vue";
 import Colors from "./Colors.vue";
@@ -98,6 +98,7 @@ const emit = defineEmits<{
   blur: [];
 }>();
 
+const id = useId();
 const editorRef = ref<HTMLDivElement>();
 
 const history = ref<string[]>([]);
@@ -126,6 +127,7 @@ const options = ref<Record<string, Record<string, ToolbarOption>>>({
   },
   size: {
     fontSize: {
+      label: "Font size",
       value: 16,
       options: Array.from({ length: 10 }, (_, i: number) => i * 4 + 12),
       type: "select",
@@ -1612,6 +1614,7 @@ function camelToKebabCase(str: string): string {
   <div :class="editorClasses">
     <Label
       v-if="labelValue"
+      :id="`${id}-label`"
       :label-value="labelValue"
       :info-message="infoMessage"
       :tooltip-min-width="tooltipMinWidth"
@@ -1627,9 +1630,10 @@ function camelToKebabCase(str: string): string {
             v-model="item.value"
             :options="(item as FontSize).options"
             :disabled="disabled"
+            :aria-label="item.label"
             @update:model-value="(item as FontSize).action(item.value)"
           />
-          <Tooltip position="bottom">
+          <Tooltip v-else position="bottom">
             <Colors
               v-if="item.type === 'color'"
               v-model="(item as Color).value"
@@ -1645,13 +1649,16 @@ function camelToKebabCase(str: string): string {
               <template #cancel-label>
                 <slot name="cancel-label"> Cancel </slot>
               </template>
-              <Option :disabled="disabled" :tabindex="-1">
+              <Option :disabled="disabled" :tabindex="-1" role="button" :aria-label="item.label">
                 <Icon :name="item.icon" class="rich-text-editor-icon" />
               </Option>
             </Colors>
             <Option
               v-else
               class="relative"
+              role="button"
+              :aria-label="item.label"
+              :aria-pressed="item.selected === undefined ? undefined : !!item.selected"
               :selected="item.selected"
               :disabled="disabled || (item.disabled && item.disabled())"
               :tabindex="-1"
@@ -1692,12 +1699,11 @@ function camelToKebabCase(str: string): string {
       :contenteditable="!disabled"
       :inert="disabled"
       :placeholder="placeholder"
-      :aria-label="labelValue"
+      aria-multiline="true"
+      :aria-labelledby="labelValue ? `${id}-label` : undefined"
       :aria-required="required"
       :aria-invalid="isError"
-      :aria-describedby="
-        isError ? 'error-message' : infoMessage ? 'info-message' : undefined
-      "
+      :aria-describedby="isError ? `${id}-error` : undefined"
       @input="onInput"
       @focus="onFocus"
       @blur="onBlur"
@@ -1741,7 +1747,7 @@ function camelToKebabCase(str: string): string {
       </div>
     </Dialog>
 
-    <small v-if="isError" class="error-message">
+    <small v-if="isError" :id="`${id}-error`" class="error-message">
       {{ errorMessage }}
     </small>
   </div>

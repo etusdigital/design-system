@@ -5,19 +5,23 @@ withDefaults(
     infoMessage?: string;
     tooltipMinWidth?: string;
     required?: boolean;
+    id?: string;
+    for?: string;
   }>(),
   {
     labelValue: "",
     infoMessage: "",
     tooltipMinWidth: "none",
     required: false,
+    id: undefined,
+    for: undefined,
   }
 );
 </script>
 
 <template>
-  <h5 v-if="labelValue" class="label-value">
-    {{ labelValue }}
+  <div v-if="labelValue" class="label-value">
+    <label :id="id" :for="$props.for">{{ labelValue }}</label>
     <Tooltip v-if="infoMessage" class="ml-xxs">
       <template #label>
         <div
@@ -31,17 +35,17 @@ withDefaults(
           {{ infoMessage }}
         </div>
       </template>
-      <Icon name="info" class="info-icon" tabindex="0" />
+      <Icon name="info" class="info-icon" tabindex="0" aria-label="More information" />
     </Tooltip>
-    <span v-if="required" class="text-primary-foreground-low ml-xxs">*</span>
-  </h5>
+    <span v-if="required" class="text-primary-foreground-low ml-xxs" aria-hidden="true">*</span>
+  </div>
 </template>
 
 <style scoped>
 @reference "../../assets/main.css";
 
 .label-value {
-  @apply flex items-center leading-base;
+  @apply flex items-center text-sm font-semibold leading-base;
 }
 
 .tooltip-text {

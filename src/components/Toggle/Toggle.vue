@@ -60,7 +60,7 @@ function toggle() {
     :id="id"
     :name="name || id"
     role="button"
-    :aria-checked="model"
+    :aria-pressed="!!model"
     :aria-disabled="isDisabled"
     class="toggle"
     :class="[

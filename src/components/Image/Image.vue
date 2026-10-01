@@ -2,6 +2,7 @@
 import { ref, computed, nextTick, onUnmounted } from "vue";
 import Icon from "../Icon/Icon.vue";
 import Overlay from "../../utils/components/Overlay.vue";
+import { trapFocus } from "../../utils";
 
 interface ImageProps {
   src?: string;
@@ -132,6 +133,8 @@ function onEscape(event: KeyboardEvent) {
     ref="trigger"
     class="image"
     :tabindex="preview ? 0 : -1"
+    :role="preview ? 'button' : undefined"
+    :aria-label="preview ? (alt ? `Open preview: ${alt}` : 'Open image preview') : undefined"
     @mouseenter="isHovering = true"
     @mouseleave="isHovering = false"
     @keyup.enter.space="showPreview"
@@ -181,9 +184,11 @@ function onEscape(event: KeyboardEvent) {
             ref="toolbar"
             :style="{ zIndex: zIndex }"
             role="dialog"
-            aria-modal
+            aria-modal="true"
+            :aria-label="alt ? `Preview: ${alt}` : 'Image preview'"
             tabindex="-1"
             @keydown.esc="onEscape"
+            @keydown="trapFocus($event, toolbar)"
           >
             <Button
               v-for="tool in tools"

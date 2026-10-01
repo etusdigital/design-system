@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, inject, computed } from "vue";
+import { watch, inject, computed, useId } from "vue";
 import type { GroupState } from "../../utils/types/Group";
 import { useOptionalModel } from "#composables";
 
@@ -13,11 +13,13 @@ const props = withDefaults(
     groupValue?: any;
     disabled?: boolean;
     variant?: Varinat;
+    ariaLabel?: string;
   }>(),
   {
     modelValue: undefined,
     disabled: false,
     variant: "default",
+    ariaLabel: undefined,
   }
 );
 
@@ -27,6 +29,7 @@ const emit = defineEmits<{
 
 const [model] = useOptionalModel<boolean>(props, "modelValue", emit, false);
 const groupState = inject<GroupState | null>("groupState", null);
+const labelId = useId();
 updateModel();
 
 watch(model, (cur) => {
@@ -61,26 +64,28 @@ function toggle() {
   <div
     :id="id"
     :name="name || id"
-    role="radio"
-    :aria-checked="model"
-    :aria-disabled="isDisabled"
     class="radio"
     :class="[variant, { disabled: isDisabled, active: model }]"
     @click="toggle"
     @keyup.enter.space="toggle"
   >
-    <span :tabindex="isDisabled ? -1 : 0" class="out-circle" @keydown.space.prevent>
+    <span
+      role="radio"
+      :aria-checked="model"
+      :aria-disabled="isDisabled"
+      :aria-label="ariaLabel"
+      :aria-labelledby="$slots.default && !ariaLabel ? labelId : undefined"
+      :tabindex="isDisabled ? -1 : 0"
+      class="out-circle"
+      @keydown.space.prevent
+    >
       <span class="inside-circle" />
     </span>
     <template v-if="$slots.default">
-      <label
-        v-if="name || id"
-        :for="name || id"
-        class="radio-label cursor-[inherit]"
+      <div
+        :id="labelId"
+        :class="name || id ? 'radio-label cursor-[inherit]' : 'radio-text'"
       >
-        <slot />
-      </label>
-      <div v-else class="radio-text">
         <slot />
       </div>
     </template>

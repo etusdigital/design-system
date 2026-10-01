@@ -26,6 +26,7 @@ const props = withDefaults(
     required?: boolean;
     isError?: boolean;
     buttonLabel?: string;
+    ariaLabel?: string;
   }>(),
   {
     modelValue: undefined,
@@ -39,6 +40,7 @@ const props = withDefaults(
     required: false,
     isError: false,
     buttonLabel: "Add",
+    ariaLabel: undefined,
   }
 );
 
@@ -190,7 +192,9 @@ function checkSource(value: boolean, extra: any) {
 
 <template>
   <SelectContainer
+    :aria-label="ariaLabel"
     class="tag-select"
+    aria-multiselectable="true"
     v-model="expandedModel"
     :required="required"
     :label-value="labelValue"
@@ -236,6 +240,7 @@ function checkSource(value: boolean, extra: any) {
             v-model="searchText"
             type="text"
             class="search"
+            :aria-label="labelValue || ariaLabel || 'Search'"
             @keydown.enter="addTag(searchText)"
             @keydown.prevent.tab="addTag(searchText)"
             style="--tw-ring-color: none !important"
@@ -270,12 +275,16 @@ function checkSource(value: boolean, extra: any) {
       <div
         class="text-xs italic text-neutral-foreground-low flex justify-center"
         v-if="!searchedOptions.length && searchText.length"
+        role="option"
+        aria-disabled="true"
       >
         <slot name="no-options-found"> No result found </slot>
       </div>
       <div
         class="text-xs italic text-neutral-foreground-low flex justify-center"
         v-else-if="!optionsModel.length"
+        role="option"
+        aria-disabled="true"
       >
         <slot name="empty-state"> No tags created yet </slot>
       </div>

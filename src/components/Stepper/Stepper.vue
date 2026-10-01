@@ -157,6 +157,7 @@ function onKeyDown(event: KeyboardEvent) {
         <button
           class="step-button-circle"
           :data-after-content="getLabel(option)"
+          :aria-label="getLabel(option)"
           :class="{
             'active-button': index === step,
             'past-button': index <= biggerStepSelected,
