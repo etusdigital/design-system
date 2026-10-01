@@ -38,6 +38,9 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
+    ariaLabel: {
+        default: any;
+    };
 }>, (_ctx: any, _cache: any) => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
     [key: string]: any;
 }>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "update:expanded" | "apply" | "clear")[], "update:modelValue" | "update:expanded" | "apply" | "clear", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
@@ -80,6 +83,9 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
+    ariaLabel: {
+        default: any;
+    };
 }>> & Readonly<{
     "onUpdate:modelValue"?: (...args: any[]) => any;
     "onUpdate:expanded"?: (...args: any[]) => any;
@@ -97,6 +103,7 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     disabled: boolean;
     getObject: boolean;
     hideActions: boolean;
+    ariaLabel: any;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 export default _default;
 //# sourceMappingURL=Filter.vue?vue&type=script&setup=true&lang.d.ts.map

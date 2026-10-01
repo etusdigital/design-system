@@ -64,6 +64,7 @@ export declare function getPosition(event: any, div: any, parent: any, direction
 export declare function applyMask(value: any, mask: any): any;
 export declare function focusWhenReady(getElement: any, attempts?: number): void;
 export declare function getFocusableItems(container: any, selector?: string): unknown[];
+export declare function trapFocus(event: any, container: any): void;
 export declare function focusByArrowKey(event: any, items: any, orientation?: string, { loop, current }?: {
     loop?: boolean;
 }): any;

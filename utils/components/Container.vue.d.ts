@@ -6,8 +6,14 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     labelValue: {
         default: string;
     };
-    role: {
+    popupRole: {
         default: string;
+    };
+    popupId: {
+        default: any;
+    };
+    ariaLabel: {
+        default: any;
     };
     disabled: {
         type: BooleanConstructor;
@@ -62,8 +68,14 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     labelValue: {
         default: string;
     };
-    role: {
+    popupRole: {
         default: string;
+    };
+    popupId: {
+        default: any;
+    };
+    ariaLabel: {
+        default: any;
     };
     disabled: {
         type: BooleanConstructor;
@@ -111,10 +123,12 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
 }>> & Readonly<{
     "onUpdate:modelValue"?: (...args: any[]) => any;
 }>, {
-    role: string;
     modelValue: boolean;
     required: boolean;
     labelValue: string;
+    popupRole: string;
+    popupId: any;
+    ariaLabel: any;
     disabled: boolean;
     isError: boolean;
     errorMessage: string;

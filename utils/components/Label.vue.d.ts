@@ -12,6 +12,12 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
+    id: {
+        default: any;
+    };
+    for: {
+        default: any;
+    };
 }>, (_ctx: any, _cache: any) => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
     [key: string]: any;
 }>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
@@ -28,7 +34,15 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
+    id: {
+        default: any;
+    };
+    for: {
+        default: any;
+    };
 }>> & Readonly<{}>, {
+    id: any;
+    for: any;
     labelValue: string;
     required: boolean;
     infoMessage: string;

@@ -20,6 +20,9 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     tabindex: {
         default: number;
     };
+    ariaLabel: {
+        default: any;
+    };
 }>, (_ctx: any, _cache: any) => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
     [key: string]: any;
 }>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
@@ -44,6 +47,9 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     tabindex: {
         default: number;
     };
+    ariaLabel: {
+        default: any;
+    };
 }>> & Readonly<{
     "onUpdate:modelValue"?: (...args: any[]) => any;
 }>, {
@@ -52,6 +58,7 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     rhs: boolean;
     allowIndeterminate: boolean;
     disabled: boolean;
+    ariaLabel: any;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 export default _default;
 //# sourceMappingURL=Checkbox.vue?vue&type=script&setup=true&lang.d.ts.map
