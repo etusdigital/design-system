@@ -39,6 +39,21 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
+    linkDialogLabel: {
+        default: string;
+    };
+    linkUrlLabel: {
+        default: string;
+    };
+    linkUrlPlaceholder: {
+        default: string;
+    };
+    linkTextLabel: {
+        default: string;
+    };
+    linkTextPlaceholder: {
+        default: string;
+    };
 }>, (_ctx: any, _cache: any) => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
     [key: string]: any;
 }>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "focus" | "blur")[], "update:modelValue" | "focus" | "blur", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
@@ -82,6 +97,21 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
         type: BooleanConstructor;
         default: boolean;
     };
+    linkDialogLabel: {
+        default: string;
+    };
+    linkUrlLabel: {
+        default: string;
+    };
+    linkUrlPlaceholder: {
+        default: string;
+    };
+    linkTextLabel: {
+        default: string;
+    };
+    linkTextPlaceholder: {
+        default: string;
+    };
 }>> & Readonly<{
     "onUpdate:modelValue"?: (...args: any[]) => any;
     onFocus?: (...args: any[]) => any;
@@ -99,6 +129,11 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     minHeight: string;
     maxHeight: string;
     noBorder: boolean;
+    linkDialogLabel: string;
+    linkUrlLabel: string;
+    linkUrlPlaceholder: string;
+    linkTextLabel: string;
+    linkTextPlaceholder: string;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 export default _default;
 //# sourceMappingURL=RichTextEditor.vue?vue&type=script&setup=true&lang.d.ts.map

@@ -49,6 +49,61 @@ declare const _default: {
                 };
             };
         };
+        valueKey: {
+            type: {
+                name: string;
+            };
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
+        getObject: {
+            type: {
+                name: string;
+            };
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
+        searchable: {
+            type: {
+                name: string;
+            };
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
+        creatable: {
+            type: {
+                name: string;
+            };
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
+        placeholder: {
+            type: {
+                name: string;
+            };
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
         disabled: {
             type: {
                 name: string;
@@ -124,9 +179,14 @@ export declare const Primary: {
     args: {
         modelValue: any;
         expanded: boolean;
-        options: any[];
+        options: string[];
         labelValue: string;
         labelKey: string;
+        valueKey: string;
+        getObject: boolean;
+        searchable: boolean;
+        creatable: boolean;
+        placeholder: string;
         buttonLabel: string;
         required: boolean;
         errorMessage: string;
@@ -150,9 +210,14 @@ export declare const Icon: {
         icon: string;
         modelValue: any;
         expanded: boolean;
-        options: any[];
+        options: string[];
         labelValue: string;
         labelKey: string;
+        valueKey: string;
+        getObject: boolean;
+        searchable: boolean;
+        creatable: boolean;
+        placeholder: string;
         buttonLabel: string;
         required: boolean;
         errorMessage: string;
@@ -175,9 +240,14 @@ export declare const Disabled: {
         disabled: boolean;
         modelValue: any;
         expanded: boolean;
-        options: any[];
+        options: string[];
         labelValue: string;
         labelKey: string;
+        valueKey: string;
+        getObject: boolean;
+        searchable: boolean;
+        creatable: boolean;
+        placeholder: string;
         buttonLabel: string;
         required: boolean;
         errorMessage: string;
@@ -200,9 +270,14 @@ export declare const Required: {
         required: boolean;
         modelValue: any;
         expanded: boolean;
-        options: any[];
+        options: string[];
         labelValue: string;
         labelKey: string;
+        valueKey: string;
+        getObject: boolean;
+        searchable: boolean;
+        creatable: boolean;
+        placeholder: string;
         buttonLabel: string;
         errorMessage: string;
         infoMessage: string;
@@ -226,9 +301,14 @@ export declare const IsError: {
         errorMessage: string;
         modelValue: any;
         expanded: boolean;
-        options: any[];
+        options: string[];
         labelValue: string;
         labelKey: string;
+        valueKey: string;
+        getObject: boolean;
+        searchable: boolean;
+        creatable: boolean;
+        placeholder: string;
         buttonLabel: string;
         required: boolean;
         infoMessage: string;
@@ -250,12 +330,80 @@ export declare const InfoMessage: {
         infoMessage: string;
         modelValue: any;
         expanded: boolean;
-        options: any[];
+        options: string[];
         labelValue: string;
         labelKey: string;
+        valueKey: string;
+        getObject: boolean;
+        searchable: boolean;
+        creatable: boolean;
+        placeholder: string;
         buttonLabel: string;
         required: boolean;
         errorMessage: string;
+        icon: string;
+        isError: boolean;
+        disabled: boolean;
+    };
+};
+export declare const Creatable: {
+    render: (args: any) => {
+        components: {
+            TagSelect: any;
+        };
+        setup(): {
+            args: any;
+        };
+        template: string;
+    };
+    args: {
+        options: any[];
+        searchable: boolean;
+        creatable: boolean;
+        modelValue: any;
+        expanded: boolean;
+        labelValue: string;
+        labelKey: string;
+        valueKey: string;
+        getObject: boolean;
+        placeholder: string;
+        buttonLabel: string;
+        required: boolean;
+        errorMessage: string;
+        infoMessage: string;
+        icon: string;
+        isError: boolean;
+        disabled: boolean;
+    };
+};
+export declare const Searchable: {
+    render: (args: any) => {
+        components: {
+            TagSelect: any;
+        };
+        setup(): {
+            args: any;
+        };
+        template: string;
+    };
+    args: {
+        searchable: boolean;
+        placeholder: string;
+        options: {
+            label: string;
+            value: string;
+        }[];
+        modelValue: any;
+        expanded: boolean;
+        labelValue: string;
+        labelKey: string;
+        valueKey: string;
+        getObject: boolean;
+        creatable: boolean;
+        buttonLabel: string;
+        required: boolean;
+        errorMessage: string;
+        infoMessage: string;
         icon: string;
         isError: boolean;
         disabled: boolean;

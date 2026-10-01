@@ -51,6 +51,49 @@ declare const _default: {
             };
             description: string;
         };
+        linkDialogLabel: {
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
+        linkUrlLabel: {
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
+        linkUrlPlaceholder: {
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
+        linkTextLabel: {
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
+        linkTextPlaceholder: {
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
+        "insert-link-label": {
+            description: string;
+        };
         minHeight: {
             table: {
                 defaultValue: {

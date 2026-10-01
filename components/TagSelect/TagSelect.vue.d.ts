@@ -16,6 +16,24 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     labelKey: {
         default: string;
     };
+    valueKey: {
+        default: string;
+    };
+    getObject: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    searchable: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    creatable: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    placeholder: {
+        default: string;
+    };
     errorMessage: {
         default: string;
     };
@@ -60,6 +78,24 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     labelKey: {
         default: string;
     };
+    valueKey: {
+        default: string;
+    };
+    getObject: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    searchable: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    creatable: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    placeholder: {
+        default: string;
+    };
     errorMessage: {
         default: string;
     };
@@ -96,6 +132,11 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     labelValue: string;
     expanded: boolean;
     labelKey: string;
+    valueKey: string;
+    getObject: boolean;
+    searchable: boolean;
+    creatable: boolean;
+    placeholder: string;
     errorMessage: string;
     infoMessage: string;
     isError: boolean;
