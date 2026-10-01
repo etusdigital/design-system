@@ -41,6 +41,17 @@ declare const _default: {
             };
             description: string;
         };
+        zIndex: {
+            type: {
+                name: string;
+            };
+            table: {
+                defaultValue: {
+                    summary: string;
+                };
+            };
+            description: string;
+        };
         default: {
             description: string;
         };
@@ -62,6 +73,7 @@ export declare const Primary: {
         size: string;
         noOutsideClose: boolean;
         position: string;
+        zIndex: number;
     };
 };
 export declare const NoOutsideClose: {
@@ -79,6 +91,7 @@ export declare const NoOutsideClose: {
         modelValue: boolean;
         size: string;
         position: string;
+        zIndex: number;
     };
 };
 export declare const Positions: {
@@ -96,6 +109,7 @@ export declare const Positions: {
         modelValue: boolean;
         size: string;
         noOutsideClose: boolean;
+        zIndex: number;
     };
 };
 //# sourceMappingURL=Drawer.stories.d.ts.map

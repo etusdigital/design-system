@@ -63,6 +63,10 @@ export declare function getPosition(event: any, div: any, parent: any, direction
 };
 export declare function applyMask(value: any, mask: any): any;
 export declare function focusWhenReady(getElement: any, attempts?: number): void;
+export declare function getFocusableItems(container: any, selector?: string): unknown[];
+export declare function focusByArrowKey(event: any, items: any, orientation?: string, { loop, current }?: {
+    loop?: boolean;
+}): any;
 export declare function isValidEmail(value: any): boolean;
 export declare function isValidDomain(value: any): boolean;
 export declare function isValidUrl(value: any): boolean;

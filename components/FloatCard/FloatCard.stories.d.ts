@@ -76,4 +76,24 @@ export declare const ClickMode: {
         disabled: boolean;
     };
 };
+export declare const ActionItems: {
+    render: (args: any) => {
+        components: {
+            FloatCard: any;
+        };
+        setup(): {
+            args: any;
+            dialog: import("vue").Ref<boolean, boolean>;
+            lastAction: import("vue").Ref<string, string>;
+            openDialog: () => void;
+            closeOnly: () => void;
+        };
+        template: string;
+    };
+    args: {
+        modelValue: boolean;
+        mode: string;
+        disabled: boolean;
+    };
+};
 //# sourceMappingURL=FloatCard.stories.d.ts.map
