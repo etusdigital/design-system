@@ -150,7 +150,6 @@ function getValue(option: any): any {
       v-if="expanded && option.options && option.options.length"
       class="sub-options"
       :options="option.options"
-      is-card
     >
       <template #default="{ options }">
         <Option
