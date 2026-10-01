@@ -72,6 +72,25 @@ Icon displayed on the tag select input. Type: `string` (default: `""`)
 #### label-key
 Property name used for displaying option labels when using object arrays. Type: `string` (default: `"label"`)
 
+#### value-key
+Property name used to identify object options. Options without it are identified by their label. Type: `string` (default: `"value"`)
+
+#### get-object
+When `true` the model holds the whole selected option; when `false` it holds only the option value (`value-key`). Type: `boolean` (default: `false`)
+
+#### searchable
+Shows a search input that filters the options. The input receives focus when the list opens. Type: `boolean` (default: `false`)
+
+<Canvas sourceState="none" of={TagSelect.Searchable} />
+
+#### creatable
+Lets the user add the typed text as a new option with Enter, Tab or the add button. When `false`, the add button is hidden and Tab moves focus normally. Type: `boolean` (default: `false`)
+
+<Canvas sourceState="none" of={TagSelect.Creatable} />
+
+#### placeholder
+Placeholder of the search input. The `#search-label` slot overrides it. Type: `string` (default: `"Search"`)
+
 #### disabled
 Disables the tag select interaction. Type: `boolean` (default: `false`)
 

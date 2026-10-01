@@ -1,0 +1,135 @@
+import { Canvas, Story, Meta, Controls } from '@storybook/blocks';
+import * as ProfilePicture from './ProfilePicture.stories.ts';
+
+<Meta of={ProfilePicture} />
+
+# Name: ProfilePicture
+## Component Overview
+
+**Purpose**: An avatar button that opens a user menu with a header (avatar, name and description), action options and single-choice sub-lists such as language or theme.
+
+**Import**: Automatic - no need to import any DS components
+
+<br />
+### Playground
+
+<Canvas of={ProfilePicture.Primary} />
+<Controls />
+
+---
+
+### Basic Usage
+
+```vue
+<template>
+    <ProfilePicture
+        v-model="preferences"
+        :name="user.name"
+        :description="user.email"
+        :picture="user.picture"
+        :options="options"
+        @select="onSelect"
+    />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const preferences = ref({ language: 'en' })
+const options = [
+    { label: 'My account', value: 'account', icon: 'person' },
+    {
+        label: 'Language',
+        value: 'language',
+        icon: 'translate',
+        items: [
+            { label: 'English', value: 'en', image: '/flags/us.svg' },
+            { label: 'Português', value: 'pt', image: '/flags/br.svg' },
+        ],
+    },
+    { label: 'Logout', value: 'logout', icon: 'logout', color: 'danger', action: logout },
+]
+
+function onSelect(option, item) {
+    // option: the clicked option; item: the chosen sub-item, when there is one
+}
+</script>
+```
+
+<Canvas sourceState="none" of={ProfilePicture.Primary} />
+
+---
+
+### Props API
+
+#### v-model
+Selected sub-item of each option with `items`, keyed by the option value, e.g. `{ language: 'en', theme: 'dark' }`. When an option has a selected sub-item, its row shows that sub-item's icon/image and label. Type: `Record<string, any>` (default: `{}`)
+
+#### v-model:expanded
+Controls whether the menu is open. Type: `boolean` (default: `false`)
+
+#### name
+User name shown in the header, used for the avatar initials and as the default accessible name. Type: `string` (default: `""`)
+
+#### description
+Secondary text under the name, such as the email. Type: `string` (default: `""`)
+
+#### picture
+Avatar image URL. Type: `string` (default: `""`)
+
+<Canvas sourceState="none" of={ProfilePicture.WithPicture} />
+
+#### options
+Menu options. Type: `ProfilePictureOption[]` (default: `[]`)
+
+| Field | Description |
+|---|---|
+| `label` / `value` | Text and identifier (keys configurable with `label-key` / `value-key`) |
+| `icon` | Material Symbols icon name |
+| `image` | Image URL shown instead of the icon (e.g. a flag) |
+| `color` | `"primary" \| "info" \| "success" \| "warning" \| "danger"` text color |
+| `disabled` | Disables the option |
+| `items` | Sub-options shown as a single-choice list under the option |
+| `action` | Callback called with `(option, item?)` when the option or one of its items is chosen |
+
+#### label-key / value-key
+Keys used to read each option's label and value. Type: `string` (default: `"label"` / `"value"`)
+
+#### disabled
+Disables the trigger. Type: `boolean` (default: `false`)
+
+<Canvas sourceState="none" of={ProfilePicture.Disabled} />
+
+#### aria-label
+Accessible name of the trigger and of the menu. Defaults to `name`, then `"Profile menu"`. Type: `string`
+
+---
+
+### Events API
+
+#### @select
+Emitted with `(option)` when an option without `items` is chosen (the menu then closes), or with `(option, item)` when a sub-item is chosen (the menu stays open).
+
+#### @update:model-value
+Emitted with the new selection record when a sub-item is chosen.
+
+#### @update:expanded
+Emitted when the menu opens or closes.
+
+### Slots API
+
+| Slot | Params | Description |
+|---|---|---|
+| `#trigger` | `expanded` | Replaces the avatar and arrow |
+| `#header` | `name`, `description`, `picture` | Replaces the header |
+| `#option` | `option`, `selectedItem` | Replaces an option content (the chevron stays) |
+| `#item` | `option`, `item`, `selected` | Replaces a sub-item content (the check stays) |
+| `#footer` | | Content after the options |
+
+### Keyboard & Accessibility
+
+- The trigger is a button with `aria-haspopup="menu"` and `aria-expanded`; Enter or Space opens the menu, ArrowDown / ArrowUp open it on the first / last option.
+- Arrow Up / Down move between options (wrapping), Home / End jump to the first / last one. Tab and Shift+Tab also move between options; tabbing past the first or last one closes the menu and returns focus to the trigger.
+- ArrowRight opens an option's sub-list and focuses its first item; ArrowLeft closes it and returns to the option.
+- Enter or Space chooses the focused option; Escape closes the menu and returns focus to the trigger.
+- Options are `menuitem`s, sub-items are `menuitemradio`s with `aria-checked`, and an option with a selected sub-item is announced as "Language: English".

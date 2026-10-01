@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { nextTick, ref, watch } from "vue";
 import { useOptionalModel } from "#composables";
 import { type ContainerModelExtra } from "../../utils/types/ContainerModelExtra";
 import SelectContent from "../../utils/components/SelectContent.vue";
@@ -20,6 +20,11 @@ const props = withDefaults(
     icon?: string;
     expanded?: boolean;
     labelKey?: string;
+    valueKey?: string;
+    getObject?: boolean;
+    searchable?: boolean;
+    creatable?: boolean;
+    placeholder?: string;
     errorMessage?: string;
     infoMessage?: string;
     disabled?: boolean;
@@ -35,6 +40,11 @@ const props = withDefaults(
     errorMessage: "",
     expanded: false,
     labelKey: "label",
+    valueKey: "value",
+    getObject: false,
+    searchable: false,
+    creatable: false,
+    placeholder: "Search",
     infoMessage: "",
     disabled: false,
     required: false,
@@ -63,23 +73,17 @@ const expandedModel = ref(props.expanded);
 const searchText = ref("");
 const selectedIndex = ref<number | null>(null);
 const optionRefs = ref<HTMLElement[]>([]);
+const searchInput = ref<HTMLInputElement>();
 
 const searchedOptions = computed((): any[] => {
   if (!searchText.value) {
     return optionsModel.value;
   }
-  return optionsModel.value.filter((option: any) => {
-    if (isObject(option)) {
-      if (
-        option[props.labelKey]
-          ?.toLowerCase()
-          ?.includes(searchText.value.toLowerCase())
-      ) {
-        return option;
-      }
-    } else if (option?.toLowerCase()?.includes(searchText.value.toLowerCase()))
-      return option;
-  });
+  return optionsModel.value.filter((option: any) =>
+    String(getLabel(option) ?? "")
+      .toLowerCase()
+      .includes(searchText.value.toLowerCase())
+  );
 });
 
 watch(
@@ -90,7 +94,12 @@ watch(
 );
 
 watch(expandedModel, (value) => {
-  if (!value) selectedIndex.value = null;
+  if (!value) {
+    selectedIndex.value = null;
+    return;
+  }
+
+  nextTick(() => searchInput.value?.focus({ preventScroll: true }));
 });
 
 watch(searchText, () => {
@@ -107,7 +116,7 @@ watch(
 );
 
 function addTag(tag: string) {
-  if (props.isError || !tag) return;
+  if (!props.creatable || props.isError || !tag) return;
 
   if (isIncluded(optionsModel.value, tag)) {
     searchText.value = "";
@@ -122,6 +131,14 @@ function addTag(tag: string) {
 function removeTag(index: number) {
   model.value.splice(index, 1);
   setModel(model.value, { index: index });
+}
+
+function onSearchTab(e: KeyboardEvent) {
+  if (e.shiftKey || !props.creatable || !searchText.value) return;
+
+  e.preventDefault();
+  e.stopPropagation();
+  addTag(searchText.value);
 }
 
 function onKeyDown(e: KeyboardEvent) {
@@ -166,17 +183,30 @@ function onOptionKeyDown(e: KeyboardEvent) {
 }
 
 function selectOption(option: any, index: number) {
-  if (props.disabled || isIncluded(model.value, option)) return;
-  setModel([...model.value, option], index);
-  expandedModel.value = false;
-  emit("update:expanded", false, { source: "value-selected" });
+  if (props.disabled) return;
+
+  const value = isIncluded(model.value, option)
+    ? model.value.filter((i: any) => getValue(i) !== getValue(option))
+    : [...model.value, props.getObject ? option : getValue(option)];
+  setModel(value, index);
 }
 
-function isIncluded(options: any, option: any) {
-  if (isObject(option)) {
-    return options.find((i: any) => i[props.labelKey] === option[props.labelKey]);
-  }
-  return options?.includes(option);
+function getLabel(option: any) {
+  return isObject(option) ? option[props.labelKey] : option;
+}
+
+function getValue(option: any) {
+  return isObject(option) ? option[props.valueKey] ?? option[props.labelKey] : option;
+}
+
+function getTagLabel(tag: any) {
+  if (isObject(tag)) return getLabel(tag);
+  const option = optionsModel.value?.find((o: any) => getValue(o) === tag);
+  return option ? getLabel(option) : tag;
+}
+
+function isIncluded(options: any[], option: any) {
+  return !!options?.some((i: any) => getValue(i) === getValue(option));
 }
 
 function changeExpanded(value: boolean, extra: any) {
@@ -191,79 +221,37 @@ function checkSource(value: boolean, extra: any) {
 </script>
 
 <template>
-  <SelectContainer
-    :aria-label="ariaLabel"
-    class="tag-select"
-    aria-multiselectable="true"
-    v-model="expandedModel"
-    :required="required"
-    :label-value="labelValue"
-    :disabled="disabled"
-    :is-error="isError"
-    :error-message="errorMessage"
-    :info-message="infoMessage"
-    max-height="none"
-    min-width="12em"
-    @keydown="onKeyDown"
-    @click="changeExpanded(true, { source: 'click' })"
-    @update:model-value="checkSource"
-  >
-    <SelectContent
-      v-model="searchText"
-      v-model:expanded="expandedModel"
-      :disabled="disabled"
-      :icon="icon"
-      :options="options"
-      :is-error="isError"
-      @update:expanded="changeExpanded"
-    >
+  <SelectContainer :aria-label="ariaLabel" class="tag-select" aria-multiselectable="true" v-model="expandedModel"
+    :required="required" :label-value="labelValue" :disabled="disabled" :is-error="isError"
+    :error-message="errorMessage" :info-message="infoMessage" max-height="none" min-width="12em" @keydown="onKeyDown"
+    @click="changeExpanded(true, { source: 'click' })" @update:model-value="checkSource">
+    <SelectContent v-model="searchText" v-model:expanded="expandedModel" :disabled="disabled" :icon="icon"
+      :options="options" :is-error="isError" @update:expanded="changeExpanded">
       <template #search-label>
-        <slot name="search-label">Search</slot>
+        <slot name="search-label">{{ placeholder }}</slot>
       </template>
       <template #status>
-        <slot
-          v-if="$slots.default && !expandedModel && !modelValue?.length"
-        />
-        <div
-          class="relative"
-          v-else-if="expandedModel || !modelValue?.length"
-        >
+        <slot v-if="$slots.default && !expandedModel && !model?.length" />
+        <div class="relative" v-else-if="(searchable || creatable) && (expandedModel || !model?.length)">
           <div v-show="!searchText.length" class="pointer-events-none w-0 h-0">
-            <span
-              class="absolute text-neutral-foreground-low top-[50%] translate-y-[-50%]"
-              :class="{ 'text-danger-foreground-low': isError }"
-            >
-              <slot name="search-label">Search</slot>
+            <span class="absolute text-neutral-foreground-low top-[50%] translate-y-[-50%]"
+              :class="{ 'text-danger-foreground-low': isError }">
+              <slot name="search-label">{{ placeholder }}</slot>
             </span>
           </div>
-          <input
-            v-model="searchText"
-            type="text"
-            class="search"
-            :aria-label="labelValue || ariaLabel || 'Search'"
-            @keydown.enter="addTag(searchText)"
-            @keydown.prevent.tab="addTag(searchText)"
-            style="--tw-ring-color: none !important"
-            :disabled="disabled"
-            :class="{
-              'text-danger-foreground-low': isError,
-              'bg-neutral-surface-disabled text-neutral-foreground-low':
-                disabled,
-            }"
-          />
+          <input ref="searchInput" v-model="searchText" type="text" class="search"
+            :aria-label="labelValue || ariaLabel || placeholder" @keydown.enter="addTag(searchText)"
+            @keydown.tab="onSearchTab" style="--tw-ring-color: none !important" :disabled="disabled" :class="{
+              error: isError,
+              disabled,
+            }" />
         </div>
-        <div class="flex flex-wrap gap-xxs my-xs max-w-[40em]" v-else>
-          <StatusBadge
-            color="neutral"
-            class="tag"
-            v-for="(option, index) in model"
-            :key="index"
-            closeable
-            @close="removeTag(Number(index))"
-          >
+        <div class="flex flex-wrap gap-xxs my-xs max-w-[40em]" v-else-if="model?.length">
+          <StatusBadge color="neutral" class="tag" v-for="(option, index) in model" :key="index" closeable
+            @close="removeTag(Number(index))">
             <div class="tag-default py-xxs">
               <p class="font-bold text-xs truncate">
-                {{ isObject(option) ? option[labelKey] : option }}
+                {{ getTagLabel(option) }}
               </p>
             </div>
           </StatusBadge>
@@ -272,41 +260,29 @@ function checkSource(value: boolean, extra: any) {
     </SelectContent>
 
     <template #options>
-      <div
-        class="text-xs italic text-neutral-foreground-low flex justify-center"
-        v-if="!searchedOptions.length && searchText.length"
-        role="option"
-        aria-disabled="true"
-      >
+      <div class="text-xs italic text-neutral-foreground-low flex justify-center"
+        v-if="!searchedOptions.length && searchText.length" role="option" aria-disabled="true">
         <slot name="no-options-found"> No result found </slot>
       </div>
-      <div
-        class="text-xs italic text-neutral-foreground-low flex justify-center"
-        v-else-if="!optionsModel.length"
-        role="option"
-        aria-disabled="true"
-      >
+      <div class="text-xs italic text-neutral-foreground-low flex justify-center" v-else-if="!optionsModel.length"
+        role="option" aria-disabled="true">
         <slot name="empty-state"> No tags created yet </slot>
       </div>
       <template v-else>
-        <Option
-          v-for="(option, index) in searchedOptions"
-          :ref="(el: any) => (optionRefs[index] = el?.$el)"
-          :aria-selected="isIncluded(model, option)"
-          :key="`${isObject(option) ? option[labelKey] : option}`"
-          :class="{ 'font-bold': isIncluded(model, option) }"
-          @focus="selectedIndex = index"
-          @click="selectOption(option, index)"
-          @keydown="onOptionKeyDown"
-          @keyup.enter.space="selectOption(option, index)"
-        >
+        <Option v-for="(option, index) in searchedOptions" :ref="(el: any) => (optionRefs[index] = el?.$el)"
+          :aria-selected="isIncluded(model, option)" :key="`${getValue(option)}`" no-hover
+          :class="{ 'font-bold': isIncluded(model, option) }" @focus="selectedIndex = index"
+          @click="selectOption(option, index)" @keydown="onOptionKeyDown"
+          @keyup.enter.space="selectOption(option, index)">
+          <Checkbox :model-value="isIncluded(model, option)" class="pointer-events-none" :tabindex="-1"
+            aria-hidden="true" />
           <slot name="option" :option="option" :index="index">
-            {{ isObject(option) ? option[labelKey] : option }}
+            {{ getLabel(option) }}
           </slot>
         </Option>
       </template>
     </template>
-    <template #actions>
+    <template #actions v-if="creatable">
       <div class="flex justify-center w-full">
         <Button @click="addTag(searchText)" round size="small" always-open>
           {{ buttonLabel }}
@@ -325,6 +301,14 @@ function checkSource(value: boolean, extra: any) {
 
 .search {
   @apply text-neutral-interaction-default h-full w-full bg-neutral-surface-default p-none m-none border-none shadow-none outline-none p3;
+}
+
+.search.disabled {
+  @apply bg-neutral-surface-disabled text-neutral-foreground-low;
+}
+
+.search.error {
+  @apply text-danger-foreground-low;
 }
 
 .tag {

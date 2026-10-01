@@ -118,7 +118,7 @@ function getValue(option: any): any {
 <template>
   <div
     ref="root"
-    class="relative"
+    class="option-container"
     :tabindex="option.disabled ? -1 : 0"
     role="menuitem"
     :aria-disabled="option.disabled"
@@ -150,6 +150,7 @@ function getValue(option: any): any {
       v-if="expanded && option.options && option.options.length"
       class="sub-options"
       :options="option.options"
+      is-card
     >
       <template #default="{ options }">
         <Option
@@ -170,13 +171,17 @@ function getValue(option: any): any {
 @reference "../../assets/main.css";
 
 .custom-card {
-  :first-child .option {
-    @apply rounded-b-none;
+  :first-child.option-container .option {
+    @apply rounded-t-base;
   }
 
-  :last-child .option {
-    @apply rounded-t-none;
+  :last-child.option-container .option {
+    @apply rounded-b-base;
   }
+}
+
+.option-container {
+  @apply relative;
 }
 
 .option {
@@ -201,7 +206,7 @@ function getValue(option: any): any {
 }
 
 .sub-options {
-  @apply absolute top-0 z-[60] bg-neutral-surface-default rounded-base flex flex-col shadow-neutral-default max-h-[12em];
+  @apply absolute top-0 z-[60] bg-neutral-surface-default rounded-base flex flex-col shadow-neutral-default max-h-[12em] border-xxs border-neutral-default;
   left: calc(100% + var(--spacing-xs));
 }
 

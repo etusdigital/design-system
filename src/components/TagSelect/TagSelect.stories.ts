@@ -33,6 +33,45 @@ export default {
         defaultValue: { summary: "label" },
       },
     },
+    valueKey: {
+      type: { name: "string" },
+      table: {
+        defaultValue: { summary: "value" },
+      },
+      description:
+        "Key used to identify object options (falls back to labelKey when an option has no value).",
+    },
+    getObject: {
+      type: { name: "boolean" },
+      table: {
+        defaultValue: { summary: "false" },
+      },
+      description:
+        "When true the model holds the whole option object; when false it holds the option value (valueKey).",
+    },
+    searchable: {
+      type: { name: "boolean" },
+      table: {
+        defaultValue: { summary: "false" },
+      },
+      description: "Shows a search input that filters the options.",
+    },
+    creatable: {
+      type: { name: "boolean" },
+      table: {
+        defaultValue: { summary: "false" },
+      },
+      description:
+        "Lets the user add the typed text as a new option (Enter, Tab or the add button).",
+    },
+    placeholder: {
+      type: { name: "string" },
+      table: {
+        defaultValue: { summary: "Search" },
+      },
+      description:
+        "Placeholder of the search input. The #search-label slot overrides it.",
+    },
     disabled: {
       type: { name: "boolean" },
       table: {
@@ -87,9 +126,14 @@ type Story = StoryObj<typeof TagSelect>;
 const defaultArgs = {
   modelValue: undefined,
   expanded: false,
-  options: [],
+  options: ["Vue", "React", "Svelte", "Angular"],
   labelValue: "label",
   labelKey: "label",
+  valueKey: "value",
+  getObject: false,
+  searchable: false,
+  creatable: false,
+  placeholder: "Search",
   buttonLabel: "Add",
   required: false,
   errorMessage: "",
@@ -117,10 +161,13 @@ const defaultRender = (args: any) => ({
         :icon="args.icon"
         :required="args.required"
         :label-key="args.labelKey"
+        :value-key="args.valueKey"
+        :get-object="args.getObject"
+        :searchable="args.searchable"
+        :creatable="args.creatable"
+        :placeholder="args.placeholder"
+        :button-label="args.buttonLabel"
     >
-        <template #search-label>
-            Search
-        </template>
         <template #no-options-found>
             No result found
         </template>
@@ -176,5 +223,29 @@ export const InfoMessage: Story = {
   args: {
     ...defaultArgs,
     infoMessage: "Info message",
+  },
+};
+
+export const Creatable: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    options: [],
+    searchable: true,
+    creatable: true,
+  },
+};
+
+export const Searchable: Story = {
+  render: defaultRender,
+  args: {
+    ...defaultArgs,
+    searchable: true,
+    placeholder: "Filter countries",
+    options: [
+      { label: "Brazil", value: "BR" },
+      { label: "Portugal", value: "PT" },
+      { label: "United States", value: "US" },
+    ],
   },
 };

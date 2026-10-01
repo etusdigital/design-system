@@ -75,6 +75,11 @@ const props = withDefaults(
     minHeight?: string;
     maxHeight?: string;
     noBorder?: boolean;
+    linkDialogLabel?: string;
+    linkUrlLabel?: string;
+    linkUrlPlaceholder?: string;
+    linkTextLabel?: string;
+    linkTextPlaceholder?: string;
   }>(),
   {
     modelValue: "",
@@ -89,6 +94,11 @@ const props = withDefaults(
     minHeight: "200px",
     maxHeight: "400px",
     noBorder: false,
+    linkDialogLabel: "Insert link",
+    linkUrlLabel: "URL",
+    linkUrlPlaceholder: "URL (e.g. https://example.com)",
+    linkTextLabel: "Text",
+    linkTextPlaceholder: "Text to display",
   }
 );
 
@@ -1715,12 +1725,17 @@ function camelToKebabCase(str: string): string {
       @copy="onCopy"
     />
 
-    <Dialog v-model="showLinkDialog" width="50%" height="fit-content">
+    <Dialog
+      v-model="showLinkDialog"
+      width="50%"
+      height="fit-content"
+      :aria-label="linkDialogLabel"
+    >
       <div class="flex flex-col gap-sm p-base">
         <Input
           v-model="linkUrl"
-          placeholder="URL (e.g. https://example.com)"
-          label-value="URL"
+          :placeholder="linkUrlPlaceholder"
+          :label-value="linkUrlLabel"
           mask="url"
           required
           :disabled="disabled"
@@ -1729,19 +1744,21 @@ function camelToKebabCase(str: string): string {
 
         <Input
           v-model="linkText"
+          :placeholder="linkTextPlaceholder"
+          :label-value="linkTextLabel"
           :disabled="disabled"
           @keydown.enter="insertLink"
         />
         <div class="flex justify-end gap-sm">
           <Button @click="cancelLinkDialog" variant="secondary">
-            Cancel
+            <slot name="cancel-label">Cancel</slot>
           </Button>
           <Button
             @click="insertLink"
             variant="default"
             :disabled="!linkUrl.trim()"
           >
-            Insert Link
+            <slot name="insert-link-label">Insert Link</slot>
           </Button>
         </div>
       </div>

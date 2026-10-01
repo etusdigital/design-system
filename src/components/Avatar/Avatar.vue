@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const props = withDefaults(defineProps<{
     name?: string;
@@ -21,13 +21,18 @@ const parsedName = computed(() => {
   return props.name.slice(0,2).toUpperCase();
 });
 
+const imageFailed = ref(false);
+const showImage = computed(() => !!props.src && !imageFailed.value);
 
+watch(() => props.src, () => {
+  imageFailed.value = false;
+});
 </script>
 
 <template>
     <div class="avatar" :class="size">
-        <img v-if="src" :src="src" :alt="alt || name" />
-        <span :class="{'opacity-0': src}">{{ parsedName }}</span>
+        <img v-if="showImage" :src="src" :alt="alt || name" @error="imageFailed = true" />
+        <span :class="{'opacity-0': showImage}" :aria-hidden="showImage || undefined">{{ parsedName }}</span>
     </div>
 </template>
 
@@ -47,7 +52,7 @@ const parsedName = computed(() => {
 }
 
 .avatar.small {
-    @apply p-xs;
+    @apply size-2xl p-xs;
 
     span {
         @apply text-xxs;
@@ -56,6 +61,8 @@ const parsedName = computed(() => {
 
 .avatar.medium {
     @apply p-sm;
+    width: calc(var(--spacing-xxs) * 10);
+    height: calc(var(--spacing-xxs) * 10);
 
     span {
         @apply text-xs;
@@ -63,7 +70,7 @@ const parsedName = computed(() => {
 }
 
 .avatar.large {
-    @apply p-base;
+    @apply size-3xl p-base;
 
     span {
         @apply text-sm;

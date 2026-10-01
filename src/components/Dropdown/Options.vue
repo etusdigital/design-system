@@ -9,17 +9,17 @@ const props = defineProps<{
 const parsedOptions = computed((): Option[][] => {
   const topOptions = props.options?.filter((option: Option) => !option.bottom) || [];
   const bottomOptions = props.options?.filter((option: Option) => option.bottom) || [];
-  return [topOptions, bottomOptions];
+  return [topOptions, bottomOptions].filter((options: Option[]) => options.length);
 });
 </script>
 
 <template>
-  <Card class="custom-card" role="menu">
+  <div class="custom-card" role="menu">
     <template v-for="(options, index) in parsedOptions">
       <slot :options="options" />
-      <Divider v-if="index == 0 && options.length > 1" />
+      <Separator v-if="index == 0 && parsedOptions.length > 1" />
     </template>
-  </Card>
+  </div>
 </template>
 
 <style scoped>

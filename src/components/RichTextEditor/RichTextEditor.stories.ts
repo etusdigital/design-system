@@ -46,6 +46,29 @@ export default {
       },
       description: "Remove border from editor.",
     },
+    linkDialogLabel: {
+      table: { defaultValue: { summary: "Insert link" } },
+      description: "Accessible name of the insert-link dialog.",
+    },
+    linkUrlLabel: {
+      table: { defaultValue: { summary: "URL" } },
+      description: "Label of the URL field in the insert-link dialog.",
+    },
+    linkUrlPlaceholder: {
+      table: { defaultValue: { summary: "URL (e.g. https://example.com)" } },
+      description: "Placeholder of the URL field in the insert-link dialog.",
+    },
+    linkTextLabel: {
+      table: { defaultValue: { summary: "Text" } },
+      description: "Label of the text field in the insert-link dialog.",
+    },
+    linkTextPlaceholder: {
+      table: { defaultValue: { summary: "Text to display" } },
+      description: "Placeholder of the text field in the insert-link dialog.",
+    },
+    "insert-link-label": {
+      description: 'Label of the "Insert Link" button in the insert-link dialog.',
+    },
     minHeight: {
       table: {
         defaultValue: { summary: "200px" },

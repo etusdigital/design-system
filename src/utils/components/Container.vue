@@ -110,76 +110,78 @@ function onKeyUp(e: KeyboardEvent) {
 </script>
 
 <template>
-  <FloatCard :model-value="isExpanded" :disabled="disabled" manual-focus @update:model-value="blur">
-    <div class="container">
-      <div v-if="labelValue" class="flex justify-between items-center">
-        <Label
-          :id="`${id}-label`"
-          :label-value="labelValue"
-          :info-message="infoMessage"
-          :required="required"
-        />
-      </div>
-      <div
-        ref="container"
-        :role="popupRole === 'listbox' ? 'combobox' : 'button'"
-        :aria-haspopup="popupRole"
-        :aria-expanded="isExpanded"
-        :aria-controls="isExpanded ? popupId : undefined"
-        :aria-label="labelValue ? undefined : ariaLabel"
-        :aria-labelledby="labelValue ? `${id}-label` : undefined"
-        :aria-describedby="isError ? `${id}-error` : undefined"
-        :aria-invalid="popupRole === 'listbox' ? isError : undefined"
-        :aria-required="popupRole === 'listbox' ? required : undefined"
-        :aria-disabled="disabled"
-        class="label-container"
-        :class="{ 'pointer-events-none': disabled }"
-        :tabindex="disabled ? -1 : 0"
-        @keydown="onKeyDown"
-        @keyup="onKeyUp"
-      >
-        <slot name="label">
-          <div
-            ref="labelContent"
-            class="label-content"
-            :class="{
-              disabled,
-              secondary,
-              expanded: isExpanded,
-              'hide-bottom': hideBottom,
-              error: isError,
-            }"
-            :style="{ 'max-height': maxHeight, 'min-width': minWidth }"
-            @click="toggle"
-          >
-            <slot name="leading-complement" />
-            <slot />
-
-            <div class="flex items-center gap-xs ml-auto">
-              <slot name="complement" />
-              <Icon
-                v-if="!hideArrow"
-                :name="icon"
-                class="arrow-icon"
-                :class="{
-                  'text-neutral-interaction-disabled': disabled,
-                  'text-danger-interaction-default': isError,
-                  expanded: isExpanded,
-                }"
-              />
+  <div>
+    <FloatCard :model-value="isExpanded" :disabled="disabled" manual-focus @update:model-value="blur">
+      <div class="container">
+        <div v-if="labelValue" class="flex justify-between items-center">
+          <Label
+            :id="`${id}-label`"
+            :label-value="labelValue"
+            :info-message="infoMessage"
+            :required="required"
+          />
+        </div>
+        <div
+          ref="container"
+          :role="popupRole === 'listbox' ? 'combobox' : 'button'"
+          :aria-haspopup="popupRole"
+          :aria-expanded="isExpanded"
+          :aria-controls="isExpanded ? popupId : undefined"
+          :aria-label="labelValue ? undefined : ariaLabel"
+          :aria-labelledby="labelValue ? `${id}-label` : undefined"
+          :aria-describedby="isError ? `${id}-error` : undefined"
+          :aria-invalid="popupRole === 'listbox' ? isError : undefined"
+          :aria-required="popupRole === 'listbox' ? required : undefined"
+          :aria-disabled="disabled"
+          class="label-container"
+          :class="{ 'pointer-events-none': disabled }"
+          :tabindex="disabled ? -1 : 0"
+          @keydown="onKeyDown"
+          @keyup="onKeyUp"
+        >
+          <slot name="label">
+            <div
+              ref="labelContent"
+              class="label-content"
+              :class="{
+                disabled,
+                secondary,
+                expanded: isExpanded,
+                'hide-bottom': hideBottom,
+                error: isError,
+              }"
+              :style="{ 'max-height': maxHeight, 'min-width': minWidth }"
+              @click="toggle"
+            >
+              <slot name="leading-complement" />
+              <slot />
+  
+              <div class="flex items-center gap-xs ml-auto">
+                <slot name="complement" />
+                <Icon
+                  v-if="!hideArrow"
+                  :name="icon"
+                  class="arrow-icon"
+                  :class="{
+                    'text-neutral-interaction-disabled': disabled,
+                    'text-danger-interaction-default': isError,
+                    expanded: isExpanded,
+                  }"
+                />
+              </div>
             </div>
-          </div>
-        </slot>
+          </slot>
+        </div>
       </div>
-      <small v-if="isError" :id="`${id}-error`" class="text-danger-foreground-low text-start p3">{{
-        errorMessage
-      }}</small>
-    </div>
-
-    <template #card>
-      <slot name="content" :min-width="contentMinWidth" />
-    </template>
-  </FloatCard>
+  
+      <template #card>
+        <slot name="content" :min-width="contentMinWidth" />
+      </template>
+    </FloatCard>
+    <small v-if="isError" :id="`${id}-error`" class="text-danger-foreground-low text-start p3">{{
+      errorMessage
+    }}</small>
+  </div>
 </template>
 
 <style scoped>
