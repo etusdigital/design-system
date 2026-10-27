@@ -29,6 +29,13 @@ describe('Pagination', () => {
     expect(handleChange).toHaveBeenCalledWith(3);
   });
 
+  it('does not call onChange when clicking the current page', () => {
+    const handleChange = vi.fn();
+    render(<Pagination length={5} value={3} onChange={handleChange} />);
+    fireEvent.click(screen.getByText('3'));
+    expect(handleChange).not.toHaveBeenCalled();
+  });
+
   it('prev button is disabled when on first page', () => {
     render(<Pagination length={5} value={1} />);
     const prevButton = screen.getByLabelText('Previous page');

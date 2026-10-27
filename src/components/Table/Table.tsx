@@ -234,9 +234,12 @@ export function Table({
   };
 
   const handleChangeItemsPerPage = (newItemsPerPage: number) => {
-    setItemsPerPage(newItemsPerPage || 10);
-    setPage(1);
-    onPageItems?.(1, newItemsPerPage);
+    const nextItemsPerPage = newItemsPerPage || 10;
+    if (nextItemsPerPage === currentItemsPerPage) return;
+
+    setItemsPerPage(nextItemsPerPage);
+    if (currentPage !== 1) setPage(1);
+    onPageItems?.(1, nextItemsPerPage);
   };
 
   return (

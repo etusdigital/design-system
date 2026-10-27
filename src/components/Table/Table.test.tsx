@@ -63,4 +63,85 @@ describe('Table', () => {
     expect(pagination).toHaveAttribute('aria-disabled', 'true');
     expect(screen.getByRole('combobox', { name: 'Items per page' })).toHaveAttribute('aria-disabled', 'true');
   });
+
+  describe('backend pagination events', () => {
+    function renderBackend(page: number) {
+      const handlers = {
+        onPageChange: vi.fn(),
+        onItemsPerPageChange: vi.fn(),
+        onPageItems: vi.fn(),
+      };
+      const utils = render(
+        <Table
+          columns={columns}
+          items={items}
+          page={page}
+          itemsPerPage={10}
+          numberOfItems={95}
+          renderPaginationInBackEnd
+          {...handlers}
+        />
+      );
+      return { ...utils, ...handlers };
+    }
+
+    function pickItemsPerPage(container: HTMLElement, value: number) {
+      fireEvent.click(container.querySelector('footer .label-content') as HTMLElement);
+      const option = Array.from(document.querySelectorAll('[role="option"]')).find(
+        (el) => el.textContent?.trim() === String(value)
+      );
+      fireEvent.click(option as HTMLElement);
+    }
+
+    it('changing items per page on page 1 does not emit onPageChange', () => {
+      const { container, onPageChange, onItemsPerPageChange, onPageItems } = renderBackend(1);
+      pickItemsPerPage(container, 20);
+      expect(onItemsPerPageChange).toHaveBeenCalledTimes(1);
+      expect(onItemsPerPageChange).toHaveBeenCalledWith(20);
+      expect(onPageChange).not.toHaveBeenCalled();
+      expect(onPageItems).toHaveBeenCalledTimes(1);
+      expect(onPageItems).toHaveBeenCalledWith(1, 20);
+    });
+
+    it('changing items per page on a later page resets to page 1 once', () => {
+      const { container, onPageChange, onPageItems } = renderBackend(3);
+      pickItemsPerPage(container, 20);
+      expect(onPageChange).toHaveBeenCalledTimes(1);
+      expect(onPageChange).toHaveBeenCalledWith(1);
+      expect(onPageItems).toHaveBeenCalledTimes(1);
+    });
+
+    it('picking the current items per page emits nothing', () => {
+      const { container, onPageChange, onItemsPerPageChange, onPageItems } = renderBackend(3);
+      pickItemsPerPage(container, 10);
+      expect(onItemsPerPageChange).not.toHaveBeenCalled();
+      expect(onPageChange).not.toHaveBeenCalled();
+      expect(onPageItems).not.toHaveBeenCalled();
+    });
+
+    it('clicking the current page emits nothing', () => {
+      const { onPageChange, onPageItems } = renderBackend(3);
+      fireEvent.click(screen.getByRole('button', { name: '3' }));
+      expect(onPageChange).not.toHaveBeenCalled();
+      expect(onPageItems).not.toHaveBeenCalled();
+    });
+
+    it('a new numberOfItems does not emit any page event', () => {
+      const { rerender, onPageChange, onPageItems } = renderBackend(1);
+      rerender(
+        <Table
+          columns={columns}
+          items={items}
+          page={1}
+          itemsPerPage={10}
+          numberOfItems={40}
+          renderPaginationInBackEnd
+          onPageChange={onPageChange}
+          onPageItems={onPageItems}
+        />
+      );
+      expect(onPageChange).not.toHaveBeenCalled();
+      expect(onPageItems).not.toHaveBeenCalled();
+    });
+  });
 });

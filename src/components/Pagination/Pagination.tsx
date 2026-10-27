@@ -75,7 +75,7 @@ export function Pagination({
   }, [model]);
 
   const changePage = (page: number) => {
-    if (disabled) return;
+    if (disabled || page === (model ?? 1)) return;
     setModel(page);
   };
 
