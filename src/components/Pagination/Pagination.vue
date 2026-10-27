@@ -65,7 +65,7 @@ const options = computed(() => {
 });
 
 watch(() => props.length, () => {
-  setModel(1);
+  if (model.value !== 1) setModel(1);
 });
 
 watch(() => props.modelValue, (newVal) => {
@@ -74,7 +74,7 @@ watch(() => props.modelValue, (newVal) => {
 });
 
 function changePage(page: number) {
-  if (props.disabled) return;
+  if (props.disabled || page === model.value) return;
   setModel(page, { page });
 }
 

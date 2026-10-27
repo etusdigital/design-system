@@ -105,6 +105,7 @@ onBeforeMount(() => {
 watch(
   () => props.itemsPerPage,
   (newValue) => {
+    if ((newValue || 10) === itemsPerPageHolder.value) return;
     changeItemsPerPage(newValue, false);
   }
 );
@@ -112,6 +113,7 @@ watch(
 watch(
   () => props.page,
   (newValue) => {
+    if (newValue === pageHolder.value) return;
     changePage(newValue, false);
   }
 );
@@ -146,11 +148,14 @@ function changePage(page: number, emitEvent = true) {
 }
 
 function changeItemsPerPage(itemsPerPage: number, emitEvent = true) {
+  const pageChanged = pageHolder.value !== 1;
   itemsPerPageHolder.value = itemsPerPage || 10;
   pageHolder.value = 1;
 
-  if (emitEvent) emit("update:itemsPerPage", itemsPerPage);
-  emit("update:page", 1);
+  if (emitEvent) {
+    emit("update:itemsPerPage", itemsPerPage);
+    if (pageChanged) emit("update:page", 1);
+  }
 
   sortBy(sortByName.value, isDesc.value[sortByName.value], false);
 }
