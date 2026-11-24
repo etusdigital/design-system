@@ -173,7 +173,7 @@ const component = computed((): string => {
 }
 
 .progress-holder {
-  @apply flex items-center overflow-hidden w-full rounded-base;
+  @apply flex items-center overflow-hidden w-full h-full rounded-base;
 }
 
 .progress-label {
@@ -181,7 +181,7 @@ const component = computed((): string => {
 }
 
 .progress-fill {
-  @apply flex items-center justify-center bg-primary-foreground-low rounded-lg overflow-hidden;
+  @apply flex items-center justify-center h-full bg-primary-foreground-low rounded-lg overflow-hidden;
   transition: width 0.5s ease-in-out;
 }
 
