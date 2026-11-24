@@ -136,7 +136,7 @@ const component = computed((): string => {
   @apply flex items-center rounded-lg bg-primary-surface-highlight justify-start relative;
 }
 
-.small {
+.progress-bar.small {
   @apply h-xs;
 
   .progress-label {
@@ -148,7 +148,7 @@ const component = computed((): string => {
   }
 }
 
-.medium {
+.progress-bar.medium {
   @apply h-sm;
 
   .progress-label {
@@ -160,7 +160,7 @@ const component = computed((): string => {
   }
 }
 
-.large {
+.progress-bar.large {
   @apply h-base;
 
   .progress-label {
@@ -202,7 +202,7 @@ const component = computed((): string => {
   @apply flex items-center absolute text-primary-foreground-low;
 }
 
-.info {
+.progress-bar.info {
   @apply bg-informative-surface-highlight;
 
   .progress-fill {
@@ -218,7 +218,7 @@ const component = computed((): string => {
   }
 }
 
-.success {
+.progress-bar.success {
   @apply bg-success-surface-highlight;
 
   .progress-fill {
@@ -234,7 +234,7 @@ const component = computed((): string => {
   }
 }
 
-.warning {
+.progress-bar.warning {
   @apply bg-warning-surface-highlight;
 
   .progress-fill {
@@ -250,7 +250,7 @@ const component = computed((): string => {
   }
 }
 
-.danger {
+.progress-bar.danger {
   @apply bg-danger-surface-highlight;
 
   .progress-fill {
@@ -266,7 +266,7 @@ const component = computed((): string => {
   }
 }
 
-.neutral {
+.progress-bar.neutral {
   @apply bg-neutral-surface-highlight;
 
   .progress-fill {
